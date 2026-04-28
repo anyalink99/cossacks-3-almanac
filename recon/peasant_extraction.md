@@ -7,6 +7,13 @@
 - Карта: terraintype=**0 Land**, relieftype=**3 Highlands**, resourcemines=**2 Rich/Many**, mapsize=**3 Tiny/Small (256×256)**.
 - Все ссылки относятся к `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\`.
 
+> **Связанные документы:**
+> - [determinism_audit.md](determinism_audit.md) — почему добыча не воспроизводима (RNG-сайты в hot-path), какой ожидать разброс при эмпирической калибровке этой модели.
+> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени, sub-tick state machine, adaptive game speed. **Критично для трактовки real-time vs game-time** при замерах.
+> - [server_sync_architecture.md](server_sync_architecture.md) — server-authoritative модель C3, почему single-player и MP ведут себя по-разному.
+>
+> **TL;DR для этой модели:** аналитический потолок (формулы ниже) считаем в **game-time**. Реальная in-game добыча будет ниже из-за RNG-выборов в `_misc_FindResourceToExtract` ([determinism_audit.md](determinism_audit.md) §3). Разброс между запусками одного сейва ожидается 5-15%; шахты — 0%.
+
 ---
 
 ## 1. Игровая скорость и время

@@ -5,8 +5,8 @@
 игрового патча перезапускаешь pipeline — все артефакты обновляются.
 
 Производные расчёты, writers и симулятор живут в соседних папках:
-[`../compute/`](../compute/), [`../writers/`](../writers/), [`../simulator/`](../simulator/),
-[`../debug/`](../debug/).
+[`../compute/`](../compute/), [`../writers/`](../writers/), [`../simulator/`](../simulator/).
+Внутри парсера: [`debug/`](debug/) — dev-скрипты для отладки шагов парсинга.
 
 ## Pipeline
 

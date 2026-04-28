@@ -3,7 +3,7 @@ import sys, time
 from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 print("starting", flush=True)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import COUNTRY_SCRIPT
 from parse_country import (extract_proc_body, _inline_subprocs, _presubstitute,
                            tokenize, Parser, walk, make_env)

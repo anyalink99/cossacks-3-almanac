@@ -9,13 +9,16 @@
 📖 **Готовый справочник** — открывай прямо на GitHub, ничего запускать не надо:
 - [`output/reference/`](output/reference/) — главы по темам, 21 нация, 16 сравнений, derived-расчёты
 - [`output/strategy/`](output/strategy/) — production rates, tech tree, construction times, симуляции
-- [`recon/`](recon/) — глубокие исследования механик (добыча, строительство, эмпирика)
+- [`recon/`](recon/) — глубокие исследования механик (добыча, строительство, эмпирика, детерминизм/синк)
 
 🔧 **Pipeline** — для регенерации после патча игры:
 - [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением)
 - [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times)
 - [`writers/`](writers/) — генерация markdown / xlsx / diff между снапшотами
 - [`simulator/`](simulator/) — timeline-симулятор экономики + примеры build orders
+
+🛠 **Моды** — изменения игровой логики через C3 mod-loader:
+- [`mods/`](mods/) — каждый мод как подпапка с `build.py` (патчер) и собранным результатом. См. [`mods/README.md`](mods/README.md) для конвенции.
 
 ## Структура репозитория
 
@@ -28,7 +31,8 @@
 │   ├── parse_locale.py
 │   ├── parse_country.py
 │   ├── parse_units.py
-│   └── simulate_upgrades.py
+│   ├── simulate_upgrades.py
+│   └── debug/                   ← вспомогательные dev-скрипты для парсера
 ├── compute/                     ← производные расчёты от data.json
 │   ├── compute_scaling.py             → scaling_prices.md
 │   ├── compute_map_resources.py       → map_resources.md
@@ -46,8 +50,9 @@
 ├── simulator/                   ← timeline-симулятор экономики
 │   ├── simulate_economy.py
 │   └── build_orders/            ← примеры входных build orders (.json)
-├── debug/                       ← вспомогательные dev-скрипты для парсера
-├── recon/                       ← research notes (механики добычи, строительства, эмпирика)
+├── recon/                       ← research notes (механики добычи, строительства, эмпирика, детерминизм/синк)
+├── mods/                        ← моды для игры (каждый — подпапка с build.py + src/ + build/)
+│   └── Deterministic Extraction/  ← воспроизводимая добыча через SetRandomKey+RandomExt
 └── output/                      ← сгенерированные артефакты (всё это уже в репо)
     ├── data.json                ← единый источник правды (~4.7 MB)
     ├── cossacks3_reference.md   ← (legacy) монолит

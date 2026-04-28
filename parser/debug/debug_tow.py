@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import UNIT_SCRIPT
 from parse_units import (extract_proc_body, find_top_cases,
                          split_case_branches, parse_label_commonsid_suffixes,
