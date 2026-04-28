@@ -13,11 +13,11 @@ _Венгрия_
 
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
-| **Гайдук** / Hajduk `gauduk` | Shooter | 70 | — | — | — |
-| **Гренадер** / Grenadier `grenadierhun` | Grenadier | 120 | 18 | 0.0 | 1.5 |
-| **Гусар** / Hussar `hussarhun` | Light Cavalry | 230 | 9 | 0.0 | 1.22 |
-| **Легкий кавалерист** / Light cavalry `lightcavalry` | Mounted Shooter | 220 | 15 | 5.62 | 15.0 |
-| **Секей** / Szekely `pandurhun` | Shooter | 70 | — | — | — |
+| **Гайдук** / Hajduk `gauduk` | Shooter | 60 | 9 | 3.12 | 14.06 |
+| **Гренадер** / Grenadier `grenadierhun` | Grenadier | 125 | 30 | 0.0 | 1.5 |
+| **Гусар** / Hussar `hussarhun` | Light Cavalry | 250 | 10 | 0.0 | 1.22 |
+| **Легкий кавалерист** / Light cavalry `lightcavalry` | Mounted Shooter | 175 | 14 | 5.31 | 18.75 |
+| **Секей** / Szekely `pandurhun` | Shooter | 75 | 19 | 5.0 | 18.75 |
 
 ## Здания
 
@@ -84,7 +84,7 @@ _Венгрия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Гайдук** / Hajduk `gauduk` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Гайдук** / Hajduk `gauduk` | 60 | 4.5 | 35 | 4 | 4 | 9 | 14.06 | 3.12 | unique |
 
 ### Musketeers 18c
 
@@ -97,7 +97,7 @@ _Венгрия_
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Гренадер  (наемник)** / Grenadier (mercenary) `grenadierdip` | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | common |
-| **Гренадер** / Grenadier `grenadierhun` | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | unique |
+| **Гренадер** / Grenadier `grenadierhun` | 125 | 6.5 | 90 | 80 | 40 | 30 | 1.5 | 0.0 | unique |
 
 ### Archers
 
@@ -110,29 +110,29 @@ _Венгрия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Секей** / Szekely `pandurhun` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Секей** / Szekely `pandurhun` | 75 | 6.0 | 30 | 25 | 10 | 19 | 18.75 | 5.0 | unique |
 
 ### Light Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Гусар** / Hussar `hussarhun` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | unique |
-| **Легкий кавалерист** / Light cavalry `lightcavalry` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | unique |
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Гусар** / Hussar `hussarhun` | 250 | 21.0 | 100 | 30 | 2 | 10 | 1.22 | 0.0 | unique |
+| **Легкий кавалерист** / Light cavalry `lightcavalry` | 175 | 21.0 | 90 | 50 | 6 | 14 | 18.75 | 5.31 | unique |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Драгун 17в.** / Dragoon, 17th century `dragoon` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | shared (16n) |
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
-| **Кирасир** / Cuirassier `cuirassier` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (17n) |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
+| **Кирасир** / Cuirassier `cuirassier` | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | shared (17n) |
 | **Рейтар** / Reiter `reiter` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (14n) |
 
 ### Cannons
@@ -159,7 +159,7 @@ _Венгрия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Фрегат** / Frigate `frigate` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |

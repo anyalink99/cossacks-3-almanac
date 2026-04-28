@@ -15,12 +15,12 @@ _Шотландия_
 |---|---|---:|---:|---:|---:|
 | **Лучник кланов** / Bow Clansman `archersco` | Archer | 150 | 20 | 3.12 | 18.75 |
 | **Рибадекин** / Frame gun `framegun` | Cannon | 3000 | 500 | 2.81 | 33.75 |
-| **Лансер** / Lancer `lancersco` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
-| **Мушкетер Ковенанта** / Covenanter musketeer `musketeersco` | Shooter | 70 | — | — | — |
+| **Лансер** / Lancer `lancersco` | Heavy Cavalry | 320 | 11 | 0.0 | 1.88 |
+| **Мушкетер Ковенанта** / Covenanter musketeer `musketeersco` | Shooter | 90 | 12 | 4.69 | 15.94 |
 | **Офицер** / Officer `officersco` | Light Infantry | 150 | 40 | 0.0 | 1.22 |
 | **Крестьянин** / Peasant `peasco` | Peasant | 60 | 20 | 0.0 | 1.22 |
 | **Пикинер Ковенанта** / Covenanter pikeman `pikemansco` | Light Infantry | 100 | 9 | 0.0 | 1.88 |
-| **Рейдер** / Raider `raidersco` | Light Cavalry | 230 | 9 | 0.0 | 1.22 |
+| **Рейдер** / Raider `raidersco` | Light Cavalry | 280 | 11 | 0.0 | 1.22 |
 | **Мечник кланов** / Sword Clansman `swordsmansco` | Light Infantry | 180 | 10 | 0.0 | 1.13 |
 
 ## Здания
@@ -83,7 +83,7 @@ _Шотландия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Мушкетер Ковенанта** / Covenanter musketeer `musketeersco` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Мушкетер Ковенанта** / Covenanter musketeer `musketeersco` | 90 | 7.0 | 55 | 8 | 7 | 12 | 15.94 | 4.69 | unique |
 
 ### Grenadiers
 
@@ -103,21 +103,21 @@ _Шотландия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Лансер** / Lancer `lancersco` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
-| **Рейдер** / Raider `raidersco` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | unique |
+| **Лансер** / Lancer `lancersco` | 320 | 21.0 | 120 | 6 | 0 | 11 | 1.88 | 0.0 | unique |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
+| **Рейдер** / Raider `raidersco` | 280 | 22.5 | 130 | 8 | 2 | 11 | 1.22 | 0.0 | unique |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
 
 ### Cannons
 
@@ -143,7 +143,7 @@ _Шотландия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Фрегат** / Frigate `frigate` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
 | **Яхта** / Yacht `yacht` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | common |

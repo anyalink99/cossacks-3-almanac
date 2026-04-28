@@ -11,14 +11,14 @@
 | `DIMMORT1` | cannonball | 4000 | 18.75 | 26.25 | {"coal": 100, "iron": 20} | howitzer |
 | `DIMMORT2` | mortarball | 200 | 7.81 | 48.75 | {"coal": 30, "iron": 20} | mortar |
 | `DIMMORT2KOR` | mortarball | 1000 | 1.56 | 58.13 | {"coal": 9, "iron": 4} | galley |
-| `NUCLGRE` | mortarball | 110 | 2.34 | 9.38 | — | grenadier, grenadierbav, grenadierden, grenadierdip, grenadierhun, grenadierpru (+1) |
+| `NUCLGRE` | mortarball | 110 | 2.34..2.81 | 9.38..11.25 | — | grenadier, grenadierbav, grenadierden, grenadierdip, grenadierhun, grenadierpru (+1) |
 | `OSTRELA` | firearrow | 140..150 | 3.91..4.69 | 11.25..20.63 | {"wood": 1}, {"wood": 2} | archer, archerdip, archersco, archertur, archerturdip, tatar |
 | `PPOINTT` | cannonball | 1800 | 10.94 | 40.5 | {"coal": 40, "iron": 20} | cannon |
 | `PPOINTTFRAME` | cannonball | 500 | 2.81 | 33.75 | {"coal": 40, "iron": 30} | framegun |
-| `PPOINTTKOR` | cannonball | 100..1800 | 2.34..10.94 | 20.63..30.94 | {"coal": 35, "iron": 25}, {"coal": 9, "iron": 4} | battleship, chaika, frigate, galley, xebec, yacht (+1) |
+| `PPOINTTKOR` | cannonball | 100..1800 | 0.62..10.94 | 20.63..36.56 | {"coal": 15, "iron": 5}, {"coal": 35, "iron": 25}, {"coal": 9, "iron": 4} | battleship, chaika, frigate, galley, xebec, yacht (+1) |
 | `PSMPOINTT` | cannister | 500 | 1.88 | 13.13 | {"coal": 30, "iron": 40} | multicannon |
 | `PSMPOINTTPUS` | cannister | 0 | 10.94 | 8.44 | {"coal": 21, "iron": 24} | cannon |
-| `SHOTMUSKET` | bullet | 9..29 | 2.81..5.94 | 15.0..17.81 | {"coal": 3, "iron": 2}, {"coal": 3, "iron": 3}, {"coal": 4, "iron": 2}, {"coal": 4, "iron": 3}, {"coal": 5, "iron": 4} | dragoon, dragoon18, dragoon18dip, dragoon18fra, dragoon18net, dragoon18pie (+19) |
+| `SHOTMUSKET` | bullet | 9..43 | 3.12..6.88 | 13.13..22.5 | {"coal": 10, "iron": 6}, {"coal": 2, "iron": 1}, {"coal": 3, "iron": 1}, {"coal": 3, "iron": 2}, {"coal": 3, "iron": 3}, {"coal": 4, "iron": 2}, {"coal": 4, "iron": 3}, {"coal": 5, "iron": 2}, {"coal": 5, "iron": 3}, {"coal": 5, "iron": 4}, {"coal": 6, "iron": 3}, {"coal": 7, "iron": 3}, {"coal": 8, "iron": 4}, {"coal": 9, "iron": 4} | chasseur, dragoon, dragoon18, dragoon18dip, dragoon18fra, dragoon18net (+32) |
 | `STRELA` | arrow | 15..20 | 1.56..3.12 | 15.0..20.63 | {"wood": 1}, {"wood": 2} | archer, archerdip, archersco, archertur, archerturdip, tatar |
 
 ## Заметки

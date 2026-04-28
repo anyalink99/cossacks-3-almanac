@@ -1,0 +1,84 @@
+# Cossacks 3 — Starting layout
+
+**Производный** файл (расчётный, не извлечение). Считается из `data/scripts/common.inc/dogenerate.inc` и `data/game/var/startingsettings.cfg` скриптом [`compute/extract_starting_layout.py`](../../../compute/extract_starting_layout.py).
+
+## §1. Peasant placement (default mode)
+
+Источник: [`dogenerate.inc:1231-1281` (`CreateStartPointPeasants`)](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>).
+
+- **18 крестьян** спавнятся в сетке **6×3** (`i div 3`, `i mod 3`)
+- Шаг между крестьянами: `cUnitR = 0.75` тайла
+- Сетка центрирована на старт-точке: суммарно `(6×0.75) × (3×0.75) = 4.5×2.25` тайла
+- Случайное смещение каждого крестьянина: ±0.125 тайла по обеим осям
+- Уникальный sid пехотинца берётся из `gCountry[cid].members[]` по первому юниту с `usage = gc_obj_usage_peasant` (например `peaaus` у Австрии, `peaeng` у Англии, и т.п.)
+
+**Practical:** при старте у тебя горка из 18 крестьян занимает примерно `5×3` тайла, что укладывается во внутренний круг очистки `cCircle1` (см. §2). Ничего другого там не спавнится — это безопасный «дом» для первой минуты.
+
+## §2. Resource spawn rings around start point
+
+Источник: [`dogenerate.inc:407-414, 720-978`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>) (`SetupStartingResources` + `cCircle*Mask` константы).
+
+Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, тайлы):
+
+| Кольцо | X-радиус | Y-радиус | Что спавнится на границе |
+| --- | ---: | ---: | --- |
+| Inner (`cCircle1`) | 5 | 7 | очищается, ресурсы НЕ спавнятся (только крестьяне) |
+| Mid (`cCircle2`) | 12 | 15 | 1× stoneforests + 1× stones (камни) у внутренней границы |
+| — _between mid+4 and outer_ | — | — | 2× forests + 1× stones (камни) дополнительные |
+| Outer (`cCircle3`) | 22 | 18 | 1× forest у границы (затем mask заполняется) |
+
+**Алгоритм спавна** (`for [MAIN]i:=0 to 127 do begin … VectorRotateY(px, …, angle); _misc_CheckStandPattern… end`): в каждом «кольце» — 128 попыток × 3 sub-attempts найти валидную позицию под выбранный pattern. Угол `angle` — `RandomExt × 360°`. Дистанция от центра — `mindst + RandomExt × N + (i+j) × 0.5` тайла. Это значит:
+
+- **Inner stoneforest:** дистанция ~5-8 тайл
+- **Inner stones:** дистанция ~5-8 тайл (отдельный random angle, может быть с обратной стороны)
+- **Mid forests** (×2): дистанция ~12-18 тайл (mindst=12, +2 random)
+- **Mid stones:** дистанция ~16-22 тайл (mindst=12+4=16, +2 random)
+- **Outer forest:** дистанция ~22-28 тайл
+
+Тип леса определяется параметром `foreststype` в map gen settings: 0 = pinefir/spruce/pine (хвойный, 7 вариантов), 1 = leaf, 2 = mixed. В desert-картах вместо forests используются `desert_forests_*` patterns.
+
+Mines (gold/iron/coal) — отдельная функция `SetupMines` ([`dogenerate.inc:985`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>)). Спавн mines идёт по другой логике (раундами по дистанции, см. `reference_extraction_model.md` § "Map gen для tiny").
+
+## §3. Starting-units presets
+
+Источник: [`startingsettings.cfg`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/game/var/startingsettings.cfg>) + enum `gc_mapsettings_startingunits_*` ([`dmscript.global:1032-1045`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global>)).
+
+Игрок выбирает один из этих режимов в lobby. **default** (id=0) — это то, что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или юнитов). Остальные режимы добавляют ресурсы и/или дополнительные юниты + здания (через сложные ASCII-маски в cfg-файле).
+
+**Сводка по startid → preset → стартовые ресурсы (поверх default):**
+
+| startid | preset | dataversion | +F | +W | +S | +G | +I | +C |
+| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| -1 | (template — not selectable) | — | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | default | — | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | armysmall | 60…1000 | 1000 | 0 | 0 | 0 | 0 | 0 |
+| 1 | armysmall | 0…59 | 1000 | 0 | 0 | 0 | 0 | 0 |
+| 2 | armymedium | 60…1000 | 20000 | 0 | 0 | 0 | 0 | 0 |
+| 2 | armymedium | 0…59 | 20000 | 0 | 0 | 0 | 0 | 0 |
+| 3 | armylarge | 60…1000 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| 3 | armylarge | 0…59 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| 4 | peasantslot | 60…1000 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| 4 | peasantslot | 0…59 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| 5 | differentnations | — | 5000 | 5000 | 5000 | 5000 | 5000 | 5000 |
+| 6 | towers | — | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| 7 | cannons | — | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
+| 8 | cannonsandhowitzers | — | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
+| 9 | barrack18 | — | 65000 | 2000 | 2000 | 15000 | 6000 | 9000 |
+| 10 | barrack17 | — | 5000 | 1000 | 1000 | 2500 | 3000 | 3000 |
+| 11 | village | — | 1000 | 1000 | 1000 | 1000 | 2500 | 2500 |
+| 12 | logcabins | — | 0 | 0 | 0 | 0 | 2500 | 2500 |
+| 13 | union | — | 1000 | 0 | 0 | 0 | 0 | 0 |
+
+**Notes:**
+- Ресурсы — это **прибавка** к default'у (default = 0/0/0/0/0/0). Игроки начинают с ровно этими числами на counter'ах.
+- `dataversion` указывает диапазон версий движка, в которых эта запись активна. Старые записи (`dataversion 0…59`) сохранены для replay-совместимости. Для текущей версии используются записи с `dataversionmin ≥ 60`.
+- Помимо ресурсов каждый non-default preset спавнит **дополнительные здания и юниты** через ASCII-маски (`mask : struct.begin`), которые тут не парсятся (слишком вариативно по нациям). Открой `startingsettings.cfg` целиком, если нужны точные расположения.
+- `legends : struct.begin` под каждым `allowedcountries` — это словарь символов маски (`X = peasant`, `O = officer17`, `B = drummer17`, `P = polish unit`, и т.д.). Конкретный sid юнита берётся через `role` (= gc_ai_unit_*) или явный `basename`.
+
+---
+
+Сгенерировано из игровых файлов. Для перегенерации:
+
+```
+python compute/extract_starting_layout.py
+```

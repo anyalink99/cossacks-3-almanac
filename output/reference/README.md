@@ -1,6 +1,6 @@
 # Cossacks 3 Reference
 
-_Extracted **2026-04-28 09:30:05** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-04-28 09:52:20** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Полный справочник по экономике, юнитам, зданиям и апгрейдам игры Cossacks 3, извлечённый напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`.
 
@@ -66,6 +66,10 @@ applied = max(1, weapon.damage
 |---|---|
 | [derived/scaling_prices.md](derived/scaling_prices.md) | Стоимости 2-го, 3-го, …N-го здания. Формула `cost(N) = floor(base × (costpercent/100)^(N-1))` |
 | [derived/map_resources.md](derived/map_resources.md) | Подсчёт ресурсов на карте Tiny (256×256) + Highlands + Rich: ~109 больших деревьев, ~115 средних, ~72 маленьких; ~33 камня; до 12 шахт на игрока |
+| [derived/efficiency_upgrades.md](derived/efficiency_upgrades.md) | Все `effect{food,wood,stone}` + `fieldlife` апгрейды на 21 нацию: пики, стоимость, прогрессия. |
+| [derived/combat_stats.md](derived/combat_stats.md) | DPS / EHP / armor по всем combat-юнитам. Дедупликация по статам, ранкинг по DPS. |
+| [derived/counter_matrix.md](derived/counter_matrix.md) | Матрица time-to-kill 22×22 эталонных юнитов с учётом protection. |
+| [derived/starting_layout.md](derived/starting_layout.md) | Геометрия старт-точки: 18 крестьян 6×3 grid, ring distances для forest/stone/mines, 14 startingunits-presets. |
 
 ### Сырой источник
 

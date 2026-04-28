@@ -47,10 +47,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -58,7 +58,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `mameluke` | Mameluke | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `mameluke` | Mameluke | 12.00 | 5.0 | **7.0** | 100 | 8 | 0 | 1 | floor(gc_obj_foodperunit*2) |
 
 ### `algtem` — Mosque
 
@@ -75,11 +75,11 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
 
 ## aus
 
@@ -100,7 +100,7 @@
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pandur` | Pandur | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `pandur` | Pandur | 6.00 | 10.0 | **14.0** | 40 | 15 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 ### `ausbar` — Barracks, 17th century
@@ -108,7 +108,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeeraus` | Musketeer, 17th century | 18.75 | 3.2 | **4.5** | 45 | 6 | 10 | 1 | — |
+| `musketeeraus` | Musketeer, 17th century | 6.50 | 9.2 | **12.9** | 35 | 9 | 15 | 1 | — |
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 | `roundshier` | Roundshier | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
@@ -125,10 +125,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -136,11 +136,11 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `croat` | Croat | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `croat` | Croat | 15.75 | 3.8 | **5.3** | 80 | 6 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `austem` — Cathedral
@@ -158,7 +158,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -181,7 +181,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierbav` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadierbav` | Grenadier | 6.00 | 10.0 | **14.0** | 95 | 70 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18bav` | Musketeer, 18th century | 5.00 | 12.0 | **16.8** | 60 | 55 | 35 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -207,10 +207,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -218,10 +218,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `bavtem` — Cathedral
@@ -239,7 +239,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -262,7 +262,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierden` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadierden` | Grenadier | 6.50 | 9.2 | **12.9** | 100 | 90 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18den` | Musketeer, 18th century | 5.50 | 10.9 | **15.3** | 50 | 80 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -288,10 +288,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -299,10 +299,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `dentem` — Cathedral
@@ -320,7 +320,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -344,7 +344,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `bagpiper` | Bagpiper | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `highlander` | Highlander | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `highlander` | Highlander | 6.00 | 10.0 | **14.0** | 90 | 25 | 10 | 1 | floor(gc_obj_foodperunit*1.33) |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -370,10 +370,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -381,10 +381,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `engtem` — Cathedral
@@ -402,7 +402,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -420,7 +420,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -440,7 +440,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `chasseur` | Chasseur | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `chasseur` | Chasseur | 6.00 | 10.0 | **14.0** | 50 | 45 | 15 | 1 | — |
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
@@ -468,10 +468,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -479,11 +479,11 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18fra` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `kingmusketeer` | King's Musketeer | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18fra` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 50 | 30 | 6 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `kingmusketeer` | King's Musketeer | 27.00 | 2.2 | **3.1** | 100 | 100 | 8 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `fratem` — Cathedral
@@ -503,7 +503,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -524,10 +524,10 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierhun` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadierhun` | Grenadier | 6.50 | 9.2 | **12.9** | 90 | 80 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pandurhun` | Szekely | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `pandurhun` | Szekely | 6.00 | 10.0 | **14.0** | 30 | 25 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 ### `hunbar` — Barracks, 17th century
@@ -535,7 +535,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `gauduk` | Hajduk | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `gauduk` | Hajduk | 4.50 | 13.3 | **18.7** | 35 | 4 | 4 | 1 | — |
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
@@ -551,10 +551,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -562,10 +562,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarhun` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `lightcavalry` | Light cavalry | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarhun` | Hussar | 21.00 | 2.9 | **4.0** | 100 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalry` | Light cavalry | 21.00 | 2.9 | **4.0** | 90 | 50 | 6 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `huntem` — Cathedral
@@ -585,7 +585,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -616,7 +616,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeernet` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `musketeernet` | Musketeer, 17th century | 5.00 | 12.0 | **16.8** | 50 | 8 | 4 | 1 | — |
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
@@ -632,10 +632,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -643,10 +643,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18net` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18net` | Dragoon, 18th century | 24.00 | 2.5 | **3.5** | 100 | 70 | 7 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `nettem` — Cathedral
@@ -666,7 +666,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -713,10 +713,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -724,10 +724,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18pie` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18pie` | Dragoon, 18th century | 20.25 | 3.0 | **4.1** | 60 | 65 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `pietem` — Cathedral
@@ -747,7 +747,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -778,7 +778,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeerpol` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `musketeerpol` | Musketeer, 17th century | 4.50 | 13.3 | **18.7** | 40 | 3 | 3 | 1 | — |
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikemanpol` | Pikeman, 17th century | 3.00 | 20.0 | **28.0** | 25 | 1 | 0 | 1 | — |
 
@@ -794,10 +794,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -805,13 +805,13 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoonpol` | Pospolite ruszenie | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `reiterpol` | Light Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `wingedhussar` | Winged Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoonpol` | Pospolite ruszenie | 13.50 | 4.4 | **6.2** | 70 | 5 | 4 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiterpol` | Light Reiter | 8.25 | 7.3 | **10.2** | 60 | 5 | 2 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `wingedhussar` | Winged Hussar | 26.00 | 2.3 | **3.2** | 130 | 30 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `poltem` — Cathedral
 
@@ -841,7 +841,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `jagerpor` | Volunteer | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `jagerpor` | Volunteer | 6.00 | 10.0 | **14.0** | 30 | 2 | 5 | 1 | — |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -867,10 +867,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -878,7 +878,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -889,10 +889,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `portem` — Cathedral
@@ -912,7 +912,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -934,7 +934,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `grenadierpru` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadierpru` | Grenadier | 7.00 | 8.6 | **12.0** | 90 | 100 | 45 | 1 | floor(gc_obj_foodperunit*1.2) |
 | `musketeer18pru` | Musketeer, 18th century | 6.00 | 10.0 | **14.0** | 70 | 80 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -960,10 +960,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -971,10 +971,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarpru` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarpru` | Hussar | 11.25 | 5.3 | **7.5** | 80 | 15 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `prutem` — Cathedral
@@ -1011,7 +1011,7 @@
 | `drummerrus` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 90 | 15 | 0 | 1 | — |
 | `officerrus` | Commander | 12.50 | 4.8 | **6.7** | 100 | 125 | 5 | 1 | — |
 | `pikemanrus` | Spearman | 5.50 | 10.9 | **15.3** | 45 | 4 | 15 | 1 | — |
-| `strelet` | Strelets | 18.75 | 3.2 | **4.5** | 45 | 6 | 10 | 1 | — |
+| `strelet` | Strelets | 8.50 | 7.1 | **9.9** | 70 | 7 | 9 | 1 | — |
 
 ### `ruscen` — Town Hall
 
@@ -1025,10 +1025,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1041,7 +1041,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1052,11 +1052,11 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cossackdon` | Don Cossack | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `vityaz` | Vityaz | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cossackdon` | Don Cossack | 13.50 | 4.4 | **6.2** | 100 | 0 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `vityaz` | Vityaz | 25.50 | 2.4 | **3.3** | 160 | 13 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `rustem` — Orthodox Cathedral
 
@@ -1075,7 +1075,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1096,7 +1096,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadiersax` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadiersax` | Grenadier | 6.00 | 10.0 | **14.0** | 50 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1) |
 | `musketeer18sax` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 40 | 45 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -1122,10 +1122,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1133,11 +1133,11 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `guardcavalrysax` | Cavalry Guard | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `guardcavalrysax` | Cavalry Guard | 24.00 | 2.5 | **3.5** | 140 | 50 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `saxtem` — Cathedral
@@ -1157,7 +1157,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1184,7 +1184,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `bagpiper` | Bagpiper | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeersco` | Covenanter musketeer | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `musketeersco` | Covenanter musketeer | 7.00 | 8.6 | **12.0** | 55 | 8 | 7 | 1 | — |
 | `officersco` | Officer | 10.00 | 6.0 | **8.4** | 130 | 130 | 10 | 1 | — |
 | `pikemansco` | Covenanter pikeman | 4.00 | 15.0 | **21.0** | 35 | 2 | 0 | 1 | — |
 
@@ -1200,10 +1200,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
 | `archerturdip` | Turkish archer (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | floor(gc_obj_foodperunit*1.5) |
 
@@ -1211,8 +1211,8 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `lancersco` | Lancer | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `raidersco` | Raider | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `lancersco` | Lancer | 21.00 | 2.9 | **4.0** | 120 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `raidersco` | Raider | 22.50 | 2.7 | **3.7** | 130 | 8 | 2 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `scotem` — Cathedral
 
@@ -1231,7 +1231,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1262,7 +1262,7 @@
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeerspa` | Musketeer, 17th century | 18.75 | 3.2 | **4.5** | 45 | 6 | 10 | 1 | — |
+| `musketeerspa` | Musketeer, 17th century | 7.50 | 8.0 | **11.2** | 40 | 12 | 20 | 1 | — |
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
 | `pikemanspa` | Coselete | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
@@ -1279,10 +1279,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1290,10 +1290,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `spatem` — Cathedral
@@ -1313,7 +1313,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1360,10 +1360,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1371,12 +1371,12 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hackapell` | Hakkapeliitta | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `reiterswe` | Swedish Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hackapell` | Hakkapeliitta | 18.00 | 3.3 | **4.7** | 80 | 7 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiterswe` | Swedish Reiter | 22.50 | 2.7 | **3.7** | 130 | 7 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `swetem` — Cathedral
 
@@ -1395,7 +1395,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1417,7 +1417,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
 | `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `jagerswi` | Jaeger | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `jagerswi` | Jaeger | 6.00 | 10.0 | **14.0** | 40 | 70 | 20 | 1 | — |
 | `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
@@ -1443,10 +1443,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1454,10 +1454,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarswi` | Mounted Jaeger | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarswi` | Mounted Jaeger | 19.50 | 3.1 | **4.3** | 120 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `switem` — Cathedral
@@ -1482,7 +1482,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archertur` | Turkish archer | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
 | `drummertur` | Drummer, 17th century | 4.00 | 15.0 | **21.0** | 30 | 15 | 0 | 1 | — |
-| `jannisary` | Janissary | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `jannisary` | Janissary | 8.00 | 7.5 | **10.5** | 55 | 13 | 5 | 1 | — |
 | `lightinfantry` | Light Infantryman | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `officertur` | Officer | 7.50 | 8.0 | **11.2** | 50 | 100 | 0 | 1 | — |
 | `pikemantur` | Ottoman Pikeman | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
@@ -1499,10 +1499,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1515,19 +1515,19 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
 | `yachttur` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 ### `tursta` — Stable
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `sipahi` | Heavy Sipahi | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `spakh` | Light Sipahi | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `sipahi` | Heavy Sipahi | 18.00 | 3.3 | **4.7** | 130 | 20 | 70 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `spakh` | Light Sipahi | 9.00 | 6.7 | **9.3** | 80 | 6 | 5 | 1 | floor(gc_obj_foodperunit*2) |
 | `tatar` | Tatar | 11.25 | 5.3 | **7.5** | 70 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
 
 ### `turtem` — Mosque
@@ -1555,7 +1555,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `serdiuk` | Serdiuk | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `serdiuk` | Serdiuk | 11.00 | 5.5 | **7.6** | 60 | 11 | 5 | 1 | — |
 
 ### `ukrcen` — Town Hall
 
@@ -1569,10 +1569,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1580,7 +1580,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `chaika` | — | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `chaika` | — | 40.00 | 1.5 | **2.1** | 0 | 600 | 200 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
@@ -1589,9 +1589,9 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cossackregister` | Register Cossack | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `cossacksich` | Sich Cossack | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `hetman` | Hetman | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cossackregister` | Register Cossack | 10.50 | 5.7 | **8.0** | 70 | 15 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksich` | Sich Cossack | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `hetman` | Hetman | 16.50 | 3.6 | **5.1** | 150 | 150 | 10 | 1 | floor(gc_obj_foodperunit*3) |
 
 ### `ukrtem` — Orthodox Cathedral
 
@@ -1610,7 +1610,7 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
 | `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
 | `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
@@ -1657,10 +1657,10 @@
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
 | `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
@@ -1668,10 +1668,10 @@
 
 | Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 | `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 16.50 | 3.6 | **5.1** | 75 | 2 | 5 | 1 | — |
+| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
 ### `ventem` — Cathedral

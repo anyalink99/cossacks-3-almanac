@@ -13,7 +13,7 @@ _Португалия_
 
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
-| **Доброволец** / Volunteer `jagerpor` | Shooter | 70 | — | — | — |
+| **Доброволец** / Volunteer `jagerpor` | Shooter | 50 | 10 | 5.94 | 15.0 |
 | **Пикинер 17в.** / Pikeman, 17th century `pikemanpor` | Light Infantry | 100 | 9 | 0.0 | 1.88 |
 
 ## Здания
@@ -81,7 +81,7 @@ _Португалия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Мушкетер 17в.** / Musketeer, 17th century `musketeer` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | shared (11n) |
+| **Мушкетер 17в.** / Musketeer, 17th century `musketeer` | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | shared (11n) |
 
 ### Musketeers 18c
 
@@ -107,29 +107,29 @@ _Португалия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Доброволец** / Volunteer `jagerpor` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Доброволец** / Volunteer `jagerpor` | 50 | 6.0 | 30 | 2 | 5 | 10 | 15.0 | 5.94 | unique |
 
 ### Light Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Гусар** / Hussar `hussar` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | shared (14n) |
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Гусар** / Hussar `hussar` | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | shared (14n) |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Драгун 17в.** / Dragoon, 17th century `dragoon` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | shared (16n) |
-| **Драгун 18в.** / Dragoon, 18th century `dragoon18` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | shared (13n) |
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.** / Dragoon, 18th century `dragoon18` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | shared (13n) |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
-| **Кирасир** / Cuirassier `cuirassier` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (17n) |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
+| **Кирасир** / Cuirassier `cuirassier` | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | shared (17n) |
 | **Рейтар** / Reiter `reiter` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (14n) |
 
 ### Cannons
@@ -156,7 +156,7 @@ _Португалия_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Фрегат** / Frigate `frigate` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |

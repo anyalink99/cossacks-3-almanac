@@ -21,8 +21,8 @@
 | **Grenadier** `grenadier` | swe | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
 | **Grenadier** `grenadier` | swi | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
 | **Grenadier** `grenadier` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadierbav` | bav | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierden` | den | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierbav` | bav | **125** | 6.0 | **95** | **70** | 40 | **14** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierden` | den | **125** | **6.5** | **100** | **90** | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
 | **Grenadier (mercenary)** `grenadierdip` | alg | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
 | **Grenadier (mercenary)** `grenadierdip` | aus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
 | **Grenadier (mercenary)** `grenadierdip` | bav | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
@@ -44,8 +44,8 @@
 | **Grenadier (mercenary)** `grenadierdip` | tur | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
 | **Grenadier (mercenary)** `grenadierdip` | ukr | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
 | **Grenadier (mercenary)** `grenadierdip` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier** `grenadierhun` | hun | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierpru` | pru | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadiersax` | sax | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierhun` | hun | **125** | **6.5** | **90** | **80** | 40 | **30** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierpru` | pru | **125** | **7.0** | **90** | **100** | **45** | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadiersax` | sax | **100** | 6.0 | **50** | 60 | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
 
 **Baseline (mode по колонкам):** hp=120, buildtime_sec=6.0, food=80, gold=60, iron=40, damage=18, radiusmax_tiles=1.5, pause_sec=0.0.

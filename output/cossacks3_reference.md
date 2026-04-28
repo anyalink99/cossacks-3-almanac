@@ -1,6 +1,6 @@
 # Cossacks 3 — Полный справочник цифр
 
-Извлечено напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`. Скрипты парсера: `C:\projects\other\cossacks\parser\`. Все цифры — НЕмодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.
+Извлечено напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`. Скрипты парсера: `parser/`. Все цифры — НЕмодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.
 
 **Версия игры:** актуальная на момент парсинга (Steam install).
 
@@ -987,83 +987,79 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 Группировка по нациям. Цена дана в food/wood/stone/gold/iron/coal. Защиты — числа в диапазоне 0..240+ (выше = меньше получаемого урона по правилам игры).
 
-### aus — Austria (40 юнитов)
+### aus — Austria (38 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | ausdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | ausdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | ausart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | ausdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `croat` | Croat | Light Cavalry | aussta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | aussta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | ausdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `croat` | Croat | Light Cavalry | aussta | unique | 260 | 15.75 | 80 | 6 | 2 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | aussta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | aussta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | aussta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | ausdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | aussta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | ausdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | ausbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | ausba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | ausba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | ausdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | ausart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | aussta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | ausdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | aussta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | ausdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | ausdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | ausart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | ausart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | ausba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `musketeeraus` | Musketeer, 17th century | Shooter | ausbar | unique | 50 | 18.75 | 45 | 6 | 10 | 9 | 15.0 | 2.81 | — | — | — | — | — | — |
+| `musketeeraus` | Musketeer, 17th century | Shooter | ausbar | unique | 55 | 6.5 | 35 | 9 | 15 | 12 | 15.0 | 5.0 | 2 | 2 | 5 | 165 | 5 | 35 |
 | `officer` | Officer, 17th century | Light Infantry | ausbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | ausba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `pandur` | Pandur | Shooter | ausba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `pandur` | Pandur | Shooter | ausba2 | unique | 85 | 6.0 | 40 | 15 | 10 | 17 | 16.88 | 4.69 | — | — | — | — | — | — |
 | `peaaus` | Peasant | Peasant | auscen | shared (5n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikeman` | Pikeman, 17th century | Light Infantry | ausbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | ausba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | austem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | aussta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | aussta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshier` | Roundshier | Light Infantry | ausbar | unique | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | ausdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### fra — France (39 юнитов)
+### fra — France (37 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | fradip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | fradip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | fraart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `chasseur` | Chasseur | Shooter | fraba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | fradip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | frasta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `chasseur` | Chasseur | Shooter | fraba2 | unique | 75 | 6.0 | 50 | 45 | 15 | 20 | 19.69 | 5.94 | — | — | — | — | — | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | fradip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | frasta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | frasta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | fradip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18fra` | Dragoon, 18th century | Mounted Shooter | frasta | unique | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | fradip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18fra` | Dragoon, 18th century | Mounted Shooter | frasta | unique | 140 | 15.0 | 50 | 30 | 6 | 10 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | frabar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | fraba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | fraba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | fradip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | fraart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | frasta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `kingmusketeer` | King's Musketeer | Mounted Shooter | frasta | unique | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | fradip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | frasta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `kingmusketeer` | King's Musketeer | Mounted Shooter | frasta | unique | 280 | 27.0 | 100 | 100 | 8 | 43 | 13.13 | 6.88 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | fradip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | fradip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | fraart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | fraart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | frabar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | frabar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | fraba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | frabar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | fraba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1071,42 +1067,40 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | frabar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | fraba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | fratem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | frasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | frasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | fradip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### eng — England (38 юнитов)
+### eng — England (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | engdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | engdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `bagpiper` | Bagpiper | Light Infantry | engba2 | semi-unique (2n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | engart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | engdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | engsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | engdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | engsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | engsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | engsta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | engdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | engsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | engdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | engbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | engba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | engdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `highlander` | Highlander | Shooter | engba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `highlander` | Highlander | Shooter | engba2 | unique | 130 | 6.0 | 90 | 25 | 10 | 16 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | engart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | engsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | engdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | engsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | engdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | engdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | engart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | engart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | engbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | engbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | engba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | engbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | engba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1114,42 +1108,40 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | engbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | engba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | engtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | engsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | engsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | engdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### spa — Spain (38 юнитов)
+### spa — Spain (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | spadip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | spadip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | spaart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | spadip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | spasta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | spadip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | spasta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | spasta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | spasta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | spadip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | spasta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | spadip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | spabar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | spaba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | spaba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | spadip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | spaart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | spasta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | spadip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | spasta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | spadip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | spadip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | spaart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | spaart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | spaba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `musketeerspa` | Musketeer, 17th century | Shooter | spabar | unique | 50 | 18.75 | 45 | 6 | 10 | 9 | 15.0 | 2.81 | — | — | — | — | — | — |
+| `musketeerspa` | Musketeer, 17th century | Shooter | spabar | unique | 85 | 7.5 | 40 | 12 | 20 | 15 | 15.94 | 5.94 | 3 | 2 | 5 | 210 | 7 | 40 |
 | `officer` | Officer, 17th century | Light Infantry | spabar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | spaba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `peaspa` | Peasant | Peasant | spacen | shared (4n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1157,37 +1149,35 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Pikeman, 18th century | Light Infantry | spaba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `pikemanspa` | Coselete | Light Infantry | spabar | unique | 100 | 5.5 | 35 | 7 | 30 | 10 | 1.88 | 0.0 | 3 | 4 | 6 | 240 | 12 | 50 |
 | `priest` | Priest | Light Infantry | spatem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | spasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | spasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | spadip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### rus — Russia (37 юнитов)
+### rus — Russia (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | rusdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | rusdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | ruspor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | ruspor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | rusart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossackdon` | Don Cossack | Heavy Cavalry | russta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | rusdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | russta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | russta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | rusdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `cossackdon` | Don Cossack | Heavy Cavalry | russta | unique | 220 | 13.5 | 100 | 0 | 0 | 13 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | rusdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | russta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | russta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | rusdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | rusba2 | shared (16n) | 100 | 6.0 | 90 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummerrus` | Drummer, 17th century | Light Infantry | rusbar | unique | 100 | 6.0 | 90 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | ruspor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | rusmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | ruspor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | ruspor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | ruspor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | rusba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | rusdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | rusart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | russta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | rusdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | russta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | rusdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | rusdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | rusart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | rusart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
@@ -1199,115 +1189,109 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemanrus` | Spearman | Light Infantry | rusbar | unique | 85 | 5.5 | 45 | 4 | 15 | 8 | 1.69 | 0.0 | 2 | 1 | 4 | 140 | 4 | 25 |
 | `pope` | Pope | Light Infantry | rustem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | rusdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
-| `strelet` | Strelets | Shooter | rusbar | unique | 50 | 18.75 | 45 | 6 | 10 | 9 | 15.0 | 2.81 | — | — | — | — | — | — |
+| `strelet` | Strelets | Shooter | rusbar | unique | 85 | 8.5 | 70 | 7 | 9 | 12 | 13.13 | 4.69 | — | — | — | — | — | — |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
-| `vityaz` | Vityaz | Heavy Cavalry | russta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `vityaz` | Vityaz | Heavy Cavalry | russta | unique | 380 | 25.5 | 160 | 13 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 3 | 160 | 17 | 40 |
 | `yacht` | Yacht | Yacht | ruspor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### ukr — Ukraine (24 юнитов)
+### ukr — Ukraine (22 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | ukrdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | ukrdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | ukrart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `chaika` | — | Frigate | ukrpor | unique | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
-| `cossackregister` | Register Cossack | Heavy Cavalry | ukrsta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
-| `cossacksich` | Sich Cossack | Light Cavalry | ukrsta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | ukrdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | ukrdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `chaika` | — | Yacht | ukrpor | unique | 25000 | 40.0 | 0 | 600 | 200 | 1000 | 20.63 | 2.34 | — | — | — | — | — | — |
+| `cossackregister` | Register Cossack | Heavy Cavalry | ukrsta | unique | 250 | 10.5 | 70 | 15 | 0 | 12 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `cossacksich` | Sich Cossack | Light Cavalry | ukrsta | unique | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | ukrdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | ukrdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | ukrpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | rusmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | ukrpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Galley | Galley | ukrpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | ukrdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `hetman` | Hetman | Heavy Cavalry | ukrsta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `hetman` | Hetman | Heavy Cavalry | ukrsta | unique | 320 | 16.5 | 150 | 150 | 10 | 70 | 1.22 | 0.0 | 0 | 1 | 3 | 75 | 3 | 15 |
 | `howitzer` | Howitzer | Mortar | ukrart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | ukrdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | ukrdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | ukrdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | ukrart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `peaukr` | Peasant | Peasant | ukrcen | unique | 75 | 11.25 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pope` | Pope | Light Infantry | ukrtem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | ukrdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
-| `serdiuk` | Serdiuk | Shooter | ukrbar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `serdiuk` | Serdiuk | Shooter | ukrbar | unique | 85 | 11.0 | 60 | 11 | 5 | 12 | 16.88 | 4.06 | — | — | — | — | — | — |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 
-### pol — Poland (39 юнитов)
+### pol — Poland (37 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | poldip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | poldip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | polart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | poldip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | polsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | poldip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | polsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | polsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | polsta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | poldip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoonpol` | Pospolite ruszenie | Mounted Shooter | polsta | unique | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | polsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | poldip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoonpol` | Pospolite ruszenie | Mounted Shooter | polsta | unique | 185 | 13.5 | 70 | 5 | 4 | 13 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | polbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | polba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | polba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | poldip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | polart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | polsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | poldip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | polsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | poldip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | poldip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | polart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | polart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | polba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `musketeerpol` | Musketeer, 17th century | Shooter | polbar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeerpol` | Musketeer, 17th century | Shooter | polbar | unique | 70 | 4.5 | 40 | 3 | 3 | 9 | 13.13 | 3.12 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | polbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | polba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `peapol` | Peasant | Peasant | polcen | semi-unique (2n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | polba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `pikemanpol` | Pikeman, 17th century | Light Infantry | polbar | unique | 90 | 3.0 | 25 | 1 | 0 | 8 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `priest` | Priest | Light Infantry | poltem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiterpol` | Light Reiter | Heavy Cavalry | polsta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiterpol` | Light Reiter | Heavy Cavalry | polsta | unique | 190 | 8.25 | 60 | 5 | 2 | 9 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | poldip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
-| `wingedhussar` | Winged Hussar | Light Cavalry | polsta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `wingedhussar` | Winged Hussar | Light Cavalry | polsta | unique | 225 | 26.0 | 130 | 30 | 25 | 14 | 1.88 | 0.0 | 1 | 2 | 5 | 160 | 10 | 30 |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### swe — Sweden (38 юнитов)
+### swe — Sweden (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | swedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | swedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | sweart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | swedip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | swesta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | swedip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | swesta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | swesta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | swesta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | swedip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | swesta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | swedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | swebar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | sweba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | sweba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | swedip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `hackapell` | Hakkapeliitta | Light Cavalry | swesta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `hackapell` | Hakkapeliitta | Light Cavalry | swesta | unique | 245 | 18.0 | 80 | 7 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | sweart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | swesta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | swedip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | swesta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | swedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | swedip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | sweart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | sweart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | swebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | swebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | sweba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | swebar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | sweba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1315,42 +1299,40 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | swebar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18swe` | Pikeman, 18th century | Light Infantry | sweba2 | unique | 110 | 1.5 | 40 | 3 | 0 | 11 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | swetem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiterswe` | Swedish Reiter | Heavy Cavalry | swesta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiterswe` | Swedish Reiter | Heavy Cavalry | swesta | unique | 300 | 22.5 | 130 | 7 | 20 | 14 | 1.22 | 0.0 | 2 | 3 | 7 | 140 | 7 | 35 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | swedip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### pru — Prussia (38 юнитов)
+### pru — Prussia (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | prudip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | prudip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | pruart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | prudip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | prusta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | prudip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | prusta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | prusta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | prusta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | prudip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | prusta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | prudip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | prubar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | pruba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | pruba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | prudip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierpru` | Grenadier | Grenadier | pruba2 | unique | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierpru` | Grenadier | Grenadier | pruba2 | unique | 125 | 7.0 | 90 | 100 | 45 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | pruart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussarpru` | Hussar | Light Cavalry | prusta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | prudip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussarpru` | Hussar | Light Cavalry | prusta | unique | 240 | 11.25 | 80 | 15 | 2 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | prudip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | prudip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | pruart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | pruart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | prubar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | prubar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18pru` | Musketeer, 18th century | Shooter | pruba2 | unique | 100 | 6.0 | 70 | 80 | 40 | 10 | 1.59 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | prubar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | pruba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1358,41 +1340,39 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | prubar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | pruba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | prutem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | prusta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | prusta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | prudip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### ven — Venice (37 юнитов)
+### ven — Venice (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | vendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | vendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | venart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | vendip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | vensta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | vendip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | vensta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | vensta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | vensta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | vendip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | vensta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | vendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | venbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | venba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | venba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | vendip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | venart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | vensta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | vendip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | vensta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | vendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | vendip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | venart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | venart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | venbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | venbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | venba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | venbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | venba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1400,32 +1380,30 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | venbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | venba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | ventem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | vensta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | vensta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | vendip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### tur — Turkey (31 юнитов)
+### tur — Turkey (29 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | turdip | common | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
 | `archertur` | Turkish archer | Archer | turbar | unique | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | turdip | common | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | turpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | turpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | turart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | turdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | turdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | turdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | turdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummertur` | Drummer, 17th century | Light Infantry | turbar | semi-unique (2n) | 50 | 4.0 | 30 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | turpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | turmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | turpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Galley | Galley | turpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | turdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | turart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `jannisary` | Janissary | Shooter | turbar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | turdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `jannisary` | Janissary | Shooter | turbar | unique | 65 | 8.0 | 55 | 13 | 5 | 12 | 15.94 | 4.69 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | turdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantry` | Light Infantryman | Light Infantry | turbar | semi-unique (2n) | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | turdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | turart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
@@ -1434,36 +1412,34 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `peatur` | Peasant | Peasant | turcen | semi-unique (2n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikemantur` | Ottoman Pikeman | Light Infantry | turbar | semi-unique (2n) | 95 | 5.5 | 55 | 5 | 0 | 9 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | turdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
-| `sipahi` | Heavy Sipahi | Heavy Cavalry | tursta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
-| `spakh` | Light Sipahi | Heavy Cavalry | tursta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `sipahi` | Heavy Sipahi | Heavy Cavalry | tursta | unique | 360 | 18.0 | 130 | 20 | 70 | 15 | 1.22 | 0.0 | 3 | 7 | 4 | 225 | 24 | 60 |
+| `spakh` | Light Sipahi | Heavy Cavalry | tursta | unique | 230 | 9.0 | 80 | 6 | 5 | 15 | 1.88 | 0.0 | 0 | 1 | 0 | 10 | 2 | 0 |
 | `tatar` | Tatar | Archer | tursta | unique | 185 | 11.25 | 70 | 6 | 0 | 15 | 20.63 | 1.56 | — | — | — | — | — | — |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
-| `xebec` | Xebec | Frigate | turpor | semi-unique (2n) | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `xebec` | Xebec | Frigate | turpor | semi-unique (2n) | 65000 | 230.0 | 0 | 1600 | 320 | 1800 | 31.88 | 1.56 | — | — | — | — | — | — |
 | `yachttur` | Yacht | Yacht | turpor | unique | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### alg — Algeria (27 юнитов)
+### alg — Algeria (25 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archer` | Archer | Archer | algbar | unique | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerdip` | Archer (mercenary) | Archer | algdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | algdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | turpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | turpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | algart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | algdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | algdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | algdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | algdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummertur` | Drummer, 17th century | Light Infantry | algbar | semi-unique (2n) | 50 | 4.0 | 30 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | turpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | turmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | turpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Galley | Galley | turpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | algdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | algart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | algdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | algdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantry` | Light Infantryman | Light Infantry | algbar | semi-unique (2n) | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | algdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
-| `mameluke` | Mameluke | Heavy Cavalry | algsta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `mameluke` | Mameluke | Heavy Cavalry | algsta | unique | 280 | 12.0 | 100 | 8 | 0 | 16 | 1.88 | 0.0 | 1 | 3 | 1 | 75 | 8 | 0 |
 | `mortar` | Bombard | Super Mortar | algart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `mullah` | Mullah | Light Infantry | algtem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `officertur` | Officer | Light Infantry | algbar | semi-unique (2n) | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -1471,80 +1447,76 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemantur` | Ottoman Pikeman | Light Infantry | algbar | semi-unique (2n) | 95 | 5.5 | 55 | 5 | 0 | 9 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | algdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
-| `xebec` | Xebec | Frigate | turpor | semi-unique (2n) | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `xebec` | Xebec | Frigate | turpor | semi-unique (2n) | 65000 | 230.0 | 0 | 1600 | 320 | 1800 | 31.88 | 1.56 | — | — | — | — | — | — |
 
-### net — Netherlands (37 юнитов)
+### net — Netherlands (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | netdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | netdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | netart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | netdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | netsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | netdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | netsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | netsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | netdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18net` | Dragoon, 18th century | Mounted Shooter | netsta | unique | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | netdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18net` | Dragoon, 18th century | Mounted Shooter | netsta | unique | 320 | 24.0 | 100 | 70 | 7 | 17 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | netbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | netba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | netba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | netdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | netart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | netsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | netdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | netsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | netdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | netdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | netart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | netart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | netba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `musketeernet` | Musketeer, 17th century | Shooter | netbar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeernet` | Musketeer, 17th century | Shooter | netbar | unique | 65 | 5.0 | 50 | 8 | 4 | 10 | 15.0 | 3.75 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | netbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | netba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `peaeng` | Peasant | Peasant | netcen | shared (5n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikeman` | Pikeman, 17th century | Light Infantry | netbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | netba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | nettem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | netsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | netsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | netdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### den — Denmark (37 юнитов)
+### den — Denmark (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | dendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | dendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | denart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | dendip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | densta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | dendip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | densta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | densta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | densta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | dendip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | densta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | dendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | denbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | denba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierden` | Grenadier | Grenadier | denba2 | unique | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierden` | Grenadier | Grenadier | denba2 | unique | 125 | 6.5 | 100 | 90 | 40 | 22 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | dendip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | denart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | densta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | dendip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | densta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | dendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | dendip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | denart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | denart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | denbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | denbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18den` | Musketeer, 18th century | Shooter | denba2 | unique | 100 | 5.5 | 50 | 80 | 40 | 8 | 1.59 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | denbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | denba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1552,42 +1524,40 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | denbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | denba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | dentem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | densta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | densta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | dendip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### por — Portugal (38 юнитов)
+### por — Portugal (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | pordip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | pordip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | porpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | porpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | porart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | pordip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | porsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | pordip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | porsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | porsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | porsta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | pordip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | porsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | pordip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | porbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | porba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | porpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | porpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | porpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | porpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | porba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | pordip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | porart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | porsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `jagerpor` | Volunteer | Shooter | porba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | pordip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | porsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `jagerpor` | Volunteer | Shooter | porba2 | unique | 50 | 6.0 | 30 | 2 | 5 | 10 | 15.0 | 5.94 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | pordip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | pordip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | porart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | porart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | porbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | porbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | porba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | porbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | porba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1595,41 +1565,39 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Pikeman, 18th century | Light Infantry | porba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `pikemanpor` | Pikeman, 17th century | Light Infantry | porbar | unique | 100 | 4.0 | 40 | 4 | 5 | 9 | 1.88 | 0.0 | 0 | 1 | 1 | 25 | 4 | 0 |
 | `priest` | Priest | Light Infantry | portem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | porsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | porsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | pordip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | porpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### pie — Piedmont (37 юнитов)
+### pie — Piedmont (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | piedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | piedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | pieart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | piedip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | piesta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | piedip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | piesta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | piesta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | piedip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18pie` | Dragoon, 18th century | Mounted Shooter | piesta | unique | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | piedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18pie` | Dragoon, 18th century | Mounted Shooter | piesta | unique | 200 | 20.25 | 60 | 65 | 7 | 19 | 16.88 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | piebar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | pieba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | pieba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | piedip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | pieart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | piesta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | piedip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | piesta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | piedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | piedip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | pieart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | pieart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | piebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | piebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | pieba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | piebar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | pieba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1637,42 +1605,40 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `peaspa` | Peasant | Peasant | piecen | shared (4n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikeman` | Pikeman, 17th century | Light Infantry | piebar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | pieba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | piesta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | piesta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | piedip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### sax — Saxony (38 юнитов)
+### sax — Saxony (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | saxdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | saxdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | saxart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | saxdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | saxsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | saxdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | saxsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | saxsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | saxsta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | saxdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | saxsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | saxdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | saxbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | saxba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | saxdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadiersax` | Grenadier | Grenadier | saxba2 | unique | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `guardcavalrysax` | Cavalry Guard | Heavy Cavalry | saxsta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `grenadiersax` | Grenadier | Grenadier | saxba2 | unique | 100 | 6.0 | 50 | 60 | 40 | 22 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `guardcavalrysax` | Cavalry Guard | Heavy Cavalry | saxsta | unique | 320 | 24.0 | 140 | 50 | 20 | 15 | 1.22 | 0.0 | 2 | 5 | 9 | 150 | 9 | 70 |
 | `howitzer` | Howitzer | Mortar | saxart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | saxsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | saxdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | saxsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | saxdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | saxdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | saxart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | saxart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | saxbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | saxbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18sax` | Musketeer, 18th century | Shooter | saxba2 | unique | 90 | 4.5 | 40 | 45 | 40 | 7 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | saxbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | saxba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1680,41 +1646,39 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | saxbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | saxba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | saxtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | saxsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | saxsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | saxdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### bav — Bavaria (37 юнитов)
+### bav — Bavaria (35 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | bavdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | bavdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | bavart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | bavdip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | bavsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | bavdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | bavsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | bavsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | bavsta | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | bavdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | bavsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | bavdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | bavbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | bavba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierbav` | Grenadier | Grenadier | bavba2 | unique | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierbav` | Grenadier | Grenadier | bavba2 | unique | 125 | 6.0 | 95 | 70 | 40 | 14 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | bavdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | bavart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussar` | Hussar | Light Cavalry | bavsta | shared (14n) | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | bavdip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussar` | Hussar | Light Cavalry | bavsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | bavdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | bavdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | bavart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | bavart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | bavbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | bavbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18bav` | Musketeer, 18th century | Shooter | bavba2 | unique | 100 | 5.0 | 60 | 55 | 35 | 5 | 1.59 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | bavbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | bavba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1722,84 +1686,81 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Pikeman, 17th century | Light Infantry | bavbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | bavba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | bavtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | bavsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | bavsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | bavdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### hun — Hungary (37 юнитов)
+### hun — Hungary (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | hundip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | hundip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | hunart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | hundip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | hunsta | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | hundip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | hunsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | hunsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | hundip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | hundip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | hunbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | hunba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `gauduk` | Hajduk | Shooter | hunbar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `gauduk` | Hajduk | Shooter | hunbar | unique | 60 | 4.5 | 35 | 4 | 4 | 9 | 14.06 | 3.12 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | hundip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierhun` | Grenadier | Grenadier | hunba2 | unique | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierhun` | Grenadier | Grenadier | hunba2 | unique | 125 | 6.5 | 90 | 80 | 40 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | hunart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussarhun` | Hussar | Light Cavalry | hunsta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | hunsta | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | hundip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussarhun` | Hussar | Light Cavalry | hunsta | unique | 250 | 21.0 | 100 | 30 | 2 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `lightcavalry` | Light cavalry | Mounted Shooter | hunsta | unique | 175 | 21.0 | 90 | 50 | 6 | 14 | 18.75 | 5.31 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | hundip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | hundip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | hunart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | hunart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | hunba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | hunbar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | hunba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `pandurhun` | Szekely | Shooter | hunba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `pandurhun` | Szekely | Shooter | hunba2 | unique | 75 | 6.0 | 30 | 25 | 10 | 19 | 18.75 | 5.0 | — | — | — | — | — | — |
 | `peapol` | Peasant | Peasant | huncen | semi-unique (2n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikeman` | Pikeman, 17th century | Light Infantry | hunbar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Pikeman, 18th century | Light Infantry | hunba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Priest | Light Infantry | huntem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | hunsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | hunsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | hundip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### swi — Switzerland (38 юнитов)
+### swi — Switzerland (36 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archerdip` | Archer (mercenary) | Archer | swidip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | swidip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | swiart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | swidip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cuirassier` | Cuirassier | Heavy Cavalry | swista | shared (17n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | swidip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cuirassier` | Cuirassier | Heavy Cavalry | swista | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Dragoon, 17th century | Mounted Shooter | swista | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18` | Dragoon, 18th century | Mounted Shooter | swista | shared (13n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | swidip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `dragoon18` | Dragoon, 18th century | Mounted Shooter | swista | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | swidip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `drummer` | Drummer, 17th century | Light Infantry | swibar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Drummer, 18th century | Light Infantry | swiba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Galley | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Grenadier | Grenadier | swiba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | swidip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | swiart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `hussarswi` | Mounted Jaeger | Light Cavalry | swista | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `jagerswi` | Jaeger | Shooter | swiba2 | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | swidip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `hussarswi` | Mounted Jaeger | Light Cavalry | swista | unique | 265 | 19.5 | 120 | 30 | 2 | 14 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `jagerswi` | Jaeger | Shooter | swiba2 | unique | 65 | 6.0 | 40 | 70 | 20 | 20 | 22.5 | 6.88 | — | — | — | — | — | — |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | swidip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | swidip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | swiart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Multi-barrelled Cannon | Multi-cannon | swiart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
-| `musketeer` | Musketeer, 17th century | Shooter | swibar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeer` | Musketeer, 17th century | Shooter | swibar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `musketeer18` | Musketeer, 18th century | Shooter | swiba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `officer` | Officer, 17th century | Light Infantry | swibar | shared (16n) | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 |
 | `officer18` | Officer, 18th century | Light Infantry | swiba2 | shared (17n) | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1807,12 +1768,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Pikeman, 18th century | Light Infantry | swiba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `pikemanswi` | Pikeman, 17th century | Light Infantry | swibar | unique | 90 | 5.0 | 40 | 6 | 20 | 10 | 1.88 | 0.0 | 3 | 3 | 6 | 220 | 6 | 45 |
 | `priest` | Priest | Light Infantry | switem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `reiter` | Reiter | Heavy Cavalry | swista | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
+| `reiter` | Reiter | Heavy Cavalry | swista | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | swidip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Yacht | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
-### sco — Scotland (30 юнитов)
+### sco — Scotland (28 юнитов)
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -1820,28 +1781,26 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `archersco` | Bow Clansman | Archer | scoba2 | unique | 150 | 6.0 | 80 | 7 | 0 | 20 | 18.75 | 3.12 | — | — | — | — | — | — |
 | `archerturdip` | Turkish archer (mercenary) | Archer | scodip | common | 150 | 6.0 | 80 | 7 | 0 | 20 | 18.75 | 3.12 | — | — | — | — | — | — |
 | `bagpiper` | Bagpiper | Light Infantry | scobar | semi-unique (2n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
-| `battleship` | Ship of the Line | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
+| `battleship` | Ship of the Line | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Cannon | Cannon | scoart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | scodip | common | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | scodip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | Light Cavalry | scodip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | Mounted Shooter | scodip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `ferry` | Ferry | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
-| `field` | Grain Crops | Field | eurmil | common | — | — | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Boat | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `framegun` | Frame gun | Cannon | scoart | unique | 3000 | 50.0 | 0 | 300 | 150 | 500 | 33.75 | 2.81 | — | — | — | — | — | — |
 | `frigate` | Frigate | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `grenadierdip` | Grenadier (mercenary) | Grenadier | scodip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Howitzer | Mortar | scoart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `lancersco` | Lancer | Heavy Cavalry | scosta | unique | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 |
-| `lightcavalry` | Light cavalry | Mounted Shooter | — | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | scodip | common | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
+| `lancersco` | Lancer | Heavy Cavalry | scosta | unique | 320 | 21.0 | 120 | 6 | 0 | 11 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `lightcavalrydip` | Light cavalry (mercenary) | Mounted Shooter | scodip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | Light Infantry | scodip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Bombard | Super Mortar | scoart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
-| `musketeersco` | Covenanter musketeer | Shooter | scobar | unique | 70 | 6.0 | 45 | 6 | 5 | — | — | — | — | — | — | — | — | — |
+| `musketeersco` | Covenanter musketeer | Shooter | scobar | unique | 90 | 7.0 | 55 | 8 | 7 | 12 | 15.94 | 4.69 | — | — | — | — | — | — |
 | `officersco` | Officer | Light Infantry | scobar | unique | 150 | 10.0 | 130 | 130 | 10 | 40 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `peasco` | Peasant | Peasant | scocen | unique | 60 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikemansco` | Covenanter pikeman | Light Infantry | scobar | unique | 100 | 4.0 | 35 | 2 | 0 | 9 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `priest` | Priest | Light Infantry | scotem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `raidersco` | Raider | Light Cavalry | scosta | unique | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `raidersco` | Raider | Light Cavalry | scosta | unique | 280 | 22.5 | 130 | 8 | 2 | 11 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `roundshierdip` | Roundshier (mercenary) | Light Infantry | scodip | common | 180 | 7.0 | 110 | 10 | 0 | 10 | 1.13 | 0.0 | 1 | 2 | 2 | 110 | 6 | 10 |
 | `swordsmansco` | Sword Clansman | Light Infantry | scoba2 | unique | 180 | 7.0 | 110 | 10 | 0 | 10 | 1.13 | 0.0 | 1 | 2 | 2 | 110 | 6 | 10 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
@@ -1853,12 +1812,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | nation | name | trained_in | HP | wood | gold | iron | coal | weap0 dmg | range (t) | reload (s) | weap0 cost | weap1 dmg | weap1 range | transport | fishingmax | fishingspeed | gold upkeep |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|
-| `battleship` | aus | Ship of the Line | eurpor | 50000 | 5000 | 1100 | 600 | 800 | 1800 | 30.94 | 2.34 | {"iron": 25, "coal": 35} | — | — | — | — | — | 150 |
-| `chaika` | ukr | — | ukrpor | 50000 | 5000 | 1100 | 600 | 800 | 1800 | 30.94 | 2.34 | {"iron": 25, "coal": 35} | — | — | — | — | — | 150 |
+| `battleship` | aus | Ship of the Line | eurpor | 90000 | 9000 | 3200 | 700 | 6500 | 1800 | 36.56 | 0.62 | {"iron": 5, "coal": 15} | — | — | — | — | — | 15000 |
+| `chaika` | ukr | — | ukrpor | 25000 | 1050 | 600 | 200 | 400 | 1000 | 20.63 | 2.34 | {"iron": 4, "coal": 9} | — | — | — | — | — | 0 |
 | `fishboat` | aus | Boat | eurpor | 300 | 600 | 0 | 0 | 0 | — | — | — | — | — | — | — | 1000 | 12 | — |
 | `frigate` | aus | Frigate | eurpor | 50000 | 5000 | 1100 | 600 | 800 | 1800 | 30.94 | 2.34 | {"iron": 25, "coal": 35} | — | — | — | — | — | 150 |
 | `galley` | aus | Galley | eurpor | 35000 | 9500 | 900 | 800 | 0 | 100 | 22.5 | 4.69 | {"iron": 4, "coal": 9} | 1000 | 58.13 | — | — | — | 1000 |
-| `xebec` | tur | Xebec | turpor | 50000 | 5000 | 1100 | 600 | 800 | 1800 | 30.94 | 2.34 | {"iron": 25, "coal": 35} | — | — | — | — | — | 150 |
+| `xebec` | tur | Xebec | turpor | 65000 | 7000 | 1600 | 320 | 960 | 1800 | 31.88 | 1.56 | {"iron": 25, "coal": 35} | — | — | — | — | — | 0 |
 | `yacht` | aus | Yacht | eurpor | 31000 | 900 | 450 | 150 | 200 | 1000 | 20.63 | 10.94 | {"iron": 4, "coal": 9} | — | — | — | — | — | 50 |
 | `yachttur` | tur | Yacht | turpor | 31000 | 900 | 450 | 150 | 200 | 1000 | 20.63 | 10.94 | {"iron": 4, "coal": 9} | — | — | — | — | — | 50 |
 
@@ -2362,26 +2321,26 @@ target.hp -= damage
 | `archerturdip` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
 | `archerturdip` | ukr | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
 | `archerturdip` | ven | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `battleship` | alg | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | aus | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | bav | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | den | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | eng | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | fra | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | hun | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | net | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pie | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pol | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | por | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pru | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | rus | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | sax | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | sco | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | spa | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | swe | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | swi | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | tur | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | ven | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `battleship` | alg | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | aus | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | bav | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | den | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | eng | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | fra | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | hun | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | net | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pie | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pol | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | por | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pru | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | rus | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | sax | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | sco | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | spa | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | swe | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | swi | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | tur | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | ven | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
 | `cannon` | alg | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | aus | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | bav | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
@@ -2403,7 +2362,8 @@ target.hp -= damage
 | `cannon` | tur | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | ukr | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | ven | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
-| `chaika` | ukr | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `chaika` | ukr | `PPOINTTKOR` | 1000 | 2.34 | 25.6 | 4 | 9 | — |
+| `chasseur` | fra | `SHOTMUSKET` | 20 | 5.94 | 10.1 | 4 | 8 | — |
 | `dragoon` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
@@ -2420,44 +2380,44 @@ target.hp -= damage
 | `dragoon` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | alg | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | sco | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | tur | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | ukr | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18fra` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18net` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18pie` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoonpol` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
+| `dragoon18` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
+| `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
+| `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
+| `dragoonpol` | pol | `SHOTMUSKET` | 13 | 5.0 | 12.0 | 2 | 3 | — |
 | `eurtow` | aus | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
 | `eurtow` | bav | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
 | `eurtow` | den | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
@@ -2514,6 +2474,7 @@ target.hp -= damage
 | `galley` | tur | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
 | `galley` | ukr | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
 | `galley` | ven | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
+| `gauduk` | hun | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
 | `grenadier` | aus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | eng | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | fra | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
@@ -2527,8 +2488,8 @@ target.hp -= damage
 | `grenadier` | swe | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | swi | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierbav` | bav | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierden` | den | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
 | `grenadierdip` | alg | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | aus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | bav | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
@@ -2551,8 +2512,9 @@ target.hp -= damage
 | `grenadierdip` | ukr | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierpru` | pru | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadiersax` | sax | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
+| `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| `highlander` | eng | `SHOTMUSKET` | 16 | 5.0 | 12.0 | 3 | 4 | — |
 | `howitzer` | alg | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | aus | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | bav | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
@@ -2574,49 +2536,32 @@ target.hp -= damage
 | `howitzer` | tur | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | ukr | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | ven | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
-| `kingmusketeer` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | alg | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | sco | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | tur | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | ukr | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | alg | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | sco | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | tur | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | ukr | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
+| `jagerpor` | por | `SHOTMUSKET` | 10 | 5.94 | 10.1 | 2 | 4 | — |
+| `jagerswi` | swi | `SHOTMUSKET` | 20 | 6.88 | 8.7 | 4 | 9 | — |
+| `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
+| `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
+| `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
+| `lightcavalrydip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
 | `mortar` | alg | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | aus | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | bav | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
@@ -2655,6 +2600,17 @@ target.hp -= damage
 | `multicannon` | swe | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
 | `multicannon` | swi | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
 | `multicannon` | ven | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
+| `musketeer` | bav | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | den | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | eng | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | fra | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | pie | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | por | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | pru | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | sax | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | swe | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | swi | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | ven | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
 | `musketeer18` | aus | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
 | `musketeer18` | eng | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
 | `musketeer18` | fra | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
@@ -2672,16 +2628,22 @@ target.hp -= damage
 | `musketeer18den` | den | `SHOTMUSKET` | 29 | 5.94 | 10.1 | 4 | 5 | — |
 | `musketeer18pru` | pru | `SHOTMUSKET` | 22 | 4.69 | 12.8 | 3 | 4 | — |
 | `musketeer18sax` | sax | `SHOTMUSKET` | 19 | 4.38 | 13.7 | 3 | 3 | — |
-| `musketeeraus` | aus | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
-| `musketeerspa` | spa | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
+| `musketeeraus` | aus | `SHOTMUSKET` | 12 | 5.0 | 12.0 | 2 | 4 | — |
+| `musketeernet` | net | `SHOTMUSKET` | 10 | 3.75 | 16.0 | 1 | 3 | — |
+| `musketeerpol` | pol | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
+| `musketeersco` | sco | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 5 | — |
+| `musketeerspa` | spa | `SHOTMUSKET` | 15 | 5.94 | 10.1 | 3 | 6 | — |
+| `pandur` | aus | `SHOTMUSKET` | 17 | 4.69 | 12.8 | 3 | 6 | — |
+| `pandurhun` | hun | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 3 | 7 | — |
 | `porpor` | por | `cannonball` | 1000 | 8.75 | 6.9 | 10 | 30 | — |
 | `rustow` | rus | `cannonball` | 1000 | 9.38 | 6.4 | 10 | 30 | — |
-| `strelet` | rus | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
+| `serdiuk` | ukr | `SHOTMUSKET` | 12 | 4.06 | 14.8 | 3 | 6 | — |
+| `strelet` | rus | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
 | `tatar` | tur | `STRELA` | 15 | 1.56 | 38.5 | — | — | — |
 | `turtow` | alg | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
 | `turtow` | tur | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
-| `xebec` | alg | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `xebec` | tur | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `xebec` | alg | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
+| `xebec` | tur | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
 | `yacht` | aus | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
 | `yacht` | bav | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
 | `yacht` | den | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
@@ -2958,7 +2920,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### fra — France
@@ -3202,7 +3163,6 @@ target.hp -= damage
 | `frasta.reiter.2.4` | Stable reiter protection +2 (lvl 5) | 5 | 2 | 15.62 | 3200 | 0 | 0 | 300 | 300 | 0 |
 | `frasta.reiter.2.5` | Stable reiter protection +1 (lvl 6) | 6 | 1 | 15.62 | 1600 | 0 | 0 | 350 | 650 | 0 |
 | `frasta.reiter.2.6` | Stable reiter protection +1 (lvl 7) | 7 | 1 | 15.62 | 15700 | 0 | 0 | 1000 | 5000 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### eng — England
@@ -3439,7 +3399,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### spa — Spain
@@ -3472,7 +3431,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `spaaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `spaaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `spaaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -3702,7 +3660,6 @@ target.hp -= damage
 | `euriro.5` | — | 6 | 15 | 9.38 | 19800 | 0 | 0 | 21050 | 0 | 0 |
 | `euriro.6` | — | 7 | 40 | 9.38 | 50200 | 0 | 0 | 25950 | 0 | 0 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `rusaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `rusaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `rusaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -3920,7 +3877,6 @@ target.hp -= damage
 | `euriro.4` | — | 5 | 12 | 9.38 | 15800 | 0 | 0 | 18500 | 0 | 0 |
 | `euriro.5` | — | 6 | 15 | 9.38 | 19800 | 0 | 0 | 21050 | 0 | 0 |
 | `euriro.6` | — | 7 | 40 | 9.38 | 7080 | 0 | 0 | 25410 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukraca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `ukraca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 1750 | 0 | 0 |
 | `ukraca.11` | Research new fortification grades %color(FFAA00)%(durability of walls and towers +80) | — | — | — | — | — | — | — | — | — |
@@ -4049,7 +4005,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `polaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `polaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `polaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -4286,7 +4241,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `sweaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `sweaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `sweaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 12200 | 16200 | 1100 | 0 | 0 |
@@ -4523,7 +4477,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `pruaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `pruaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `pruaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -4748,7 +4701,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 | `venaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `venaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
@@ -4965,7 +4917,6 @@ target.hp -= damage
 | `euriro.4` | — | 5 | 12 | 9.38 | 15800 | 0 | 0 | 18500 | 0 | 0 |
 | `euriro.5` | — | 6 | 15 | 9.38 | 19800 | 0 | 0 | 21050 | 0 | 0 |
 | `euriro.6` | — | 7 | 40 | 9.38 | 7080 | 0 | 0 | 25410 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `turaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `turaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `turaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 16200 | 0 | 1500 | 0 | 0 |
@@ -5259,7 +5210,6 @@ target.hp -= damage
 | `euriro.4` | — | 5 | 12 | 9.38 | 15800 | 0 | 0 | 18500 | 0 | 0 |
 | `euriro.5` | — | 6 | 15 | 9.38 | 19800 | 0 | 0 | 21050 | 0 | 0 |
 | `euriro.6` | — | 7 | 40 | 9.38 | 7080 | 0 | 0 | 25410 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `turpor.1` | — | 1 | 50 | 46.88 | 0 | 20000 | 0 | 1500 | 0 | 0 |
 | `turswa.1` | — | 2 | 5 | 0.03 | 0 | 0 | 500 | 0 | 0 | 0 |
 | `turtow.1` | — | 2 | -20 | 31.25 | 0 | 0 | 0 | 250 | 0 | 0 |
@@ -5491,7 +5441,6 @@ target.hp -= damage
 | `netsta.reiter.2.4` | Stable reiter protection +2 (lvl 5) | 5 | 2 | 15.62 | 1800 | 0 | 0 | 500 | 640 | 0 |
 | `netsta.reiter.2.5` | Stable reiter protection +1 (lvl 6) | 6 | 1 | 15.62 | 5200 | 0 | 0 | 250 | 300 | 0 |
 | `netsta.reiter.2.6` | Stable reiter protection +1 (lvl 7) | 7 | 1 | 15.62 | 14000 | 0 | 0 | 990 | 5000 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### den — Denmark
@@ -5716,7 +5665,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### por — Portugal
@@ -5748,7 +5696,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `poraca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `poraca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `poraca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -5986,7 +5933,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `pieaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `pieaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `pieaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -6211,7 +6157,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `saxaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `saxaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `saxaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -6628,7 +6573,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### hun — Hungary
@@ -6859,7 +6803,6 @@ target.hp -= damage
 | `hunsta.reiter.2.4` | Stable reiter protection +2 (lvl 5) | 5 | 2 | 15.62 | 1600 | 0 | 0 | 300 | 640 | 0 |
 | `hunsta.reiter.2.5` | Stable reiter protection +1 (lvl 6) | 6 | 1 | 15.62 | 3200 | 0 | 0 | 350 | 300 | 0 |
 | `hunsta.reiter.2.6` | Stable reiter protection +1 (lvl 7) | 7 | 1 | 15.62 | 16000 | 0 | 0 | 1000 | 5000 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `ukrwwa.1` | — | 2 | 5 | 0.03 | 0 | 400 | 0 | 0 | 0 | 0 |
 
 ### swi — Switzerland
@@ -6892,7 +6835,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `swiaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `swiaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 6950 | 0 | 0 |
 | `swiaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -7129,7 +7071,6 @@ target.hp -= damage
 | `eurtow.4` | — | 5 | -10 | 31.25 | 0 | 0 | 0 | 0 | 450 | 0 |
 | `eurtow.5` | — | 6 | -10 | 31.25 | 0 | 0 | 0 | 0 | 0 | 500 |
 | `ferry.1` | Improve transport vessel design (+%value% capacity) | 2 | 200 | 15.62 | 1000 | 0 | 0 | 1250 | 0 | 0 |
-| `null` | — | 0 | 0 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `scoaca.1` | Cultivate new cultures of wheat (harvesting +40%) | 1 | 40 | 15.62 | 0 | 200 | 0 | 325 | 0 | 0 |
 | `scoaca.10` | Raise builders' salary (building construction time -75%) | 1 | -7500000 | 15.62 | 0 | 0 | 0 | 2650 | 0 | 0 |
 | `scoaca.11` | Research new fortification grades (durability of walls and towers +80) | 1 | 80 | 15.62 | 0 | 0 | 16200 | 1500 | 0 | 0 |
@@ -7288,8 +7229,7 @@ target.hp -= damage
 Сгенерировано из файлов игры. Перепарсить можно, запустив:
 
 ```
-cd C:\projects\other\cossacks\parser
-python build_data.py    # обновляет cossacks3_data.json
-python write_xlsx.py    # обновляет xlsx
-python write_md.py      # обновляет этот md
+python parser/build_data.py     # обновляет output/data.json
+python writers/write_xlsx.py    # обновляет xlsx
+python writers/write_md.py      # обновляет этот md
 ```

@@ -14,7 +14,7 @@ _Алжир_
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
 | **Лучник** / Archer `archer` | Archer | 40 | 15 | 2.34 | 15.0 |
-| **Мамлюк** / Mameluke `mameluke` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
+| **Мамлюк** / Mameluke `mameluke` | Heavy Cavalry | 280 | 16 | 0.0 | 1.88 |
 
 ## Здания
 
@@ -89,20 +89,20 @@ _Алжир_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
-| **Мамлюк** / Mameluke `mameluke` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
+| **Мамлюк** / Mameluke `mameluke` | 280 | 12.0 | 100 | 8 | 0 | 16 | 1.88 | 0.0 | unique |
 
 ### Cannons
 
@@ -127,10 +127,10 @@ _Алжир_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |
-| **Шебека** / Xebec `xebec` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | semi-unique (2n) |
+| **Шебека** / Xebec `xebec` | 65000 | 230.0 | 0 | 1600 | 320 | 1800 | 31.88 | 1.56 | semi-unique (2n) |
 
 ### Officer
 

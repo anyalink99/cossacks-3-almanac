@@ -606,16 +606,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "turpor"
           ],
@@ -657,16 +657,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "algdip"
           ],
@@ -685,16 +685,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "algdip"
           ],
@@ -850,16 +850,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "algdip"
           ],
@@ -923,16 +923,16 @@
         },
         "mameluke": {
           "name_en": "Mameluke",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 12.0,
           "cost": {
-            "food": 120,
-            "wood": 0,
+            "food": 100,
+            "wood": 5,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 8,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 280,
           "trained_in": [
             "algsta"
           ],
@@ -1089,13 +1089,13 @@
           "buildtime_sec": 230.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 7000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 1600,
+            "iron": 320,
+            "coal": 960
           },
-          "hp": 50000,
+          "hp": 65000,
           "trained_in": [
             "turpor"
           ],
@@ -4284,16 +4284,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -4335,16 +4335,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "ausdip"
           ],
@@ -4363,16 +4363,16 @@
         },
         "croat": {
           "name_en": "Croat",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.75,
           "cost": {
-            "food": 75,
+            "food": 80,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 6,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 260,
           "trained_in": [
             "aussta"
           ],
@@ -4386,13 +4386,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -4437,16 +4437,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "aussta"
           ],
@@ -4465,16 +4465,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "ausdip"
           ],
@@ -4704,13 +4704,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -4732,16 +4732,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "ausdip"
           ],
@@ -4862,16 +4862,16 @@
         },
         "musketeeraus": {
           "name_en": "Musketeer, 17th century",
-          "buildtime_sec": 18.75,
+          "buildtime_sec": 6.5,
           "cost": {
-            "food": 45,
+            "food": 35,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 10,
+            "gold": 9,
+            "iron": 15,
             "coal": 0
           },
-          "hp": 50,
+          "hp": 55,
           "trained_in": [
             "ausbar"
           ],
@@ -4933,14 +4933,14 @@
           "name_en": "Pandur",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 40,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 15,
+            "iron": 10,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 85,
           "trained_in": [
             "ausba2"
           ],
@@ -10222,16 +10222,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -10273,16 +10273,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "bavdip"
           ],
@@ -10301,13 +10301,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -10352,16 +10352,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "bavsta"
           ],
@@ -10380,16 +10380,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "bavdip"
           ],
@@ -10547,14 +10547,14 @@
           "name_en": "Grenadier",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 80,
+            "food": 95,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
+            "gold": 70,
             "iron": 40,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 125,
           "trained_in": [
             "bavba2"
           ],
@@ -10619,13 +10619,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -10647,16 +10647,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "bavdip"
           ],
@@ -15575,16 +15575,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -15626,16 +15626,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "dendip"
           ],
@@ -15654,13 +15654,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -15705,16 +15705,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "densta"
           ],
@@ -15733,16 +15733,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "dendip"
           ],
@@ -15898,16 +15898,16 @@
         },
         "grenadierden": {
           "name_en": "Grenadier",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 6.5,
           "cost": {
-            "food": 80,
+            "food": 100,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
+            "gold": 90,
             "iron": 40,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 125,
           "trained_in": [
             "denba2"
           ],
@@ -15972,13 +15972,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -16000,16 +16000,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "dendip"
           ],
@@ -20951,16 +20951,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -21002,16 +21002,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "engdip"
           ],
@@ -21030,13 +21030,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -21081,16 +21081,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "engsta"
           ],
@@ -21109,16 +21109,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "engdip"
           ],
@@ -21304,14 +21304,14 @@
           "name_en": "Highlander",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 90,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 25,
+            "iron": 10,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 130,
           "trained_in": [
             "engba2"
           ],
@@ -21348,13 +21348,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -21376,16 +21376,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "engdip"
           ],
@@ -26514,16 +26514,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -26567,14 +26567,14 @@
           "name_en": "Chasseur",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 50,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 45,
+            "iron": 15,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 75,
           "trained_in": [
             "fraba2"
           ],
@@ -26588,16 +26588,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "fradip"
           ],
@@ -26616,13 +26616,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -26667,16 +26667,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "fradip"
           ],
@@ -26697,14 +26697,14 @@
           "name_en": "Dragoon, 18th century",
           "buildtime_sec": 15.0,
           "cost": {
-            "food": 90,
+            "food": 50,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 30,
+            "iron": 6,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 140,
           "trained_in": [
             "frasta"
           ],
@@ -26934,13 +26934,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -26962,16 +26962,16 @@
         },
         "kingmusketeer": {
           "name_en": "King's Musketeer",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 27.0,
           "cost": {
-            "food": 90,
+            "food": 100,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 100,
+            "iron": 8,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 280,
           "trained_in": [
             "frasta"
           ],
@@ -26985,16 +26985,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "fradip"
           ],
@@ -32218,16 +32218,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -32269,16 +32269,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "hundip"
           ],
@@ -32297,13 +32297,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -32348,16 +32348,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "hundip"
           ],
@@ -32513,16 +32513,16 @@
         },
         "gauduk": {
           "name_en": "Hajduk",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 4.5,
           "cost": {
-            "food": 45,
+            "food": 35,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 4,
+            "iron": 4,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 60,
           "trained_in": [
             "hunbar"
           ],
@@ -32564,16 +32564,16 @@
         },
         "grenadierhun": {
           "name_en": "Grenadier",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 6.5,
           "cost": {
-            "food": 80,
+            "food": 90,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
+            "gold": 80,
             "iron": 40,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 125,
           "trained_in": [
             "hunba2"
           ],
@@ -32610,16 +32610,16 @@
         },
         "hussarhun": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 21.0,
           "cost": {
-            "food": 75,
+            "food": 100,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 30,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "hunsta"
           ],
@@ -32633,16 +32633,16 @@
         },
         "lightcavalry": {
           "name_en": "Light cavalry",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 21.0,
           "cost": {
             "food": 90,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 50,
+            "iron": 6,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 175,
           "trained_in": [
             "hunsta"
           ],
@@ -32661,16 +32661,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "hundip"
           ],
@@ -32839,14 +32839,14 @@
           "name_en": "Szekely",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 30,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 25,
+            "iron": 10,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 75,
           "trained_in": [
             "hunba2"
           ],
@@ -37685,16 +37685,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -37736,16 +37736,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "netdip"
           ],
@@ -37764,13 +37764,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -37815,16 +37815,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "netdip"
           ],
@@ -37843,16 +37843,16 @@
         },
         "dragoon18net": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 24.0,
           "cost": {
-            "food": 90,
+            "food": 100,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 70,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 320,
           "trained_in": [
             "netsta"
           ],
@@ -38082,13 +38082,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -38110,16 +38110,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "netdip"
           ],
@@ -38240,16 +38240,16 @@
         },
         "musketeernet": {
           "name_en": "Musketeer, 17th century",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 5.0,
           "cost": {
-            "food": 45,
+            "food": 50,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 8,
+            "iron": 4,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 65,
           "trained_in": [
             "netbar"
           ],
@@ -43038,16 +43038,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -43089,16 +43089,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "piedip"
           ],
@@ -43117,13 +43117,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -43168,16 +43168,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "piedip"
           ],
@@ -43196,16 +43196,16 @@
         },
         "dragoon18pie": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 20.25,
           "cost": {
-            "food": 90,
+            "food": 60,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 65,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 200,
           "trained_in": [
             "piesta"
           ],
@@ -43435,13 +43435,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -43463,16 +43463,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "piedip"
           ],
@@ -48391,16 +48391,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -48442,16 +48442,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "poldip"
           ],
@@ -48470,13 +48470,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -48521,16 +48521,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "polsta"
           ],
@@ -48549,16 +48549,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "poldip"
           ],
@@ -48577,16 +48577,16 @@
         },
         "dragoonpol": {
           "name_en": "Pospolite ruszenie",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 5,
+            "iron": 4,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 185,
           "trained_in": [
             "polsta"
           ],
@@ -48811,13 +48811,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -48839,16 +48839,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "poldip"
           ],
@@ -48969,13 +48969,13 @@
         },
         "musketeerpol": {
           "name_en": "Musketeer, 17th century",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 4.5,
           "cost": {
-            "food": 45,
+            "food": 40,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 3,
+            "iron": 3,
             "coal": 0
           },
           "hp": 70,
@@ -49112,16 +49112,16 @@
         },
         "reiterpol": {
           "name_en": "Light Reiter",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 8.25,
           "cost": {
-            "food": 120,
+            "food": 60,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 5,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 190,
           "trained_in": [
             "polsta"
           ],
@@ -49178,16 +49178,16 @@
         },
         "wingedhussar": {
           "name_en": "Winged Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 26.0,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 30,
+            "iron": 25,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 225,
           "trained_in": [
             "polsta"
           ],
@@ -53982,16 +53982,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "porpor"
           ],
@@ -54033,16 +54033,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "pordip"
           ],
@@ -54061,13 +54061,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -54112,16 +54112,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "porsta"
           ],
@@ -54140,16 +54140,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "pordip"
           ],
@@ -54379,13 +54379,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -54409,14 +54409,14 @@
           "name_en": "Volunteer",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 30,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
+            "gold": 2,
             "iron": 5,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 50,
           "trained_in": [
             "porba2"
           ],
@@ -54430,16 +54430,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "pordip"
           ],
@@ -59550,16 +59550,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -59601,16 +59601,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "prudip"
           ],
@@ -59629,13 +59629,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -59680,16 +59680,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "prusta"
           ],
@@ -59708,16 +59708,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "prudip"
           ],
@@ -59924,16 +59924,16 @@
         },
         "grenadierpru": {
           "name_en": "Grenadier",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 7.0,
           "cost": {
-            "food": 80,
+            "food": 90,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 100,
+            "iron": 45,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 125,
           "trained_in": [
             "pruba2"
           ],
@@ -59970,16 +59970,16 @@
         },
         "hussarpru": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 11.25,
           "cost": {
-            "food": 75,
+            "food": 80,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 15,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 240,
           "trained_in": [
             "prusta"
           ],
@@ -59998,16 +59998,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "prudip"
           ],
@@ -64926,16 +64926,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "ruspor"
           ],
@@ -64977,16 +64977,16 @@
         },
         "cossackdon": {
           "name_en": "Don Cossack",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 120,
-            "wood": 0,
+            "food": 100,
+            "wood": 1,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 0,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 220,
           "trained_in": [
             "russta"
           ],
@@ -64994,16 +64994,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "rusdip"
           ],
@@ -65022,13 +65022,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -65050,16 +65050,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "russta"
           ],
@@ -65078,16 +65078,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "rusdip"
           ],
@@ -65317,13 +65317,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -65345,16 +65345,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "rusdip"
           ],
@@ -65623,16 +65623,16 @@
         },
         "strelet": {
           "name_en": "Strelets",
-          "buildtime_sec": 18.75,
+          "buildtime_sec": 8.5,
           "cost": {
-            "food": 45,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 10,
+            "gold": 7,
+            "iron": 9,
             "coal": 0
           },
-          "hp": 50,
+          "hp": 85,
           "trained_in": [
             "rusbar"
           ],
@@ -65661,16 +65661,16 @@
         },
         "vityaz": {
           "name_en": "Vityaz",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 25.5,
           "cost": {
-            "food": 120,
+            "food": 160,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 13,
+            "iron": 25,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 380,
           "trained_in": [
             "russta"
           ],
@@ -70177,16 +70177,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -70228,16 +70228,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "saxdip"
           ],
@@ -70256,13 +70256,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -70307,16 +70307,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "saxsta"
           ],
@@ -70335,16 +70335,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "saxdip"
           ],
@@ -70530,14 +70530,14 @@
           "name_en": "Grenadier",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 80,
+            "food": 50,
             "wood": 0,
             "stone": 0,
             "gold": 60,
             "iron": 40,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 100,
           "trained_in": [
             "saxba2"
           ],
@@ -70553,14 +70553,14 @@
           "name_en": "Cavalry Guard",
           "buildtime_sec": 24.0,
           "cost": {
-            "food": 120,
+            "food": 140,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 50,
+            "iron": 20,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 320,
           "trained_in": [
             "saxsta"
           ],
@@ -70602,13 +70602,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -70630,16 +70630,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "saxdip"
           ],
@@ -75604,16 +75604,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -75655,16 +75655,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "scodip"
           ],
@@ -75683,16 +75683,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "scodip"
           ],
@@ -75853,16 +75853,16 @@
         },
         "lancersco": {
           "name_en": "Lancer",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 21.0,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 6,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 320,
           "trained_in": [
             "scosta"
           ],
@@ -75876,16 +75876,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "scodip"
           ],
@@ -75955,16 +75955,16 @@
         },
         "musketeersco": {
           "name_en": "Covenanter musketeer",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 7.0,
           "cost": {
-            "food": 45,
+            "food": 55,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 8,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 90,
           "trained_in": [
             "scobar"
           ],
@@ -76058,16 +76058,16 @@
         },
         "raidersco": {
           "name_en": "Raider",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 8,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 280,
           "trained_in": [
             "scosta"
           ],
@@ -79716,16 +79716,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -79767,16 +79767,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "spadip"
           ],
@@ -79795,13 +79795,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -79846,16 +79846,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "spasta"
           ],
@@ -79874,16 +79874,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "spadip"
           ],
@@ -80113,13 +80113,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -80141,16 +80141,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "spadip"
           ],
@@ -80271,16 +80271,16 @@
         },
         "musketeerspa": {
           "name_en": "Musketeer, 17th century",
-          "buildtime_sec": 18.75,
+          "buildtime_sec": 7.5,
           "cost": {
-            "food": 45,
+            "food": 40,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 10,
+            "gold": 12,
+            "iron": 20,
             "coal": 0
           },
-          "hp": 50,
+          "hp": 85,
           "trained_in": [
             "spabar"
           ],
@@ -85284,16 +85284,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -85335,16 +85335,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "swedip"
           ],
@@ -85363,13 +85363,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -85414,16 +85414,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swesta"
           ],
@@ -85442,16 +85442,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swedip"
           ],
@@ -85658,16 +85658,16 @@
         },
         "hackapell": {
           "name_en": "Hakkapeliitta",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 18.0,
           "cost": {
-            "food": 75,
+            "food": 80,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 7,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 245,
           "trained_in": [
             "swesta"
           ],
@@ -85704,13 +85704,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -85732,16 +85732,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swedip"
           ],
@@ -86005,13 +86005,13 @@
         },
         "reiterswe": {
           "name_en": "Swedish Reiter",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 120,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 7,
+            "iron": 20,
             "coal": 0
           },
           "hp": 300,
@@ -90852,16 +90852,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -90903,16 +90903,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "swidip"
           ],
@@ -90931,13 +90931,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -90982,16 +90982,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swista"
           ],
@@ -91010,16 +91010,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swidip"
           ],
@@ -91249,16 +91249,16 @@
         },
         "hussarswi": {
           "name_en": "Mounted Jaeger",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 19.5,
           "cost": {
-            "food": 75,
+            "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 30,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 265,
           "trained_in": [
             "swista"
           ],
@@ -91279,14 +91279,14 @@
           "name_en": "Jaeger",
           "buildtime_sec": 6.0,
           "cost": {
-            "food": 45,
+            "food": 40,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
-            "iron": 5,
+            "gold": 70,
+            "iron": 20,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 65,
           "trained_in": [
             "swiba2"
           ],
@@ -91300,16 +91300,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "swidip"
           ],
@@ -96394,16 +96394,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "turpor"
           ],
@@ -96445,16 +96445,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "turdip"
           ],
@@ -96473,16 +96473,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "turdip"
           ],
@@ -96638,16 +96638,16 @@
         },
         "jannisary": {
           "name_en": "Janissary",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 8.0,
           "cost": {
-            "food": 45,
+            "food": 55,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
+            "gold": 13,
             "iron": 5,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 65,
           "trained_in": [
             "turbar"
           ],
@@ -96661,16 +96661,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "turdip"
           ],
@@ -96865,16 +96865,16 @@
         },
         "sipahi": {
           "name_en": "Heavy Sipahi",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 18.0,
           "cost": {
-            "food": 120,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 20,
+            "iron": 70,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 360,
           "trained_in": [
             "tursta"
           ],
@@ -96888,16 +96888,16 @@
         },
         "spakh": {
           "name_en": "Light Sipahi",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 9.0,
           "cost": {
-            "food": 120,
+            "food": 80,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 6,
+            "iron": 5,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 230,
           "trained_in": [
             "tursta"
           ],
@@ -96940,13 +96940,13 @@
           "buildtime_sec": 230.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 7000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 1600,
+            "iron": 320,
+            "coal": 960
           },
-          "hp": 50000,
+          "hp": 65000,
           "trained_in": [
             "turpor"
           ],
@@ -100690,16 +100690,16 @@
         },
         "chaika": {
           "name_en": null,
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 40.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 1050,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 600,
+            "iron": 200,
+            "coal": 400
           },
-          "hp": 50000,
+          "hp": 25000,
           "trained_in": [
             "ukrpor"
           ],
@@ -100713,16 +100713,16 @@
         },
         "cossackregister": {
           "name_en": "Register Cossack",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 10.5,
           "cost": {
-            "food": 120,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 15,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 250,
           "trained_in": [
             "ukrsta"
           ],
@@ -100736,16 +100736,16 @@
         },
         "cossacksich": {
           "name_en": "Sich Cossack",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "ukrsta"
           ],
@@ -100753,16 +100753,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "ukrdip"
           ],
@@ -100781,16 +100781,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "ukrdip"
           ],
@@ -100900,16 +100900,16 @@
         },
         "hetman": {
           "name_en": "Hetman",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 16.5,
           "cost": {
-            "food": 120,
+            "food": 150,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 150,
+            "iron": 10,
             "coal": 0
           },
-          "hp": 300,
+          "hp": 320,
           "trained_in": [
             "ukrsta"
           ],
@@ -100940,16 +100940,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "ukrdip"
           ],
@@ -101081,16 +101081,16 @@
         },
         "serdiuk": {
           "name_en": "Serdiuk",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 11.0,
           "cost": {
-            "food": 45,
+            "food": 60,
             "wood": 0,
             "stone": 0,
-            "gold": 6,
+            "gold": 11,
             "iron": 5,
             "coal": 0
           },
-          "hp": 70,
+          "hp": 85,
           "trained_in": [
             "ukrbar"
           ],
@@ -103845,16 +103845,16 @@
         },
         "battleship": {
           "name_en": "Ship of the Line",
-          "buildtime_sec": 230.0,
+          "buildtime_sec": 390.0,
           "cost": {
             "food": 0,
-            "wood": 5000,
+            "wood": 9000,
             "stone": 0,
-            "gold": 1100,
-            "iron": 600,
-            "coal": 800
+            "gold": 3200,
+            "iron": 700,
+            "coal": 6500
           },
-          "hp": 50000,
+          "hp": 90000,
           "trained_in": [
             "eurpor"
           ],
@@ -103896,16 +103896,16 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 13.5,
           "cost": {
-            "food": 75,
+            "food": 130,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 0,
+            "iron": 2,
             "coal": 0
           },
-          "hp": 230,
+          "hp": 250,
           "trained_in": [
             "vendip"
           ],
@@ -103924,13 +103924,13 @@
         },
         "cuirassier": {
           "name_en": "Cuirassier",
-          "buildtime_sec": 24.0,
+          "buildtime_sec": 22.5,
           "cost": {
             "food": 120,
             "wood": 0,
             "stone": 0,
-            "gold": 10,
-            "iron": 40,
+            "gold": 35,
+            "iron": 25,
             "coal": 0
           },
           "hp": 300,
@@ -103975,16 +103975,16 @@
         },
         "dragoon18": {
           "name_en": "Dragoon, 18th century",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "vensta"
           ],
@@ -104003,16 +104003,16 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "vendip"
           ],
@@ -104242,13 +104242,13 @@
         },
         "hussar": {
           "name_en": "Hussar",
-          "buildtime_sec": 16.5,
+          "buildtime_sec": 15.0,
           "cost": {
-            "food": 75,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 2,
-            "iron": 5,
+            "gold": 20,
+            "iron": 2,
             "coal": 0
           },
           "hp": 230,
@@ -104270,16 +104270,16 @@
         },
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
-          "buildtime_sec": 15.0,
+          "buildtime_sec": 22.5,
           "cost": {
-            "food": 90,
+            "food": 70,
             "wood": 0,
             "stone": 0,
-            "gold": 7,
-            "iron": 5,
+            "gold": 60,
+            "iron": 7,
             "coal": 0
           },
-          "hp": 220,
+          "hp": 225,
           "trained_in": [
             "vendip"
           ],

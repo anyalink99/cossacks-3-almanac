@@ -8,71 +8,71 @@ Reiter, Cuirassier, Vityaz, Winged Hussar — таран.
 
 | Юнит | Нация | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Don Cossack** `cossackdon` | rus | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Register Cossack** `cossackregister` | ukr | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Sich Cossack** `cossacksich` | ukr | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | unique |
-| **Sich Cossack (mercenary)** `cossacksichdip` | alg | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | aus | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | bav | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | den | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | eng | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | fra | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | hun | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | net | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | pie | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | pol | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | por | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | pru | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | rus | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | sax | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | sco | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | spa | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | swe | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | swi | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | tur | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | ukr | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Sich Cossack (mercenary)** `cossacksichdip` | ven | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | common |
-| **Cuirassier** `cuirassier` | aus | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | bav | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | den | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | eng | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | fra | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | hun | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | net | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | pie | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | pol | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | por | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | pru | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | rus | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | sax | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | spa | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | swe | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | swi | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cuirassier** `cuirassier` | ven | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (17n) |
-| **Cavalry Guard** `guardcavalrysax` | sax | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Hakkapeliitta** `hackapell` | swe | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | unique |
-| **King's Musketeer** `kingmusketeer` | fra | **220** | **15.0** | **90** | **7** | **5** | 15 | **15.0** | **5.62** | — | — | — | — | — | — | unique |
-| **Mameluke** `mameluke` | alg | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Reiter** `reiter` | aus | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | bav | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | den | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | eng | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | fra | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | hun | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | net | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | pie | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | por | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | pru | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | sax | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | spa | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | swi | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Reiter** `reiter` | ven | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | shared (14n) |
-| **Light Reiter** `reiterpol` | pol | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Swedish Reiter** `reiterswe` | swe | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Heavy Sipahi** `sipahi` | tur | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Light Sipahi** `spakh` | tur | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Tatar** `tatar` | tur | **185** | **11.25** | **70** | **6** | **0** | 15 | **20.63** | **1.56** | — | — | — | — | — | — | unique |
-| **Vityaz** `vityaz` | rus | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 14 | 40 | unique |
-| **Winged Hussar** `wingedhussar` | pol | **230** | **16.5** | **75** | **2** | **5** | **9** | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **Don Cossack** `cossackdon` | rus | **220** | 13.5 | **100** | 0 | **0** | 13 | **1.88** | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
+| **Register Cossack** `cossackregister` | ukr | **250** | **10.5** | **70** | **15** | **0** | **12** | **1.88** | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
+| **Sich Cossack** `cossacksich` | ukr | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **Sich Cossack (mercenary)** `cossacksichdip` | alg | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | aus | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | bav | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | den | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | eng | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | fra | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | hun | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | net | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | pie | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | pol | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | por | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | pru | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | rus | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | sax | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | sco | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | spa | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | swe | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | swi | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | tur | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | ukr | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Sich Cossack (mercenary)** `cossacksichdip` | ven | **250** | 13.5 | **130** | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — | common |
+| **Cuirassier** `cuirassier` | aus | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | bav | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | den | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | eng | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | fra | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | hun | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | net | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | pie | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | pol | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | por | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | pru | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | rus | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | sax | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | spa | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | swe | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | swi | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cuirassier** `cuirassier` | ven | 300 | **22.5** | 120 | **35** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 | shared (17n) |
+| **Cavalry Guard** `guardcavalrysax` | sax | **320** | **24.0** | **140** | **50** | **20** | **15** | 1.22 | 0.0 | 2 | **5** | **9** | **150** | **9** | **70** | unique |
+| **Hakkapeliitta** `hackapell` | swe | **245** | **18.0** | **80** | **7** | 2 | **12** | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **King's Musketeer** `kingmusketeer` | fra | **280** | **27.0** | **100** | **100** | **8** | **43** | **13.13** | **6.88** | — | — | — | — | — | — | unique |
+| **Mameluke** `mameluke` | alg | **280** | **12.0** | **100** | **8** | **0** | **16** | **1.88** | 0.0 | **1** | **3** | **1** | **75** | **8** | **0** | unique |
+| **Reiter** `reiter` | aus | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | bav | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | den | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | eng | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | fra | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | hun | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | net | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | pie | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | por | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | pru | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | sax | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | spa | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | swi | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Reiter** `reiter` | ven | 300 | **24.0** | 120 | **10** | **40** | **15** | 1.22 | 0.0 | 2 | **6** | **6** | **190** | **15** | **40** | shared (14n) |
+| **Light Reiter** `reiterpol` | pol | **190** | **8.25** | **60** | **5** | 2 | **9** | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
+| **Swedish Reiter** `reiterswe` | swe | 300 | **22.5** | **130** | **7** | **20** | **14** | 1.22 | 0.0 | 2 | **3** | **7** | **140** | **7** | **35** | unique |
+| **Heavy Sipahi** `sipahi` | tur | **360** | **18.0** | **130** | **20** | **70** | **15** | 1.22 | 0.0 | **3** | **7** | **4** | **225** | **24** | **60** | unique |
+| **Light Sipahi** `spakh` | tur | **230** | **9.0** | **80** | **6** | **5** | **15** | **1.88** | 0.0 | **0** | **1** | **0** | **10** | **2** | **0** | unique |
+| **Tatar** `tatar` | tur | **185** | **11.25** | **70** | **6** | **0** | **15** | **20.63** | **1.56** | — | — | — | — | — | — | unique |
+| **Vityaz** `vityaz` | rus | **380** | **25.5** | **160** | **13** | **25** | **14** | 1.22 | 0.0 | 2 | 4 | **3** | 160 | **17** | **40** | unique |
+| **Winged Hussar** `wingedhussar` | pol | **225** | **26.0** | **130** | **30** | **25** | **14** | **1.88** | 0.0 | **1** | **2** | **5** | 160 | **10** | **30** | unique |
 
-**Baseline (mode по колонкам):** hp=300, buildtime_sec=24.0, food=120, gold=10, iron=40, damage=15, radiusmax_tiles=1.22, pause_sec=0.0, prot_pike=2, prot_sword=6, prot_bullet=6, prot_cannister=190, prot_arrow=14, prot_cannonball=40.
+**Baseline (mode по колонкам):** hp=300, buildtime_sec=13.5, food=120, gold=0, iron=2, damage=13, radiusmax_tiles=1.22, pause_sec=0.0, prot_pike=2, prot_sword=4, prot_bullet=10, prot_cannister=160, prot_arrow=5, prot_cannonball=80.

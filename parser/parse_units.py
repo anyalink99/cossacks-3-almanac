@@ -588,6 +588,27 @@ def apply_assignment(stats: dict, lhs: str, rhs: str):
             stats.setdefault("weapons", {}).setdefault(int(m.group(1)), {})["weaponsid"] = val
 
 
+_INT_VAR_DECL_RE = re.compile(
+    r"\bvar\s+(\w+)\s*:\s*Integer\s*=\s*(-?\d+)\s*;"
+)
+
+
+def inline_int_var_decls(body: str) -> str:
+    """Substitute trivial `var <name> : Integer = <int>;` declarations with their value
+    throughout the body. The script's musketeer-line uses `var weapInd : Integer = 1;`
+    to parameterize weapon-index args; without this inlining, SetObjBaseWeapon args like
+    `weapInd` parse to None and weapon data is dropped. Last declaration wins per name —
+    good enough since these helpers are scoped within a single branch."""
+    decls = _INT_VAR_DECL_RE.findall(body)
+    if not decls:
+        return body
+    bindings = {name: value for name, value in decls}
+    result = body
+    for name, val in bindings.items():
+        result = re.sub(rf"\b{re.escape(name)}\b", val, result)
+    return result
+
+
 def parse_branch_body(body: str, base_stats: dict | None = None,
                       *, exclude_if_blocks: bool = True, debug_label: str = "") -> dict:
     """Parse a branch body (between ':' and end of branch) into a stats dict.
@@ -603,6 +624,7 @@ def parse_branch_body(body: str, base_stats: dict | None = None,
     body_inner = body
     body_inner = re.sub(r"^\s*begin\b", "", body_inner)
     body_inner = re.sub(r"\bend\s*;?\s*$", "", body_inner)
+    body_inner = inline_int_var_decls(body_inner)
     cleaned = remove_nested_cases(body_inner)
     if exclude_if_blocks:
         cleaned = remove_top_level_ifs(cleaned)
@@ -938,10 +960,20 @@ def parse_unit_init_base(text: str) -> dict:
             sids = parse_label_sids(label)
             if not sids:
                 continue
-            base = parse_branch_body(body_text)
-            overrides = parse_nation_overrides(body_text)
+            # Var-decls (e.g., `var weapInd : Integer = 1;`) live at outer-branch
+            # scope. Inline here so nested per-sid override calls also see them.
+            body_text_inlined = inline_int_var_decls(body_text)
+            base = parse_branch_body(body_text_inlined)
+            overrides = parse_nation_overrides(body_text_inlined)
+            sid_overrides = parse_sid_overrides(body_text_inlined)
             for sid in sids:
-                result["units"][sid] = {"base": base, "overrides": overrides}
+                # Per-sid override stacks on top of the shared base; per-nation
+                # override (if any) is still applied later at row-build time.
+                if sid in sid_overrides:
+                    sid_base = _merge_unit_stats(base, sid_overrides[sid])
+                else:
+                    sid_base = base
+                result["units"][sid] = {"base": sid_base, "overrides": overrides}
     if common_case:
         cb_text = body[common_case[0]:common_case[1]]
         for label, body_text in split_case_branches(cb_text):
@@ -1020,6 +1052,85 @@ def _commoncond_to_cluster(cond: str) -> str | None:
         if re.search(rf"\b{marker}\b", cs):
             return cluster
     return None
+
+
+def _merge_unit_stats(base: dict, override: dict) -> dict:
+    """Deep-merge override into base (mirrors build_data._merge_stats but used during
+    parse to produce per-sid effective bases). For nested dicts (weapons, cost, consume,
+    produce) per-key merge; otherwise override wins."""
+    import copy
+    out = copy.deepcopy(base) if base else {}
+    if not override:
+        return out
+    for k, v in override.items():
+        if isinstance(v, dict) and isinstance(out.get(k), dict):
+            for k2, v2 in v.items():
+                if isinstance(v2, dict) and isinstance(out[k].get(k2), dict):
+                    merged = dict(out[k][k2])
+                    merged.update(v2)
+                    out[k][k2] = merged
+                else:
+                    out[k][k2] = v2
+        else:
+            out[k] = v
+    return out
+
+
+def parse_sid_overrides(body: str) -> dict:
+    """Find a nested `case objprop.sid of 'sidA':…; 'sidB':…; end;` block in body and
+    return {sid: stats} for each branch. Used for unit families where the outer branch
+    label lists multiple sids and an inner `case objprop.sid` carves per-sid overrides
+    on top of the shared base (e.g., the musketeer-line: musketeerpol/musketeernet/
+    pandur/chasseur/highlander/etc all live in one outer branch)."""
+    out: dict[str, dict] = {}
+    for m in re.finditer(r"\bcase\s+objprop\.sid\s+of\b", body):
+        start = m.end()
+        depth = 1
+        i = start
+        n = len(body)
+        in_str = False
+        while i < n and depth > 0:
+            if in_str:
+                if body[i] == "'":
+                    in_str = False
+                i += 1
+                continue
+            if body[i] == "'":
+                in_str = True
+                i += 1
+                continue
+            if body[i:i+2] == "//":
+                nl = body.find("\n", i)
+                i = nl if nl != -1 else n
+                continue
+            if body[i] == "{":
+                cl = body.find("}", i)
+                i = cl + 1 if cl != -1 else n
+                continue
+            opened = False
+            for kw, kl in (("begin", 5), ("case", 4), ("record", 6), ("try", 3)):
+                if body[i:i+kl] == kw and _is_word_boundary(body, i, kl):
+                    depth += 1
+                    i += kl
+                    opened = True
+                    break
+            if opened:
+                continue
+            if body[i:i+3] == "end" and _is_word_boundary(body, i, 3):
+                depth -= 1
+                i += 3
+                continue
+            i += 1
+        case_inner = body[start:i - 3]
+        for label, branch_body in split_case_branches(case_inner):
+            if label == "else":
+                continue
+            sids = parse_label_sids(label)
+            stats = parse_branch_body(branch_body)
+            for s in sids:
+                out[s] = stats
+        break
+    return out
 
 
 def parse_nation_overrides(body: str) -> dict:

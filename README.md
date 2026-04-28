@@ -33,6 +33,10 @@
 │   ├── compute_scaling.py             → scaling_prices.md
 │   ├── compute_map_resources.py       → map_resources.md
 │   ├── compute_construction_times.py  → construction_times.md
+│   ├── compute_efficiency_upgrades.py → efficiency_upgrades.md
+│   ├── compute_combat_stats.py        → combat_stats.md (DPS / EHP / armor)
+│   ├── compute_counter_matrix.py      → counter_matrix.md (TTK matrix)
+│   ├── extract_starting_layout.py     → starting_layout.md
 │   └── build_tech_tree.py             → tech_tree.{md,json}, production_rates.md
 ├── writers/                     ← форматирование data.json в человеко-читаемые формы
 │   ├── write_md_tree.py         ← основной writer (output/reference/ дерево)
@@ -84,6 +88,10 @@ python writers/write_md_tree.py                      # → output/reference/
 python compute/compute_scaling.py                    # → output/reference/derived/scaling_prices.md
 python compute/compute_map_resources.py              # → output/reference/derived/map_resources.md
 python compute/compute_construction_times.py         # → output/strategy/construction_times.md
+python compute/compute_efficiency_upgrades.py        # → output/reference/derived/efficiency_upgrades.md
+python compute/compute_combat_stats.py               # → output/reference/derived/combat_stats.md
+python compute/compute_counter_matrix.py             # → output/reference/derived/counter_matrix.md
+python compute/extract_starting_layout.py            # → output/reference/derived/starting_layout.md
 python compute/build_tech_tree.py                    # → output/strategy/tech_tree.{md,json}
 python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json
 ```

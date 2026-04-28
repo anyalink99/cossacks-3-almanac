@@ -13,9 +13,9 @@ _Франция_
 
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
-| **Егерь** / Chasseur `chasseur` | Shooter | 70 | — | — | — |
-| **Драгун 18в.** / Dragoon, 18th century `dragoon18fra` | Mounted Shooter | 220 | 15 | 5.62 | 15.0 |
-| **Королевский мушкетер** / King's Musketeer `kingmusketeer` | Mounted Shooter | 220 | 15 | 5.62 | 15.0 |
+| **Егерь** / Chasseur `chasseur` | Shooter | 75 | 20 | 5.94 | 19.69 |
+| **Драгун 18в.** / Dragoon, 18th century `dragoon18fra` | Mounted Shooter | 140 | 10 | 4.69 | 15.0 |
+| **Королевский мушкетер** / King's Musketeer `kingmusketeer` | Mounted Shooter | 280 | 43 | 6.88 | 13.13 |
 
 ## Здания
 
@@ -82,7 +82,7 @@ _Франция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Мушкетер 17в.** / Musketeer, 17th century `musketeer` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | shared (11n) |
+| **Мушкетер 17в.** / Musketeer, 17th century `musketeer` | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | shared (11n) |
 
 ### Musketeers 18c
 
@@ -108,30 +108,30 @@ _Франция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Егерь** / Chasseur `chasseur` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Егерь** / Chasseur `chasseur` | 75 | 6.0 | 50 | 45 | 15 | 20 | 19.69 | 5.94 | unique |
 
 ### Light Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Гусар** / Hussar `hussar` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | shared (14n) |
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Гусар** / Hussar `hussar` | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | shared (14n) |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Драгун 17в.** / Dragoon, 17th century `dragoon` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | shared (16n) |
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
-| **Драгун 18в.** / Dragoon, 18th century `dragoon18fra` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | unique |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
+| **Драгун 18в.** / Dragoon, 18th century `dragoon18fra` | 140 | 15.0 | 50 | 30 | 6 | 10 | 15.0 | 4.69 | unique |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
-| **Кирасир** / Cuirassier `cuirassier` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (17n) |
-| **Королевский мушкетер** / King's Musketeer `kingmusketeer` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | unique |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
+| **Кирасир** / Cuirassier `cuirassier` | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | shared (17n) |
+| **Королевский мушкетер** / King's Musketeer `kingmusketeer` | 280 | 27.0 | 100 | 100 | 8 | 43 | 13.13 | 6.88 | unique |
 | **Рейтар** / Reiter `reiter` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared (14n) |
 
 ### Cannons
@@ -158,7 +158,7 @@ _Франция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Фрегат** / Frigate `frigate` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |

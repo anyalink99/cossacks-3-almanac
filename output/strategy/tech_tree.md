@@ -64,20 +64,20 @@
 | `archer` | Archer | 1.50s | F20 W2 G1 | algbar | — |
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | algdip | [B] `algaca`, [B] `algcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | algdip | [B] `algaca`, [B] `algcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | turpor | [T] `algaca.29`, [B] `algart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | turpor | [T] `algaca.29`, [B] `algart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | algart | [B] `algbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | algdip | [B] `algaca`, [B] `algcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | algdip | [B] `algaca`, [B] `algcen` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | algdip | [B] `algaca`, [B] `algcen` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | algdip | [B] `algaca`, [B] `algcen` |
 | `drummertur` | Drummer, 17th century | 4.00s | F30 G15 | algbar | [B] `algaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | turpor | [B] `algart` |
 | `fishboat` | Boat | 40.00s | W600 | turpor | — |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | turpor | [B] `algart` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | algdip | [B] `algaca`, [B] `algcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | algart | [B] `algbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | algdip | [B] `algaca`, [B] `algcen` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | algdip | [B] `algaca`, [B] `algcen` |
 | `lightinfantry` | Light Infantryman | 1.00s | F25 I1 | algbar | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | algdip | [B] `algaca`, [B] `algcen` |
-| `mameluke` | Mameluke | 24.00s | F120 G10 I40 | algsta | — |
+| `mameluke` | Mameluke | 12.00s | F100 W5 G8 | algsta | — |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | algart | [B] `algbla` |
 | `mullah` | Mullah | 15.00s | F30 G10 | algtem | — |
 | `officertur` | Officer | 7.50s | F50 G100 | algbar | [B] `algaca` |
@@ -85,7 +85,7 @@
 | `pikemantur` | Ottoman Pikeman | 5.50s | F55 G5 | algbar | [B] `algbla` |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | algdip | [B] `algaca`, [B] `algcen` |
 | `unitbox` | — | 3.12s | F100 | — | — |
-| `xebec` | Xebec | 230.00s | W5000 G1100 I600 C800 | turpor | [T] `algaca.6`, [B] `algart` |
+| `xebec` | Xebec | 230.00s | W7000 G1600 I320 C960 | turpor | [T] `algaca.6`, [B] `algart` |
 
 ### `alg` — ключевые апгрейды (с зависимостями)
 
@@ -176,14 +176,14 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `ausaca.29`, [B] `ausart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `ausaca.29`, [B] `ausart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | ausart | [B] `ausbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `croat` | Croat | 16.50s | F75 G2 I5 | aussta | [B] `ausbla` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | aussta | [B] `ausbla`, [T] `auscen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `croat` | Croat | 15.75s | F80 G6 I2 | aussta | [B] `ausbla` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | aussta | [B] `ausbla`, [T] `auscen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | aussta | [B] `ausbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | aussta | [B] `ausbla`, [T] `auscen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | ausbar | [B] `ausaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | ausba2 | [B] `ausaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `ausart` |
@@ -193,16 +193,16 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | ausba2 | [B] `ausbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | ausart | [B] `ausbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | aussta | [B] `ausbla`, [T] `auscen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | ausart | [B] `ausbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | ausart | [T] `ausaca.19`, [B] `ausbla` |
 | `musketeer18` | Musketeer, 18th century | 4.50s | F50 G40 I40 | ausba2 | [B] `ausbla` |
-| `musketeeraus` | Musketeer, 17th century | 18.75s | F45 G6 I10 | ausbar | [B] `ausbla` |
+| `musketeeraus` | Musketeer, 17th century | 6.50s | F35 G9 I15 | ausbar | [B] `ausbla` |
 | `officer` | Officer, 17th century | 10.00s | F50 G150 I30 | ausbar | [B] `ausaca` |
 | `officer18` | Officer, 18th century | 6.00s | F50 G200 I10 | ausba2 | [B] `ausaca` |
-| `pandur` | Pandur | 6.00s | F45 G6 I5 | ausba2 | [B] `ausbla` |
+| `pandur` | Pandur | 6.00s | F40 G15 I10 | ausba2 | [B] `ausbla` |
 | `peaaus` | Peasant | 12.50s | F100 | auscen | — |
 | `pikeman` | Pikeman, 17th century | 4.50s | F25 G3 I20 | ausbar | [B] `ausbla` |
 | `pikeman18` | Pikeman, 18th century | 1.25s | F30 G2 | ausba2 | — |
@@ -324,24 +324,24 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `bavaca.29`, [B] `bavart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `bavaca.29`, [B] `bavart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | bavart | [B] `bavbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | bavsta | [B] `bavbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | bavbar | [B] `bavaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | bavba2 | [B] `bavaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `bavart` |
 | `fishboat` | Boat | 40.00s | W600 | eurpor | — |
 | `frigate` | Frigate | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `bavaca.6`, [B] `bavart` |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `bavart` |
-| `grenadierbav` | Grenadier | 6.00s | F80 G60 I40 | bavba2 | [B] `bavbla` |
+| `grenadierbav` | Grenadier | 6.00s | F95 G70 I40 | bavba2 | [B] `bavbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | bavart | [B] `bavbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | bavart | [B] `bavbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | bavart | [T] `bavaca.19`, [B] `bavbla` |
@@ -463,24 +463,24 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | dendip | [B] `denaca`, [B] `dencen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | dendip | [B] `denaca`, [B] `dencen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `denaca.29`, [B] `denart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `denaca.29`, [B] `denart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | denart | [B] `denbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | dendip | [B] `denaca`, [B] `dencen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | densta | [B] `denbla`, [T] `dencen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | dendip | [B] `denaca`, [B] `dencen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | densta | [B] `denbla`, [T] `dencen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | densta | [B] `denbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | densta | [B] `denbla`, [T] `dencen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | dendip | [B] `denaca`, [B] `dencen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | densta | [B] `denbla`, [T] `dencen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | dendip | [B] `denaca`, [B] `dencen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | denbar | [B] `denaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | denba2 | [B] `denaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `denart` |
 | `fishboat` | Boat | 40.00s | W600 | eurpor | — |
 | `frigate` | Frigate | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `denaca.6`, [B] `denart` |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `denart` |
-| `grenadierden` | Grenadier | 6.00s | F80 G60 I40 | denba2 | [B] `denbla` |
+| `grenadierden` | Grenadier | 6.50s | F100 G90 I40 | denba2 | [B] `denbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | dendip | [B] `denaca`, [B] `dencen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | denart | [B] `denbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | densta | [B] `denbla`, [T] `dencen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | dendip | [B] `denaca`, [B] `dencen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | densta | [B] `denbla`, [T] `dencen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | dendip | [B] `denaca`, [B] `dencen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | dendip | [B] `denaca`, [B] `dencen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | denart | [B] `denbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | denart | [T] `denaca.19`, [B] `denbla` |
@@ -603,13 +603,13 @@
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | engdip | [B] `engaca`, [B] `engcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | engdip | [B] `engaca`, [B] `engcen` |
 | `bagpiper` | Bagpiper | 6.00s | F50 G30 | engba2 | [B] `engaca` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `engaca.29`, [B] `engart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `engaca.29`, [B] `engart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | engart | [B] `engbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | engdip | [B] `engaca`, [B] `engcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | engsta | [B] `engbla`, [T] `engcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | engdip | [B] `engaca`, [B] `engcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | engsta | [B] `engbla`, [T] `engcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | engsta | [B] `engbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | engdip | [B] `engaca`, [B] `engcen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | engsta | [B] `engbla`, [T] `engcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | engdip | [B] `engaca`, [B] `engcen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | engbar | [B] `engaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `engart` |
 | `fishboat` | Boat | 40.00s | W600 | eurpor | — |
@@ -617,10 +617,10 @@
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `engart` |
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | engba2 | [B] `engbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | engdip | [B] `engaca`, [B] `engcen` |
-| `highlander` | Highlander | 6.00s | F45 G6 I5 | engba2 | [B] `engbla` |
+| `highlander` | Highlander | 6.00s | F90 G25 I10 | engba2 | [B] `engbla` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | engart | [B] `engbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | engdip | [B] `engaca`, [B] `engcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | engsta | [B] `engbla`, [T] `engcen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | engdip | [B] `engaca`, [B] `engcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | engdip | [B] `engaca`, [B] `engcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | engart | [B] `engbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | engart | [T] `engaca.19`, [B] `engbla` |
@@ -745,14 +745,14 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | fradip | [B] `fraaca`, [B] `fracen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | fradip | [B] `fraaca`, [B] `fracen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `fraaca.29`, [B] `fraart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `fraaca.29`, [B] `fraart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | fraart | [B] `frabla` |
-| `chasseur` | Chasseur | 6.00s | F45 G6 I5 | fraba2 | [B] `frabla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | fradip | [B] `fraaca`, [B] `fracen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | frasta | [B] `frabla`, [T] `fracen.1` |
+| `chasseur` | Chasseur | 6.00s | F50 G45 I15 | fraba2 | [B] `frabla` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | fradip | [B] `fraaca`, [B] `fracen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | frasta | [B] `frabla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | fradip | [B] `fraaca`, [B] `fracen` |
-| `dragoon18fra` | Dragoon, 18th century | 15.00s | F90 G7 I5 | frasta | [B] `frabla`, [T] `fracen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | fradip | [B] `fraaca`, [B] `fracen` |
+| `dragoon18fra` | Dragoon, 18th century | 15.00s | F50 G30 I6 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | frabar | [B] `fraaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | fraba2 | [B] `fraaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `fraart` |
@@ -762,9 +762,9 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | fraba2 | [B] `frabla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | fradip | [B] `fraaca`, [B] `fracen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | fraart | [B] `frabla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | frasta | [B] `frabla`, [T] `fracen.1` |
-| `kingmusketeer` | King's Musketeer | 15.00s | F90 G7 I5 | frasta | [B] `frabla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | fradip | [B] `fraaca`, [B] `fracen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | frasta | [B] `frabla`, [T] `fracen.1` |
+| `kingmusketeer` | King's Musketeer | 27.00s | F100 G100 I8 | frasta | [B] `frabla` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | fradip | [B] `fraaca`, [B] `fracen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | fradip | [B] `fraaca`, [B] `fracen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | fraart | [B] `frabla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | fraart | [T] `fraaca.19`, [B] `frabla` |
@@ -886,32 +886,32 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | hundip | [B] `hunaca`, [B] `huncen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | hundip | [B] `hunaca`, [B] `huncen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `hunaca.29`, [B] `hunart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `hunaca.29`, [B] `hunart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | hunart | [B] `hunbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | hundip | [B] `hunaca`, [B] `huncen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | hunsta | [B] `hunbla`, [T] `huncen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | hundip | [B] `hunaca`, [B] `huncen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | hunsta | [B] `hunbla`, [T] `huncen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | hunsta | [B] `hunbla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | hundip | [B] `hunaca`, [B] `huncen` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | hundip | [B] `hunaca`, [B] `huncen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | hunbar | [B] `hunaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | hunba2 | [B] `hunaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `hunart` |
 | `fishboat` | Boat | 40.00s | W600 | eurpor | — |
 | `frigate` | Frigate | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `hunaca.6`, [B] `hunart` |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `hunart` |
-| `gauduk` | Hajduk | 6.00s | F45 G6 I5 | hunbar | [B] `hunbla` |
+| `gauduk` | Hajduk | 4.50s | F35 G4 I4 | hunbar | [B] `hunbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | hundip | [B] `hunaca`, [B] `huncen` |
-| `grenadierhun` | Grenadier | 6.00s | F80 G60 I40 | hunba2 | [B] `hunbla` |
+| `grenadierhun` | Grenadier | 6.50s | F90 G80 I40 | hunba2 | [B] `hunbla` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | hunart | [B] `hunbla` |
-| `hussarhun` | Hussar | 16.50s | F75 G2 I5 | hunsta | [B] `hunbla` |
-| `lightcavalry` | Light cavalry | 15.00s | F90 G7 I5 | hunsta | [B] `hunbla`, [T] `huncen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | hundip | [B] `hunaca`, [B] `huncen` |
+| `hussarhun` | Hussar | 21.00s | F100 G30 I2 | hunsta | [B] `hunbla` |
+| `lightcavalry` | Light cavalry | 21.00s | F90 G50 I6 | hunsta | [B] `hunbla`, [T] `huncen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | hundip | [B] `hunaca`, [B] `huncen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | hundip | [B] `hunaca`, [B] `huncen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | hunart | [B] `hunbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | hunart | [T] `hunaca.19`, [B] `hunbla` |
 | `musketeer18` | Musketeer, 18th century | 4.50s | F50 G40 I40 | hunba2 | [B] `hunbla` |
 | `officer` | Officer, 17th century | 10.00s | F50 G150 I30 | hunbar | [B] `hunaca` |
 | `officer18` | Officer, 18th century | 6.00s | F50 G200 I10 | hunba2 | [B] `hunaca` |
-| `pandurhun` | Szekely | 6.00s | F45 G6 I5 | hunba2 | [B] `hunbla` |
+| `pandurhun` | Szekely | 6.00s | F30 G25 I10 | hunba2 | [B] `hunbla` |
 | `peapol` | Peasant | 12.50s | F100 | huncen | — |
 | `pikeman` | Pikeman, 17th century | 4.50s | F25 G3 I20 | hunbar | [B] `hunbla` |
 | `pikeman18` | Pikeman, 18th century | 1.25s | F30 G2 | hunba2 | — |
@@ -1026,13 +1026,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | netdip | [B] `netaca`, [B] `netcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | netdip | [B] `netaca`, [B] `netcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `netaca.29`, [B] `netart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `netaca.29`, [B] `netart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | netart | [B] `netbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | netdip | [B] `netaca`, [B] `netcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | netsta | [B] `netbla`, [T] `netcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | netdip | [B] `netaca`, [B] `netcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | netsta | [B] `netbla`, [T] `netcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | netsta | [B] `netbla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | netdip | [B] `netaca`, [B] `netcen` |
-| `dragoon18net` | Dragoon, 18th century | 15.00s | F90 G7 I5 | netsta | [B] `netbla`, [T] `netcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | netdip | [B] `netaca`, [B] `netcen` |
+| `dragoon18net` | Dragoon, 18th century | 24.00s | F100 G70 I7 | netsta | [B] `netbla`, [T] `netcen.1` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | netbar | [B] `netaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | netba2 | [B] `netaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `netart` |
@@ -1042,13 +1042,13 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | netba2 | [B] `netbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | netdip | [B] `netaca`, [B] `netcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | netart | [B] `netbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | netdip | [B] `netaca`, [B] `netcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | netsta | [B] `netbla`, [T] `netcen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | netdip | [B] `netaca`, [B] `netcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | netdip | [B] `netaca`, [B] `netcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | netart | [B] `netbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | netart | [T] `netaca.19`, [B] `netbla` |
 | `musketeer18` | Musketeer, 18th century | 4.50s | F50 G40 I40 | netba2 | [B] `netbla` |
-| `musketeernet` | Musketeer, 17th century | 6.00s | F45 G6 I5 | netbar | [B] `netbla` |
+| `musketeernet` | Musketeer, 17th century | 5.00s | F50 G8 I4 | netbar | [B] `netbla` |
 | `officer` | Officer, 17th century | 10.00s | F50 G150 I30 | netbar | [B] `netaca` |
 | `officer18` | Officer, 18th century | 6.00s | F50 G200 I10 | netba2 | [B] `netaca` |
 | `peaeng` | Peasant | 12.50s | F100 | netcen | — |
@@ -1165,13 +1165,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | piedip | [B] `pieaca`, [B] `piecen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | piedip | [B] `pieaca`, [B] `piecen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `pieaca.29`, [B] `pieart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `pieaca.29`, [B] `pieart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | pieart | [B] `piebla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | piedip | [B] `pieaca`, [B] `piecen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | piesta | [B] `piebla`, [T] `piecen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | piedip | [B] `pieaca`, [B] `piecen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | piesta | [B] `piebla`, [T] `piecen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | piesta | [B] `piebla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | piedip | [B] `pieaca`, [B] `piecen` |
-| `dragoon18pie` | Dragoon, 18th century | 15.00s | F90 G7 I5 | piesta | [B] `piebla`, [T] `piecen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | piedip | [B] `pieaca`, [B] `piecen` |
+| `dragoon18pie` | Dragoon, 18th century | 20.25s | F60 G65 I7 | piesta | [B] `piebla`, [T] `piecen.1` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | piebar | [B] `pieaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | pieba2 | [B] `pieaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `pieart` |
@@ -1181,8 +1181,8 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | pieba2 | [B] `piebla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | piedip | [B] `pieaca`, [B] `piecen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | pieart | [B] `piebla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | piedip | [B] `pieaca`, [B] `piecen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | piesta | [B] `piebla`, [T] `piecen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | piedip | [B] `pieaca`, [B] `piecen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | piedip | [B] `pieaca`, [B] `piecen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | pieart | [B] `piebla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | pieart | [T] `pieaca.19`, [B] `piebla` |
@@ -1304,14 +1304,14 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | poldip | [B] `polaca`, [B] `polcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | poldip | [B] `polaca`, [B] `polcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `polaca.29`, [B] `polart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `polaca.29`, [B] `polart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | polart | [B] `polbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | poldip | [B] `polaca`, [B] `polcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | polsta | [B] `polbla`, [T] `polcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | poldip | [B] `polaca`, [B] `polcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | polsta | [B] `polbla`, [T] `polcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | polsta | [B] `polbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | poldip | [B] `polaca`, [B] `polcen` |
-| `dragoonpol` | Pospolite ruszenie | 15.00s | F90 G7 I5 | polsta | [B] `polbla` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | polsta | [B] `polbla`, [T] `polcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | poldip | [B] `polaca`, [B] `polcen` |
+| `dragoonpol` | Pospolite ruszenie | 13.50s | F70 G5 I4 | polsta | [B] `polbla` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | polbar | [B] `polaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | polba2 | [B] `polaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `polart` |
@@ -1321,23 +1321,23 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | polba2 | [B] `polbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | poldip | [B] `polaca`, [B] `polcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | polart | [B] `polbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | poldip | [B] `polaca`, [B] `polcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | polsta | [B] `polbla`, [T] `polcen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | poldip | [B] `polaca`, [B] `polcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | poldip | [B] `polaca`, [B] `polcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | polart | [B] `polbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | polart | [T] `polaca.19`, [B] `polbla` |
 | `musketeer18` | Musketeer, 18th century | 4.50s | F50 G40 I40 | polba2 | [B] `polbla` |
-| `musketeerpol` | Musketeer, 17th century | 6.00s | F45 G6 I5 | polbar | [B] `polbla` |
+| `musketeerpol` | Musketeer, 17th century | 4.50s | F40 G3 I3 | polbar | [B] `polbla` |
 | `officer` | Officer, 17th century | 10.00s | F50 G150 I30 | polbar | [B] `polaca` |
 | `officer18` | Officer, 18th century | 6.00s | F50 G200 I10 | polba2 | [B] `polaca` |
 | `peapol` | Peasant | 12.50s | F100 | polcen | — |
 | `pikeman18` | Pikeman, 18th century | 1.25s | F30 G2 | polba2 | — |
 | `pikemanpol` | Pikeman, 17th century | 3.00s | F25 G1 | polbar | [B] `polbla` |
 | `priest` | Priest | 15.00s | F30 G10 | poltem | — |
-| `reiterpol` | Light Reiter | 24.00s | F120 G10 I40 | polsta | [B] `polbla` |
+| `reiterpol` | Light Reiter | 8.25s | F60 G5 I2 | polsta | [B] `polbla` |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | poldip | [B] `polaca`, [B] `polcen` |
 | `unitbox` | — | 3.12s | F100 | — | — |
-| `wingedhussar` | Winged Hussar | 16.50s | F75 G2 I5 | polsta | [B] `polbla` |
+| `wingedhussar` | Winged Hussar | 26.00s | F130 G30 I25 | polsta | [B] `polbla` |
 | `yacht` | Yacht | 48.00s | W900 G450 I150 C200 | eurpor | [B] `polart` |
 
 ### `pol` — ключевые апгрейды (с зависимостями)
@@ -1445,13 +1445,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | pordip | [B] `poraca`, [B] `porcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | pordip | [B] `poraca`, [B] `porcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | porpor | [T] `poraca.29`, [B] `porart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | porpor | [T] `poraca.29`, [B] `porart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | porart | [B] `porbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | pordip | [B] `poraca`, [B] `porcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | porsta | [B] `porbla`, [T] `porcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | pordip | [B] `poraca`, [B] `porcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | porsta | [B] `porbla`, [T] `porcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | porsta | [B] `porbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | porsta | [B] `porbla`, [T] `porcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | pordip | [B] `poraca`, [B] `porcen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | porsta | [B] `porbla`, [T] `porcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | pordip | [B] `poraca`, [B] `porcen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | porbar | [B] `poraca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | porba2 | [B] `poraca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | porpor | [B] `porart` |
@@ -1461,9 +1461,9 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | porba2 | [B] `porbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | pordip | [B] `poraca`, [B] `porcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | porart | [B] `porbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | porsta | [B] `porbla`, [T] `porcen.1` |
-| `jagerpor` | Volunteer | 6.00s | F45 G6 I5 | porba2 | [B] `porbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | pordip | [B] `poraca`, [B] `porcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | porsta | [B] `porbla`, [T] `porcen.1` |
+| `jagerpor` | Volunteer | 6.00s | F30 G2 I5 | porba2 | [B] `porbla` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | pordip | [B] `poraca`, [B] `porcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | pordip | [B] `poraca`, [B] `porcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | porart | [B] `porbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | porart | [T] `poraca.19`, [B] `porbla` |
@@ -1585,13 +1585,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | prudip | [B] `pruaca`, [B] `prucen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | prudip | [B] `pruaca`, [B] `prucen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `pruaca.29`, [B] `pruart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `pruaca.29`, [B] `pruart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | pruart | [B] `prubla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | prudip | [B] `pruaca`, [B] `prucen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | prusta | [B] `prubla`, [T] `prucen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | prudip | [B] `pruaca`, [B] `prucen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | prusta | [B] `prubla`, [T] `prucen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | prusta | [B] `prubla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | prudip | [B] `pruaca`, [B] `prucen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | prusta | [B] `prubla`, [T] `prucen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | prudip | [B] `pruaca`, [B] `prucen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | prubar | [B] `pruaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | pruba2 | [B] `pruaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `pruart` |
@@ -1600,10 +1600,10 @@
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `pruart` |
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | pruba2 | [B] `prubla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | prudip | [B] `pruaca`, [B] `prucen` |
-| `grenadierpru` | Grenadier | 6.00s | F80 G60 I40 | pruba2 | [B] `prubla` |
+| `grenadierpru` | Grenadier | 7.00s | F90 G100 I45 | pruba2 | [B] `prubla` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | pruart | [B] `prubla` |
-| `hussarpru` | Hussar | 16.50s | F75 G2 I5 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | prudip | [B] `pruaca`, [B] `prucen` |
+| `hussarpru` | Hussar | 11.25s | F80 G15 I2 | prusta | [B] `prubla`, [T] `prucen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | prudip | [B] `pruaca`, [B] `prucen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | prudip | [B] `pruaca`, [B] `prucen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | pruart | [B] `prubla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | pruart | [T] `pruaca.19`, [B] `prubla` |
@@ -1725,13 +1725,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | ruspor | [T] `rusaca.29`, [B] `rusart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | ruspor | [T] `rusaca.29`, [B] `rusart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | rusart | [B] `rusbla` |
-| `cossackdon` | Don Cossack | 24.00s | F120 G10 I40 | russta | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `cossackdon` | Don Cossack | 13.50s | F100 W1 | russta | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | russta | [B] `rusbla`, [T] `ruscen.1` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | russta | [B] `rusbla`, [T] `ruscen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `drummer18` | Drummer, 18th century | 6.00s | F90 G15 | rusba2 | [B] `rusaca` |
 | `drummerrus` | Drummer, 17th century | 6.00s | F90 G15 | rusbar | [B] `rusaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | ruspor | [B] `rusart` |
@@ -1741,8 +1741,8 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | rusba2 | [B] `rusbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | rusart | [B] `rusbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | russta | [B] `rusbla`, [T] `ruscen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | rusart | [B] `rusbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | rusart | [T] `rusaca.19`, [B] `rusbla` |
@@ -1754,9 +1754,9 @@
 | `pikemanrus` | Spearman | 5.50s | F45 G4 I15 | rusbar | [B] `rusbla` |
 | `pope` | Pope | 15.00s | F30 G10 | rustem | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `strelet` | Strelets | 18.75s | F45 G6 I10 | rusbar | [B] `rusbla` |
+| `strelet` | Strelets | 8.50s | F70 G7 I9 | rusbar | [B] `rusbla` |
 | `unitbox` | — | 3.12s | F100 | — | — |
-| `vityaz` | Vityaz | 24.00s | F120 G10 I40 | russta | [B] `rusbla` |
+| `vityaz` | Vityaz | 25.50s | F160 G13 I25 | russta | [B] `rusbla` |
 | `yacht` | Yacht | 48.00s | W900 G450 I150 C200 | ruspor | [B] `rusart` |
 
 ### `rus` — ключевые апгрейды (с зависимостями)
@@ -1864,13 +1864,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `saxaca.29`, [B] `saxart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `saxaca.29`, [B] `saxart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | saxart | [B] `saxbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | saxsta | [B] `saxbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | saxbar | [B] `saxaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | saxba2 | [B] `saxaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `saxart` |
@@ -1878,11 +1878,11 @@
 | `frigate` | Frigate | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `saxaca.6`, [B] `saxart` |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `saxart` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `grenadiersax` | Grenadier | 6.00s | F80 G60 I40 | saxba2 | [B] `saxbla` |
-| `guardcavalrysax` | Cavalry Guard | 24.00s | F120 G10 I40 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
+| `grenadiersax` | Grenadier | 6.00s | F50 G60 I40 | saxba2 | [B] `saxbla` |
+| `guardcavalrysax` | Cavalry Guard | 24.00s | F140 G50 I20 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | saxart | [B] `saxbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | saxart | [B] `saxbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | saxart | [T] `saxaca.19`, [B] `saxbla` |
@@ -2006,26 +2006,26 @@
 | `archersco` | Bow Clansman | 6.00s | F80 W5 G7 | scoba2 | [B] `scobla` |
 | `archerturdip` | Turkish archer (mercenary) | 6.00s | F80 W5 G7 | scodip | [B] `scoaca`, [B] `scocen` |
 | `bagpiper` | Bagpiper | 6.00s | F50 G30 | scobar | [B] `scoaca` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `scoaca.29`, [B] `scoart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `scoaca.29`, [B] `scoart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | scoart | [B] `scobla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | scodip | [B] `scoaca`, [B] `scocen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | scodip | [B] `scoaca`, [B] `scocen` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | scodip | [B] `scoaca`, [B] `scocen` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | scodip | [B] `scoaca`, [B] `scocen` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `scoart` |
 | `fishboat` | Boat | 40.00s | W600 | eurpor | — |
 | `framegun` | Frame gun | 50.00s | W200 G300 I150 | scoart | [B] `scobla` |
 | `frigate` | Frigate | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `scoaca.6`, [B] `scoart` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | scodip | [B] `scoaca`, [B] `scocen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | scoart | [B] `scobla` |
-| `lancersco` | Lancer | 24.00s | F120 G10 I40 | scosta | [B] `scobla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | scodip | [B] `scoaca`, [B] `scocen` |
+| `lancersco` | Lancer | 21.00s | F120 G6 | scosta | [B] `scobla` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | scodip | [B] `scoaca`, [B] `scocen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | scodip | [B] `scoaca`, [B] `scocen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | scoart | [B] `scobla` |
-| `musketeersco` | Covenanter musketeer | 6.00s | F45 G6 I5 | scobar | [B] `scobla` |
+| `musketeersco` | Covenanter musketeer | 7.00s | F55 G8 I7 | scobar | [B] `scobla` |
 | `officersco` | Officer | 10.00s | F130 G130 I10 | scobar | [B] `scoaca` |
 | `peasco` | Peasant | 12.50s | F100 | scocen | — |
 | `pikemansco` | Covenanter pikeman | 4.00s | F35 G2 | scobar | [B] `scobla` |
 | `priest` | Priest | 15.00s | F30 G10 | scotem | — |
-| `raidersco` | Raider | 16.50s | F75 G2 I5 | scosta | [B] `scobla` |
+| `raidersco` | Raider | 22.50s | F130 G8 I2 | scosta | [B] `scobla` |
 | `roundshierdip` | Roundshier (mercenary) | 7.00s | F110 W5 G10 | scodip | [B] `scoaca`, [B] `scocen` |
 | `swordsmansco` | Sword Clansman | 7.00s | F110 W5 G10 | scoba2 | [B] `scobla` |
 | `unitbox` | — | 3.12s | F100 | — | — |
@@ -2134,13 +2134,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | spadip | [B] `spaaca`, [B] `spacen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | spadip | [B] `spaaca`, [B] `spacen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `spaaca.29`, [B] `spaart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `spaaca.29`, [B] `spaart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | spaart | [B] `spabla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | spadip | [B] `spaaca`, [B] `spacen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | spasta | [B] `spabla`, [T] `spacen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | spadip | [B] `spaaca`, [B] `spacen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | spasta | [B] `spabla`, [T] `spacen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | spasta | [B] `spabla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | spadip | [B] `spaaca`, [B] `spacen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | spasta | [B] `spabla`, [T] `spacen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | spadip | [B] `spaaca`, [B] `spacen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | spabar | [B] `spaaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | spaba2 | [B] `spaaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `spaart` |
@@ -2150,13 +2150,13 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | spaba2 | [B] `spabla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | spadip | [B] `spaaca`, [B] `spacen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | spaart | [B] `spabla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | spadip | [B] `spaaca`, [B] `spacen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | spasta | [B] `spabla`, [T] `spacen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | spadip | [B] `spaaca`, [B] `spacen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | spadip | [B] `spaaca`, [B] `spacen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | spaart | [B] `spabla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | spaart | [T] `spaaca.19`, [B] `spabla` |
 | `musketeer18` | Musketeer, 18th century | 4.50s | F50 G40 I40 | spaba2 | [B] `spabla` |
-| `musketeerspa` | Musketeer, 17th century | 18.75s | F45 G6 I10 | spabar | [B] `spabla` |
+| `musketeerspa` | Musketeer, 17th century | 7.50s | F40 G12 I20 | spabar | [B] `spabla` |
 | `officer` | Officer, 17th century | 10.00s | F50 G150 I30 | spabar | [B] `spaaca` |
 | `officer18` | Officer, 18th century | 6.00s | F50 G200 I10 | spaba2 | [B] `spaaca` |
 | `peaspa` | Peasant | 12.50s | F100 | spacen | — |
@@ -2274,13 +2274,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | swedip | [B] `sweaca`, [B] `swecen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | swedip | [B] `sweaca`, [B] `swecen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `sweaca.29`, [B] `sweart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `sweaca.29`, [B] `sweart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | sweart | [B] `swebla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | swedip | [B] `sweaca`, [B] `swecen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | swesta | [B] `swebla`, [T] `swecen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | swedip | [B] `sweaca`, [B] `swecen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | swesta | [B] `swebla`, [T] `swecen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | swesta | [B] `swebla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | swedip | [B] `sweaca`, [B] `swecen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | swesta | [B] `swebla`, [T] `swecen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | swedip | [B] `sweaca`, [B] `swecen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | swebar | [B] `sweaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | sweba2 | [B] `sweaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `sweart` |
@@ -2289,10 +2289,10 @@
 | `galley` | Galley | 50.00s | W9500 G900 I800 | eurpor | [B] `sweart` |
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | sweba2 | [B] `swebla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | swedip | [B] `sweaca`, [B] `swecen` |
-| `hackapell` | Hakkapeliitta | 16.50s | F75 G2 I5 | swesta | [B] `swebla` |
+| `hackapell` | Hakkapeliitta | 18.00s | F80 G7 I2 | swesta | [B] `swebla` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | sweart | [B] `swebla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | swedip | [B] `sweaca`, [B] `swecen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | swesta | [B] `swebla`, [T] `swecen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | swedip | [B] `sweaca`, [B] `swecen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | swedip | [B] `sweaca`, [B] `swecen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | sweart | [B] `swebla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | sweart | [T] `sweaca.19`, [B] `swebla` |
@@ -2304,7 +2304,7 @@
 | `pikeman` | Pikeman, 17th century | 4.50s | F25 G3 I20 | swebar | [B] `swebla` |
 | `pikeman18swe` | Pikeman, 18th century | 1.50s | F40 G3 | sweba2 | — |
 | `priest` | Priest | 15.00s | F30 G10 | swetem | — |
-| `reiterswe` | Swedish Reiter | 24.00s | F120 G10 I40 | swesta | [B] `swebla` |
+| `reiterswe` | Swedish Reiter | 22.50s | F130 G7 I20 | swesta | [B] `swebla` |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | swedip | [B] `sweaca`, [B] `swecen` |
 | `unitbox` | — | 3.12s | F100 | — | — |
 | `yacht` | Yacht | 48.00s | W900 G450 I150 C200 | eurpor | [B] `sweart` |
@@ -2414,13 +2414,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | swidip | [B] `swiaca`, [B] `swicen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | swidip | [B] `swiaca`, [B] `swicen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `swiaca.29`, [B] `swiart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `swiaca.29`, [B] `swiart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | swiart | [B] `swibla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | swidip | [B] `swiaca`, [B] `swicen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | swista | [B] `swibla`, [T] `swicen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | swidip | [B] `swiaca`, [B] `swicen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | swista | [B] `swibla`, [T] `swicen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | swista | [B] `swibla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | swista | [B] `swibla`, [T] `swicen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | swidip | [B] `swiaca`, [B] `swicen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | swista | [B] `swibla`, [T] `swicen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | swidip | [B] `swiaca`, [B] `swicen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | swibar | [B] `swiaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | swiba2 | [B] `swiaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `swiart` |
@@ -2430,9 +2430,9 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | swiba2 | [B] `swibla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | swidip | [B] `swiaca`, [B] `swicen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | swiart | [B] `swibla` |
-| `hussarswi` | Mounted Jaeger | 16.50s | F75 G2 I5 | swista | [B] `swibla`, [T] `swicen.1` |
-| `jagerswi` | Jaeger | 6.00s | F45 G6 I5 | swiba2 | [B] `swibla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | swidip | [B] `swiaca`, [B] `swicen` |
+| `hussarswi` | Mounted Jaeger | 19.50s | F120 G30 I2 | swista | [B] `swibla`, [T] `swicen.1` |
+| `jagerswi` | Jaeger | 6.00s | F40 G70 I20 | swiba2 | [B] `swibla` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | swidip | [B] `swiaca`, [B] `swicen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | swidip | [B] `swiaca`, [B] `swicen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | swiart | [B] `swibla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | swiart | [T] `swiaca.19`, [B] `swibla` |
@@ -2554,18 +2554,18 @@
 | `archerdip` | Archer (mercenary) | 3.00s | F45 W3 G4 | turdip | [B] `turaca`, [B] `turcen` |
 | `archertur` | Turkish archer | 3.00s | F45 W3 G4 | turbar | [B] `turbla` |
 | `archerturdip` | Turkish archer (mercenary) | 3.00s | F45 W3 G4 | turdip | [B] `turaca`, [B] `turcen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | turpor | [T] `turaca.29`, [B] `turart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | turpor | [T] `turaca.29`, [B] `turart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | turart | [B] `turbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | turdip | [B] `turaca`, [B] `turcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | turdip | [B] `turaca`, [B] `turcen` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | turdip | [B] `turaca`, [B] `turcen` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | turdip | [B] `turaca`, [B] `turcen` |
 | `drummertur` | Drummer, 17th century | 4.00s | F30 G15 | turbar | [B] `turaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | turpor | [B] `turart` |
 | `fishboat` | Boat | 40.00s | W600 | turpor | — |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | turpor | [B] `turart` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | turdip | [B] `turaca`, [B] `turcen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | turart | [B] `turbla` |
-| `jannisary` | Janissary | 6.00s | F45 G6 I5 | turbar | [B] `turbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | turdip | [B] `turaca`, [B] `turcen` |
+| `jannisary` | Janissary | 8.00s | F55 G13 I5 | turbar | [B] `turbla` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | turdip | [B] `turaca`, [B] `turcen` |
 | `lightinfantry` | Light Infantryman | 1.00s | F25 I1 | turbar | — |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | turdip | [B] `turaca`, [B] `turcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | turart | [B] `turbla` |
@@ -2574,11 +2574,11 @@
 | `peatur` | Peasant | 12.50s | F100 | turcen | — |
 | `pikemantur` | Ottoman Pikeman | 5.50s | F55 G5 | turbar | [B] `turbla` |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | turdip | [B] `turaca`, [B] `turcen` |
-| `sipahi` | Heavy Sipahi | 24.00s | F120 G10 I40 | tursta | [B] `turbla` |
-| `spakh` | Light Sipahi | 24.00s | F120 G10 I40 | tursta | — |
+| `sipahi` | Heavy Sipahi | 18.00s | F130 G20 I70 | tursta | [B] `turbla` |
+| `spakh` | Light Sipahi | 9.00s | F80 G6 I5 | tursta | — |
 | `tatar` | Tatar | 11.25s | F70 W2 G6 | tursta | — |
 | `unitbox` | — | 3.12s | F100 | — | — |
-| `xebec` | Xebec | 230.00s | W5000 G1100 I600 C800 | turpor | [T] `turaca.6`, [B] `turart` |
+| `xebec` | Xebec | 230.00s | W7000 G1600 I320 C960 | turpor | [T] `turaca.6`, [B] `turart` |
 | `yachttur` | Yacht | 48.00s | W900 G450 I150 C200 | turpor | [B] `turart` |
 
 ### `tur` — ключевые апгрейды (с зависимостями)
@@ -2675,24 +2675,24 @@
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | ukrart | [B] `ukrbla` |
-| `chaika` | — | 230.00s | W5000 G1100 I600 C800 | ukrpor | [B] `ukrart` |
-| `cossackregister` | Register Cossack | 24.00s | F120 G10 I40 | ukrsta | [B] `ukrbla` |
-| `cossacksich` | Sich Cossack | 16.50s | F75 G2 I5 | ukrsta | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `chaika` | — | 40.00s | W1050 G600 I200 C400 | ukrpor | [B] `ukrart` |
+| `cossackregister` | Register Cossack | 10.50s | F70 G15 | ukrsta | [B] `ukrbla` |
+| `cossacksich` | Sich Cossack | 13.50s | F130 I2 | ukrsta | — |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | ukrpor | [B] `ukrart` |
 | `fishboat` | Boat | 40.00s | W600 | ukrpor | — |
 | `galley` | Galley | 50.00s | W9500 G900 I800 | ukrpor | [B] `ukrart` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `hetman` | Hetman | 24.00s | F120 G10 I40 | ukrsta | — |
+| `hetman` | Hetman | 16.50s | F150 G150 I10 | ukrsta | — |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | ukrart | [B] `ukrbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | ukrart | [B] `ukrbla` |
 | `peaukr` | Peasant | 11.25s | F100 | ukrcen | — |
 | `pope` | Pope | 15.00s | F30 G10 | ukrtem | — |
 | `roundshierdip` | Roundshier (mercenary) | 4.00s | F20 G3 I25 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `serdiuk` | Serdiuk | 6.00s | F45 G6 I5 | ukrbar | — |
+| `serdiuk` | Serdiuk | 11.00s | F60 G11 I5 | ukrbar | — |
 | `unitbox` | — | 3.12s | F100 | — | — |
 
 ### `ukr` — ключевые апгрейды (с зависимостями)
@@ -2775,13 +2775,13 @@
 |---|---|---:|---|---|---|
 | `archerdip` | Archer (mercenary) | 1.50s | F20 W2 G1 | vendip | [B] `venaca`, [B] `vencen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.50s | F20 W2 G1 | vendip | [B] `venaca`, [B] `vencen` |
-| `battleship` | Ship of the Line | 230.00s | W5000 G1100 I600 C800 | eurpor | [T] `venaca.29`, [B] `venart` |
+| `battleship` | Ship of the Line | 390.00s | W9000 G3200 I700 C6500 | eurpor | [T] `venaca.29`, [B] `venart` |
 | `cannon` | Cannon | 75.00s | W250 G400 I400 | venart | [B] `venbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 16.50s | F75 G2 I5 | vendip | [B] `venaca`, [B] `vencen` |
-| `cuirassier` | Cuirassier | 24.00s | F120 G10 I40 | vensta | [B] `venbla`, [T] `vencen.1` |
+| `cossacksichdip` | Sich Cossack (mercenary) | 13.50s | F130 I2 | vendip | [B] `venaca`, [B] `vencen` |
+| `cuirassier` | Cuirassier | 22.50s | F120 G35 I25 | vensta | [B] `venbla`, [T] `vencen.1` |
 | `dragoon` | Dragoon, 17th century | 15.00s | F90 G7 I5 | vensta | [B] `venbla` |
-| `dragoon18` | Dragoon, 18th century | 15.00s | F90 G7 I5 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 15.00s | F90 G7 I5 | vendip | [B] `venaca`, [B] `vencen` |
+| `dragoon18` | Dragoon, 18th century | 22.50s | F70 G60 I7 | vensta | [B] `venbla`, [T] `vencen.1` |
+| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50s | F70 G60 I7 | vendip | [B] `venaca`, [B] `vencen` |
 | `drummer` | Drummer, 17th century | 6.00s | F50 G30 | venbar | [B] `venaca` |
 | `drummer18` | Drummer, 18th century | 6.00s | F50 G30 | venba2 | [B] `venaca` |
 | `ferry` | Ferry | 56.00s | W300 G50 I100 | eurpor | [B] `venart` |
@@ -2791,8 +2791,8 @@
 | `grenadier` | Grenadier | 6.00s | F80 G60 I40 | venba2 | [B] `venbla` |
 | `grenadierdip` | Grenadier (mercenary) | 6.00s | F80 G60 I40 | vendip | [B] `venaca`, [B] `vencen` |
 | `howitzer` | Howitzer | 94.00s | W250 G350 I300 | venart | [B] `venbla` |
-| `hussar` | Hussar | 16.50s | F75 G2 I5 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 15.00s | F90 G7 I5 | vendip | [B] `venaca`, [B] `vencen` |
+| `hussar` | Hussar | 15.00s | F70 G20 I2 | vensta | [B] `venbla`, [T] `vencen.1` |
+| `lightcavalrydip` | Light cavalry (mercenary) | 22.50s | F70 G60 I7 | vendip | [B] `venaca`, [B] `vencen` |
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.00s | F25 I1 | vendip | [B] `venaca`, [B] `vencen` |
 | `mortar` | Bombard | 25.00s | W100 G75 I200 | venart | [B] `venbla` |
 | `multicannon` | Multi-barrelled Cannon | 50.00s | W200 G400 I250 | venart | [T] `venaca.19`, [B] `venbla` |

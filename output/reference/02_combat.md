@@ -572,13 +572,13 @@ TTK = target.HP / DPS
 | Pikemen 17c | `pikeman` (Pikeman, 17th century) | 8 | 0.7 | pike | `pikeman` (Pikeman, 17th century) | 90 | 0 |
 | Pikemen 18c | `pikeman18` (Pikeman, 18th century) | 9 | 0.7 | pike | `pikeman18` (Pikeman, 18th century) | 85 | 0 |
 | Light Infantry | `roundshier` (Roundshier) | 6 | 0.7 | sword | `roundshier` (Roundshier) | 100 | 0 |
-| Musketeers 17c | `musketeerspa` (Musketeer, 17th century) | 9 | 2.81 | bullet | `jannisary` (Janissary) | 70 | 0 |
+| Musketeers 17c | `musketeer` (Musketeer, 17th century) | 12 | 4.69 | bullet | `musketeer` (Musketeer, 17th century) | 70 | 0 |
 | Musketeers 18c | `musketeer18` (Musketeer, 18th century) | 10 | 0.7 | pike | `musketeer18pru` (Musketeer, 18th century) | 100 | 0 |
-| Grenadiers | `grenadierdip` (Grenadier (mercenary)) | 18 | 0.7 | pike | `grenadierdip` (Grenadier (mercenary)) | 120 | 0 |
+| Grenadiers | `grenadier` (Grenadier) | 18 | 0.7 | pike | `grenadierdip` (Grenadier (mercenary)) | 120 | 0 |
 | Archers | `archerturdip` (Turkish archer (mercenary)) | 15 | 2.34 | arrow | `archerturdip` (Turkish archer (mercenary)) | 40 | 0 |
-| Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 15 | 5.62 | bullet | `lightcavalrydip` (Light cavalry (mercenary)) | 220 | 0 |
-| Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 15 | 5.62 | bullet | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 220 | 0 |
-| Heavy Cavalry | `cossackdon` (Don Cossack) | 15 | 0.7 | pike | `reiter` (Reiter) | 300 | 0 |
+| Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 19 | 5.31 | bullet | `lightcavalrydip` (Light cavalry (mercenary)) | 225 | 0 |
+| Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 19 | 5.31 | bullet | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 225 | 0 |
+| Heavy Cavalry | `wingedhussar` (Winged Hussar) | 14 | 0.7 | pike | `cuirassier` (Cuirassier) | 300 | 0 |
 | Cannons | `cannon` (Cannon) | 1800 | 10.94 | cannonball | `cannon` (Cannon) | 9000 | 75 |
 | Mortars | `howitzer` (Howitzer) | 4000 | 18.75 | cannonball | `howitzer` (Howitzer) | 3000 | 75 |
 
@@ -588,19 +588,19 @@ TTK = target.HP / DPS
 
 | Atk \ Def | Pea | Pik17 | Pik18 | LtInf | Mus17 | Mus18 | Gren | Arch | LtCav | Drag | HvCav | Cnn | Mor |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| **Pea** (Peasant) | 1.8 | 3.5 | 3.0 | 4.1 | 2.4 | 3.5 | 4.2 | 1.4 | 7.7 | 7.7 | 15 | _6300_ | _2100_ |
-| **Pik17** (Pikemen 17c) | 4.4 | 13 | 7.4 | 14 | 6.1 | 8.8 | 10 | 3.5 | 19 | 19 | 35 | _6300_ | _2100_ |
-| **Pik18** (Pikemen 18c) | 3.9 | 10 | 6.6 | 12 | 5.4 | 7.8 | 9.3 | 3.1 | 17 | 17 | 30 | _6300_ | _2100_ |
-| **LtInf** (Light Infantry) | 5.8 | 16 | 9.9 | 23 | 8.2 | 12 | 14 | 4.7 | 26 | 26 | _210_ | _6300_ | _2100_ |
-| **Mus17** (Musketeers 17c) | 16 | 51 | 27 | _140_ | 22 | 31 | 37 | 12 | 69 | 69 | _281_ | _25290_ | _8430_ |
-| **Mus18** (Musketeers 18c) | 3.5 | 9.0 | 5.9 | 10 | 4.9 | 7.0 | 8.4 | 2.8 | 15 | 15 | 26 | _6300_ | _2100_ |
-| **Gren** (Grenadiers) | 1.9 | 4.2 | 3.3 | 4.7 | 2.7 | 3.9 | 4.7 | 1.6 | 8.6 | 8.6 | 13 | _6300_ | _2100_ |
-| **Arch** (Archers) | 7.8 | 23 | 13 | _234_ | 11 | 16 | 19 | 6.2 | 34 | 34 | _702_ | _21060_ | _7020_ |
-| **LtCav** (Light Cavalry) | 19 | 46 | 32 | 70 | 26 | 37 | 45 | 15 | 82 | 82 | _187_ | _50580_ | _16860_ |
-| **Drag** (Dragoons) | 19 | 46 | 32 | 70 | 26 | 37 | 45 | 15 | 82 | 82 | _187_ | _50580_ | _16860_ |
-| **HvCav** (Heavy Cavalry) | 2.3 | 5.2 | 4.0 | 5.8 | 3.3 | 4.7 | 5.6 | 1.9 | 10 | 10 | 16 | _6300_ | _2100_ |
-| **Cnn** (Cannons) | **0.3** | **0.6** | **0.5** | **0.6** | **0.4** | **0.6** | **0.7** | **0.2** | 1.3 | 1.3 | 1.9 | 57 | 19 |
-| **Mor** (Mortars) | **0.2** | **0.4** | **0.4** | **0.5** | **0.3** | **0.5** | **0.6** | **0.2** | 1.0 | 1.0 | 1.4 | 43 | 14 |
+| **Pea** (Peasant) | 1.8 | 3.5 | 3.0 | 4.1 | 2.4 | 3.5 | 4.2 | 1.4 | 7.9 | 7.9 | 13 | _6300_ | _2100_ |
+| **Pik17** (Pikemen 17c) | 4.4 | 13 | 7.4 | 14 | 6.1 | 8.8 | 10 | 3.5 | 20 | 20 | 35 | _6300_ | _2100_ |
+| **Pik18** (Pikemen 18c) | 3.9 | 10 | 6.6 | 12 | 5.4 | 7.8 | 9.3 | 3.1 | 18 | 18 | 30 | _6300_ | _2100_ |
+| **LtInf** (Light Infantry) | 5.8 | 16 | 9.9 | 23 | 8.2 | 12 | 14 | 4.7 | 26 | 26 | _105_ | _6300_ | _2100_ |
+| **Mus17** (Musketeers 17c) | 20 | 53 | 33 | 94 | 27 | 39 | 47 | 16 | 88 | 88 | _704_ | _42210_ | _14070_ |
+| **Mus18** (Musketeers 18c) | 3.5 | 9.0 | 5.9 | 10 | 4.9 | 7.0 | 8.4 | 2.8 | 16 | 16 | 26 | _6300_ | _2100_ |
+| **Gren** (Grenadiers) | 1.9 | 4.2 | 3.3 | 4.7 | 2.7 | 3.9 | 4.7 | 1.6 | 8.8 | 8.8 | 13 | _6300_ | _2100_ |
+| **Arch** (Archers) | 7.8 | 23 | 13 | _234_ | 11 | 16 | 19 | 6.2 | 35 | 35 | 70 | _21060_ | _7020_ |
+| **LtCav** (Light Cavalry) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
+| **Drag** (Dragoons) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
+| **HvCav** (Heavy Cavalry) | 2.5 | 5.7 | 4.2 | 6.4 | 3.5 | 5.0 | 6.0 | 2.0 | 11 | 11 | 18 | _6300_ | _2100_ |
+| **Cnn** (Cannons) | **0.3** | **0.6** | **0.5** | **0.6** | **0.4** | **0.6** | **0.7** | **0.2** | 1.4 | 1.4 | 1.9 | 57 | 19 |
+| **Mor** (Mortars) | **0.2** | **0.4** | **0.4** | **0.5** | **0.3** | **0.5** | **0.6** | **0.2** | 1.1 | 1.1 | 1.4 | 43 | 14 |
 
 **Чтение:** жирным — быстро убивает (TTK<1 sec), курсивом — почти не убивает (TTK>100 sec).
 
@@ -617,12 +617,12 @@ real_TTK = ideal_TTK / hit_chance
 
 | Atk \ Def | Pea | Pik17 | LtInf | Mus17 | Gren | Arch | LtCav | HvCav |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| **Mus17** (Musketeers 17c, hit≈41%) | 38 | _122_ | _338_ | 53 | _90_ | 30 | _165_ | _675_ |
-| **Mus18** (Musketeers 18c, hit≈100%) | 3.5 | 9 | 10 | 4.9 | 8 | 2.8 | 15 | 26 |
+| **Mus17** (Musketeers 17c, hit≈41%) | 47 | _127_ | _225_ | _66_ | _113_ | 38 | _211_ | _1691_ |
+| **Mus18** (Musketeers 18c, hit≈100%) | 3.5 | 9 | 10 | 4.9 | 8 | 2.8 | 16 | 26 |
 | **Gren** (Grenadiers, hit≈100%) | 1.9 | 4.2 | 4.7 | 2.7 | 4.7 | 1.6 | 9 | 13 |
-| **Arch** (Archers, hit≈41%) | 19 | 56 | _562_ | 26 | 45 | 15 | _82_ | _1687_ |
-| **LtCav** (Light Cavalry, hit≈41%) | 45 | _110_ | _169_ | _63_ | _108_ | 36 | _198_ | _450_ |
-| **Drag** (Dragoons, hit≈41%) | 45 | _110_ | _169_ | _63_ | _108_ | 36 | _198_ | _450_ |
+| **Arch** (Archers, hit≈41%) | 19 | 56 | _562_ | 26 | 45 | 15 | _84_ | _169_ |
+| **LtCav** (Light Cavalry, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |
+| **Drag** (Dragoons, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |
 
 **Что добавилось** относительно ideal TTK:
 - Стрелки на дистанции 12 t **попадают ~50%** выстрелов → TTK ×2.
@@ -765,26 +765,26 @@ real_TTK = ideal_TTK / hit_chance
 | `archerturdip` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
 | `archerturdip` | ukr | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
 | `archerturdip` | ven | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `battleship` | alg | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | aus | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | bav | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | den | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | eng | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | fra | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | hun | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | net | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pie | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pol | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | por | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | pru | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | rus | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | sax | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | sco | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | spa | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | swe | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | swi | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | tur | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `battleship` | ven | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `battleship` | alg | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | aus | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | bav | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | den | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | eng | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | fra | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | hun | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | net | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pie | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pol | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | por | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | pru | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | rus | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | sax | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | sco | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | spa | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | swe | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | swi | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | tur | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| `battleship` | ven | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
 | `cannon` | alg | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | aus | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | bav | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
@@ -806,7 +806,8 @@ real_TTK = ideal_TTK / hit_chance
 | `cannon` | tur | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | ukr | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | ven | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
-| `chaika` | ukr | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `chaika` | ukr | `PPOINTTKOR` | 1000 | 2.34 | 25.6 | 4 | 9 | — |
+| `chasseur` | fra | `SHOTMUSKET` | 20 | 5.94 | 10.1 | 4 | 8 | — |
 | `dragoon` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
@@ -823,44 +824,44 @@ real_TTK = ideal_TTK / hit_chance
 | `dragoon` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | alg | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | sco | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | tur | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | ukr | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18dip` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18fra` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18net` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18pie` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoonpol` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
+| `dragoon18` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
+| `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
+| `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
+| `dragoonpol` | pol | `SHOTMUSKET` | 13 | 5.0 | 12.0 | 2 | 3 | — |
 | `eurtow` | aus | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
 | `eurtow` | bav | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
 | `eurtow` | den | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
@@ -917,6 +918,7 @@ real_TTK = ideal_TTK / hit_chance
 | `galley` | tur | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
 | `galley` | ukr | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
 | `galley` | ven | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
+| `gauduk` | hun | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
 | `grenadier` | aus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | eng | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | fra | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
@@ -930,8 +932,8 @@ real_TTK = ideal_TTK / hit_chance
 | `grenadier` | swe | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | swi | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadier` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierbav` | bav | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierden` | den | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
 | `grenadierdip` | alg | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | aus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | bav | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
@@ -954,8 +956,9 @@ real_TTK = ideal_TTK / hit_chance
 | `grenadierdip` | ukr | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierdip` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierpru` | pru | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadiersax` | sax | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
+| `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| `highlander` | eng | `SHOTMUSKET` | 16 | 5.0 | 12.0 | 3 | 4 | — |
 | `howitzer` | alg | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | aus | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | bav | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
@@ -977,29 +980,32 @@ real_TTK = ideal_TTK / hit_chance
 | `howitzer` | tur | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | ukr | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
 | `howitzer` | ven | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
-| `kingmusketeer` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalry` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | alg | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | aus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | bav | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | den | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | eng | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | fra | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | hun | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | net | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pie | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pol | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | por | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | pru | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | rus | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | sax | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | sco | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | spa | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | swe | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | swi | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | tur | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | ukr | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `lightcavalrydip` | ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
+| `jagerpor` | por | `SHOTMUSKET` | 10 | 5.94 | 10.1 | 2 | 4 | — |
+| `jagerswi` | swi | `SHOTMUSKET` | 20 | 6.88 | 8.7 | 4 | 9 | — |
+| `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
+| `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
+| `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
+| `lightcavalrydip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
 | `mortar` | alg | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | aus | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | bav | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
@@ -1038,6 +1044,17 @@ real_TTK = ideal_TTK / hit_chance
 | `multicannon` | swe | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
 | `multicannon` | swi | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
 | `multicannon` | ven | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
+| `musketeer` | bav | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | den | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | eng | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | fra | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | pie | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | por | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | pru | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | sax | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | swe | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | swi | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| `musketeer` | ven | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
 | `musketeer18` | aus | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
 | `musketeer18` | eng | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
 | `musketeer18` | fra | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
@@ -1055,16 +1072,22 @@ real_TTK = ideal_TTK / hit_chance
 | `musketeer18den` | den | `SHOTMUSKET` | 29 | 5.94 | 10.1 | 4 | 5 | — |
 | `musketeer18pru` | pru | `SHOTMUSKET` | 22 | 4.69 | 12.8 | 3 | 4 | — |
 | `musketeer18sax` | sax | `SHOTMUSKET` | 19 | 4.38 | 13.7 | 3 | 3 | — |
-| `musketeeraus` | aus | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
-| `musketeerspa` | spa | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
+| `musketeeraus` | aus | `SHOTMUSKET` | 12 | 5.0 | 12.0 | 2 | 4 | — |
+| `musketeernet` | net | `SHOTMUSKET` | 10 | 3.75 | 16.0 | 1 | 3 | — |
+| `musketeerpol` | pol | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
+| `musketeersco` | sco | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 5 | — |
+| `musketeerspa` | spa | `SHOTMUSKET` | 15 | 5.94 | 10.1 | 3 | 6 | — |
+| `pandur` | aus | `SHOTMUSKET` | 17 | 4.69 | 12.8 | 3 | 6 | — |
+| `pandurhun` | hun | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 3 | 7 | — |
 | `porpor` | por | `cannonball` | 1000 | 8.75 | 6.9 | 10 | 30 | — |
 | `rustow` | rus | `cannonball` | 1000 | 9.38 | 6.4 | 10 | 30 | — |
-| `strelet` | rus | `SHOTMUSKET` | 9 | 2.81 | 21.4 | 2 | 4 | — |
+| `serdiuk` | ukr | `SHOTMUSKET` | 12 | 4.06 | 14.8 | 3 | 6 | — |
+| `strelet` | rus | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
 | `tatar` | tur | `STRELA` | 15 | 1.56 | 38.5 | — | — | — |
 | `turtow` | alg | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
 | `turtow` | tur | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
-| `xebec` | alg | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `xebec` | tur | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| `xebec` | alg | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
+| `xebec` | tur | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
 | `yacht` | aus | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
 | `yacht` | bav | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
 | `yacht` | den | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |

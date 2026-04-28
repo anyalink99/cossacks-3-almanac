@@ -13,12 +13,12 @@ _Украина_
 
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
-| `chaika` | Frigate | 50000 | 1800 | 2.34 | 30.94 |
-| **Реестровый козак** / Register Cossack `cossackregister` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
-| **Сечевой козак** / Sich Cossack `cossacksich` | Light Cavalry | 230 | 9 | 0.0 | 1.22 |
-| **Гетьман** / Hetman `hetman` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
+| `chaika` | Yacht | 25000 | 1000 | 2.34 | 20.63 |
+| **Реестровый козак** / Register Cossack `cossackregister` | Heavy Cavalry | 250 | 12 | 0.0 | 1.88 |
+| **Сечевой козак** / Sich Cossack `cossacksich` | Light Cavalry | 250 | 13 | 0.0 | 1.22 |
+| **Гетьман** / Hetman `hetman` | Heavy Cavalry | 320 | 70 | 0.0 | 1.22 |
 | **Крестьянин** / Peasant `peaukr` | Peasant | 75 | 20 | 0.0 | 1.22 |
-| **Сердюк** / Serdiuk `serdiuk` | Shooter | 70 | — | — | — |
+| **Сердюк** / Serdiuk `serdiuk` | Shooter | 85 | 12 | 4.06 | 16.88 |
 
 ## Здания
 
@@ -69,7 +69,7 @@ _Украина_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сердюк** / Serdiuk `serdiuk` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Сердюк** / Serdiuk `serdiuk` | 85 | 11.0 | 60 | 11 | 5 | 12 | 16.88 | 4.06 | unique |
 
 ### Grenadiers
 
@@ -88,22 +88,22 @@ _Украина_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Гетьман** / Hetman `hetman` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Гетьман** / Hetman `hetman` | 320 | 16.5 | 150 | 150 | 10 | 70 | 1.22 | 0.0 | unique |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Реестровый козак** / Register Cossack `cossackregister` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
-| **Сечевой козак** / Sich Cossack `cossacksich` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | unique |
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
+| **Реестровый козак** / Register Cossack `cossackregister` | 250 | 10.5 | 70 | 15 | 0 | 12 | 1.88 | 0.0 | unique |
+| **Сечевой козак** / Sich Cossack `cossacksich` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | unique |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
 
 ### Cannons
 
@@ -128,7 +128,7 @@ _Украина_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| `chaika` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | unique |
+| `chaika` | 25000 | 40.0 | 0 | 600 | 200 | 1000 | 20.63 | 2.34 | unique |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |
 

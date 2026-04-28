@@ -985,18 +985,21 @@ def build_sanity_checks(data: dict, parsed_units: dict, constants: dict) -> list
     add_op("units", "Fishboat available in nations", ">=", 21,
             len(units_by_sid.get("fishboat", [])))
 
-    # Specific unit stats
+    # Specific unit stats — values from the per-sid override block in
+    # unit.script:931-938 (the inner `case objprop.sid of 'strelet':` branch).
+    # Earlier the parser ignored those overrides and read the outer `'musketeerspa',
+    # 'musketeeraus','strelet'` branch defaults; numbers below now match the override.
     strelet_rows = [u for u in data["units"] if u["sid"] == "strelet" and u["nation"] == "rus"]
     if strelet_rows:
         s = strelet_rows[0]
-        add("units", "Strelet HP", 50, s.get("hp"))
-        add("units", "Strelet food cost", 45, s.get("food"))
+        add("units", "Strelet HP", 85, s.get("hp"))
+        add("units", "Strelet food cost", 70, s.get("food"))
         if s.get("weapons"):
             w = s["weapons"][0]
-            add("units", "Strelet weapon damage", 9, w.get("damage"))
+            add("units", "Strelet weapon damage", 12, w.get("damage"))
             add("units", "Strelet weapon kind", "bullet", w.get("kind"))
             add("units", "Strelet weapon weaponsid", "SHOTMUSKET", w.get("weaponsid"))
-            add("units", "Strelet weapon range_max (tiles)", 15.0, w.get("radiusmax_tiles"))
+            add("units", "Strelet weapon range_max (tiles)", 13.13, w.get("radiusmax_tiles"))
 
     # Fishboat fishingmax
     fb_rows = [u for u in data["units"] if u["sid"] == "fishboat"]

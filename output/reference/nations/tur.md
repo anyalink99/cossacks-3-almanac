@@ -14,9 +14,9 @@ _Турция_
 | Юнит | usage | HP | dmg | reload | range (t) |
 |---|---|---:|---:|---:|---:|
 | **Турецкий лучник** / Turkish archer `archertur` | Archer | 65 | 20 | 2.66 | 16.88 |
-| **Янычар** / Janissary `jannisary` | Shooter | 70 | — | — | — |
-| **Тяжелый сипах** / Heavy Sipahi `sipahi` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
-| **Легкий сипах** / Light Sipahi `spakh` | Heavy Cavalry | 300 | 15 | 0.0 | 1.22 |
+| **Янычар** / Janissary `jannisary` | Shooter | 65 | 12 | 4.69 | 15.94 |
+| **Тяжелый сипах** / Heavy Sipahi `sipahi` | Heavy Cavalry | 360 | 15 | 0.0 | 1.22 |
+| **Легкий сипах** / Light Sipahi `spakh` | Heavy Cavalry | 230 | 15 | 0.0 | 1.88 |
 | **Татарин** / Tatar `tatar` | Archer | 185 | 15 | 1.56 | 20.63 |
 | **Турецкая яхта** / Yacht `yachttur` | Yacht | 31000 | 1000 | 10.94 | 20.63 |
 
@@ -79,7 +79,7 @@ _Турция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Янычар** / Janissary `jannisary` | 70 | 6.0 | 45 | 6 | 5 | — | — | — | unique |
+| **Янычар** / Janissary `jannisary` | 65 | 8.0 | 55 | 13 | 5 | 12 | 15.94 | 4.69 | unique |
 
 ### Grenadiers
 
@@ -99,21 +99,21 @@ _Турция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Легкий кавалерист (наемник)** / Light cavalry (mercenary) `lightcavalrydip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Dragoons
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | common |
+| **Драгун 18в.  (наемник)** / Dragoon, 18th century (mercenary) `dragoon18dip` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | common |
 
 ### Heavy Cavalry
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 230 | 16.5 | 75 | 2 | 5 | 9 | 1.22 | 0.0 | common |
-| **Тяжелый сипах** / Heavy Sipahi `sipahi` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
-| **Легкий сипах** / Light Sipahi `spakh` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | unique |
+| **Сечевой козак  (наемник)** / Sich Cossack (mercenary) `cossacksichdip` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | common |
+| **Тяжелый сипах** / Heavy Sipahi `sipahi` | 360 | 18.0 | 130 | 20 | 70 | 15 | 1.22 | 0.0 | unique |
+| **Легкий сипах** / Light Sipahi `spakh` | 230 | 9.0 | 80 | 6 | 5 | 15 | 1.88 | 0.0 | unique |
 | **Татарин** / Tatar `tatar` | 185 | 11.25 | 70 | 6 | 0 | 15 | 20.63 | 1.56 | unique |
 
 ### Cannons
@@ -139,10 +139,10 @@ _Турция_
 
 | Юнит | HP | Time | F | G | I | dmg | rng (t) | reload | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Линейный корабль** / Ship of the Line `battleship` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | common |
+| **Линейный корабль** / Ship of the Line `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Транспорт** / Ferry `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
 | **Галера** / Galley `galley` | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | common |
-| **Шебека** / Xebec `xebec` | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | semi-unique (2n) |
+| **Шебека** / Xebec `xebec` | 65000 | 230.0 | 0 | 1600 | 320 | 1800 | 31.88 | 1.56 | semi-unique (2n) |
 | **Турецкая яхта** / Yacht `yachttur` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | unique |
 
 ### Officer
