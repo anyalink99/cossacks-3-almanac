@@ -14,13 +14,13 @@ target.hp     -= applied_damage
 `gc_settings_gamespeed_2 = 14` (fast). Game-time → real-time: `×1.4`. 
 Реальный DPS = game-DPS × game_speed.
 
-## §1. Combat sheet — combat unit groups
+## §1. Сводная таблица боевых юнитов
 
 Группировка: одна строка на каждый уникальный набор статов. Колонка **nations** — нации, в которых этот юнит с этими статами доступен (`all` = все 21). Если у юнита разные значения у разных наций (например `pikeman/pol` имеет половину брони от стандарта) — это разные строки.
 
-Колонки: HP, скорость (px/g-sec; 32 = крестьянин), основное оружие (damage / pause / range / kind), DPS @ game-sec, DPS @ real-sec (×1.4 fast), protections (только ненулевые), shield. Юнит может иметь ≥1 оружия — показано **сильнейшее по урон/пауза**.
+Колонки: HP, скорость (px/g-sec; 32 = крестьянин), основное оружие (урон / пауза / дальность / тип), DPS @ game-sec, DPS @ real-sec (×1.4 fast), protections (только ненулевые), shield. Юнит может иметь ≥1 оружия — показано **сильнейшее по соотношению урон/пауза**.
 
-| sid | nations | usage | HP | speed | primary weapon | DPS g-s | DPS real | protections |
+| sid | нации | usage | HP | speed | primary weapon | DPS g-s | DPS real | protections |
 | --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- |
 | `tatar` | tur | Archer | 185 | 32 | 140d / 4.69s / 20.63t [firearrow] | 29.85 | 41.79 | — |
 | `archerdip` | sco | Archer | 150 | 32 | 150d / 4.38s / 18.75t [firearrow] | 34.25 | 47.95 | — |
@@ -131,11 +131,11 @@ target.hp     -= applied_damage
 | `jagerpor` | por | Shooter | 50 | 32 | 10d / 5.94s / 15.0t [bullet] | 1.68 | 2.35 | — |
 | `mortar` | all | Super Mortar | 400 | 24 | 200d / 7.81s / 48.75t [mortarball] | 25.61 | 35.85 | shield=25 |
 
-## §2. DPS ranking — combat unit groups
+## §2. Рейтинг DPS — боевые юниты
 
 Все combat-юниты с `pause > 0` (melee с `pause = 0` исключены — урон у них привязан к анимационному циклу, см. §4). DPS считается в game-sec; колонка "DPS real (fast)" — ×1.4 для удобства сравнения с тем, что видно в реальном времени.
 
-| # | sid | nations | usage | HP | weapon kind | dmg | pause s | range t | DPS g-s | DPS real |
+| # | sid | нации | usage | HP | weapon kind | урон | пауза, с | дальн., тайл. | DPS g-s | DPS real |
 | ---: | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | `multicannon` | aus, bav, den, eng, fra … (+12 more) | Multi-cannon | 2000 | cannister | 500 | 1.88 | 13.13 | 265.96 | 372.34 |
 | 2 | `howitzer` | all | Mortar | 3000 | cannonball | 4000 | 18.75 | 26.25 | 213.33 | 298.66 |
@@ -191,13 +191,13 @@ target.hp     -= applied_damage
 | 52 | `dragoon18fra` | fra | Mounted Shooter | 140 | bullet | 10 | 4.69 | 15.0 | 2.13 | 2.98 |
 | 53 | `jagerpor` | por | Shooter | 50 | bullet | 10 | 5.94 | 15.0 | 1.68 | 2.35 |
 
-## §3. Effective HP — против эталонной атаки 10 damage по типу
+## §3. Effective HP — против эталонной атаки 10 единиц урона по типу
 
 `EHP_vs_X = HP / max(1, 10 - prot[X])` — сколько ударов выдержит юнит если по нему бьёт оружие типа X с базовым уроном 10. Для атак с бо́льшим/меньшим уроном делите/умножайте пропорционально (формула линейна если урон > prot). Если `damage <= prot`, движок гарантирует минимум 1 урон/удар (`miscext2.script:381`) — поэтому EHP не бесконечный против пик у пикинёра с prot_pike=3, а ровно `HP / max(1, dmg-prot)`.
 
-Включены только юниты, у которых хоть одна protection ≠ 0 (фильтрация избавляет от типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).
+Включены только юниты, у которых хоть одно значение protection ≠ 0 (фильтр исключает типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).
 
-| sid | nations | usage | HP | shield | EHP pike | sword | bullet | cannister | arrow | cannonball |
+| sid | нации | usage | HP | shield | EHP pike | sword | bullet | cannister | arrow | cannonball |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `vityaz` | rus | Heavy Cavalry | 380 | — | 47.5 | 63.3 | 54.3 | 380.0 | 380.0 | 380.0 |
 | `sipahi` | tur | Heavy Cavalry | 360 | — | 51.4 | 120.0 | 60.0 | 360.0 | 360.0 | 360.0 |
@@ -223,13 +223,13 @@ target.hp     -= applied_damage
 | `musketeerspa` | spa | Shooter | 85 | — | 12.1 | 10.6 | 17.0 | 85.0 | 28.3 | 85.0 |
 | `musketeeraus` | aus | Shooter | 55 | — | 6.9 | 6.9 | 11.0 | 55.0 | 11.0 | 55.0 |
 
-## §4. Notes & caveats
+## §4. Замечания и оговорки
 
-- **Melee weapons (pause = 0)** — DPS не считается. В коде урон melee наносится по триггеру анимационного кадра (`onaclanimationreachedwork`), цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует empirical теста (см. `recon/empirical_tests.md` Test 2 — то же ограничение FPS).
-- **Squad bonuses** проигнорированы. `fAddDamage` (наступательный) и `fAddShield`/`fAddShieldHold` (стеновой режим) могут добавлять до +50% к damage и до +50 EHP — но они зависят от формации/состояния, а не от unit'а. Сравнение в этой таблице — base-vs-base.
-- **`mortarball` / `firearrow`** — отдельные kind'ы без матчинг protection-поля. Входят в DPS, но в §3 EHP не показаны (защиты нет).
-- **`heal` weapon** на priest исключён из всех расчётов — это неагрессивная способность.
-- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** в `unit.script:1192`, applied as `objbase.speed:=1` по умолчанию. Числа в столбце speed — таблица из `dmscript.global:603-620`, то есть _декларированные_ значения, не верифицированные эмпирически.
+- **Оружие ближнего боя (pause = 0)** — DPS не считается. В коде урон melee наносится по триггеру анимационного кадра (`onaclanimationreachedwork`), цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует эмпирического замера (см. `recon/empirical_tests.md` Test 2 — то же ограничение по FPS).
+- **Бонусы отряда** проигнорированы. `fAddDamage` (наступательный) и `fAddShield`/`fAddShieldHold` (стеновой режим) могут добавлять до +50% к damage и до +50 EHP — но они зависят от формации/состояния, а не от юнита. Сравнение в этой таблице — базовые статы против базовых.
+- **`mortarball` / `firearrow`** — отдельные kind'ы, без соответствующего поля protection. Входят в DPS, но в §3 EHP не показаны (защиты нет).
+- **Оружие `heal`** у priest'а исключено из всех расчётов — это неагрессивная способность.
+- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** в `unit.script:1192`, по умолчанию применяется `objbase.speed:=1`. Числа в столбце speed — таблица из `dmscript.global:603-620`, то есть _декларированные_ значения, не верифицированные эмпирически.
 - **Реальное время.** Если играете на скорости fast (×1.4) — умножьте все DPS из колонки g-sec на 1.4. На default (×1.0) — не умножайте.
 
 ---

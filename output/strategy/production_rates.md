@@ -1,1690 +1,1690 @@
-# Cossacks 3 — Production Rates
+# Cossacks 3 — Темпы производства
 
 Сколько юнитов в минуту даёт **одно здание**, при бесперебойной очереди и без farm/resource ограничений.
 
-**Mechanism** ([units/building.inc/doprogressorders.inc:120-373](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/doprogressorders.inc)):
+**Механика** ([units/building.inc/doprogressorders.inc:120-373](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/doprogressorders.inc)):
 - Здание имеет ОДНУ очередь (`orders[0]`). Параллельной постройки **нет**.
 - Прогресс: `progress += deltatime / unit.buildtime`. При `progress ≥ 1` юнит спавнится, прогресс сбрасывается.
-- Cost списывается **upfront** при старте каждого юнита.
-- Если упёрлись в farm cap или unit cap — производство **встало**, прогресс не идёт.
+- Стоимость списывается **сразу (upfront)** при старте каждого юнита.
+- Если упёрлись в farm cap или unit cap — производство **встаёт**, прогресс не идёт.
 
 **Формулы:**
 - `rate_per_g_sec = 1 / unit.buildtime_sec`
 - `rate_per_real_sec_fast = rate_per_g_sec × 1.4`
 - `units_per_real_min_fast = rate_per_real_sec_fast × 60`
 
-Сгруппировано по нациям. Для каждого здания — список юнитов которых оно может производить.
+Сгруппировано по нациям. Для каждого здания — список юнитов, которых оно может производить.
 
 ## alg
 
-### `algart` — Artillery Depot
+### `algart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
-### `algbar` — Barracks
+### `algbar` — Казарма
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archer` | Archer | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `drummertur` | Drummer, 17th century | 4.00 | 15.0 | **21.0** | 30 | 15 | 0 | 1 | — |
-| `lightinfantry` | Light Infantryman | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `officertur` | Officer | 7.50 | 8.0 | **11.2** | 50 | 100 | 0 | 1 | — |
-| `pikemantur` | Ottoman Pikeman | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
+| `archer` | Лучник | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `drummertur` | Барабанщик | 4.00 | 15.0 | **21.0** | 30 | 15 | 0 | 1 | — |
+| `lightinfantry` | Легкий пехотинец | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `officertur` | Офицер | 7.50 | 8.0 | **11.2** | 50 | 100 | 0 | 1 | — |
+| `pikemantur` | Турецкий пикинер | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
 
-### `algcen` — Town Hall
+### `algcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peatur` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
+| `peatur` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
 
-### `algdip` — Diplomatic Center
+### `algdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `algsta` — Stable
+### `algsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `mameluke` | Mameluke | 12.00 | 5.0 | **7.0** | 100 | 8 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `mameluke` | Мамлюк | 12.00 | 5.0 | **7.0** | 100 | 8 | 0 | 1 | floor(gc_obj_foodperunit*2) |
 
-### `algtem` — Mosque
+### `algtem` — Мечеть
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `mullah` | Mullah | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `mullah` | Мулла | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
-### `turmil` — Mill
+### `turmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `turpor` — Shipyard
+### `turpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `xebec` | Шебека | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
 
 ## aus
 
-### `ausart` — Artillery Depot
+### `ausart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `ausba2` — Barracks, 18th century
+### `ausba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pandur` | Pandur | 6.00 | 10.0 | **14.0** | 40 | 15 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pandur` | Пандур | 6.00 | 10.0 | **14.0** | 40 | 15 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `ausbar` — Barracks, 17th century
+### `ausbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeeraus` | Musketeer, 17th century | 6.50 | 9.2 | **12.9** | 35 | 9 | 15 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
-| `roundshier` | Roundshier | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeeraus` | Мушкетер 17в. | 6.50 | 9.2 | **12.9** | 35 | 9 | 15 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `roundshier` | Рундашир | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `auscen` — Town Hall
+### `auscen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaaus` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `ausdip` — Diplomatic Center
+### `ausdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `aussta` — Stable
+### `aussta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `croat` | Croat | 15.75 | 3.8 | **5.3** | 80 | 6 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `croat` | Кроат | 15.75 | 3.8 | **5.3** | 80 | 6 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `austem` — Cathedral
+### `austem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 ## bav
 
-### `bavart` — Artillery Depot
+### `bavart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `bavba2` — Barracks, 18th century
+### `bavba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierbav` | Grenadier | 6.00 | 10.0 | **14.0** | 95 | 70 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18bav` | Musketeer, 18th century | 5.00 | 12.0 | **16.8** | 60 | 55 | 35 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadierbav` | Гренадер | 6.00 | 10.0 | **14.0** | 95 | 70 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18bav` | Мушкетер 18в. | 5.00 | 12.0 | **16.8** | 60 | 55 | 35 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `bavbar` — Barracks, 17th century
+### `bavbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `bavcen` — Town Hall
+### `bavcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaaus` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `bavdip` — Diplomatic Center
+### `bavdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `bavsta` — Stable
+### `bavsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `bavtem` — Cathedral
+### `bavtem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 ## den
 
-### `denart` — Artillery Depot
+### `denart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `denba2` — Barracks, 18th century
+### `denba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierden` | Grenadier | 6.50 | 9.2 | **12.9** | 100 | 90 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18den` | Musketeer, 18th century | 5.50 | 10.9 | **15.3** | 50 | 80 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadierden` | Гренадер | 6.50 | 9.2 | **12.9** | 100 | 90 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18den` | Мушкетер 18в. | 5.50 | 10.9 | **15.3** | 50 | 80 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `denbar` — Barracks, 17th century
+### `denbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `dencen` — Town Hall
+### `dencen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaeng` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `dendip` — Diplomatic Center
+### `dendip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `densta` — Stable
+### `densta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `dentem` — Cathedral
+### `dentem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 ## eng
 
-### `engart` — Artillery Depot
+### `engart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `engba2` — Barracks, 18th century
+### `engba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `bagpiper` | Bagpiper | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `highlander` | Highlander | 6.00 | 10.0 | **14.0** | 90 | 25 | 10 | 1 | floor(gc_obj_foodperunit*1.33) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `bagpiper` | Волынщик | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `highlander` | Шотландский стрелок | 6.00 | 10.0 | **14.0** | 90 | 25 | 10 | 1 | floor(gc_obj_foodperunit*1.33) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `engbar` — Barracks, 17th century
+### `engbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `engcen` — Town Hall
+### `engcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaeng` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `engdip` — Diplomatic Center
+### `engdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `engsta` — Stable
+### `engsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `engtem` — Cathedral
+### `engtem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 ## fra
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `fraart` — Artillery Depot
+### `fraart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `fraba2` — Barracks, 18th century
+### `fraba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `chasseur` | Chasseur | 6.00 | 10.0 | **14.0** | 50 | 45 | 15 | 1 | — |
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `chasseur` | Егерь | 6.00 | 10.0 | **14.0** | 50 | 45 | 15 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `frabar` — Barracks, 17th century
+### `frabar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `fracen` — Town Hall
+### `fracen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaeng` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `fradip` — Diplomatic Center
+### `fradip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `frasta` — Stable
+### `frasta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18fra` | Dragoon, 18th century | 15.00 | 4.0 | **5.6** | 50 | 30 | 6 | 1 | floor(gc_obj_foodperunit*1.5) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `kingmusketeer` | King's Musketeer | 27.00 | 2.2 | **3.1** | 100 | 100 | 8 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18fra` | Драгун 18в. | 15.00 | 4.0 | **5.6** | 50 | 30 | 6 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `kingmusketeer` | Королевский мушкетер | 27.00 | 2.2 | **3.1** | 100 | 100 | 8 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `fratem` — Cathedral
+### `fratem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## hun
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `hunart` — Artillery Depot
+### `hunart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `hunba2` — Barracks, 18th century
+### `hunba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadierhun` | Grenadier | 6.50 | 9.2 | **12.9** | 90 | 80 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pandurhun` | Szekely | 6.00 | 10.0 | **14.0** | 30 | 25 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadierhun` | Гренадер | 6.50 | 9.2 | **12.9** | 90 | 80 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pandurhun` | Секей | 6.00 | 10.0 | **14.0** | 30 | 25 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `hunbar` — Barracks, 17th century
+### `hunbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `gauduk` | Hajduk | 4.50 | 13.3 | **18.7** | 35 | 4 | 4 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `gauduk` | Гайдук | 4.50 | 13.3 | **18.7** | 35 | 4 | 4 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `huncen` — Town Hall
+### `huncen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peapol` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peapol` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `hundip` — Diplomatic Center
+### `hundip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `hunsta` — Stable
+### `hunsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarhun` | Hussar | 21.00 | 2.9 | **4.0** | 100 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightcavalry` | Light cavalry | 21.00 | 2.9 | **4.0** | 90 | 50 | 6 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarhun` | Гусар | 21.00 | 2.9 | **4.0** | 100 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightcavalry` | Легкий кавалерист | 21.00 | 2.9 | **4.0** | 90 | 50 | 6 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `huntem` — Cathedral
+### `huntem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## net
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `netart` — Artillery Depot
+### `netart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `netba2` — Barracks, 18th century
+### `netba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `netbar` — Barracks, 17th century
+### `netbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeernet` | Musketeer, 17th century | 5.00 | 12.0 | **16.8** | 50 | 8 | 4 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeernet` | Мушкетер 17в. | 5.00 | 12.0 | **16.8** | 50 | 8 | 4 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `netcen` — Town Hall
+### `netcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaeng` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `netdip` — Diplomatic Center
+### `netdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `netsta` — Stable
+### `netsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18net` | Dragoon, 18th century | 24.00 | 2.5 | **3.5** | 100 | 70 | 7 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18net` | Драгун 18в. | 24.00 | 2.5 | **3.5** | 100 | 70 | 7 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `nettem` — Cathedral
+### `nettem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## pie
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `pieart` — Artillery Depot
+### `pieart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `pieba2` — Barracks, 18th century
+### `pieba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `piebar` — Barracks, 17th century
+### `piebar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `piecen` — Town Hall
+### `piecen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaspa` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `piedip` — Diplomatic Center
+### `piedip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `piesta` — Stable
+### `piesta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18pie` | Dragoon, 18th century | 20.25 | 3.0 | **4.1** | 60 | 65 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18pie` | Драгун 18в. | 20.25 | 3.0 | **4.1** | 60 | 65 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `pietem` — Cathedral
+### `pietem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `padre` | Padre | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `padre` | Падре | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## pol
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `polart` — Artillery Depot
+### `polart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `polba2` — Barracks, 18th century
+### `polba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `polbar` — Barracks, 17th century
+### `polbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeerpol` | Musketeer, 17th century | 4.50 | 13.3 | **18.7** | 40 | 3 | 3 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikemanpol` | Pikeman, 17th century | 3.00 | 20.0 | **28.0** | 25 | 1 | 0 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeerpol` | Мушкетер 17в. | 4.50 | 13.3 | **18.7** | 40 | 3 | 3 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikemanpol` | Пикинер 17в. | 3.00 | 20.0 | **28.0** | 25 | 1 | 0 | 1 | — |
 
-### `polcen` — Town Hall
+### `polcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peapol` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peapol` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `poldip` — Diplomatic Center
+### `poldip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `polsta` — Stable
+### `polsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoonpol` | Pospolite ruszenie | 13.50 | 4.4 | **6.2** | 70 | 5 | 4 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiterpol` | Light Reiter | 8.25 | 7.3 | **10.2** | 60 | 5 | 2 | 1 | floor(gc_obj_foodperunit*1.5) |
-| `wingedhussar` | Winged Hussar | 26.00 | 2.3 | **3.2** | 130 | 30 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoonpol` | Посполитое рушение | 13.50 | 4.4 | **6.2** | 70 | 5 | 4 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiterpol` | Легкий рейтар | 8.25 | 7.3 | **10.2** | 60 | 5 | 2 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `wingedhussar` | Крылатый гусар | 26.00 | 2.3 | **3.2** | 130 | 30 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `poltem` — Cathedral
+### `poltem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## por
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `porart` — Artillery Depot
+### `porart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `porba2` — Barracks, 18th century
+### `porba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `jagerpor` | Volunteer | 6.00 | 10.0 | **14.0** | 30 | 2 | 5 | 1 | — |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `jagerpor` | Доброволец | 6.00 | 10.0 | **14.0** | 30 | 2 | 5 | 1 | — |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `porbar` — Barracks, 17th century
+### `porbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikemanpor` | Pikeman, 17th century | 4.00 | 15.0 | **21.0** | 40 | 4 | 5 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikemanpor` | Пикинер 17в. | 4.00 | 15.0 | **21.0** | 40 | 4 | 5 | 1 | — |
 
-### `porcen` — Town Hall
+### `porcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaspa` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `pordip` — Diplomatic Center
+### `pordip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `porpor` — Shipyard
+### `porpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `porsta` — Stable
+### `porsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `portem` — Cathedral
+### `portem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## pru
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `pruart` — Artillery Depot
+### `pruart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `pruba2` — Barracks, 18th century
+### `pruba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `grenadierpru` | Grenadier | 7.00 | 8.6 | **12.0** | 90 | 100 | 45 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18pru` | Musketeer, 18th century | 6.00 | 10.0 | **14.0** | 70 | 80 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `grenadierpru` | Гренадер | 7.00 | 8.6 | **12.0** | 90 | 100 | 45 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18pru` | Мушкетер 18в. | 6.00 | 10.0 | **14.0** | 70 | 80 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `prubar` — Barracks, 17th century
+### `prubar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `prucen` — Town Hall
+### `prucen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaaus` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `prudip` — Diplomatic Center
+### `prudip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `prusta` — Stable
+### `prusta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarpru` | Hussar | 11.25 | 5.3 | **7.5** | 80 | 15 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarpru` | Гусар | 11.25 | 5.3 | **7.5** | 80 | 15 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `prutem` — Cathedral
+### `prutem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## rus
 
-### `rusart` — Artillery Depot
+### `rusart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `rusba2` — Barracks, 18th century
+### `rusba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 90 | 15 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 90 | 15 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `rusbar` — Strelets Barracks
+### `rusbar` — Стрелецкая казарма
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummerrus` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 90 | 15 | 0 | 1 | — |
-| `officerrus` | Commander | 12.50 | 4.8 | **6.7** | 100 | 125 | 5 | 1 | — |
-| `pikemanrus` | Spearman | 5.50 | 10.9 | **15.3** | 45 | 4 | 15 | 1 | — |
-| `strelet` | Strelets | 8.50 | 7.1 | **9.9** | 70 | 7 | 9 | 1 | — |
+| `drummerrus` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 90 | 15 | 0 | 1 | — |
+| `officerrus` | Командир | 12.50 | 4.8 | **6.7** | 100 | 125 | 5 | 1 | — |
+| `pikemanrus` | Копейщик | 5.50 | 10.9 | **15.3** | 45 | 4 | 15 | 1 | — |
+| `strelet` | Стрелец | 8.50 | 7.1 | **9.9** | 70 | 7 | 9 | 1 | — |
 
-### `ruscen` — Town Hall
+### `ruscen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `pearus` | Serf | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 26 |
+| `pearus` | Крепостной | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 26 |
 
-### `rusdip` — Diplomatic Center
+### `rusdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `rusmil` — Mill
+### `rusmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `ruspor` — Shipyard
+### `ruspor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `russta` — Stable
+### `russta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cossackdon` | Don Cossack | 13.50 | 4.4 | **6.2** | 100 | 0 | 0 | 1 | floor(gc_obj_foodperunit*2) |
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `vityaz` | Vityaz | 25.50 | 2.4 | **3.3** | 160 | 13 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cossackdon` | Донской козак | 13.50 | 4.4 | **6.2** | 100 | 0 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `vityaz` | Витязь | 25.50 | 2.4 | **3.3** | 160 | 13 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `rustem` — Orthodox Cathedral
+### `rustem` — Православная церковь
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `pope` | Pope | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `pope` | Поп | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## sax
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `saxart` — Artillery Depot
+### `saxart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `saxba2` — Barracks, 18th century
+### `saxba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadiersax` | Grenadier | 6.00 | 10.0 | **14.0** | 50 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1) |
-| `musketeer18sax` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 40 | 45 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadiersax` | Гренадер | 6.00 | 10.0 | **14.0** | 50 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1) |
+| `musketeer18sax` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 40 | 45 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `saxbar` — Barracks, 17th century
+### `saxbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `saxcen` — Town Hall
+### `saxcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaaus` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `saxdip` — Diplomatic Center
+### `saxdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `saxsta` — Stable
+### `saxsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `guardcavalrysax` | Cavalry Guard | 24.00 | 2.5 | **3.5** | 140 | 50 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `guardcavalrysax` | Гвардейский кавалерист | 24.00 | 2.5 | **3.5** | 140 | 50 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `saxtem` — Cathedral
+### `saxtem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## sco
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `scoart` — Artillery Depot
+### `scoart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `framegun` | Frame gun | 50.00 | 1.2 | **1.7** | 0 | 300 | 150 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `framegun` | Рибадекин | 50.00 | 1.2 | **1.7** | 0 | 300 | 150 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
-### `scoba2` — Castle
+### `scoba2` — Замок
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archersco` | Bow Clansman | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
-| `swordsmansco` | Sword Clansman | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `archersco` | Лучник кланов | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
+| `swordsmansco` | Мечник кланов | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | floor(gc_obj_foodperunit*1.5) |
 
-### `scobar` — Barracks, 17th century
+### `scobar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `bagpiper` | Bagpiper | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeersco` | Covenanter musketeer | 7.00 | 8.6 | **12.0** | 55 | 8 | 7 | 1 | — |
-| `officersco` | Officer | 10.00 | 6.0 | **8.4** | 130 | 130 | 10 | 1 | — |
-| `pikemansco` | Covenanter pikeman | 4.00 | 15.0 | **21.0** | 35 | 2 | 0 | 1 | — |
+| `bagpiper` | Волынщик | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeersco` | Мушкетер Ковенанта | 7.00 | 8.6 | **12.0** | 55 | 8 | 7 | 1 | — |
+| `officersco` | Офицер | 10.00 | 6.0 | **8.4** | 130 | 130 | 10 | 1 | — |
+| `pikemansco` | Пикинер Ковенанта | 4.00 | 15.0 | **21.0** | 35 | 2 | 0 | 1 | — |
 
-### `scocen` — Town Hall
+### `scocen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peasco` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peasco` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `scodip` — Diplomatic Center
+### `scodip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
-| `archerturdip` | Turkish archer (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | floor(gc_obj_foodperunit*1.5) |
+| `archerdip` | Лучник  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
+| `archerturdip` | Турецкий лучник (наемник) | 6.00 | 10.0 | **14.0** | 80 | 7 | 0 | 1 | floor(gc_obj_foodperunit*1.33) |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | floor(gc_obj_foodperunit*1.5) |
 
-### `scosta` — Stable
+### `scosta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `lancersco` | Lancer | 21.00 | 2.9 | **4.0** | 120 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
-| `raidersco` | Raider | 22.50 | 2.7 | **3.7** | 130 | 8 | 2 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `lancersco` | Лансер | 21.00 | 2.9 | **4.0** | 120 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `raidersco` | Рейдер | 22.50 | 2.7 | **3.7** | 130 | 8 | 2 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `scotem` — Cathedral
+### `scotem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## spa
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `spaart` — Artillery Depot
+### `spaart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `spaba2` — Barracks, 18th century
+### `spaba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `spabar` — Barracks, 17th century
+### `spabar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeerspa` | Musketeer, 17th century | 7.50 | 8.0 | **11.2** | 40 | 12 | 20 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
-| `pikemanspa` | Coselete | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeerspa` | Мушкетер 17в. | 7.50 | 8.0 | **11.2** | 40 | 12 | 20 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
+| `pikemanspa` | Коселет | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
 
-### `spacen` — Town Hall
+### `spacen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaspa` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `spadip` — Diplomatic Center
+### `spadip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `spasta` — Stable
+### `spasta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `spatem` — Cathedral
+### `spatem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## swe
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `sweart` — Artillery Depot
+### `sweart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `sweba2` — Barracks, 18th century
+### `sweba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18swe` | Pikeman, 18th century | 1.50 | 40.0 | **56.0** | 40 | 3 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18swe` | Пикинер 18в. | 1.50 | 40.0 | **56.0** | 40 | 3 | 0 | 1 | — |
 
-### `swebar` — Barracks, 17th century
+### `swebar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `swecen` — Town Hall
+### `swecen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaeng` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `swedip` — Diplomatic Center
+### `swedip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `swesta` — Stable
+### `swesta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hackapell` | Hakkapeliitta | 18.00 | 3.3 | **4.7** | 80 | 7 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiterswe` | Swedish Reiter | 22.50 | 2.7 | **3.7** | 130 | 7 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hackapell` | Гаккапелит | 18.00 | 3.3 | **4.7** | 80 | 7 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiterswe` | Шведский рейтар | 22.50 | 2.7 | **3.7** | 130 | 7 | 20 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `swetem` — Cathedral
+### `swetem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## swi
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `swiart` — Artillery Depot
+### `swiart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `swiba2` — Barracks, 18th century
+### `swiba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `jagerswi` | Jaeger | 6.00 | 10.0 | **14.0** | 40 | 70 | 20 | 1 | — |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `jagerswi` | Егерь | 6.00 | 10.0 | **14.0** | 40 | 70 | 20 | 1 | — |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `swibar` — Barracks, 17th century
+### `swibar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikemanswi` | Pikeman, 17th century | 5.00 | 12.0 | **16.8** | 40 | 6 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikemanswi` | Пикинер 17в. | 5.00 | 12.0 | **16.8** | 40 | 6 | 20 | 1 | — |
 
-### `swicen` — Town Hall
+### `swicen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaaus` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `swidip` — Diplomatic Center
+### `swidip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `swista` — Stable
+### `swista` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussarswi` | Mounted Jaeger | 19.50 | 3.1 | **4.3** | 120 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussarswi` | Конный егерь | 19.50 | 3.1 | **4.3** | 120 | 30 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `switem` — Cathedral
+### `switem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## tur
 
-### `turart` — Artillery Depot
+### `turart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
-### `turbar` — Barracks
+### `turbar` — Казарма
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archertur` | Turkish archer | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
-| `drummertur` | Drummer, 17th century | 4.00 | 15.0 | **21.0** | 30 | 15 | 0 | 1 | — |
-| `jannisary` | Janissary | 8.00 | 7.5 | **10.5** | 55 | 13 | 5 | 1 | — |
-| `lightinfantry` | Light Infantryman | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `officertur` | Officer | 7.50 | 8.0 | **11.2** | 50 | 100 | 0 | 1 | — |
-| `pikemantur` | Ottoman Pikeman | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
+| `archertur` | Турецкий лучник | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
+| `drummertur` | Барабанщик | 4.00 | 15.0 | **21.0** | 30 | 15 | 0 | 1 | — |
+| `jannisary` | Янычар | 8.00 | 7.5 | **10.5** | 55 | 13 | 5 | 1 | — |
+| `lightinfantry` | Легкий пехотинец | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `officertur` | Офицер | 7.50 | 8.0 | **11.2** | 50 | 100 | 0 | 1 | — |
+| `pikemantur` | Турецкий пикинер | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
 
-### `turcen` — Town Hall
+### `turcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peatur` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
+| `peatur` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
 
-### `turdip` — Diplomatic Center
+### `turdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 3.00 | 20.0 | **28.0** | 45 | 4 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `turmil` — Mill
+### `turmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `turpor` — Shipyard
+### `turpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `xebec` | Xebec | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
-| `yachttur` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `xebec` | Шебека | 230.00 | 0.3 | **0.4** | 0 | 1600 | 320 | 1 | — |
+| `yachttur` | Турецкая яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `tursta` — Stable
+### `tursta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `sipahi` | Heavy Sipahi | 18.00 | 3.3 | **4.7** | 130 | 20 | 70 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `spakh` | Light Sipahi | 9.00 | 6.7 | **9.3** | 80 | 6 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `tatar` | Tatar | 11.25 | 5.3 | **7.5** | 70 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `sipahi` | Тяжелый сипах | 18.00 | 3.3 | **4.7** | 130 | 20 | 70 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `spakh` | Легкий сипах | 9.00 | 6.7 | **9.3** | 80 | 6 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `tatar` | Татарин | 11.25 | 5.3 | **7.5** | 70 | 6 | 0 | 1 | floor(gc_obj_foodperunit*2) |
 
-### `turtem` — Mosque
+### `turtem` — Мечеть
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `mullah` | Mullah | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `mullah` | Мулла | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## ukr
 
-### `rusmil` — Mill
+### `rusmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `ukrart` — Artillery Depot
+### `ukrart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
-### `ukrbar` — Cossack House
+### `ukrbar` — Козацкий дом
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `serdiuk` | Serdiuk | 11.00 | 5.5 | **7.6** | 60 | 11 | 5 | 1 | — |
+| `serdiuk` | Сердюк | 11.00 | 5.5 | **7.6** | 60 | 11 | 5 | 1 | — |
 
-### `ukrcen` — Town Hall
+### `ukrcen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaukr` | Peasant | 11.25 | 5.3 | **7.5** | 100 | 0 | 0 | 1 | 32 |
+| `peaukr` | Крестьянин | 11.25 | 5.3 | **7.5** | 100 | 0 | 0 | 1 | 32 |
 
-### `ukrdip` — Diplomatic Center
+### `ukrdip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `ukrpor` — Shipyard
+### `ukrpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `chaika` | — | 40.00 | 1.5 | **2.1** | 0 | 600 | 200 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 
-### `ukrsta` — Stable
+### `ukrsta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cossackregister` | Register Cossack | 10.50 | 5.7 | **8.0** | 70 | 15 | 0 | 1 | floor(gc_obj_foodperunit*2) |
-| `cossacksich` | Sich Cossack | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `hetman` | Hetman | 16.50 | 3.6 | **5.1** | 150 | 150 | 10 | 1 | floor(gc_obj_foodperunit*3) |
+| `cossackregister` | Реестровый козак | 10.50 | 5.7 | **8.0** | 70 | 15 | 0 | 1 | floor(gc_obj_foodperunit*2) |
+| `cossacksich` | Сечевой козак | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `hetman` | Гетьман | 16.50 | 3.6 | **5.1** | 150 | 150 | 10 | 1 | floor(gc_obj_foodperunit*3) |
 
-### `ukrtem` — Orthodox Cathedral
+### `ukrtem` — Православная церковь
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `pope` | Pope | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `pope` | Поп | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ## ven
 
-### `eurmil` — Mill
+### `eurmil` — Мельница
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-### `eurpor` — Shipyard
+### `eurpor` — Порт
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `battleship` | Ship of the Line | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
-| `ferry` | Ferry | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
-| `fishboat` | Boat | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
-| `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
-| `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
-| `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+| `battleship` | Линейный корабль | 390.00 | 0.2 | **0.2** | 0 | 3200 | 700 | 1 | — |
+| `ferry` | Транспорт | 56.00 | 1.1 | **1.5** | 0 | 50 | 100 | 1 | — |
+| `fishboat` | Рыбацкая лодка | 40.00 | 1.5 | **2.1** | 0 | 0 | 0 | 1 | — |
+| `frigate` | Фрегат | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
+| `galley` | Галера | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
+| `yacht` | Яхта | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
-### `venart` — Artillery Depot
+### `venart` — Артиллерийское депо
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cannon` | Cannon | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
-| `howitzer` | Howitzer | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
-| `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
+| `cannon` | Пушка | 75.00 | 0.8 | **1.1** | 0 | 400 | 400 | 1 | — |
+| `howitzer` | Гаубица | 94.00 | 0.6 | **0.9** | 0 | 350 | 300 | 1 | — |
+| `mortar` | Мортира | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
+| `multicannon` | Многоствольное орудие | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
-### `venba2` — Barracks, 18th century
+### `venba2` — Казарма 18в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer18` | Drummer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `grenadier` | Grenadier | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `musketeer18` | Musketeer, 18th century | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
-| `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
+| `drummer18` | Барабанщик 18в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `grenadier` | Гренадер | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `musketeer18` | Мушкетер 18в. | 4.50 | 13.3 | **18.7** | 50 | 40 | 40 | 1 | — |
+| `officer18` | Офицер 18в. | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
+| `pikeman18` | Пикинер 18в. | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
-### `venbar` — Barracks, 17th century
+### `venbar` — Казарма 17в.
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `drummer` | Drummer, 17th century | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
-| `musketeer` | Musketeer, 17th century | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
-| `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
+| `drummer` | Барабанщик 17в. | 6.00 | 10.0 | **14.0** | 50 | 30 | 0 | 1 | — |
+| `musketeer` | Мушкетер 17в. | 6.00 | 10.0 | **14.0** | 45 | 6 | 5 | 1 | — |
+| `officer` | Офицер 17в. | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
+| `pikeman` | Пикинер 17в. | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
-### `vencen` — Town Hall
+### `vencen` — Городской центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
+| `peaspa` | Крестьянин | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
-### `vendip` — Diplomatic Center
+### `vendip` — Дипломатический центр
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `archerturdip` | Turkish archer (mercenary) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `grenadierdip` | Grenadier (mercenary) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
-| `lightcavalrydip` | Light cavalry (mercenary) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
-| `roundshierdip` | Roundshier (mercenary) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+| `archerdip` | Лучник  (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `archerturdip` | Турецкий лучник (наемник) | 1.50 | 40.0 | **56.0** | 20 | 1 | 0 | 1 | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | 4.4 | **6.2** | 130 | 0 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `grenadierdip` | Гренадер  (наемник) | 6.00 | 10.0 | **14.0** | 80 | 60 | 40 | 1 | floor(gc_obj_foodperunit*1.2) |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | 60.0 | **84.0** | 25 | 0 | 1 | 1 | — |
+| `roundshierdip` | Рундашир  (наемник) | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 
-### `vensta` — Stable
+### `vensta` — Конюшня
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `cuirassier` | Cuirassier | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
-| `dragoon` | Dragoon, 17th century | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
-| `dragoon18` | Dragoon, 18th century | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
-| `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
-| `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `cuirassier` | Кирасир | 22.50 | 2.7 | **3.7** | 120 | 35 | 25 | 1 | floor(gc_obj_foodperunit*2.5) |
+| `dragoon` | Драгун 17в. | 15.00 | 4.0 | **5.6** | 90 | 7 | 5 | 1 | floor(gc_obj_foodperunit*2) |
+| `dragoon18` | Драгун 18в. | 22.50 | 2.7 | **3.7** | 70 | 60 | 7 | 1 | floor(gc_obj_foodperunit*2) |
+| `hussar` | Гусар | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | floor(gc_obj_foodperunit*2) |
+| `reiter` | Рейтар | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | floor(gc_obj_foodperunit*2.5) |
 
-### `ventem` — Cathedral
+### `ventem` — Собор
 
-| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |
+| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priest` | Priest | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
+| `priest` | Капеллан | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
 ---
 
 ## Замечания
 
 1. **farm = 1 для каждого юнита** — каждый юнит занимает 1 слот популяции (контролируется `gPlayer.farm`). Зданиям, увеличивающим лимит — `cen=+100, hou=+25, bar=+150, ba2=+250` и т.д.
-2. **upkeep food** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.
-3. **При нехватке farm production стоит** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.
+2. **расход еды** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.
+3. **При нехватке farm производство останавливается** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.
 4. **N зданий = N×rate.** 5 бараков пехотных = 5 × ~13 musketeer/min @ fast = ~65 musketeer/min.

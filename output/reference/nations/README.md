@@ -2,9 +2,9 @@
 
 [← Index](../README.md)
 
-Полный список 21 играбельной нации. Каждая ссылка — отдельный cheatsheet с уникальными юнитами, зданиями, апгрейдами и зависимостями.
+Полный список 21 доступной нации. Каждая ссылка — отдельная справка с уникальными юнитами, зданиями, апгрейдами и зависимостями.
 
-| ID | sid | EN | RU | cluster | peasant | unique units |
+| ID | sid | англ. | рус. | кластер | крестьянин | уникальные юниты |
 |---:|---|---|---|---|---|---|
 | 0 | [`aus`](aus.md) | Austria | Австрия | `eur` | `peaaus` | croat, musketeeraus, pandur, roundshier |
 | 1 | [`fra`](fra.md) | France | Франция | `eur` | `peaeng` | chasseur, dragoon18fra, kingmusketeer |

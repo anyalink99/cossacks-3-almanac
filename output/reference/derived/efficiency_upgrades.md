@@ -9,9 +9,9 @@
 
 `gc_upg_type_fieldlifeperc` аддитивно прибавляет к `objbase.fieldlife` поля. Снижает урон/удар по полю на `100 / (1 + fieldlife/100)` — повышает выход за один цикл и уменьшает частоту перезапусков.
 
-## Сводка по нациям (cumulative peaks)
+## Сводка по нациям (кумулятивные пики)
 
-Сумма всех значений в линейке = пик для нации, если исследовать ВСЕ соответствующие апгрейды. На практике некоторые апгрейды эксклюзивны (один building с .1..6 лестницей), но скрипт суммирует всё — это **верхняя граница**.
+Сумма всех значений в линейке = пик для нации, если исследовать ВСЕ соответствующие апгрейды. На практике некоторые апгрейды эксклюзивны (один building с .1..6 ступенями), но скрипт суммирует всё — это **верхняя граница**.
 
 | Нация | food eff % | wood eff % | stone eff % | fieldlife % | Σ апгрейдов |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -37,15 +37,15 @@
 | ukr | +460 | +100 | +300 | +300 | 10 |
 | ven | +460 | +100 | +300 | +300 | 10 |
 
-**Best-in-class peaks across all nations:**
-- Food efficiency: **+460** — aus, bav, den, … (19 nations tied)
-- Wood efficiency: **+100** — alg, aus, bav, … (21 nations tied)
-- Stone efficiency: **+300** — alg, aus, bav, … (21 nations tied)
-- Field HP (fieldlife): **+300** — alg, aus, bav, … (21 nations tied)
+**Лучшие пики по всем нациям:**
+- Эффективность еды: **+460** — aus, bav, den, … (19 nations tied)
+- Эффективность дерева: **+100** — alg, aus, bav, … (21 nations tied)
+- Эффективность камня: **+300** — alg, aus, bav, … (21 nations tied)
+- HP полей (fieldlife): **+300** — alg, aus, bav, … (21 nations tied)
 
-**Cheapest food-eff progression (cumulative gold for ALL food-eff upgrades):**
+**Самая дешёвая прогрессия food-eff (суммарное золото за ВСЕ апгрейды food-eff):**
 
-| Нация | total gold | total food | total wood |
+| Нация | всего gold | всего food | всего wood |
 | --- | ---: | ---: | ---: |
 | alg | 1947 | 600 | 1840 |
 | tur | 1947 | 600 | 3000 |
@@ -75,7 +75,7 @@
 
 ### alg
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -84,38 +84,38 @@
 | `algaca.3` | 1 | +50 | 15.62 | W1240 G850 | — |
 | `algbar.1` | 1 | +140 | 15.62 | F600 G250 | — |
 
-_Cumulative peak: +280_
+_Кумулятивный пик: +280_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `algaca.8` | 1 | +100 | 15.62 | F5500 G550 | algbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `algaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `algaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `algaca.4` | 1 | +200 | 15.62 | W700 G475 | — |
 | `algbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### aus
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -125,38 +125,38 @@ _Cumulative peak: +300_
 | `ausbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `ausbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ausaca.8` | 1 | +100 | 15.62 | F5500 G550 | ausbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ausaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `ausaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ausaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `ausbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### bav
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -166,38 +166,38 @@ _Cumulative peak: +300_
 | `bavbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `bavbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `bavaca.8` | 1 | +100 | 15.62 | F5500 G550 | bavbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `bavaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `bavaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `bavaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `bavbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### den
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -207,38 +207,38 @@ _Cumulative peak: +300_
 | `denbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `denbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `denaca.8` | 1 | +100 | 15.62 | F5500 G550 | denbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `denaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `denaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `denaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `denbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### eng
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -248,38 +248,38 @@ _Cumulative peak: +300_
 | `engba2.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `engba2.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `engaca.8` | 1 | +100 | 15.62 | F5500 G550 | engbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `engaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `engaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `engaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `engbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### fra
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -289,38 +289,38 @@ _Cumulative peak: +300_
 | `frabar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `frabar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `fraaca.8` | 1 | +100 | 15.62 | F5500 G550 | frabla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `fraaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `fraaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `fraaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `frabla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### hun
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -330,38 +330,38 @@ _Cumulative peak: +300_
 | `hunbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `hunbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `hunaca.8` | 1 | +100 | 15.62 | F5500 G550 | hunbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `hunaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `hunaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `hunaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `hunbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### net
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -371,38 +371,38 @@ _Cumulative peak: +300_
 | `netbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `netbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `netaca.8` | 1 | +100 | 15.62 | F5500 G550 | netbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `netaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `netaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `netaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `netbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### pie
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -412,38 +412,38 @@ _Cumulative peak: +300_
 | `piebar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `piebar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pieaca.8` | 1 | +100 | 15.62 | F5500 G550 | piebla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pieaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `pieaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pieaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `piebla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### pol
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -453,38 +453,38 @@ _Cumulative peak: +300_
 | `polbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `polbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `polaca.8` | 1 | +100 | 15.62 | F5500 G550 | polbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `polaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `polaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `polaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `polbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### por
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -494,38 +494,38 @@ _Cumulative peak: +300_
 | `porbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `porbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `poraca.8` | 1 | +100 | 15.62 | F5500 G550 | porbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `poraca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `poraca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `poraca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `porbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### pru
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -535,38 +535,38 @@ _Cumulative peak: +300_
 | `prubar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `prubar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pruaca.8` | 1 | +100 | 15.62 | F5500 G550 | prubla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pruaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `pruaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `pruaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `prubla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### rus
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -576,38 +576,38 @@ _Cumulative peak: +300_
 | `rusbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `rusbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `rusaca.8` | 1 | +100 | 15.62 | F5500 G550 | rusbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `rusaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `rusaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `rusaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `rusbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### sax
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -617,38 +617,38 @@ _Cumulative peak: +300_
 | `saxbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `saxbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `saxaca.8` | 1 | +100 | 15.62 | F5500 G550 | saxbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `saxaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `saxaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `saxaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `saxbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### sco
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -658,38 +658,38 @@ _Cumulative peak: +300_
 | `scobar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `scobar.2` | 2 | +180 | 15.62 | F5600 G1350 I1900 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `scoaca.8` | 1 | +100 | 15.62 | F5500 G550 | scobla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `scoaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `scoaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `scoaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `scobla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### spa
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -699,38 +699,38 @@ _Cumulative peak: +300_
 | `spabar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `spabar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `spaaca.8` | 1 | +100 | 15.62 | F5500 G550 | spabla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `spaaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `spaaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `spaaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `spabla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### swe
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -740,38 +740,38 @@ _Cumulative peak: +300_
 | `swebar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `swebar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `sweaca.8` | 1 | +100 | 15.62 | F5500 G550 | swebla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `sweaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `sweaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `sweaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `swebla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### swi
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -781,38 +781,38 @@ _Cumulative peak: +300_
 | `swibar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `swibar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `swiaca.8` | 1 | +100 | 15.62 | F5500 G550 | swibla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `swiaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `swiaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `swiaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `swibla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### tur
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -821,38 +821,38 @@ _Cumulative peak: +300_
 | `turaca.3` | 1 | +50 | 15.62 | W2400 G850 | — |
 | `tursta.1` | 1 | +140 | 15.62 | F600 G250 | — |
 
-_Cumulative peak: +280_
+_Кумулятивный пик: +280_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `turaca.8` | 1 | +100 | 15.62 | F5500 G550 | turbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `turaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `turaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `turaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `turbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### ukr
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -862,38 +862,38 @@ _Cumulative peak: +300_
 | `ukrbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `ukrbar.2` | 2 | +180 | 15.62 | F5600 G1350 I1900 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ukraca.8` | 1 | +100 | 15.62 | F5500 G550 | ukrbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ukraca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `ukraca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `ukraca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `ukrbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ### ven
 
-#### Food efficiency
+#### Эффективность еды
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -903,33 +903,33 @@ _Cumulative peak: +300_
 | `venbar.1` | 1 | +140 | 15.62 | F750 G250 | — |
 | `venbar.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
 
-_Cumulative peak: +460_
+_Кумулятивный пик: +460_
 
-#### Wood efficiency
+#### Эффективность дерева
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `venaca.8` | 1 | +100 | 15.62 | F5500 G550 | venbla |
 
-_Cumulative peak: +100_
+_Кумулятивный пик: +100_
 
-#### Stone efficiency
+#### Эффективность камня
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `venaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
 | `venaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
-#### Field HP (fieldlife)
+#### HP полей (fieldlife)
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `venaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
 | `venbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
 
-_Cumulative peak: +300_
+_Кумулятивный пик: +300_
 
 
 ---

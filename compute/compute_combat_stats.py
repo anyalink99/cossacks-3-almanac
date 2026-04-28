@@ -172,7 +172,7 @@ def fmt_nation_list(nations: list[str]) -> str:
 def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
     L = []
     A = L.append
-    A("## §1. Combat sheet — combat unit groups")
+    A("## §1. Сводная таблица боевых юнитов")
     A("")
     A("Группировка: одна строка на каждый уникальный набор статов. Колонка "
       "**nations** — нации, в которых этот юнит с этими статами доступен "
@@ -181,11 +181,11 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
       "разные строки.")
     A("")
     A("Колонки: HP, скорость (px/g-sec; 32 = крестьянин), основное оружие "
-      "(damage / pause / range / kind), DPS @ game-sec, DPS @ real-sec (×1.4 fast), "
+      "(урон / пауза / дальность / тип), DPS @ game-sec, DPS @ real-sec (×1.4 fast), "
       "protections (только ненулевые), shield. Юнит может иметь ≥1 оружия — "
-      "показано **сильнейшее по урон/пауза**.")
+      "показано **сильнейшее по соотношению урон/пауза**.")
     A("")
-    A("| sid | nations | usage | HP | speed | primary weapon | DPS g-s | DPS real | protections |")
+    A("| sid | нации | usage | HP | speed | primary weapon | DPS g-s | DPS real | protections |")
     A("| --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- |")
     sorted_groups = sorted(groups, key=lambda g: _row_key(g[0]))
     for u, nats in sorted_groups:
@@ -213,7 +213,7 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
 def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
     L = []
     A = L.append
-    A("## §2. DPS ranking — combat unit groups")
+    A("## §2. Рейтинг DPS — боевые юниты")
     A("")
     A("Все combat-юниты с `pause > 0` (melee с `pause = 0` исключены — урон у "
       "них привязан к анимационному циклу, см. §4). DPS считается в game-sec; "
@@ -230,7 +230,7 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
             continue
         rows.append((u, nats, w, d_g))
     rows.sort(key=lambda x: -x[3])
-    A("| # | sid | nations | usage | HP | weapon kind | dmg | pause s | range t | DPS g-s | DPS real |")
+    A("| # | sid | нации | usage | HP | weapon kind | урон | пауза, с | дальн., тайл. | DPS g-s | DPS real |")
     A("| ---: | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |")
     for i, (u, nats, w, d_g) in enumerate(rows, 1):
         A(f"| {i} | `{u['sid']}` | {fmt_nation_list(nats)} | "
@@ -245,7 +245,7 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
 def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
     L = []
     A = L.append
-    A(f"## §3. Effective HP — против эталонной атаки {REF_DAMAGE} damage по типу")
+    A(f"## §3. Effective HP — против эталонной атаки {REF_DAMAGE} единиц урона по типу")
     A("")
     A(f"`EHP_vs_X = HP / max(1, {REF_DAMAGE} - prot[X])` — сколько ударов выдержит юнит "
       f"если по нему бьёт оружие типа X с базовым уроном {REF_DAMAGE}. Для атак с "
@@ -254,10 +254,10 @@ def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
       f"урон/удар (`miscext2.script:381`) — поэтому EHP не бесконечный против пик у "
       f"пикинёра с prot_pike=3, а ровно `HP / max(1, dmg-prot)`.")
     A("")
-    A("Включены только юниты, у которых хоть одна protection ≠ 0 (фильтрация "
-      "избавляет от типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).")
+    A("Включены только юниты, у которых хоть одно значение protection ≠ 0 (фильтр "
+      "исключает типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).")
     A("")
-    A("| sid | nations | usage | HP | shield | EHP pike | sword | bullet | cannister | arrow | cannonball |")
+    A("| sid | нации | usage | HP | shield | EHP pike | sword | bullet | cannister | arrow | cannonball |")
     A("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     sorted_groups = sorted(groups, key=lambda g: _row_key(g[0]))
     for u, nats in sorted_groups:
@@ -280,23 +280,23 @@ def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
 def render_notes() -> list[str]:
     L = []
     A = L.append
-    A("## §4. Notes & caveats")
+    A("## §4. Замечания и оговорки")
     A("")
-    A("- **Melee weapons (pause = 0)** — DPS не считается. В коде урон melee "
+    A("- **Оружие ближнего боя (pause = 0)** — DPS не считается. В коде урон melee "
       "наносится по триггеру анимационного кадра (`onaclanimationreachedwork`), "
-      "цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует empirical "
-      "теста (см. `recon/empirical_tests.md` Test 2 — то же ограничение FPS).")
-    A("- **Squad bonuses** проигнорированы. `fAddDamage` (наступательный) и "
+      "цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует эмпирического "
+      "замера (см. `recon/empirical_tests.md` Test 2 — то же ограничение по FPS).")
+    A("- **Бонусы отряда** проигнорированы. `fAddDamage` (наступательный) и "
       "`fAddShield`/`fAddShieldHold` (стеновой режим) могут добавлять до +50% "
       "к damage и до +50 EHP — но они зависят от формации/состояния, а не "
-      "от unit'а. Сравнение в этой таблице — base-vs-base.")
-    A("- **`mortarball` / `firearrow`** — отдельные kind'ы без матчинг "
-      "protection-поля. Входят в DPS, но в §3 EHP не показаны (защиты нет).")
-    A("- **`heal` weapon** на priest исключён из всех расчётов — это "
+      "от юнита. Сравнение в этой таблице — базовые статы против базовых.")
+    A("- **`mortarball` / `firearrow`** — отдельные kind'ы, без соответствующего "
+      "поля protection. Входят в DPS, но в §3 EHP не показаны (защиты нет).")
+    A("- **Оружие `heal`** у priest'а исключено из всех расчётов — это "
       "неагрессивная способность.")
     A("- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость "
       "крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** в "
-      "`unit.script:1192`, applied as `objbase.speed:=1` по умолчанию. Числа "
+      "`unit.script:1192`, по умолчанию применяется `objbase.speed:=1`. Числа "
       "в столбце speed — таблица из `dmscript.global:603-620`, то есть "
       "_декларированные_ значения, не верифицированные эмпирически.")
     A("- **Реальное время.** Если играете на скорости fast (×1.4) — умножьте все "

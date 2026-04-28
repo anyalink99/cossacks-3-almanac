@@ -38,6 +38,12 @@ PER_NAT_BLD = ["cen", "hou", "bla", "bar", "ba2", "sta", "tem", "aca", "art", "d
 COMMON_BLD = ["mil", "sto", "mar", "por", "tow", "gol", "iro", "coa"]
 
 
+def name_ru_en(item: dict) -> str:
+    ru = (item.get("name_ru") or "").strip()
+    en = (item.get("name_en") or "").strip()
+    return ru or en or "—"
+
+
 def _build_index(data: dict) -> dict:
     """Build lookup tables for building/unit/upgrade by (sid, nation)."""
     bld = {(b["sid"], b["nation"]): b for b in data["buildings"]}
@@ -108,6 +114,7 @@ def build_tree(data: dict) -> dict:
                 continue
             nat_tree["buildings"][b["sid"]] = {
                 "name_en": b.get("name_en"),
+                "name_ru": b.get("name_ru"),
                 "kind": b.get("kind"),
                 "buildtime_sec": b.get("buildtime_sec"),
                 "cost": {k: b.get(k) or 0 for k in ("food", "wood", "stone", "gold", "iron", "coal")},
@@ -122,6 +129,7 @@ def build_tree(data: dict) -> dict:
                 continue
             nat_tree["units"][u["sid"]] = {
                 "name_en": u.get("name_en"),
+                "name_ru": u.get("name_ru"),
                 "buildtime_sec": u.get("buildtime_sec"),
                 "cost": {k: u.get(k) or 0 for k in ("food", "wood", "stone", "gold", "iron", "coal")},
                 "hp": u.get("hp"),
@@ -133,6 +141,7 @@ def build_tree(data: dict) -> dict:
                 continue
             nat_tree["upgrades"][ug["sid"]] = {
                 "name_en": ug.get("name_en"),
+                "name_ru": ug.get("name_ru"),
                 "itype": ug.get("itype"),
                 "value": ug.get("value"),
                 "time_sec": ug.get("time_sec"),
@@ -155,7 +164,7 @@ def write_tree_md(tree: dict):
              "(параметры `req0`..`req7`). Источник истины — `output/strategy/tech_tree.json`.")
     L.append("")
     L.append("**Условные обозначения:**")
-    L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology)")
+    L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")
     L.append("- `→ X, Y` — для разблокировки нужны X и Y одновременно")
     L.append("- Для зданий показана базовая цена (см. `cossacks3_scaling_prices.md` для N>1)")
     L.append("")
@@ -172,7 +181,7 @@ def write_tree_md(tree: dict):
         # Buildings
         L.append(f"### `{nat}` — здания")
         L.append("")
-        L.append("| sid | имя | время | цена | farm | требует |")
+        L.append("| sid | имя | время | цена | ферма | требует |")
         L.append("|---|---|---:|---|---:|---|")
         for sid in sorted(nt["buildings"].keys()):
             b = nt["buildings"][sid]
@@ -180,7 +189,7 @@ def write_tree_md(tree: dict):
             prereqs_str = ", ".join(_fmt_prereq(p) for p in b["prereqs"]) or "—"
             time_str = f"{b['buildtime_sec']:.1f}s" if b['buildtime_sec'] else "—"
             farm_str = str(b["farm"] or "—")
-            L.append(f"| `{sid}` | {b['name_en'] or '—'} | {time_str} | {cost_str or '—'} | {farm_str} | {prereqs_str} |")
+            L.append(f"| `{sid}` | {name_ru_en(b)} | {time_str} | {cost_str or '—'} | {farm_str} | {prereqs_str} |")
         L.append("")
         # Units
         L.append(f"### `{nat}` — юниты")
@@ -193,7 +202,7 @@ def write_tree_md(tree: dict):
             time_str = f"{u['buildtime_sec']:.2f}s" if u['buildtime_sec'] else "—"
             prereqs_str = ", ".join(_fmt_prereq(p) for p in u["prereqs"]) or "—"
             tr_str = ", ".join(u["trained_in"]) or "—"
-            L.append(f"| `{sid}` | {u['name_en'] or '—'} | {time_str} | {cost_str or '—'} | {tr_str} | {prereqs_str} |")
+            L.append(f"| `{sid}` | {name_ru_en(u)} | {time_str} | {cost_str or '—'} | {tr_str} | {prereqs_str} |")
         L.append("")
         # Upgrades — только те с непустыми prereqs (иначе шум)
         ug_with_reqs = [(sid, ug) for sid, ug in nt["upgrades"].items() if ug["prereqs"]]
@@ -206,7 +215,7 @@ def write_tree_md(tree: dict):
                 cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in ug["cost"].items() if v)
                 time_str = f"{ug['time_sec']:.1f}s" if ug['time_sec'] else "—"
                 prereqs_str = ", ".join(_fmt_prereq(p) for p in ug["prereqs"]) or "—"
-                L.append(f"| `{sid}` | {(ug['name_en'] or '—')[:60]} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
+                L.append(f"| `{sid}` | {name_ru_en(ug)[:60]} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
             L.append("")
     TREE_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {TREE_MD} ({TREE_MD.stat().st_size:,} bytes)")
@@ -223,22 +232,22 @@ def write_production_rates_md(data: dict):
     """Per nation: for each building that produces units, list (unit, buildtime, rate/min g-time, rate/min @ fast)."""
     idx = _build_index(data)
     L = []
-    L.append("# Cossacks 3 — Production Rates")
+    L.append("# Cossacks 3 — Темпы производства")
     L.append("")
     L.append("Сколько юнитов в минуту даёт **одно здание**, при бесперебойной очереди и без farm/resource ограничений.")
     L.append("")
-    L.append(f"**Mechanism** ([units/building.inc/doprogressorders.inc:120-373](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/doprogressorders.inc)):")
+    L.append(f"**Механика** ([units/building.inc/doprogressorders.inc:120-373](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/doprogressorders.inc)):")
     L.append("- Здание имеет ОДНУ очередь (`orders[0]`). Параллельной постройки **нет**.")
     L.append("- Прогресс: `progress += deltatime / unit.buildtime`. При `progress ≥ 1` юнит спавнится, прогресс сбрасывается.")
-    L.append("- Cost списывается **upfront** при старте каждого юнита.")
-    L.append("- Если упёрлись в farm cap или unit cap — производство **встало**, прогресс не идёт.")
+    L.append("- Стоимость списывается **сразу (upfront)** при старте каждого юнита.")
+    L.append("- Если упёрлись в farm cap или unit cap — производство **встаёт**, прогресс не идёт.")
     L.append("")
     L.append("**Формулы:**")
     L.append("- `rate_per_g_sec = 1 / unit.buildtime_sec`")
     L.append(f"- `rate_per_real_sec_fast = rate_per_g_sec × {GAMESPEED_FAST}`")
     L.append(f"- `units_per_real_min_fast = rate_per_real_sec_fast × 60`")
     L.append("")
-    L.append("Сгруппировано по нациям. Для каждого здания — список юнитов которых оно может производить.")
+    L.append("Сгруппировано по нациям. Для каждого здания — список юнитов, которых оно может производить.")
     L.append("")
 
     nations = sorted(set(b["nation"] for b in data["buildings"]))
@@ -252,9 +261,9 @@ def write_production_rates_md(data: dict):
             L.append("")
             continue
         for b in sorted(bldgs, key=lambda x: x["sid"]):
-            L.append(f"### `{b['sid']}` — {b.get('name_en') or '—'}")
+            L.append(f"### `{b['sid']}` — {name_ru_en(b)}")
             L.append("")
-            L.append("| Юнит | имя | buildtime (g-sec) | rate (units/g-min) | rate (units/real-min @ fast) | F | G | I | farm | upkeep food |")
+            L.append("| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |")
             L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
             for unit_sid in sorted(b.get("produces") or []):
                 u = idx["units"].get((unit_sid, nat))
@@ -264,15 +273,15 @@ def write_production_rates_md(data: dict):
                 rate_g = 60 / bt  # units per game-minute
                 rate_r = rate_g * GAMESPEED_FAST  # real-minute @ fast
                 upkeep = (u.get("consume") or {}).get("food") if isinstance(u.get("consume"), dict) else None
-                L.append(f"| `{unit_sid}` | {u.get('name_en') or '—'} | {bt:.2f} | {rate_g:.1f} | **{rate_r:.1f}** | {u.get('food') or 0} | {u.get('gold') or 0} | {u.get('iron') or 0} | {1 if not (u.get('peasantabsorber') or 0) else 0} | {upkeep or '—'} |")
+                L.append(f"| `{unit_sid}` | {name_ru_en(u)} | {bt:.2f} | {rate_g:.1f} | **{rate_r:.1f}** | {u.get('food') or 0} | {u.get('gold') or 0} | {u.get('iron') or 0} | {1 if not (u.get('peasantabsorber') or 0) else 0} | {upkeep or '—'} |")
             L.append("")
     L.append("---")
     L.append("")
     L.append("## Замечания")
     L.append("")
     L.append("1. **farm = 1 для каждого юнита** — каждый юнит занимает 1 слот популяции (контролируется `gPlayer.farm`). Зданиям, увеличивающим лимит — `cen=+100, hou=+25, bar=+150, ba2=+250` и т.д.")
-    L.append("2. **upkeep food** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.")
-    L.append("3. **При нехватке farm production стоит** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.")
+    L.append("2. **расход еды** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.")
+    L.append("3. **При нехватке farm производство останавливается** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.")
     L.append("4. **N зданий = N×rate.** 5 бараков пехотных = 5 × ~13 musketeer/min @ fast = ~65 musketeer/min.")
     RATES_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {RATES_MD} ({RATES_MD.stat().st_size:,} bytes)")

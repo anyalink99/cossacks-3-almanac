@@ -42,30 +42,30 @@ RES_LETTER = {"food": "F", "wood": "W", "stone": "S",
 
 # Per-nation building suffix categories — ordered for output.
 PER_NAT_SUF = [
-    ("cen", "Town Hall (Ratusha)"),
-    ("hou", "Housing / Dwelling"),
-    ("bar", "Barracks 17в."),
-    ("ba2", "Barracks 18в."),
-    ("bla", "Blacksmith"),
-    ("sta", "Stable"),
-    ("tem", "Cathedral"),
-    ("aca", "Academy"),
-    ("art", "Artillery Depot"),
-    ("dip", "Diplomatic Center"),
+    ("cen", "Ратуша (Town Hall)"),
+    ("hou", "Жилище"),
+    ("bar", "Казарма 17 в."),
+    ("ba2", "Казарма 18 в."),
+    ("bla", "Кузница"),
+    ("sta", "Конюшня"),
+    ("tem", "Собор"),
+    ("aca", "Академия"),
+    ("art", "Арт-склад"),
+    ("dip", "Дипломатический центр"),
 ]
 COMMON_SUF = [
-    ("mil", "Mill"),
-    ("sto", "Storehouse"),
-    ("mar", "Market"),
-    ("por", "Shipyard"),
-    ("tow", "Tower"),
-    ("gol", "Gold Mine"),
-    ("iro", "Iron Mine"),
-    ("coa", "Coal Mine"),
-    ("swa", "Stone Wall"),
-    ("sga", "Stone Gate"),
-    ("wga", "Wood Gate"),
-    ("wwa", "Palisade"),
+    ("mil", "Мельница"),
+    ("sto", "Склад"),
+    ("mar", "Рынок"),
+    ("por", "Верфь"),
+    ("tow", "Башня"),
+    ("gol", "Золотая шахта"),
+    ("iro", "Железная шахта"),
+    ("coa", "Угольная шахта"),
+    ("swa", "Каменная стена"),
+    ("sga", "Каменные ворота"),
+    ("wga", "Деревянные ворота"),
+    ("wwa", "Палисад"),
 ]
 
 
@@ -92,6 +92,13 @@ def price_for_n(b: dict, n: int) -> dict:
         base = b.get(k) or 0
         out[k] = floor(base * m) if base else 0
     return out
+
+
+def name_ru_en(item: dict) -> str:
+    """Russian name from locale, fallback to English, fallback to em-dash."""
+    ru = (item.get("name_ru") or "").strip()
+    en = (item.get("name_en") or "").strip()
+    return ru or en or "—"
 
 
 def fmt_cost(prices: dict) -> str:
@@ -140,9 +147,9 @@ def header_block() -> list[str]:
              "(`archerdip ↔ archerturdip`, `dragoon18dip ↔ lightcavalrydip`), и модификатор "
              "ограничен сверху значением **×2**. В этой таблице наёмников нет — только здания.")
     L.append("- Для не-наёмников модификатор ограничен сверху значением **×20000**. "
-             "На N≤6 этот кеп никогда не срабатывает (даже у barracks с `costpercent=500`: "
+             "На N≤6 этот предел никогда не срабатывает (даже у казарм с `costpercent=500`: "
              "5⁵ = 3125 < 20000).")
-    L.append("- Округление **floor** на каждый ресурс независимо. Для дорогих зданий с "
+    L.append("- **Округление вниз (floor)** для каждого ресурса независимо. Для дорогих зданий с "
              "`costpercent=104` это даёт ступенчатый рост, а не плавный.")
     L.append("")
     L.append(f"## Колонки N=1..{MAX_N}")
@@ -162,9 +169,9 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
     A(f"### {title}")
     A("")
     if show_nation:
-        head = ["Нация", "sid", "Имя (EN)", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
+        head = ["Нация", "sid", "Имя", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
     else:
-        head = ["sid", "Используют нации", "Имя (EN)", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
+        head = ["sid", "Используют нации", "Имя", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
     A("| " + " | ".join(head) + " |")
     align = ["---"] * len(head)
     align[3] = "---:"  # cost%
@@ -176,7 +183,7 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
             cells = [
                 b["nation"],
                 f"`{b['sid']}`",
-                b["name_en"] or "—",
+                name_ru_en(b),
                 str(b.get("costpercent") if b.get("costpercent") is not None else "—"),
             ]
             for n in range(1, MAX_N+1):
@@ -190,7 +197,7 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
             cells = [
                 f"`{sid}`",
                 nats,
-                b["name_en"] or "—",
+                name_ru_en(b),
                 str(b.get("costpercent") if b.get("costpercent") is not None else "—"),
             ]
             for n in range(1, MAX_N+1):
@@ -204,7 +211,7 @@ def write_md(data: dict):
     out: list[str] = header_block()
     A = out.append
 
-    A("## 1. Per-nation постройки")
+    A("## 1. Постройки по нациям")
     A("")
     A("Каждая нация имеет свой набор. sid формируется как `<nat><suffix>`. "
       "Сгруппировано по типу здания, все 21 нация в одной таблице на тип.")

@@ -1,36 +1,36 @@
-# Strategy inputs — что есть для написания стратегий
+# Входные данные для стратегий — что есть для написания
 
-Это **точка входа** для построения стратегий. Описывает что доступно после реализации пунктов 1-3 из плана.
+Это **точка входа** для построения стратегий. Описывает, что доступно после реализации пунктов 1-3 плана.
 
-## 1. Production-rate таблицы
+## 1. Таблицы темпа производства
 
 **Файл:** [`production_rates.md`](production_rates.md) (~100 KB).
 
-Что внутри: для каждой нации × каждого здания × каждого юнита, которого оно производит:
+Что внутри: для каждой нации × каждого здания × каждого юнита, который оно производит:
 - buildtime (game-sec)
-- rate units/g-min (теоретический максимум при бесперебойной очереди)
-- rate units/real-min @ fast (×1.4)
-- цена и upkeep food
+- темп units/g-min (теоретический максимум при бесперебойной очереди)
+- темп units/real-min @ fast (×1.4)
+- цена и расход еды (upkeep)
 
-Пример — Bavarian musketeer:
+Пример — баварский мушкетёр:
 
-| Юнит | buildtime (g-sec) | rate units/g-min | rate units/real-min @ fast |
+| Юнит | buildtime (g-sec) | темп units/g-min | темп units/real-min @ fast |
 |---|---:|---:|---:|
 | musketeer | 6.00 | 10.0 | **14.0** |
 
-**Механика:** одно здание = одна очередь (`orders[0]`). Параллельной постройки **нет**. Чтобы получить 100 musketeer/min, нужно ~7 бараков.
+**Механика:** одно здание = одна очередь (`orders[0]`). Параллельной постройки **нет**. Чтобы получать 100 мушкетёров в минуту, нужно ~7 бараков.
 
 Источник: `units/building.inc/doprogressorders.inc` — описано в шапке файла.
 
 ---
 
-## 2. Tech tree (зависимости)
+## 2. Дерево технологий (зависимости)
 
 **Файлы:**
-- [`tech_tree.md`](tech_tree.md) (~210 KB) — человеко-читаемый граф по нациям
-- [`tech_tree.json`](tech_tree.json) (~2.8 MB) — структурированный для программ
+- [`tech_tree.md`](tech_tree.md) (~210 KB) — человекочитаемый граф по нациям
+- [`tech_tree.json`](tech_tree.json) (~2.8 MB) — структурированный для машинной обработки
 
-Что внутри: для каждой сущности (здание/юнит/апгрейд) — список prereqs:
+Что внутри: для каждой сущности (здание/юнит/апгрейд) — список предусловий (prereqs):
 - `[B]` — нужно построенное здание
 - `[U]` — нужен живой юнит (редко)
 - `[T]` — нужен исследованный апгрейд
@@ -43,15 +43,15 @@ cuirassier → требует: [B] bavbla, [T] bavcen.1
 musketeer18bav → требует: [B] bavbla
 ```
 
-**Источник:** `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0..req7`). Извлечение в `parser/simulate_upgrades.py` → `parser/build_data.py` → `compute/build_tech_tree.py`.
+**Источник:** `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0..req7`). Конвейер извлечения: `parser/simulate_upgrades.py` → `parser/build_data.py` → `compute/build_tech_tree.py`.
 
 **Что НЕ покрыто:**
-- Несколько prereq-ов помечены как `req0` (literal string) — это нерезолвенные переменные в скрипте, обычно для специфических наций.
-- `century18` алиас: для большинства наций = `<csid>cen.1`. У `ukr/tur/alg` нет 18 века.
+- Несколько предусловий помечены как `req0` (literal string) — это неразрешённые переменные в скрипте, обычно для специфических наций.
+- Псевдоним `century18`: для большинства наций = `<csid>cen.1`. У `ukr/tur/alg` нет 18 века.
 
 ---
 
-## 3. Timeline-симулятор экономики
+## 3. Симулятор экономики (таймлайн)
 
 **Скрипт:** [`simulator/simulate_economy.py`](../../simulator/simulate_economy.py)
 
@@ -62,7 +62,7 @@ python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json
 # → output/sim_bav_basic_5min.md
 ```
 
-**Build order JSON** ([полная схема в шапке скрипта](../../simulator/simulate_economy.py)):
+**Билд-ордер в формате JSON** ([полная схема в шапке скрипта](../../simulator/simulate_economy.py)):
 ```json
 {
   "nation": "bav",
@@ -82,8 +82,8 @@ python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json
 }
 ```
 
-**Action types:**
-- `assign` — пересадить крестьян на ресурсы. Поля: `food`/`wood`/`stone` (выше земли) и любые `<cluster><gol|iro|coa>` (внутри шахт). Перезаписывает предыдущее назначение.
+**Типы действий:**
+- `assign` — пересадить крестьян на ресурсы. Поля: `food`/`wood`/`stone` (на поверхности) и любые `<cluster><gol|iro|coa>` (внутри шахт). Перезаписывает предыдущее назначение.
 - `build` — начать постройку здания. Поля: `sid`, `builders` (1-5, влияет на скорость).
 - `train` — поставить N юнитов в очередь конкретного здания. Поля: `building_sid`, `unit_sid`, `amount`.
 - `research` — начать апгрейд. Поле: `upgrade_sid`.
@@ -92,98 +92,98 @@ python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json
 
 | Механика | Реализована? | Формула / источник |
 |---|:---:|---|
-| Income food/wood/stone | yes | `portion × eff / (hits × T_hit) × (1-walk_overhead)` |
-| Income gold/iron/coal | yes | `13 × 32 / 250 × eff/100 × (1-mine_overhead)` per peasant inside mine |
-| Upkeep food | yes | `consume_food × 32 / 20000` per unit per g-sec |
-| Building construction | yes | `buildtime × speedup_by_builders` (1→1.0, 2→0.65, 3→0.5...) |
-| Unit production | yes | 1 unit per `unit.buildtime` per building instance |
-| Upgrade research | yes | takes `upgrade.time_sec` |
-| Prereq enforcement | yes | actions skip with warning if any prereq missing |
-| Cost scaling (costpercent) | yes | `floor(base × (cp/100)^count)` |
-| Farm cap | yes | training stops if `farm_used + 1 > farm_cap` |
-| Efficiency upgrades | yes | apply effectfood/wood/stone/perc on completion |
-| Field life upgrades | yes | apply fieldlifeperc on completion |
+| Доход food/wood/stone | да | `portion × eff / (hits × T_hit) × (1-walk_overhead)` |
+| Доход gold/iron/coal | да | `13 × 32 / 250 × eff/100 × (1-mine_overhead)` на крестьянина в шахте |
+| Расход еды (upkeep) | да | `consume_food × 32 / 20000` на юнит за g-sec |
+| Постройка зданий | да | `buildtime × speedup_by_builders` (1→1.0, 2→0.65, 3→0.5...) |
+| Производство юнитов | да | 1 юнит за `unit.buildtime` на каждый экземпляр здания |
+| Исследование апгрейдов | да | занимает `upgrade.time_sec` |
+| Проверка предусловий | да | действия пропускаются с предупреждением, если не выполнено |
+| Масштабирование цены (costpercent) | да | `floor(base × (cp/100)^count)` |
+| Лимит фермы | да | тренировка останавливается, если `farm_used + 1 > farm_cap` |
+| Апгрейды эффективности | да | применяется effectfood/wood/stone/perc по завершении |
+| Апгрейды HP полей | да | применяется fieldlifeperc по завершении |
 
 **Что НЕ симулируется (упрощения):**
 
 | Механика | Почему |
 |---|---|
-| Walking distance physically | используется статический `walk_overhead = 0.30` (можно настроить в build_order) |
-| Tree depletion | пул дерева на карте безграничный |
-| Field regen + restart циклы | предполагается бесконечная еда от поля |
-| Stone exhaustion | камень бесконечный (10M HP, реалистично) |
-| Очередь продолжения после произведённого юнита | `train amount=10` ставит 10 в очередь сразу — после производства одного следующий из очереди стартует автоматически. Но cost для каждого ВЫЧИТАЕТСЯ при старте этого юнита. |
+| Физическая длина перемещения | используется статический `walk_overhead = 0.30` (настраивается в билд-ордере) |
+| Истощение деревьев | запас дерева на карте бесконечный |
+| Восстановление и перезапуск полей | предполагается бесконечная еда от поля |
+| Истощение камня | камень бесконечный (10M HP, реалистично) |
+| Продолжение очереди после произведённого юнита | `train amount=10` ставит 10 в очередь сразу — после производства одного следующий запускается автоматически. Но цена каждого СПИСЫВАЕТСЯ при старте этого юнита. |
 | Несколько типов юнитов в очереди одного барака | сейчас работает корректно (массив unit_queues[bld] поддерживает разные `unit_sid`). |
 | Отмена постройки / возврат ресурсов | не реализовано. |
 
-**Output:**
+**Вывод:**
 
-1. `<prefix>.csv` — snapshot каждые 5 g-sec со столбцами:
+1. `<prefix>.csv` — снимок каждые 5 g-sec со столбцами:
    - `t_g, t_real`
    - `res_food, res_wood, res_stone, res_gold, res_iron, res_coal`
    - `farm_cap, farm_used, peasants_total, peasants_idle`
    - `bld_<sid>` для каждого построенного типа здания
    - `unit_<sid>` для каждого типа юнита
    
-2. `<prefix>.md` — markdown отчёт с:
-   - финальное состояние
-   - сводная timeline-таблица каждые 15 g-sec
-   - полный лог событий (TRAIN, BUILT, RESEARCHED, SKIP, ERROR)
+2. `<prefix>.md` — markdown-отчёт с:
+   - итоговое состояние
+   - сводная таблица-таймлайн каждые 15 g-sec
+   - полный журнал событий (TRAIN, BUILT, RESEARCHED, SKIP, ERROR)
 
 ---
 
-## Пример: bavarian basic opening
+## Пример: базовый дебют за Баварию
 
-**Build order:** [`simulator/build_orders/bav_basic_5min.json`](../../simulator/build_orders/bav_basic_5min.json)
-**Result:** [`sim/sim_bav_basic_5min.md`](sim/sim_bav_basic_5min.md)
+**Билд-ордер:** [`simulator/build_orders/bav_basic_5min.json`](../../simulator/build_orders/bav_basic_5min.json)
+**Результат:** [`sim/sim_bav_basic_5min.md`](sim/sim_bav_basic_5min.md)
 
 К t=360g (≈4.3 real-min @ fast):
-- 15 peasants, 1 town center, 2 housing, 1 mill, 1 blacksmith, 1 barracks, 5 mines (1 active iron, 1 active gold)
-- 10 musketeer'ов произведено (rate ~1 musketeer/7 g-sec из одного барака)
-- ~1500 еды / ~2700 wood / ~500 stone / ~520 gold / ~1700 iron в банке
+- 15 крестьян, 1 ратуша, 2 жилища, 1 мельница, 1 кузница, 1 казарма, 5 шахт (1 активная железная, 1 активная золотая)
+- произведено 10 мушкетёров (темп ~1 мушкетёр / 7 g-sec из одного барака)
+- ~1500 еды / ~2700 дерева / ~500 камня / ~520 золота / ~1700 железа в банке
 
 ---
 
-## Что писать на этих инструментах
+## Что писать с помощью этих инструментов
 
-С production rates + tech tree + симулятором можно теперь:
+С таблицами темпа производства + деревом технологий + симулятором теперь можно:
 
-### A. Сравнить разные openings численно
-Написать 3-5 разных build_orders для одной нации, прогнать симулятор, сравнить:
-- "к t=180g кого больше юнитов?"
-- "у кого выше income в момент пика?"
+### A. Сравнить численно разные дебюты
+Написать 3-5 разных билд-ордеров для одной нации, прогнать симулятор, сравнить:
+- "к t=180g у кого больше юнитов?"
+- "у кого выше доход в момент пика?"
 - "у кого позиция ресурсов лучше для следующего шага?"
 
-### B. Оптимизировать distribution крестьян
-Запускать симуляции с разными `assign` (3-2-0 vs 2-3-1 vs 4-2-1) и сравнить final state.
+### B. Оптимизировать распределение крестьян
+Запускать симуляции с разными `assign` (3-2-0 vs 2-3-1 vs 4-2-1) и сравнить итоговое состояние.
 
-### C. Посчитать "минимум peasants для X юнитов/мин"
-Если хочу выпускать 30 musketeer/min, мне нужно ~3 барака. Каждый musketeer стоит F45 G6 I5. 30/min × 5 iron = 150 iron/min = 2.5 iron/sec. Нужно ~1.6 крестьянина в железной шахте при walk_overhead=0.05 → 2 крестьянина с запасом.
+### C. Посчитать «минимум крестьян для X юнитов/мин»
+Если хочу выпускать 30 мушкетёров/мин, нужно ~3 барака. Каждый мушкетёр стоит F45 G6 I5. 30/мин × 5 iron = 150 iron/мин = 2.5 iron/сек. Нужно ~1.6 крестьянина в железной шахте при walk_overhead=0.05 → 2 крестьянина с запасом.
 
 ### D. Спланировать переход в 18 век
-Прогнать build_order с research="bavcen.1" в момент когда есть aca+tem+art и достаточно ресурсов (F30000 G5000 I2000 C2000).
+Прогнать билд-ордер с `research="bavcen.1"`, когда есть aca+tem+art и достаточно ресурсов (F30000 G5000 I2000 C2000).
 
 ### E. Сравнить нации
-Тот же build_order для разных наций (`"nation": "fra"` vs `"nation": "rus"` etc.) → разница в стоимостях, скоростях постройки, peasant cost (rus 26 food/peasant vs default 32 для fra).
+Тот же билд-ордер для разных наций (`"nation": "fra"` против `"nation": "rus"` и т.п.) → разница в стоимостях, скоростях постройки, цене крестьянина (rus — 26 food/peasant против стандартных 32 у fra).
 
 ---
 
 ## Чего ещё не хватает (для следующих шагов)
 
-Обозначено как пункты 4-9 в [`memory/project_extraction_model_plan.md`](.):
-- DPS / EHP метрики
-- Counter-unit матрицы
-- Time-to-X таблицы (автокалькулятор минимального build_order для цели)
-- Per-resource budget income vs upkeep
-- Empirical: peasant speed in tiles/g-sec (для уточнения walk_overhead)
-- Per-nation tier list (требует судейства)
+Перечислено как пункты 4-9 в [`memory/project_extraction_model_plan.md`](.):
+- метрики DPS / EHP
+- матрицы контр-юнитов
+- таблицы Time-to-X (автокалькулятор минимального билд-ордера для цели)
+- бюджет по ресурсам: доход против расхода (upkeep)
+- эмпирически: скорость крестьянина в tiles/g-sec (для уточнения walk_overhead)
+- тир-лист по нациям (требует судейства)
 
 ---
 
 ## Скрипты этого блока
 
-| Скрипт | Что делает | Output |
+| Скрипт | Что делает | Результат |
 |---|---|---|
-| `parser/build_data.py` | Извлекает всё из игры (расширен с prereqs) | `output/data.json` |
-| `compute/build_tech_tree.py` | Tech tree + production rates | `output/tech_tree.{json,md}`, `output/production_rates.md` |
+| `parser/build_data.py` | Извлекает всё из игры (расширен предусловиями) | `output/data.json` |
+| `compute/build_tech_tree.py` | Дерево технологий + темпы производства | `output/tech_tree.{json,md}`, `output/production_rates.md` |
 | `simulator/simulate_economy.py` | Симулятор экономики | `output/sim_<name>.{csv,md}` |

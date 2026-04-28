@@ -35,7 +35,7 @@ applied = max(1, weapon.damage
                  + squad bonuses
                  + HEADSHOT: +floor(uniqrnd × 500) at 5% chance (arrow/bullet vs non-buildings))
 ```
-**Минимум 1 хп**. Headshot = 5% шанс на каждый bullet/arrow выстрел против любого юнита (кроме light-cavalry-в-движении) даёт **до +499** бонусного damage. См. подробности в [02_combat.md → Headshot](02_combat.md#headshot-критический-удар--главная-скрытая-механика). Источник: `miscext2.script:_misc_DoDamage`.
+**Минимум 1 хп**. Хедшот = 5% шанс на каждый bullet/arrow выстрел против любого юнита (кроме light-cavalry-в-движении) даёт **до +499** бонусного урона. См. подробности в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). Источник: `miscext2.script:_misc_DoDamage`.
 
 ### Цена N-го здания того же типа
 
@@ -66,10 +66,6 @@ applied = max(1, weapon.damage
 |---|---|
 | [derived/scaling_prices.md](derived/scaling_prices.md) | Стоимости 2-го, 3-го, …N-го здания. Формула `cost(N) = floor(base × (costpercent/100)^(N-1))` |
 | [derived/map_resources.md](derived/map_resources.md) | Подсчёт ресурсов на карте Tiny (256×256) + Highlands + Rich: ~109 больших деревьев, ~115 средних, ~72 маленьких; ~33 камня; до 12 шахт на игрока |
-| [derived/efficiency_upgrades.md](derived/efficiency_upgrades.md) | Все `effect{food,wood,stone}` + `fieldlife` апгрейды на 21 нацию: пики, стоимость, прогрессия. |
-| [derived/combat_stats.md](derived/combat_stats.md) | DPS / EHP / armor по всем combat-юнитам. Дедупликация по статам, ранкинг по DPS. |
-| [derived/counter_matrix.md](derived/counter_matrix.md) | Матрица time-to-kill 22×22 эталонных юнитов с учётом protection. |
-| [derived/starting_layout.md](derived/starting_layout.md) | Геометрия старт-точки: 18 крестьян 6×3 grid, ring distances для forest/stone/mines, 14 startingunits-presets. |
 
 ### Сырой источник
 
@@ -86,7 +82,7 @@ applied = max(1, weapon.damage
 | [../../recon/empirical_tests.md](../../recon/empirical_tests.md) | Открытые вопросы для эмпирической проверки (скорость крестьянина, animation frame rate, brised флаг для пней) |
 | [../../recon/step1_findings.md](../../recon/step1_findings.md) | Исторический recon: исходное обнаружение структуры файлов игры (можно пропустить) |
 
-## Расхождения с заметками промпта
+## Расхождения с заметками из промпта
 
 (детали в [01_economy.md#discrepancies](01_economy.md))
 | Факт | Заметки | Файл |

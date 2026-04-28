@@ -39,10 +39,10 @@ ITYPE_TO_BUCKET = {
 
 BUCKET_ORDER = ["food", "wood", "stone", "fieldlife"]
 BUCKET_LABEL = {
-    "food":      "Food efficiency",
-    "wood":      "Wood efficiency",
-    "stone":     "Stone efficiency",
-    "fieldlife": "Field HP (fieldlife)",
+    "food":      "Эффективность еды",
+    "wood":      "Эффективность дерева",
+    "stone":     "Эффективность камня",
+    "fieldlife": "HP полей (fieldlife)",
 }
 
 RES_LETTER = {"food": "F", "wood": "W", "stone": "S",
@@ -117,11 +117,11 @@ def render_md(by_nation: dict) -> str:
       "Снижает урон/удар по полю на `100 / (1 + fieldlife/100)` — повышает выход "
       "за один цикл и уменьшает частоту перезапусков.")
     A("")
-    A("## Сводка по нациям (cumulative peaks)")
+    A("## Сводка по нациям (кумулятивные пики)")
     A("")
     A("Сумма всех значений в линейке = пик для нации, если исследовать ВСЕ соответствующие "
       "апгрейды. На практике некоторые апгрейды эксклюзивны (один building с .1..6 "
-      "лестницей), но скрипт суммирует всё — это **верхняя граница**.")
+      "ступенями), но скрипт суммирует всё — это **верхняя граница**.")
     A("")
     A("| Нация | food eff % | wood eff % | stone eff % | fieldlife % | Σ апгрейдов |")
     A("| --- | ---: | ---: | ---: | ---: | ---: |")
@@ -136,7 +136,7 @@ def render_md(by_nation: dict) -> str:
         A(f"| {nat} | +{food_sum} | +{wood_sum} | +{stone_sum} | +{flife_sum} | {total_count} |")
     A("")
     # Pretty: max-of-each highlighted in commentary
-    A("**Best-in-class peaks across all nations:**")
+    A("**Лучшие пики по всем нациям:**")
     for bucket in BUCKET_ORDER:
         peaks = [(nat, summarize_peaks(by_nation[nat])[bucket]["sum"]) for nat in nations_sorted]
         max_val = max(p[1] for p in peaks)
@@ -146,9 +146,9 @@ def render_md(by_nation: dict) -> str:
         A(f"- {BUCKET_LABEL[bucket]}: **+{max_val}** — {names}{suffix}")
     A("")
     # Cheapest path to standard chain — useful for strategy.
-    A("**Cheapest food-eff progression (cumulative gold for ALL food-eff upgrades):**")
+    A("**Самая дешёвая прогрессия food-eff (суммарное золото за ВСЕ апгрейды food-eff):**")
     A("")
-    A("| Нация | total gold | total food | total wood |")
+    A("| Нация | всего gold | всего food | всего wood |")
     A("| --- | ---: | ---: | ---: |")
     food_costs = []
     for nat in nations_sorted:
@@ -188,7 +188,7 @@ def render_md(by_nation: dict) -> str:
             for r in rows:
                 running += int(r.get("value") or 0)
             A("")
-            A(f"_Cumulative peak: +{running}_")
+            A(f"_Кумулятивный пик: +{running}_")
             A("")
         A("")
     A("---")

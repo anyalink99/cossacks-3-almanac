@@ -29,7 +29,7 @@ MD_PATH = DERIVED_DIR / "starting_layout.md"
 
 # These map the startid integer to the symbolic enum name from dmscript.global:1032-1045.
 PRESET_NAMES = {
-    -1: "(template — not selectable)",
+    -1: "(шаблон — не выбирается)",
     0:  "default",
     1:  "armysmall",
     2:  "armymedium",
@@ -168,7 +168,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       "`data/game/var/startingsettings.cfg` скриптом "
       "[`compute/extract_starting_layout.py`](../../../compute/extract_starting_layout.py).")
     A("")
-    A("## §1. Peasant placement (default mode)")
+    A("## §1. Расстановка крестьян (режим default)")
     A("")
     A("Источник: [`dogenerate.inc:1231-1281` (`CreateStartPointPeasants`)]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>).")
@@ -184,16 +184,16 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       f"`({cols}×{spacing}) × ({rows}×{spacing}) = "
       f"{cols * spacing}×{rows * spacing}` тайла")
     A(f"- Случайное смещение каждого крестьянина: ±0.125 тайла по обеим осям")
-    A("- Уникальный sid пехотинца берётся из `gCountry[cid].members[]` "
+    A("- Уникальный sid крестьянина берётся из `gCountry[cid].members[]` "
       "по первому юниту с `usage = gc_obj_usage_peasant` (например `peaaus` "
       "у Австрии, `peaeng` у Англии, и т.п.)")
     A("")
-    A("**Practical:** при старте у тебя горка из 18 крестьян занимает примерно "
+    A("**На практике:** при старте у тебя горка из 18 крестьян занимает примерно "
       "`5×3` тайла, что укладывается во внутренний круг очистки `cCircle1` "
       "(см. §2). Ничего другого там не спавнится — это безопасный «дом» "
       "для первой минуты.")
     A("")
-    A("## §2. Resource spawn rings around start point")
+    A("## §2. Кольца спавна ресурсов вокруг старт-точки")
     A("")
     A("Источник: [`dogenerate.inc:407-414, 720-978`]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>) "
@@ -207,13 +207,13 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       f"{circles.get('circle1_y', '?')} | очищается, ресурсы НЕ спавнятся (только крестьяне) |")
     A(f"| Mid (`cCircle2`) | {circles.get('circle2_x', '?')} | "
       f"{circles.get('circle2_y', '?')} | 1× stoneforests + 1× stones (камни) у внутренней границы |")
-    A(f"| — _between mid+4 and outer_ | — | — | 2× forests + 1× stones (камни) дополнительные |")
+    A(f"| — _между mid+4 и outer_ | — | — | дополнительные 2× forests + 1× stones (камни) |")
     A(f"| Outer (`cCircle3`) | {circles.get('circle3_x', '?')} | "
-      f"{circles.get('circle3_y', '?')} | 1× forest у границы (затем mask заполняется) |")
+      f"{circles.get('circle3_y', '?')} | 1× forest у границы (затем маска заполняется) |")
     A("")
     A("**Алгоритм спавна** (`for [MAIN]i:=0 to 127 do begin … VectorRotateY(px, …, angle); _misc_CheckStandPattern… end`): "
-      "в каждом «кольце» — 128 попыток × 3 sub-attempts найти валидную позицию "
-      "под выбранный pattern. Угол `angle` — `RandomExt × 360°`. Дистанция от "
+      "в каждом «кольце» — 128 попыток × 3 под-попытки найти валидную позицию "
+      "под выбранный паттерн. Угол `angle` — `RandomExt × 360°`. Дистанция от "
       "центра — `mindst + RandomExt × N + (i+j) × 0.5` тайла. Это значит:")
     A("")
     A("- **Inner stoneforest:** дистанция ~5-8 тайл")
@@ -222,29 +222,29 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("- **Mid stones:** дистанция ~16-22 тайл (mindst=12+4=16, +2 random)")
     A("- **Outer forest:** дистанция ~22-28 тайл")
     A("")
-    A("Тип леса определяется параметром `foreststype` в map gen settings: "
-      "0 = pinefir/spruce/pine (хвойный, 7 вариантов), 1 = leaf, 2 = mixed. "
-      "В desert-картах вместо forests используются `desert_forests_*` patterns.")
+    A("Тип леса определяется параметром `foreststype` в настройках генерации карты: "
+      "0 = pinefir/spruce/pine (хвойные, 7 вариантов), 1 = leaf (лиственные), 2 = mixed (смешанные). "
+      "В desert-картах вместо forests используются паттерны `desert_forests_*`.")
     A("")
-    A("Mines (gold/iron/coal) — отдельная функция `SetupMines` "
+    A("Шахты (gold/iron/coal) — отдельная функция `SetupMines` "
       "([`dogenerate.inc:985`]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>)). "
-      "Спавн mines идёт по другой логике (раундами по дистанции, см. "
+      "Спавн шахт идёт по другой логике (раундами по дистанции, см. "
       "`reference_extraction_model.md` § \"Map gen для tiny\").")
     A("")
-    A("## §3. Starting-units presets")
+    A("## §3. Пресеты стартовых юнитов")
     A("")
     A("Источник: [`startingsettings.cfg`]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/game/var/startingsettings.cfg>) + "
       "enum `gc_mapsettings_startingunits_*` ([`dmscript.global:1032-1045`]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global>)).")
     A("")
-    A("Игрок выбирает один из этих режимов в lobby. **default** (id=0) — это то, "
+    A("Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, "
       "что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или "
       "юнитов). Остальные режимы добавляют ресурсы и/или дополнительные юниты "
       "+ здания (через сложные ASCII-маски в cfg-файле).")
     A("")
-    A("**Сводка по startid → preset → стартовые ресурсы (поверх default):**")
+    A("**Сводка по startid → пресет → стартовые ресурсы (поверх default):**")
     A("")
     A("| startid | preset | dataversion | +F | +W | +S | +G | +I | +C |")
     A("| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |")
@@ -276,13 +276,13 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
         ]
         A("| " + " | ".join(cells) + " |")
     A("")
-    A("**Notes:**")
+    A("**Замечания:**")
     A("- Ресурсы — это **прибавка** к default'у (default = 0/0/0/0/0/0). "
-      "Игроки начинают с ровно этими числами на counter'ах.")
+      "Игроки начинают ровно с этими числами на счётчиках.")
     A("- `dataversion` указывает диапазон версий движка, в которых эта запись "
-      "активна. Старые записи (`dataversion 0…59`) сохранены для replay-совместимости. "
+      "активна. Старые записи (`dataversion 0…59`) сохранены для совместимости с реплеями. "
       "Для текущей версии используются записи с `dataversionmin ≥ 60`.")
-    A("- Помимо ресурсов каждый non-default preset спавнит **дополнительные "
+    A("- Помимо ресурсов каждый не-default пресет спавнит **дополнительные "
       "здания и юниты** через ASCII-маски (`mask : struct.begin`), которые "
       "тут не парсятся (слишком вариативно по нациям). Открой "
       "`startingsettings.cfg` целиком, если нужны точные расположения.")

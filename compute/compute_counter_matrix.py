@@ -133,11 +133,11 @@ def render_matrix(roster_units: list[tuple[str, dict]]) -> list[str]:
     A("")
     A("**Cell (row=attacker, col=defender)** = сколько секунд **одному** атакующему "
       "нужно чтобы убить **одного** защитника, считая игровое время × 1.4 (fast). "
-      "Включает protection, **не** включает shield/squad-бонусы/movement/range. "
+      "Учитывает protection, **не** учитывает shield/бонусы отряда/перемещение/дальность. "
       "Для артиллерии (cannon/mortar): один снаряд может зацепить нескольких — здесь "
-      "считаем урон только по одному цели.")
+      "считаем урон только по одной цели.")
     A("")
-    A("**Чтение:** меньше — лучше для атакующего. `m̃` = melee (pause=0, "
+    A("**Чтение:** меньше — лучше для атакующего. `m̃` = ближний бой (pause=0, "
       f"допущение {MELEE_PAUSE_GSEC} g-sec/удар). `—` = недоступно (нет оружия / hp).")
     A("")
     short_labels = [f"D{i+1}" for i in range(len(roster_units))]
@@ -186,14 +186,14 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
     """Effective DPS (real-sec @ fast): attacker DPS *after* defender protection."""
     L = []
     A = L.append
-    A("## Effective DPS matrix (real-sec @ fast)")
+    A("## Матрица эффективного DPS (real-sec @ fast)")
     A("")
     A("Сколько урона **в секунду реального времени** атакующий наносит защитнику "
       "после вычета protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. "
-      "Melee — деление на допущение 0.406 g-sec/удар.")
+      "Ближний бой — деление на допущение 0.406 g-sec/удар.")
     A("")
     A("Таблица **симметрична** по форме относительно TTK выше: TTK = HP / DPS, "
-      "так что эта таблица позволяет быстро мерить «есть ли вообще шанс» (DPS близко к 1 "
+      "так что эта таблица позволяет быстро прикинуть «есть ли вообще шанс» (DPS близко к 1 "
       "= protection почти полностью съедает урон).")
     A("")
     short_labels = [f"D{i+1}" for i in range(len(roster_units))]
@@ -232,29 +232,31 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
 def render_notes() -> list[str]:
     L = []
     A = L.append
-    A("## Caveats")
+    A("## Оговорки")
     A("")
-    A("- **Squad/formation bonuses** проигнорированы: `fAddDamage` (агрессивная "
+    A("- **Бонусы отряда/формации** проигнорированы: `fAddDamage` (агрессивная "
       "стойка) до +50%, `fAddShieldHold` (стеновой режим) до +50 EHP.")
-    A("- **Range** не учтена. Стрелок может бить 15 тайлов, кавалерист 1 — но "
+    A("- **Дальность** не учтена. Стрелок может бить 15 тайлов, кавалерист 1 — но "
       "матрица считает «привезли друг к другу и стреляют из позиции». Реальный "
-      "исход боя зависит от `searchradius` (когда видит) vs `radiusmax` (когда "
+      "исход боя зависит от `searchradius` (когда видит) против `radiusmax` (когда "
       "бьёт).")
-    A("- **Movement.** Для tanky-шкаф'ов (cuirassier 300hp) дешёвый rush musketeer'ов "
-      "может убить за 4 сек/шт., но musketeer reload time достаточен чтобы "
-      "cuirassier подъехал и зарубил melee'м. Это симулятор не учитывает.")
+    A("- **Перемещение.** Для танковых «шкафов» (cuirassier 300hp) дешёвый раш "
+      "мушкетёров может убить за 4 сек/шт., но времени перезарядки мушкетёра "
+      "достаточно, чтобы cuirassier подъехал и зарубил в ближнем бою. Этого "
+      "симулятор не учитывает.")
     A("- **Melee swing rate (0.406 g-sec)** — допущение из 13-кадрового анимационного "
-      "цикла. Empirical test (см. `recon/empirical_tests.md` Test 2) подтвердит/опровергнет. "
-      "Все melee TTK помечены `m̃`.")
-    A("- **Multi-target weapons** (cannon, mortar) считают урон по одному unit'у. "
-      "В реальности cannonball пробивает линию — в плотном строю ×3-5 эффективнее.")
-    A("- **Damage application:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` "
+      "цикла. Эмпирический замер (см. `recon/empirical_tests.md` Test 2) подтвердит "
+      "или опровергнет. Все melee TTK помечены `m̃`.")
+    A("- **Оружие по нескольким целям** (cannon, mortar) считает урон по одному "
+      "юниту. В реальности cannonball пробивает линию — в плотном строю ×3-5 "
+      "эффективнее.")
+    A("- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` "
       "(`miscext2.script:380, 434`). Минимум 1 даже если protection > damage — то "
       "есть **никакая броня не делает юнита бессмертным** против пик-копий, но "
       "TTK взрывается до сотен секунд.")
-    A("- **18c units (musketeer18, pikeman18, grenadier 18)** требуют research'а "
+    A("- **Юниты 18 в. (musketeer18, pikeman18, grenadier 18)** требуют исследования "
       "century18 + соответствующего здания. Включены для сравнения, но появляются "
-      "только после долгого eco-buildup.")
+      "только после длительного развития экономики.")
     A("")
     return L
 
@@ -292,7 +294,7 @@ def main():
     A("```")
     A("")
     A("Источник формулы — `miscext2.script:380, 434` (damage application). "
-      "FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Caveats.")
+      "FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.")
     A("")
     L.extend(render_matrix(roster))
     L.extend(render_dps_against(roster))

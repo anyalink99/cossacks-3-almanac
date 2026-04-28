@@ -2,50 +2,50 @@
 
 [← compare/](README.md) · [← Index](../README.md)
 
-Метатели гранат + musket. Anti-building/anti-tower.
+Метатели гранат + мушкет. Против зданий и башен.
 
-> **Жирным** выделены значения, отличающиеся от baseline (mode of column). Так сразу видно, кто из юнитов «особенный» в этой колонке.
+> **Жирным** выделены значения, отличающиеся от базовых (мода по столбцу). Так сразу видно, какой из юнитов «особенный» в этой колонке.
 
-| Юнит | Нация | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро | uniqueness |
+| Юнит | Нация | HP | Время | F | G | I | урон | дальн. (тайл.) | перезарядка | пика | меч | пуля | картечь | стрела | ядро | уникальность |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Grenadier** `grenadier` | aus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | eng | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | fra | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | net | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | pie | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | pol | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | por | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | pru | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | rus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | spa | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | swe | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | swi | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadier` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
-| **Grenadier** `grenadierbav` | bav | **125** | 6.0 | **95** | **70** | 40 | **14** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierden` | den | **125** | **6.5** | **100** | **90** | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier (mercenary)** `grenadierdip` | alg | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | aus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | bav | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | den | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | eng | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | fra | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | hun | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | net | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pie | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pol | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | por | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pru | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | rus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | sax | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | sco | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | spa | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | swe | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | swi | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | tur | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | ukr | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
-| **Grenadier** `grenadierhun` | hun | **125** | **6.5** | **90** | **80** | 40 | **30** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierpru` | pru | **125** | **7.0** | **90** | **100** | **45** | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadiersax` | sax | **100** | 6.0 | **50** | 60 | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Гренадер** `grenadier` | aus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | eng | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | fra | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | net | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | pie | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | pol | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | por | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | pru | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | rus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | spa | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | swe | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | swi | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadier` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | shared (13n) |
+| **Гренадер** `grenadierbav` | bav | **125** | 6.0 | **95** | **70** | 40 | **14** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Гренадер** `grenadierden` | den | **125** | **6.5** | **100** | **90** | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Гренадер  (наемник)** `grenadierdip` | alg | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | aus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | bav | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | den | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | eng | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | fra | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | hun | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | net | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | pie | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | pol | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | por | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | pru | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | rus | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | sax | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | sco | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | spa | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | swe | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | swi | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | tur | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | ukr | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер  (наемник)** `grenadierdip` | ven | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — | common |
+| **Гренадер** `grenadierhun` | hun | **125** | **6.5** | **90** | **80** | 40 | **30** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Гренадер** `grenadierpru` | pru | **125** | **7.0** | **90** | **100** | **45** | 18 | 1.5 | 0.0 | — | — | — | — | — | — | unique |
+| **Гренадер** `grenadiersax` | sax | **100** | 6.0 | **50** | 60 | 40 | **22** | 1.5 | 0.0 | — | — | — | — | — | — | unique |
 
-**Baseline (mode по колонкам):** hp=120, buildtime_sec=6.0, food=80, gold=60, iron=40, damage=18, radiusmax_tiles=1.5, pause_sec=0.0.
+**Базовые значения (мода по столбцу):** hp=120, buildtime_sec=6.0, food=80, gold=60, iron=40, damage=18, radiusmax_tiles=1.5, pause_sec=0.0.

@@ -27,6 +27,12 @@ ANIM_OVERHEAD = 1.13   # buildtime × 1.13 = time with 1 builder (anim cycle lon
 REPAIR_HP_PER_HIT = 20  # gc_gameplay_repairhp
 ANIM_CYCLE_SEC = 13 / 32  # 13 frames at 32 fps for the construct cycle
 
+
+def name_ru_en(item: dict) -> str:
+    ru = (item.get("name_ru") or "").strip()
+    en = (item.get("name_en") or "").strip()
+    return ru or en or "—"
+
 # Conservative defaults for slot caps based on building footprint perimeter.
 # For walls/gates: 4 slots per segment (from wallcustom.cfg, variation 1).
 # For buildings: ~12 slots (from typical 12-cell-perimeter buildings).
@@ -75,29 +81,29 @@ def main():
     nations = sorted(set(b["nation"] for b in data["buildings"]))
 
     L = []
-    L.append("# Cossacks 3 — Construction & Repair Times")
+    L.append("# Cossacks 3 — Время постройки и ремонта")
     L.append("")
     L.append("Время постройки (с нуля, новое здание) и ремонта (полностью повреждённое → полное HP) "
-             "для каждого здания. Считает с разным числом крестьян одновременно.")
+             "для каждого здания. Считается для разного числа крестьян.")
     L.append("")
     L.append("**Формулы** (см. [`recon/building_mechanics.md`](../../recon/building_mechanics.md)):")
     L.append("")
-    L.append("- **Постройка**, время с N крестьянами: `buildtime_sec × 1.13 / N` (clamp на slot cap)")
+    L.append("- **Постройка**, время с N крестьянами: `buildtime_sec × 1.13 / N` (ограничено slot cap)")
     L.append("- **Ремонт**, время с N крестьянами: `maxhp / (20 × N / 0.406)` g-sec")
-    L.append("- 1 цикл construct анимации = 13 frames / 32 fps = **0.406 g-sec**")
-    L.append(f"- @ fast game speed real-time = g-sec / {GAMESPEED_FAST}")
+    L.append("- 1 цикл анимации construct = 13 frames / 32 fps = **0.406 g-sec**")
+    L.append(f"- При скорости fast: real-time = g-sec / {GAMESPEED_FAST}")
     L.append("")
     L.append("**Slot caps** (грубая оценка периметра collision mask, см. recon §3.2):")
     L.append("")
-    L.append(f"- Walls/gates: **{SLOT_CAP_WALL}** slots per segment (явно заданы в `wallcustom.cfg`)")
-    L.append(f"- Towers: **{SLOT_CAP_TOWER}** slots")
-    L.append(f"- Большие здания (cen/aca/ba2/por): **16** slots")
-    L.append(f"- Прочие: **{SLOT_CAP_DEFAULT}** slots")
+    L.append(f"- Walls/gates: **{SLOT_CAP_WALL}** слотов на сегмент (явно заданы в `wallcustom.cfg`)")
+    L.append(f"- Towers: **{SLOT_CAP_TOWER}** слотов")
+    L.append(f"- Большие здания (cen/aca/ba2/por): **16** слотов")
+    L.append(f"- Прочие: **{SLOT_CAP_DEFAULT}** слотов")
     L.append("")
-    L.append("Cap не из кода напрямую (там `_unit_CalcBuilderPoints` динамически "
-             "обходит периметр), а оценка для практики. Hard cap движка: 30.")
+    L.append("Лимит взят не из кода напрямую (там `_unit_CalcBuilderPoints` динамически "
+             "обходит периметр), а как практическая оценка. Жёсткий лимит движка: 30.")
     L.append("")
-    L.append("**Колонки:** время в формате `<g-sec>g (<real-sec>r fast)`. Для длинных — в минутах.")
+    L.append("**Колонки:** время в формате `<g-sec>g (<real-sec>r fast)`. Для длительных значений — в минутах.")
     L.append("")
 
     for nat in nations:
@@ -105,7 +111,7 @@ def main():
         L.append("")
         L.append("### Постройка с нуля")
         L.append("")
-        head = ["sid", "имя", "buildtime_g", "slot_cap"] + [f"{n} builders" for n in BUILDER_COUNTS] + ["max builders"]
+        head = ["sid", "имя", "buildtime_g", "slot_cap"] + [f"{n} строит." for n in BUILDER_COUNTS] + ["макс. строит."]
         L.append("| " + " | ".join(head) + " |")
         L.append("|" + "|".join(["---"] * len(head)) + "|")
         for b in sorted([b for b in data["buildings"] if b["nation"] == nat],
@@ -116,7 +122,7 @@ def main():
             cap = slot_cap_for(b)
             cells = [
                 f"`{b['sid']}`",
-                (b.get("name_en") or "—")[:25],
+                name_ru_en(b)[:25],
                 f"{bt:.0f}g",
                 str(cap),
             ]
@@ -128,7 +134,7 @@ def main():
 
         L.append("### Полный ремонт (0 → max HP)")
         L.append("")
-        head = ["sid", "имя", "maxhp", "slot_cap"] + [f"{n} builders" for n in BUILDER_COUNTS] + ["max builders"]
+        head = ["sid", "имя", "maxhp", "slot_cap"] + [f"{n} строит." for n in BUILDER_COUNTS] + ["макс. строит."]
         L.append("| " + " | ".join(head) + " |")
         L.append("|" + "|".join(["---"] * len(head)) + "|")
         for b in sorted([b for b in data["buildings"] if b["nation"] == nat],
@@ -139,7 +145,7 @@ def main():
             cap = slot_cap_for(b)
             cells = [
                 f"`{b['sid']}`",
-                (b.get("name_en") or "—")[:25],
+                name_ru_en(b)[:25],
                 f"{hp}",
                 str(cap),
             ]

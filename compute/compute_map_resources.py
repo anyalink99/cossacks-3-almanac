@@ -270,18 +270,18 @@ def compute_counts(mapsize_tag: int, relieftype: int, resourcemines: int,
 
 def write_report(r: dict, settings: dict) -> str:
     L = []
-    L.append(f"# Map resources estimate — {r['map_name']} ({r['dim']}×{r['dim']}) "
-             f"+ {r['relief_name']} + {r['mine_density_name']} mines")
+    L.append(f"# Оценка ресурсов карты — {r['map_name']} ({r['dim']}×{r['dim']}) "
+             f"+ {r['relief_name']} + шахты {r['mine_density_name']}")
     L.append("")
     L.append("**Производный** документ. Считается из `parser/compute_map_resources.py`. "
              "Перегенерация: `python parser/compute_map_resources.py`.")
     L.append("")
-    L.append(f"**Settings:** mapsize={settings['mapsize']} ({r['map_name']}, {r['dim']}×{r['dim']} = {r['area']} tiles), "
+    L.append(f"**Настройки:** mapsize={settings['mapsize']} ({r['map_name']}, {r['dim']}×{r['dim']} = {r['area']} tiles), "
              f"relief={settings['relief']} ({r['relief_name']}), "
              f"resourcemines={settings['mines']} ({r['mine_density_name']}), "
              f"foreststype={settings['foreststype']}.")
     L.append("")
-    L.append("## 1. Pattern probability modifiers (estimated)")
+    L.append("## 1. Модификаторы вероятности паттернов (оценка)")
     L.append("")
     L.append(f"Симуляция `_misc_GetFreePatternMaskCountModifier` на {r['dim']}×{r['dim']} с "
              f"~{settings['water_blocking_pct']*100:.0f}% воды (Land terrain — почти открытое поле):")
@@ -292,10 +292,10 @@ def write_report(r: dict, settings: dict) -> str:
         L.append(f"| {ts} | {CALIB[ts]} | {r['raws'][ts]} | "
                  f"{r['raws'][ts]/CALIB[ts]:.3f} | **{r['probs'][key]:.3f}** |")
     L.append("")
-    L.append("⚠ Симуляция допускает что вода — один смежный блок, не разрозненные пиксели.")
+    L.append("⚠ Симуляция допускает, что вода — один смежный блок, а не разрозненные пиксели.")
     L.append("")
 
-    L.append("## 2. Densities after probability multipliers")
+    L.append("## 2. Плотности после умножения на вероятность")
     L.append("")
     L.append("| Var | base | × prob | final density | needed = floor(area × density) |")
     L.append("|---|---:|---:|---:|---:|")
@@ -306,11 +306,11 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"| stn2      | {STN2_BASE:.6f} | × probsmall = {r['probs']['small']:.3f}     | {r['stn2']:.6f} | {needed(r['area'], r['stn2']):d} |")
     L.append("")
 
-    L.append("## 3. Pattern requests (per call)")
+    L.append("## 3. Запросы паттернов (на вызов)")
     L.append("")
-    L.append("Каждый forest density распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов):")
+    L.append("Каждая плотность леса распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов):")
     L.append("")
-    L.append("| Тип паттерна | freq per call | needed per call | placed (~65%) |")
+    L.append("| Тип паттерна | частота на вызов | нужно на вызов | размещено (~65%) |")
     L.append("|---|---:|---:|---:|")
     for name, fr in r['big_calls']:
         n = needed(r['area'], fr)
@@ -329,7 +329,7 @@ def write_report(r: dict, settings: dict) -> str:
              "(остальные не вмещаются из-за гор/плато/мин).")
     L.append("")
 
-    L.append("## 4. Total clusters (estimated)")
+    L.append("## 4. Всего кластеров (оценка)")
     L.append("")
     L.append(f"- Big forest clusters:    **~{r['big_real']}**")
     L.append(f"- Medium forest clusters: **~{r['mid_real']}**")
@@ -337,7 +337,7 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"- Stone clusters:         **~{r['stone_real']}**")
     L.append("")
 
-    L.append("## 5. Trees and stones (estimated counts)")
+    L.append("## 5. Деревья и камни (оценочное количество)")
     L.append("")
     L.append("Допущение по числу деревьев в паттерне (на основе анализа размеров `.pattern` файлов):")
     L.append(f"- big = ~{TREES_PER_BIG}, medium = ~{TREES_PER_MID}, small = ~{TREES_PER_SMALL} деревьев на кластер.")
@@ -347,7 +347,7 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"**Камней всего на карте:**   ~{r['total_stones']:,}".replace(",", " "))
     L.append("")
 
-    L.append("## 6. Wood/stone supply pools")
+    L.append("## 6. Запасы древесины и камня")
     L.append("")
     L.append(f"Среднее HP дерева (взвешенное по distribution): **{AVG_TREE_HP:.0f} HP/tree**.")
     L.append(f"- 20% giants × 12000 HP avg")
@@ -356,13 +356,13 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"- 20% stubs × 10 HP")
     L.append("")
     L.append(f"**Общий пул дерева на карте:** ~{r['total_wood_hits']:,.0f} hits ".replace(",", " ") +
-             f"≈ **{r['total_wood_units']:,.0f} единиц wood @ eff=100**.".replace(",", " "))
+             f"≈ **{r['total_wood_units']:,.0f} единиц древесины @ eff=100**.".replace(",", " "))
     L.append("")
-    L.append(f"При 4 игроках: ~{r['total_wood_units']/4:,.0f} wood на игрока. ".replace(",", " "))
-    L.append("При 1 игроке (FFA или соло): весь пул доступен.")
+    L.append(f"При 4 игроках: ~{r['total_wood_units']/4:,.0f} древесины на игрока. ".replace(",", " "))
+    L.append("При 1 игроке (FFA или соло): весь запас доступен.")
     L.append("")
     L.append(f"**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). "
-             f"~{r['total_stones']:,} камней × 10M HP = неограниченный supply.".replace(",", " "))
+             f"~{r['total_stones']:,} камней × 10M HP = неограниченный запас.".replace(",", " "))
     L.append("")
 
     L.append(f"## 7. Месторождения (Resources={r['mine_density_name']}, {r['map_name']})")
@@ -394,11 +394,11 @@ def write_report(r: dict, settings: dict) -> str:
     L.append("- Mine rounds — из dogenerate.inc:528-602.")
     L.append("")
     L.append("**Что оценено:**")
-    L.append("- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier` для tiny с допущением о низком water blocking.")
+    L.append("- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier` для tiny с допущением о слабом блокировании водой.")
     L.append("- Trees/stones per pattern — оценка из размера `.pattern` файлов (~30 байт/тайл, делённое на ожидаемую плотность объектов в паттерне).")
-    L.append("- Realistic placement rate — допущение 65% (на tiny+highlands, где много гор).")
+    L.append("- Реалистичная частота размещения — допущение 65% (на tiny+highlands, где много гор).")
     L.append("")
-    L.append("**Предел точности:** ±30-50% по числу деревьев и stone clusters. ±10% по pattern клстерам.")
+    L.append("**Предел точности:** ±30-50% по числу деревьев и каменных кластеров. ±10% по кластерам паттернов.")
     L.append("")
     L.append("Для уточнения нужны:")
     L.append("- Парсер binary `.pattern` файлов (custom format).")
