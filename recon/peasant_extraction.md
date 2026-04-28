@@ -11,6 +11,7 @@
 > - [determinism_audit.md](determinism_audit.md) — почему добыча не воспроизводима (RNG-сайты в hot-path), какой ожидать разброс при эмпирической калибровке этой модели.
 > - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени, sub-tick state machine, adaptive game speed. **Критично для трактовки real-time vs game-time** при замерах.
 > - [server_sync_architecture.md](server_sync_architecture.md) — server-authoritative модель C3, почему single-player и MP ведут себя по-разному.
+> - [map_generation_pipeline.md](map_generation_pipeline.md) — полный таймлайн DoGenerate (cCircle1/2/3, SetupStartingResources, Phase-1/Phase-2 mines, FillOwnerMap, peacetime borders).
 >
 > **TL;DR для этой модели:** аналитический потолок (формулы ниже) считаем в **game-time**. Реальная in-game добыча будет ниже из-за RNG-выборов в `_misc_FindResourceToExtract` ([determinism_audit.md](determinism_audit.md) §3). Разброс между запусками одного сейва ожидается 5-15%; шахты — 0%.
 
@@ -331,6 +332,8 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 ### 8.3 Resources=Rich, Tiny map — месторождения
 
+> **Полный таймлайн map gen + cCircle константы + SetupStartingResources алгоритм:** [map_generation_pipeline.md](map_generation_pipeline.md). Здесь — только то, что нужно для extraction-формул.
+
 **Терминология.** *Месторождение* — это геологическая залежь, помещаемая на карту генератором (basenames `minegold`/`mineiron`/`minecoal` через паттерны `mng`/`mni`/`mnc`). *Шахта* — это здание `eurgol`/`euriro`/`eurcoa`, которое игрок строит крестьянином на месторождении и куда потом могут заходить рабочие (peasantabsorber=5, до 95 с апгрейдами).
 
 [dogenerate.inc:522-717](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L522): процедура `SetupMines(pointx, pointy, minround, maxround, minesdensity, spcount)`.
@@ -358,7 +361,14 @@ Phase 2 (после генерации террейна, [dogenerate.inc:1770](C
 
 **Итого** на игрока: **4 месторождения каждого типа** (4 gold + 4 iron + 4 coal = **12 месторождений всего**), при условии что все 12 попыток размещения нашли валидное место в пределах 256 попыток каждая. На tiny+highlands часть попыток может фейлиться из-за гор/воды/других объектов в радиусе.
 
+**Гарантированные стартовые ресурсы вне mines** (через `SetupStartingResources`, [dogenerate.inc:720-978](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L720) — детали в [map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)):
+- В радиусе 5..22 тайла от центра города ВСЕГДА есть: **1× stoneforest, 2× stones, 3× forests** (medium/big, foreststype=0 mix).
+- Зона ≤22 тайла полностью замаскирована через cCircle1(5×7) → cCircle2(12×15) → cCircle3(22×18) эллипсы — туда ничего другого не положится.
+- Это объясняет, почему в начале игры всегда хватает дерева на ratuse + первый mill ещё ДО общего forest spawn'a.
+
 ### 8.4 Леса и камни — densities (вне шахт)
+
+> ⚠ **`foreststype` всегда = 0** для Land. [dogenerate.inc:5-6](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L5): `var foreststype := floor(RandomExt*3); foreststype := 0;` — случайная инициализация немедленно перезаписана. Следствие: foreststype=1 (leaf-only) и =2 (mixed-only) на Land **никогда не активируются**. Карты Land используют только foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
 
 [dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1688):
 - `frs_big = 0.0009`, `frs_mid = 0.0009`, `frs_small = 0.00054`

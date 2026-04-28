@@ -2,6 +2,8 @@
 
 **Цель:** ответ на вопрос «сколько уникальных карт может сгенериться при фиксированных параметрах».
 
+> **Связано:** [map_generation_pipeline.md](map_generation_pipeline.md) — что именно делает DoGenerate с этим seed (полный таймлайн, все procedures).
+
 ## TL;DR
 
 Для одних и тех же параметров (terrain type + map size + relief + mines + players) **карта однозначно определяется парой `(inputbitmap, randkey1)`** где:
