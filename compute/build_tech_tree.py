@@ -1,7 +1,7 @@
 """Build tech tree (dependency graph) from data.json.
 
 Outputs (under output/strategy/):
-- output/strategy/tech_tree.json — структурированный граф (для симулятора и других консументов)
+- output/derived/tech_tree.json — структурированный граф (для симулятора и других консументов)
 - output/strategy/tech_tree.md   — человеко-читаемая версия (по нациям)
 - output/strategy/production_rates.md — таблица "сколько юнитов/мин одно здание"
 
@@ -25,10 +25,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, STRATEGY_DIR
+from config import DATA_JSON, STRATEGY_DIR, DERIVED_DIR
 DATA_PATH = DATA_JSON
-TREE_JSON = STRATEGY_DIR / "tech_tree.json"
-TREE_MD = STRATEGY_DIR / "tech_tree.md"
+TREE_JSON = DERIVED_DIR / "tech_tree.json"  # JSON → derived/
+TREE_MD = STRATEGY_DIR / "tech_tree.md"     # MD → strategy/
 RATES_MD = STRATEGY_DIR / "production_rates.md"
 
 GAMESPEED_FAST = 1.4
@@ -161,7 +161,7 @@ def write_tree_md(tree: dict):
     L.append("")
     L.append("Граф зависимостей: что нужно построить/исследовать перед чем. Извлечено из "
              "`_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` "
-             "(параметры `req0`..`req7`). Источник истины — `output/strategy/tech_tree.json`.")
+             "(параметры `req0`..`req7`). Источник истины — `output/derived/tech_tree.json`.")
     L.append("")
     L.append("**Условные обозначения:**")
     L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")

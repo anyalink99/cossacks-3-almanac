@@ -36,7 +36,7 @@ output/
 - **Главы:** [01_economy](reference/01_economy.md), [02_combat](reference/02_combat.md), [03_buildings](reference/03_buildings.md), [04_units](reference/04_units.md), [05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md)
 - **Нации:** [reference/nations/](reference/nations/README.md) — по одному cheatsheet на нацию
 - **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen/musketeers/cavalry/ships/weapons и др. side-by-side
-- **Derived:** [reference/derived/](reference/derived/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)
+- **Derived:** [reference/derived/](reference/reports/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)
 
 ## Strategy stack
 
@@ -45,7 +45,7 @@ output/
 | Файл | Что внутри | Скрипт |
 |---|---|---|
 | [strategy/README.md](strategy/README.md) | **Точка входа в strategy**: как использовать | — |
-| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](strategy/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |
+| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](derived/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |
 | [strategy/production_rates.md](strategy/production_rates.md) | units/min для каждого здания × юнита | то же |
 | [strategy/sim/](strategy/sim/) | Output симулятора (`sim_*.csv/md`) | `parser/simulate_economy.py` |
 
@@ -72,8 +72,8 @@ Build orders (вход для симулятора): [`../build_orders/`](../bui
 ```
 python parser/build_data.py                 # → output/data.json (источник правды)
 python writers/write_md_tree.py             # → output/reference/ + output/README.md
-python compute/compute_scaling.py           # → output/reference/derived/scaling_prices.md
-python compute/compute_map_resources.py     # → output/reference/derived/map_resources.md
+python compute/compute_scaling.py           # → output/reference/reports/scaling_prices.md
+python compute/compute_map_resources.py     # → output/reference/reports/map_resources.md
 python compute/build_tech_tree.py           # → output/strategy/tech_tree.{md,json}, production_rates.md
 python simulator/simulate_economy.py <build_order.json>  # → output/strategy/sim/sim_<name>.{csv,md}
 ```

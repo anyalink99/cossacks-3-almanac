@@ -49,34 +49,49 @@
 
 ## 4. Всего кластеров (оценка)
 
-- Big forest clusters:    **~34**
-- Medium forest clusters: **~37**
-- Small forest clusters:  **~23**
+- Big forest clusters:    **~32**
+- Medium forest clusters: **~36**
+- Small forest clusters:  **~24**
 - Stone clusters:         **~21**
 
-## 5. Деревья и камни (оценочное количество)
+## 5. Деревья и камни — per pattern type
 
-Допущение по числу деревьев в паттерне (на основе анализа размеров `.pattern` файлов):
-- big = ~35, medium = ~17, small = ~8 деревьев на кластер.
-- stones = ~10 камней на кластер.
+Числа = медиана `mask=1` клеток для каждого pattern type из `output/reference/derived/pattern_type_stats.json` (парсер: `compute/compute_pattern_inventory.py`, mapping pattern→type из `data/game/var/generator.cfg`). Гипотеза: 1 mask cell = 1 дерево (подтверждено на brushes; для шахт mask = footprint, не объекты — см. caveat).
 
-**Деревьев всего на карте:** ~2 003
-**Камней всего на карте:**   ~210
+**Калибровка:** mask cells (placement slots) × **0.3** ≈ видимые chopable trees. Источник: эмпирическая оценка пользователя (small forest = ~10 trees, big = ~50). Кросс-проверка: forests_pine_big median mask = 148 → 148 × 0.34 = 50 ✓. См. caveat в начале файла.
+
+| pattern type | clusters placed | mask cells/cluster | trees/cluster | total trees |
+|---|---:|---:|---:|---:|
+| `forests_pinefir_big` (big) | 8 | 920 | 276 | 2208 |
+| `forests_spruce_big` (big) | 8 | 571 | 171 | 1368 |
+| `forests_pine_big` (big) | 8 | 148 | 44 | 352 |
+| `forests_pine_big_2` (big) | 8 | 185 | 56 | 448 |
+| `forests_spruce_medium` (mid) | 12 | 469 | 141 | 1692 |
+| `forests_pinefir_medium` (mid) | 12 | 311 | 93 | 1116 |
+| `forests_pine_medium` (mid) | 12 | 59 | 18 | 216 |
+| `forests_pinefir_small` (small) | 12 | 172 | 52 | 624 |
+| `forests_pine_small` (small) | 12 | 44 | 13 | 156 |
+| `stones` | 21 | 138 | 41 | 861 |
+
+⚠ **Caveat про mask=1 интерпретацию:** brushes подтверждают (brush_plt_1x1: 8 mask = 8 видимых кустов), но шахты (`mng/mni/mnc`) — 32 mask клетки = **1 deposit** (mask = collision footprint). Для лесов мы предполагаем «1 cell = 1 tree», но без in-game test это upper bound. Точное число — empirical.
+
+**Деревьев всего на карте:** ~8 180
+**Камней всего на карте:**   ~861
 
 ## 6. Запасы древесины и камня
 
-Среднее HP дерева (взвешенное по distribution): **2474 HP/tree**.
-- 20% giants × 12000 HP avg
-- 15% medium × 375 HP avg
-- 45% small × 35 HP avg
-- 20% stubs × 10 HP
+**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок ([`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + [`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc)):
+- меняет mesh на `pinestump<N>` (визуально пень)
+- **НЕ меняет** `brised=True` → пенек остаётся валидной целью для поиска
+- продолжает принимать удары: `hp -= 1, peasant.resamount += 1` (даже при HP < 0)
 
-**Общий пул дерева на карте:** ~4 955 422 hits ≈ **9 910 844 единиц древесины @ eff=100**.
+Поэтому wood pool на карте **не лимитирован числом деревьев**. Среднее начальное HP (2474/tree из distribution: 20% giants 8-16K HP / 15% medium 125-624 / 45% small 10-60 / 20% stubs 10) определяет только сколько «халявных» хитов до перехода в режим бесконечной добычи.
 
-При 4 игроках: ~2 477 711 древесины на игрока. 
-При 1 игроке (FFA или соло): весь запас доступен.
+Сумма начальных HP всех деревьев: ~20 237 320 hits ≈ **40 474 640 «бесплатной» древесины** @ eff=100  после чего тот же лес продолжает давать ту же скорость через пеньки.
 
-**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). ~210 камней × 10M HP = неограниченный запас.
+**Real bottleneck для древесины:** число одновременных слотов (maxattackers_wood = 2 на дерево/пенек), скорость крестьянина и расстояние до склада, не количество.
+
+**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). ~861 камней × 10M HP = неограниченный запас.
 
 ## 7. Месторождения (Resources=Rich, Tiny)
 

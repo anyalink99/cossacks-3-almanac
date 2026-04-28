@@ -21,7 +21,7 @@ Output structure (written to output/data.json):
 }
 """
 from __future__ import annotations
-import sys, json, copy, re
+import sys, json, copy, math, re
 from pathlib import Path
 from collections import defaultdict
 
@@ -401,6 +401,8 @@ def _format_building_row(sid: str, nation: str, kind: str, stats: dict,
         "produce": stats.get("produce"),
         "peasantabsorber": stats.get("peasantabsorber"),
         "resourcebase": sorted(list(stats.get("resourcebase", set()))),
+        "bnohungry": stats.get("bnohungry", False),
+        "bbuilding": stats.get("bbuilding", True),
     }
 
 
@@ -419,10 +421,31 @@ def _resolve_speed(raw):
     return raw  # leave as-is for debugging if it's something unexpected
 
 
+_FOODPERUNIT_RE = re.compile(r"^\s*floor\s*\(\s*gc_obj_foodperunit\s*\*\s*([\d.]+)\s*\)\s*$")
+
+
+def _eval_consume_expr(value):
+    """Evaluate `floor(gc_obj_foodperunit*K)` expressions to int. Pass-through
+    integers / unknown forms unchanged. Used to flatten 7 unique expressions
+    that script writers used in unit `consume` blocks (parse_units.py kept
+    them as raw strings)."""
+    if isinstance(value, int) or value is None:
+        return value
+    if isinstance(value, str):
+        m = _FOODPERUNIT_RE.match(value)
+        if m:
+            return math.floor(30 * float(m.group(1)))  # gc_obj_foodperunit = 30
+    return value
+
+
 def _format_unit_row(sid: str, nation: str, stats: dict, loc_en, loc_ru) -> dict:
     com = _commonname(nation)
     name_en = loc_en.lookup_unit_name(sid, nat=nation, com=com)
     name_ru = loc_ru.lookup_unit_name(sid, nat=nation, com=com)
+    # Evaluate any string-form consume expressions (e.g. floor(gc_obj_foodperunit*2) → 60)
+    consume = stats.get("consume")
+    if isinstance(consume, dict):
+        consume = {k: _eval_consume_expr(v) for k, v in consume.items()}
     weapons = stats.get("weapons", {})
     weapon_list = []
     for idx in sorted(weapons.keys()):
@@ -474,8 +497,13 @@ def _format_unit_row(sid: str, nation: str, stats: dict, loc_en, loc_ru) -> dict
         "prot_arrow": stats.get("prot_arrow"),
         "prot_cannonball": stats.get("prot_cannonball"),
         "weapons": weapon_list,
-        "consume": stats.get("consume"),
+        "consume": consume,
         "peasantabsorber": stats.get("peasantabsorber"),
+        "bnohungry": stats.get("bnohungry", False),
+        "bmercenary": stats.get("bmercenary", False),
+        "bofficer": stats.get("bofficer", False),
+        "bdrummer": stats.get("bdrummer", False),
+        "bpriest": stats.get("bpriest", False),
     }
 
 
@@ -543,6 +571,8 @@ def _format_upgrade_row(uid: str, nation: str, meta: dict, loc_en, loc_ru) -> di
         "coal":  _to_int(meta.get("coal")),
         "iarr1": meta.get("iarr1"),
         "sarr2": meta.get("sarr2"),
+        "targets": meta.get("targets") or [],            # unit/building sids this upgrade modifies
+        "resource_pcts": meta.get("resource_pcts") or {}, # priceperc only: {res: pct}
         "place": meta.get("place"),
         "member": meta.get("member"),
         "prereqs": meta.get("prereqs") or [],
@@ -662,7 +692,15 @@ def build_economy(constants: dict) -> dict:
 
 
 def build_market_rates() -> dict:
-    """Extract gEconomy[i] init values from res.script:178-249. Static representation."""
+    """Extract gEconomy[i] init values from res.script:178-249. Static representation.
+
+    The food/stone formulas are copied verbatim from the script:
+      food:  sellcostdef = 18.24095 * 0.8333; min = def * 0.7; max = def * 1.3
+             (res.script:195-197)
+      stone: sellcostdef = 19.29725 * 1.08306; min = def * 0.75; max = def * 1.25
+    The constants 18.24095 / 19.29725 / 0.8333 / 1.08306 are unexplained in the
+    script — preserved as-is so our values match the engine bit-for-bit.
+    """
     return {
         "food":  {"buycostmin": 20,  "buycostdef": 25,  "buycostmax": 40,
                    "sellcostmin": 18.24095*0.8333*0.7,

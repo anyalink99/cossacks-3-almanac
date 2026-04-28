@@ -9,7 +9,7 @@ path to +200% wood for ven".
 The values are **additive** to a base of 100 — see `_player_ApplyUpgrade` in
 player.script:1812+. So `value: 40` means "+40% to that resource's efficiency".
 
-Output: output/reference/derived/efficiency_upgrades.md
+Output: output/reference/reports/efficiency_upgrades.md
 """
 from __future__ import annotations
 import sys
@@ -20,10 +20,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, DERIVED_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
 
 
-MD_PATH = DERIVED_DIR / "efficiency_upgrades.md"
+MD_PATH = REPORTS_DIR / "efficiency_upgrades.md"
 
 # Group `effectfood` and `effectfoodperc` together — they apply the same way
 # (additive to resefficiency[food]), the `perc` suffix is historical naming.
@@ -204,7 +204,7 @@ def render_md(by_nation: dict) -> str:
 def main():
     data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
     by_nation = collect(data)
-    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     md = render_md(by_nation)
     MD_PATH.write_text(md, encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")

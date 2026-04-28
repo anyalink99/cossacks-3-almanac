@@ -30,23 +30,48 @@ Mechanics modeled (simplified — see assumptions in §END):
 - peasant idle/assigned to resource types: food/wood/stone/gold/iron/coal
 - production rate (g-sec):
     * food/wood/stone: portion × eff / (hits × T_hit) × (1 - walk_overhead)
-    * gold/iron/coal:  produce(13) × 32 / 250 × (1 - walk_overhead × 0.3)  [mines have less walking]
-- buildings: 1 builder = nominal time; 2 builders = ×0.65; 3+ = ×0.5 (rough)
-- units: building has 1-slot queue; rate = 1/unit_buildtime
-- upkeep: food per unit per g-sec = consume.food / 32
+    * gold/iron/coal:  produce(13) × 32 / 250 × (1 - mine_overhead)
+- buildings: time = buildtime_sec × 1.13 / N_builders, clamped at the per-building
+  slot cap from output/derived/builder_slots.json (range 19..30).
+- units: each building instance has its own queue; with N buildings of same sid →
+  N units progress in parallel. Rate per building = 1/unit_buildtime.
+- upkeep: per-unit food drain per g-sec = (consume.food + (bnohungry ? 0 : 30)) × 32 / 20000
+  (the +30 = gc_obj_foodperunit, added in unit.script:3821 for every non-bnohungry,
+   non-building unit; consume.food is the per-unit explicit value from unit.script)
 - prereqs: action fails if any required building not built or upgrade not done
-- farm cap: total farm = sum of building.farm; if farm_used >= cap, training stops.
+- farm cap: total farm = sum of building.farm (cen=100, bar=150, ba2=250, hou=25),
+  CLAMPED at map_settings.limit (1..8 → 500..8000) and engine ceiling 32000.
+- mine capacity: each mine accepts up to (5 + addpeasantabsorber) peasants inside;
+  upgrades gol/iro/coa.1..6 add +5/+8/+10/+12/+15/+40 cumulatively (base→max 95).
+- buildtimeperc upgrades: when researched, target sids (extracted via simulate_upgrades.py
+  → upgrade.targets) get buildtime *= (1 + value/10_000_000). For value=-2_500_000
+  this is -25% buildtime; for -7_500_000 it's -75% (effectively instant). Applied
+  inside `advance_unit_production` via `buildtime_modifier(sid)`.
+- field cycle (opt-in): if build_order includes `{"do":"plant_fields","count":49}`,
+  food collection switches to field-aware mode:
+    - Each plant_fields adds N fields in `growing` state (cost: N × 5 gold).
+    - Growing → alive after 87.5 g-sec (FIELD_GROW_TIME_SEC); hp = 25000.
+    - Alive → dead when hp ≤ 0; rest 21.875 g-sec; reborn → growing.
+    - Per-tick auto-regen: alive fields with hp ≥ 13000 (visual_stage_0) get
+      +1250 hp every 31.25 g-sec (mid-value of engine random 0..2500).
+    - Harvest drains hp: peasants_food × resdec / T_HIT[food] per g-sec, distributed
+      across alive fields. resdec = max(1, floor(100/(1+fieldlife/100))).
+    - With fieldlife=0: 1 peasant on 1 field = -65 hp/g-sec (dies in ~6.5 min).
+    - With fieldlife=300 (full upgrades): +44 hp/g-sec (field never dies).
+    - Cap of 3 attackers/field (gc_gameplay_resource_maxattackers_food).
+  Without plant_fields, food production is "infinite per peasant" (legacy).
 
 What's NOT modeled (yet):
 - Walking distances explicitly (uses static walk_overhead instead)
 - Individual peasant fatigue / pathing
-- Stone exhaustion (assumed infinite)
-- Field regen + restart cycles (assumes infinite food per worker)
+- Stone exhaustion (assumed infinite — stone HP=10M, effectively true)
 - Production cancel (we just ignore failed/incomplete actions)
 - Multiple barracks producing different units in parallel (modeled correctly!
   but action "train" assigns to ONE specific building_sid; user must build N barracks
   and queue N times)
-- Tree depletion: we don't reduce the global wood pool; assumed user-managed
+- Tree depletion: wood pool is INFINITE through stumps anyway, so this is fine
+- priceperc upgrades: target sids extracted but per-resource percentages stay
+  in unparsed direct sarrparam2 assignments (parser gap; price_modifier returns 1.0)
 """
 from __future__ import annotations
 import csv
@@ -59,22 +84,58 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import OUTPUT_DIR, DATA_JSON, STRATEGY_DIR
+from config import (OUTPUT_DIR, DATA_JSON, STRATEGY_DIR, DERIVED_DIR,
+                    ANIM_FRAMES_PER_GAMESEC, PEASANT_ANIM_SEC,
+                    WALK_OVERHEAD_GUESS, MINE_OVERHEAD_GUESS,
+                    GC_MAX_OBJ_COUNT, MAP_SETTINGS_LIMIT,
+                    MINE_BASE_PEASANTABSORBER,
+                    FIELD_MAX_HP, FIELD_GROW_TIME_SEC, FIELD_REST_TIME_SEC,
+                    FIELD_REGEN_INTERVAL_SEC, FIELD_REGEN_PER_TICK_MAX,
+                    FIELDS_PER_MILL, FIELD_GOLD_COST)
 DATA_PATH = DATA_JSON
-TREE_PATH = STRATEGY_DIR / "tech_tree.json"
+TREE_PATH = DERIVED_DIR / "tech_tree.json"
+BUILDER_SLOTS_JSON = DERIVED_DIR / "builder_slots.json"
 
 # ---------- Game constants ----------
 GAMESPEED = {"slow": 0.7, "normal": 1.0, "fast": 1.4}
-GC_TIME_TO_FRAMES = 32
-GC_FOOD_PER_UNIT = 32  # default consume.food per unit (most infantry)
+GC_TIME_TO_FRAMES = ANIM_FRAMES_PER_GAMESEC  # 32
+# dmscript.global:808 — additive food upkeep contributed by every non-bnohungry,
+# non-building unit (added to player's resconsume[food] in unit.script:3821).
+GC_OBJ_FOODPERUNIT = 30
 
+# Peasant work-cycle hits per resource (from country.script harvest formulas)
 PORTION = {"food": 45, "wood": 28, "stone": 40}
 HITS = {"food": 22, "wood": 14, "stone": 20}
-T_HIT = {"food": 22 / 32, "wood": 18 / 32, "stone": 18 / 32}  # game-seconds
+# Time per hit = animation cycle length, from data/animations/aaf/peaaus.aaf
+T_HIT = {"food":  PEASANT_ANIM_SEC["workfood"],
+         "wood":  PEASANT_ANIM_SEC["workwood"],
+         "stone": PEASANT_ANIM_SEC["workstone"]}
 
-# Mine produce rate per peasant per g-sec
+# Mine produce rate per peasant per g-sec — derived from gc_economy_time = 0.0001×32 = 0.0032 g-sec/tick,
+# 250-tick mining cycle yielding 13 resource per peasant: 13 / (250 × 0.0032) = 16.25? No — see resource.script.
+# Actual formula: rate = produce_per_cycle × gc_time_to_frames / cycle_frames = 13 × 32 / 250.
 MINE_RATE_PER_PEASANT = 13 * 32 / 250  # 1.664 res/g-sec/peasant
 MINE_TYPES = ("gold", "iron", "coal")
+
+# Real per-building builder slot cap, from compute/compute_builder_slots.py
+# (faithful sim of `_unit_CalcBuilderPoints` in unit.script:8702-9006).
+def _load_builder_slots() -> dict[str, int]:
+    if not BUILDER_SLOTS_JSON.exists():
+        return {}
+    raw = json.loads(BUILDER_SLOTS_JSON.read_text(encoding="utf-8"))
+    return {sid: info["slots"] for sid, info in raw.items()}
+
+BUILDER_SLOTS: dict[str, int] = _load_builder_slots()
+GC_MAX_BUILDER_COUNT = 30  # engine ceiling, gc_MaxBuilderCount
+
+
+def slot_cap_for(sid: str) -> int:
+    """Builder slot cap for a building. Prefers the per-sid simulation,
+    falls back to engine ceiling if sid is missing (rare; logs nothing
+    so callers can detect by comparing against the ceiling)."""
+    if sid in BUILDER_SLOTS:
+        return BUILDER_SLOTS[sid]
+    return GC_MAX_BUILDER_COUNT
 
 
 def load_data():
@@ -123,14 +184,24 @@ class SimState:
         # Resource type → set of mine sids the peasants are inside (optional refinement)
         self.mine_assignments: dict[str, int] = defaultdict(int)  # mine_sid -> peasants inside
 
-        # Walking overhead (0..1) for above-ground extraction
-        self.walk_overhead = (build_order.get("map_config") or {}).get("walk_overhead", 0.30)
-        self.mine_overhead = (build_order.get("map_config") or {}).get("mine_overhead", 0.05)
+        # Walking overhead (0..1) — empirical guess, see config.WALK_OVERHEAD_GUESS / MINE_OVERHEAD_GUESS.
+        # Override per-run via build_order.map_config.{walk_overhead, mine_overhead, limit}.
+        # `limit` (0..8) selects map-wide pop cap from gc_mapsettings_limit_*.
+        self.build_order_map_config = build_order.get("map_config")
+        self.walk_overhead = (self.build_order_map_config or {}).get("walk_overhead", WALK_OVERHEAD_GUESS)
+        self.mine_overhead = (self.build_order_map_config or {}).get("mine_overhead", MINE_OVERHEAD_GUESS)
 
         # Efficiency per resource type (default 100, +upgrades)
         self.eff = {"food": 100, "wood": 100, "stone": 100, "gold": 100, "iron": 100, "coal": 100}
-        # Field life (default 0)
+        # Field life (default 0). Drives resdec = max(1, floor(100/(1+fieldlife/100)))
         self.fieldlife = 0
+        # Field cycle tracking. Each field is dict {state, hp, transition_time}.
+        # state in {"growing", "alive", "dead"}.
+        # If no fields planted (default), food rate falls back to "infinite per
+        # peasant" model — preserves old build orders that don't model fields.
+        self.fields: list[dict] = []
+        # Last regen tick time (used for stage_0 +HP every FIELD_REGEN_INTERVAL_SEC).
+        self.next_field_regen_t = FIELD_REGEN_INTERVAL_SEC
 
         self.actions = sorted(build_order.get("actions", []), key=lambda a: a["at"])
         self.action_idx = 0
@@ -173,11 +244,45 @@ class SimState:
                 self.resources[k] -= v
 
     def farm_cap(self) -> int:
-        cap = 0
+        """Effective population cap = min(sum of building.farm, map limit, engine ceiling)."""
+        farm_sum = 0
         for sid, n in self.buildings.items():
             b = self.bldgs_idx.get(sid)
             if b and b.get("farm"):
-                cap += b["farm"] * n
+                farm_sum += b["farm"] * n
+        # Map setting cap (default = no override, falls back to engine ceiling)
+        map_limit_idx = (self.build_order_map_config or {}).get("limit", 0)
+        map_cap = MAP_SETTINGS_LIMIT.get(map_limit_idx, GC_MAX_OBJ_COUNT)
+        return min(farm_sum, map_cap, GC_MAX_OBJ_COUNT)
+
+    def mine_capacity(self, mine_sid: str) -> int:
+        """How many peasants this specific mine can hold inside.
+
+        Base = 5 (peasantabsorber). Plus sum of completed mine upgrades for
+        the matching resource type (eurgol.1..6 etc.). The simulator currently
+        treats upgrades as 'completed' — a real game tracks per-mine
+        addpeasantabsorber, but we conservatively assume all built mines have
+        all upgrades the player has researched.
+        """
+        cap = MINE_BASE_PEASANTABSORBER
+        # Detect resource via b.produce field
+        mine = self.bldgs_idx.get(mine_sid)
+        if not mine or not mine.get("produce"):
+            return cap
+        res = next(iter(mine["produce"]))
+        # Find matching upgrades like 'eurgol.1' through '.6' that are done
+        # Resource → upgrade place suffix
+        suffix = {"gold": "gol", "iron": "iro", "coal": "coa"}.get(res)
+        if not suffix:
+            return cap
+        # Try cluster prefixes
+        for prefix in ("eur", "rus", "ukr", "tur"):
+            for n in range(1, 7):
+                upg_sid = f"{prefix}{suffix}.{n}"
+                if upg_sid in self.upgrades_done:
+                    upg = next((u for u in self.data["upgrades"] if u["sid"] == upg_sid), None)
+                    if upg and upg.get("value"):
+                        cap += int(upg["value"])
         return cap
 
     def farm_used(self) -> int:
@@ -204,26 +309,70 @@ class SimState:
             self.execute_action(self.actions[self.action_idx])
             self.action_idx += 1
 
-        # 2. Income from peasants
+        # 2. Field state transitions (growing → alive → dead → reborn)
+        self.advance_fields(self.dt)
+
+        # 3. Income from peasants
         self.collect_income(self.dt)
 
-        # 3. Upkeep (food)
+        # 4. Upkeep (food/gold/iron/coal/etc.)
         self.consume_upkeep(self.dt)
 
-        # 4. Construction progress
+        # 5. Construction progress
         self.advance_construction()
 
-        # 5. Unit production progress
+        # 6. Unit production progress
         self.advance_unit_production(self.dt)
 
-        # 6. Upgrade research progress
+        # 7. Upgrade research progress
         self.advance_upgrades()
 
-        # 7. Snapshot
+        # 8. Snapshot
         if self.t_g % self.snapshot_interval == 0 or abs(self.t_g - self.max_time_g) < self.dt:
             self.snapshot()
 
         self.t_g += self.dt
+
+    # --- field cycle ---
+
+    def alive_field_count(self) -> int:
+        return sum(1 for f in self.fields if f["state"] == "alive")
+
+    def field_resdec(self) -> int:
+        """HP cost per peasant work-cycle. fieldlife=0 → 100, fieldlife=300 → 25."""
+        return max(1, math.floor(100 / (1 + self.fieldlife / 100)))
+
+    def advance_fields(self, dt: float):
+        """Tick field state machine. Called once per sim tick BEFORE income.
+
+        Transitions:
+          growing → alive  (after FIELD_GROW_TIME_SEC; hp = FIELD_MAX_HP)
+          dead    → growing (after FIELD_REST_TIME_SEC; hp = 0)
+          alive (regen): if hp >= 13000 (visual_stage_0) and t past next_regen_t,
+                         add up to FIELD_REGEN_PER_TICK_MAX hp (deterministic 0.5 *
+                         max for sim — engine uses random*0.1*MaxHP).
+
+        Income/harvest itself is computed in collect_income; this only handles
+        TIME-based transitions and regen ticks.
+        """
+        if not self.fields:
+            return
+        for f in self.fields:
+            if f["state"] == "growing" and self.t_g >= f["transition_time"]:
+                f["state"] = "alive"
+                f["hp"] = FIELD_MAX_HP
+            elif f["state"] == "dead" and self.t_g >= f["transition_time"]:
+                f["state"] = "growing"
+                f["hp"] = 0
+                f["transition_time"] = self.t_g + FIELD_GROW_TIME_SEC
+        # Regen tick — fires every FIELD_REGEN_INTERVAL_SEC g-sec
+        if self.t_g >= self.next_field_regen_t:
+            # Use mid-value (1250 HP) for deterministic sim — engine uses random×2500
+            regen_amount = FIELD_REGEN_PER_TICK_MAX // 2
+            for f in self.fields:
+                if f["state"] == "alive" and f["hp"] >= 13000:
+                    f["hp"] = min(FIELD_MAX_HP, f["hp"] + regen_amount)
+            self.next_field_regen_t += FIELD_REGEN_INTERVAL_SEC
 
     def collect_income(self, dt: float):
         # Above-ground: food/wood/stone
@@ -231,37 +380,97 @@ class SimState:
             n = self.assigned.get(res, 0)
             if n == 0:
                 continue
+            # Field-aware food: if fields are tracked, peasants need ALIVE fields.
+            # Each alive field accepts up to 3 attackers (gc_gameplay_resource_maxattackers_food).
+            # Drain field hp by resdec/T_HIT per peasant per g-sec; dead fields get
+            # transitioned to "dead" state for FIELD_REST_TIME_SEC then reborn.
+            if res == "food" and self.fields:
+                alive = [f for f in self.fields if f["state"] == "alive"]
+                if not alive:
+                    continue  # no alive fields → no food production
+                # Cap effective peasants by 3 × alive fields
+                n_eff = min(n, len(alive) * 3)
+                rate_per_p = (PORTION[res] * self.eff[res] / 100) / (HITS[res] * T_HIT[res])
+                rate_per_p *= (1 - self.walk_overhead)
+                food_added = n_eff * rate_per_p * dt
+                self.resources[res] += food_added
+                # Drain HP: distribute peasants across alive fields evenly
+                resdec = self.field_resdec()
+                hp_drain_per_peasant_per_gsec = resdec / T_HIT[res]
+                total_hp_drain = n_eff * hp_drain_per_peasant_per_gsec * dt
+                hp_drain_per_field = total_hp_drain / len(alive)
+                for f in alive:
+                    f["hp"] -= hp_drain_per_field
+                    if f["hp"] <= 0:
+                        f["state"] = "dead"
+                        f["transition_time"] = self.t_g + FIELD_REST_TIME_SEC
+                continue
+            # Wood/stone (and food without fields tracked): legacy infinite model
             rate_per_p = (PORTION[res] * self.eff[res] / 100) / (HITS[res] * T_HIT[res])
             rate_per_p *= (1 - self.walk_overhead)
             self.resources[res] += n * rate_per_p * dt
-        # Mines
+        # Mines: resource type comes from b.produce, not sid suffix
         for mine_sid, n in self.mine_assignments.items():
             if n == 0:
                 continue
-            # Determine resource from sid: <cluster>gol/iro/coa
-            suf = mine_sid[-3:]
-            res = {"gol": "gold", "iro": "iron", "coa": "coal"}.get(suf)
-            if not res:
+            mine = self.bldgs_idx.get(mine_sid)
+            if not mine or not mine.get("produce"):
                 continue
+            res = next(iter(mine["produce"]))  # mines produce exactly one resource
             rate_per_p = MINE_RATE_PER_PEASANT * self.eff[res] / 100
             rate_per_p *= (1 - self.mine_overhead)
             self.resources[res] += n * rate_per_p * dt
 
     def consume_upkeep(self, dt: float):
-        # Real game formula (player.script:_player_ProcessResourceConsume):
-        #   bank += consume × gc_time_to_frames × dt
-        #   delivered = floor(bank / 20000)
-        # Per-peasant food consumption per g-sec = consume × 32 / 20000
-        # E.g. peasant with consume.food=32 → 32×32/20000 = 0.0512 food/g-sec
-        # Over 300 g-sec ≈ 15.4 food per peasant.
+        """Drain resources for unit upkeep (and tower upkeep through self.buildings).
+
+        Real game formula (player.script:_player_ProcessResourceConsume + unit.script:3810,3821):
+          For every unit/building of player, sum its consume[res] into player.resconsume[res]:
+            food: consume.food + (gc_obj_foodperunit=30 if not bnohungry and not bbuilding)
+            gold/iron/coal/wood/stone: just consume[res]
+          Then drain per g-sec = resconsume × gc_time_to_frames / 20000.
+
+        Sanity: 18 idle aus peasants (consume.food=32, bnohungry=False) ≈ 214 food / 120 g-sec
+                (verified 2026-04-29). 1 battleship: 15000 gold/tick → 24 gold/g-sec.
+        """
+        # Aggregate resconsume across all owned units AND buildings (towers etc.)
+        resconsume = {res: 0 for res in self.resources}
         for sid, n in self.units.items():
             u = self.units_idx.get(sid)
-            if not u:
+            if not u or n == 0:
                 continue
-            consume_food = (u.get("consume") or {}).get("food", 0) if isinstance(u.get("consume"), dict) else 0
-            if not consume_food:
+            consume = u.get("consume") or {}
+            if not isinstance(consume, dict):
                 continue
-            self.resources["food"] -= n * (consume_food * GC_TIME_TO_FRAMES / 20000) * dt
+            bnohungry = bool(u.get("bnohungry", False))
+            bbuilding = False  # units are not buildings
+            for res in resconsume:
+                v = consume.get(res, 0) or 0
+                if not isinstance(v, (int, float)):
+                    continue
+                resconsume[res] += n * v
+            # +gc_obj_foodperunit for non-bnohungry, non-building units
+            if not bnohungry and not bbuilding:
+                resconsume["food"] += n * GC_OBJ_FOODPERUNIT
+        # Buildings can also have consume (e.g. towers: consume.gold=500). They're
+        # bbuilding=True so no +foodperunit. Look up each building in data.
+        for sid, n in self.buildings.items():
+            b = self.bldgs_idx.get(sid)
+            if not b or n == 0:
+                continue
+            consume = b.get("consume") or {}
+            if not isinstance(consume, dict):
+                continue
+            for res in resconsume:
+                v = consume.get(res, 0) or 0
+                if not isinstance(v, (int, float)):
+                    continue
+                resconsume[res] += n * v
+        # Drain
+        for res, total_per_tick_unit in resconsume.items():
+            if total_per_tick_unit <= 0:
+                continue
+            self.resources[res] -= (total_per_tick_unit * GC_TIME_TO_FRAMES / 20000) * dt
 
     def advance_construction(self):
         finished = []
@@ -294,10 +503,11 @@ class SimState:
                 u = self.units_idx.get(unit_sid)
                 if not u or not u.get("buildtime_sec"):
                     continue
-                bt = u["buildtime_sec"]
+                bt = u["buildtime_sec"] * self.buildtime_modifier(unit_sid)
                 # Check farm/cost when starting (progress=0)
                 if progress == 0:
-                    cost = {k: u.get(k) or 0 for k in self.resources}
+                    price_mult = self.price_modifier(unit_sid)
+                    cost = {k: math.floor((u.get(k) or 0) * price_mult) for k in self.resources}
                     if not self.can_pay(cost):
                         new_queue.append((unit_sid, 0))  # stalled
                         instance_idx += 1
@@ -327,7 +537,9 @@ class SimState:
             upg_sid, finish_time = self.upgrades_in_progress.pop(i)
             self.upgrades_done.add(upg_sid)
             self.events.append(f"t={finish_time:6.1f}g: RESEARCHED {upg_sid}")
-            # Apply effect (efficiency / fieldlife)
+            # Apply effect. Many upgrade types target specific units/buildings via
+            # sarrparam2 (kept in upgrades_done set; consumers like slot_cap_for /
+            # mine_capacity / get_modified_buildtime / get_modified_cost look it up).
             ug = self.upg_idx.get(upg_sid)
             if ug:
                 v = ug.get("value") or 0
@@ -340,18 +552,122 @@ class SimState:
                     self.eff["stone"] += v
                 elif itype == "gc_upg_type_fieldlifeperc":
                     self.fieldlife += v
+                # buildtimeperc, priceperc, single_inside_mine, single_inside,
+                # enableunit, lifeperc, damageperc, etc. — applied lazily by the
+                # consumers that need them (see buildtime_modifier / price_modifier
+                # below). Adding them eagerly here is wrong since they often target
+                # specific sids via sarrparam2.
+
+    def _upgrade_modifier_for_target(self, target_sid: str, itype: str) -> float:
+        """Sum the `value` (or per-resource pct) across all completed upgrades
+        of `itype` whose `targets` list includes `target_sid`.
+
+        Returns the cumulative percent (e.g. -25 means -25%). Multiple stacking
+        upgrades add (player.script:1841 / :1848 multiplies stepwise, so this is
+        an approximation — true engine math is `price *= (1 + pct/100)` per
+        upgrade, not additive — but for the current sim's resolution it's fine).
+        """
+        total = 0.0
+        for done_sid in self.upgrades_done:
+            ug = self.upg_idx.get(done_sid)
+            if not ug:
+                continue
+            if (ug.get("itype") or "") != itype:
+                continue
+            targets = ug.get("targets") or []
+            if target_sid not in targets:
+                continue
+            v = ug.get("value")
+            if v is not None:
+                total += float(v)
+        return total
+
+    def _upgrade_resource_pct_for_target(self, target_sid: str, resource: str) -> float:
+        """For priceperc upgrades only: sum per-resource percentage modifiers
+        from `resource_pcts` dict across applicable upgrades.
+
+        Note: simulate_upgrades.py extracts targets but NOT resource_pcts (the
+        direct `sarrparam2[X] := 'NN'` assignments are AST-opaque; matching
+        them back to specific upgrades requires nation-aware re-walking which
+        we haven't done yet). This stub returns 0 — see TODO in parser.
+        """
+        return 0.0
+
+    def buildtime_modifier(self, sid: str) -> float:
+        """Multiplier on buildtime for `sid`.
+
+        Engine formula (player.script:1848):
+            buildtime *= (1 + value / (100 * 100000)) = (1 + value / 10_000_000)
+
+        We approximate stacking via sum-of-values (rather than product of
+        per-upgrade factors). Clamp to 0.05 minimum to avoid zero/negative.
+        Typical values: -7500000 = -75% (most common form for "instant build"),
+        smaller magnitudes like -250000 = -2.5% etc.
+        """
+        total_value = self._upgrade_modifier_for_target(sid, "gc_upg_type_buildtimeperc")
+        modifier = 1.0 + total_value / 10_000_000.0
+        return max(0.05, modifier)
+
+    def price_modifier(self, sid: str) -> float:
+        """Multiplier on cost for `sid`. priceperc effect is per-resource via
+        resource_pcts which we don't extract yet — so this returns 1.0
+        unconditionally for now even though `targets` is populated.
+        """
+        # For priceperc, value is always 0; real pct is in sarrparam2 last 6 slots.
+        # See _upgrade_resource_pct_for_target stub — currently inactive.
+        return 1.0
 
     # --- actions ---
 
     def execute_action(self, act: dict):
         kind = act.get("do")
+        if kind == "plant_fields":
+            # Plant up to FIELDS_PER_MILL fields per mill click. Pays FIELD_GOLD_COST per field.
+            # `count` arg defaults to 49 (= 7×7 grid in _unit_DoSeedWheat).
+            n_mills = sum(n for sid, n in self.buildings.items() if sid.endswith("mil"))
+            if n_mills == 0:
+                self.events.append(f"t={self.t_g:6.1f}g: SKIP plant_fields — no mill")
+                return
+            requested = int(act.get("count", FIELDS_PER_MILL))
+            cost_gold = requested * FIELD_GOLD_COST
+            if self.resources.get("gold", 0) < cost_gold:
+                affordable = self.resources.get("gold", 0) // FIELD_GOLD_COST
+                self.events.append(
+                    f"t={self.t_g:6.1f}g: PARTIAL plant_fields — wanted {requested} (need "
+                    f"{cost_gold}G), got {int(affordable)} (have {int(self.resources['gold'])}G)"
+                )
+                requested = int(affordable)
+            if requested <= 0:
+                return
+            self.resources["gold"] -= requested * FIELD_GOLD_COST
+            for _ in range(requested):
+                self.fields.append({
+                    "state": "growing",
+                    "hp": 0,
+                    "transition_time": self.t_g + FIELD_GROW_TIME_SEC,
+                })
+            self.events.append(
+                f"t={self.t_g:6.1f}g: PLANT {requested} fields (cost {requested * FIELD_GOLD_COST}G; "
+                f"mature at t={self.t_g + FIELD_GROW_TIME_SEC:.1f}g)"
+            )
+            return
         if kind == "assign":
             for res in ("food", "wood", "stone"):
                 if res in act:
                     self.assigned[res] = act[res]
             for mine_sid in list(act.keys()):
                 if mine_sid not in ("do", "at", "food", "wood", "stone") and mine_sid in self.bldgs_idx:
-                    self.mine_assignments[mine_sid] = act[mine_sid]
+                    requested = act[mine_sid]
+                    cap_per_mine = self.mine_capacity(mine_sid)
+                    n_mines = self.buildings.get(mine_sid, 0)
+                    total_cap = cap_per_mine * n_mines
+                    if requested > total_cap:
+                        self.events.append(
+                            f"t={self.t_g:6.1f}g: CLAMP {mine_sid} {requested}→{total_cap} "
+                            f"(cap {cap_per_mine}/mine × {n_mines} mines)"
+                        )
+                        requested = total_cap
+                    self.mine_assignments[mine_sid] = requested
             # validation
             assigned_total = sum(self.assigned.values()) + sum(self.mine_assignments.values())
             if assigned_total > self.total_peasants():
@@ -384,10 +700,9 @@ class SimState:
             # Total time = buildtime × (0.406/0.359) / N = buildtime × 1.13 / N.
             # See recon/building_mechanics.md §3.
             base_bt = b.get("buildtime_sec") or 1.0
-            # Estimate builder slot cap from collision mask perimeter (avg ~12 for typical buildings).
-            # If user says builders=N > slot_cap, clamp.
-            BUILDER_SLOT_CAP_DEFAULT = 12
-            n_builders = max(1, min(builders, BUILDER_SLOT_CAP_DEFAULT))
+            # Per-building slot cap from faithful sim of _unit_CalcBuilderPoints.
+            cap = slot_cap_for(sid)
+            n_builders = max(1, min(builders, cap))
             bt = base_bt * 1.13 / n_builders
             finish = self.t_g + bt
             self.construction.append((sid, finish, builders))
@@ -456,6 +771,10 @@ class SimState:
             "construction_in_progress": [(sid, round(finish, 1)) for sid, finish, _ in self.construction],
             "queues": {k: len(v) for k, v in self.unit_queues.items() if v},
         }
+        if self.fields:
+            snap["fields_alive"] = sum(1 for f in self.fields if f["state"] == "alive")
+            snap["fields_growing"] = sum(1 for f in self.fields if f["state"] == "growing")
+            snap["fields_dead"] = sum(1 for f in self.fields if f["state"] == "dead")
         self.snapshots.append(snap)
 
 

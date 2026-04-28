@@ -422,6 +422,44 @@ class SimParser:
         return args
 
 
+# ---------- garr_* arrays (hardcoded, country.script:3395-3450) ----------
+#
+# These arrays are populated at TCountry-init time with nation-specific sids,
+# then `_country_AddUpgradeSArrParam2MemberIfExists` calls in loops apply
+# them as targets to the just-added upgrade. Our AST walker can't track the
+# `garr_X[k] := Y` assignments (parser eats them as opaque), so we hardcode
+# the array contents per-nation here. See country.script:3395-3450 for source.
+
+def _garr_buildings_all(nation: str) -> list[str]:
+    """garr_BuildingsAll for a nation. 17 sids (per-nat + cluster-prefix)."""
+    com = _commonname_for(nation)
+    sto = _commonname_storehouse(nation)
+    mar = _commonname_market(nation)
+    por = _commonname_port(nation)
+    return [
+        f"{nation}cen", f"{nation}hou", f"{nation}bla", f"{nation}sta",
+        f"{nation}tem", f"{nation}aca", f"{nation}dip", f"{nation}bar",
+        f"{nation}ba2", f"{nation}art",
+        f"{com}mil", f"{sto}sto",
+        "eurgol", "euriro", "eurcoa",
+        f"{mar}mar", f"{por}por",
+    ]
+
+
+def _garr_buildings_tower_wall(nation: str) -> list[str]:
+    """garr_BuildingsTowerWall — walls/gates/towers across all clusters."""
+    return [
+        "eurswa", "eursga", "russwa", "russga", "turswa", "tursga",
+        "eurtow", "rustow", "tustow",
+    ]
+
+
+_GARR_RESOLVERS = {
+    "garr_BuildingsAll":      _garr_buildings_all,
+    "garr_BuildingsTowerWall": _garr_buildings_tower_wall,
+}
+
+
 # ---------- Pre-substitution (re-uses parse_country logic but per-call) ----------
 
 def _presubstitute(body: str, nat: str) -> str:
@@ -447,11 +485,33 @@ def _presubstitute(body: str, nat: str) -> str:
 
 # ---------- Symbolic execution ----------
 
+_GARR_RE = re.compile(r"\b(garr_BuildingsAll|garr_BuildingsTowerWall)\s*\[\s*([^\]]+)\s*\]")
+
+
 def _eval_string_arg(arg: str, env: dict) -> str:
-    """Resolve a single arg to a Python string (or '' on failure)."""
+    """Resolve a single arg to a Python string (or '' on failure).
+
+    Special-cases `garr_BuildingsAll[k]` / `garr_BuildingsTowerWall[k]` lookups
+    by consulting hardcoded arrays (country.script:3395-3450). Returns '' for
+    out-of-range indices so callers in unrolled loops over k=0..127 can skip.
+    Nation is read from env["__nation"] when populating garr_* arrays.
+    """
     s = arg.strip()
     # Replace IntToStr(n) → str(n)
     s = re.sub(r"\bIntToStr\(([^)]+)\)", r"str(\1)", s)
+    # Resolve garr_*[k] before generic eval (eval doesn't know these arrays).
+    nation = env.get("__nation")
+    def _garr_repl(m: re.Match) -> str:
+        if nation is None:
+            return "''"
+        arr_name = m.group(1)
+        try:
+            idx = int(eval(m.group(2), {"__builtins__": {}}, env))
+        except Exception:
+            return "''"
+        arr = _GARR_RESOLVERS[arr_name](nation)
+        return repr(arr[idx]) if 0 <= idx < len(arr) else "''"
+    s = _GARR_RE.sub(_garr_repl, s)
     # Provide locals for member, upgplace, blacksmith, academy, century18 (already pre-subst.)
     locals_dict = dict(env)
     try:
@@ -656,6 +716,36 @@ def _add_upgrade_with_access(args: list[str], state: dict, env: dict, sink: list
             r = _eval_string_arg(args[i], env)
             if r:
                 prereqs.append(r)
+    # Initial sarr2 (args 21..30) — first slots typically hold target sids,
+    # last 6 hold per-resource percentage strings for `priceperc` upgrades.
+    initial_sarr2: list[str] = []
+    for i in range(21, min(31, len(args))):
+        v = _eval_string_arg(args[i], env)
+        initial_sarr2.append(v)
+    # Split: ints (target sids) → targets, last 6 → resource_pcts (for priceperc)
+    targets: list[str] = []
+    resource_pcts: dict[str, int] = {}
+    if len(initial_sarr2) >= 6:
+        # Last 6 entries are food/wood/stone/gold/iron/coal pct strings
+        res_keys = ("food", "wood", "stone", "gold", "iron", "coal")
+        for k_idx, key in enumerate(res_keys):
+            tail_pos = len(initial_sarr2) - 6 + k_idx
+            if 0 <= tail_pos < len(initial_sarr2):
+                tail_v = initial_sarr2[tail_pos]
+                if tail_v:
+                    try:
+                        pct = int(tail_v.strip("'\""))
+                        if pct != 0:
+                            resource_pcts[key] = pct
+                    except (ValueError, TypeError):
+                        pass
+        head = initial_sarr2[:-6]
+    else:
+        head = initial_sarr2
+    for v in head:
+        if v and v != "''" and v != "":
+            targets.append(v)
+
     rec = {
         "sid": upgid,
         "nation": nation,
@@ -671,10 +761,12 @@ def _add_upgrade_with_access(args: list[str], state: dict, env: dict, sink: list
         "iron":  _eval_int_arg(args[15], env),
         "coal":  _eval_int_arg(args[16], env),
         "prereqs": prereqs,
+        "targets": targets,           # sid list this upgrade targets (priceperc/buildtimeperc/etc.)
+        "resource_pcts": resource_pcts,  # per-resource % for priceperc only
         "_source": "AddUpgradeWithAccessControl",
     }
     sink.append(rec)
-    state["last_upgrade"] = rec  # for ModifyUpgrade
+    state["last_upgrade"] = rec  # for ModifyUpgrade and SArrParam2MemberIfExists
 
 
 def _add_plain_upgrade(args: list[str], state: dict, env: dict, sink: list, nation: str):
@@ -808,9 +900,20 @@ def walk_sim(node: Node, state: dict, env: dict, sink: list, nation: str):
             _modify_upgrade(args, state, env, sink, nation)
         elif name == "ResetUpgStruct":
             state["upgstruct"] = _new_upgstruct()
-        elif name in ("_country_AddUpgradeLink", "_country_AddUpgradeLinkRange",
-                       "_country_AddUpgradeSArrParam2MemberIfExists"):
+        elif name in ("_country_AddUpgradeLink", "_country_AddUpgradeLinkRange"):
             pass  # link metadata, ignore
+        elif name == "_country_AddUpgradeSArrParam2MemberIfExists":
+            # Signature: (country, upgind, sid). Append `sid` to the most recent
+            # upgrade's `targets` list. `upgind` is `ind-1` so it always refers
+            # to the just-added upgrade — we use state["last_upgrade"] for that.
+            last = state.get("last_upgrade")
+            if last is not None and len(args) >= 3:
+                tgt = _eval_string_arg(args[2], env)
+                # Skip empty (out-of-range garr_*[k]), duplicates, and unresolved
+                # raw expressions (won't help simulator).
+                if (tgt and tgt != "''" and tgt not in last.get("targets", [])
+                        and not tgt.startswith(("garr_", "csid+", "commonName"))):
+                    last.setdefault("targets", []).append(tgt)
         elif name in ("_country_AddFixedProduce", "_country_AddFixedProduceWithAccessControl"):
             # signature: (country, fpind, producer_sid, product_sid, x, y, ind, [req0, req1, req2])
             if len(args) >= 4:
@@ -840,6 +943,7 @@ def walk_sim(node: Node, state: dict, env: dict, sink: list, nation: str):
 
 def make_env(nat: str) -> dict:
     env = {n: (n == nat) for n in ALL_NATIONS}
+    env["__nation"] = nat
     env["bAddIfNotExist"] = True
     env["cTrue"] = True
     env["True"] = True; env["False"] = False
@@ -878,6 +982,107 @@ def _simulate_proc(country_text: str, proc_name: str, nat: str, sink: list, env:
     walk_sim(root, state, env, sink, nat)
 
 
+# Pattern for `country.upgrade[ind-1].sarrparam2[...gc_resource_type_X-1] := 'NN';`
+# Captures the resource name (food/wood/stone/gold/iron/coal) and signed pct.
+_RES_PCT_RE = re.compile(
+    r"country\.upgrade\[ind-1\]\.sarrparam2\["
+    r"\s*gc_upgrade_maxarrparam2count\s*-\s*gc_ResCount\s*\+\s*"
+    r"gc_resource_type_(\w+)\s*-\s*1\s*\]"
+    r"\s*:=\s*'(-?\d+)'\s*;"
+)
+# Pattern matching an `_country_AddUpgrade*` call line (just to find positions).
+_ADDUPG_RE = re.compile(
+    r"_country_AddUpgrade(?:WithAccessControl)?\s*\(\s*country\s*,\s*([^,]+)"
+)
+
+
+def _attach_resource_pcts(country_text: str, nat: str, sink: list) -> None:
+    """Walk the country.script body line by line. For each `AddUpgrade*(...)` call,
+    capture `sarrparam2[...] := 'NN'` lines until the next AddUpgrade — these
+    are the per-resource percentage modifiers for that upgrade. Match them to
+    upgrade entries in `sink` by sid and attach to `resource_pcts`.
+
+    The script doesn't include line numbers, but we can scan the textual order
+    and use the upgrade sid (after pre-substitution for nation) as the key.
+    """
+    # Pre-substitute the body for this nation so 'csid+' / 'commonName+' resolve
+    body = _presubstitute(country_text, nat)
+    # Index sink by sid for quick lookup
+    by_sid = {u["sid"]: u for u in sink if u.get("sid")}
+    # Find all AddUpgrade* call positions and their first arg (the upgid expr)
+    upg_positions: list[tuple[int, str]] = []
+    for m in _ADDUPG_RE.finditer(body):
+        # Resolve the upgid arg (first arg after `country,`)
+        # Grab a window after the match start to find the second arg
+        start = m.start()
+        # Use _eval_string_arg with the env evaluated at this line
+        # But env state is dynamic (member, place). We approximate by extracting
+        # the literal upgid expr and evaluating with a minimal env. This is
+        # imperfect — works for upgrades with literal sids in args.
+        # Quick'n'dirty: search for the second arg (the sid) by finding the
+        # comma after the function open paren.
+        upg_positions.append((start, ""))
+    # Scan: for each AddUpgrade position, find resource_pct assignments BEFORE
+    # the next AddUpgrade and attach them to the most recent sink entry whose
+    # source-text position matches. Since we don't track sink positions in the
+    # script, fall back to ORDER: the i-th AddUpgrade match maps to the i-th
+    # sink upgrade we processed for this nation. This works because the walker
+    # appends in order.
+    nat_sink = [u for u in sink if u.get("nation") == nat and u.get("itype") == "gc_upg_type_priceperc"]
+    if not nat_sink:
+        return
+    # Walk the body and accumulate (start_pos, [(res, pct), ...]) per AddUpgrade
+    pcts_by_pos: list[dict[str, int]] = [dict() for _ in upg_positions]
+    for m in _RES_PCT_RE.finditer(body):
+        # Find which AddUpgrade this assignment belongs to (the most recent one before it)
+        pos = m.start()
+        # Binary search would be faster; linear is fine for ~600 upgrades
+        last_upg_idx = -1
+        for i, (up_pos, _) in enumerate(upg_positions):
+            if up_pos < pos:
+                last_upg_idx = i
+            else:
+                break
+        if last_upg_idx >= 0:
+            res = m.group(1)
+            try:
+                pct = int(m.group(2))
+                if pct != 0:
+                    pcts_by_pos[last_upg_idx][res] = pct
+            except ValueError:
+                pass
+    # Now we have pcts indexed by AddUpgrade position. We need to map from
+    # AddUpgrade position → sink entry for THIS nation.
+    # The walker visits all AddUpgrade calls but creates a sink entry only for
+    # those reachable for `nat` (gated by `if (aus) then ...`). We can't trust
+    # 1-to-1 ordering. Best-effort: for each priceperc sink entry, find the
+    # AddUpgrade call whose upgid (after substitution) matches.
+    upg_idx_by_substituted_sid: dict[str, int] = {}
+    for i, m in enumerate(_ADDUPG_RE.finditer(body)):
+        # Capture the upgid expression — it's the second arg in the args list,
+        # extracted via a tighter regex starting at this match.
+        rest = body[m.start():m.start() + 200]
+        m2 = re.match(
+            r"_country_AddUpgrade(?:WithAccessControl)?\s*\(\s*country\s*,\s*([^,]+),",
+            rest,
+        )
+        if not m2:
+            continue
+        # Evaluate the upgid expression in a per-nation env to resolve concat'd strings
+        sid_eval = _eval_string_arg(m2.group(1), {"__nation": nat})
+        # The script wraps upgid as e.g. `upgplace+'.7'`; without `member`/`upgplace` in
+        # env we can't fully resolve. Skip if it doesn't look like a simple sid.
+        if not sid_eval or "+" in sid_eval or "upgplace" in sid_eval:
+            continue
+        upg_idx_by_substituted_sid[sid_eval] = i
+    # Attach
+    for u in nat_sink:
+        if u["sid"] in upg_idx_by_substituted_sid:
+            i = upg_idx_by_substituted_sid[u["sid"]]
+            if i < len(pcts_by_pos) and pcts_by_pos[i]:
+                u["resource_pcts"] = dict(pcts_by_pos[i])
+
+
 def simulate(country_text: str, nat: str, *, dedup: bool = True) -> list[dict]:
     sink: list[dict] = []
     env = make_env(nat)
@@ -885,6 +1090,10 @@ def simulate(country_text: str, nat: str, *, dedup: bool = True) -> list[dict]:
     _simulate_proc(country_text, "_country_InitUnitsUpgrades", nat, sink, env=env)
     # Then _country_Init (academy/mill/etc. upgrades + nation roster)
     _simulate_proc(country_text, "_country_Init", nat, sink, env=env)
+    # Augment priceperc upgrades with resource percentages from direct assignments
+    # of the form: `country.upgrade[ind-1].sarrparam2[...gc_resource_type_X-1] := 'NN'`
+    # which the AST walker treats as opaque.
+    _attach_resource_pcts(country_text, nat, sink)
     # Drop entries with unresolved sids (e.g., from inside the nested AddUpgradePack
     # proc declaration that may have leaked through). Keep fixed_produce events as-is.
     sink = [u for u in sink

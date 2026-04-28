@@ -16,7 +16,7 @@ Melee weapons (`pause = 0`) have no game-defined pause; their cycle is animation
 bound (~13-frame swing ≈ 0.4 g-sec assumption). They're shown with `melee` annotation
 and a parametric TTK using that assumption — clearly marked.
 
-Output: output/reference/derived/counter_matrix.md
+Output: output/reference/reports/counter_matrix.md
 """
 from __future__ import annotations
 import sys
@@ -26,16 +26,16 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, DERIVED_DIR
+from config import (DATA_JSON, REPORTS_DIR, MELEE_SWING_FALLBACK_SEC,
+                    MELEE_SWING_FALLBACK_FRAMES, melee_swing_sec)
 
 
-MD_PATH = DERIVED_DIR / "counter_matrix.md"
+MD_PATH = REPORTS_DIR / "counter_matrix.md"
 FAST_SPEED_MULT = 1.4
 
-# Assumed melee swing rate (animation cycle 13 frames @ 32 fps = 0.406 g-sec).
-# Same value used in `recon/building_mechanics.md` for construct cycle. Empirically
-# unverified; see §notes.
-MELEE_PAUSE_GSEC = 0.406
+# Per-unit melee swing length is looked up via `melee_swing_sec(sid)` from the
+# unit's .aaf file (data/animations/aaf/<sid>.aaf, attack0 frame range).
+# Falls back to MELEE_SWING_FALLBACK_SEC (median across 84 melee units) when missing.
 
 # Reference roster: (label, sid, nation). Picked so we cover canonical archetypes
 # and a few national specials. Order matters — used as both row and column order.
@@ -117,8 +117,9 @@ def ttk_real_sec(attacker: dict, defender: dict, w: dict) -> tuple[float | None,
     else:
         ed = max(1, dmg)
     if pause <= 0:
-        # Melee — use assumed animation cycle.
-        ttk_g = target_hp / ed * MELEE_PAUSE_GSEC
+        # Melee — per-unit attack0 length from the unit's .aaf file (falls back to median).
+        swing = melee_swing_sec(attacker.get("sid", ""))
+        ttk_g = target_hp / ed * swing
         return (round(ttk_g / FAST_SPEED_MULT, 1), "melee")
     ttk_g = target_hp / ed * pause
     return (round(ttk_g / FAST_SPEED_MULT, 1), "")
@@ -138,7 +139,8 @@ def render_matrix(roster_units: list[tuple[str, dict]]) -> list[str]:
       "считаем урон только по одной цели.")
     A("")
     A("**Чтение:** меньше — лучше для атакующего. `m̃` = ближний бой (pause=0, "
-      f"допущение {MELEE_PAUSE_GSEC} g-sec/удар). `—` = недоступно (нет оружия / hp).")
+      f"swing-rate из `attack0` в .aaf для каждого юнита; fallback ≈ {MELEE_SWING_FALLBACK_SEC} g-sec). "
+      "`—` = недоступно (нет оружия / hp).")
     A("")
     short_labels = [f"D{i+1}" for i in range(len(roster_units))]
     head_cells = ["#", "Attacker"] + short_labels
@@ -190,7 +192,8 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
     A("")
     A("Сколько урона **в секунду реального времени** атакующий наносит защитнику "
       "после вычета protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. "
-      "Ближний бой — деление на допущение 0.406 g-sec/удар.")
+      "Ближний бой — деление на длительность `attack0` из .aaf (per-unit; "
+      f"fallback ≈ {MELEE_SWING_FALLBACK_SEC} g-sec).")
     A("")
     A("Таблица **симметрична** по форме относительно TTK выше: TTK = HP / DPS, "
       "так что эта таблица позволяет быстро прикинуть «есть ли вообще шанс» (DPS близко к 1 "
@@ -217,7 +220,7 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
             else:
                 ed = max(1, dmg)
             if pause <= 0:
-                dps_g = ed / MELEE_PAUSE_GSEC
+                dps_g = ed / melee_swing_sec(u_a.get("sid", ""))
                 marker = "m̃"
             else:
                 dps_g = ed / pause
@@ -244,9 +247,10 @@ def render_notes() -> list[str]:
       "мушкетёров может убить за 4 сек/шт., но времени перезарядки мушкетёра "
       "достаточно, чтобы cuirassier подъехал и зарубил в ближнем бою. Этого "
       "симулятор не учитывает.")
-    A("- **Melee swing rate (0.406 g-sec)** — допущение из 13-кадрового анимационного "
-      "цикла. Эмпирический замер (см. `recon/empirical_tests.md` Test 2) подтвердит "
-      "или опровергнет. Все melee TTK помечены `m̃`.")
+    A(f"- **Melee swing rate** — длительность `attack0` из `data/animations/aaf/<sid>.aaf` "
+      "(per-unit, разброс 11-33 кадров). Если файл отсутствует, fallback = "
+      f"{MELEE_SWING_FALLBACK_FRAMES} кадров = {MELEE_SWING_FALLBACK_SEC} g-sec (медиана 84 melee-юнитов). "
+      "Все melee TTK помечены `m̃`.")
     A("- **Оружие по нескольким целям** (cannon, mortar) считает урон по одному "
       "юниту. В реальности cannonball пробивает линию — в плотном строю ×3-5 "
       "эффективнее.")
@@ -275,7 +279,7 @@ def main():
     if missing:
         print("WARNING: missing roster units:", missing)
 
-    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     L = []
     A = L.append
     A("# Cossacks 3 — Counter-unit matrix")
@@ -288,7 +292,7 @@ def main():
     A("")
     A("```")
     A("effective_damage = max(1, attacker.damage − defender.protection[attacker.kind])")
-    A("game_dps         = effective_damage / attacker.pause_sec       # melee: / 0.406")
+    A("game_dps         = effective_damage / attacker.pause_sec       # melee: / attack0_sec from .aaf")
     A("real_dps_fast    = game_dps × 1.4")
     A("ttk_real_fast    = defender.hp / real_dps_fast")
     A("```")

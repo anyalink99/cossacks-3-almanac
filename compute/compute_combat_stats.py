@@ -8,7 +8,7 @@ Squad bonuses (formation + standing) are ignored here — we report unmodified
 unit-vs-unit numbers, treating shield as a flat reduction (the game subtracts it
 **before** protection in `miscext2.script:340-354`).
 
-Outputs (output/reference/derived/combat_stats.md):
+Outputs (output/reference/reports/combat_stats.md):
 
   §1  Unit combat sheet  — hp, speed, weapons (dmg/pause/range/kind),
                             DPS @ g-sec & @ fast-real, protections
@@ -26,10 +26,10 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, DERIVED_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
 
 
-MD_PATH = DERIVED_DIR / "combat_stats.md"
+MD_PATH = REPORTS_DIR / "combat_stats.md"
 
 # Weapon kinds with a corresponding protection field on units.
 PROT_KINDS = ("pike", "sword", "bullet", "cannister", "arrow", "cannonball")
@@ -308,7 +308,7 @@ def render_notes() -> list[str]:
 def main():
     data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
     units = data["units"]
-    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
     L = []
     A = L.append

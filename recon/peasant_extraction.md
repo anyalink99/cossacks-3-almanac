@@ -387,28 +387,98 @@ Densities умножаются на:
 | Mid forest clusters | ~37 |
 | Small forest clusters | ~23 |
 | Stone clusters | ~21 |
-| Деревьев всего на карте | ~**2000** |
-| Камней всего на карте | ~**210** |
-| **Wood pool** (полный, при eff=100) | ~**9.9M wood units** |
+| **Mask cell sum** (placement slots all types) | ~**27 000** на карту |
+| **Calibrated chopable trees** (mask × 0.30) | ~**8 200** на карту |
+| Камней всего на карте (calibrated) | ~**861** (mask × 0.30) |
+| **Начальный wood pool** (сумма HP всех деревьев) | ~**40M wood units** |
+| **Эффективный wood pool** | **∞** — пеньки бесконечны (см. §8.5) |
 | **Месторождения** на игрока (Rich + Tiny) | **4 gold + 4 iron + 4 coal = 12** (4 раунда × 3 ресурса; round 4 пропущен на tiny) |
 
-⚠ **Допущения** (точность ±30-50% по trees):
-- Деревьев в паттерне: big~35, mid~17, small~8 (оценка из размера `.pattern` файлов).
-- Камней в кластере: ~10.
-- placement_success = 65% (на tiny+highlands из-за гор многие попытки фейлятся).
-- prob* симулирован для Land terrain (минимум воды).
+### Per-pattern-type tree counts (real data)
 
-Для уточнения нужны: парсер binary `.pattern` файлов или эмпирические замеры на 10-20 сгенерированных картах.
+После расшифровки [`data/game/var/generator.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/generator.cfg) — `PatternList` секции мапят тип паттерна (типа `forests_pine_big`) на список конкретных `.pattern` файлов. Парсер: [`parser/parse_generator_cfg.py`](../parser/parse_generator_cfg.py) → `output/derived/pattern_types.json`.
+
+Кросс-tabulating с `pattern_inventory.json` (mask cell counts) → `output/derived/pattern_type_stats.json`:
+
+| pattern type | n_files | min | **median** | max | example |
+|---|---:|---:|---:|---:|---|
+| forests_pine_big | 8 | 71 | **148** | 304 | `frt_b_p_1` |
+| forests_pine_big_2 | 3 | 155 | **185** | 204 | `b_frt_b_p_1` |
+| forests_pine_medium | 10 | 49 | **59** | 97 | `frt_m_p_1` |
+| forests_pine_small | 6 | 21 | **44** | 46 | `frt_s_p_1` |
+| forests_pinefir_big | 6 | 613 | **920** | 1494 | `d_frt_big_1` |
+| forests_pinefir_medium | 6 | 218 | **311** | 383 | `d_frt_mid_1` |
+| forests_pinefir_small | 6 | 80 | **172** | 200 | `d_frt_small_1` |
+| forests_pinedrygreen_small | 4 | 367 | **629** | 638 | `d_frt_pinedry_*` |
+| forests_spruce_big | 4 | 498 | **571** | 576 | spruce variants |
+| forests_spruce_medium | 4 | 368 | **469** | 549 | |
+| forests_leaf_big | 2 | 574 | **695** | 695 | `g_frt_big_1` |
+| forests_leaf_medium | 2 | 388 | **514** | 514 | |
+| forests_leaf_small | 6 | 122 | **250** | 450 | |
+| forests_mixed_big | 3 | 1111 | **1631** | 2906 | `e_frt_big_1` |
+| forests_mixed_medium | 5 | 656 | **895** | 1034 | |
+| stoneforests | 8 | 121 | **152** | 164 | forest+stones |
+| stones | 7 | 108 | **138** | 193 | `d_stn_*` |
+| desert_stones | 12 | 53 | **74** | 101 | пустынный камень |
+| **mng / mni / mnc** (mines) | 6 each | 32 | **32** | 32 | `mng_1` etc. — **= 1 deposit, не 32 объекта** |
+
+### Что значит mask=1: РЕШЕНИЕ через empirical calibration
+
+`mask=1` cells = **placement slots для env-объектов**, спавнятся C++ функцией [`StandPatternWithAngle`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3390) (code недоступен).
+
+**Mask cells содержат:** chopable trees (oak/pine/leaftree/...) + ground decoration (drytree, decortree*, fallen logs, grass tufts, stumps). Engine назначает variant_id → конкретный env-object class — но мы не видим этого мэппинга.
+
+**Empirical calibration (источник — пользователь, 2026-04-29):**
+- Маленький лес (`forests_pine_small`, mask median 44): visible chopable trees ≈ **10** → ratio = 0.23
+- Большой лес (`forests_pine_big`, mask median 148): visible chopable trees ≈ **50** → ratio = 0.34
+- Average: **TREE_CHOPABLE_RATIO ≈ 0.30**
+
+**Counter-examples (mask ≠ objects):**
+- 🪨 `mng/mni/mnc` (mines): все 18 файлов имеют ровно 32 mask клетки, но это **1 deposit per pattern** (mask = collision footprint). Не 32 шахты.
+- 🌿 `brush_plt_1x1` (4×4, 8 mask=1): = **8 видимых кустов** в игре — здесь 1:1 (брыши плотные).
+
+**Заключение:** для шахт `mask = footprint`, для брышей `mask = 1:1`, для лесов `mask × 0.30 ≈ chopable trees`. Этот ratio зашит в [`compute/compute_map_resources.py`](../compute/compute_map_resources.py) как `TREE_CHOPABLE_RATIO`. Refine when more empirical data доступна.
+
+### Pattern type → file mapping
+
+При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается `StandPatternWithAngle` — это ОНА спавнит env-объекты (источник недоступен).
+
+Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа (pinefir/spruce/pine/pine_big_2), 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
+
+### Pattern type → file mapping
+
+При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа, 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
+
+## 8.5 Пеньки — бесконечный wood pool (КРИТИЧНО для симуляции)
+
+**Источник:** [`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + [`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc).
+
+Жизненный цикл дерева:
+1. **Spawn** ([`initial.inc:75-93`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/initial.inc)): `brised := True`, HP назначается случайно по distribution (giant 8000-16000 / medium 125-624 / small 10-60 / stub 10).
+2. **Каждый удар** крестьянина: `hp -= 1, peasant.resamount += 1`.
+3. **При hp = 0**: `_unit_SetTagStates(trgHnd, gc_statetag_essential_death)`. Это триггерит ontagstates wood-death-handler:
+   - mesh меняется на `pinestump<1..4>` (random)
+   - `SetGameObjectCollisionInertiaByHandle(myHnd, False)`
+   - **`brised` остаётся True** (никто его не сбрасывает на death)
+4. **Пенек продолжает жить как валидная цель** для `_unit_SearchResourceInRadius` ([`unit.script:4148`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script): `if brised then ...` — проверки HP нет).
+5. Удары продолжаются: `hp -= 1` уходит в отрицательные значения (-1, -2, -3, ...). Условие `if hp = 0` срабатывает только один раз (при ровно 0), потому повторного перехода в death нет.
+6. `peasant.resamount` инкрементится каждый удар → **дерево даёт wood до бесконечности**.
+
+**Поведенческое следствие:** wood «end-game» нет. Wood всегда доступен; единственное ограничение — пропускная способность peasants (1 hit/0.5625 g-sec = 3.56 wood/g-sec/peasant) и capacity (2 attackers/tree через `gc_gameplay_resource_maxattackers_wood`).
+
+**Почему peasants всё-таки предпочитают целые деревья?** Не из-за HP-фильтра — из-за `attFactor` в score: `tmpRDist = (1+dst/5)*(1+resdst/4)*(1+stoFactor)*(1+attFactor)`, где `attFactor = 1+attcount*1.5` если ≥1 уже рубит. Поэтому свежее не-рубленное дерево всегда ближе по «scoring distance», чем популярный пень. Но если все деревья заняты, peasants идут на пеньки.
+
+**Для симуляции:** wood pool = effectively infinite. Считаем только rate (peasants × 3.56 wood/g-sec × eff/100) минус walk_overhead до склада.
 
 ## 9. Открытые вопросы (на следующий этап)
 
 | # | Вопрос | Как решить |
 |---:|---|---|
 | 1 | Точная скорость крестьянина в **тайлах/игр-сек** | Empirical test: построить 2 склада на расстоянии X, перевести крестьянина, засечь время; либо найти actor frame rate. |
-| 2 | Frame rate AAF-анимаций (32 fps?) | Empirical: засечь время одного work-цикла секундомером; либо найти AAF-парсер. |
+| 2 | ~~Frame rate AAF-анимаций (32 fps?)~~ | **РЕШЕНО**: 32 fps — это `gc_time_to_frames` из dmscript.global:175, реальная engine constant. Не допущение. AAF-парсер написан: `compute/compute_animations.py` → `output/derived/animations.json`. |
 | 3 | ~~`brised=False` для срубленных деревьев — есть ли где?~~ | **РЕШЕНО**: brised для wood никогда не меняется. Предпочтение целых деревьев работает через attFactor/stoFactor в скоринге (см. §4.2). |
 | 4 | Полный список efficiency-апгрейдов по 21 нации | Использовать `parser/simulate_upgrades.py` — он уже инлайнит SetUpgStruct и перебирает `case cid`. |
-| 5 | ~~Подсчёт деревьев / стоунов / мин на 256×256 highlands+Rich~~ | **РЕШЕНО** (с допущениями): см. §8.4 + `output/cossacks3_map_resources.md`. ~2000 деревьев / ~210 камней / до 12 мин на игрока. Точность ±30-50% — для повышения нужен парсер `.pattern` файлов или замеры на N сгенерированных картах. |
+| 5 | ~~Подсчёт деревьев / стоунов / мин на 256×256 highlands+Rich~~ | **РЕШЕНО** (через generator.cfg → pattern_types.json + per-type stats): см. §8.4 + §8.5. **~27K деревьев / ~3K stone-cells** для foreststype=0. Per-pattern-type медианы есть в `output/derived/pattern_type_stats.json`. Wood pool **бесконечен** через пеньки. Mines = 1 deposit per pattern (mask=footprint, не объекты). |
 | 6 | Mine **upgrades** (`<commonName>gol.X` etc.) — что меняют (производительность? capacity?) | Прочитать в country.script вокруг мин, типы апгрейдов. |
 | 7 | Реальная стоимость "хода к складу" в миллисекундах | Зависит от §1 (скорость) + расстояние. Симулятор. |
 | 8 | Учёт `ferry`/доставка из изолированных островов леса | Не критично для tiny+land, отложить. |

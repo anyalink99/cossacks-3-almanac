@@ -1,0 +1,971 @@
+{
+  "christmas": {
+    "files": [
+      "new_year6",
+      "new_year7",
+      "new_year8",
+      "new_year9",
+      "new_year10"
+    ],
+    "max": 166,
+    "mean": 121.2,
+    "median": 127,
+    "min": 78,
+    "n_files": 5
+  },
+  "decor": {
+    "files": [
+      "dcr1",
+      "dcr2",
+      "dcr3"
+    ],
+    "max": 213,
+    "mean": 179.0,
+    "median": 182,
+    "min": 142,
+    "n_files": 3
+  },
+  "decor_big": {
+    "files": [
+      "big_hill_1"
+    ],
+    "max": 1049,
+    "mean": 1049.0,
+    "median": 1049,
+    "min": 1049,
+    "n_files": 1
+  },
+  "desert_forests_medium": {
+    "files": [
+      "n_desert_frt_m_1",
+      "n_desert_frt_m_2",
+      "n_desert_frt_m_3",
+      "n_desert_frt_m_4",
+      "n_desert_frt_m_5",
+      "n_desert_frt_m_6",
+      "n_desert_frt_m_7",
+      "n_desert_frt_m_8",
+      "n_desert_frt_m_9",
+      "n_desert_frt_m_10",
+      "n_desert_frt_m_11",
+      "n_desert_frt_m_12",
+      "n_desert_frt_m_13",
+      "n_desert_frt_m_14",
+      "n_desert_frt_m_15",
+      "n_desert_frt_m_16",
+      "n_desert_frt_m_17",
+      "n_desert_frt_m_18",
+      "n_desert_frt_m_19",
+      "n_desert_frt_m_20",
+      "n_desert_frt_m_21",
+      "n_desert_frt_m_22",
+      "n_desert_frt_m_23"
+    ],
+    "max": 193,
+    "mean": 126.0,
+    "median": 118,
+    "min": 48,
+    "n_files": 23
+  },
+  "desert_forests_small": {
+    "files": [
+      "n_desert_frt_s_1",
+      "n_desert_frt_s_2",
+      "n_desert_frt_s_3",
+      "n_desert_frt_s_4",
+      "n_desert_frt_s_5",
+      "n_desert_frt_s_6",
+      "n_desert_frt_s_7",
+      "n_desert_frt_s_8",
+      "n_desert_frt_s_9",
+      "n_desert_frt_s_10",
+      "n_desert_frt_s_11",
+      "n_desert_frt_s_12",
+      "n_desert_frt_s_13",
+      "n_desert_frt_s_14",
+      "n_desert_frt_s_15",
+      "n_desert_frt_s_16",
+      "n_desert_frt_s_17",
+      "n_desert_frt_s_18",
+      "n_desert_frt_s_19",
+      "n_desert_frt_s_20"
+    ],
+    "max": 101,
+    "mean": 75.3,
+    "median": 77,
+    "min": 50,
+    "n_files": 20
+  },
+  "desert_forests_unique": {
+    "files": [
+      "desert_frt_un_1",
+      "desert_frt_un_2",
+      "desert_frt_un_3",
+      "desert_frt_un_4",
+      "desert_frt_un_5",
+      "desert_frt_un_6",
+      "desert_frt_un_7",
+      "desert_frt_un_8",
+      "desert_frt_un_9",
+      "desert_frt_un_10",
+      "desert_frt_un_11",
+      "desert_frt_un_12"
+    ],
+    "max": 338,
+    "mean": 226.4,
+    "median": 231,
+    "min": 149,
+    "n_files": 12
+  },
+  "desert_lake": {
+    "files": [
+      "desert_lake_1",
+      "desert_lake_2",
+      "desert_lake_3",
+      "desert_lake_4",
+      "desert_lake_5",
+      "desert_lake_6",
+      "desert_lake_7",
+      "desert_lake_8",
+      "desert_lake_9",
+      "desert_lake_10",
+      "desert_lake_11",
+      "desert_lake_12"
+    ],
+    "max": 440,
+    "mean": 282.2,
+    "median": 273,
+    "min": 209,
+    "n_files": 12
+  },
+  "desert_mnc": {
+    "files": [
+      "desert_mnc_1_a",
+      "desert_mnc_2_a",
+      "desert_mnc_3_a",
+      "mnc_1",
+      "mnc_2",
+      "mnc_3",
+      "mnc_4",
+      "mnc_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 8
+  },
+  "desert_mng": {
+    "files": [
+      "desert_mng_1_a",
+      "desert_mng_2_a",
+      "desert_mng_3_a",
+      "mng_1",
+      "mng_2",
+      "mng_3",
+      "mng_4",
+      "mng_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 8
+  },
+  "desert_mni": {
+    "files": [
+      "desert_mni_1_a",
+      "desert_mni_2_a",
+      "desert_mni_3_a",
+      "mni_1",
+      "mni_2",
+      "mni_3",
+      "mni_4",
+      "mni_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 8
+  },
+  "desert_mountains": {
+    "files": [
+      "desert_mnt_1",
+      "desert_mnt_2",
+      "desert_mnt_3",
+      "desert_mnt_4",
+      "desert_mnt_5",
+      "desert_mnt_6",
+      "desert_mnt_7",
+      "desert_mnt_8",
+      "desert_mnt_9",
+      "desert_mnt_10",
+      "desert_mnt_11",
+      "desert_mnt_12",
+      "desert_mnt_13",
+      "desert_mnt_14",
+      "desert_mnt_15"
+    ],
+    "max": 350,
+    "mean": 221.2,
+    "median": 206,
+    "min": 147,
+    "n_files": 13
+  },
+  "desert_plain_big": {
+    "files": [
+      "desert_plain_1",
+      "desert_plain_2"
+    ],
+    "max": 752,
+    "mean": 660.0,
+    "median": 752,
+    "min": 568,
+    "n_files": 2
+  },
+  "desert_plain_small": {
+    "files": [
+      "desert_plain_6",
+      "desert_plain_7",
+      "desert_plain_8",
+      "desert_plain_9",
+      "desert_plain_12",
+      "desert_plain_13"
+    ],
+    "max": 282,
+    "mean": 208.0,
+    "median": 204,
+    "min": 142,
+    "n_files": 6
+  },
+  "desert_stoneforests": {
+    "files": [
+      "desert_stn_5",
+      "desert_stn_7",
+      "desert_stn_8",
+      "desert_stn_12"
+    ],
+    "max": 88,
+    "mean": 73.0,
+    "median": 71,
+    "min": 63,
+    "n_files": 4
+  },
+  "desert_stones": {
+    "files": [
+      "desert_stn_1",
+      "desert_stn_2",
+      "desert_stn_3",
+      "desert_stn_4",
+      "desert_stn_5",
+      "desert_stn_6",
+      "desert_stn_7",
+      "desert_stn_8",
+      "desert_stn_9",
+      "desert_stn_10",
+      "desert_stn_11",
+      "desert_stn_12"
+    ],
+    "max": 101,
+    "mean": 76.8,
+    "median": 74,
+    "min": 53,
+    "n_files": 12
+  },
+  "desert_tiles": {
+    "files": [
+      "d_tls_1",
+      "d_tls_1",
+      "d_tls_2",
+      "d_tls_3",
+      "d_tls_3",
+      "d_tls_4"
+    ],
+    "max": 520,
+    "mean": 510.2,
+    "median": 520,
+    "min": 475,
+    "n_files": 6
+  },
+  "forests_leaf_big": {
+    "files": [
+      "g_frt_big_1",
+      "g_frt_big_2"
+    ],
+    "max": 695,
+    "mean": 634.5,
+    "median": 695,
+    "min": 574,
+    "n_files": 2
+  },
+  "forests_leaf_medium": {
+    "files": [
+      "g_frt_mid_1",
+      "g_frt_mid_2"
+    ],
+    "max": 514,
+    "mean": 451.0,
+    "median": 514,
+    "min": 388,
+    "n_files": 2
+  },
+  "forests_leaf_small": {
+    "files": [
+      "g_frt_small_1",
+      "g_frt_small_2",
+      "g_frt_small_3",
+      "g_frt_small_4",
+      "g_frt_small_5",
+      "g_frt_small_6"
+    ],
+    "max": 450,
+    "mean": 253.8,
+    "median": 250,
+    "min": 122,
+    "n_files": 6
+  },
+  "forests_mixed_big": {
+    "files": [
+      "e_frt_big_1",
+      "e_frt_big_2",
+      "e_frt_big_4"
+    ],
+    "max": 2906,
+    "mean": 1882.7,
+    "median": 1631,
+    "min": 1111,
+    "n_files": 3
+  },
+  "forests_mixed_medium": {
+    "files": [
+      "e_frt_mid_1",
+      "e_frt_mid_2",
+      "e_frt_mid_3",
+      "e_frt_mid_4",
+      "e_frt_mid_5"
+    ],
+    "max": 1034,
+    "mean": 845.4,
+    "median": 895,
+    "min": 656,
+    "n_files": 5
+  },
+  "forests_pine_big": {
+    "files": [
+      "frt_b_p_1",
+      "frt_b_p_2",
+      "frt_b_p_3",
+      "frt_b_p_4",
+      "frt_b_p_5",
+      "frt_b_p_6",
+      "frt_b_p_7",
+      "f1_from_big3"
+    ],
+    "max": 304,
+    "mean": 149.4,
+    "median": 148,
+    "min": 71,
+    "n_files": 8
+  },
+  "forests_pine_big_2": {
+    "files": [
+      "b_frt_b_p_1",
+      "b_frt_b_p_2",
+      "b_frt_b_p_3"
+    ],
+    "max": 204,
+    "mean": 181.3,
+    "median": 185,
+    "min": 155,
+    "n_files": 3
+  },
+  "forests_pine_medium": {
+    "files": [
+      "frt_m_p_1",
+      "frt_m_p_2",
+      "frt_m_p_3",
+      "frt_m_p_4",
+      "frt_m_p_5",
+      "frt_m_p_6",
+      "frt_m_p_7",
+      "frt_m_p_8",
+      "frt_m_p_9",
+      "frt_m_p_10"
+    ],
+    "max": 97,
+    "mean": 62.7,
+    "median": 59,
+    "min": 49,
+    "n_files": 10
+  },
+  "forests_pine_small": {
+    "files": [
+      "frt_s_p_1",
+      "frt_s_p_2",
+      "frt_s_p_3",
+      "frt_s_p_4",
+      "frt_s_p_5",
+      "frt_s_p_6"
+    ],
+    "max": 46,
+    "mean": 38.3,
+    "median": 44,
+    "min": 21,
+    "n_files": 6
+  },
+  "forests_pinedrygreen_small": {
+    "files": [
+      "d_frt_pinedry_big_1",
+      "d_frt_pinedry_big_2",
+      "d_frt_pinedry_big_3",
+      "d_frt_pinedry_big_4"
+    ],
+    "max": 638,
+    "mean": 516.8,
+    "median": 629,
+    "min": 367,
+    "n_files": 4
+  },
+  "forests_pinefir_big": {
+    "files": [
+      "d_frt_big_1",
+      "d_frt_big_2",
+      "d_frt_big_3",
+      "d_frt_big_4",
+      "d_frt_big_5",
+      "e_frt_big_3"
+    ],
+    "max": 1494,
+    "mean": 878.7,
+    "median": 920,
+    "min": 613,
+    "n_files": 6
+  },
+  "forests_pinefir_medium": {
+    "files": [
+      "d_frt_mid_1",
+      "d_frt_mid_2",
+      "d_frt_mid_3",
+      "d_frt_mid_4",
+      "d_frt_mid_5",
+      "d_frt_mid_6"
+    ],
+    "max": 383,
+    "mean": 305.7,
+    "median": 311,
+    "min": 218,
+    "n_files": 6
+  },
+  "forests_pinefir_small": {
+    "files": [
+      "d_frt_small_1",
+      "d_frt_small_2",
+      "d_frt_small_3",
+      "d_frt_small_4",
+      "d_frt_small_5",
+      "d_frt_small_6"
+    ],
+    "max": 200,
+    "mean": 160.7,
+    "median": 172,
+    "min": 80,
+    "n_files": 6
+  },
+  "forests_spruce_big": {
+    "files": [
+      "d_frt_spr_big_1",
+      "d_frt_spr_big_2",
+      "d_frt_spr_big_3",
+      "d_frt_spr_big_4"
+    ],
+    "max": 576,
+    "mean": 554.0,
+    "median": 571,
+    "min": 498,
+    "n_files": 4
+  },
+  "forests_spruce_medium": {
+    "files": [
+      "d_frt_spr_mid_1",
+      "d_frt_spr_mid_2",
+      "d_frt_spr_mid_3",
+      "d_frt_spr_mid_4"
+    ],
+    "max": 549,
+    "mean": 449.5,
+    "median": 469,
+    "min": 368,
+    "n_files": 4
+  },
+  "hills_dark": {
+    "files": [
+      "hil1",
+      "hil2",
+      "hil3",
+      "hil4"
+    ],
+    "max": 585,
+    "mean": 404.5,
+    "median": 475,
+    "min": 257,
+    "n_files": 4
+  },
+  "hills_light": {
+    "files": [
+      "g_hil1",
+      "g_hil2",
+      "g_hil3",
+      "g_hil4",
+      "g_hil5",
+      "g_hil6",
+      "g_hil7",
+      "g_hil8",
+      "g_hil9"
+    ],
+    "max": 964,
+    "mean": 633.4,
+    "median": 554,
+    "min": 475,
+    "n_files": 9
+  },
+  "lake_big": {
+    "files": [
+      "l_lake_big_1",
+      "l_lake_big_2",
+      "l_lake_big_3",
+      "l_lake_big_4",
+      "l_lake_big_5",
+      "l_lake_big_6",
+      "l_lake_big_7",
+      "l_lake_big_8",
+      "l_lake_big_9",
+      "l_lake_big_10",
+      "l_lake_big_11"
+    ],
+    "max": 637,
+    "mean": 316.3,
+    "median": 301,
+    "min": 187,
+    "n_files": 11
+  },
+  "lake_small": {
+    "files": [
+      "l_lake_small_1",
+      "l_lake_small_2",
+      "l_lake_small_3",
+      "l_lake_small_4",
+      "l_lake_small_5",
+      "l_lake_small_6",
+      "l_lake_small_7",
+      "l_lake_small_8",
+      "l_lake_small_9",
+      "l_lake_small_10",
+      "l_lake_small_11",
+      "l_lake_small_12"
+    ],
+    "max": 721,
+    "mean": 361.4,
+    "median": 397,
+    "min": 184,
+    "n_files": 12
+  },
+  "mnc": {
+    "files": [
+      "mnc4",
+      "mnc_1",
+      "mnc_2",
+      "mnc_3",
+      "mnc_4",
+      "mnc_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 6
+  },
+  "mng": {
+    "files": [
+      "mng4",
+      "mng_1",
+      "mng_2",
+      "mng_3",
+      "mng_4",
+      "mng_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 6
+  },
+  "mni": {
+    "files": [
+      "mni4",
+      "mni_1",
+      "mni_2",
+      "mni_3",
+      "mni_4",
+      "mni_5"
+    ],
+    "max": 32,
+    "mean": 32.0,
+    "median": 32,
+    "min": 32,
+    "n_files": 6
+  },
+  "mountains": {
+    "files": [
+      "g_mnt_1",
+      "g_mnt_2",
+      "g_mnt_3",
+      "g_mnt_4",
+      "g_mnt_5",
+      "g_mnt_6",
+      "g_mnt_7"
+    ],
+    "max": 816,
+    "mean": 584.1,
+    "median": 563,
+    "min": 362,
+    "n_files": 7
+  },
+  "plain_big": {
+    "files": [
+      "k_plain_mid_1",
+      "k_plain_mid_2",
+      "k_plain_mid_3",
+      "k_plain_mid_4",
+      "k_plain_mid_5",
+      "k_plain_mid_6",
+      "k_plain_mid_7",
+      "k_plain_mid_8",
+      "k_plain_mid_9",
+      "k_plain_mid_10",
+      "k_plain_mid_11",
+      "k_plain_mid_12a",
+      "k_plain_mid_12b"
+    ],
+    "max": 437,
+    "mean": 259.2,
+    "median": 229,
+    "min": 141,
+    "n_files": 11
+  },
+  "plain_huge": {
+    "files": [
+      "big_hill_1",
+      "k_plain_1",
+      "k_plain_2",
+      "k_plain_3",
+      "k_plain_4",
+      "k_plain_5",
+      "k_plain_6",
+      "k_plain_7",
+      "k_plain_8",
+      "k_plain_9",
+      "k_plain_10",
+      "k_plain_11",
+      "k_plain_12"
+    ],
+    "max": 2254,
+    "mean": 1217.2,
+    "median": 1111,
+    "min": 374,
+    "n_files": 13
+  },
+  "plain_medium": {
+    "files": [
+      "k_small_plain_7",
+      "k_small_plain_8",
+      "k_small_plain_9",
+      "k_small_plain_10",
+      "k_small_plain_11",
+      "k_small_plain_12",
+      "k_small_plain_13",
+      "k_small_plain_16",
+      "k_small_plain_17",
+      "k_small_plain_19",
+      "k_small_plain_20",
+      "k_small_plain_21",
+      "k_small_plain_23",
+      "k_small_plain_28",
+      "k_small_plain_34",
+      "k_small_plain_35",
+      "k_small_plain_36",
+      "k_small_plain_37",
+      "k_small_plain_38",
+      "k_small_plain_39",
+      "k_small_plain_40",
+      "k_small_plain_41",
+      "k_small_plain_43",
+      "k_small_plain_44",
+      "desert_plain_3",
+      "desert_plain_4",
+      "desert_plain_5",
+      "desert_plain_10",
+      "desert_plain_11",
+      "desert_plain_14",
+      "desert_plain_15"
+    ],
+    "max": 551,
+    "mean": 125.5,
+    "median": 40,
+    "min": 20,
+    "n_files": 31
+  },
+  "plain_small": {
+    "files": [
+      "k_small_plain_1",
+      "k_small_plain_2",
+      "k_small_plain_3",
+      "k_small_plain_4",
+      "k_small_plain_5",
+      "k_small_plain_6",
+      "k_small_plain_14",
+      "k_small_plain_15",
+      "k_small_plain_18",
+      "k_small_plain_22",
+      "k_small_plain_24",
+      "k_small_plain_25",
+      "k_small_plain_26",
+      "k_small_plain_27",
+      "k_small_plain_29",
+      "k_small_plain_30",
+      "k_small_plain_31",
+      "k_small_plain_32",
+      "k_small_plain_33"
+    ],
+    "max": 63,
+    "mean": 32.8,
+    "median": 29,
+    "min": 20,
+    "n_files": 19
+  },
+  "plateau": {
+    "files": [
+      "plt1",
+      "plt2",
+      "plt3",
+      "plt4_fixed",
+      "plt5"
+    ],
+    "max": 1046,
+    "mean": 795.0,
+    "median": 779,
+    "min": 602,
+    "n_files": 5
+  },
+  "plateau_big": {
+    "files": [
+      "f_plt_big_1",
+      "f_plt_big_2",
+      "f_plt_big_3",
+      "f_plt_mid_1",
+      "f_plt_mid_2"
+    ],
+    "max": 2530,
+    "mean": 1461.0,
+    "median": 1610,
+    "min": 659,
+    "n_files": 5
+  },
+  "plateau_small": {
+    "files": [
+      "d_plt1",
+      "d_plt2",
+      "d_plt3",
+      "d_plt4",
+      "d_plt5",
+      "d_plt6"
+    ],
+    "max": 1484,
+    "mean": 1253.8,
+    "median": 1392,
+    "min": 913,
+    "n_files": 6
+  },
+  "pump": {
+    "files": [
+      "k_pump_1",
+      "k_pump_2",
+      "k_pump_3",
+      "k_pump_4",
+      "k_pump_5",
+      "k_pump_6",
+      "k_pump_7",
+      "k_pump_8",
+      "k_pump_9",
+      "k_pump_10",
+      "k_pump_11",
+      "k_pump_12",
+      "k_pump_13",
+      "k_pump_14",
+      "k_pump_15"
+    ],
+    "max": 40,
+    "mean": 29.5,
+    "median": 29,
+    "min": 25,
+    "n_files": 6
+  },
+  "ravine_big": {
+    "files": [
+      "k_ravine_big_stone_1",
+      "k_ravine_big_stone_2",
+      "k_ravine_big_stone_3",
+      "k_ravine_big_stone_4",
+      "k_ravine_big_stone_5",
+      "k_ravine_big_stone_6",
+      "k_ravine_big_stone_7",
+      "k_ravine_big_stone_8"
+    ],
+    "max": 3353,
+    "mean": 1956.6,
+    "median": 2033,
+    "min": 1030,
+    "n_files": 8
+  },
+  "ravine_medium": {
+    "files": [
+      "k_ravine_1",
+      "k_ravine_2",
+      "k_ravine_3",
+      "k_ravine_4",
+      "k_ravine_5",
+      "k_ravine_6",
+      "k_ravine_7",
+      "k_ravine_8",
+      "k_ravine_9"
+    ],
+    "max": 1848,
+    "mean": 1077.0,
+    "median": 1088,
+    "min": 653,
+    "n_files": 8
+  },
+  "stoneforests": {
+    "files": [
+      "str_new_1",
+      "str_new_2",
+      "str_new_3",
+      "str_new_4",
+      "str_new_5",
+      "str_new_6",
+      "str_new_7",
+      "str_new_8"
+    ],
+    "max": 164,
+    "mean": 148.1,
+    "median": 152,
+    "min": 121,
+    "n_files": 8
+  },
+  "stoneforests_old": {
+    "files": [
+      "str_1",
+      "str_2",
+      "b_str_3",
+      "str_4",
+      "str_5",
+      "str_6",
+      "b_str_7",
+      "str_8"
+    ],
+    "max": 157,
+    "mean": 116.5,
+    "median": 136,
+    "min": 65,
+    "n_files": 8
+  },
+  "stones": {
+    "files": [
+      "d_stn_1",
+      "d_stn_2",
+      "d_stn_3",
+      "d_stn_4",
+      "d_stn_5",
+      "d_stn_6",
+      "d_stn_7"
+    ],
+    "max": 193,
+    "mean": 143.9,
+    "median": 138,
+    "min": 108,
+    "n_files": 7
+  },
+  "swamp_big": {
+    "files": [
+      "k_swamp_1",
+      "k_swamp_2"
+    ],
+    "max": 1318,
+    "mean": 859.0,
+    "median": 1318,
+    "min": 400,
+    "n_files": 2
+  },
+  "swamp_medium": {
+    "files": [
+      "m_swamp_1",
+      "m_swamp_2",
+      "m_swamp_3",
+      "m_swamp_4",
+      "m_swamp_5",
+      "m_swamp_6",
+      "m_swamp_7",
+      "m_swamp_8",
+      "m_swamp_9",
+      "m_swamp_10",
+      "m_swamp_11",
+      "m_swamp_12",
+      "m_swamp_13",
+      "m_swamp_14",
+      "m_swamp_15",
+      "m_swamp_16",
+      "m_swamp_17",
+      "m_swamp_18",
+      "m_swamp_19",
+      "m_swamp_20"
+    ],
+    "max": 419,
+    "mean": 206.7,
+    "median": 181,
+    "min": 107,
+    "n_files": 20
+  },
+  "swamp_small": {
+    "files": [
+      "m_swamp_small_1",
+      "m_swamp_small_2",
+      "m_swamp_small_3",
+      "m_swamp_small_4",
+      "m_swamp_small_5",
+      "m_swamp_small_6",
+      "m_swamp_small_7",
+      "m_swamp_small_8",
+      "m_swamp_small_9",
+      "m_swamp_small_10",
+      "m_swamp_small_11"
+    ],
+    "max": 141,
+    "mean": 93.6,
+    "median": 85,
+    "min": 60,
+    "n_files": 11
+  },
+  "tiles": {
+    "files": [
+      "d_tls_1",
+      "d_tls_2",
+      "d_tls_3",
+      "d_tls_4"
+    ],
+    "max": 520,
+    "mean": 505.2,
+    "median": 520,
+    "min": 475,
+    "n_files": 4
+  }
+}

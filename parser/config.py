@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -21,11 +22,28 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "output"
 RECON_DIR = PROJECT_ROOT / "recon"
 
-# Canonical paths used by all writers
+# Canonical paths used by all writers.
+#
+# Layout (cleaned up 2026-04-29):
+#   output/
+#   ├── data.json              master unified data (input for downstream)
+#   ├── derived/               machine-readable JSON for tooling
+#   │   ├── animations.json
+#   │   ├── builder_slots.json
+#   │   ├── pattern_*.json
+#   │   └── tech_tree.json
+#   ├── reference/             human-readable docs + auto-generated MD reports
+#   │   ├── README.md, 01_economy.md, ...   (curated)
+#   │   └── reports/                          (auto-generated)
+#   │       └── combat_stats.md, counter_matrix.md, map_resources.md, ...
+#   └── strategy/              strategy/sim outputs (MD)
+#       ├── construction_times.md, production_rates.md, tech_tree.md, ...
+#       └── sim/
 DATA_JSON = OUTPUT_DIR / "data.json"
-REFERENCE_DIR = OUTPUT_DIR / "reference"
-DERIVED_DIR = REFERENCE_DIR / "derived"
-STRATEGY_DIR = OUTPUT_DIR / "strategy"
+DERIVED_DIR = OUTPUT_DIR / "derived"             # JSON only
+REFERENCE_DIR = OUTPUT_DIR / "reference"         # MD only
+REPORTS_DIR = REFERENCE_DIR / "reports"          # auto-generated MD
+STRATEGY_DIR = OUTPUT_DIR / "strategy"           # MD only
 
 # Nation table from country.script:7-41
 NATION_ID_TO_SID = {
@@ -213,6 +231,120 @@ def decode_usage(usage_str) -> str:
     except (ValueError, TypeError):
         pass
     return s
+
+
+# =============================================================================
+# Animation timings
+# =============================================================================
+# Engine timing: each frame = 1 / gc_time_to_frames game-second (dmscript.global:175).
+ANIM_FRAMES_PER_GAMESEC = 32  # gc_time_to_frames
+
+# Frame counts for peasant work animations — VERIFIED in
+# data/animations/aaf/peaaus.aaf (all peasant nations share the same animation file).
+PEASANT_ANIM_FRAMES = {
+    "construct":  13,  # frames 186-198 (= one builder hammer swing on a foundation)
+    "workfood":   22,  # frames 278-299 (= one chop on a field/sheaf)
+    "workwood":   18,  # frames 237-254 (= one chop on a tree; reused for melee attack0)
+    "workstone":  18,  # frames 217-234
+    "attack0":    18,  # frames 237-254 (peasant melee = workwood reused)
+}
+PEASANT_ANIM_SEC = {k: round(v / ANIM_FRAMES_PER_GAMESEC, 4)
+                    for k, v in PEASANT_ANIM_FRAMES.items()}
+# E.g. PEASANT_ANIM_SEC["construct"] = 0.4063
+
+# Soldier melee swing length is per-unit (varies 11..33 frames across 84 units;
+# median 15). When `weapon.pause = 0` ("fires every animation cycle") use
+# `melee_swing_sec(unit_sid)` to get the unit's actual attack0 length, falling
+# back to the median when the .aaf file is missing or doesn't expose attack0.
+MELEE_SWING_FALLBACK_FRAMES = 15  # median across all melee units in data/animations/aaf
+MELEE_SWING_FALLBACK_SEC = round(MELEE_SWING_FALLBACK_FRAMES / ANIM_FRAMES_PER_GAMESEC, 4)
+# 0.4688 g-sec
+
+ANIMATIONS_JSON = DERIVED_DIR / "animations.json"
+_animations_cache: dict | None = None
+
+
+def _load_animations() -> dict:
+    global _animations_cache
+    if _animations_cache is None:
+        if ANIMATIONS_JSON.exists():
+            _animations_cache = json.loads(ANIMATIONS_JSON.read_text(encoding="utf-8"))
+        else:
+            _animations_cache = {}
+    return _animations_cache
+
+
+def get_anim_sec(unit_sid: str, anim_name: str) -> float | None:
+    """Return animation length in game-seconds for given unit + anim, or None.
+
+    Frame range in animations.json is INCLUSIVE: length = end - start + 1.
+    Outliers (>=100 frames) are filtered as those usually represent compound tracks.
+    """
+    tracks = _load_animations().get(unit_sid)
+    if not tracks or anim_name not in tracks:
+        return None
+    s, e = tracks[anim_name]
+    n = e - s + 1
+    if n <= 0 or n >= 100:
+        return None
+    return round(n / ANIM_FRAMES_PER_GAMESEC, 4)
+
+
+def melee_swing_sec(unit_sid: str) -> float:
+    """Per-unit melee swing duration in g-sec; falls back to median across all units."""
+    return get_anim_sec(unit_sid, "attack0") or MELEE_SWING_FALLBACK_SEC
+
+# =============================================================================
+# Empirical guesses — UNVERIFIED in scripts (see recon/empirical_tests.md)
+# =============================================================================
+# Above-ground extraction overhead — fraction of work-cycle time wasted walking
+# between resource node and storehouse. Depends on map layout; not derived from code.
+WALK_OVERHEAD_GUESS = 0.30
+# Mine extraction overhead — peasants stay inside the mine, so less travel.
+MINE_OVERHEAD_GUESS = 0.05
+
+# =============================================================================
+# Field mechanics (env.inc/initial.inc:75-103, env.inc/nothing.inc:30-87,
+# unit.script:1692, unit.script:6470)
+# =============================================================================
+FIELD_GOLD_COST = 5            # objbase.price[gold] for unit 'field' (unit.script:1692)
+FIELD_MAX_HP = 25000           # gc_FieldMaxHP, dmscript.global:128
+FIELD_GROW_TIME_SEC = 4 * 21.875   # cFieldGrowTime: spawn → mature (87.5 g-sec)
+FIELD_REST_TIME_SEC = 21.875       # cFieldRestTime: dead → rebirth (g-sec)
+FIELD_REGEN_INTERVAL_SEC = 31.25   # cFieldRestartTime: regen tick interval
+FIELD_REGEN_PER_TICK_MAX = 2500    # +floor(MaxHP × random × 0.1) per tick when at stage_0
+FIELDS_PER_MILL = 49           # 7×7 grid in _unit_DoSeedWheat (unit.script:6475-6476)
+
+# =============================================================================
+# Population cap (building.inc/doprogressorders.inc:142-152, dmscript.global:1090-1097)
+# =============================================================================
+GC_MAX_OBJ_COUNT = 32000       # engine-wide, all players combined
+MAP_SETTINGS_LIMIT = {         # gc_mapsettings_limit_1..8 (selectable in lobby)
+    1: 500, 2: 750, 3: 1000, 4: 1500,
+    5: 2200, 6: 3000, 7: 5000, 8: 8000,
+}
+# Farm slots per building (cen=100, bar=150, ba2=250, hou=25; sum + map limit clamp)
+# These are in data.json per-building b['farm']; loaded at runtime.
+
+# =============================================================================
+# Mine peasantabsorber cap (unit.script:2315, control.script:506-513)
+# =============================================================================
+MINE_BASE_PEASANTABSORBER = 5
+# Per-mine bonus from 6 upgrades (gol/iro/coa.1..6): +5/+8/+10/+12/+15/+40
+# Cumulative: 5 base → 10 → 18 → 28 → 40 → 55 → 95
+MINE_UPGRADE_BONUSES = [5, 8, 10, 12, 15, 40]
+MINE_MAX_PEASANTABSORBER = MINE_BASE_PEASANTABSORBER + sum(MINE_UPGRADE_BONUSES)  # 95
+
+# =============================================================================
+# Formation bonuses (data/game/var/formations.cfg)
+# =============================================================================
+# Most "LINE*" plain formations: 0 bonus. Tactical formations (LINE15+, SQUARE*,
+# KARE*) give +2/+2 walk and +7/+7 hold. Triangles +1/+1 always.
+# These are FLAT bonuses (added to damage/shield), not multipliers — meaningful
+# only for low-damage units (e.g. pikeman damage=20 +7 hold = +35%).
+FORMATION_BONUS_TACTICAL = {"walk": (2, 2), "hold": (7, 7)}  # (damage, shield)
+FORMATION_BONUS_TRIANGLE = {"walk": (1, 1), "hold": (1, 1)}
+FORMATION_BONUS_LINE400 = {"walk": (3, 3), "hold": (7, 7)}
 
 
 # Object base speed table (dmscript.global:603-620). Abstract units (NOT tiles/sec).

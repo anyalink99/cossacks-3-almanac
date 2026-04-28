@@ -66,8 +66,8 @@ write_md_tree   compute_scaling           simulate_economy
 ```bash
 python parser/build_data.py                   # → output/data.json (источник правды)
 python writers/write_md_tree.py               # → output/README.md + output/reference/ (~46 файлов)
-python compute/compute_scaling.py             # → output/reference/derived/scaling_prices.md
-python compute/compute_map_resources.py       # → output/reference/derived/map_resources.md
+python compute/compute_scaling.py             # → output/reference/reports/scaling_prices.md
+python compute/compute_map_resources.py       # → output/reference/reports/map_resources.md
 python compute/build_tech_tree.py             # → output/strategy/tech_tree.{md,json}, production_rates.md
 python compute/compute_construction_times.py  # → output/strategy/construction_times.md
 python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json

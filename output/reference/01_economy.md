@@ -96,13 +96,36 @@ HP поля = `gc_FieldMaxHP = 25000`. Урон полю за удар: `resdec 
 
 Источник: [`unit.inc/nothing.inc:445-505`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/nothing.inc), [`player.script:280-322`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)
 
-**Upkeep:** все юниты без флага `bnohungry` потребляют food. Скорость потребления:
+**Upkeep:** все юниты без флага `bnohungry` потребляют food. При появлении юнита у игрока в `gPlayer.counter.resconsume[food]` накапливается ([`unit.script:3810,3821`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script>)):
 
 ```
-food_per_g_sec = consume × time_to_frames / 20000
-                = consume × 32 / 20000  =  consume × 0.0016
+per_unit_resconsume_food = consume.food          # из case-ветки в unit.script
+                         + gc_obj_foodperunit    # = 30, если !bnohungry и !bbuilding
 ```
-Для типичного юнита `consume=30` (food per unit, `gc_obj_foodperunit=30`): **0.048 food/игр-сек = 2.88 food/игр-мин на юнит**.
+
+Затем расход food за игр-секунду ([`player.script:_player_ProcessResourceConsume`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script>)):
+
+```
+food_per_g_sec = sum_of_resconsume_food × gc_time_to_frames / 20000
+               = sum × 32 / 20000  =  sum × 0.0016
+```
+
+**Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян (`consume.food=32`, `bnohungry=False`) простаивают 2 игровые минуты:
+
+```
+sum = 18 × (32 + 30) = 1116
+food/g-sec = 1116 × 32 / 20000 ≈ 1.786
+за 120 g-сек ≈ 214 food   ✓
+```
+
+Per-unit таблица расхода food/g-сек (для `bnohungry=False`):
+
+| Юнит | `consume.food` | + `gc_obj_foodperunit` | итого | food/g-сек |
+|---|---:|---:|---:|---:|
+| peasant (aus/pol/spa/eng/ukr/sco) | 32 | +30 | 62 | 0.0992 |
+| peasant `peatur`/`peaalg` | 28 | +30 | 58 | 0.0928 |
+| peasant `pearus` | 26 | +30 | 56 | 0.0896 |
+| infantry без явного `consume.food` | 0 | +30 | 30 | 0.048 |
 
 **Famine flag** (`bfamine=True`): срабатывает когда `food=0` И есть consume>0.
 
@@ -114,12 +137,16 @@ food_per_g_sec = consume × time_to_frames / 20000
 | 1 (normal) | `RandomInt < 12` ≈ 0.018% | ~часы |
 | 2+ (hard / very hard / impossible) | **`RandomInt < 50` ≈ 0.076%** | **минуты** (4-10× быстрее normal) |
 
-**Кто иммунен к famine** (`bnohungry=True`):
-- Все здания (`bbuilding=True`)
-- Все наёмники (`bmercenary=True`) — у них свой триггер (см. Rebellion)
-- Большинство peasant'ов (но НЕ все — `peatur` не имеет bnohungry)
-- Корабли
-- Officers / drummers / priests
+**Кто иммунен к famine** (`bnohungry=True` в `unit.script`):
+- Все здания — через `SetObjBuildingBaseSettings`/`SetObjBuildingExtProperties` ([`unit.script:471`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script>))
+- Наёмники (`bmercenary=True`) — bnohungry проставляется в их `if (bmercenary) then …` блоке (у них свой триггер — см. Rebellion). Едят gold, не food.
+
+**Кто НЕ иммунен (вопреки распространённому заблуждению):**
+- **Крестьяне** — у всех `bnohungry=False`. У `peaaus/peapol/peaspa/peaeng/peaukr/peasco` `consume.food=32`, у `pearus`=26, у `peatur/peaalg`=28. Плюс +30 от `gc_obj_foodperunit`. То есть простаивающие крестьяне расходуют food.
+- **Officers / drummers / priests** — `bnohungry` не выставлен в их case-ветках; они едят food (+30) поверх своего `consume[gold]`.
+- **Регулярные пехотные/кавалерийские юниты** — `bnohungry=False`, food upkeep = их `consume.food` + 30.
+
+Конкретное значение `bnohungry` для каждого юнита смотри в [`output/data.json`](../data.json) (поле `bnohungry`, парсится из `unit.script` начиная с правки 2026-04-29).
 
 **Famine также отключается** если игрок не задал в профиле `gProfile.bFamine=True` (опция).
 

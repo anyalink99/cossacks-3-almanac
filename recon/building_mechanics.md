@@ -165,15 +165,31 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 **Builder points** — конкретные позиции вокруг здания, где крестьянин стоит и работает.
 
 **Источник позиций:**
-1. Для большинства зданий — **динамически вычисляются** из collision mask через [`_unit_CalcBuilderPoints`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8700) (unit.script:8702-8870 примерно). Алгоритм: обходит периметр маски, ставит точку каждые `dist=1.0` тайл.
+1. Для большинства зданий — **динамически вычисляются** из collision mask через [`_unit_CalcBuilderPoints`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8702) (unit.script:8702-9006). Алгоритм: обходит периметр маски с шагом 0.5 тайла (1 cell), ставит точку каждые `dist=1.0` тайл, после цикла добавляет ещё одну если `dLen > dist/2`.
 2. Для стен — из [`data/game/var/wallcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/wallcustom.cfg) (BuilderPoints per wall variation, до 16).
-3. (Опционально) Override per-building в [`data/game/var/objcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/objcustom.cfg) — но в текущем файле я не вижу BuilderPoints, только ExitPoints/SmokePoints/Decal.
+3. (Опционально) Override per-building в [`data/game/var/objcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/objcustom.cfg) — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
-**Оценка точек для типового здания:**
-- Перимfer mask cells × 0.5 / 1.0 = ~num_perimeter_cells × 0.5 builder slots
-- bavcen (12×11 mask, диамант): periметр ≈ 22 cells (рёбра диаманта) × 0.5 / 1.0 = ~11 builder slots
-- bavhou (тоже ~12×11, прямоугольник): ~12 builder slots
-- Стена: 4 builder slots на сегмент (типично).
+**Точные значения для каждого здания:** [`output/strategy/builder_slots.md`](../output/strategy/builder_slots.md) и [`output/reference/derived/builder_slots.json`](../output/reference/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py), это построчный порт алгоритма движка на Python.
+
+**Сильная зависимость от нации.** Размер маски (а значит и периметр) у одной и той же категории здания может различаться кратно. Пример для 18c казармы (`*ba2`):
+
+| nation | mask | cells | perim (тайлов) | slots |
+|---|---|---:|---:|---:|
+| ven | 12×9 | 58 | 19 | **19** |
+| sax | 12×9 | 59 | 20 | **20** |
+| net | 12×10 | 69 | 21 | **21** |
+| swi/pie/pru/den | 12×12 | 63-91 | 22 | **22** |
+| bav/eng | 12×11 | 65-73 | 23 | **23** |
+| por | 12×14 | 86 | 24 | **24** |
+| pol | 14×14 | 87 | 25 | **25** |
+| spa/hun | 14×13 | 101-103 | 26 | **26** |
+| swe | 14×13 | 108 | 27 | **27** |
+| aus/fra | 16×15-17 | 112-129 | 29 | **29** |
+| sco/rus | 16×15-18 | 123-133 | 30+ | **30** (cap'd) |
+
+**Engine quirk — несвязные маски.** Алгоритм находит верхне-левую заполненную клетку и обходит **только её компоненту**. У 19 зданий маска состоит из ≥2 несвязных частей (склады russto/eursto, ворота вариаций sga_14..17, wga_14..17) — для остальных компонент builder points **не создаются** (там просто нельзя поставить крестьянина).
+
+**Сим vs in-game ±1.** Симуляция предсказывает 23 для bavba2, а пользователь наблюдал 22. Расхождение объясняется: (a) после цикла идёт `_AddBuilderPoint → collision check (±0.001 nudge)`, который теоретически точку не убирает; (b) более вероятно — pathing failure для одной из точек (если её занял дерево/чужое здание/edge of map), либо просто крестьянин ещё шёл.
 
 ### 3.3 Алгоритм назначения крестьянина на стройку
 
@@ -229,10 +245,29 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` ([`dmscript.global:13
 - Ferry: `transport = 80+40 = 120` слотов ([`unit.script:2043`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L2043))
 - Другие транспортные суда (`transport`)/корабли — TBD
 
-### 5.3 Tower garrison
-По коду [`unit.script:2224-2240`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L2224) башня НЕ имеет `peasantabsorber` или `transport`. Башня — статичное оборонительное здание со встроенным оружием (`weapon[0]`).
+### 5.3 Tower — built-in cannon
 
-⚠ Вне-движковая фича "garrison units in tower" из других RTS отсутствует в Cossacks 3 для большинства зданий. Пехота гарнизон-ить нельзя.
+Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием ([`unit.script:2223-2240`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L2223)):
+
+| параметр | значение |
+|---|---|
+| weapon[0].kind | `gc_obj_weapon_kind_cannonball` |
+| weapon[0].damage | 400 |
+| weapon[0].radiusmin/max (px) | 400 / 1500 |
+| weapon[0].radiusmax (tiles) | ≈ 28.1 |
+| weapon[0].pause | 1000 frames = 31.25 g-sec |
+| weapon[0].cost / shot | iron=10, coal=30 |
+| weapon[0].dispertion | 100 px |
+| searchradius | 1400 px ≈ 26.25 tiles |
+| consume.gold | **500/tick = 0.8 gold/g-sec** ([`unit.script:2235`](.)) |
+| HP | 20000 |
+| `bturnoff=True` | можно отключить — снижает gold-drain |
+
+**Apgrades:** `gc_ach_upgrade_towerattspeed` (achievement-related, attack speed). RUS вариант: dmg 300 (вместо 400), shield=5, dispertion 125.
+
+⚠ Гарнизон-ить пехоту в башню **нельзя** — это другие RTS. В C3 башня сама стреляет.
+
+**Парсер gap:** weapons для зданий пока не извлекаются в `data.json`. См. [`reference_session_findings_2026-04-29.md`](../memory/...) — есть TODO.
 
 ### 5.4 Other inside-units checks
 - `bcapture=True` отмечает, что объект **может быть захвачен** врагом (см. §7).
@@ -265,6 +300,7 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 - Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` ([`dmscript.global:208`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L208)).
 - Block radius: `gc_gameplay_captureblockshotradius = 3.0 тайла`.
 - Если вражеская пехота находится в радиусе захвата здания и игрока-владельца **нет** в этом радиусе → здание переходит к врагу.
+- **Захват instant** (per user verification 2026-04-29). Старая моя оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — это либо относилось к другой механике, либо была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
 
 **Какие здания захватываются:** все шахты, центры, ratusha, и многие другие. Список — где `bcapture=True` в коде. У стен/ворот **нет** bcapture.
 

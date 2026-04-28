@@ -469,6 +469,10 @@ def apply_setobj_call(stats: dict, name: str, args: list[str]):
         for k, idx in (("food", 8), ("wood", 9), ("stone", 10), ("gold", 11), ("iron", 12), ("coal", 13)):
             v = gi(idx)
             if v is not None: stats[k] = v
+        # SetObjBuildingExtProperties calls SetObjBuildingBaseSettings, which sets
+        # bbuilding := True and bnohungry := True (unit.script:464,471).
+        stats["bbuilding"] = True
+        stats["bnohungry"] = True
     elif name == "SetObjBuildingBaseSettings":
         # (objprop, bcapture, score, usage)
         v = parse_bool(args[1]) if len(args) > 1 else None
@@ -477,6 +481,9 @@ def apply_setobj_call(stats: dict, name: str, args: list[str]):
         if v is not None: stats["score"] = v
         v = gs(3)
         if v is not None: stats["usage"] = v
+        # Always sets bbuilding := True and bnohungry := True (unit.script:464,471).
+        stats["bbuilding"] = True
+        stats["bnohungry"] = True
     elif name == "SetObjBasePrice":
         # (objbase, food, wood, stone, gold, iron, coal)
         for k, idx in (("food", 1), ("wood", 2), ("stone", 3), ("gold", 4), ("iron", 5), ("coal", 6)):
@@ -574,6 +581,18 @@ def apply_assignment(stats: dict, lhs: str, rhs: str):
         if val is not None: stats["score"] = val
     elif lhs == "objprop.bcapture":
         if val is not None: stats["bcapture"] = val
+    elif lhs == "objprop.bnohungry":
+        if val is not None: stats["bnohungry"] = val
+    elif lhs == "objprop.bbuilding":
+        if val is not None: stats["bbuilding"] = val
+    elif lhs == "objprop.bmercenary":
+        if val is not None: stats["bmercenary"] = val
+    elif lhs == "objprop.bofficer":
+        if val is not None: stats["bofficer"] = val
+    elif lhs == "objprop.bdrummer":
+        if val is not None: stats["bdrummer"] = val
+    elif lhs == "objprop.bpriest":
+        if val is not None: stats["bpriest"] = val
     elif lhs.startswith("objprop.resourcebase[gc_resource_type_"):
         m = re.match(r"objprop\.resourcebase\[gc_resource_type_(\w+)\]", lhs)
         if m and val:

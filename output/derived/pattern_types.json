@@ -1,0 +1,615 @@
+{
+  "christmas": [
+    "new_year6",
+    "new_year7",
+    "new_year8",
+    "new_year9",
+    "new_year10"
+  ],
+  "decor": [
+    "dcr1",
+    "dcr2",
+    "dcr3"
+  ],
+  "decor_big": [
+    "big_hill_1"
+  ],
+  "desert_forests_big": [
+    "n_desert_frt_big1",
+    "n_desert_frt_big2",
+    "n_desert_frt_big3",
+    "n_desert_frt_big4",
+    "n_desert_frt_big5",
+    "n_desert_frt_big6",
+    "n_desert_frt_big7",
+    "n_desert_frt_big8",
+    "n_desert_frt_big9",
+    "n_desert_frt_big10",
+    "n_desert_frt_big11",
+    "n_desert_frt_big12",
+    "n_desert_frt_big13",
+    "n_desert_frt_big14",
+    "n_desert_frt_big15",
+    "n_desert_frt_big16",
+    "n_desert_frt_big17"
+  ],
+  "desert_forests_medium": [
+    "n_desert_frt_m_1",
+    "n_desert_frt_m_2",
+    "n_desert_frt_m_3",
+    "n_desert_frt_m_4",
+    "n_desert_frt_m_5",
+    "n_desert_frt_m_6",
+    "n_desert_frt_m_7",
+    "n_desert_frt_m_8",
+    "n_desert_frt_m_9",
+    "n_desert_frt_m_10",
+    "n_desert_frt_m_11",
+    "n_desert_frt_m_12",
+    "n_desert_frt_m_13",
+    "n_desert_frt_m_14",
+    "n_desert_frt_m_15",
+    "n_desert_frt_m_16",
+    "n_desert_frt_m_17",
+    "n_desert_frt_m_18",
+    "n_desert_frt_m_19",
+    "n_desert_frt_m_20",
+    "n_desert_frt_m_21",
+    "n_desert_frt_m_22",
+    "n_desert_frt_m_23"
+  ],
+  "desert_forests_small": [
+    "n_desert_frt_s_1",
+    "n_desert_frt_s_2",
+    "n_desert_frt_s_3",
+    "n_desert_frt_s_4",
+    "n_desert_frt_s_5",
+    "n_desert_frt_s_6",
+    "n_desert_frt_s_7",
+    "n_desert_frt_s_8",
+    "n_desert_frt_s_9",
+    "n_desert_frt_s_10",
+    "n_desert_frt_s_11",
+    "n_desert_frt_s_12",
+    "n_desert_frt_s_13",
+    "n_desert_frt_s_14",
+    "n_desert_frt_s_15",
+    "n_desert_frt_s_16",
+    "n_desert_frt_s_17",
+    "n_desert_frt_s_18",
+    "n_desert_frt_s_19",
+    "n_desert_frt_s_20"
+  ],
+  "desert_forests_unique": [
+    "desert_frt_un_1",
+    "desert_frt_un_2",
+    "desert_frt_un_3",
+    "desert_frt_un_4",
+    "desert_frt_un_5",
+    "desert_frt_un_6",
+    "desert_frt_un_7",
+    "desert_frt_un_8",
+    "desert_frt_un_9",
+    "desert_frt_un_10",
+    "desert_frt_un_11",
+    "desert_frt_un_12"
+  ],
+  "desert_lake": [
+    "desert_lake_1",
+    "desert_lake_2",
+    "desert_lake_3",
+    "desert_lake_4",
+    "desert_lake_5",
+    "desert_lake_6",
+    "desert_lake_7",
+    "desert_lake_8",
+    "desert_lake_9",
+    "desert_lake_10",
+    "desert_lake_11",
+    "desert_lake_12"
+  ],
+  "desert_mnc": [
+    "desert_mnc_1_a",
+    "desert_mnc_2_a",
+    "desert_mnc_3_a",
+    "mnc_1",
+    "mnc_2",
+    "mnc_3",
+    "mnc_4",
+    "mnc_5"
+  ],
+  "desert_mng": [
+    "desert_mng_1_a",
+    "desert_mng_2_a",
+    "desert_mng_3_a",
+    "mng_1",
+    "mng_2",
+    "mng_3",
+    "mng_4",
+    "mng_5"
+  ],
+  "desert_mni": [
+    "desert_mni_1_a",
+    "desert_mni_2_a",
+    "desert_mni_3_a",
+    "mni_1",
+    "mni_2",
+    "mni_3",
+    "mni_4",
+    "mni_5"
+  ],
+  "desert_mountains": [
+    "desert_mnt_1",
+    "desert_mnt_2",
+    "desert_mnt_3",
+    "desert_mnt_4",
+    "desert_mnt_5",
+    "desert_mnt_6",
+    "desert_mnt_7",
+    "desert_mnt_8",
+    "desert_mnt_9",
+    "desert_mnt_10",
+    "desert_mnt_11",
+    "desert_mnt_12",
+    "desert_mnt_13",
+    "desert_mnt_14",
+    "desert_mnt_15"
+  ],
+  "desert_plain_big": [
+    "desert_plain_1",
+    "desert_plain_2"
+  ],
+  "desert_plain_small": [
+    "desert_plain_6",
+    "desert_plain_7",
+    "desert_plain_8",
+    "desert_plain_9",
+    "desert_plain_12",
+    "desert_plain_13"
+  ],
+  "desert_plateau": [
+    "desert_plt2",
+    "desert_plt3",
+    "desert_plt9",
+    "desert_plt10"
+  ],
+  "desert_plateau_big": [
+    "desert_plt1",
+    "desert_plt4",
+    "desert_plt5"
+  ],
+  "desert_plateau_small": [
+    "desert_plt6",
+    "desert_plt7",
+    "desert_plt8",
+    "desert_plt11"
+  ],
+  "desert_stoneforests": [
+    "desert_stn_5",
+    "desert_stn_7",
+    "desert_stn_8",
+    "desert_stn_12"
+  ],
+  "desert_stones": [
+    "desert_stn_1",
+    "desert_stn_2",
+    "desert_stn_3",
+    "desert_stn_4",
+    "desert_stn_5",
+    "desert_stn_6",
+    "desert_stn_7",
+    "desert_stn_8",
+    "desert_stn_9",
+    "desert_stn_10",
+    "desert_stn_11",
+    "desert_stn_12"
+  ],
+  "desert_tiles": [
+    "d_tls_1",
+    "d_tls_1",
+    "d_tls_2",
+    "d_tls_3",
+    "d_tls_3",
+    "d_tls_4"
+  ],
+  "forests_leaf_big": [
+    "g_frt_big_1",
+    "g_frt_big_2"
+  ],
+  "forests_leaf_medium": [
+    "g_frt_mid_1",
+    "g_frt_mid_2"
+  ],
+  "forests_leaf_small": [
+    "g_frt_small_1",
+    "g_frt_small_2",
+    "g_frt_small_3",
+    "g_frt_small_4",
+    "g_frt_small_5",
+    "g_frt_small_6"
+  ],
+  "forests_mixed_big": [
+    "e_frt_big_1",
+    "e_frt_big_2",
+    "e_frt_big_4"
+  ],
+  "forests_mixed_medium": [
+    "e_frt_mid_1",
+    "e_frt_mid_2",
+    "e_frt_mid_3",
+    "e_frt_mid_4",
+    "e_frt_mid_5"
+  ],
+  "forests_pine_big": [
+    "frt_b_p_1",
+    "frt_b_p_2",
+    "frt_b_p_3",
+    "frt_b_p_4",
+    "frt_b_p_5",
+    "frt_b_p_6",
+    "frt_b_p_7",
+    "f1_from_big3"
+  ],
+  "forests_pine_big_2": [
+    "b_frt_b_p_1",
+    "b_frt_b_p_2",
+    "b_frt_b_p_3"
+  ],
+  "forests_pine_medium": [
+    "frt_m_p_1",
+    "frt_m_p_2",
+    "frt_m_p_3",
+    "frt_m_p_4",
+    "frt_m_p_5",
+    "frt_m_p_6",
+    "frt_m_p_7",
+    "frt_m_p_8",
+    "frt_m_p_9",
+    "frt_m_p_10"
+  ],
+  "forests_pine_small": [
+    "frt_s_p_1",
+    "frt_s_p_2",
+    "frt_s_p_3",
+    "frt_s_p_4",
+    "frt_s_p_5",
+    "frt_s_p_6"
+  ],
+  "forests_pinedrygreen_small": [
+    "d_frt_pinedry_big_1",
+    "d_frt_pinedry_big_2",
+    "d_frt_pinedry_big_3",
+    "d_frt_pinedry_big_4"
+  ],
+  "forests_pinefir_big": [
+    "d_frt_big_1",
+    "d_frt_big_2",
+    "d_frt_big_3",
+    "d_frt_big_4",
+    "d_frt_big_5",
+    "e_frt_big_3"
+  ],
+  "forests_pinefir_medium": [
+    "d_frt_mid_1",
+    "d_frt_mid_2",
+    "d_frt_mid_3",
+    "d_frt_mid_4",
+    "d_frt_mid_5",
+    "d_frt_mid_6"
+  ],
+  "forests_pinefir_small": [
+    "d_frt_small_1",
+    "d_frt_small_2",
+    "d_frt_small_3",
+    "d_frt_small_4",
+    "d_frt_small_5",
+    "d_frt_small_6"
+  ],
+  "forests_spruce_big": [
+    "d_frt_spr_big_1",
+    "d_frt_spr_big_2",
+    "d_frt_spr_big_3",
+    "d_frt_spr_big_4"
+  ],
+  "forests_spruce_medium": [
+    "d_frt_spr_mid_1",
+    "d_frt_spr_mid_2",
+    "d_frt_spr_mid_3",
+    "d_frt_spr_mid_4"
+  ],
+  "hills_dark": [
+    "hil1",
+    "hil2",
+    "hil3",
+    "hil4"
+  ],
+  "hills_light": [
+    "g_hil1",
+    "g_hil2",
+    "g_hil3",
+    "g_hil4",
+    "g_hil5",
+    "g_hil6",
+    "g_hil7",
+    "g_hil8",
+    "g_hil9"
+  ],
+  "lake_big": [
+    "l_lake_big_1",
+    "l_lake_big_2",
+    "l_lake_big_3",
+    "l_lake_big_4",
+    "l_lake_big_5",
+    "l_lake_big_6",
+    "l_lake_big_7",
+    "l_lake_big_8",
+    "l_lake_big_9",
+    "l_lake_big_10",
+    "l_lake_big_11"
+  ],
+  "lake_small": [
+    "l_lake_small_1",
+    "l_lake_small_2",
+    "l_lake_small_3",
+    "l_lake_small_4",
+    "l_lake_small_5",
+    "l_lake_small_6",
+    "l_lake_small_7",
+    "l_lake_small_8",
+    "l_lake_small_9",
+    "l_lake_small_10",
+    "l_lake_small_11",
+    "l_lake_small_12"
+  ],
+  "mnc": [
+    "mnc4",
+    "mnc_1",
+    "mnc_2",
+    "mnc_3",
+    "mnc_4",
+    "mnc_5"
+  ],
+  "mng": [
+    "mng4",
+    "mng_1",
+    "mng_2",
+    "mng_3",
+    "mng_4",
+    "mng_5"
+  ],
+  "mni": [
+    "mni4",
+    "mni_1",
+    "mni_2",
+    "mni_3",
+    "mni_4",
+    "mni_5"
+  ],
+  "mountains": [
+    "g_mnt_1",
+    "g_mnt_2",
+    "g_mnt_3",
+    "g_mnt_4",
+    "g_mnt_5",
+    "g_mnt_6",
+    "g_mnt_7"
+  ],
+  "plain_big": [
+    "k_plain_mid_1",
+    "k_plain_mid_2",
+    "k_plain_mid_3",
+    "k_plain_mid_4",
+    "k_plain_mid_5",
+    "k_plain_mid_6",
+    "k_plain_mid_7",
+    "k_plain_mid_8",
+    "k_plain_mid_9",
+    "k_plain_mid_10",
+    "k_plain_mid_11",
+    "k_plain_mid_12a",
+    "k_plain_mid_12b"
+  ],
+  "plain_huge": [
+    "big_hill_1",
+    "k_plain_1",
+    "k_plain_2",
+    "k_plain_3",
+    "k_plain_4",
+    "k_plain_5",
+    "k_plain_6",
+    "k_plain_7",
+    "k_plain_8",
+    "k_plain_9",
+    "k_plain_10",
+    "k_plain_11",
+    "k_plain_12"
+  ],
+  "plain_medium": [
+    "k_small_plain_7",
+    "k_small_plain_8",
+    "k_small_plain_9",
+    "k_small_plain_10",
+    "k_small_plain_11",
+    "k_small_plain_12",
+    "k_small_plain_13",
+    "k_small_plain_16",
+    "k_small_plain_17",
+    "k_small_plain_19",
+    "k_small_plain_20",
+    "k_small_plain_21",
+    "k_small_plain_23",
+    "k_small_plain_28",
+    "k_small_plain_34",
+    "k_small_plain_35",
+    "k_small_plain_36",
+    "k_small_plain_37",
+    "k_small_plain_38",
+    "k_small_plain_39",
+    "k_small_plain_40",
+    "k_small_plain_41",
+    "k_small_plain_43",
+    "k_small_plain_44",
+    "desert_plain_3",
+    "desert_plain_4",
+    "desert_plain_5",
+    "desert_plain_10",
+    "desert_plain_11",
+    "desert_plain_14",
+    "desert_plain_15"
+  ],
+  "plain_small": [
+    "k_small_plain_1",
+    "k_small_plain_2",
+    "k_small_plain_3",
+    "k_small_plain_4",
+    "k_small_plain_5",
+    "k_small_plain_6",
+    "k_small_plain_14",
+    "k_small_plain_15",
+    "k_small_plain_18",
+    "k_small_plain_22",
+    "k_small_plain_24",
+    "k_small_plain_25",
+    "k_small_plain_26",
+    "k_small_plain_27",
+    "k_small_plain_29",
+    "k_small_plain_30",
+    "k_small_plain_31",
+    "k_small_plain_32",
+    "k_small_plain_33"
+  ],
+  "plateau": [
+    "plt1",
+    "plt2",
+    "plt3",
+    "plt4_fixed",
+    "plt5"
+  ],
+  "plateau_big": [
+    "f_plt_big_1",
+    "f_plt_big_2",
+    "f_plt_big_3",
+    "f_plt_mid_1",
+    "f_plt_mid_2"
+  ],
+  "plateau_small": [
+    "d_plt1",
+    "d_plt2",
+    "d_plt3",
+    "d_plt4",
+    "d_plt5",
+    "d_plt6"
+  ],
+  "pump": [
+    "k_pump_1",
+    "k_pump_2",
+    "k_pump_3",
+    "k_pump_4",
+    "k_pump_5",
+    "k_pump_6",
+    "k_pump_7",
+    "k_pump_8",
+    "k_pump_9",
+    "k_pump_10",
+    "k_pump_11",
+    "k_pump_12",
+    "k_pump_13",
+    "k_pump_14",
+    "k_pump_15"
+  ],
+  "ravine_big": [
+    "k_ravine_big_stone_1",
+    "k_ravine_big_stone_2",
+    "k_ravine_big_stone_3",
+    "k_ravine_big_stone_4",
+    "k_ravine_big_stone_5",
+    "k_ravine_big_stone_6",
+    "k_ravine_big_stone_7",
+    "k_ravine_big_stone_8"
+  ],
+  "ravine_medium": [
+    "k_ravine_1",
+    "k_ravine_2",
+    "k_ravine_3",
+    "k_ravine_4",
+    "k_ravine_5",
+    "k_ravine_6",
+    "k_ravine_7",
+    "k_ravine_8",
+    "k_ravine_9"
+  ],
+  "stoneforests": [
+    "str_new_1",
+    "str_new_2",
+    "str_new_3",
+    "str_new_4",
+    "str_new_5",
+    "str_new_6",
+    "str_new_7",
+    "str_new_8"
+  ],
+  "stoneforests_old": [
+    "str_1",
+    "str_2",
+    "b_str_3",
+    "str_4",
+    "str_5",
+    "str_6",
+    "b_str_7",
+    "str_8"
+  ],
+  "stones": [
+    "d_stn_1",
+    "d_stn_2",
+    "d_stn_3",
+    "d_stn_4",
+    "d_stn_5",
+    "d_stn_6",
+    "d_stn_7"
+  ],
+  "swamp_big": [
+    "k_swamp_1",
+    "k_swamp_2"
+  ],
+  "swamp_medium": [
+    "m_swamp_1",
+    "m_swamp_2",
+    "m_swamp_3",
+    "m_swamp_4",
+    "m_swamp_5",
+    "m_swamp_6",
+    "m_swamp_7",
+    "m_swamp_8",
+    "m_swamp_9",
+    "m_swamp_10",
+    "m_swamp_11",
+    "m_swamp_12",
+    "m_swamp_13",
+    "m_swamp_14",
+    "m_swamp_15",
+    "m_swamp_16",
+    "m_swamp_17",
+    "m_swamp_18",
+    "m_swamp_19",
+    "m_swamp_20"
+  ],
+  "swamp_small": [
+    "m_swamp_small_1",
+    "m_swamp_small_2",
+    "m_swamp_small_3",
+    "m_swamp_small_4",
+    "m_swamp_small_5",
+    "m_swamp_small_6",
+    "m_swamp_small_7",
+    "m_swamp_small_8",
+    "m_swamp_small_9",
+    "m_swamp_small_10",
+    "m_swamp_small_11"
+  ],
+  "tiles": [
+    "d_tls_1",
+    "d_tls_2",
+    "d_tls_3",
+    "d_tls_4"
+  ]
+}

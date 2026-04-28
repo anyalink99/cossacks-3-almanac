@@ -16,7 +16,7 @@ incremented on creation and decremented on death/destruction, so destroying a
 town center actually makes the next one cheaper again.
 
 This script reads the already-extracted base prices from data.json and writes:
-- output/reference/derived/scaling_prices.md (grouped by building suffix)
+- output/reference/reports/scaling_prices.md (grouped by building suffix)
 
 Re-run it whenever the base data is regenerated.
 """
@@ -30,10 +30,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, DERIVED_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
 
 DATA_PATH = DATA_JSON
-MD_PATH = DERIVED_DIR / "scaling_prices.md"
+MD_PATH = REPORTS_DIR / "scaling_prices.md"
 
 MAX_N = 6
 RES_KEYS = ("food", "wood", "stone", "gold", "iron", "coal")
@@ -278,7 +278,7 @@ def write_md(data: dict):
 
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     write_md(data)
     # xlsx output dropped — md is the canonical format. The write_xlsx() function
     # is kept in this file for reference but no longer invoked from main().

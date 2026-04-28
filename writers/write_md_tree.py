@@ -24,7 +24,8 @@ from pathlib import Path
 from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import OUTPUT_DIR, PLAYABLE_NATIONS, _commonname, DATA_JSON, REFERENCE_DIR
+from config import (OUTPUT_DIR, PLAYABLE_NATIONS, _commonname, DATA_JSON, REFERENCE_DIR,
+                    MELEE_SWING_FALLBACK_SEC, melee_swing_sec)
 
 DATA_PATH = DATA_JSON
 TREE_ROOT = REFERENCE_DIR
@@ -1079,12 +1080,9 @@ def write_combat(data: dict) -> None:
         if cls in BATTLE_CLASSES:
             by_class_full[cls].append(u)
 
-    # For each class, compute median attacker stats (damage, pause, kind) and median defender stats (hp, shield, protection)
-    # For melee weapons (pause_sec=0 = "fires every animation cycle"), use 0.7 sec
-    # as approximate swing rate. This is an empirical guess from peasant work cycle
-    # animations (~22 frames @ 32fps = 0.69s).
-    MELEE_SWING_FALLBACK = 0.7
-
+    # For each class, compute median attacker stats (damage, pause, kind) and median defender stats (hp, shield, protection).
+    # Melee swing rate (when weapon.pause_sec = 0) comes from each unit's own
+    # attack0 animation length via melee_swing_sec(sid) — see config.py.
     def median_unit_for_attack(cls: str) -> dict | None:
         units = by_class_full.get(cls, [])
         with_dmg = [u for u in units if u.get("weapons") and u["weapons"][0].get("damage")]
@@ -1095,7 +1093,7 @@ def write_combat(data: dict) -> None:
         w = median["weapons"][0]
         pause = w.get("pause_sec")
         if pause in (None, 0, 0.0):
-            pause = MELEE_SWING_FALLBACK
+            pause = melee_swing_sec(median["sid"])
         return {
             "name": median.get("name_en") or median["sid"],
             "sid": median["sid"],
@@ -2304,14 +2302,14 @@ def write_top_inventory(data: dict) -> None:
       "[05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md)")
     A("- **Нации:** [reference/nations/](reference/nations/README.md) — по одному cheatsheet на нацию")
     A("- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen/musketeers/cavalry/ships/weapons и др. side-by-side")
-    A("- **Derived:** [reference/derived/](reference/derived/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)")
+    A("- **Derived:** [reference/derived/](reference/reports/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)")
     A("")
     A("## Strategy stack\n")
     A("Файлы для планирования и симуляции экономики — в подкаталоге [`strategy/`](strategy/):\n")
     A("| Файл | Что внутри | Скрипт |")
     A("|---|---|---|")
     A("| [strategy/README.md](strategy/README.md) | **Точка входа в strategy**: как использовать | — |")
-    A("| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](strategy/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |")
+    A("| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](derived/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |")
     A("| [strategy/production_rates.md](strategy/production_rates.md) | units/min для каждого здания × юнита | то же |")
     A("| [strategy/sim/](strategy/sim/) | Output симулятора (`sim_*.csv/md`) | `parser/simulate_economy.py` |")
     A("")
@@ -2332,8 +2330,8 @@ def write_top_inventory(data: dict) -> None:
     A("```")
     A("python parser/build_data.py                 # → output/data.json (источник правды)")
     A("python writers/write_md_tree.py             # → output/reference/ + output/README.md")
-    A("python compute/compute_scaling.py           # → output/reference/derived/scaling_prices.md")
-    A("python compute/compute_map_resources.py     # → output/reference/derived/map_resources.md")
+    A("python compute/compute_scaling.py           # → output/reference/reports/scaling_prices.md")
+    A("python compute/compute_map_resources.py     # → output/reference/reports/map_resources.md")
     A("python compute/build_tech_tree.py           # → output/strategy/tech_tree.{md,json}, production_rates.md")
     A("python simulator/simulate_economy.py <build_order.json>  # → output/strategy/sim/sim_<name>.{csv,md}")
     A("```")
