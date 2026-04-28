@@ -1,0 +1,452 @@
+"""Estimate forest/stone/mine counts on a randomly-generated map.
+
+Closes Open Question P3 from project_extraction_model_plan.md by running the
+same density math the game uses (dogenerate.inc) with assumed prob* values
+from a Monte-Carlo simulation of _misc_GetFreePatternMaskCountModifier.
+
+Output: prints estimated counts and total wood pool. Also writes
+output/reference/derived/map_resources.md.
+
+Source code references:
+- common.inc/dogenerate.inc:1688-1908 — density application and pattern calls
+- lib/misc.script:3681-3737 — _misc_SetupPatternsByType (count = floor(W*H*freq))
+- lib/misc.script:3876-3941 — _misc_GetFreePatternMaskCountModifier and ...Modifier
+
+Trees-per-pattern is estimated from .pattern file size analysis:
+- forests_*_big   ~18-25KB → ~30-40 trees
+- forests_*_mid   ~8-12KB  → ~15-20 trees
+- forests_*_small ~4-5KB   → ~6-10 trees
+- stones          ~5-15KB  → ~8-15 stones per cluster
+
+These are estimates — actual counts are encoded in binary .pattern files
+(custom format we don't parse) and may vary ±30%.
+"""
+from __future__ import annotations
+import math
+import sys
+import random
+from pathlib import Path
+
+sys.stdout.reconfigure(encoding="utf-8")
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from config import DERIVED_DIR
+MD_PATH = DERIVED_DIR / "map_resources.md"
+
+# ---------- Game constants from scripts ----------
+
+# dmscript.global:1027-1029
+GAMESPEED_FAST = 14 / 10  # 1.4
+
+# dogenerate.inc:42 (mapsize -> tile count)
+MAP_SIZE_BY_TAG = {
+    0: ("Normal", 320),
+    1: ("Large 2x", 480),
+    2: ("Huge 4x", 640),
+    3: ("Tiny", 256),
+}
+
+# dogenerate.inc:1624-1650 (relief densities)
+RELIEF_DENSITIES = {
+    0: ("Plain",        0.000010, 0.000020, 0.000075),
+    1: ("Low Mountains",0.000020, 0.000002, 0.000125),
+    2: ("High Mountains",0.000075, 0.000075, 0.000030),
+    3: ("Highlands",    0.000055, 0.000120, 0.000050),
+    4: ("Plateaus",     0.000090, 0.000035, 0.000035),
+}
+
+# dogenerate.inc:528-532 (mines density rounds)
+MINE_ROUNDS_BY_DENSITY = {0: 3, 1: 4, 2: 5}
+MINE_DENSITY_NAME = {0: "Poor", 1: "Medium", 2: "Rich"}
+
+# dogenerate.inc:1688-1693 (forest/stone base densities)
+FRS_BIG_BASE = 0.0009
+FRS_MID_BASE = 0.0009
+FRS_SMALL_BASE = 0.00054
+STN1_BASE = 0.00016
+STN2_BASE = 0.00012
+
+# misc.script:3933-3936 (calibration for prob_raw)
+CALIB = {12: 340, 16: 182, 24: 74, 29: 55}
+
+# Estimated trees/stones per pattern
+TREES_PER_BIG = 35    # avg 30-40
+TREES_PER_MID = 17    # avg 15-20
+TREES_PER_SMALL = 8   # avg 6-10
+STONES_PER_CLUSTER = 10
+
+# Tree HP distribution (env/env.inc/initial.inc:79-89)
+# returned as (chance, avg_HP)
+TREE_HP_DIST = [
+    (0.20, 12000),  # giant 8000-16000
+    (0.15,   375),  # medium 125-624
+    (0.45,    35),  # small 10-60
+    (0.20,    10),  # stub
+]
+AVG_TREE_HP = sum(p * hp for p, hp in TREE_HP_DIST)  # ≈ 2474
+
+# Wood per trip / hits per trip
+WOOD_PORTION = 28
+WOOD_HITS_NEEDED = 14
+
+# ---------- Pattern mask simulation ----------
+
+def free_pattern_count_sim(W: int, H: int, blocked_cells: set, testsize: int,
+                           trycount2: int = 32000, trycount1: int = 4, seed: int = 42) -> int:
+    """Replicate _misc_GetFreePatternMaskCountModifier:
+    randomly throw `testsize × testsize` squares, count how many fit
+    on free area; mark placed squares as busy. Average over `trycount1` trials.
+    """
+    random.seed(seed)
+    counts = []
+    for _ in range(trycount1):
+        mask = [[(ix, iy) in blocked_cells for iy in range(H)] for ix in range(W)]
+        n = 0
+        for _ in range(trycount2):
+            x = random.randint(0, W - testsize - 1)
+            y = random.randint(0, H - testsize - 1)
+            busy = False
+            for iy in range(y, y + testsize):
+                if busy: break
+                for ix in range(x, x + testsize):
+                    if mask[ix][iy]:
+                        busy = True
+                        break
+            if not busy:
+                n += 1
+                for iy in range(y, y + testsize):
+                    for ix in range(x, x + testsize):
+                        mask[ix][iy] = True
+        counts.append(n)
+    return sum(counts) // trycount1
+
+
+def estimate_prob_modifiers(W: int, H: int, water_blocking_pct: float = 0.0):
+    """Estimate probsmall/probmid/problarge/probhuge for a map BEFORE mountains.
+    For Land terrain the only initial blocking is water shore (~0-5%).
+    """
+    blocked = set()
+    if water_blocking_pct > 0:
+        # Place a contiguous water region (a strip along one edge)
+        n_block = int(W * H * water_blocking_pct)
+        # Strip along bottom edge
+        cols = W
+        rows = max(1, n_block // cols)
+        for iy in range(rows):
+            for ix in range(W):
+                blocked.add((ix, iy))
+    raws = {}
+    for ts in (12, 16, 24, 29):
+        raws[ts] = free_pattern_count_sim(W, H, blocked, ts, trycount2=32000)
+    modifier = 640 / ((W + H) / 2) if (W != 640 or H != 640) else 1.0
+    probs = {}
+    probs["small"] = raws[12] / CALIB[12] * modifier
+    probs["mid"]   = raws[16] / CALIB[16] * modifier
+    probs["large"] = raws[24] / CALIB[24] * modifier
+    probs["huge"]  = raws[29] / CALIB[29] * modifier
+    return probs, raws, modifier
+
+
+# ---------- Forest/stone counting ----------
+
+def needed(area: int, freq: float) -> int:
+    """_misc_SetupPatternsByType formula."""
+    return math.floor(area * freq)
+
+
+def compute_counts(mapsize_tag: int, relieftype: int, resourcemines: int,
+                   foreststype: int = 0, water_blocking_pct: float = 0.02,
+                   placement_success: float = 0.65):
+    """Compute estimated counts of all map resources for given settings.
+    foreststype: 0=pinefir/spruce/pine (default), 1=leaf, 2=mixed.
+    placement_success: fraction of `needed` patterns actually placed (terrain
+    blocks force some failures, especially on tiny+highlands).
+    """
+    map_name, dim = MAP_SIZE_BY_TAG[mapsize_tag]
+    relief_name, plt, mnt, hil = RELIEF_DENSITIES[relieftype]
+    rounds = MINE_ROUNDS_BY_DENSITY[resourcemines]
+    mine_name = MINE_DENSITY_NAME[resourcemines]
+    area = dim * dim
+
+    # 1. Estimate prob* before terrain placed
+    probs, raws, modifier = estimate_prob_modifiers(dim, dim, water_blocking_pct)
+
+    # 2. Apply prob* to densities (line 1774-1778)
+    frs_big = FRS_BIG_BASE * probs["small"]
+    frs_mid = FRS_MID_BASE * probs["mid"]
+    frs_small = FRS_SMALL_BASE * probs["large"]
+    stn1 = STN1_BASE * probs["small"]
+    stn2 = STN2_BASE * probs["small"]
+
+    # 3. Forest type calls (foreststype=0 from line 1837-1869)
+    if foreststype == 0:
+        big_calls = [
+            ("forests_pinefir_big", frs_big / 8),
+            ("forests_spruce_big",  frs_big / 8),
+            ("forests_pine_big",    frs_big / 8),
+            ("forests_pine_big_2",  frs_big / 8),
+        ]
+        mid_calls = [
+            ("forests_spruce_medium",  frs_mid / 6),
+            ("forests_pinefir_medium", frs_mid / 6),
+            ("forests_pine_medium",    frs_mid / 6),
+        ]
+        small_calls = [
+            ("forests_pinefir_small", frs_small / 4),
+            ("forests_pine_small",    frs_small / 4),
+        ]
+    elif foreststype == 1:
+        big_calls = [("forests_leaf_big", frs_big / 4),
+                     ("forests_leaf_big", frs_big / 4)]  # called twice
+        mid_calls = [("forests_leaf_medium", frs_mid / 4),
+                     ("forests_leaf_medium", frs_mid / 4)]
+        small_calls = [("forests_leaf_small", frs_small / 4),
+                       ("forests_leaf_small", frs_small / 4)]
+    else:  # mixed
+        big_calls = [("forests_mixed_big", frs_big / 4),
+                     ("forests_mixed_big", frs_big / 4)]
+        mid_calls = [("forests_mixed_medium", frs_mid / 4),
+                     ("forests_mixed_medium", frs_mid / 4)]
+        small_calls = []
+
+    # 4. Stone calls (always 2 calls)
+    stone_calls = [("stones", stn1), ("stones", stn2)]
+
+    # 5. Compute requested count per call
+    total_big_req = sum(needed(area, fr) for _, fr in big_calls)
+    total_mid_req = sum(needed(area, fr) for _, fr in mid_calls)
+    total_small_req = sum(needed(area, fr) for _, fr in small_calls)
+    total_stone_req = sum(needed(area, fr) for _, fr in stone_calls)
+
+    # 6. Realistic placement
+    big_real = round(total_big_req * placement_success)
+    mid_real = round(total_mid_req * placement_success)
+    small_real = round(total_small_req * placement_success)
+    stone_real = round(total_stone_req * placement_success)
+
+    # 7. Trees and stones
+    total_trees = (big_real * TREES_PER_BIG +
+                   mid_real * TREES_PER_MID +
+                   small_real * TREES_PER_SMALL)
+    total_stones = stone_real * STONES_PER_CLUSTER
+
+    # 8. Wood pool
+    total_wood_hits = total_trees * AVG_TREE_HP
+    total_wood_units = total_wood_hits * (WOOD_PORTION / WOOD_HITS_NEEDED)
+
+    # 9. Deposits per player (Tiny: round 4 skipped on dogenerate.inc:600)
+    # SetupMines: outer loop = rounds, inner loop = 3 restypes (gold/iron/coal).
+    # Each (round, restype) pair places 1 deposit (or fails after 256 tries).
+    # So count per resource type = effective_rounds; total = effective_rounds × 3.
+    if mapsize_tag == 3:  # tiny
+        effective_rounds = rounds - 1  # round 4 skipped via 'continue'
+    else:
+        effective_rounds = rounds
+    deposits_per_resource = effective_rounds       # gold count = iron count = coal count
+    deposits_per_player_max = deposits_per_resource * 3
+
+    return {
+        "map_name": map_name, "dim": dim, "area": area, "modifier": modifier,
+        "relief_name": relief_name,
+        "mine_density_name": mine_name,
+        "probs": probs, "raws": raws,
+        "frs_big": frs_big, "frs_mid": frs_mid, "frs_small": frs_small,
+        "stn1": stn1, "stn2": stn2,
+        "big_calls": big_calls, "mid_calls": mid_calls,
+        "small_calls": small_calls, "stone_calls": stone_calls,
+        "total_big_req": total_big_req, "total_mid_req": total_mid_req,
+        "total_small_req": total_small_req, "total_stone_req": total_stone_req,
+        "big_real": big_real, "mid_real": mid_real,
+        "small_real": small_real, "stone_real": stone_real,
+        "total_trees": total_trees, "total_stones": total_stones,
+        "total_wood_hits": total_wood_hits, "total_wood_units": total_wood_units,
+        "deposits_per_resource": deposits_per_resource,
+        "deposits_per_player_max": deposits_per_player_max,
+        "effective_rounds": effective_rounds,
+    }
+
+
+# ---------- Reporting ----------
+
+def write_report(r: dict, settings: dict) -> str:
+    L = []
+    L.append(f"# Map resources estimate — {r['map_name']} ({r['dim']}×{r['dim']}) "
+             f"+ {r['relief_name']} + {r['mine_density_name']} mines")
+    L.append("")
+    L.append("**Производный** документ. Считается из `parser/compute_map_resources.py`. "
+             "Перегенерация: `python parser/compute_map_resources.py`.")
+    L.append("")
+    L.append(f"**Settings:** mapsize={settings['mapsize']} ({r['map_name']}, {r['dim']}×{r['dim']} = {r['area']} tiles), "
+             f"relief={settings['relief']} ({r['relief_name']}), "
+             f"resourcemines={settings['mines']} ({r['mine_density_name']}), "
+             f"foreststype={settings['foreststype']}.")
+    L.append("")
+    L.append("## 1. Pattern probability modifiers (estimated)")
+    L.append("")
+    L.append(f"Симуляция `_misc_GetFreePatternMaskCountModifier` на {r['dim']}×{r['dim']} с "
+             f"~{settings['water_blocking_pct']*100:.0f}% воды (Land terrain — почти открытое поле):")
+    L.append("")
+    L.append(f"| testsize | calibration | raw_count (sim) | prob_raw | × modifier ({r['modifier']}) |")
+    L.append("|---:|---:|---:|---:|---:|")
+    for ts, key in [(12,'small'),(16,'mid'),(24,'large'),(29,'huge')]:
+        L.append(f"| {ts} | {CALIB[ts]} | {r['raws'][ts]} | "
+                 f"{r['raws'][ts]/CALIB[ts]:.3f} | **{r['probs'][key]:.3f}** |")
+    L.append("")
+    L.append("⚠ Симуляция допускает что вода — один смежный блок, не разрозненные пиксели.")
+    L.append("")
+
+    L.append("## 2. Densities after probability multipliers")
+    L.append("")
+    L.append("| Var | base | × prob | final density | needed = floor(area × density) |")
+    L.append("|---|---:|---:|---:|---:|")
+    L.append(f"| frs_big   | {FRS_BIG_BASE:.6f} | × probsmall = {r['probs']['small']:.3f} | {r['frs_big']:.6f} | {needed(r['area'], r['frs_big']):d} |")
+    L.append(f"| frs_mid   | {FRS_MID_BASE:.6f} | × probmid = {r['probs']['mid']:.3f}     | {r['frs_mid']:.6f} | {needed(r['area'], r['frs_mid']):d} |")
+    L.append(f"| frs_small | {FRS_SMALL_BASE:.6f} | × problarge = {r['probs']['large']:.3f} | {r['frs_small']:.6f} | {needed(r['area'], r['frs_small']):d} |")
+    L.append(f"| stn1      | {STN1_BASE:.6f} | × probsmall = {r['probs']['small']:.3f}     | {r['stn1']:.6f} | {needed(r['area'], r['stn1']):d} |")
+    L.append(f"| stn2      | {STN2_BASE:.6f} | × probsmall = {r['probs']['small']:.3f}     | {r['stn2']:.6f} | {needed(r['area'], r['stn2']):d} |")
+    L.append("")
+
+    L.append("## 3. Pattern requests (per call)")
+    L.append("")
+    L.append("Каждый forest density распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов):")
+    L.append("")
+    L.append("| Тип паттерна | freq per call | needed per call | placed (~65%) |")
+    L.append("|---|---:|---:|---:|")
+    for name, fr in r['big_calls']:
+        n = needed(r['area'], fr)
+        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+    for name, fr in r['mid_calls']:
+        n = needed(r['area'], fr)
+        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+    for name, fr in r['small_calls']:
+        n = needed(r['area'], fr)
+        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+    for name, fr in r['stone_calls']:
+        n = needed(r['area'], fr)
+        L.append(f"| {name} (stn{r['stone_calls'].index((name,fr))+1}) | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+    L.append("")
+    L.append(f"Допущение: на tiny+highlands примерно **{settings['placement_success']*100:.0f}% запрошенных паттернов реально размещаются** "
+             "(остальные не вмещаются из-за гор/плато/мин).")
+    L.append("")
+
+    L.append("## 4. Total clusters (estimated)")
+    L.append("")
+    L.append(f"- Big forest clusters:    **~{r['big_real']}**")
+    L.append(f"- Medium forest clusters: **~{r['mid_real']}**")
+    L.append(f"- Small forest clusters:  **~{r['small_real']}**")
+    L.append(f"- Stone clusters:         **~{r['stone_real']}**")
+    L.append("")
+
+    L.append("## 5. Trees and stones (estimated counts)")
+    L.append("")
+    L.append("Допущение по числу деревьев в паттерне (на основе анализа размеров `.pattern` файлов):")
+    L.append(f"- big = ~{TREES_PER_BIG}, medium = ~{TREES_PER_MID}, small = ~{TREES_PER_SMALL} деревьев на кластер.")
+    L.append(f"- stones = ~{STONES_PER_CLUSTER} камней на кластер.")
+    L.append("")
+    L.append(f"**Деревьев всего на карте:** ~{r['total_trees']:,}".replace(",", " "))
+    L.append(f"**Камней всего на карте:**   ~{r['total_stones']:,}".replace(",", " "))
+    L.append("")
+
+    L.append("## 6. Wood/stone supply pools")
+    L.append("")
+    L.append(f"Среднее HP дерева (взвешенное по distribution): **{AVG_TREE_HP:.0f} HP/tree**.")
+    L.append(f"- 20% giants × 12000 HP avg")
+    L.append(f"- 15% medium × 375 HP avg")
+    L.append(f"- 45% small × 35 HP avg")
+    L.append(f"- 20% stubs × 10 HP")
+    L.append("")
+    L.append(f"**Общий пул дерева на карте:** ~{r['total_wood_hits']:,.0f} hits ".replace(",", " ") +
+             f"≈ **{r['total_wood_units']:,.0f} единиц wood @ eff=100**.".replace(",", " "))
+    L.append("")
+    L.append(f"При 4 игроках: ~{r['total_wood_units']/4:,.0f} wood на игрока. ".replace(",", " "))
+    L.append("При 1 игроке (FFA или соло): весь пул доступен.")
+    L.append("")
+    L.append(f"**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). "
+             f"~{r['total_stones']:,} камней × 10M HP = неограниченный supply.".replace(",", " "))
+    L.append("")
+
+    L.append(f"## 7. Месторождения (Resources={r['mine_density_name']}, {r['map_name']})")
+    L.append("")
+    L.append("**Терминология:** *месторождение* — геологическая залежь на местности (placed by `SetupMines`, "
+             "basenames `minegold`/`mineiron`/`minecoal`). *Шахта* — здание `eurgol`/`euriro`/`eurcoa`, "
+             "которое игрок строит на месторождении крестьянином (peasantabsorber=5, апгрейды до 95).")
+    L.append("")
+    L.append(f"Параметры из [`dogenerate.inc:522-717`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L522):")
+    L.append(f"- minesdensity={settings['mines']} → **{MINE_ROUNDS_BY_DENSITY[settings['mines']]} раундов** на стартовую точку.")
+    L.append(f"- На {r['map_name'].lower()} раунд 4 пропускается через `continue` → **{r['effective_rounds']} эффективных раундов**.")
+    L.append(f"- В каждом раунде ставится по **1 месторождению каждого типа** (gold/iron/coal).")
+    L.append(f"- **Итого: {r['deposits_per_resource']} gold + {r['deposits_per_resource']} iron + {r['deposits_per_resource']} coal = {r['deposits_per_player_max']} месторождений на игрока** (если все попытки увенчались успехом; до 256 попыток на каждое размещение).")
+    L.append("")
+    L.append("Дистанции от старта (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):")
+    L.append("- **round 0**: 14-22 тайла (Phase 1, при создании start point — 1 gold + 1 iron + 1 coal)")
+    L.append("- **round 1**: 32-42 тайла (Phase 2)")
+    L.append("- **round 2**: 70-82 тайла (Phase 2)")
+    L.append("- **round 3**: 22-38 тайлов (Phase 2)")
+    L.append("- ~~round 4~~: пропускается на tiny")
+    L.append("")
+
+    L.append("## 8. Допущения и предел точности")
+    L.append("")
+    L.append("**Что точно:**")
+    L.append("- Формула `count = floor(W*H*freq)` — прямо из `_misc_SetupPatternsByType`.")
+    L.append("- Densities `frs_big/mid/small/stn1/stn2` — из dogenerate.inc:1688-1693.")
+    L.append("- Modifier ×2.5 для tiny — из dogenerate.inc:1718-1725.")
+    L.append("- Mine rounds — из dogenerate.inc:528-602.")
+    L.append("")
+    L.append("**Что оценено:**")
+    L.append("- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier` для tiny с допущением о низком water blocking.")
+    L.append("- Trees/stones per pattern — оценка из размера `.pattern` файлов (~30 байт/тайл, делённое на ожидаемую плотность объектов в паттерне).")
+    L.append("- Realistic placement rate — допущение 65% (на tiny+highlands, где много гор).")
+    L.append("")
+    L.append("**Предел точности:** ±30-50% по числу деревьев и stone clusters. ±10% по pattern клстерам.")
+    L.append("")
+    L.append("Для уточнения нужны:")
+    L.append("- Парсер binary `.pattern` файлов (custom format).")
+    L.append("- Эмпирические замеры — генерировать 10-20 карт с одинаковыми настройками и считать.")
+    return "\n".join(L)
+
+
+def main():
+    # Settings: Land + Highlands + Resources=Many + Tiny (как в plan)
+    settings = {
+        "mapsize": 3,        # Tiny
+        "relief": 3,         # Highlands
+        "mines": 2,          # Rich
+        "foreststype": 0,    # pinefir/spruce/pine (most common for non-desert)
+        "water_blocking_pct": 0.02,  # Land terrain — minimal water
+        "placement_success": 0.65,    # rough estimate for tiny+highlands
+    }
+    r = compute_counts(
+        settings["mapsize"], settings["relief"], settings["mines"],
+        foreststype=settings["foreststype"],
+        water_blocking_pct=settings["water_blocking_pct"],
+        placement_success=settings["placement_success"],
+    )
+
+    print(f"Map: {r['map_name']} {r['dim']}×{r['dim']} = {r['area']} tiles")
+    print(f"Relief: {r['relief_name']} | Mines: {r['mine_density_name']}")
+    print(f"Modifier: ×{r['modifier']}")
+    print()
+    print("Probability modifiers (estimated):")
+    for k, v in r["probs"].items():
+        print(f"  {k:7s}: {v:.3f}")
+    print()
+    print(f"Forest clusters (placed, ~65% success):")
+    print(f"  big:    ~{r['big_real']}")
+    print(f"  mid:    ~{r['mid_real']}")
+    print(f"  small:  ~{r['small_real']}")
+    print(f"Stone clusters: ~{r['stone_real']}")
+    print(f"Trees total: ~{r['total_trees']}")
+    print(f"Stones total: ~{r['total_stones']}")
+    print(f"Wood pool: ~{r['total_wood_units']:.0f} units @ eff=100")
+    print(f"Месторождения на игрока: {r['deposits_per_resource']} gold + {r['deposits_per_resource']} iron + {r['deposits_per_resource']} coal = {r['deposits_per_player_max']} total")
+    print()
+
+    md = write_report(r, settings)
+    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.write_text(md, encoding="utf-8")
+    print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")
+
+
+if __name__ == "__main__":
+    main()

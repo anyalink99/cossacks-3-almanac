@@ -1,0 +1,77 @@
+# Simulation report: bav_basic_5min
+
+- Nation: **bav**
+- Game speed: **fast** (×1.4)
+- Max time: **360 g-sec** = 257.1 real-sec
+- Walking overhead: 30% (above-ground), 5% (mines)
+
+## Final state
+
+- Time: **360 g-sec / 257 real-sec**
+- Resources: FOOD=2227 / WOOD=2870 / STONE=620 / GOLD=1128 / IRON=1833 / COAL=0
+- Farm: 15/150
+- Peasants total: 15 (idle: 0)
+- Buildings: {'bavcen': 1, 'eursto': 1, 'euriro': 1, 'eurcoa': 1, 'eurgol': 1, 'bavhou': 2, 'bavbla': 1, 'eurmil': 1, 'bavbar': 0}
+- Units: {'peaaus': 15}
+- Upgrades done (0): []
+
+## Timeline (snapshots every 5 g-sec)
+
+| t_g | t_real | F | W | S | G | I | C | farm | peas | бараки |
+|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---|
+| 0 | 0 | 903 | 1004 | 1000 | 1000 | 1 | 0 | 5/100 | 5 | bavcen×1, eurcoa×1, eurgol×1, euriro×1, eursto×1 |
+| 15 | 11 | 862 | 1079 | 1000 | 1000 | 25 | 0 | 6/100 | 6 | bavcen×1, eurcoa×1, eurgol×1, euriro×1, eursto×1 |
+| 30 | 21 | 820 | 1054 | 900 | 1000 | 49 | 0 | 7/100 | 7 | bavcen×1, eurcoa×1, eurgol×1, euriro×1, eursto×1 |
+| 45 | 32 | 776 | 1128 | 900 | 1000 | 72 | 0 | 8/100 | 8 | bavcen×1, eurcoa×1, eurgol×1, euriro×1, eursto×1 |
+| 60 | 43 | 734 | 1103 | 800 | 1000 | 102 | 0 | 9/100 | 9 | bavcen×1, eurcoa×1, eurgol×1, euriro×1, eursto×1 |
+| 75 | 54 | 720 | 1178 | 800 | 1000 | 221 | 0 | 10/125 | 10 | bavcen×1, bavhou×1, eurcoa×1, eurgol×1, euriro×1,  |
+| 90 | 64 | 706 | 1252 | 800 | 1000 | 339 | 0 | 12/125 | 12 | bavcen×1, bavhou×1, eurcoa×1, eurgol×1, euriro×1,  |
+| 105 | 75 | 590 | 1327 | 800 | 1000 | 458 | 0 | 13/150 | 13 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 120 | 86 | 574 | 1402 | 800 | 1000 | 576 | 0 | 14/150 | 14 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 135 | 96 | 656 | 1476 | 800 | 1000 | 695 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 150 | 107 | 739 | 1551 | 800 | 1000 | 814 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 165 | 118 | 821 | 1626 | 800 | 1000 | 932 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 180 | 129 | 903 | 1700 | 800 | 1000 | 1051 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 195 | 139 | 985 | 1775 | 800 | 1000 | 1169 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 210 | 150 | 1067 | 1750 | 770 | 1000 | 648 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 225 | 161 | 1150 | 1824 | 770 | 1000 | 766 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 240 | 171 | 1232 | 1869 | 620 | 1000 | 885 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 255 | 182 | 1314 | 1944 | 620 | 1000 | 1004 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 270 | 193 | 1396 | 2018 | 620 | 1000 | 1122 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 285 | 204 | 1503 | 2123 | 620 | 1009 | 1241 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 300 | 214 | 1648 | 2272 | 620 | 1033 | 1359 | 0 | 15/150 | 15 | bavcen×1, bavhou×2, eurcoa×1, eurgol×1, euriro×1,  |
+| 315 | 225 | 1793 | 2422 | 620 | 1056 | 1478 | 0 | 15/150 | 15 | bavbla×1, bavcen×1, bavhou×2, eurcoa×1, eurgol×1,  |
+| 330 | 236 | 1937 | 2571 | 620 | 1080 | 1596 | 0 | 15/150 | 15 | bavbla×1, bavcen×1, bavhou×2, eurcoa×1, eurgol×1,  |
+| 345 | 246 | 2082 | 2720 | 620 | 1104 | 1715 | 0 | 15/150 | 15 | bavbla×1, bavcen×1, bavhou×2, eurcoa×1, eurgol×1,  |
+| 360 | 257 | 2227 | 2870 | 620 | 1128 | 1833 | 0 | 15/150 | 15 | bavbla×1, bavcen×1, bavhou×2, eurcoa×1, eurgol×1,  |
+
+## Events log (22 total)
+
+```
+t=   0.0g: QUEUE train 10× peaaus at bavcen (queue=10)
+t=  12.0g: TRAIN peaaus (count=6) at bavcen
+t=  25.0g: TRAIN peaaus (count=7) at bavcen
+t=  30.0g: START build bavhou (finish at t=65.3g, cost={'food': 0, 'wood': 100, 'stone': 100, 'gold': 0, 'iron': 0, 'coal': 0})
+t=  38.0g: TRAIN peaaus (count=8) at bavcen
+t=  51.0g: TRAIN peaaus (count=9) at bavcen
+t=  60.0g: START build bavhou (finish at t=95.3g, cost={'food': 0, 'wood': 100, 'stone': 100, 'gold': 0, 'iron': 0, 'coal': 0})
+t=  60.0g: WARN assigned 10 peasants but have only 9
+t=  64.0g: TRAIN peaaus (count=10) at bavcen
+t=  65.3g: BUILT bavhou (count=1)
+t=  77.0g: TRAIN peaaus (count=11) at bavcen
+t=  90.0g: TRAIN peaaus (count=12) at bavcen
+t=  95.3g: BUILT bavhou (count=2)
+t= 103.0g: TRAIN peaaus (count=13) at bavcen
+t= 116.0g: TRAIN peaaus (count=14) at bavcen
+t= 129.0g: TRAIN peaaus (count=15) at bavcen
+t= 200.0g: START build bavbla (finish at t=305.9g, cost={'food': 0, 'wood': 100, 'stone': 30, 'gold': 0, 'iron': 640, 'coal': 0})
+t= 230.0g: START build eurmil (finish at t=335.9g, cost={'food': 0, 'wood': 30, 'stone': 150, 'gold': 0, 'iron': 0, 'coal': 0})
+t= 250.0g: SKIP build bavbar — missing prereqs ['bavbla']
+t= 290.0g: SKIP train musketeer at bavbar — no such building
+t= 305.9g: BUILT bavbla (count=1)
+t= 335.9g: BUILT eurmil (count=1)
+```
+
+---
+
+Generated by `parser/simulate_economy.py`. Build order: simulator\build_orders\bav_basic_5min.json
