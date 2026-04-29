@@ -20,6 +20,11 @@ WEAPON_SCRIPT = LIB / "weapon.script"
 # Repository paths (resolved relative to this file: parser/config.py → repo root).
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "output"
+# After 2026-04-29 reorganization:
+#   output/reference/ → canonical chapters (01-06, nations/, compare/)
+#   output/reports/   → ALL derived markdown reports (combat_stats, scaling, tech_tree, …)
+#   output/derived/   → machine-readable JSON datasets (tech_tree.json, animations.json, …)
+#   output/simulations/ → simulator outputs (sim_*.{csv,md})
 RECON_DIR = PROJECT_ROOT / "recon"
 
 # Canonical paths used by all writers.
@@ -40,10 +45,12 @@ RECON_DIR = PROJECT_ROOT / "recon"
 #       ├── construction_times.md, production_rates.md, tech_tree.md, ...
 #       └── sim/
 DATA_JSON = OUTPUT_DIR / "data.json"
-DERIVED_DIR = OUTPUT_DIR / "derived"             # JSON only
-REFERENCE_DIR = OUTPUT_DIR / "reference"         # MD only
-REPORTS_DIR = REFERENCE_DIR / "reports"          # auto-generated MD
-STRATEGY_DIR = OUTPUT_DIR / "strategy"           # MD only
+DERIVED_DIR = OUTPUT_DIR / "derived"             # JSON datasets (machine-readable)
+REFERENCE_DIR = OUTPUT_DIR / "reference"         # canonical reference chapters (MD)
+REPORTS_DIR = OUTPUT_DIR / "reports"             # ALL derived markdown reports
+SIM_DIR = OUTPUT_DIR / "simulations"             # economy simulator outputs
+# Deprecated alias (retained briefly so older imports don't break before next regen):
+STRATEGY_DIR = REPORTS_DIR
 
 # Nation table from country.script:7-41
 NATION_ID_TO_SID = {
@@ -295,7 +302,7 @@ def melee_swing_sec(unit_sid: str) -> float:
     return get_anim_sec(unit_sid, "attack0") or MELEE_SWING_FALLBACK_SEC
 
 # =============================================================================
-# Empirical guesses — UNVERIFIED in scripts (see recon/empirical_tests.md)
+# Empirical guesses — UNVERIFIED in scripts (see recon/peasant_extraction.md §9)
 # =============================================================================
 # Above-ground extraction overhead — fraction of work-cycle time wasted walking
 # between resource node and storehouse. Depends on map layout; not derived from code.

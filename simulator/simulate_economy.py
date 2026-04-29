@@ -84,7 +84,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import (OUTPUT_DIR, DATA_JSON, STRATEGY_DIR, DERIVED_DIR,
+from config import (OUTPUT_DIR, DATA_JSON, SIM_DIR, DERIVED_DIR,
                     ANIM_FRAMES_PER_GAMESEC, PEASANT_ANIM_SEC,
                     WALK_OVERHEAD_GUESS, MINE_OVERHEAD_GUESS,
                     GC_MAX_OBJ_COUNT, MAP_SETTINGS_LIMIT,
@@ -865,9 +865,8 @@ def main():
         print("Usage: python simulate_economy.py <build_order.json> [output_prefix]")
         sys.exit(1)
     bo_path = Path(sys.argv[1])
-    sim_dir = STRATEGY_DIR / "sim"
-    sim_dir.mkdir(parents=True, exist_ok=True)
-    out_prefix = Path(sys.argv[2]) if len(sys.argv) > 2 else sim_dir / f"sim_{bo_path.stem}"
+    SIM_DIR.mkdir(parents=True, exist_ok=True)
+    out_prefix = Path(sys.argv[2]) if len(sys.argv) > 2 else SIM_DIR / f"sim_{bo_path.stem}"
     run_simulation(bo_path, out_prefix)
 
 

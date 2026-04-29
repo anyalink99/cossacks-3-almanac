@@ -2,37 +2,51 @@
 
 [← Index](README.md)
 
-Здания делятся на **per-nation** (`<nat>+suffix`, например `auscen`) и **common** (`<cluster>+suffix`, общие для группы наций — `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).
+Здания делятся на **per-nation** (`<nat>+suffix`, например `auscen` = ратуша Австрии) и **common** (`<cluster>+suffix`, общие для группы наций: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).
 
-Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = `floor(base × (costpercent/100)^(N-1))`. **Готовые таблицы N=1..6 для всех зданий → [`derived/scaling_prices.md`](derived/scaling_prices.md)**.
+Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = `floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — в [`../reports/scaling_prices.md`](../reports/scaling_prices.md), генератор — [`compute/compute_scaling.py`](../../compute/compute_scaling.py).
 
-**Производный документ** генерируется отдельным скриптом [`parser/compute_scaling.py`](../../parser/compute_scaling.py).
+## Расшифровка колонок
+
+| Колонка | Значение |
+|---|---|
+| **Здание** | Локализованное имя + `sid` |
+| **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |
+| **HP** | Очки здоровья достроенного здания |
+| **Время (с)** | `buildtime` в game-секундах. Для зданий хранится с множителем `gc_buildtime_modifier=10` (т.е. `frames × 10/32`). С N строителями: `time × 1.13 / N`. См. [recon/building_mechanics.md](../../recon/building_mechanics.md). |
+| **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |
+| **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |
+| **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |
+| **производит** | Список `sid` юнитов, которых здание умеет создавать. |
+| **Доп.** | Прочее: оружие башен, гарнизон, доход шахт. |
+
+**Жирным** в таблицах ниже — отклонения от базового значения (мода по столбцу), чтобы быстро видеть, чем нация отличается от большинства.
 
 ## Содержание
 
 **[Постройки по нациям](#постройки-по-нациям)**
-  - [cen — Town Hall](#cen-—-town-hall)
-  - [hou — Housing](#hou-—-housing)
-  - [bar — Barracks 17c](#bar-—-barracks-17c)
-  - [ba2 — Barracks 18c](#ba2-—-barracks-18c)
-  - [bla — Blacksmith](#bla-—-blacksmith)
-  - [sta — Stable](#sta-—-stable)
-  - [tem — Cathedral](#tem-—-cathedral)
-  - [aca — Academy](#aca-—-academy)
-  - [art — Artillery Depot](#art-—-artillery-depot)
-  - [dip — Diplomatic Center](#dip-—-diplomatic-center)
+  - [cen — Town Hall](#cen--town-hall)
+  - [hou — Housing](#hou--housing)
+  - [bar — Barracks 17c](#bar--barracks-17c)
+  - [ba2 — Barracks 18c](#ba2--barracks-18c)
+  - [bla — Blacksmith](#bla--blacksmith)
+  - [sta — Stable](#sta--stable)
+  - [tem — Cathedral](#tem--cathedral)
+  - [aca — Academy](#aca--academy)
+  - [art — Artillery Depot](#art--artillery-depot)
+  - [dip — Diplomatic Center](#dip--diplomatic-center)
 **[Общие постройки (по кластерам)](#общие-постройки-по-кластерам)**
-  - [mil — Mill](#mil-—-mill)
-  - [sto — Storehouse](#sto-—-storehouse)
-  - [mar — Market](#mar-—-market)
-  - [por — Shipyard](#por-—-shipyard)
-  - [tow — Tower](#tow-—-tower)
-  - [gol — Gold Mine](#gol-—-gold-mine)
-  - [iro — Iron Mine](#iro-—-iron-mine)
-  - [coa — Coal Mine](#coa-—-coal-mine)
-  - [swa — Stone Wall](#swa-—-stone-wall)
-  - [sga — Stone Gate](#sga-—-stone-gate)
-**[Шахты — апгрейды (gol/iro/coa)](#шахты--апгрейды-goliroсoa)**
+  - [mil — Mill](#mil--mill)
+  - [sto — Storehouse](#sto--storehouse)
+  - [mar — Market](#mar--market)
+  - [por — Shipyard](#por--shipyard)
+  - [tow — Tower](#tow--tower)
+  - [gol — Gold Mine](#gol--gold-mine)
+  - [iro — Iron Mine](#iro--iron-mine)
+  - [coa — Coal Mine](#coa--coal-mine)
+  - [swa — Stone Wall](#swa--stone-wall)
+  - [sga — Stone Gate](#sga--stone-gate)
+**[Шахты — апгрейды (gol/iro/coa)](#шахты--апгрейды-golirocoa)**
 
 ## Постройки по нациям
 

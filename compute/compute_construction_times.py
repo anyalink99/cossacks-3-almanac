@@ -1,6 +1,6 @@
 """Compute per-building construction time for different builder counts.
 
-Output: output/strategy/construction_times.md — table for every building showing:
+Output: output/reports/construction_times.md — table for every building showing:
 - buildtime (1 builder, real game-sec)
 - time with 2/5/10/cap builders
 - repair time (full HP) with 1/cap builders
@@ -18,9 +18,9 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, DERIVED_DIR, STRATEGY_DIR, PEASANT_ANIM_SEC
+from config import DATA_JSON, DERIVED_DIR, REPORTS_DIR, PEASANT_ANIM_SEC
 
-OUT_PATH = STRATEGY_DIR / "construction_times.md"
+OUT_PATH = REPORTS_DIR / "construction_times.md"
 BUILDER_SLOTS_JSON = DERIVED_DIR / "builder_slots.json"
 
 GAMESPEED_FAST = 1.4
@@ -113,7 +113,7 @@ def main():
     L.append(f"- При скорости fast: real-time = g-sec / {GAMESPEED_FAST}")
     L.append("")
     L.append("**Slot caps** (точная симуляция `_unit_CalcBuilderPoints` для каждого здания, "
-             "см. [`output/strategy/builder_slots.md`](builder_slots.md)):")
+             "см. [`builder_slots.md`](builder_slots.md)):")
     L.append("")
     L.append("- Cap зависит от **периметра collision mask** конкретного здания — у разных "
              "наций одна и та же категория (например, казарма 18 века) может иметь от 19 до 30 слотов.")
@@ -140,7 +140,7 @@ def main():
             cap = slot_cap_for(b)
             cells = [
                 f"`{b['sid']}`",
-                name_ru_en(b)[:25],
+                name_ru_en(b),
                 f"{bt:.0f}g",
                 str(cap),
             ]
@@ -163,7 +163,7 @@ def main():
             cap = slot_cap_for(b)
             cells = [
                 f"`{b['sid']}`",
-                name_ru_en(b)[:25],
+                name_ru_en(b),
                 f"{hp}",
                 str(cap),
             ]

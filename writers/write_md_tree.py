@@ -56,11 +56,23 @@ def write_md(path: Path, lines: list[str]) -> None:
 
 
 def heading_anchor(text: str) -> str:
-    """Convert heading text to a slug for cross-linking (GitHub-flavored MD style)."""
+    """Convert heading text to a slug for cross-linking — matches the algorithm
+    GitHub-flavored Markdown uses to auto-id headings.
+
+    GitHub's algorithm (kramdown / jekyll-toc):
+      1. lowercase
+      2. strip everything except letters/digits/spaces/hyphens/underscores
+         (so parens, dots, slashes, em-dashes are removed without leaving a space)
+      3. replace each space with a single hyphen — does NOT collapse multiple
+         consecutive spaces, so headers like "A / B" produce "a--b" because
+         the slash is removed but the spaces around it stay.
+
+    Headers in this writer should avoid `/` and other punctuation that has
+    spaces on both sides — use «и» / «,» instead.
+    """
     s = text.lower()
-    s = re.sub(r"[^\w\s\-—.()]+", "", s)
-    s = re.sub(r"\s+", "-", s.strip())
-    s = s.replace("(", "").replace(")", "").replace(".", "")
+    s = re.sub(r"[^\w\s\-]", "", s, flags=re.UNICODE)
+    s = s.replace(" ", "-")
     return s
 
 
@@ -147,7 +159,7 @@ def make_toc(headings: list[tuple[int, str]]) -> list[str]:
 CLASS_RU = {
     "Peasant":               "Крестьяне",
     "Officer":               "Офицеры",
-    "Drummer / Bagpiper":    "Барабанщики / волынщики",
+    "Drummer / Bagpiper":    "Барабанщики и волынщики",
     "Priest":                "Священники",
     "Pikemen 17c":           "Пикинёры (17 в.)",
     "Pikemen 18c":           "Пикинёры (18 в.)",
@@ -164,7 +176,7 @@ CLASS_RU = {
     "Mortars":               "Мортиры",
     "Fishing Boat":          "Рыбацкие лодки",
     "Warships":              "Военные корабли",
-    "Misc / mission":        "Прочее / миссии",
+    "Misc / mission":        "Разное и миссии",
     "Other":                 "Прочее",
 }
 
@@ -313,8 +325,47 @@ def write_readme(data: dict) -> None:
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
     A("### Цена N-го здания того же типа\n")
     A("`cost(N) = floor(base_cost × (costpercent/100)^(N-1))`. См. "
-      "[derived/scaling_prices.md](derived/scaling_prices.md).\n")
+      "[`../reports/scaling_prices.md`](../reports/scaling_prices.md).\n")
     A("---\n")
+    A("## Глоссарий: ключевые игровые теги\n")
+    A("Это краткие пояснения к флагам и полям, которые часто встречаются в скриптах "
+      "и в этом справочнике. Подробности — в файлах глав.\n")
+    A("**Идентификаторы и общие поля:**\n")
+    A("| Тег | Что значит |")
+    A("|---|---|")
+    A("| `sid` | Внутренний ID объекта в `unit.script` (например `bavcen`, `peaaus`, `aca.4`). |")
+    A("| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в [04_units.md](04_units.md). |")
+    A("| `usage` / `usage_short` | Класс юнита/здания: `lightinfantry`, `fasthorse`, `building`, `tower`, и т. д. Влияет на AI и формулы. |")
+    A("| `commonsid` / `cluster` | Кластер общих зданий (`eur`/`rus`/`tur`/`spa`/`ukr`/`por`). Например `eurmil` — мельница для всех eur-наций. |")
+    A("| `costpercent` | Множитель цены каждого следующего экземпляра здания: `cost(N) = floor(base × (cp/100)^(N-1))`. 100 = одинаковая, 300 = ×3 за второе, 0 = без масштабирования. |")
+    A("| `farm` | На сколько единиц здание поднимает лимит населения. |")
+    A("\n**Добыча и экономика:**\n")
+    A("| Тег | Что значит |")
+    A("|---|---|")
+    A("| `eff` (`resefficiency[cid][restype]`) | Текущая эффективность добычи в %. По умолчанию 100; апгрейды (mill, academy) добавляются **аддитивно**: `eff = 100 + Σ(апгрейды)`. Реальная порция = `floor(base_portion × eff / 100)`. |")
+    A("| `consume.food` / `consume[gold]` | Сколько ресурса юнит/здание потребляет в тик `gPlayer.counter.resconsume[…]`. Не путать с `cost` (цена постройки/найма). |")
+    A("| `peasantabsorber` | Сколько крестьян может находиться внутри здания (в шахте — до 5 базово, до 95 с апгрейдами). |")
+    A("| `produce[restype]` | Сколько ресурса добавляется к `gPlayer.counter.resincome` за каждого крестьянина внутри здания (для шахт = 13). |")
+    A("| `fieldlife` | Бонус прочности полей: каждый удар по полю снимает `max(1, 100/(1+fieldlife/100))` HP вместо 100. Апгрейды `aca.4` (+200) и `bla.1` (+100) дают суммарно 300 → 25 HP/удар, или ×4 еды с поля. |")
+    A("\n**Боевые флаги:**\n")
+    A("| Тег | Что значит |")
+    A("|---|---|")
+    A("| `bbuilt` | Здание полностью достроено (`True`) или ещё в стройке (`False`). При `False` входящий урон вычитает только `shield/3` вместо `shield`. |")
+    A("| `bcapture` | Здание можно захватить вражеской пехотой в радиусе `gc_gameplay_captureradius=4 тайла` без своих защитников рядом. Захват мгновенный. У всех башен (`gc_obj_usage_tower`) включается автоматически. |")
+    A("| `bnohungry` | Юнит/здание не потребляет food (нет голодной смерти). У всех зданий = `True`. У наёмников = `True` (но они едят gold через Rebellion). У крестьян и обычной пехоты = `False`. |")
+    A("| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Едят gold вместо food, при `gold=0` массово переходят к нейтралу (см. Rebellion в [01_economy.md](01_economy.md)). |")
+    A("| `bfamine` | Флаг голода у игрока: `food=0` И есть юниты с `consume>0`. Включает рандомную смерть юнитов с `bnohungry=False`. |")
+    A("| `brebellion` | Флаг бунта у игрока: `gold=0` И `consume[gold] > income[gold]`. Включает массовый дезертир наёмников. |")
+    A("| `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |")
+    A("| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [recon/determinism_audit.md](../../recon/determinism_audit.md). |")
+    A("| `gc_obj_weapon_kind_*` | Тип оружия: `pike` / `sword` / `bullet` / `cannister` / `arrow` / `cannonball` / `grenade` и др. От него зависит, какая колонка `protection[kind]` цели вычитается из урона. |")
+    A("\n**Время:**\n")
+    A("| Тег | Что значит |")
+    A("|---|---|")
+    A("| `gc_time_to_frames = 32` | 32 кадра в одной игровой секунде. Все длительности в скриптах (анимации, `pause`, `buildtime` юнитов) хранятся в кадрах. |")
+    A("| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/building_mechanics.md](../../recon/building_mechanics.md). |")
+    A("| game speed | `slow=7 / normal=10 / fast=14` тиков/сек. На fast: `1 game-sec = 1/1.4 ≈ 0.71 real-sec`. |")
+    A("\n---\n")
     A("## Где что искать\n")
     A("### Главы справочника (этот каталог)\n")
     A("| Хочу узнать… | Открой |")
@@ -328,13 +379,14 @@ def write_readme(data: dict) -> None:
     A("| Что уникального у нации X | [nations/](nations/README.md) |")
     A("| Сравнить юнитов одного класса | [compare/](compare/README.md) |")
     A("")
-    A("### Производные файлы (расчётные, на основе data.json)\n")
-    A("В подкаталоге [`derived/`](derived/):\n")
-    A("| Файл | Что внутри |")
-    A("|---|---|")
-    A("| [derived/scaling_prices.md](derived/scaling_prices.md) | Стоимости 2-го, 3-го, …N-го здания. Формула `cost(N) = floor(base × (costpercent/100)^(N-1))` |")
-    A("| [derived/map_resources.md](derived/map_resources.md) | Подсчёт ресурсов на карте Tiny (256×256) + Highlands + Rich: ~109 больших деревьев, ~115 средних, ~72 маленьких; ~33 камня; до 12 шахт на игрока |")
+    A("### Производные расчёты (рядом с этой папкой)\n")
+    A("Все автоматически вычисляемые отчёты — в [`../reports/`](../reports/README.md):\n")
+    A("- **Бой:** [`combat_stats.md`](../reports/combat_stats.md), [`counter_matrix.md`](../reports/counter_matrix.md)")
+    A("- **Цены:** [`scaling_prices.md`](../reports/scaling_prices.md) — цена N-го экземпляра. [`efficiency_upgrades.md`](../reports/efficiency_upgrades.md) — что меняют апгрейды.")
+    A("- **Темп:** [`tech_tree.md`](../reports/tech_tree.md), [`production_rates.md`](../reports/production_rates.md), [`construction_times.md`](../reports/construction_times.md), [`builder_slots.md`](../reports/builder_slots.md)")
+    A("- **Карта:** [`map_resources.md`](../reports/map_resources.md), [`starting_layout.md`](../reports/starting_layout.md)")
     A("")
+    A("Машинно-читаемые JSON-датасеты — в [`../derived/`](../derived/) (`tech_tree.json`, `animations.json`, `builder_slots.json`, `pattern_*.json`).\n")
     A("### Сырой источник\n")
     A("| Файл | Что |")
     A("|---|---|")
@@ -343,10 +395,12 @@ def write_readme(data: dict) -> None:
     A("### Глубокие исследования (recon/)\n")
     A("| Файл | Тема |")
     A("|---|---|")
-    A("| [../../recon/peasant_extraction.md](../../recon/peasant_extraction.md) | Полный разбор механики добычи: цикл крестьянина, animation frames, walk speed, fieldlife регенерация, спавн ресурсов |")
-    A("| [../../recon/extraction_formulas.md](../../recon/extraction_formulas.md) | Краткая формульная сводка для расчётов (game-time vs real-time, fast×1.4) |")
-    A("| [../../recon/empirical_tests.md](../../recon/empirical_tests.md) | Открытые вопросы для эмпирической проверки (скорость крестьянина, animation frame rate, brised флаг для пней) |")
-    A("| [../../recon/step1_findings.md](../../recon/step1_findings.md) | Исторический recon: исходное обнаружение структуры файлов игры (можно пропустить) |")
+    A("| [../../recon/peasant_extraction.md](../../recon/peasant_extraction.md) | Полный разбор добычи: цикл крестьянина, animation frames, walk speed, fieldlife регенерация, спавн ресурсов |")
+    A("| [../../recon/building_mechanics.md](../../recon/building_mechanics.md) | Постройка/починка крестьянами, builder slots, стены, гарнизон/башни, захват, разрушение |")
+    A("| [../../recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) | Полный таймлайн `DoGenerate` + что определяет уникальную карту (seed space) |")
+    A("| [../../recon/determinism_audit.md](../../recon/determinism_audit.md) | RNG-сайты в hot-path добычи и боя, save/load, мод-фикс |")
+    A("| [../../recon/ticks_and_subticks.md](../../recon/ticks_and_subticks.md) | Модель времени: progress-loop, sub-tick state, adaptive game speed |")
+    A("| [../../recon/server_sync_architecture.md](../../recon/server_sync_architecture.md) | Server-authoritative модель C3, net modes, sync пакеты |")
     A("")
     A("## Расхождения с заметками из промпта\n")
     A("(детали в [01_economy.md#discrepancies](01_economy.md))")
@@ -388,13 +442,12 @@ def write_economy(data: dict) -> None:
     A("[← Index](README.md)\n")
     A("> **Глубокие исследования по этой главе:**\n"
       "> - [`../../recon/peasant_extraction.md`](../../recon/peasant_extraction.md) — "
-      "полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация\n"
-      "> - [`../../recon/extraction_formulas.md`](../../recon/extraction_formulas.md) — "
-      "формульная сводка для расчётов (game-time vs real-time)\n"
-      "> - [`derived/map_resources.md`](derived/map_resources.md) — подсчёт "
-      "ресурсов на карте Tiny+Highlands+Rich (~109 больших деревьев, ~33 камня, до 12 шахт/игрок)\n"
-      "> - [`../../recon/empirical_tests.md`](../../recon/empirical_tests.md) — "
-      "открытые вопросы для эмпирической проверки (скорость крестьянина, frame rate)\n")
+      "полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, "
+      "формулы и открытые empirical-вопросы (см. §9)\n"
+      "> - [`../../recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md) — "
+      "что появляется на карте (леса, камни, шахты) и где именно\n"
+      "> - [`../reports/map_resources.md`](../reports/map_resources.md) — подсчёт "
+      "ресурсов на стандартной карте Tiny+Highlands+Rich (~109 больших деревьев, ~33 камня, до 12 шахт/игрок)\n")
     A("\n## Резюме\n")
     A("Один крестьянин за рейс приносит `delivered = (portion × eff) / 100`. Eff стартует со 100, "
       "апгрейды накапливаются аддитивно. Шахты работают по другой схеме: каждый крестьянин внутри "
@@ -470,13 +523,32 @@ def write_economy(data: dict) -> None:
     A("## Famine (голод) и Rebellion (восстание)\n")
     A("Источник: [`unit.inc/nothing.inc:445-505`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/nothing.inc), "
       "[`player.script:280-322`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)\n")
-    A("**Upkeep:** все юниты без флага `bnohungry` потребляют food. Скорость потребления:\n")
+    A("**Расход food (upkeep).** Каждый юнит без `bnohungry=True` накапливает у игрока "
+      "`gPlayer.counter.resconsume[food]` ([`unit.script:3810,3821`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)):\n")
     A("```")
-    A("food_per_g_sec = consume × time_to_frames / 20000")
-    A("                = consume × 32 / 20000  =  consume × 0.0016")
+    A("per_unit_resconsume_food = consume.food          # из case-ветки в unit.script")
+    A("                         + gc_obj_foodperunit    # = 30, если !bnohungry и !bbuilding")
     A("```")
-    A("Для типичного юнита `consume=30` (food per unit, `gc_obj_foodperunit=30`): "
-      "**0.048 food/игр-сек = 2.88 food/игр-мин на юнит**.\n")
+    A("Расход food за игровую секунду ([`player.script:_player_ProcessResourceConsume`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)):\n")
+    A("```")
+    A("food_per_g_sec = sum_of_resconsume_food × gc_time_to_frames / 20000")
+    A("               = sum × 32 / 20000  =  sum × 0.0016")
+    A("```\n")
+    A("**Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян "
+      "(`consume.food=32`, `bnohungry=False`) простаивают 2 игровые минуты:")
+    A("```")
+    A("sum = 18 × (32 + 30) = 1116")
+    A("food/g-sec = 1116 × 32 / 20000 ≈ 1.786")
+    A("за 120 g-сек ≈ 214 food   ✓")
+    A("```\n")
+    A("Расход food/g-сек на одного юнита (для `bnohungry=False`):\n")
+    A("| Юнит | `consume.food` | + `gc_obj_foodperunit` | итого | food/g-сек |")
+    A("|---|---:|---:|---:|---:|")
+    A("| peasant (aus/pol/spa/eng/ukr/sco) | 32 | +30 | 62 | 0.0992 |")
+    A("| peasant `peatur` / `peaalg` | 28 | +30 | 58 | 0.0928 |")
+    A("| peasant `pearus` | 26 | +30 | 56 | 0.0896 |")
+    A("| infantry без явного `consume.food` | 0 | +30 | 30 | 0.0480 |")
+    A("")
     A("**Famine flag** (`bfamine=True`): срабатывает когда `food=0` И есть consume>0.\n")
     A("При famine **юниты без `bnohungry` начинают умирать рандомно**. Шанс смерти "
       "за тик зависит от **сложности игрока** (`gPlayer.difficulty`):\n")
@@ -485,13 +557,17 @@ def write_economy(data: dict) -> None:
     A("| 0 (easy) | `RandomInt < 5` ≈ 0.0076% | очень медленно (часы) |")
     A("| 1 (normal) | `RandomInt < 12` ≈ 0.018% | ~часы |")
     A("| 2+ (hard / very hard / impossible) | **`RandomInt < 50` ≈ 0.076%** | **минуты** (4-10× быстрее normal) |")
-    A("\n**Кто иммунен к famine** (`bnohungry=True`):")
-    A("- Все здания (`bbuilding=True`)")
-    A("- Все наёмники (`bmercenary=True`) — у них свой триггер (см. Rebellion)")
-    A("- Большинство peasant'ов (но НЕ все — `peatur` не имеет bnohungry)")
-    A("- Корабли")
-    A("- Officers / drummers / priests")
-    A("\n**Famine также отключается** если игрок не задал в профиле `gProfile.bFamine=True` (опция).\n")
+    A("\n**Кто иммунен к голоду** (`bnohungry=True` в `unit.script`):")
+    A("- Все здания — флаг ставится в `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` ([`unit.script:471`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)).")
+    A("- Наёмники (`bmercenary=True`). У них свой триггер — Rebellion (см. ниже). Едят gold, не food.")
+    A("")
+    A("**Кто НЕ иммунен** (вопреки распространённому заблуждению):")
+    A("- **Крестьяне** — у всех `bnohungry=False`. У `peaaus/peapol/peaspa/peaeng/peaukr/peasco` `consume.food=32`, у `pearus`=26, у `peatur/peaalg`=28. Плюс +30 от `gc_obj_foodperunit`. Простаивающие крестьяне расходуют food.")
+    A("- **Officers / drummers / priests** — едят food (+30) поверх своего `consume[gold]`.")
+    A("- **Регулярная пехота / кавалерия** — `bnohungry=False`, `food upkeep = consume.food + 30`.")
+    A("")
+    A("Точное значение `bnohungry` для каждого юнита — в [`output/data.json`](../data.json), поле `bnohungry`.")
+    A("\n**Голод также отключается**, если в профиле игрока `gProfile.bFamine=False`.\n")
     A("---\n")
     A("**Rebellion flag** (`brebellion=True`): срабатывает когда `gold=0` И `consume[gold] > income[gold]`.\n")
     A("При rebellion **наёмники массово переходят на сторону нейтрала**:\n")
@@ -501,15 +577,15 @@ def write_economy(data: dict) -> None:
     A("| 1 (normal) | `RandomInt < 200` ≈ 0.3% |")
     A("| 2+ (hard+) | **`RandomInt < 6000` ≈ 9.2%** — буквально за секунды теряешь весь наёмный контингент |")
     A("\n**Стратегические выводы:**")
-    A("- На **hard и выше** keeping food и gold > 0 — критически важно. Даже короткий простой = "
-      "массовая смерть/дезертирство.")
-    A("- На easy famine практически бутафория, можно играть без mill optimization.")
-    A("- **Наёмники (`<unit>dip` суффикс) тратят gold упкип** — поэтому держать большую diplomatic "
-      "армию = высокий gold income required.\n")
+    A("- На сложности **hard и выше** держать food и gold выше нуля критически важно. "
+      "Даже короткий простой → массовая смерть юнитов и/или дезертирство наёмников.")
+    A("- На easy голод (famine) практически декоративен — можно играть без апгрейдов мельницы.")
+    A("- **Наёмники (`<unit>dip` суффикс) тратят gold-апкип** — поэтому большая дипломатическая "
+      "армия требует высокого дохода золота.\n")
     A("---\n")
-    A("**Гольд upkeep юнитов** (`consume[gold]`): в основном у стрелковых башен (port, tower) "
-      "и наёмников. Стандартный pikeman/musketeer **gold НЕ потребляет** (только при стрельбе — "
-      "weapon.cost[gold]).\n")
+    A("**Расход золота юнитами** (`consume[gold]`): в основном у стрелковых башен (port, tower) "
+      "и наёмников. Стандартный pikeman/musketeer золото **не потребляет** (только при стрельбе — "
+      "`weapon.cost[gold]`).\n")
     A("## Discrepancies (расхождения с промпт-заметками)\n")
     A("| Факт | Заметки | В файле | Источник | Вердикт |")
     A("|---|---|---|---|---|")
@@ -1322,34 +1398,47 @@ def write_combat(data: dict) -> None:
     A("")
     A("Полный список — в [05_upgrades.md](05_upgrades.md) (~4500 строк, по местам).\n")
     A("## Стоимость одного выстрела\n")
-    A("Многие огнестрельные юниты и башни/корабли тратят `iron`/`coal`/`gold` за каждый выстрел.\n")
-    A("| sid | nation | weapon | урон | перезарядка (с) | shots/min | iron/выстрел | coal/выстрел | gold/выстрел |")
+    A("Многие огнестрельные юниты, башни и корабли тратят `iron` / `coal` / `gold` за каждый выстрел "
+      "(независимо от цены постройки самого юнита). Это отдельный налог, помимо `consume[gold]` и `food upkeep`.\n")
+    A("Строки сгруппированы по `(sid, оружие)`: если значения одинаковы для всех наций, "
+      "показано одной строкой с `nation = all`. Если у нации своё значение — она в отдельной строке.\n")
+    A("| sid | нации | weapon | урон | перезарядка (с) | shots/min | iron / выстрел | coal / выстрел | gold / выстрел |")
     A("|---|---|---|---:|---:|---:|---:|---:|---:|")
-    rows = []
+    # Collect (sid, weapon_id_or_kind) → list of (nation, damage, pause, shots, iron, coal, gold)
+    grouped: dict[tuple[str, str], list[tuple]] = defaultdict(list)
     for u in data["units"]:
         for w in (u["weapons"] or []):
             cost = w.get("cost") or {}
             if cost:
                 shots = round(60 / w["pause_sec"], 1) if w.get("pause_sec") else None
-                rows.append((u["sid"], u["nation"], w["weaponsid"] or w["kind"] or "?",
-                              w.get("damage"), w.get("pause_sec"), shots,
-                              cost.get("iron"), cost.get("coal"), cost.get("gold")))
+                key = (u["sid"], w["weaponsid"] or w["kind"] or "?")
+                grouped[key].append((u["nation"], w.get("damage"), w.get("pause_sec"), shots,
+                                      cost.get("iron"), cost.get("coal"), cost.get("gold")))
     for b in data["buildings"]:
         cost = b.get("weapon_cost") or {}
         if cost:
             pause_sec = (round(b["weapon_pause_frames"]/32, 2) if b["weapon_pause_frames"] else None)
             shots = (round(60 / pause_sec, 1) if pause_sec else None)
-            rows.append((b["sid"], b["nation"], b["weapon_kind"] or "?",
-                          b["weapon_damage"], pause_sec, shots,
-                          cost.get("iron"), cost.get("coal"), cost.get("gold")))
-    rows.sort()
-    seen = set()
-    for r in rows:
-        if (r[0], r[1]) in seen:
-            continue
-        seen.add((r[0], r[1]))
-        A(f"| `{r[0]}` | {r[1]} | `{r[2]}` | {fmt(r[3])} | {fmt(r[4])} | {fmt(r[5])} "
-          f"| {fmt(r[6])} | {fmt(r[7])} | {fmt(r[8])} |")
+            key = (b["sid"], b["weapon_kind"] or "?")
+            grouped[key].append((b["nation"], b["weapon_damage"], pause_sec, shots,
+                                  cost.get("iron"), cost.get("coal"), cost.get("gold")))
+    # For each (sid, weapon), bucket entries by (damage, pause, shots, iron, coal, gold) signature
+    for (sid, weapon) in sorted(grouped.keys()):
+        entries = grouped[(sid, weapon)]
+        sig: dict[tuple, list[str]] = defaultdict(list)
+        for nation, damage, pause, shots, iron, coal, gold in entries:
+            sig[(damage, pause, shots, iron, coal, gold)].append(nation)
+        # Sort buckets by size desc so the most common variant comes first
+        for stats, nations in sorted(sig.items(), key=lambda kv: -len(kv[1])):
+            damage, pause, shots, iron, coal, gold = stats
+            if len(nations) >= 18:
+                nat_str = "all"
+            elif len(nations) == 1:
+                nat_str = nations[0]
+            else:
+                nat_str = ", ".join(sorted(set(nations)))
+            A(f"| `{sid}` | {nat_str} | `{weapon}` | {fmt(damage)} | {fmt(pause)} | {fmt(shots)} "
+              f"| {fmt(iron)} | {fmt(coal)} | {fmt(gold)} |")
     write_md(TREE_ROOT / "02_combat.md", out)
 
 
@@ -1372,13 +1461,24 @@ def write_buildings(data: dict) -> None:
     A = out.append
     A("# 03. Здания\n")
     A("[← Index](README.md)\n")
-    A("Здания делятся на **per-nation** (`<nat>+suffix`, например `auscen`) и **common** "
-      "(`<cluster>+suffix`, общие для группы наций — `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).\n")
+    A("Здания делятся на **per-nation** (`<nat>+suffix`, например `auscen` = ратуша Австрии) "
+      "и **common** (`<cluster>+suffix`, общие для группы наций: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).\n")
     A("Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = "
-      "`floor(base × (costpercent/100)^(N-1))`. **Готовые таблицы N=1..6 для всех зданий "
-      "→ [`derived/scaling_prices.md`](derived/scaling_prices.md)**.\n")
-    A("**Производный документ** генерируется отдельным скриптом "
-      "[`parser/compute_scaling.py`](../../parser/compute_scaling.py).\n")
+      "`floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — "
+      "в [`../reports/scaling_prices.md`](../reports/scaling_prices.md), генератор — "
+      "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).\n")
+    A("## Расшифровка колонок\n")
+    A("| Колонка | Значение |\n|---|---|")
+    A("| **Здание** | Локализованное имя + `sid` |")
+    A("| **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |")
+    A("| **HP** | Очки здоровья достроенного здания |")
+    A("| **Время (с)** | `buildtime` в game-секундах. Для зданий хранится с множителем `gc_buildtime_modifier=10` (т.е. `frames × 10/32`). С N строителями: `time × 1.13 / N`. См. [recon/building_mechanics.md](../../recon/building_mechanics.md). |")
+    A("| **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |")
+    A("| **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |")
+    A("| **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |")
+    A("| **производит** | Список `sid` юнитов, которых здание умеет создавать. |")
+    A("| **Доп.** | Прочее: оружие башен, гарнизон, доход шахт. |")
+    A("\n**Жирным** в таблицах ниже — отклонения от базового значения (мода по столбцу), чтобы быстро видеть, чем нация отличается от большинства.\n")
     # TOC
     A("## Содержание\n")
     by_suffix_pn = defaultdict(list)
@@ -1405,7 +1505,8 @@ def write_buildings(data: dict) -> None:
             label = f"{suf} — {COMMON_NAMES.get(suf, suf)}"
             anchor = heading_anchor(label)
             A(f"  - [{label}](#{anchor})")
-    A("**[Шахты — апгрейды (gol/iro/coa)](#шахты--апгрейды-goliroсoa)**")
+    mines_label = "Шахты — апгрейды (gol/iro/coa)"
+    A(f"**[{mines_label}](#{heading_anchor(mines_label)})**")
     A("")
     A("## Постройки по нациям\n")
     A("Сводка: для каждого типа зданий — параметры по всем нациям (где они есть). "
@@ -1492,6 +1593,18 @@ def write_units(data: dict) -> None:
     A("[← Index](README.md)\n")
     A("Все юниты сгруппированы по классу. Для параллельного сравнения внутри класса см. "
       "[compare/](compare/README.md).\n")
+    A("## Расшифровка колонок\n")
+    A("| Колонка | Значение |\n|---|---|")
+    A("| **Юнит** | Локализованное имя + `sid` (внутренний идентификатор из `unit.script`) |")
+    A("| **нации** | Список наций, имеющих этого юнита (`all` = доступен всем) |")
+    A("| **HP** | Очки здоровья при создании |")
+    A("| **Время** | `buildtime` в game-секундах (1 game-сек = 32 кадра; для real-сек @ fast делите на 1.4) |")
+    A("| **F / G / I** | Цена за единицу: **Food / Gold / Iron**. Wood/Stone/Coal у юнитов почти всегда = 0, потому скрыты. |")
+    A("| **урон** | `weapon[0].damage` — сырой урон одного выстрела/удара ДО вычета защиты цели. Полная формула — в [02_combat.md](02_combat.md). |")
+    A("| **дальн. (тайл.)** | Радиус оружия в тайлах (`weapon[0].radiusmax / 53.33`). 0 для рукопашных. |")
+    A("| **перезарядка** | `weapon[0].pause` в секундах между выстрелами (0 для рукопашных — там темп задаётся анимацией). |")
+    A("| **пика / меч / пуля / картечь / стрела / ядро** | **Защита** юнита от соответствующего типа оружия (`prot_pike`/`prot_sword`/`prot_bullet`/`prot_cannister`/`prot_arrow`/`prot_cannonball`). Чем выше — тем меньше входящий урон. |")
+    A("\n«—» в любой колонке = поле отсутствует у этого юнита (например, рукопашник не имеет дальности).\n")
     by_class = defaultdict(list)
     for u in data["units"]:
         cls = classify_unit(u["sid"], u.get("usage_short", ""))
@@ -1565,11 +1678,21 @@ def write_upgrades(data: dict) -> None:
     A = out.append
     A("# 05. Апгрейды\n")
     A("[← Index](README.md)\n")
-    A("Апгрейды сгруппированы по **месту** (academy/blacksmith/mill/stable/barracks/mine/tower/wall/...). "
-      "Каждый апгрейд — `<nat><place>.<unit>.<itype>.<level>` (поюнитные, в кузнице/конюшне/казарме), "
-      "`<nat><place>.<level>` (один на нацию, в академии/мельнице/ратуше), "
-      "или `<cluster><place>.<level>` (общие для кластера: tower/wall/shipyard).\n")
-    A("Колонка `itype_short` расшифровывает raw `gc_upg_type_*` в человеческие термины.\n")
+    A("Апгрейды сгруппированы по **месту** исследования: academy / blacksmith / mill / stable / barracks / mine / tower / wall / ...\n")
+    A("**Структура `sid`:**")
+    A("- `<nat><place>.<unit>.<itype>.<level>` — поюнитный апгрейд в кузнице/конюшне/бараке (например `auspolbla.pikeman.1.3` = Австрия → кузница → пикинёр → урон → уровень 3).")
+    A("- `<nat><place>.<level>` — один на нацию, в академии/мельнице/ратуше (например `auaca.4` = Австрия → академия → апгрейд №4 «field melioration»).")
+    A("- `<cluster><place>.<level>` — общие для кластера наций (например `eurtow.1` для всех eur-наций).")
+    A("- `eurgol.N` / `euriro.N` / `eurcoa.N` — апгрейды шахт (одинаковы для всех наций).\n")
+    A("## Расшифровка колонок\n")
+    A("| Колонка | Значение |\n|---|---|")
+    A("| **Апгрейд** | Локализованное имя + `sid` |")
+    A("| **нации** | Список наций (или `all` если применимо ≥18). Если у нации своё значение через `_country_ModifyUpgrade` — она в отдельной строке. |")
+    A("| **itype** | Тип эффекта в человеческих терминах (расшифровка `gc_upg_type_*`): `+damage`, `+damage %`, `+protection`, `+food eff %`, `price %`, `build time %`, `enable unit`, `+shield`, ...|")
+    A("| **val** | Значение эффекта. Семантика зависит от `itype`: для процентных = просто число (50 значит +50%, **−7500000 в `aca.10` = -75% buildtime — деление на 10⁵ ломает scale в скрипте**), для +damage / +shield = единицы. |")
+    A("| **F / W / S / G / I / C** | Цена исследования: **Food / Wood / Stone / Gold / Iron / Coal**. |")
+    A("| **время** | `time` в game-секундах. Здание занято исследованием на это время. |")
+    A("\n")
     # TOC will be inserted here after we know which places have content; we build it below
 
     PLACE_NAMES = {
@@ -2279,61 +2402,75 @@ def write_top_inventory(data: dict) -> None:
     A("output/")
     A("├── README.md              ← этот файл (каталог)")
     A("├── data.json              ← сырой источник правды (~4.7 MB)")
-    A("├── reference/             ← справочник по игре (~50 файлов)")
-    A("│   ├── README.md          ← TL;DR + index по справочнику")
+    A("├── reference/             ← каноническая справка по игре")
+    A("│   ├── README.md          ← TL;DR + index + glossary")
     A("│   ├── 01_economy.md … 06_market.md  ← главы по темам")
     A("│   ├── nations/           ← 21 cheatsheet по нациям")
-    A("│   ├── compare/           ← 16 side-by-side сравнений")
-    A("│   └── derived/           ← расчётные файлы")
-    A("│       ├── scaling_prices.md      ← цены N-го здания")
-    A("│       └── map_resources.md       ← ресурсы на карте")
-    A("└── strategy/              ← strategy stack (планирование экономики)")
-    A("    ├── README.md          ← вход в strategy: что есть, как использовать")
-    A("    ├── tech_tree.{md,json}        ← граф зависимостей")
-    A("    ├── production_rates.md        ← units/min для каждого здания")
-    A("    └── sim/                       ← output симулятора (sim_*.csv/md)")
+    A("│   └── compare/           ← side-by-side сравнения юнитов/зданий")
+    A("├── reports/               ← все производные расчёты (.md)")
+    A("│   ├── README.md          ← индекс отчётов")
+    A("│   ├── combat_stats.md    ← DPS / EHP")
+    A("│   ├── counter_matrix.md  ← TTK между классами юнитов")
+    A("│   ├── scaling_prices.md  ← цена N-го экземпляра здания")
+    A("│   ├── efficiency_upgrades.md")
+    A("│   ├── tech_tree.md       ← граф зависимостей")
+    A("│   ├── production_rates.md ← units/min")
+    A("│   ├── construction_times.md ← время постройки с N строителями")
+    A("│   ├── builder_slots.md   ← макс. число строителей на здание")
+    A("│   ├── map_resources.md   ← подсчёт на стандартной карте")
+    A("│   └── starting_layout.md ← стартовая раскладка")
+    A("├── simulations/           ← выходы симулятора экономики")
+    A("│   ├── README.md          ← как запустить, формат build order")
+    A("│   └── sim_*.{csv,md}     ← результаты прогонов")
+    A("└── derived/               ← машинно-читаемые JSON-датасеты")
+    A("    ├── tech_tree.json")
+    A("    ├── animations.json")
+    A("    ├── builder_slots.json")
+    A("    └── pattern_*.json")
     A("```")
     A("")
-    A("## Reference (главное)\n")
-    A("[**reference/**](reference/) — структурированный справочник по игре. "
-      "Открывай нужный файл напрямую, или начни с [reference/README.md](reference/README.md):\n")
+    A("## Reference — каноническая справка\n")
+    A("[**reference/**](reference/) — главы по темам, по одному cheatsheet на нацию, "
+      "side-by-side сравнения. Старт — [reference/README.md](reference/README.md):\n")
     A("- **Главы:** [01_economy](reference/01_economy.md), [02_combat](reference/02_combat.md), "
       "[03_buildings](reference/03_buildings.md), [04_units](reference/04_units.md), "
       "[05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md)")
-    A("- **Нации:** [reference/nations/](reference/nations/README.md) — по одному cheatsheet на нацию")
-    A("- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen/musketeers/cavalry/ships/weapons и др. side-by-side")
-    A("- **Derived:** [reference/derived/](reference/reports/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)")
+    A("- **Нации:** [reference/nations/](reference/nations/README.md) — 21 нация")
+    A("- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen / musketeers / cavalry / ships / weapons и др.")
     A("")
-    A("## Strategy stack\n")
-    A("Файлы для планирования и симуляции экономики — в подкаталоге [`strategy/`](strategy/):\n")
-    A("| Файл | Что внутри | Скрипт |")
-    A("|---|---|---|")
-    A("| [strategy/README.md](strategy/README.md) | **Точка входа в strategy**: как использовать | — |")
-    A("| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](derived/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |")
-    A("| [strategy/production_rates.md](strategy/production_rates.md) | units/min для каждого здания × юнита | то же |")
-    A("| [strategy/sim/](strategy/sim/) | Output симулятора (`sim_*.csv/md`) | `parser/simulate_economy.py` |")
+    A("## Reports — производные расчёты\n")
+    A("Всё что считается из `data.json`: бой (DPS/EHP, контр-матрица), цены и масштабирование, "
+      "темпы и тайминги, карта. Индекс — [reports/README.md](reports/README.md).\n")
+    A("- **Бой:** [combat_stats](reports/combat_stats.md), [counter_matrix](reports/counter_matrix.md)")
+    A("- **Цены:** [scaling_prices](reports/scaling_prices.md), [efficiency_upgrades](reports/efficiency_upgrades.md)")
+    A("- **Темп:** [tech_tree](reports/tech_tree.md), [production_rates](reports/production_rates.md), "
+      "[construction_times](reports/construction_times.md), [builder_slots](reports/builder_slots.md)")
+    A("- **Карта:** [map_resources](reports/map_resources.md), [starting_layout](reports/starting_layout.md)")
     A("")
-    A("Build orders (вход для симулятора): [`../build_orders/`](../build_orders/)\n")
+    A("## Simulations — выходы симулятора\n")
+    A("[**simulations/**](simulations/README.md) — таймлайны экономики по конкретным build order'ам "
+      "(скрипт `simulator/simulate_economy.py`). Build orders (вход) — в [`../simulator/build_orders/`](../simulator/build_orders/).\n")
     A("## Сырой JSON\n")
     A("[`data.json`](data.json) — единый источник правды, выход `parser/build_data.py`. "
       "Все writer-скрипты читают отсюда. После патча игры регенерируется.\n")
     A("## Глубокие исследования (`../recon/`)\n")
-    A("Не справочник, а research notes и черновики:\n")
-    A("- [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — полный разбор механики добычи")
-    A("- [`../recon/extraction_formulas.md`](../recon/extraction_formulas.md) — формульная сводка")
-    A("- [`../recon/empirical_tests.md`](../recon/empirical_tests.md) — открытые вопросы для in-game замеров")
-    A("- [`../recon/step1_findings.md`](../recon/step1_findings.md) — исторический recon файлов игры")
-    A("- [`../recon/visual_editor_roadmap.md`](../recon/visual_editor_roadmap.md) — план визуального редактора стратегий")
+    A("Research notes по конкретным механикам ([`../recon/README.md`](../recon/) — индекс):\n")
+    A("- [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — добыча: цикл крестьянина, формулы, шахты, поля, апгрейды")
+    A("- [`../recon/building_mechanics.md`](../recon/building_mechanics.md) — постройка/починка, builder slots, стены, гарнизон, захват")
+    A("- [`../recon/map_generation_pipeline.md`](../recon/map_generation_pipeline.md) — DoGenerate timeline + seed space")
+    A("- [`../recon/determinism_audit.md`](../recon/determinism_audit.md) — RNG-сайты, save/load, мод-фикс")
+    A("- [`../recon/ticks_and_subticks.md`](../recon/ticks_and_subticks.md) — модель времени, adaptive game speed")
+    A("- [`../recon/server_sync_architecture.md`](../recon/server_sync_architecture.md) — server-authoritative модель C3")
     A("")
     A("## Регенерация\n")
     A("После патча игры или изменений в скриптах:\n")
     A("```")
     A("python parser/build_data.py                 # → output/data.json (источник правды)")
     A("python writers/write_md_tree.py             # → output/reference/ + output/README.md")
-    A("python compute/compute_scaling.py           # → output/reference/reports/scaling_prices.md")
-    A("python compute/compute_map_resources.py     # → output/reference/reports/map_resources.md")
-    A("python compute/build_tech_tree.py           # → output/strategy/tech_tree.{md,json}, production_rates.md")
-    A("python simulator/simulate_economy.py <build_order.json>  # → output/strategy/sim/sim_<name>.{csv,md}")
+    A("python compute/compute_scaling.py           # → output/reports/scaling_prices.md")
+    A("python compute/compute_map_resources.py     # → output/reports/map_resources.md")
+    A("python compute/build_tech_tree.py           # → output/reports/tech_tree.md + production_rates.md + derived/tech_tree.json")
+    A("python simulator/simulate_economy.py <build_order.json>  # → output/simulations/sim_<name>.{csv,md}")
     A("```")
     A("Все writer-скрипты читают только из `data.json` — кроме `build_data.py`, "
       "который читает напрямую из файлов игры.\n")

@@ -9,7 +9,7 @@ path to +200% wood for ven".
 The values are **additive** to a base of 100 — see `_player_ApplyUpgrade` in
 player.script:1812+. So `value: 40` means "+40% to that resource's efficiency".
 
-Output: output/reference/reports/efficiency_upgrades.md
+Output: output/reports/efficiency_upgrades.md
 """
 from __future__ import annotations
 import sys
@@ -103,7 +103,7 @@ def render_md(by_nation: dict) -> str:
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`output/data.json` скриптом "
-      "[`compute/compute_efficiency_upgrades.py`](../../../compute/compute_efficiency_upgrades.py).")
+      "[`compute/compute_efficiency_upgrades.py`](../../compute/compute_efficiency_upgrades.py).")
     A("")
     A("## Что это")
     A("")

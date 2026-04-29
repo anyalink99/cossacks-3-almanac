@@ -1,6 +1,6 @@
 # Cossacks 3 — Efficiency upgrades per nation
 
-**Производный** файл (расчётный, не извлечение). Считается из `output/data.json` скриптом [`compute/compute_efficiency_upgrades.py`](../../../compute/compute_efficiency_upgrades.py).
+**Производный** файл (расчётный, не извлечение). Считается из `output/data.json` скриптом [`compute/compute_efficiency_upgrades.py`](../../compute/compute_efficiency_upgrades.py).
 
 ## Что это
 

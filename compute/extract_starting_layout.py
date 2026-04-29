@@ -9,7 +9,7 @@ Sources:
 - `data/game/var/startingsettings.cfg`: pickable starting-units presets
    (selected via the multiplayer-lobby "starting units" dropdown)
 
-Output: output/reference/reports/starting_layout.md
+Output: output/reports/starting_layout.md
 """
 from __future__ import annotations
 import sys
@@ -166,7 +166,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data/scripts/common.inc/dogenerate.inc` и "
       "`data/game/var/startingsettings.cfg` скриптом "
-      "[`compute/extract_starting_layout.py`](../../../compute/extract_starting_layout.py).")
+      "[`compute/extract_starting_layout.py`](../../compute/extract_starting_layout.py).")
     A("")
     A("## §1. Расстановка крестьян (режим default)")
     A("")

@@ -56,7 +56,7 @@
 
 ## 5. Деревья и камни — per pattern type
 
-Числа = медиана `mask=1` клеток для каждого pattern type из `output/reference/derived/pattern_type_stats.json` (парсер: `compute/compute_pattern_inventory.py`, mapping pattern→type из `data/game/var/generator.cfg`). Гипотеза: 1 mask cell = 1 дерево (подтверждено на brushes; для шахт mask = footprint, не объекты — см. caveat).
+Числа = медиана `mask=1` клеток для каждого pattern type из `output/derived/pattern_type_stats.json` (парсер: `compute/compute_pattern_inventory.py`, mapping pattern→type из `data/game/var/generator.cfg`). Гипотеза: 1 mask cell = 1 дерево (подтверждено на brushes; для шахт mask = footprint, не объекты — см. caveat).
 
 **Калибровка:** mask cells (placement slots) × **0.3** ≈ видимые chopable trees. Источник: эмпирическая оценка пользователя (small forest = ~10 trees, big = ~50). Кросс-проверка: forests_pine_big median mask = 148 → 148 × 0.34 = 50 ✓. См. caveat в начале файла.
 

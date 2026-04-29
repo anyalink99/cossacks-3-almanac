@@ -1,9 +1,9 @@
 """Build tech tree (dependency graph) from data.json.
 
-Outputs (under output/strategy/):
-- output/derived/tech_tree.json — структурированный граф (для симулятора и других консументов)
-- output/strategy/tech_tree.md   — человеко-читаемая версия (по нациям)
-- output/strategy/production_rates.md — таблица "сколько юнитов/мин одно здание"
+Outputs:
+- output/derived/tech_tree.json   — структурированный граф (для симулятора и других консументов)
+- output/reports/tech_tree.md     — человеко-читаемая версия (по нациям)
+- output/reports/production_rates.md — таблица «сколько юнитов/мин одно здание»
 
 Зависимости извлекаются из:
 - building.prereqs (список зданий или апгрейдов, нужных чтобы строить здание)
@@ -25,11 +25,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, STRATEGY_DIR, DERIVED_DIR
+from config import DATA_JSON, REPORTS_DIR, DERIVED_DIR
 DATA_PATH = DATA_JSON
 TREE_JSON = DERIVED_DIR / "tech_tree.json"  # JSON → derived/
-TREE_MD = STRATEGY_DIR / "tech_tree.md"     # MD → strategy/
-RATES_MD = STRATEGY_DIR / "production_rates.md"
+TREE_MD = REPORTS_DIR / "tech_tree.md"
+RATES_MD = REPORTS_DIR / "production_rates.md"
 
 GAMESPEED_FAST = 1.4
 
@@ -215,7 +215,7 @@ def write_tree_md(tree: dict):
                 cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in ug["cost"].items() if v)
                 time_str = f"{ug['time_sec']:.1f}s" if ug['time_sec'] else "—"
                 prereqs_str = ", ".join(_fmt_prereq(p) for p in ug["prereqs"]) or "—"
-                L.append(f"| `{sid}` | {name_ru_en(ug)[:60]} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
+                L.append(f"| `{sid}` | {name_ru_en(ug)} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
             L.append("")
     TREE_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {TREE_MD} ({TREE_MD.stat().st_size:,} bytes)")
@@ -289,7 +289,7 @@ def write_production_rates_md(data: dict):
 
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    STRATEGY_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     print("Building tech tree…")
     tree = build_tree(data)
     TREE_JSON.write_text(json.dumps(tree, ensure_ascii=False, indent=2), encoding="utf-8")

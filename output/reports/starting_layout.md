@@ -1,6 +1,6 @@
 # Cossacks 3 — Starting layout
 
-**Производный** файл (расчётный, не извлечение). Считается из `data/scripts/common.inc/dogenerate.inc` и `data/game/var/startingsettings.cfg` скриптом [`compute/extract_starting_layout.py`](../../../compute/extract_starting_layout.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data/scripts/common.inc/dogenerate.inc` и `data/game/var/startingsettings.cfg` скриптом [`compute/extract_starting_layout.py`](../../compute/extract_starting_layout.py).
 
 ## §1. Расстановка крестьян (режим default)
 

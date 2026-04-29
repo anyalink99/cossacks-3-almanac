@@ -16,7 +16,7 @@ incremented on creation and decremented on death/destruction, so destroying a
 town center actually makes the next one cheaper again.
 
 This script reads the already-extracted base prices from data.json and writes:
-- output/reference/reports/scaling_prices.md (grouped by building suffix)
+- output/reports/scaling_prices.md (grouped by building suffix)
 
 Re-run it whenever the base data is regenerated.
 """
@@ -123,7 +123,7 @@ def header_block() -> list[str]:
     L.append("")
     L.append("**Производный** файл (расчётный, не извлечение). Считается из "
              "`output/data.json` скриптом "
-             "[`parser/compute_scaling.py`](../../../parser/compute_scaling.py).")
+             "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).")
     L.append("")
     L.append("## Формула")
     L.append("")

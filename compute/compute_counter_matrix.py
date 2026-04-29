@@ -16,7 +16,7 @@ Melee weapons (`pause = 0`) have no game-defined pause; their cycle is animation
 bound (~13-frame swing ≈ 0.4 g-sec assumption). They're shown with `melee` annotation
 and a parametric TTK using that assumption — clearly marked.
 
-Output: output/reference/reports/counter_matrix.md
+Output: output/reports/counter_matrix.md
 """
 from __future__ import annotations
 import sys
@@ -286,7 +286,7 @@ def main():
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`output/data.json` скриптом "
-      "[`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).")
+      "[`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).")
     A("")
     A("## Метод")
     A("")

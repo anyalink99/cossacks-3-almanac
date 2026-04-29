@@ -7,7 +7,7 @@ placing a builder point every `dist=1.0` tile. Hard cap from `gc_MaxBuilderCount
 Reads each `.prop` file in `<game>/data/objects/buildings/`, parses
 `collisionmaskproperty.Mask`, runs the simulation, and writes:
   - output/derived/builder_slots.json  — {sid: {cols, rows, cells, perim_tiles, slots}}
-  - output/strategy/builder_slots.md   — sortable per-nation table
+  - output/reports/builder_slots.md    — sortable per-nation table
 """
 from __future__ import annotations
 import json
@@ -18,7 +18,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, STRATEGY_DIR
+from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR
 
 BUILDINGS_DIR = GAME_ROOT / "data" / "objects" / "buildings"
 
@@ -246,7 +246,7 @@ def first_component(mask: list[list[bool]]) -> tuple[list[list[bool]], int]:
 
 def main():
     DERIVED_DIR.mkdir(parents=True, exist_ok=True)
-    STRATEGY_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
     results: dict[str, dict] = {}
     for prop in sorted(BUILDINGS_DIR.glob("*.prop")):
@@ -379,7 +379,7 @@ def main():
                      f"{info['perim_walked_tiles']} | {disc} | **{info['slots']}** |")
         L.append("")
 
-    out_md = STRATEGY_DIR / "builder_slots.md"
+    out_md = REPORTS_DIR / "builder_slots.md"
     out_md.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {out_md}")
 

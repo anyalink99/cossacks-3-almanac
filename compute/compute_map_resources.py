@@ -5,7 +5,7 @@ same density math the game uses (dogenerate.inc) with assumed prob* values
 from a Monte-Carlo simulation of _misc_GetFreePatternMaskCountModifier.
 
 Output: prints estimated counts and total wood pool. Also writes
-output/reference/reports/map_resources.md.
+output/reports/map_resources.md.
 
 Source code references:
 - common.inc/dogenerate.inc:1688-1908 — density application and pattern calls
@@ -550,7 +550,7 @@ def main():
         "water_blocking_pct": 0.02,  # Land terrain — minimal water
         # Engine: free_pattern_count_sim returns max-fit count, but actual placement
         # also rolls per-cluster probability. 0.65 is what we observed on Tiny+Highlands;
-        # other map sizes/reliefs are unconfirmed (recon/empirical_tests.md).
+        # other map sizes/reliefs are unconfirmed (recon/peasant_extraction.md §9).
         "placement_success": 0.65,
     }
     r = compute_counts(

@@ -3,9 +3,8 @@
 **Источник:** [`data/scripts/common.inc/dogenerate.inc`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc) (2103 строки), вызывается через `ExecuteState('DoGenerate')` из [`initmapgen.inc:232`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/initmapgen.inc#L232).
 
 > **Связанные документы:**
-> - [map_seed_space.md](map_seed_space.md) — что именно определяет seed (`inputbitmap` + `randkey0/1`).
 > - [peasant_extraction.md §8](peasant_extraction.md) — densities (frs_big, mnt, …) и distance-таблицы для mines.
-> - [pattern_format.md](../output/reference/pattern_format.md) — что такое `.pattern` файл и как mask мапится в env-объекты.
+> - [peasant_extraction.md §8.4](peasant_extraction.md) — что такое `.pattern` файл и как mask мапится в env-объекты.
 
 ---
 
@@ -172,7 +171,7 @@ for i = 0 to 17:
 
 **Сетка:** 6 колонок × 3 ряда. Шаг 0.75 тайла. Random jitter ±0.125. **Quirk:** `count mod 3 = 18 mod 3 = 0`, поэтому Y-центрирующее смещение = 0. Z-координаты идут от `pointy + 0` до `pointy + 1.5` (т.е. сетка смещена ВНИЗ относительно центра, не центрирована). X-координаты центрированы корректно: от `pointx - 2.25` до `pointx + 1.5`.
 
-Совпадает с empirically наблюдаемыми **18 idle peasant** в [reference_food_upkeep.md](../../Users/stasi/.claude/projects/c--projects-other-cossacks/memory/reference_food_upkeep.md) (verified 2026-04-29: 18 × 32 + 30 food/g-сек × 32/20000 × 120 = 214 food).
+Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`output/reference/01_economy.md`](../output/reference/01_economy.md) §Famine).
 
 Если `gMap.settings.additional.startingunits > default` → вместо 18 пеасантов вызывается `CreateUniqueStartingUnits` (нация-специфичный squad: офицер + барабанщик + несколько infantry).
 
@@ -243,7 +242,41 @@ for i = 0 to 17:
 
 ---
 
-## 12. Открытые вопросы (для следующих сессий)
+## 12. Seed space — что определяет уникальную карту
+
+При фиксированных параметрах (terrain + mapsize + relief + mines + players) карта однозначно задаётся парой `(inputbitmap, randkey0/randkey1)`:
+
+- `inputbitmap` — файл из `data/gen/terrainmasks/<terrain>/<N>pl_*.tga`. Выбирается случайно по индексу `floor(RandomExt*count)` ([generatemap.inc:179-191](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/generatemap.inc#L179)). Engine читает .tga и извлекает стартовые позиции по спец-маркерам в маске → `gMap.players[i].startx/y`.
+- `randkey0, randkey1` — 64-битная пара RNG-сидов (`SetRandomExtKey64`, [generatemap.inc:216](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/generatemap.inc#L216)). Все последующие `RandomExt`-вызовы (placement лесов/камней/шахт, выбор bitmap из списка) детерминированы этой парой.
+
+**Сколько базовых масок есть.** Для 4 игроков:
+
+| terrain folder | n_files |
+|---|---:|
+| `continent/` | 121 |
+| `continents/` | 187 |
+| `islands/` | 320 |
+| `land/` | **230** |
+| `mediterranean/` | 122 |
+| `nowater/` | 42 |
+| `nowater2/` | 33 |
+| `peninsulas/` | 280 |
+
+Для нашего scope (Land + 4pl) — **230 базовых форм** карт. Совпадает с user-observed «~200» (округлённо).
+
+**Что это даёт.**
+
+1. **Bounded enumeration.** Для (Land, Tiny, 4pl, Highlands, Rich) общее число уникальных карт = 230 базовых форм × K randkey-вариаций. K не известно, но в 4-байтном UI seed-поле едва ли > 10⁹; реально пользовательские seed'ы лежат в гораздо меньшем диапазоне.
+
+2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` ([miscext2.script:15](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script#L15)).
+
+3. **Точная калибровка trees-per-pattern.** 5-10 запусков map gen с фиксированными параметрами, парсинг env-объектов из save → empirical mapping `bitmap → tree count`. Это даст точную замену текущей константы `0.30 × mask_cells`.
+
+**Ограничения.** `GenerateMapRandKey` ([map.script:322](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/map.script#L322)) — engine-builtin, тело недоступно. Точный диапазон randkey0/1 не подтверждён.
+
+---
+
+## 13. Открытые вопросы (для следующих сессий)
 
 1. **Точное положение arrStartPos в inputbitmap.tga.** Engine как-то находит маркеры в маске. Скорее всего по специальным RGB-кодам пикселей. Если декодировать `data/gen/terrainmasks/land/4pl_*.tga` руками — можно построить точную карту start-positions для каждого preset.
 

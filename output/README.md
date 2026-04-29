@@ -1,6 +1,6 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-04-28 09:52:20** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-04-29 01:48:04** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 
@@ -14,42 +14,53 @@ _Extracted **2026-04-28 09:52:20** (local) from game files (unit.script mtime: 2
 output/
 ├── README.md              ← этот файл (каталог)
 ├── data.json              ← сырой источник правды (~4.7 MB)
-├── reference/             ← справочник по игре (~50 файлов)
-│   ├── README.md          ← TL;DR + index по справочнику
+├── reference/             ← каноническая справка по игре
+│   ├── README.md          ← TL;DR + index + glossary
 │   ├── 01_economy.md … 06_market.md  ← главы по темам
 │   ├── nations/           ← 21 cheatsheet по нациям
-│   ├── compare/           ← 16 side-by-side сравнений
-│   └── derived/           ← расчётные файлы
-│       ├── scaling_prices.md      ← цены N-го здания
-│       └── map_resources.md       ← ресурсы на карте
-└── strategy/              ← strategy stack (планирование экономики)
-    ├── README.md          ← вход в strategy: что есть, как использовать
-    ├── tech_tree.{md,json}        ← граф зависимостей
-    ├── production_rates.md        ← units/min для каждого здания
-    └── sim/                       ← output симулятора (sim_*.csv/md)
+│   └── compare/           ← side-by-side сравнения юнитов/зданий
+├── reports/               ← все производные расчёты (.md)
+│   ├── README.md          ← индекс отчётов
+│   ├── combat_stats.md    ← DPS / EHP
+│   ├── counter_matrix.md  ← TTK между классами юнитов
+│   ├── scaling_prices.md  ← цена N-го экземпляра здания
+│   ├── efficiency_upgrades.md
+│   ├── tech_tree.md       ← граф зависимостей
+│   ├── production_rates.md ← units/min
+│   ├── construction_times.md ← время постройки с N строителями
+│   ├── builder_slots.md   ← макс. число строителей на здание
+│   ├── map_resources.md   ← подсчёт на стандартной карте
+│   └── starting_layout.md ← стартовая раскладка
+├── simulations/           ← выходы симулятора экономики
+│   ├── README.md          ← как запустить, формат build order
+│   └── sim_*.{csv,md}     ← результаты прогонов
+└── derived/               ← машинно-читаемые JSON-датасеты
+    ├── tech_tree.json
+    ├── animations.json
+    ├── builder_slots.json
+    └── pattern_*.json
 ```
 
-## Reference (главное)
+## Reference — каноническая справка
 
-[**reference/**](reference/) — структурированный справочник по игре. Открывай нужный файл напрямую, или начни с [reference/README.md](reference/README.md):
+[**reference/**](reference/) — главы по темам, по одному cheatsheet на нацию, side-by-side сравнения. Старт — [reference/README.md](reference/README.md):
 
 - **Главы:** [01_economy](reference/01_economy.md), [02_combat](reference/02_combat.md), [03_buildings](reference/03_buildings.md), [04_units](reference/04_units.md), [05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md)
-- **Нации:** [reference/nations/](reference/nations/README.md) — по одному cheatsheet на нацию
-- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen/musketeers/cavalry/ships/weapons и др. side-by-side
-- **Derived:** [reference/derived/](reference/reports/) — scaling_prices (цена N-го здания) и map_resources (подсчёт на карте)
+- **Нации:** [reference/nations/](reference/nations/README.md) — 21 нация
+- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen / musketeers / cavalry / ships / weapons и др.
 
-## Strategy stack
+## Reports — производные расчёты
 
-Файлы для планирования и симуляции экономики — в подкаталоге [`strategy/`](strategy/):
+Всё что считается из `data.json`: бой (DPS/EHP, контр-матрица), цены и масштабирование, темпы и тайминги, карта. Индекс — [reports/README.md](reports/README.md).
 
-| Файл | Что внутри | Скрипт |
-|---|---|---|
-| [strategy/README.md](strategy/README.md) | **Точка входа в strategy**: как использовать | — |
-| [strategy/tech_tree.md](strategy/tech_tree.md) / [.json](derived/tech_tree.json) | Граф зависимостей зданий/юнитов/апгрейдов | `parser/build_tech_tree.py` |
-| [strategy/production_rates.md](strategy/production_rates.md) | units/min для каждого здания × юнита | то же |
-| [strategy/sim/](strategy/sim/) | Output симулятора (`sim_*.csv/md`) | `parser/simulate_economy.py` |
+- **Бой:** [combat_stats](reports/combat_stats.md), [counter_matrix](reports/counter_matrix.md)
+- **Цены:** [scaling_prices](reports/scaling_prices.md), [efficiency_upgrades](reports/efficiency_upgrades.md)
+- **Темп:** [tech_tree](reports/tech_tree.md), [production_rates](reports/production_rates.md), [construction_times](reports/construction_times.md), [builder_slots](reports/builder_slots.md)
+- **Карта:** [map_resources](reports/map_resources.md), [starting_layout](reports/starting_layout.md)
 
-Build orders (вход для симулятора): [`../build_orders/`](../build_orders/)
+## Simulations — выходы симулятора
+
+[**simulations/**](simulations/README.md) — таймлайны экономики по конкретным build order'ам (скрипт `simulator/simulate_economy.py`). Build orders (вход) — в [`../simulator/build_orders/`](../simulator/build_orders/).
 
 ## Сырой JSON
 
@@ -57,13 +68,14 @@ Build orders (вход для симулятора): [`../build_orders/`](../bui
 
 ## Глубокие исследования (`../recon/`)
 
-Не справочник, а research notes и черновики:
+Research notes по конкретным механикам ([`../recon/README.md`](../recon/) — индекс):
 
-- [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — полный разбор механики добычи
-- [`../recon/extraction_formulas.md`](../recon/extraction_formulas.md) — формульная сводка
-- [`../recon/empirical_tests.md`](../recon/empirical_tests.md) — открытые вопросы для in-game замеров
-- [`../recon/step1_findings.md`](../recon/step1_findings.md) — исторический recon файлов игры
-- [`../recon/visual_editor_roadmap.md`](../recon/visual_editor_roadmap.md) — план визуального редактора стратегий
+- [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — добыча: цикл крестьянина, формулы, шахты, поля, апгрейды
+- [`../recon/building_mechanics.md`](../recon/building_mechanics.md) — постройка/починка, builder slots, стены, гарнизон, захват
+- [`../recon/map_generation_pipeline.md`](../recon/map_generation_pipeline.md) — DoGenerate timeline + seed space
+- [`../recon/determinism_audit.md`](../recon/determinism_audit.md) — RNG-сайты, save/load, мод-фикс
+- [`../recon/ticks_and_subticks.md`](../recon/ticks_and_subticks.md) — модель времени, adaptive game speed
+- [`../recon/server_sync_architecture.md`](../recon/server_sync_architecture.md) — server-authoritative модель C3
 
 ## Регенерация
 
@@ -72,10 +84,10 @@ Build orders (вход для симулятора): [`../build_orders/`](../bui
 ```
 python parser/build_data.py                 # → output/data.json (источник правды)
 python writers/write_md_tree.py             # → output/reference/ + output/README.md
-python compute/compute_scaling.py           # → output/reference/reports/scaling_prices.md
-python compute/compute_map_resources.py     # → output/reference/reports/map_resources.md
-python compute/build_tech_tree.py           # → output/strategy/tech_tree.{md,json}, production_rates.md
-python simulator/simulate_economy.py <build_order.json>  # → output/strategy/sim/sim_<name>.{csv,md}
+python compute/compute_scaling.py           # → output/reports/scaling_prices.md
+python compute/compute_map_resources.py     # → output/reports/map_resources.md
+python compute/build_tech_tree.py           # → output/reports/tech_tree.md + production_rates.md + derived/tech_tree.json
+python simulator/simulate_economy.py <build_order.json>  # → output/simulations/sim_<name>.{csv,md}
 ```
 Все writer-скрипты читают только из `data.json` — кроме `build_data.py`, который читает напрямую из файлов игры.
 

@@ -9,7 +9,7 @@
 - 1 цикл анимации construct = 13 frames / 32 fps = **0.406 g-sec**
 - При скорости fast: real-time = g-sec / 1.4
 
-**Slot caps** (точная симуляция `_unit_CalcBuilderPoints` для каждого здания, см. [`output/strategy/builder_slots.md`](builder_slots.md)):
+**Slot caps** (точная симуляция `_unit_CalcBuilderPoints` для каждого здания, см. [`builder_slots.md`](builder_slots.md)):
 
 - Cap зависит от **периметра collision mask** конкретного здания — у разных наций одна и та же категория (например, казарма 18 века) может иметь от 19 до 30 слотов.
 - Walls/gates: **4** слотов на сегмент (значение из `wallcustom.cfg`, для sid'ов, отсутствующих в `builder_slots.json`).

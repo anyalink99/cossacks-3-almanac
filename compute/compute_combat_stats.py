@@ -8,7 +8,7 @@ Squad bonuses (formation + standing) are ignored here — we report unmodified
 unit-vs-unit numbers, treating shield as a flat reduction (the game subtracts it
 **before** protection in `miscext2.script:340-354`).
 
-Outputs (output/reference/reports/combat_stats.md):
+Outputs (output/reports/combat_stats.md):
 
   §1  Unit combat sheet  — hp, speed, weapons (dmg/pause/range/kind),
                             DPS @ g-sec & @ fast-real, protections
@@ -285,7 +285,7 @@ def render_notes() -> list[str]:
     A("- **Оружие ближнего боя (pause = 0)** — DPS не считается. В коде урон melee "
       "наносится по триггеру анимационного кадра (`onaclanimationreachedwork`), "
       "цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует эмпирического "
-      "замера (см. `recon/empirical_tests.md` Test 2 — то же ограничение по FPS).")
+      "замера (FPS анимаций не подтверждён эмпирически).")
     A("- **Бонусы отряда** проигнорированы. `fAddDamage` (наступательный) и "
       "`fAddShield`/`fAddShieldHold` (стеновой режим) могут добавлять до +50% "
       "к damage и до +50 EHP — но они зависят от формации/состояния, а не "
@@ -316,7 +316,7 @@ def main():
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`output/data.json` скриптом "
-      "[`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).")
+      "[`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).")
     A("")
     A("## Формула урона")
     A("")

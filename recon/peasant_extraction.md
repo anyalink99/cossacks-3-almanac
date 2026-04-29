@@ -1,19 +1,19 @@
-# Recon: Cossacks 3 — peasant resource extraction (модель добычи)
+# Recon: Cossacks 3 — добыча ресурсов крестьянами
 
-Цель: модель скорости добычи всех ресурсов с учётом всей логики игры. Уровень B (формулы + шахты + поля + апгрейды), потенциал C (симулятор).
+Модель скорости добычи всех ресурсов на основе игровой логики. Уровень B (формулы + шахты + поля + апгрейды), потенциал C (симулятор).
 
 **Контекст по умолчанию:**
-- Game speed = **fast (2)**, множитель **1.4×** относительно нормальной (см. §1).
+- Game speed = **fast (2)**, множитель **1.4×** к normal (§1).
 - Карта: terraintype=**0 Land**, relieftype=**3 Highlands**, resourcemines=**2 Rich/Many**, mapsize=**3 Tiny/Small (256×256)**.
 - Все ссылки относятся к `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\`.
 
 > **Связанные документы:**
-> - [determinism_audit.md](determinism_audit.md) — почему добыча не воспроизводима (RNG-сайты в hot-path), какой ожидать разброс при эмпирической калибровке этой модели.
-> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени, sub-tick state machine, adaptive game speed. **Критично для трактовки real-time vs game-time** при замерах.
-> - [server_sync_architecture.md](server_sync_architecture.md) — server-authoritative модель C3, почему single-player и MP ведут себя по-разному.
-> - [map_generation_pipeline.md](map_generation_pipeline.md) — полный таймлайн DoGenerate (cCircle1/2/3, SetupStartingResources, Phase-1/Phase-2 mines, FillOwnerMap, peacetime borders).
+> - [determinism_audit.md](determinism_audit.md) — RNG-сайты в hot-path, ожидаемый разброс между запусками.
+> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени, sub-tick state, adaptive speed. Критично для трактовки real-time vs game-time при замерах.
+> - [server_sync_architecture.md](server_sync_architecture.md) — server-authoritative модель C3.
+> - [map_generation_pipeline.md](map_generation_pipeline.md) — таймлайн DoGenerate, стартовые позиции, размещение лесов/камней/шахт.
 >
-> **TL;DR для этой модели:** аналитический потолок (формулы ниже) считаем в **game-time**. Реальная in-game добыча будет ниже из-за RNG-выборов в `_misc_FindResourceToExtract` ([determinism_audit.md](determinism_audit.md) §3). Разброс между запусками одного сейва ожидается 5-15%; шахты — 0%.
+> **TL;DR.** Аналитический потолок (формулы ниже) считаем в **game-time**. Реальная in-game добыча будет ниже из-за RNG-выборов в `_misc_FindResourceToExtract` ([determinism_audit.md](determinism_audit.md) §3). Разброс между запусками одного сейва ожидается 5-15%; для шахт — 0%.
 
 ---
 
@@ -299,95 +299,51 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 ⚠ Полный список на 21 нацию нужно достать через уже существующий `parser/simulate_upgrades.py`. См. §9.
 
-## 8. Параметры генерации карты
+## 8. Карта как вход для модели
 
-### 8.1 Параметры в UI и индексы в коде
+Полная процедура `DoGenerate` (cCircle1/2/3, SetupStartingResources, фазы mines, FillOwnerMap, peacetime borders) — в [map_generation_pipeline.md](map_generation_pipeline.md). Ниже только то, что нужно для extraction-формул.
 
-| UI label | Поле кода | Tag (наш выбор) | Значение |
+### 8.1 Игровые параметры (наш контекст)
+
+| UI label | Поле кода | Tag | Значение |
 |---|---|---:|---|
-| Тип карты (Map Shape) | `terraintype` | **0** | Land (Суша) |
-| Вид рельефа (Terrain Type) | `relieftype` | **3** | Highlands |
-| Ресурсы (Minerals) | `resourcemines` | **2** | Rich (Много) |
-| Размер карты | `mapsize` | **3** | Tiny (Маленькая, 256×256 тайлов) |
+| Map Shape | `terraintype` | 0 | Land |
+| Terrain Type | `relieftype` | 3 | Highlands |
+| Minerals | `resourcemines` | 2 | Rich |
+| Map Size | `mapsize` | 3 | Tiny (256×256) |
 
-Источники UI: [data/gui/menu.inc/showcustomgame.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/gui/menu.inc/showcustomgame.inc), labels в [data/locale/ru/new.txt](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/locale/ru/new.txt) и [data/locale/en/gui.txt:423-460](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/locale/en/gui.txt#L423).
+Источники: [data/gui/menu.inc/showcustomgame.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/gui/menu.inc/showcustomgame.inc), labels в `data/locale/{en,ru}/{gui,new}.txt`.
 
-### 8.2 Highlands — рельеф (relieftype=3)
+**Важная деталь Highlands**: density гор (`mnt = 0.000120`) — максимальная среди всех рельефов ([dogenerate.inc:1640-1644](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1640)). Меньше ровных площадей под фермы/склады, больше попыток placement фейлятся.
 
-[dogenerate.inc:1640-1644](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1640): плотности паттернов:
-- `plt = 0.000055` (плато)
-- `mnt = 0.000120` (горы) — **самый высокий из всех типов**
-- `hil = 0.000050` (холмы)
+### 8.2 Терминология: месторождение vs шахта
 
-Сравнение всех рельефов:
-| Type | Name | plt | mnt | hil | Заметка |
-|---:|---|---:|---:|---:|---|
-| 0 | Plain | 0.000010 | 0.000020 | 0.000075 | мало рельефа |
-| 1 | Low Mtn | 0.000020 | 0.000002 | 0.000125 | холмов больше |
-| 2 | High Mtn | 0.000075 | 0.000075 | 0.000030 | горы+плато |
-| **3** | **Highlands** | **0.000055** | **0.000120** | **0.000050** | максимум гор |
-| 4 | Plateaus | 0.000090 | 0.000035 | 0.000035 | плато доминируют |
+*Месторождение* — геологическая залежь, помещаемая генератором (паттерны `mng`/`mni`/`mnc`, basenames `minegold`/`mineiron`/`minecoal`).
+*Шахта* — здание `eurgol`/`euriro`/`eurcoa`, строится крестьянином на месторождении (peasantabsorber=5, до 95 с апгрейдами).
 
-**Импликация для добычи:** на Highlands у вас будет много гор → меньше открытых ровных площадей под лес и поля → плотность лесов и полей может фактически снизиться из-за collision masks (трудно ставить дома, фермы, склады).
+### 8.3 Сколько ресурсов на старте
 
-### 8.3 Resources=Rich, Tiny map — месторождения
+**Месторождения.** На Tiny + Rich → 4 раунда × 3 типа = **12 месторождений на игрока** (round 4 пропущен на tiny). Расстояния от старта: round 0 = 14-22 tiles (Phase 1, в `CreateStartPoint`), 1 = 32-42, 2 = 70-82, 3 = 22-38 (всё Phase 2). Подробности — [map_generation_pipeline.md §8](map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
 
-> **Полный таймлайн map gen + cCircle константы + SetupStartingResources алгоритм:** [map_generation_pipeline.md](map_generation_pipeline.md). Здесь — только то, что нужно для extraction-формул.
+**Стартовые ресурсы вне mines.** В радиусе 5-22 тайла от центра города всегда есть: **1× stoneforest, 2× stones, 3× forests** (medium/big, foreststype=0 mix) через `SetupStartingResources` ([map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)). Это объясняет, почему в начале игры всегда хватает дерева на ratuse + первый mill ещё ДО общего forest spawn'а.
 
-**Терминология.** *Месторождение* — это геологическая залежь, помещаемая на карту генератором (basenames `minegold`/`mineiron`/`minecoal` через паттерны `mng`/`mni`/`mnc`). *Шахта* — это здание `eurgol`/`euriro`/`eurcoa`, которое игрок строит крестьянином на месторождении и куда потом могут заходить рабочие (peasantabsorber=5, до 95 с апгрейдами).
+### 8.4 Леса и камни — densities + калибровка trees-per-pattern
 
-[dogenerate.inc:522-717](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L522): процедура `SetupMines(pointx, pointy, minround, maxround, minesdensity, spcount)`.
+> **`foreststype` всегда = 0 для Land.** Случайная инициализация `floor(RandomExt*3)` немедленно перезаписана нулём ([dogenerate.inc:5-6](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L5)). foreststype=1 (leaf-only) и =2 (mixed-only) на Land **не активируются**. Используется foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
 
-`rounds = case minesdensity of 0:3, 1:4, 2:5`. Для нас (minesdensity=2) **rounds=5** (раундов = "колец" вокруг стартовой точки).
+Densities ([dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1688)):
 
-**Структура размещения** (вложенные циклы):
-- Внешний цикл `for i := 0 to rounds-1` — раунды.
-- Внутренний цикл `for j := 0 to 2` — по типам ресурсов (j=0 gold, j=1 iron, j=2 coal).
-- Внутренний-внутренний `for k := 0 to 255` — до 256 попыток найти валидное место. После успеха — `break` (line 712).
-
-То есть **в каждом (раунд, тип ресурса) ставится ровно 1 месторождение** (или фейл при 256 неудачах).
-
-Phase 1 (внутри `CreateStartPoint`, [dogenerate.inc:985](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L985)): только раунд i=0.
-Phase 2 (после генерации террейна, [dogenerate.inc:1770](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1770)): раунды i=1..rounds-1.
-
-Расстояния от старта (game version ≥ 80, mapsize>2 = tiny):
-| Раунд i | dst (tiles) | Phase | Что ставится |
-|---:|---|:---:|---|
-| 0 | 14..22 | Phase 1 (close) | 1 gold + 1 iron + 1 coal |
-| 1 | 32..42 | Phase 2 | 1 gold + 1 iron + 1 coal |
-| 2 | 70..82 | Phase 2 | 1 gold + 1 iron + 1 coal |
-| 3 | 22..38 | Phase 2 | 1 gold + 1 iron + 1 coal |
-| 4 | continue | — | пропущено на tiny |
-
-**Итого** на игрока: **4 месторождения каждого типа** (4 gold + 4 iron + 4 coal = **12 месторождений всего**), при условии что все 12 попыток размещения нашли валидное место в пределах 256 попыток каждая. На tiny+highlands часть попыток может фейлиться из-за гор/воды/других объектов в радиусе.
-
-**Гарантированные стартовые ресурсы вне mines** (через `SetupStartingResources`, [dogenerate.inc:720-978](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L720) — детали в [map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)):
-- В радиусе 5..22 тайла от центра города ВСЕГДА есть: **1× stoneforest, 2× stones, 3× forests** (medium/big, foreststype=0 mix).
-- Зона ≤22 тайла полностью замаскирована через cCircle1(5×7) → cCircle2(12×15) → cCircle3(22×18) эллипсы — туда ничего другого не положится.
-- Это объясняет, почему в начале игры всегда хватает дерева на ratuse + первый mill ещё ДО общего forest spawn'a.
-
-### 8.4 Леса и камни — densities (вне шахт)
-
-> ⚠ **`foreststype` всегда = 0** для Land. [dogenerate.inc:5-6](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L5): `var foreststype := floor(RandomExt*3); foreststype := 0;` — случайная инициализация немедленно перезаписана. Следствие: foreststype=1 (leaf-only) и =2 (mixed-only) на Land **никогда не активируются**. Карты Land используют только foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
-
-[dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1688):
 - `frs_big = 0.0009`, `frs_mid = 0.0009`, `frs_small = 0.00054`
 - `stn1 = 0.00016`, `stn2 = 0.00012`
 - `dcr = 0.0005` (декор)
 
-Финальная density применяется через `_misc_SetupPatternsByType` ([misc.script:3681-3737](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3681)):
-```
-needed = floor(mapW × mapH × freq)   # сколько паттернов запрашивается
-trycount = 256 × mapsizeoptimise     # попыток разместить каждый
-```
-На tiny `mapsizeoptimise = (320×320)/(256×256) = 1.5625`, trycount=400. После terrain placement много попыток фейлятся.
+Финальная density применяется через `_misc_SetupPatternsByType` ([misc.script:3681-3737](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3681)) с тремя множителями:
 
-Densities умножаются на:
-1. `prob*` modifiers ([misc.script:3929-3941](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3929)) — Monte Carlo прогон 32000×4 на 12/16/24/29-tile квадратах, делёный на калибровочные 340/182/74/55. Результат показывает "сколько свободного места под паттерны данного размера".
-2. Tiny modifier ×2.5 (`640/256`) на все prob*.
+1. `prob*` modifiers ([misc.script:3929-3941](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3929)) — Monte Carlo на 32000×4 пробах в 12/16/24/29-tile квадратах. Показывает «сколько свободного места» осталось после terrain placement.
+2. Tiny modifier ×2.5 (`640/256`) на все `prob*`.
 3. Per-call splits: `frs_big/8` на 4 типа леса, `frs_mid/6` на 3 типа, `frs_small/4` на 2 типа.
 
-**Конкретные числа для Tiny + Highlands + Land** (см. полный отчёт в [`output/cossacks3_map_resources.md`](../output/cossacks3_map_resources.md), генератор [`parser/compute_map_resources.py`](../parser/compute_map_resources.py)):
+**Числа для Tiny + Highlands + Land** (источник: [`compute/compute_map_resources.py`](../compute/compute_map_resources.py), отчёт в [`output/reports/map_resources.md`](../output/reports/map_resources.md)):
 
 | Параметр | Значение |
 |---|---:|
@@ -451,15 +407,11 @@ Densities умножаются на:
 
 ### Pattern type → file mapping
 
-При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается `StandPatternWithAngle` — это ОНА спавнит env-объекты (источник недоступен).
+При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается C++ `StandPatternWithAngle` — она и спавнит env-объекты (тело недоступно).
 
 Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа (pinefir/spruce/pine/pine_big_2), 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
 
-### Pattern type → file mapping
-
-При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа, 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
-
-## 8.5 Пеньки — бесконечный wood pool (КРИТИЧНО для симуляции)
+### 8.5 Пеньки — бесконечный wood pool (критично для симуляции)
 
 **Источник:** [`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + [`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc).
 
@@ -480,22 +432,16 @@ Densities умножаются на:
 
 **Для симуляции:** wood pool = effectively infinite. Считаем только rate (peasants × 3.56 wood/g-sec × eff/100) минус walk_overhead до склада.
 
-## 9. Открытые вопросы (на следующий этап)
+## 9. Открытые вопросы
 
 | # | Вопрос | Как решить |
 |---:|---|---|
-| 1 | Точная скорость крестьянина в **тайлах/игр-сек** | Empirical test: построить 2 склада на расстоянии X, перевести крестьянина, засечь время; либо найти actor frame rate. |
-| 2 | ~~Frame rate AAF-анимаций (32 fps?)~~ | **РЕШЕНО**: 32 fps — это `gc_time_to_frames` из dmscript.global:175, реальная engine constant. Не допущение. AAF-парсер написан: `compute/compute_animations.py` → `output/derived/animations.json`. |
-| 3 | ~~`brised=False` для срубленных деревьев — есть ли где?~~ | **РЕШЕНО**: brised для wood никогда не меняется. Предпочтение целых деревьев работает через attFactor/stoFactor в скоринге (см. §4.2). |
-| 4 | Полный список efficiency-апгрейдов по 21 нации | Использовать `parser/simulate_upgrades.py` — он уже инлайнит SetUpgStruct и перебирает `case cid`. |
-| 5 | ~~Подсчёт деревьев / стоунов / мин на 256×256 highlands+Rich~~ | **РЕШЕНО** (через generator.cfg → pattern_types.json + per-type stats): см. §8.4 + §8.5. **~27K деревьев / ~3K stone-cells** для foreststype=0. Per-pattern-type медианы есть в `output/derived/pattern_type_stats.json`. Wood pool **бесконечен** через пеньки. Mines = 1 deposit per pattern (mask=footprint, не объекты). |
-| 6 | Mine **upgrades** (`<commonName>gol.X` etc.) — что меняют (производительность? capacity?) | Прочитать в country.script вокруг мин, типы апгрейдов. |
-| 7 | Реальная стоимость "хода к складу" в миллисекундах | Зависит от §1 (скорость) + расстояние. Симулятор. |
-| 8 | Учёт `ferry`/доставка из изолированных островов леса | Не критично для tiny+land, отложить. |
-| 9 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Проверить позже. |
+| 1 | Точная скорость крестьянина в тайлах/игр-сек | Empirical: 2 склада на расстоянии X, переместить крестьянина, засечь время. Либо распарсить actor mesh / animation walkInterval. |
+| 2 | Полный список efficiency-апгрейдов по 21 нации | Использовать `parser/simulate_upgrades.py` (уже инлайнит SetUpgStruct и перебирает `case cid`). |
+| 3 | Реальная стоимость хода к складу | Зависит от пункта 1 + расстояние. Симулятор с picked map state. |
+| 4 | Учёт `ferry` (доставка с изолированных островов леса) | Не критично для tiny+land, отложить. |
+| 5 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Отложить. |
 
----
+**Что нужно для уровня B (формулы):** §3-§7 покрывают всё необходимое. Главный стоп-фактор — точная скорость крестьянина (вопрос 1). Без неё формула содержит параметр `peasant_tiles_per_game_sec` и предположения 1/2/3 tile/g-sec.
 
-**Что есть для уровня B (формулы):** §3-§7 содержат всё нужное. Стоп-фактор — точная скорость крестьянина (вопрос 1) для модели "удалённость склада → реальный rate". Без неё можно дать формулу с параметром `peasant_tiles_per_game_sec` и численные значения для нескольких предположений.
-
-**Что нужно для уровня C (симулятор):** дополнительно §9 пп. 1-5.
+**Что нужно для уровня C (симулятор):** дополнительно решить пп. 1-3.
