@@ -1,6 +1,8 @@
-# Cossacks 3 — Полный справочник цифр
+# Cossacks 3 — Полный справочник цифр (LEGACY)
 
-Извлечено напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`. Скрипты парсера: `parser/`. Все цифры — НЕмодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.
+> ⚠ **Этот файл — устаревшая монолитная версия.** Актуальная структурированная справка — в [`reference/`](reference/README.md) (главы 01-06, нации, сравнения), производные расчёты — в [`reports/`](reports/README.md). Файл сохраняется для обратной совместимости со старыми ссылками.
+
+Извлечено напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`. Скрипты парсера: `parser/`. Все цифры — немодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.
 
 **Версия игры:** актуальная на момент парсинга (Steam install).
 

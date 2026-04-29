@@ -36,10 +36,14 @@ def main():
     nation_name = {n["sid"]: (n["name_en"] or n["sid"]) for n in data["nations"]}
     nation_name_ru = {n["sid"]: (n["name_ru"] or n["sid"]) for n in data["nations"]}
 
-    A("# Cossacks 3 — Полный справочник цифр\n")
+    A("# Cossacks 3 — Полный справочник цифр (LEGACY)\n")
+    A("> ⚠ **Этот файл — устаревшая монолитная версия.** Актуальная структурированная "
+      "справка — в [`reference/`](reference/README.md) (главы 01-06, нации, сравнения), "
+      "производные расчёты — в [`reports/`](reports/README.md). "
+      "Файл сохраняется для обратной совместимости со старыми ссылками.\n")
     A("Извлечено напрямую из файлов игры в `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Cossacks 3\\data\\scripts\\`. "
       "Скрипты парсера: `parser/`. "
-      "Все цифры — НЕмодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.\n")
+      "Все цифры — немодифицированные значения из `unit.script`, `country.script`, `dmscript.global`.\n")
     A("**Версия игры:** актуальная на момент парсинга (Steam install).\n")
 
     A("## Содержание\n")

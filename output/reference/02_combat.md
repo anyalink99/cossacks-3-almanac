@@ -573,8 +573,8 @@ TTK = target.HP / DPS
 | Pikemen 18c | `pikeman18` (Pikeman, 18th century) | 9 | 0.2812 | pike | `pikeman18` (Pikeman, 18th century) | 85 | 0 |
 | Light Infantry | `roundshier` (Roundshier) | 6 | 0.375 | sword | `roundshier` (Roundshier) | 100 | 0 |
 | Musketeers 17c | `musketeer` (Musketeer, 17th century) | 12 | 4.69 | bullet | `musketeer` (Musketeer, 17th century) | 70 | 0 |
-| Musketeers 18c | `musketeer18` (Musketeer, 18th century) | 10 | 0.4375 | pike | `musketeer18pru` (Musketeer, 18th century) | 100 | 0 |
-| Grenadiers | `grenadier` (Grenadier) | 18 | 0.5 | pike | `grenadierdip` (Grenadier (mercenary)) | 120 | 0 |
+| Musketeers 18c | `musketeer18` (Musketeer, 18th century) | 16 | 4.69 | bullet | `musketeer18pru` (Musketeer, 18th century) | 100 | 0 |
+| Grenadiers | `grenadierdip` (Grenadier (mercenary)) | 16 | 5.31 | bullet | `grenadierdip` (Grenadier (mercenary)) | 120 | 0 |
 | Archers | `archerturdip` (Turkish archer (mercenary)) | 15 | 2.34 | arrow | `archerturdip` (Turkish archer (mercenary)) | 40 | 0 |
 | Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 19 | 5.31 | bullet | `lightcavalrydip` (Light cavalry (mercenary)) | 225 | 0 |
 | Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 19 | 5.31 | bullet | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 225 | 0 |
@@ -593,8 +593,8 @@ TTK = target.HP / DPS
 | **Pik18** (Pikemen 18c) | 1.6 | 4.2 | 2.7 | 4.7 | 2.2 | 3.1 | 3.7 | 1.2 | 7.0 | 7.0 | 12 | _2531_ | _844_ |
 | **LtInf** (Light Infantry) | 3.1 | 8.4 | 5.3 | 12 | 4.4 | 6.2 | 7.5 | 2.5 | 14 | 14 | 56 | _3375_ | _1125_ |
 | **Mus17** (Musketeers 17c) | 20 | 53 | 33 | 94 | 27 | 39 | 47 | 16 | 88 | 88 | _704_ | _42210_ | _14070_ |
-| **Mus18** (Musketeers 18c) | 2.2 | 5.6 | 3.7 | 6.2 | 3.1 | 4.4 | 5.2 | 1.8 | 9.8 | 9.8 | 16 | _3938_ | _1312_ |
-| **Gren** (Grenadiers) | 1.4 | 3.0 | 2.4 | 3.3 | 1.9 | 2.8 | 3.3 | 1.1 | 6.2 | 6.2 | 9.4 | _4500_ | _1500_ |
+| **Mus18** (Musketeers 18c) | 15 | 35 | 25 | 52 | 21 | 29 | 35 | 12 | 66 | 66 | _235_ | _42210_ | _14070_ |
+| **Gren** (Grenadiers) | 17 | 40 | 28 | 59 | 23 | 33 | 40 | 13 | 75 | 75 | _266_ | _47790_ | _15930_ |
 | **Arch** (Archers) | 7.8 | 23 | 13 | _234_ | 11 | 16 | 19 | 6.2 | 35 | 35 | 70 | _21060_ | _7020_ |
 | **LtCav** (Light Cavalry) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
 | **Drag** (Dragoons) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
@@ -618,8 +618,8 @@ real_TTK = ideal_TTK / hit_chance
 | Atk \ Def | Pea | Pik17 | LtInf | Mus17 | Gren | Arch | LtCav | HvCav |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | **Mus17** (Musketeers 17c, hit≈41%) | 47 | _127_ | _225_ | _66_ | _113_ | 38 | _211_ | _1691_ |
-| **Mus18** (Musketeers 18c, hit≈100%) | 2.2 | 6 | 6 | 3.1 | 5 | 1.8 | 10 | 16 |
-| **Gren** (Grenadiers, hit≈100%) | 1.4 | 3.0 | 3.3 | 1.9 | 3.3 | 1.1 | 6 | 9 |
+| **Mus18** (Musketeers 18c, hit≈41%) | 35 | _85_ | _125_ | 49 | _85_ | 28 | _158_ | _564_ |
+| **Gren** (Grenadiers, hit≈41%) | 40 | _96_ | _142_ | 56 | _96_ | 32 | _179_ | _638_ |
 | **Arch** (Archers, hit≈41%) | 19 | 56 | _562_ | 26 | 45 | 15 | _84_ | _169_ |
 | **LtCav** (Light Cavalry, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |
 | **Drag** (Dragoons, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |

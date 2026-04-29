@@ -33,6 +33,14 @@ RATES_MD = REPORTS_DIR / "production_rates.md"
 
 GAMESPEED_FAST = 1.4
 
+
+def heading_anchor(text: str) -> str:
+    """GitHub-flavored anchor for a heading. Mirrors writers/write_md_tree.py."""
+    import re as _re
+    s = text.lower()
+    s = _re.sub(r"[^\w\s\-]", "", s, flags=_re.UNICODE)
+    return s.replace(" ", "-")
+
 # Buildings the user typically cares about for strategy (per-nation)
 PER_NAT_BLD = ["cen", "hou", "bla", "bar", "ba2", "sta", "tem", "aca", "art", "dip"]
 COMMON_BLD = ["mil", "sto", "mar", "por", "tow", "gol", "iro", "coa"]
@@ -166,40 +174,50 @@ def write_tree_md(tree: dict):
     L.append("**Условные обозначения:**")
     L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")
     L.append("- `→ X, Y` — для разблокировки нужны X и Y одновременно")
-    L.append("- Для зданий показана базовая цена (см. `cossacks3_scaling_prices.md` для N>1)")
+    L.append("- Для зданий показана базовая цена (см. [`scaling_prices.md`](scaling_prices.md) для N>1)")
     L.append("")
-    L.append(f"## Содержание")
+    L.append("## Содержание")
     L.append("")
-    for nat in sorted(tree["nations"].keys()):
-        L.append(f"- [{nat}](#{nat})")
+    nations_sorted = sorted(tree["nations"].keys())
+    # Compact 3-column-style nation index: each entry links straight to building / unit / upgrade subsections
+    L.append("| Нация | Здания | Юниты | Ключевые апгрейды |")
+    L.append("|---|---|---|---|")
+    for nat in nations_sorted:
+        nt = tree["nations"][nat]
+        has_ug = any(ug["prereqs"] for ug in nt["upgrades"].values())
+        bld_link = f"[здания](#{heading_anchor(nat + ' — здания')})"
+        unit_link = f"[юниты](#{heading_anchor(nat + ' — юниты')})"
+        ug_link = (f"[апгрейды](#{heading_anchor(nat + ' — ключевые апгрейды (с зависимостями)')})"
+                   if has_ug else "—")
+        L.append(f"| **[{nat}](#{nat})** | {bld_link} | {unit_link} | {ug_link} |")
     L.append("")
 
-    for nat in sorted(tree["nations"].keys()):
+    for nat in nations_sorted:
         nt = tree["nations"][nat]
         L.append(f"## {nat}")
         L.append("")
         # Buildings
         L.append(f"### `{nat}` — здания")
         L.append("")
-        L.append("| sid | имя | время | цена | ферма | требует |")
+        L.append("| sid | имя | Время (g-сек) | цена | ферма | требует |")
         L.append("|---|---|---:|---|---:|---|")
         for sid in sorted(nt["buildings"].keys()):
             b = nt["buildings"][sid]
             cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in b["cost"].items() if v)
             prereqs_str = ", ".join(_fmt_prereq(p) for p in b["prereqs"]) or "—"
-            time_str = f"{b['buildtime_sec']:.1f}s" if b['buildtime_sec'] else "—"
+            time_str = f"{b['buildtime_sec']:.1f}" if b['buildtime_sec'] else "—"
             farm_str = str(b["farm"] or "—")
             L.append(f"| `{sid}` | {name_ru_en(b)} | {time_str} | {cost_str or '—'} | {farm_str} | {prereqs_str} |")
         L.append("")
         # Units
         L.append(f"### `{nat}` — юниты")
         L.append("")
-        L.append("| sid | имя | время | цена | trained_in | требует |")
+        L.append("| sid | имя | Время (g-сек) | цена | тренируется в | требует |")
         L.append("|---|---|---:|---|---|---|")
         for sid in sorted(nt["units"].keys()):
             u = nt["units"][sid]
             cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in u["cost"].items() if v)
-            time_str = f"{u['buildtime_sec']:.2f}s" if u['buildtime_sec'] else "—"
+            time_str = f"{u['buildtime_sec']:.2f}" if u['buildtime_sec'] else "—"
             prereqs_str = ", ".join(_fmt_prereq(p) for p in u["prereqs"]) or "—"
             tr_str = ", ".join(u["trained_in"]) or "—"
             L.append(f"| `{sid}` | {name_ru_en(u)} | {time_str} | {cost_str or '—'} | {tr_str} | {prereqs_str} |")
@@ -209,14 +227,16 @@ def write_tree_md(tree: dict):
         if ug_with_reqs:
             L.append(f"### `{nat}` — ключевые апгрейды (с зависимостями)")
             L.append("")
-            L.append("| sid | имя | время | цена | требует |")
+            L.append("| sid | имя | Время (g-сек) | цена | требует |")
             L.append("|---|---|---:|---|---|")
             for sid, ug in sorted(ug_with_reqs):
                 cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in ug["cost"].items() if v)
-                time_str = f"{ug['time_sec']:.1f}s" if ug['time_sec'] else "—"
+                time_str = f"{ug['time_sec']:.1f}" if ug['time_sec'] else "—"
                 prereqs_str = ", ".join(_fmt_prereq(p) for p in ug["prereqs"]) or "—"
                 L.append(f"| `{sid}` | {name_ru_en(ug)} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
             L.append("")
+        L.append("[↑ к содержанию](#содержание)")
+        L.append("")
     TREE_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {TREE_MD} ({TREE_MD.stat().st_size:,} bytes)")
 
@@ -251,6 +271,20 @@ def write_production_rates_md(data: dict):
     L.append("")
 
     nations = sorted(set(b["nation"] for b in data["buildings"]))
+    L.append("## Содержание")
+    L.append("")
+    for nat in nations:
+        bldgs = [b for b in data["buildings"] if b["nation"] == nat and (b.get("produces") or [])]
+        if not bldgs:
+            continue
+        # Anchor matches the auto-id of `### \`sid\` — name_ru_en` after backticks stripped.
+        bld_links = ", ".join(
+            f"[`{b['sid']}`](#{heading_anchor(b['sid'] + ' — ' + name_ru_en(b))})"
+            for b in sorted(bldgs, key=lambda x: x["sid"])
+        )
+        L.append(f"- **[{nat}](#{nat})** — {bld_links}")
+    L.append("")
+
     for nat in nations:
         L.append(f"## {nat}")
         L.append("")
@@ -263,7 +297,7 @@ def write_production_rates_md(data: dict):
         for b in sorted(bldgs, key=lambda x: x["sid"]):
             L.append(f"### `{b['sid']}` — {name_ru_en(b)}")
             L.append("")
-            L.append("| Юнит | имя | buildtime (g-sec) | темп (units/g-min) | темп (units/real-min @ fast) | F | G | I | ферма | расход еды |")
+            L.append("| Юнит | имя | Время (g-сек) | темп (units / g-мин) | темп (units / real-мин @ fast) | F | G | I | ферма | расход еды |")
             L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
             for unit_sid in sorted(b.get("produces") or []):
                 u = idx["units"].get((unit_sid, nat))
@@ -275,6 +309,8 @@ def write_production_rates_md(data: dict):
                 upkeep = (u.get("consume") or {}).get("food") if isinstance(u.get("consume"), dict) else None
                 L.append(f"| `{unit_sid}` | {name_ru_en(u)} | {bt:.2f} | {rate_g:.1f} | **{rate_r:.1f}** | {u.get('food') or 0} | {u.get('gold') or 0} | {u.get('iron') or 0} | {1 if not (u.get('peasantabsorber') or 0) else 0} | {upkeep or '—'} |")
             L.append("")
+        L.append("[↑ к содержанию](#содержание)")
+        L.append("")
     L.append("---")
     L.append("")
     L.append("## Замечания")

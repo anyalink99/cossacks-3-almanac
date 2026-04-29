@@ -55,6 +55,55 @@ def write_md(path: Path, lines: list[str]) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
+TEMPLATES_DIR = Path(__file__).parent / "templates"
+
+
+def render_template(name: str, **subs: object) -> list[str]:
+    """Load `writers/templates/<name>`, apply `str.format(**subs)` if subs given,
+    and return as a list of lines (compatible with the `out: list[str]` accumulator).
+
+    Templates may contain `{var}` placeholders. To include literal `{` / `}` in
+    template text (rare — almost only in code blocks), double them: `{{` / `}}`.
+    Templates with no `{...}` placeholders can be loaded with `render_template(name)`.
+    """
+    text = (TEMPLATES_DIR / name).read_text(encoding="utf-8")
+    if subs:
+        text = text.format(**subs)
+    return text.splitlines()
+
+
+def primary_weapon(unit: dict) -> dict:
+    """Pick the weapon to display in unit summary tables.
+
+    Many 18c units have multiple weapons (musketeer18 = bayonet[0] + musket[1];
+    grenadier = bayonet + musket + grenade). `weapons[0]` is often the bayonet,
+    which underrepresents the unit. Heuristic: pick the weapon with maximum
+    `radiusmax_tiles` (engagement range), tie-broken by `damage`. Returns {}
+    for unarmed units.
+    """
+    ws = unit.get("weapons") or []
+    if not ws:
+        return {}
+    return max(ws, key=lambda w: (w.get("radiusmax_tiles") or 0,
+                                   w.get("damage") or 0))
+
+
+def plural_ru(n: int, one: str, few: str, many: str) -> str:
+    """Russian numeric agreement: 1 вариант / 2-4 варианта / 5+, 11-14 вариантов.
+
+    Examples: plural_ru(1,'вариант','варианта','вариантов') → 'вариант'.
+    """
+    n_abs = abs(n) % 100
+    if 11 <= n_abs <= 14:
+        return many
+    n1 = n_abs % 10
+    if n1 == 1:
+        return one
+    if 2 <= n1 <= 4:
+        return few
+    return many
+
+
 def heading_anchor(text: str) -> str:
     """Convert heading text to a slug for cross-linking — matches the algorithm
     GitHub-flavored Markdown uses to auto-id headings.
@@ -327,44 +376,7 @@ def write_readme(data: dict) -> None:
     A("`cost(N) = floor(base_cost × (costpercent/100)^(N-1))`. См. "
       "[`../reports/scaling_prices.md`](../reports/scaling_prices.md).\n")
     A("---\n")
-    A("## Глоссарий: ключевые игровые теги\n")
-    A("Это краткие пояснения к флагам и полям, которые часто встречаются в скриптах "
-      "и в этом справочнике. Подробности — в файлах глав.\n")
-    A("**Идентификаторы и общие поля:**\n")
-    A("| Тег | Что значит |")
-    A("|---|---|")
-    A("| `sid` | Внутренний ID объекта в `unit.script` (например `bavcen`, `peaaus`, `aca.4`). |")
-    A("| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в [04_units.md](04_units.md). |")
-    A("| `usage` / `usage_short` | Класс юнита/здания: `lightinfantry`, `fasthorse`, `building`, `tower`, и т. д. Влияет на AI и формулы. |")
-    A("| `commonsid` / `cluster` | Кластер общих зданий (`eur`/`rus`/`tur`/`spa`/`ukr`/`por`). Например `eurmil` — мельница для всех eur-наций. |")
-    A("| `costpercent` | Множитель цены каждого следующего экземпляра здания: `cost(N) = floor(base × (cp/100)^(N-1))`. 100 = одинаковая, 300 = ×3 за второе, 0 = без масштабирования. |")
-    A("| `farm` | На сколько единиц здание поднимает лимит населения. |")
-    A("\n**Добыча и экономика:**\n")
-    A("| Тег | Что значит |")
-    A("|---|---|")
-    A("| `eff` (`resefficiency[cid][restype]`) | Текущая эффективность добычи в %. По умолчанию 100; апгрейды (mill, academy) добавляются **аддитивно**: `eff = 100 + Σ(апгрейды)`. Реальная порция = `floor(base_portion × eff / 100)`. |")
-    A("| `consume.food` / `consume[gold]` | Сколько ресурса юнит/здание потребляет в тик `gPlayer.counter.resconsume[…]`. Не путать с `cost` (цена постройки/найма). |")
-    A("| `peasantabsorber` | Сколько крестьян может находиться внутри здания (в шахте — до 5 базово, до 95 с апгрейдами). |")
-    A("| `produce[restype]` | Сколько ресурса добавляется к `gPlayer.counter.resincome` за каждого крестьянина внутри здания (для шахт = 13). |")
-    A("| `fieldlife` | Бонус прочности полей: каждый удар по полю снимает `max(1, 100/(1+fieldlife/100))` HP вместо 100. Апгрейды `aca.4` (+200) и `bla.1` (+100) дают суммарно 300 → 25 HP/удар, или ×4 еды с поля. |")
-    A("\n**Боевые флаги:**\n")
-    A("| Тег | Что значит |")
-    A("|---|---|")
-    A("| `bbuilt` | Здание полностью достроено (`True`) или ещё в стройке (`False`). При `False` входящий урон вычитает только `shield/3` вместо `shield`. |")
-    A("| `bcapture` | Здание можно захватить вражеской пехотой в радиусе `gc_gameplay_captureradius=4 тайла` без своих защитников рядом. Захват мгновенный. У всех башен (`gc_obj_usage_tower`) включается автоматически. |")
-    A("| `bnohungry` | Юнит/здание не потребляет food (нет голодной смерти). У всех зданий = `True`. У наёмников = `True` (но они едят gold через Rebellion). У крестьян и обычной пехоты = `False`. |")
-    A("| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Едят gold вместо food, при `gold=0` массово переходят к нейтралу (см. Rebellion в [01_economy.md](01_economy.md)). |")
-    A("| `bfamine` | Флаг голода у игрока: `food=0` И есть юниты с `consume>0`. Включает рандомную смерть юнитов с `bnohungry=False`. |")
-    A("| `brebellion` | Флаг бунта у игрока: `gold=0` И `consume[gold] > income[gold]`. Включает массовый дезертир наёмников. |")
-    A("| `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |")
-    A("| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [recon/determinism_audit.md](../../recon/determinism_audit.md). |")
-    A("| `gc_obj_weapon_kind_*` | Тип оружия: `pike` / `sword` / `bullet` / `cannister` / `arrow` / `cannonball` / `grenade` и др. От него зависит, какая колонка `protection[kind]` цели вычитается из урона. |")
-    A("\n**Время:**\n")
-    A("| Тег | Что значит |")
-    A("|---|---|")
-    A("| `gc_time_to_frames = 32` | 32 кадра в одной игровой секунде. Все длительности в скриптах (анимации, `pause`, `buildtime` юнитов) хранятся в кадрах. |")
-    A("| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/building_mechanics.md](../../recon/building_mechanics.md). |")
-    A("| game speed | `slow=7 / normal=10 / fast=14` тиков/сек. На fast: `1 game-sec = 1/1.4 ≈ 0.71 real-sec`. |")
+    out.extend(render_template("reference_readme_glossary.md"))
     A("\n---\n")
     A("## Где что искать\n")
     A("### Главы справочника (этот каталог)\n")
@@ -1161,12 +1173,12 @@ def write_combat(data: dict) -> None:
     # attack0 animation length via melee_swing_sec(sid) — see config.py.
     def median_unit_for_attack(cls: str) -> dict | None:
         units = by_class_full.get(cls, [])
-        with_dmg = [u for u in units if u.get("weapons") and u["weapons"][0].get("damage")]
+        with_dmg = [u for u in units if primary_weapon(u).get("damage")]
         if not with_dmg:
             return None
-        with_dmg.sort(key=lambda x: x["weapons"][0]["damage"])
+        with_dmg.sort(key=lambda x: primary_weapon(x).get("damage") or 0)
         median = with_dmg[len(with_dmg) // 2]
-        w = median["weapons"][0]
+        w = primary_weapon(median)
         pause = w.get("pause_sec")
         if pause in (None, 0, 0.0):
             pause = melee_swing_sec(median["sid"])
@@ -1467,18 +1479,8 @@ def write_buildings(data: dict) -> None:
       "`floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — "
       "в [`../reports/scaling_prices.md`](../reports/scaling_prices.md), генератор — "
       "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).\n")
-    A("## Расшифровка колонок\n")
-    A("| Колонка | Значение |\n|---|---|")
-    A("| **Здание** | Локализованное имя + `sid` |")
-    A("| **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |")
-    A("| **HP** | Очки здоровья достроенного здания |")
-    A("| **Время (с)** | `buildtime` в game-секундах. Для зданий хранится с множителем `gc_buildtime_modifier=10` (т.е. `frames × 10/32`). С N строителями: `time × 1.13 / N`. См. [recon/building_mechanics.md](../../recon/building_mechanics.md). |")
-    A("| **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |")
-    A("| **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |")
-    A("| **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |")
-    A("| **производит** | Список `sid` юнитов, которых здание умеет создавать. |")
-    A("| **Доп.** | Прочее: оружие башен, гарнизон, доход шахт. |")
-    A("\n**Жирным** в таблицах ниже — отклонения от базового значения (мода по столбцу), чтобы быстро видеть, чем нация отличается от большинства.\n")
+    out.extend(render_template("legend_buildings.md"))
+    A("")
     # TOC
     A("## Содержание\n")
     by_suffix_pn = defaultdict(list)
@@ -1519,7 +1521,7 @@ def write_buildings(data: dict) -> None:
         baseline_cols = ["hp", "buildtime_sec", "costpercent",
                           "food", "wood", "stone", "gold", "iron", "coal", "farm"]
         baselines = compute_baselines(rows, baseline_cols)
-        A("| Здание | Нация | HP | Время (с) | cost% | F | W | S | G | I | C | ферма | производит |")
+        A("| Здание | Нация | HP | Время (g-сек) | cost% | F | W | S | G | I | C | ферма | производит |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
         for b in rows:
             produces = b.get("produces") or []
@@ -1546,7 +1548,7 @@ def write_buildings(data: dict) -> None:
         for b in rows:
             by_sid[b["sid"]].append(b)
         A(f"### {suf} — {COMMON_NAMES.get(suf, suf)}\n")
-        A("| Здание (cluster) | Нации | HP | Время (с) | cost% | F | W | S | G | I | C | Доп. |")
+        A("| Здание (cluster) | Нации | HP | Время (g-сек) | cost% | F | W | S | G | I | C | Доп. |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
         for sid in sorted(by_sid.keys()):
             entries = by_sid[sid]
@@ -1593,18 +1595,8 @@ def write_units(data: dict) -> None:
     A("[← Index](README.md)\n")
     A("Все юниты сгруппированы по классу. Для параллельного сравнения внутри класса см. "
       "[compare/](compare/README.md).\n")
-    A("## Расшифровка колонок\n")
-    A("| Колонка | Значение |\n|---|---|")
-    A("| **Юнит** | Локализованное имя + `sid` (внутренний идентификатор из `unit.script`) |")
-    A("| **нации** | Список наций, имеющих этого юнита (`all` = доступен всем) |")
-    A("| **HP** | Очки здоровья при создании |")
-    A("| **Время** | `buildtime` в game-секундах (1 game-сек = 32 кадра; для real-сек @ fast делите на 1.4) |")
-    A("| **F / G / I** | Цена за единицу: **Food / Gold / Iron**. Wood/Stone/Coal у юнитов почти всегда = 0, потому скрыты. |")
-    A("| **урон** | `weapon[0].damage` — сырой урон одного выстрела/удара ДО вычета защиты цели. Полная формула — в [02_combat.md](02_combat.md). |")
-    A("| **дальн. (тайл.)** | Радиус оружия в тайлах (`weapon[0].radiusmax / 53.33`). 0 для рукопашных. |")
-    A("| **перезарядка** | `weapon[0].pause` в секундах между выстрелами (0 для рукопашных — там темп задаётся анимацией). |")
-    A("| **пика / меч / пуля / картечь / стрела / ядро** | **Защита** юнита от соответствующего типа оружия (`prot_pike`/`prot_sword`/`prot_bullet`/`prot_cannister`/`prot_arrow`/`prot_cannonball`). Чем выше — тем меньше входящий урон. |")
-    A("\n«—» в любой колонке = поле отсутствует у этого юнита (например, рукопашник не имеет дальности).\n")
+    out.extend(render_template("legend_units.md"))
+    A("")
     by_class = defaultdict(list)
     for u in data["units"]:
         cls = classify_unit(u["sid"], u.get("usage_short", ""))
@@ -1638,8 +1630,10 @@ def write_units(data: dict) -> None:
         for u in units:
             by_sid[u["sid"]].append(u)
         cls_label = cls_ru(cls)
-        anchor = heading_anchor(f"{cls_label} {len(by_sid)} вариантов")
-        A(f"- [{cls_label}](#{anchor}) ({len(by_sid)} вариантов)")
+        n = len(by_sid)
+        word = plural_ru(n, "вариант", "варианта", "вариантов")
+        anchor = heading_anchor(f"{cls_label} {n} {word}")
+        A(f"- [{cls_label}](#{anchor}) ({n} {word})")
     A("")
 
     for cls in classes_with_content:
@@ -1647,13 +1641,15 @@ def write_units(data: dict) -> None:
         by_sid = defaultdict(list)
         for u in units:
             by_sid[u["sid"]].append(u)
-        A(f"## {cls_ru(cls)} ({len(by_sid)} вариантов)\n")
-        A("| Юнит | нации | HP | Время | F | G | I | урон | дальн. (тайл.) | перезарядка | пика | меч | пуля | картечь | стрела | ядро |")
+        n = len(by_sid)
+        word = plural_ru(n, "вариант", "варианта", "вариантов")
+        A(f"## {cls_ru(cls)} ({n} {word})\n")
+        A("| Юнит | нации | HP | Время (g-сек) | F | G | I | урон | дальн. (тайл.) | перезарядка | пика | меч | пуля | картечь | стрела | ядро |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
         for sid in sorted(by_sid.keys()):
             entries = by_sid[sid]
             u = entries[0]
-            w0 = (u["weapons"] or [{}])[0]
+            w0 = primary_weapon(u)
             nat_count = len(entries)
             if nat_count >= 18:
                 nat_str = "all"
@@ -1679,20 +1675,8 @@ def write_upgrades(data: dict) -> None:
     A("# 05. Апгрейды\n")
     A("[← Index](README.md)\n")
     A("Апгрейды сгруппированы по **месту** исследования: academy / blacksmith / mill / stable / barracks / mine / tower / wall / ...\n")
-    A("**Структура `sid`:**")
-    A("- `<nat><place>.<unit>.<itype>.<level>` — поюнитный апгрейд в кузнице/конюшне/бараке (например `auspolbla.pikeman.1.3` = Австрия → кузница → пикинёр → урон → уровень 3).")
-    A("- `<nat><place>.<level>` — один на нацию, в академии/мельнице/ратуше (например `auaca.4` = Австрия → академия → апгрейд №4 «field melioration»).")
-    A("- `<cluster><place>.<level>` — общие для кластера наций (например `eurtow.1` для всех eur-наций).")
-    A("- `eurgol.N` / `euriro.N` / `eurcoa.N` — апгрейды шахт (одинаковы для всех наций).\n")
-    A("## Расшифровка колонок\n")
-    A("| Колонка | Значение |\n|---|---|")
-    A("| **Апгрейд** | Локализованное имя + `sid` |")
-    A("| **нации** | Список наций (или `all` если применимо ≥18). Если у нации своё значение через `_country_ModifyUpgrade` — она в отдельной строке. |")
-    A("| **itype** | Тип эффекта в человеческих терминах (расшифровка `gc_upg_type_*`): `+damage`, `+damage %`, `+protection`, `+food eff %`, `price %`, `build time %`, `enable unit`, `+shield`, ...|")
-    A("| **val** | Значение эффекта. Семантика зависит от `itype`: для процентных = просто число (50 значит +50%, **−7500000 в `aca.10` = -75% buildtime — деление на 10⁵ ломает scale в скрипте**), для +damage / +shield = единицы. |")
-    A("| **F / W / S / G / I / C** | Цена исследования: **Food / Wood / Stone / Gold / Iron / Coal**. |")
-    A("| **время** | `time` в game-секундах. Здание занято исследованием на это время. |")
-    A("\n")
+    out.extend(render_template("legend_upgrades.md"))
+    A("")
     # TOC will be inserted here after we know which places have content; we build it below
 
     PLACE_NAMES = {
@@ -1943,7 +1927,7 @@ def write_nations(data: dict) -> None:
                 rows = [u for u in units_by_nation[nat] if u["sid"] == sid]
                 if rows:
                     u = rows[0]
-                    w0 = (u["weapons"] or [{}])[0]
+                    w0 = primary_weapon(u)
                     A(f"| {name_cell_full(u)} | {usage_ru(u.get('usage_short'))} "
                       f"| {fmt(u['hp'])} | {fmt(w0.get('damage'))} | {fmt(w0.get('pause_sec'))} "
                       f"| {fmt(w0.get('radiusmax_tiles'))} |")
@@ -1971,7 +1955,7 @@ def write_nations(data: dict) -> None:
         A(f"### Уникальные для нации ({len(per_nat_b)})\n")
         A("> **Жирным** — значения, отличающиеся от базовых (мода по всем нациям) "
           "для того же типа здания.\n")
-        A("| Здание | HP | Время | cost% | F | W | S | G | I | C | ферма | производит |")
+        A("| Здание | HP | Время (g-сек) | cost% | F | W | S | G | I | C | ферма | производит |")
         A("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
         for b in per_nat_b:
             suf = b["sid"][len(nat):]
@@ -1992,7 +1976,7 @@ def write_nations(data: dict) -> None:
               f"| {prod_str or '—'} |")
         A("")
         A(f"### Общий кластер ({len(common_b)})\n")
-        A("| Здание | HP | Время | cost% | F | W | S | G | I | C | Доп. |")
+        A("| Здание | HP | Время (g-сек) | cost% | F | W | S | G | I | C | Доп. |")
         A("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
         for b in common_b:
             extra = []
@@ -2028,10 +2012,10 @@ def write_nations(data: dict) -> None:
             if not units:
                 continue
             A(f"### {cls_ru(cls)}\n")
-            A("| Юнит | HP | Время | F | G | I | урон | дальн. (тайл.) | перезарядка | уникальность |")
+            A("| Юнит | HP | Время (g-сек) | F | G | I | урон | дальн. (тайл.) | перезарядка | уникальность |")
             A("|---|---:|---:|---:|---:|---:|---:|---:|---:|---|")
             for u in sorted(units, key=lambda x: x["sid"]):
-                w0 = (u["weapons"] or [{}])[0]
+                w0 = primary_weapon(u)
                 A(f"| {name_cell_full(u)} | {fmt(u['hp'])} | {fmt(u['buildtime_sec'])} "
                   f"| {fmt(u['food'])} | {fmt(u['gold'])} | {fmt(u['iron'])} "
                   f"| {fmt(w0.get('damage'))} | {fmt(w0.get('radiusmax_tiles'))} | {fmt(w0.get('pause_sec'))} "
@@ -2118,8 +2102,6 @@ def write_compare(data: dict) -> None:
         A(f"# {title}\n")
         A("[← compare/](README.md) · [← Index](../README.md)\n")
         A(intro + "\n")
-        A("> **Жирным** выделены значения, отличающиеся от базовых (мода по столбцу). "
-          "Так сразу видно, какой из юнитов «особенный» в этой колонке.\n")
         # Collect rows
         rows = []
         for cls in classes:
@@ -2133,7 +2115,7 @@ def write_compare(data: dict) -> None:
             if key in seen:
                 continue
             seen.add(key)
-            w0 = (u["weapons"] or [{}])[0]
+            w0 = primary_weapon(u)
             flat = {
                 "sid": u["sid"], "nation": u["nation"],
                 "name_en": u.get("name_en") or "",
@@ -2161,7 +2143,24 @@ def write_compare(data: dict) -> None:
                           "prot_cannister", "prot_arrow", "prot_cannonball"]
         baselines = compute_baselines(flat_rows, baseline_cols)
 
-        A("| Юнит | Нация | HP | Время | F | G | I | урон | дальн. (тайл.) | перезарядка | пика | меч | пуля | картечь | стрела | ядро | уникальность |")
+        # Friendly labels for the baseline summary (col_key → human label)
+        BASELINE_LABELS = {
+            "hp": "HP", "buildtime_sec": "Время (g-сек)",
+            "food": "F", "gold": "G", "iron": "I",
+            "damage": "урон", "radiusmax_tiles": "дальность (тайл.)",
+            "pause_sec": "перезарядка (с)",
+            "prot_pike": "пика", "prot_sword": "меч", "prot_bullet": "пуля",
+            "prot_cannister": "картечь", "prot_arrow": "стрела",
+            "prot_cannonball": "ядро",
+        }
+
+        A("> **Базовые значения** (мода по столбцу — что считается «обычным» в этом классе): "
+          + ", ".join(f"{BASELINE_LABELS.get(k, k)} = {v}"
+                       for k, v in baselines.items() if v is not None) + ".")
+        A("> **Жирным** в таблице ниже — отклонения от этих базовых значений. "
+          "Так сразу видно, какой юнит «особенный» в каждой колонке.\n")
+
+        A("| Юнит | Нация | HP | Время (g-сек) | F | G | I | урон | дальн. (тайл.) | перезарядка (с) | пика | меч | пуля | картечь | стрела | ядро | уникальность |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
         for r in flat_rows:
             A(f"| {name_cell_short(r)} | {r['nation']} "
@@ -2180,11 +2179,6 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(r['prot_arrow'], baselines['prot_arrow'])} "
               f"| {bold_if(r['prot_cannonball'], baselines['prot_cannonball'])} "
               f"| {r['uniqueness'] or '—'} |")
-        # Footer with baseline reminder
-        A("")
-        A("**Базовые значения (мода по столбцу):** "
-          + ", ".join(f"{k}={v}" for k, v in baselines.items()
-                       if v is not None) + ".")
         write_md(cmp_dir / filename, out)
 
     write_unit_compare("pikemen.md", ["Pikemen 17c"], "Пикинеры 17 век",
@@ -2305,13 +2299,21 @@ def write_compare(data: dict) -> None:
         A(f"# {title}\n")
         A("[← compare/](README.md) · [← Index](../README.md)\n")
         A(intro + "\n")
-        A("> **Жирным** — отклонения от базовых значений (мода по столбцу).\n")
         rows = sorted([b for b in data["buildings"]
                        if b["sid"].endswith(sid_suffix) and b["kind"] == "per-nation"],
                       key=lambda x: x["nation"])
         baseline_cols = ["hp", "buildtime_sec", "costpercent", "wood", "stone", "gold", "farm"]
         baselines = compute_baselines(rows, baseline_cols)
-        A("| Здание | Нация | HP | Время (с) | cost% | W | S | G | ферма | производит |")
+        BLD_LABELS = {
+            "hp": "HP", "buildtime_sec": "Время (g-сек)",
+            "costpercent": "cost%", "wood": "W", "stone": "S",
+            "gold": "G", "farm": "ферма",
+        }
+        A("> **Базовые значения** (мода по столбцу): "
+          + ", ".join(f"{BLD_LABELS.get(k, k)} = {v}" for k, v in baselines.items()
+                       if v is not None) + ".")
+        A("> **Жирным** в таблице ниже — отклонения от этих значений.\n")
+        A("| Здание | Нация | HP | Время (g-сек) | cost% | W | S | G | ферма | производит |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---|")
         for b in rows:
             produces = b.get("produces") or []
@@ -2325,9 +2327,6 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(b['gold'], baselines['gold'])} "
               f"| {bold_if(b['farm'], baselines['farm'])} "
               f"| {prod_str or '—'} |")
-        A("")
-        A("**Базовые значения:** " + ", ".join(f"{k}={v}" for k, v in baselines.items()
-                                          if v is not None))
         write_md(cmp_dir / filename, out)
 
     write_building_compare("town_halls.md", "cen", "Ратуши (Town Halls)",
@@ -2353,7 +2352,7 @@ def write_compare(data: dict) -> None:
                       key=lambda x: x["nation"])
         baseline_cols = ["hp", "buildtime_sec", "costpercent", "wood", "stone", "gold", "farm"]
         baselines = compute_baselines(rows, baseline_cols)
-        A("| Здание | Нация | HP | Время | cost% | W | S | G | ферма | производит |")
+        A("| Здание | Нация | HP | Время (g-сек) | cost% | W | S | G | ферма | производит |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---|")
         for b in rows:
             produces = b.get("produces") or []

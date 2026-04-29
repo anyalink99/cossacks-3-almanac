@@ -51,6 +51,19 @@ def main():
     # Drop default sheet
     wb.remove(wb.active)
 
+    # ----- 0. README (deprecation notice) -----
+    ws_readme = wb.create_sheet("README")
+    ws_readme["A1"] = "Cossacks 3 — Reference (LEGACY xlsx)"
+    ws_readme["A1"].font = openpyxl.styles.Font(bold=True, size=14)
+    ws_readme["A3"] = ("⚠ Это устаревший монолитный xlsx. Актуальная структурированная "
+                       "справка — в каталоге output/reference/ (главы 01-06, нации, "
+                       "сравнения). Производные расчёты — в output/reports/. "
+                       "Файл сохраняется для обратной совместимости.")
+    ws_readme["A3"].alignment = openpyxl.styles.Alignment(wrap_text=True, vertical="top")
+    ws_readme.row_dimensions[3].height = 70
+    ws_readme.column_dimensions["A"].width = 100
+    ws_readme["A5"] = "Sanity checks: см. лист «Sanity_checks»."
+
     # ----- 1. Buildings -----
     headers = ["sid", "nation", "name_en", "name_ru", "kind", "cluster",
                "hp", "buildtime_sec", "costpercent",
