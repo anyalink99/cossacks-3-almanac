@@ -1,13 +1,27 @@
-"""Compute exact builder-slot counts for all buildings.
+"""Compute builder-slot counts (how many peasants can simultaneously build a structure).
 
-Faithfully simulates `_unit_CalcBuilderPoints` from `data/scripts/lib/unit.script:8702-9006`.
-Algorithm: walk the perimeter of the building's collision mask in cell-edge steps of 0.5 tile,
-placing a builder point every `dist=1.0` tile. Hard cap from `gc_MaxBuilderCount=30`.
+Two regimes, picked per-mask:
 
-Reads each `.prop` file in `<game>/data/objects/buildings/`, parses
-`collisionmaskproperty.Mask`, runs the simulation, and writes:
-  - output/derived/builder_slots.json  — {sid: {cols, rows, cells, perim_tiles, slots}}
-  - output/reports/builder_slots.md    — sortable per-nation table
+1. **Walker** — faithful port of `_unit_CalcBuilderPoints` from
+   `data/scripts/lib/unit.script:8702-9006`. Walks the perimeter of the topmost-leftmost
+   connected component in 0.5-tile steps, placing a point every `dist=1.0`.
+   Empirically verified against in-game counts for: tursto=8, spasto=7, polcen=18,
+   eurmil=10, rusmil=7, ruscen=24, polbla=18, polba2=25.
+
+2. **Bbox-of-union** — used only when the mask has multiple disconnected components
+   AND every component is linear (1 cell wide in some axis). For these "corner-post"
+   masks, the walker undercounts because it walks only one bar. Empirical:
+   russto=8 (matches bbox 5×3 perim exactly), eursto=8 (bbox 6×3 perim=9, off by 1
+   — accepted as a known edge case).
+
+Hard cap from `gc_MaxBuilderCount=30`. Note: gates (`*sga`, `*wga`, `*sga_*`) are
+**not built by peasants** in normal play — wall players click an existing wall segment
+to convert it. Their slot counts are reported but unused in practice.
+
+Reads each `.prop` in `<game>/data/objects/buildings/`, parses
+`collisionmaskproperty.Mask`, runs the chosen formula, and writes:
+  - output/derived/builder_slots.json  — {sid: {cols, rows, cells, slots, method, ...}}
+  - output/reports/builder_slots.md    — per-category table (Russian)
 """
 from __future__ import annotations
 import json
@@ -244,6 +258,72 @@ def first_component(mask: list[list[bool]]) -> tuple[list[list[bool]], int]:
     return comp, n
 
 
+def all_components(mask: list[list[bool]]) -> list[list[tuple[int, int]]]:
+    """Return list of all 4-connected components as cell-coordinate lists."""
+    rows = len(mask)
+    cols = len(mask[0]) if rows else 0
+    seen = [[False] * cols for _ in range(rows)]
+    comps: list[list[tuple[int, int]]] = []
+    for r in range(rows):
+        for c in range(cols):
+            if not mask[r][c] or seen[r][c]:
+                continue
+            comp: list[tuple[int, int]] = []
+            stack = [(r, c)]
+            while stack:
+                rr, cc = stack.pop()
+                if rr < 0 or rr >= rows or cc < 0 or cc >= cols:
+                    continue
+                if seen[rr][cc] or not mask[rr][cc]:
+                    continue
+                seen[rr][cc] = True
+                comp.append((rr, cc))
+                stack.extend([(rr - 1, cc), (rr + 1, cc), (rr, cc - 1), (rr, cc + 1)])
+            comps.append(comp)
+    return comps
+
+
+def is_linear(comp: list[tuple[int, int]]) -> bool:
+    """True if component spans only 1 row OR only 1 column (a 1-cell-wide bar)."""
+    if not comp:
+        return True
+    rs = {r for r, _ in comp}
+    cs = {c for _, c in comp}
+    return len(rs) == 1 or len(cs) == 1
+
+
+def union_bbox(cells: list[tuple[int, int]]) -> tuple[int, int]:
+    """Return (cols, rows) of the bounding rectangle covering all given cells."""
+    if not cells:
+        return 0, 0
+    rmin = min(r for r, _ in cells)
+    rmax = max(r for r, _ in cells)
+    cmin = min(c for _, c in cells)
+    cmax = max(c for _, c in cells)
+    return cmax - cmin + 1, rmax - rmin + 1
+
+
+def calc_slots(mask: list[list[bool]]) -> tuple[int, str]:
+    """Return (slots_raw, method) — uncapped slot count plus which formula was used.
+
+    Rule (empirically derived):
+    - If mask is disconnected AND every component is linear (1 cell wide), use the
+      bbox of the union (cols+rows). This catches "corner-post" storehouse masks
+      where the walker would only see one bar.
+    - Otherwise use the engine's literal walker on the topmost-leftmost component.
+      For convex/single-component masks this equals cols+rows of that component's
+      bbox by Manhattan-perimeter geometry, which has been verified empirically.
+    """
+    comps = all_components(mask)
+    if not comps:
+        return 0, "empty"
+    if len(comps) > 1 and all(is_linear(c) for c in comps):
+        cells = [cell for comp in comps for cell in comp]
+        c, r = union_bbox(cells)
+        return c + r, "bbox_union"
+    return simulate_builder_points(mask), "walker"
+
+
 def main():
     DERIVED_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -257,82 +337,130 @@ def main():
         rows = len(mask)
         cols = len(mask[0])
         cells_total = sum(sum(r) for r in mask)
-        comp_mask, cells_walked = first_component(mask)
-        p_total = perim_tiles(mask)
-        p_walked = perim_tiles(comp_mask)
-        sim = simulate_builder_points(mask)
-        capped = min(sim, GC_MAX_BUILDER_COUNT)
+        comps = all_components(mask)
+        n_comps = len(comps)
+        all_linear = bool(comps) and all(is_linear(c) for c in comps)
+        cells_in_comps = [cell for comp in comps for cell in comp]
+        bbox_cols, bbox_rows = union_bbox(cells_in_comps)
+        slots_raw, method = calc_slots(mask)
+        capped = min(slots_raw, GC_MAX_BUILDER_COUNT)
         results[sid] = {
             "cols": cols,
             "rows": rows,
             "cells_total": cells_total,
-            "cells_walked": cells_walked,
-            "disconnected": cells_total != cells_walked,
+            "n_components": n_comps,
+            "all_linear": all_linear,
+            "bbox_cols": bbox_cols,
+            "bbox_rows": bbox_rows,
             "footprint_tiles2": round(cells_total * 0.25, 2),
-            "perim_walked_tiles": round(p_walked, 2),
-            "perim_total_tiles": round(p_total, 2),
-            "slots_raw": sim,
+            "method": method,
+            "slots_raw": slots_raw,
             "slots": capped,
         }
-
-    bavba2 = results.get("bavba2")
-    if bavba2:
-        print(f"sanity: bavba2 → slots_raw={bavba2['slots_raw']} slots={bavba2['slots']} perim={bavba2['perim_walked_tiles']}")
 
     out_json = DERIVED_DIR / "builder_slots.json"
     out_json.write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Wrote {out_json} ({len(results)} buildings)")
 
-    # Per-suffix summary table
+    # Sanity: storehouses (the cases that drove the model)
+    for sid in ("russto", "eursto", "spasto", "tursto"):
+        info = results.get(sid)
+        if info:
+            print(f"  {sid}: {info['bbox_cols']}×{info['bbox_rows']} "
+                  f"comps={info['n_components']} linear={info['all_linear']} "
+                  f"method={info['method']} → slots={info['slots']}")
+
     L = []
-    L.append("# Cossacks 3 — Builder slots per building")
+    L.append("# Cossacks 3 — Слоты строителей у зданий")
     L.append("")
-    L.append("Сколько крестьян могут одновременно строить здание (точная симуляция "
-             "[`_unit_CalcBuilderPoints`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L8702)).")
+    L.append("Сколько крестьян могут одновременно строить здание. Считается из "
+             "`collisionmaskproperty.Mask` каждого `.prop` файла в "
+             "`data/objects/buildings/` по правилу, эмпирически согласованному с игрой.")
     L.append("")
-    L.append("**Алгоритм:** обход периметра collision mask, 1 точка через каждый `dist=1.0` тайл. "
-             "Hard cap движка: `gc_MaxBuilderCount = 30`.")
+    L.append("**Формула** (см. [`recon/building_mechanics.md`](../../recon/building_mechanics.md), "
+             "раздел про слоты):")
     L.append("")
-    L.append("`slots_raw` — результат симуляции до cap; `slots` — фактический cap (raw, обрезанный до 30). "
-             "`perim` — длина периметра обходимой компоненты в тайлах. `cells` — закрашенных клеток в этой "
-             "компоненте. `footprint_tiles²` ≈ cells × 0.25.")
+    L.append("- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "
+             "([`unit.script:8702-9006`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8702)) "
+             "по верхне-левой компоненте collision mask. Для выпуклых форм результат равен "
+             "`bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.")
+    L.append("- Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — "
+             "движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. "
+             "Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).")
+    L.append("- Жёсткий лимит движка: `gc_MaxBuilderCount = 30`.")
     L.append("")
-    L.append("⚠️ Если маска состоит из нескольких несвязанных компонентов (см. колонку «disc»), "
-             "движок обходит только верхнюю-левую — для остальных частей крестьянам **не назначаются** "
-             "слоты. Это поведение из [`unit.script:8722-8729`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L8722).")
+    L.append("**Эмпирически подтверждено** (счёт крестьян в игре):")
+    L.append("")
+    L.append("| sid | предсказание | в игре | примечание |")
+    L.append("|---|---|---|---|")
+    L.append("| `polcen` (польский ГЦ) | 18 | 18 ✓ | выпуклый ромб |")
+    L.append("| `ruscen` (русский ГЦ) | 24 | 24 ✓ | выпуклый |")
+    L.append("| `swecen` (шведский ГЦ) | **27** | **27 ✓** | **non-convex** (арка с двумя ногами) |")
+    L.append("| `eurmil` (европейская мельница) | 10 | 10 ✓ | выпуклый |")
+    L.append("| `rusmil` (русская мельница) | 7 | 7 ✓ | выпуклый |")
+    L.append("| `polbla` (польская кузница) | 18 | 18 ✓ | выпуклый |")
+    L.append("| `polba2` (польская казарма 18 в.) | 25 | 25 ✓ | выпуклый |")
+    L.append("| `tursto` (турецкий склад) | 8 | 8 ✓ | walker по большой компоненте |")
+    L.append("| `spasto` (испанский склад) | 7 | 7 ✓ | walker по большой компоненте, орфан игнорируется (видна пустая левая сторона) |")
+    L.append("| `russto` (русский склад) | 8 | 8 ✓ | правило bbox_union для линейных опор |")
+    L.append("| `eursto` (европейский склад) | 9 | 8 | известное расхождение −1 |")
+    L.append("")
+    L.append("**Walker корректен и на non-convex** (`swecen` подтвердил это эмпирически: 27 = walker, "
+             "не 24 = bbox_perim). Movement по внутренним вмятинам арки добавляет +3 слота относительно "
+             "выпуклого bbox. Всего 5 single-component non-convex зданий: `scocen` (+4), `swecen` (+3), "
+             "`portem` (+2), `bavhou` (+1), `ukrtem` (+1) — для них walker даёт больше слотов, чем bbox-perim.")
+    L.append("")
+    L.append("**Колонки таблиц:**")
+    L.append("")
+    L.append("- `bbox` — размеры прямоугольника, охватывающего все заполненные ячейки маски (в half-tile клетках).")
+    L.append("- `cells` — общее число заполненных ячеек.")
+    L.append("- `комп.` — число несвязанных компонент в маске (для большинства = 1).")
+    L.append("- `метод` — `walker` (точный обход) или `bbox_union` (правило для линейных «опор»).")
+    L.append("- `слоты` — итоговое число одновременных строителей (после cap=30).")
+    L.append("")
+    L.append("⚠️ **Ворота** (`*sga`, `*wga`, `*sga_*`, `*wga_*`) не строятся крестьянами. "
+             "Игрок выделяет существующий участок стены и кликает «превратить в ворота» — "
+             "слоты в таблицах ниже информативны, но в обычной игре не используются.")
     L.append("")
 
     suffix_groups = {
-        "Town centers (cen)": "cen",
-        "Storehouses (sto)": "sto",
-        "Mills (mil)": "mil",
-        "Houses (hou)": "hou",
-        "Farms (sta)": "sta",
-        "Markets (mar)": "mar",
-        "Diplomatic (dip)": "dip",
-        "Temples (tem)": "tem",
-        "Barracks 17c (bar)": "bar",
-        "Barracks 18c (ba2)": "ba2",
-        "Stables (sta)": None,  # handled by sta above
-        "Blacksmith (bla)": "bla",
-        "Academy (aca)": "aca",
-        "Artillery depot (art)": "art",
-        "Shipyards (por)": "por",
-        "Towers (tow)": "tow",
-        "Mines (gol/iro/coa)": ("gol", "iro", "coa"),
-        "Walls (swa/wwa)": ("swa", "wwa"),
-        "Gates (sga/wga)": ("sga", "wga"),
+        "Городские центры (cen)": "cen",
+        "Склады (sto)": "sto",
+        "Мельницы (mil)": "mil",
+        "Дома (hou)": "hou",
+        "Конюшни (sta)": "sta",
+        "Базары (mar)": "mar",
+        "Дипломатические центры (dip)": "dip",
+        "Храмы (tem)": "tem",
+        "Казармы 17 в. (bar)": "bar",
+        "Казармы 18 в. (ba2)": "ba2",
+        "Кузницы (bla)": "bla",
+        "Академии (aca)": "aca",
+        "Артиллерийские депо (art)": "art",
+        "Порты (por)": "por",
+        "Башни (tow)": "tow",
+        "Шахты (gol/iro/coa)": ("gol", "iro", "coa"),
+        "Стены (swa/wwa)": ("swa", "wwa"),
+        "Ворота (sga/wga) — не строятся крестьянами": ("sga", "wga"),
     }
 
     by_suffix: dict[str, list[tuple[str, dict]]] = {}
     for sid, info in results.items():
-        # last 3 chars after the 3-char nation/cluster prefix
         sfx = sid[-3:] if len(sid) >= 3 else sid
         by_suffix.setdefault(sfx, []).append((sid, info))
 
+    def render_table(rows_data):
+        out = ["| sid | bbox | cells | комп. | метод | слоты |",
+               "|---|---|---:|---:|---|---:|"]
+        for sid, info in rows_data:
+            method = info["method"]
+            method_label = "walker" if method == "walker" else ("bbox_union" if method == "bbox_union" else method)
+            out.append(f"| `{sid}` | {info['bbox_cols']}×{info['bbox_rows']} | "
+                       f"{info['cells_total']} | {info['n_components']} | "
+                       f"{method_label} | **{info['slots']}** |")
+        return out
+
     for label, suffixes in suffix_groups.items():
-        if suffixes is None:
-            continue
         keys = (suffixes,) if isinstance(suffixes, str) else suffixes
         rows = []
         for k in keys:
@@ -342,41 +470,23 @@ def main():
         rows.sort(key=lambda x: x[1]["slots"])
         L.append(f"## {label}")
         L.append("")
-        L.append("| sid | cols × rows | cells (walked / total) | perim (walked) | disc | slots |")
-        L.append("|---|---|---|---|---|---|")
-        for sid, info in rows:
-            cells = (f"{info['cells_walked']} / {info['cells_total']}"
-                     if info["disconnected"] else f"{info['cells_walked']}")
-            disc = "⚠ да" if info["disconnected"] else "—"
-            L.append(f"| `{sid}` | {info['cols']}×{info['rows']} | {cells} | "
-                     f"{info['perim_walked_tiles']} | {disc} | **{info['slots']}** |")
+        L.extend(render_table(rows))
         L.append("")
 
-    # leftover suffixes not covered
     covered = set()
     for s in suffix_groups.values():
-        if s is None:
-            continue
         if isinstance(s, str):
             covered.add(s)
         else:
             covered.update(s)
     other_keys = sorted(set(by_suffix.keys()) - covered)
     if other_keys:
-        L.append("## Прочие (не классифицированы по суффиксу)")
+        L.append("## Прочие (миссии/сегменты стен/мосты)")
         L.append("")
-        L.append("| sid | cols × rows | cells (walked / total) | perim (walked) | disc | slots |")
-        L.append("|---|---|---|---|---|---|")
-        rows = []
-        for k in other_keys:
-            rows.extend(by_suffix[k])
-        rows.sort(key=lambda x: (x[0]))
-        for sid, info in rows:
-            cells = (f"{info['cells_walked']} / {info['cells_total']}"
-                     if info["disconnected"] else f"{info['cells_walked']}")
-            disc = "⚠ да" if info["disconnected"] else "—"
-            L.append(f"| `{sid}` | {info['cols']}×{info['rows']} | {cells} | "
-                     f"{info['perim_walked_tiles']} | {disc} | **{info['slots']}** |")
+        L.extend(render_table(sorted(
+            [item for k in other_keys for item in by_suffix[k]],
+            key=lambda x: x[0],
+        )))
         L.append("")
 
     out_md = REPORTS_DIR / "builder_slots.md"

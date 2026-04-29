@@ -126,7 +126,17 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 2. Для стен — из [`data/game/var/wallcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/wallcustom.cfg) (BuilderPoints per wall variation, до 16).
 3. (Опционально) Override per-building в [`data/game/var/objcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/objcustom.cfg) — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
-**Точные значения для каждого здания:** [`output/reports/builder_slots.md`](../output/reports/builder_slots.md) и [`output/derived/builder_slots.json`](../output/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py), это построчный порт алгоритма движка на Python.
+**Точные значения для каждого здания:** [`output/reports/builder_slots.md`](../output/reports/builder_slots.md) и [`output/derived/builder_slots.json`](../output/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py).
+
+**Геометрический инсайт.** Для любой выпуклой формы (диск, ромб, скруглённый прямоугольник, диагональный slab — то есть для подавляющего большинства зданий) Manhattan-периметр = `bbox_cols + bbox_rows`. Walker и `bbox_cols+bbox_rows` дают одинаковый результат для convex.
+
+**Non-convex здания** — есть, но мало (5 из ~350): `scocen` (две «ноги» сверху, walker=28 vs bbox 24), `swecen` (арка с двумя ногами внизу, walker=27 vs bbox 24), `portem` (выступ справа-внизу, +2), `bavhou` (две ножки, +1), `ukrtem` (крестообразный, +1). Walker корректно обходит внутренние вмятины и считает дополнительные слоты — **подтверждено эмпирически на swecen=27** (engine действительно ставит крестьян внутри арки).
+
+**Полная таблица эмпирических точек** (9 из 10 матчат предсказание):
+- Convex: polcen=18, ruscen=24, eurmil=10, rusmil=7, polbla=18, polba2=25 ✓
+- Non-convex: swecen=27 ✓
+- Sparse storehouses: tursto=8 (walker по большой компоненте), spasto=7 (walker по большой, орфан игнорируется), russto=8 (bbox_union для линейных опор) ✓
+- Известное расхождение: eursto предсказание 9, эмпирика 8 (off by 1, причина не выявлена).
 
 **Сильная зависимость от нации.** Размер маски (а значит и периметр) у одной и той же категории здания может различаться кратно. Пример для 18c казармы (`*ba2`):
 
@@ -144,9 +154,11 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 | aus/fra | 16×15-17 | 112-129 | 29 | **29** |
 | sco/rus | 16×15-18 | 123-133 | 30+ | **30** (cap'd) |
 
-**Engine quirk — несвязные маски.** Алгоритм находит верхне-левую заполненную клетку и обходит **только её компоненту**. У 19 зданий маска состоит из ≥2 несвязных частей (склады russto/eursto, ворота вариаций sga_14..17, wga_14..17) — для остальных компонент builder points **не создаются** (там просто нельзя поставить крестьянина).
+**Engine quirk — sparse-маски складов.** У 4 складов (`russto`, `eursto`, `spasto`, `tursto`) маска не выпуклая. У `tursto` всё ещё одна большая компонента — walker даёт 8 = факт. У `spasto` — большая клякса + 1 мелкий орфан в углу; walker правильно ходит большую часть и игнорирует орфан → 7 = факт (с пустой левой стороной у строящего здания, что видно в игре). У `russto` и `eursto` маска вырождается до **двух линейных «опорных» планок** (1×2 и 1×3) с пустотой между ними — walker по одной планке даёт 3-4 слота, но в игре крестьяне обходят bbox целиком: 8 vs предсказанный walker'ом результат. Эмпирически: правило «если все компоненты линейные → используй `bbox_cols + bbox_rows` объединения» воспроизводит russto точно (8=8) и eursto с известным расхождением −1 (предсказание 9, факт 8). Реализовано как fallback `method=bbox_union` в [`compute_builder_slots.py`](../compute/compute_builder_slots.py).
 
-**Сим vs in-game ±1.** Симуляция предсказывает 23 для bavba2, а пользователь наблюдал 22. Расхождение объясняется: (a) после цикла идёт `_AddBuilderPoint → collision check (±0.001 nudge)`, который теоретически точку не убирает; (b) более вероятно — pathing failure для одной из точек (если её занял дерево/чужое здание/edge of map), либо просто крестьянин ещё шёл.
+**Ворота не строятся крестьянами.** `*sga`, `*wga`, `*sga_14..17` и т.д. в обычной игре создаются конвертацией существующего участка стены: игрок выделяет стену → клик «превратить в ворота». Слоты для них в отчёте указаны для полноты, но непосредственно не используются.
+
+**Сим vs in-game ±1.** Помимо описанного ±1 для eursto, симуляция предсказывает 23 для bavba2, а пользователь наблюдал 22 (это исторический замер, не перепроверенный на новой формуле — пока трактуем как pathing failure для одной точки или edge of map).
 
 ### 3.3 Алгоритм назначения крестьянина на стройку
 
