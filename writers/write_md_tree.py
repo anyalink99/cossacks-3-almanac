@@ -336,110 +336,96 @@ def write_readme(data: dict) -> None:
     banner = _version_banner(data)
     if banner:
         A(banner + "\n")
-    A("Полный справочник по экономике, юнитам, зданиям и апгрейдам игры Cossacks 3, "
-      "извлечённый напрямую из файлов игры в "
-      "`C:\\Program Files (x86)\\Steam\\steamapps\\common\\Cossacks 3\\data\\scripts\\`.\n")
-    A("Парсер: `parser/` (запусти `python parser/build_data.py && "
-      "python writers/write_md_tree.py` после патча игры).\n")
+    A("Структурированный справочник по игре, извлечённый напрямую из её скриптов "
+      "(`unit.script`, `country.script`, `dmscript.global`, локали). Здесь — главы "
+      "по темам, по одному cheatsheet на нацию и сравнения юнитов одного класса. "
+      "Все цифры — `output/data.json` (источник правды), регенерируется через "
+      "`python parser/build_data.py`.\n")
     A("---\n")
-    A("## TL;DR — главные цифры\n")
-    A(f"- **Время:** `gc_time_to_frames = {e['time_to_frames']}` (32 кадра / игр-сек). "
-      f"Game speeds: slow=`{e['gamespeed_slow']}`, normal=`{e['gamespeed_normal']}`, fast=`{e['gamespeed_fast']}` тиков/сек.")
-    A(f"- **Pixels-to-tile:** `{e['pixels_to_tile']:.4f}`. Радиус 800 px = 15 тайлов.")
-    A(f"- **Лимиты:** {e['max_obj_count']} объектов на карте, {e['max_player_count']} игроков.")
-    A(f"- **Поле:** HP = {e['field_max_hp']}. Шахта (база): 5 крестьян → 1.664 ресурса/игр-сек на крестьянина.")
+
+    # Navigation FIRST — what the reader actually wants on landing
+    A("## С чего начать\n")
+    A("**Главы по темам:**\n")
+    A("| Глава | О чём |")
+    A("|---|---|")
+    A("| [01_economy.md](01_economy.md) | Добыча ресурсов: формулы, eff, шахты, поля, голод/upkeep, рыбалка |")
+    A("| [02_combat.md](02_combat.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица |")
+    A("| [03_buildings.md](03_buildings.md) | Все здания (per-nation + общие), цены, footprint |")
+    A("| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли |")
+    A("| [05_upgrades.md](05_upgrades.md) | Все апгрейды по местам исследования |")
+    A("| [06_market.md](06_market.md) | Рынок, курсы обмена, first-mover advantage, деградация |")
     A("")
-    A("### Базовая добыча\n")
-    A("| Ресурс | Порция за рейс | Hits перед сдачей | Real rate (1 крестьянин, eff=100) |")
+    A("**Лукапы:**\n")
+    A("- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).")
+    A("- [compare/](compare/README.md) — side-by-side сравнения юнитов одного класса (все мушкетёры 17 в., все драгуны и т.д.).")
+    A("")
+    A("**Расчёты и симуляции (рядом, в соседних каталогах):**\n")
+    A("- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.")
+    A("- [`../simulations/`](../simulations/README.md) — таймлайны экономики по конкретным build order'ам (выходы симулятора).")
+    A("- [`../../recon/`](../../recon/README.md) — глубокие исследования механик (добыча, постройка, RNG, тики, server sync, генерация карт).")
+    A("- [`../derived/`](../derived/) — машинно-читаемые JSON-датасеты (tech_tree.json и др.).")
+    A("- [`../data.json`](../data.json) — сырой JSON (~4.7 MB), вход для всех writer-скриптов.")
+    A("\n---\n")
+
+    # Quick reference — formulas grouped by topic
+    A("## Краткая справка\n")
+    A("### Добыча\n")
+    A("| Ресурс | Порция / рейс | Hits до сдачи | Идеальный rate (1 крестьянин, eff=100, без дороги) |")
     A("|---|---:|---:|---:|")
-    A(f"| food (еда) | **{e['resource_portion_food']}** | {e['hits_needed_food']} | "
-      f"≈ 2.97 / игр-сек (без дороги к складу) |")
-    A(f"| wood | **{e['resource_portion_wood']}** | {e['hits_needed_wood']} | ≈ 3.56 / игр-сек |")
-    A(f"| stone | **{e['resource_portion_stone']}** | {e['hits_needed_stone']} | ≈ 3.56 / игр-сек |")
-    A(f"| gold/iron/coal | **{e['resource_portion_others']}** (хардкод) | n/a | через шахту: 1.664 / крестьянин / игр-сек |")
+    A(f"| food | **{e['resource_portion_food']}** | {e['hits_needed_food']} | ≈ 2.97 / g-сек |")
+    A(f"| wood | **{e['resource_portion_wood']}** | {e['hits_needed_wood']} | ≈ 3.56 / g-сек |")
+    A(f"| stone | **{e['resource_portion_stone']}** | {e['hits_needed_stone']} | ≈ 3.56 / g-сек |")
+    A(f"| gold / iron / coal | **{e['resource_portion_others']}** (хардкод) | n/a | через шахту: 1.664 / крестьянин / g-сек (база, без апгрейдов) |")
     A("")
-    A("**Формула:** `delivered = (portion × eff) / 100`  (целочисл. деление). "
-      "`eff` стартует со 100, апгрейды добавляют **аддитивно**.\n")
-    A("### Боевая формула\n")
+    A("**Формула:** `delivered = (portion × eff) / 100` (целочисленное деление). `eff` стартует со 100; апгрейды (mill, academy, blacksmith) накапливаются аддитивно.\n")
+    A("### Бой\n")
     A("```")
     A("applied = max(1, weapon.damage")
-    A("                 - target.shield               # /3 if target is being built")
-    A("                 - target.protection[kind]")
-    A("                 + squad bonuses")
-    A("                 + HEADSHOT: +floor(uniqrnd × 500) at 5% chance (arrow/bullet vs non-buildings))")
+    A("                 − target.shield                 # /3 если здание ещё строится")
+    A("                 − target.protection[weapon.kind]")
+    A("                 + бонусы отряда (формация LINE/SQUARE/KARE: +2..+7)")
+    A("                 + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow/bullet")
+    A("                                                  по не-зданиям, кроме fasthorse в движении)")
     A("```")
-    A("**Минимум 1 хп**. Хедшот = 5% шанс на каждый bullet/arrow выстрел против любого "
-      "юнита (кроме light-cavalry-в-движении) даёт **до +499** бонусного урона. См. подробности "
-      "в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). "
+    A("Минимум 1 hp. Подробности — в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). "
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
-    A("### Цена N-го здания того же типа\n")
-    A("`cost(N) = floor(base_cost × (costpercent/100)^(N-1))`. См. "
-      "[`../reports/scaling_prices.md`](../reports/scaling_prices.md).\n")
-    A("---\n")
+    A("### Цены и масштабирование\n")
+    A("- **N-й экземпляр здания того же типа:** `cost(N) = floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 — в [`../reports/scaling_prices.md`](../reports/scaling_prices.md).")
+    A("- **N строителей:** реальное время постройки = `buildtime × 1.13 / N` (cap = builder slots, см. [`../reports/builder_slots.md`](../reports/builder_slots.md)).")
+    A("- **Real-time @ fast:** `real_sec = game_sec / 1.4`. Game speeds: slow=7, normal=10, fast=14 тиков/сек.")
+    A("\n### Ключевые константы\n")
+    A(f"- **Время:** `gc_time_to_frames = {e['time_to_frames']}` — 32 кадра в одной игровой секунде.")
+    A(f"- **Pixels-to-tile:** `{e['pixels_to_tile']:.4f}` — для перевода weapon.range из пикселей в тайлы (например, 800 px = 15 тайлов).")
+    A(f"- **Лимиты карты:** {e['max_obj_count']} объектов всего, {e['max_player_count']} игроков.")
+    A(f"- **Поле:** HP = {e['field_max_hp']}. Шахта база: 5 крестьян, 1.664 ресурса / g-сек на каждого.")
+    A("\n---\n")
+
+    # Glossary
     out.extend(render_template("reference_readme_glossary.md"))
     A("\n---\n")
-    A("## Где что искать\n")
-    A("### Главы справочника (этот каталог)\n")
-    A("| Хочу узнать… | Открой |")
-    A("|---|---|")
-    A("| Формулы добычи и цикл крестьянина | [01_economy.md](01_economy.md) |")
-    A("| Формула урона, защиты, скорости, формации | [02_combat.md](02_combat.md) |")
-    A("| Все здания (общие + per-nation) | [03_buildings.md](03_buildings.md) |")
-    A("| Все юниты по классам | [04_units.md](04_units.md) |")
-    A("| Все апгрейды по местам | [05_upgrades.md](05_upgrades.md) |")
-    A("| Курсы рынка и примеры обмена | [06_market.md](06_market.md) |")
-    A("| Что уникального у нации X | [nations/](nations/README.md) |")
-    A("| Сравнить юнитов одного класса | [compare/](compare/README.md) |")
-    A("")
-    A("### Производные расчёты (рядом с этой папкой)\n")
-    A("Все автоматически вычисляемые отчёты — в [`../reports/`](../reports/README.md):\n")
-    A("- **Бой:** [`combat_stats.md`](../reports/combat_stats.md), [`counter_matrix.md`](../reports/counter_matrix.md)")
-    A("- **Цены:** [`scaling_prices.md`](../reports/scaling_prices.md) — цена N-го экземпляра. [`efficiency_upgrades.md`](../reports/efficiency_upgrades.md) — что меняют апгрейды.")
-    A("- **Темп:** [`tech_tree.md`](../reports/tech_tree.md), [`production_rates.md`](../reports/production_rates.md), [`construction_times.md`](../reports/construction_times.md), [`builder_slots.md`](../reports/builder_slots.md)")
-    A("- **Карта:** [`map_resources.md`](../reports/map_resources.md), [`starting_layout.md`](../reports/starting_layout.md)")
-    A("")
-    A("Машинно-читаемые JSON-датасеты — в [`../derived/`](../derived/) (`tech_tree.json`, `animations.json`, `builder_slots.json`, `pattern_*.json`).\n")
-    A("### Сырой источник\n")
-    A("| Файл | Что |")
-    A("|---|---|")
-    A("| [../data.json](../data.json) | Сырой JSON (~4.7 MB) — вход для всех writer-скриптов. Регенерируется через `python parser/build_data.py`. |")
-    A("")
-    A("### Глубокие исследования (recon/)\n")
-    A("| Файл | Тема |")
-    A("|---|---|")
-    A("| [../../recon/peasant_extraction.md](../../recon/peasant_extraction.md) | Полный разбор добычи: цикл крестьянина, animation frames, walk speed, fieldlife регенерация, спавн ресурсов |")
-    A("| [../../recon/building_mechanics.md](../../recon/building_mechanics.md) | Постройка/починка крестьянами, builder slots, стены, гарнизон/башни, захват, разрушение |")
-    A("| [../../recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) | Полный таймлайн `DoGenerate` + что определяет уникальную карту (seed space) |")
-    A("| [../../recon/determinism_audit.md](../../recon/determinism_audit.md) | RNG-сайты в hot-path добычи и боя, save/load, мод-фикс |")
-    A("| [../../recon/ticks_and_subticks.md](../../recon/ticks_and_subticks.md) | Модель времени: progress-loop, sub-tick state, adaptive game speed |")
-    A("| [../../recon/server_sync_architecture.md](../../recon/server_sync_architecture.md) | Server-authoritative модель C3, net modes, sync пакеты |")
-    A("")
-    A("## Расхождения с заметками из промпта\n")
-    A("(детали в [01_economy.md#discrepancies](01_economy.md))")
-    A("| Факт | Заметки | Файл |")
-    A("|---|---|---|")
-    for d in data.get("discrepancies", []):
-        A(f"| {d['fact']} | {d['user_note']} | **{d['file_value']}** |")
-    A("")
+
+    # Meta footer: sanity, stats, discrepancies, principles
     sanity = data.get("sanity_checks", [])
     n_pass = sum(1 for c in sanity if c["pass"])
-    A(f"## Sanity checks: **{n_pass}/{len(sanity)} PASS**\n")
-    A("Полный список и категории — в xlsx-листе `Sanity_checks` или [01_economy.md](01_economy.md#sanity).\n")
-    A("---\n")
-    A("## Стат по объёмам\n")
-    A(f"- **Нации:** {len(data['nations'])}")
-    A(f"- **Здания:** {len(data['buildings'])} строк (sid×nation)")
-    A(f"- **Юниты:** {len(data['units'])} строк")
-    A(f"- **Апгрейды:** {len(data['upgrades'])} строк")
-    A(f"- **Офицеры/формации:** {len(data.get('officers', []))} групп")
+    A(f"## Стат и проверки\n")
+    A(f"- **Sanity checks:** **{n_pass}/{len(sanity)} PASS** (полный список — лист `Sanity_checks` в xlsx).")
+    A(f"- **Нации:** {len(data['nations'])} играбельных.")
+    A(f"- **Здания:** {len(data['buildings'])} строк (sid×nation).")
+    A(f"- **Юниты:** {len(data['units'])} строк.")
+    A(f"- **Апгрейды:** {len(data['upgrades'])} строк (с полностью разрешёнными cost / value / itype / prereqs).")
+    A(f"- **Офицеры/формации:** {len(data.get('officers', []))} групп.")
     A("")
-    A("## Принципы справочника\n")
-    A("1. **Источник истины — файлы игры.** Если что-то расходится с внешними калькуляторами/гайдами — "
-      "доверяй файлу. Расхождения задокументированы в `discrepancies`.")
-    A("2. **Идемпотентность.** `python build_data.py && python write_xlsx.py && python write_md_tree.py` "
-      "перегенерирует всё с нуля.")
-    A("3. **Sanity checks.** 100+ автопроверок ловят регрессии после игровых патчей.")
-    A("4. **Нет ручных правок.** Если хочешь подкрутить — правь скрипты в `parser/`, не сами md.")
+    discrepancies = data.get("discrepancies", [])
+    if discrepancies:
+        A("## Расхождения с внешними источниками\n")
+        A("Несколько чисел в этом справочнике отличаются от того, что встречается в чужих гайдах "
+          "и калькуляторах. Источник истины — игровые скрипты; расхождения помечаем явно.\n")
+        A("| Факт | Где видели | В файле игры |")
+        A("|---|---|---|")
+        for d in discrepancies:
+            A(f"| {d['fact']} | {d['user_note']} | **{d['file_value']}** |")
+        A("\nДетали и обоснования — в [01_economy.md → Discrepancies](01_economy.md#discrepancies-расхождения-с-промпт-заметками).\n")
+    out.extend(render_template("reference_readme_principles.md"))
 
     write_md(TREE_ROOT / "README.md", out)
 
@@ -619,493 +605,7 @@ def write_combat(data: dict) -> None:
     e = data["economy"]
     A("# 02. Бой и движение\n")
     A("[← Index](README.md)\n")
-    A("## Содержание\n")
-    A("- [Формула урона (полная)](#формула-урона)")
-    A("- [Хедшот — критический удар](#хедшот-критический-удар--главная-скрытая-механика)")
-    A("- [Формационные бонусы (LINE/SQUARE/KARE)](#формационные-бонусы)")
-    A("- [Рассеяние выстрелов](#рассеяние--почему-выстрелы-промахиваются)")
-    A("- [uniqrnd — индивидуальное случайное число юнита](#uniqrnd--индивидуальное-случайное-число-юнита)")
-    A("- [AoE damage cap](#aoe-damage-cap--как-кучкование-защищает)")
-    A("- [Высокая позиция (high ground)](#высокая-позиция-high-ground)")
-    A("- [Score multipliers](#score-за-убийство)")
-    A("- [Standground / bartprepare — режимы атаки](#standground--bartprepare--режимы-атаки)")
-    A("- [RunAway — автоматический отход стрелков](#runaway--автоматический-отход-стрелков)")
-    A("- [Дружественный огонь](#дружественный-огонь)")
-    A("- [Переключение оружия по дистанции (картечь, штык, огненные стрелы)](#переключение-оружия-по-дистанции)")
-    A("- [Штраф к дальности при движении (standtime)](#штраф-к-дальности-при-движении)")
-    A("- [Бонус к дальности в покое (addradius)](#бонус-к-дальности-в-покое)")
-    A("- [Захват юнитов](#захват-юнитов)")
-    A("- [Лечение священниками](#лечение-священниками)")
-    A("- [Shield /3 при недостроенном здании](#shield-3-при-недостроенном-здании)")
-    A("- [Реакция ИИ — отряд переходит в атаку от одного удара](#реакция-ии--отряд-переходит-в-атаку-от-одного-удара)")
-    A("- [Офицеры — миф о боевой ауре](#офицеры--миф-о-боевой-ауре)")
-    A("- [Чего НЕТ в игре](#чего-нет-в-игре-подтверждённое-отсутствие)")
-    A("- [Свойства формулы урона](#свойства-формулы-урона)")
-    A("- [Типы оружия](#типы-оружия-gc_obj_weapon_kind_)")
-    A("- [Скорости юнитов](#скорости-юнитов)")
-    A("- [Офицеры и формации](#офицеры-и-формации)")
-    A("- [Матрица контр-эффективности (приближённый TTK)](#матрица-контр-эффективности-приближённый-ttk)")
-    A("- [Перекрёстная таблица: апгрейды × характеристики](#перекрёстная-таблица-апгрейды--характеристики)")
-    A("- [Стоимость одного выстрела](#стоимость-одного-выстрела)")
-    A("")
-    A("## Формула урона\n")
-    A("```")
-    A("damage = weapon.damage")
-    A("")
-    A("# 1. Anti-headshot для мобильной кавалерии")
-    A("if (target.usage == fasthorse AND target is on the move")
-    A("    AND weapon.kind in {arrow, bullet}):")
-    A("    damage -= 5  # 'penalty' shot — лёгкая кавалерия на ходу труднее ловится")
-    A("")
-    A("# 2. Shield (одно из главных свойств танков)")
-    A("if (target.bbuilt):")
-    A("    damage -= target.shield")
-    A("else:  # ещё строится")
-    A("    damage -= target.shield // 3")
-    A("")
-    A("# 3. Squad shield bonus (формация)")
-    A("if (target in formation):")
-    A("    damage -= squad.fAddShieldHold  (если hold-mode)")
-    A("    damage -= squad.fAddShield      (иначе)")
-    A("")
-    A("# 4. Squad damage bonus у атакующего (формация)")
-    A("if (attacker in formation AND weapon.kind != firearrow):")
-    A("    damage += squad.fAddDamageHold  (если hold-mode)")
-    A("    damage += squad.fAddDamage      (иначе)")
-    A("")
-    A("# 5. Protection")
-    A("damage -= target.protection[weapon.kind]")
-    A("")
-    A("# 6. HEADSHOT — критический удар")
-    A("bCanHeadShot = (weapon.kind in {arrow, bullet}) AND (target NOT building)")
-    A("bHeadShot = bCanHeadShot AND (random < 0.05)  AND (NOT fast-cavalry-on-the-move)")
-    A("if bHeadShot:")
-    A("    damage += floor(attacker.uniqrnd * 500)  # +0..+499 hp бонусного урона!")
-    A("")
-    A("damage = max(1, damage)  # минимум 1 хп")
-    A("target.hp -= damage")
-    A("```")
-    A("Источник: `miscext2.script:_misc_DoDamage` (строки 274-510).\n")
-    A("### Хедшот (критический удар) — главная скрытая механика\n")
-    A("**5% шанс на каждый выстрел** добавить `floor(uniqrnd × 500)` урона. "
-      "Где `uniqrnd` — фиксированное случайное число юнита-стрелка [0..1].\n")
-    A("**Ключевые свойства:**\n")
-    A("- Работает только для **arrow** и **bullet** оружия.")
-    A("- НЕ работает по **зданиям**.")
-    A("- НЕ работает по **light cavalry на ходу** (`usage=fasthorse + state=walk`) — у них наоборот -5 dmg штраф.")
-    A("- `uniqrnd` **зафиксирован при спавне** юнита-стрелка → у каждого индивидуального "
-      "мушкетёра свой урон от хедшота. В отряде из 36 мушкетёров будут «снайперы» "
-      "(uniqrnd≈0.9 → +450 урона) и «мазилы» (uniqrnd≈0.05 → +25 урона).")
-    A("- Среднее ожидаемое: `0.05 × 250 = 12.5` дополнительного урона на выстрел "
-      "(выровненный по случайным uniqrnd ~0.5).")
-    A("")
-    A("**Пример:** мушкетёр стреляет в Reiter (282 hp). Обычный урон — 6 hp. "
-      "На случайном выстреле (5%) случается хедшот, и тот же мушкетёр (uniqrnd≈0.252) "
-      "наносит `6 + floor(0.252 × 500) = 6 + 126 = 132 hp`. Reiter падает с 282 → 150 hp.\n")
-    A("**Почему это важно для стратегии:**\n")
-    A("- Стрелковые отряды против Heavy Cavalry/Light Infantry статистически окупаются "
-      "сильно лучше чем формула урона показывает.")
-    A("- Light Cavalry **в движении** иммунна к хедшоту → главный counter к стрелковому отряду.")
-    A("- C1 имел 4% шанс мгновенного убийства (комментарий в коде); в C3 механика была ребалансирована "
-      "в текущий вариант. Комментарий упоминает 2%, но в реальном коде осталось `<0.05` = **5%**.")
-    A("")
-    A("### Формационные бонусы\n")
-    A("Источник: [`data/game/var/formations.cfg`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/formations.cfg)\n")
-    A("Юниты в строю получают **+урон / +shield** к каждому выстрелу/попаданию. "
-      "В **hold-mode** (приказ «Стоять») бонусы значительно больше:\n")
-    A("| Формация | размер | regular dmg/shield | **hold-mode dmg/shield** |")
-    A("|---|---:|---:|---:|")
-    A("| LINE / SQUARE / KARE | 15-196 | +2 / +2 | **+7 / +7** |")
-    A("| LINE / SQUARE / KARE | **400** | **+3 / +3** | **+7 / +7** |")
-    A("| Cavalry (PRUS, SHER, TRI) | любой | +1 / +1 | +1 / +1 |")
-    A("")
-    A("**Ключевое:** мушкетёр с base damage 6 → **в формации LINE в hold-mode наносит 13 урона** "
-      "за выстрел (6 + 7 hold). И принимает -7 от каждого входящего попадания (поверх защиты).\n")
-    A("**Что это значит для боя:**")
-    A("- Стрелковые отряды **в hold-mode на формации** = **+117% к урону** (с 6 до 13).")
-    A("- Без формации (рассыпная) — никаких бонусов.")
-    A("- Кавалерийские формации (треугольник, клин) дают только +1/+1 — формация для них не главное.")
-    A("- **firearrow** (зажигательная стрела) НЕ получает отрядный бонус к урону.")
-    A("")
-    A("### AoE damage cap — как кучкование защищает\n")
-    A("Источник: [`miscext2.script:_misc_DoRoundDamage:576`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)\n")
-    A("Взрывы (cannon, mortar, gun, grenade) попадают по всем юнитам в радиусе `r`, **но "
-      "только первые N получают урон**:\n")
-    A("```")
-    A("count = floor(1 + (r / 0.35)²)")
-    A("```")
-    A("| Оружие | radius | максимум юнитов под взрыв |")
-    A("|---|---:|---:|")
-    A("| Cannon (ядро) | ~1 t | **9** |")
-    A("| Mortar (бомба) | ~2 t | **33** |")
-    A("| Grenade (граната) | ~0.5 t | **3** |")
-    A("| Howitzer | ~1 t | **9** |")
-    A("\n**Стратегический вывод:** **плотная толпа защищена** — 50 юнитов в одной точке "
-      "теряют максимум 9 от ядра, остальные нетронуты. Растянутая линия страдает гораздо больше.\n")
-    A("Стрелы с зажигалкой (`barrow`) имеют другую логику: урон всем в радиусе если "
-      "юнитов в области <= 300; иначе только тем, кто внутри строгого `r`.\n")
-    A("### Высокая позиция (high ground)\n")
-    A("Источник: [`unit.script:5469, 7272`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("Если стрелковый юнит стоит на возвышенности (Y > 0), его **search distance** увеличивается:\n")
-    A("```")
-    A("searchdist += goHeight × 2  (только для ranged юнитов: minsearchdist > melee_radius)")
-    A("```")
-    A("- `goHeight` — Y-координата юнита в тайлах (высота над уровнем 0).")
-    A("- Бонус **только к радиусу обнаружения** (видят дальше / открывают огонь раньше).")
-    A("- Сам выстрел (`radiusmax`) технически тот же, но если враг ещё не в радиусе атаки, "
-      "юнит начинает движение и выстрелит как только цель войдёт в radius. На практике "
-      "**мушкетёры с холма стреляют по атакующим раньше** = больше выстрелов до ближнего боя.")
-    A("- Не работает на юнитов ближнего боя (pikemen в ближнем бою остаются в нём).")
-    A("- Холмы создаются параметром `relief` при генерации карты (Highlands map даёт максимум гор).")
-    A("")
-    A("### Score за убийство\n")
-    A("Источник: [`miscext2.script:445-461`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)\n")
-    A("- За убийство юнита: **score += target.score × 2**")
-    A("- За убийство **наёмника-внутри-дип-центра**, юнита-в-транспорте, и т.п.: **score += inside_unit.score × 3**")
-    A("- Эти бонусы складываются (1 ракетой убил наёмника в дип-центре + само здание = score за оба)")
-    A("")
-    A("### Standground / bartprepare — режимы атаки\n")
-    A("Источник: [`unit.script:7259-7286`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), "
-      "[`player.script:2456-2463`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)\n")
-    A("**Главный механизм:** дальность авто-обнаружения врага (`maxsearchdist`) "
-      "**радикально различается** в режимах standground и обычном:\n")
-    A("```")
-    A("if (bstandground AND order != move):")
-    A("    maxsearchdist := MIN(searchradius, GetMaxAttackRadius)   # полная дальность оружия")
-    A("else:")
-    A("    maxsearchdist := minsearchdist + 0.375                    # почти melee (!)")
-    A("```")
-    A("**Что это значит на практике:**\n")
-    A("- **Без standground** мушкетёр (radiusmax≈9 t) обнаруживает врага только когда тот "
-      "входит в **0.375 t от minsearchdist** — то есть подходит вплотную. Получается **1-2 выстрела** "
-      "и сразу ближний бой. Это объясняет почему стрелковые юниты «стоят и не стреляют» по дальним целям.")
-    A("- **С standground** обнаружение работает на полную `searchradius` (1500-2400 px ≈ 28-45 t). "
-      "Мушкетёр стреляет по любому врагу в радиусе обзора — успевает 5-10 выстрелов до ближнего боя.")
-    A("- **Standground также отключает RunAway** (см. ниже): юнит держит позицию, не пытается отступать.")
-    A("- **Приказ движения стирает standground**: если юниту приказали идти куда-то, он не стреляет даже "
-      "если bstandground=True (см. условие `order != move` в коде).")
-    A("")
-    A("**bartprepare** (artillery preparation) — флаг для **артиллерии, башен и портов**. "
-      "Установлен на `cannon`, `howitzer`, `framegun`, `multicannon`, `tow` (towers), `port` (shipyards). "
-      "При получении `attackpoint`-приказа (по площади) такие юниты:\n")
-    A("- Принудительно выключают `bstandground` → переходят в обычный режим обнаружения")
-    A("- Принудительно включают `bsearchenemy` → активно сканируют цели вокруг точки")
-    A("- Получают приказ `attackpoint(trgx, trgz)` с задержкой подготовки (`attackdelay/attackmaxdelay`)")
-    A("")
-    A("**Стратегические выводы:**\n")
-    A("- **Всегда ставь стрелков в standground** при обороне или подготовленной засаде. Без него "
-      "мушкетёры сделают 1-2 выстрела вместо 5-10.")
-    A("- **При продвижении** (`bstandground=False`) стрелки отходят (RunAway) — это иногда плюс "
-      "(не дают подойти), иногда минус (тормозят свой же штурм).")
-    A("- **Артиллерию лучше отдавать командой attackpoint** (Ctrl+ЛКМ) — `bartprepare` правильно настраивает "
-      "режимы. Если просто переместить пушку и ждать — она в режиме движения НЕ откроет огонь.")
-    A("")
-    A("### RunAway — автоматический отход стрелков\n")
-    A("Источник: [`unit.script:7363-7369`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("Если у стрелкового юнита (`minsearchdist > 0`, т.е. min range > 0) враг входит в "
-      "**мёртвую зону** (между 0 и `minsearchdist`), юнит автоматически отступает:\n")
-    A("```")
-    A("if (cell_search_found_no_target AND враг_в_minsearchdist):")
-    A("    if (NOT bstandground)")
-    A("       AND (standtime=0 OR standtime > gc_unit_runawaydelay (1.3 sec)")
-    A("            OR (player_is_human AND difficulty <= normal)):")
-    A("        DoRunAway(toward_safe_direction, distance=gc_unit_runawaydist (3.5 t))")
-    A("```")
-    A("**Условия отступления (все должны выполниться):**\n")
-    A("- Юнит **не в standground**.")
-    A("- Юнит либо только что подошёл (`standtime=0`), либо стоит уже >1.3 сек, либо игрок-человек "
-      "на easy/normal сложности (поблажка для новичков).")
-    A("- Враг — в `minsearchdist` зоне.")
-    A("\n**Эффект:** стрелок отступает на 3.5 тайла от врага, пытаясь восстановить дистанцию для выстрела. "
-      "Это создаёт классический **паттерн отхода** мушкетёров: подошёл → стрельнул → отступил → стрельнул.\n")
-    A("**Когда RunAway ВЫКЛЮЧЕН:**\n")
-    A("- В `standground` (явный приказ держать позицию).")
-    A("- ИИ-противник на hard+ — продолжает стрелять до самого ближнего боя, не отступает (опасный нюанс).")
-    A("- При сложности hard+ игрок-человек: ИИ отходит как обычно, но игрок-человек на hard+ тоже не получает "
-      "поблажку RunAway.")
-    A("\n**Стратегические выводы:**\n")
-    A("- Для отступательной тактики (отход с обстрелом) — **сними standground** и работай "
-      "по уязвимой кавалерии/пехоте.")
-    A("- Для удержания позиции (например, на холме) — **standground обязателен**, иначе мушкетёры "
-      "разбегутся при подходе ближнего боя.")
-    A("- Лёгкая кавалерия может **догнать отходящих мушкетёров** (fasthorse=96 против default=32 → ~3× быстрее).\n")
-    A("### Дружественный огонь\n")
-    A("Источник: [`miscext2.script:_misc_DoDamage:274`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script), "
-      "[`weapon.script:482-492`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script), "
-      "[`unit.script:7686-7714`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("**Дружественный огонь ВКЛЮЧЁН для большинства снарядов.** В функции `_misc_DoDamage` "
-      "**нет проверки на сторону/владельца** — урон применяется к любому объекту, попавшему под траекторию.\n")
-    A("**Что попадает по своим:**\n")
-    A("- Стрелы лучников (`STRELA`, `OSTRELA` fire arrows)")
-    A("- Пули мушкетов (`SHOTMUSKET`)")
-    A("- Гранаты (`NUCLGRE`)")
-    A("- Артиллерия (`PSMPOINTTPUS`, `DIMMORT1`, `DIMMORT2NEW`, `PSMPOINTT`, `DIMMORT2KOR`)")
-    A("- AoE взрывы (картечь, ядра, бомбы) — поражают **всё в радиусе**, включая своих "
-      "(`_misc_DoRoundDamage` без фильтра по стороне).")
-    A("\n**Что НЕ ранит союзников:**\n")
-    A("- **Корабли** — есть отдельная защита `// prevent ships from friendly fire` "
-      "в weapon.script. Торговцы и боевые корабли одного игрока не топят друг друга.")
-    A("- Башни и пушки с `bcheckfriendonline=True` (по умолчанию ON) — **не выстрелят, "
-      "если на линии огня стоит дружественное здание** (см. `_misc_IsBuildingInRay`). "
-      "Но это про блокировку выстрела, а не про урон при пролёте.")
-    A("\n**Список оружия с явно ОТКЛЮЧЁННОЙ проверкой `bcheckfriendonline`** "
-      "(стреляют сквозь свои здания, не блокируются):\n")
-    A("`STRELA`, `OSTRELA`, `SHOTMUSKET`, `SHOTBLOCKHOUSE`, `NUCLGRE`, `PSMPOINTTPUS`, "
-      "`DIMMORT1`, `DIMMORT2NEW`, `PSMPOINTT`, `DIMMORT2KOR` — то есть **все стрелы, мушкетные пули "
-      "и почти вся артиллерия**.\n")
-    A("**Стратегические выводы:**\n")
-    A("- **Не ставь свою пехоту на линию огня артиллерии** — ядро/бомба прошьёт строй и взорвётся "
-      "среди своих.")
-    A("- **Лучники и мушкетёры стреляют сквозь свои ряды** — стой во второй линии без проблем, "
-      "но **бомба в массу твоих юнитов = твои потери**.")
-    A("- **Башни без прямой линии огня** через здания не выстрелят (если их weapon `bcheckfriendonline=True`), "
-      "но снаряд при выстреле уже не различает свой/чужой.\n")
-    A("### Переключение оружия по дистанции\n")
-    A("Источник: [`unit.script:_unit_GetWeaponToAttackIndex:6376-6451`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("Многие юниты имеют **несколько слотов оружия** (`weapon[0]`, `weapon[1]`, ...). Игра автоматически "
-      "выбирает нужный слот по дистанции до цели — каждое оружие имеет `radiusmin..radiusmax`. "
-      "Если враг вошёл в близкий диапазон — выбирается оружие с маленьким `radiusmin`, иначе — дальнее.\n")
-    A("Дополнительно учитывается `attmask`: если у цели `mmask` совпадает с `weapon[i].attmask` "
-      "(материал брони), это оружие приоритетнее. Поэтому fire arrows выбираются для построек "
-      "(их attmask содержит `gc_obj_material_building`).\n")
-    A("**Главные пары:**\n")
-    A("**1. Cannon (пушка) — ядро против картечи:**\n")
-    A("| Слот | Тип | dmg | Pause | Range (px) | Когда стреляет |")
-    A("|---|---|---:|---:|---|---|")
-    A("| `weapon[0]` PPOINTT | cannonball (ядро) | 1800 | 350 | **550-2160** | дистанция ≥ 550 px (~10.3 t) |")
-    A("| `weapon[1]` PSMPOINTTPUS | cannister (картечь) | AoE по `gWeapons[]` | 350 | **0-450** | враг ближе 450 px (~8.4 t) |")
-    A("\n**Это значит:** если пехота подошла на ~8 тайлов к пушке — она автоматически переходит в "
-      "картечный режим. **Картечь — массовый урон по толпе** (AoE). Поэтому гасить пушку «навалом пехоты» "
-      "= получить картечь в упор. **Атаковать пушку нужно растянутой линией** (не больше 9 в радиусе AoE — "
-      "см. AoE damage cap).\n")
-    A("**2. Musketeer 18c — пуля против штыка (bayonet):**\n")
-    A("| Слот | Тип | dmg | Pause | Range (px) | Когда стреляет |")
-    A("|---|---|---:|---:|---|---|")
-    A("| `weapon[0]` (bayonet) | pike | 5-10 (по нации) | **0** (мгновенно) | **35-65** (~0.66-1.22 t) | в упор |")
-    A("| `weapon[1]` SHOTMUSKET | bullet | 16-29 (по нации) | 140-190 | **400-900** (~7.5-16.9 t) | дальше 7.5 t |")
-    A("\n**Стратегический смысл:** мушкетёр после выстрела не беспомощен в ближнем бою — у него **штык** "
-      "с pause=0 (бьёт каждый цикл анимации). Атаковать перезаряжающихся мушкетёров кавалерией = "
-      "получить штыковой бой. Прусские мушкетёры (dmg штыка 10) сильнее в ближнем бою чем баварские (5).\n")
-    A("**Прокачки штыка** идут отдельно от прокачек пули — `bla.musketeer18.1.X` качает урон bullet, "
-      "штык остаётся базовый.\n")
-    A("**3. Archer — обычная стрела против огненной (firearrow):**\n")
-    A("| Слот | Тип | dmg | Pause | Range (px) | Dispertion | Особенности |")
-    A("|---|---|---:|---:|---|---:|---|")
-    A("| `weapon[0]` STRELA | arrow | 15 | 75 | 400-800 | 175 px | основная стрельба |")
-    A("| `weapon[1]` OSTRELA | firearrow | **150** | 125 | 400-600 | 200 px | attmask = building+wood+woodwall |")
-    A("\n**Огненные стрелы — главное оружие лучников против построек.** Урон 150 (×10 от обычной), "
-      "но: ниже скорострельность (-40%), хуже точность (+14% дисп.), не получают **отрядный бонус к урону** "
-      "(см. секцию Хедшот/Формула урона). Игра автоматически переключает лучника на OSTRELA когда "
-      "цель — здание/wood/палисад. **Лучники — лучший анти-билдинг стрелковый юнит** (если успевают подойти).\n")
-    A("**4. Другие multi-weapon юниты** (поищи `weapon[1]` в их sid):\n")
-    A("- **Янычар (jannisary)** — пуля + сабля ближнего боя.")
-    A("- **Стрелец** — пищаль + бердыш ближнего боя.")
-    A("- **Егерь / драгун** — пуля + сабля.")
-    A("- **Конные стрелки** (drabant, конный стрелец) — пуля + сабля верхом.")
-    A("\nВо всех случаях работа одинакова: близко — оружие ближнего боя, далеко — стрелковое. **Разница перезарядок:** "
-      "например мушкетёр перезаряжается 150 кадров пулю и 0 штык — значит **сразу после выстрела** "
-      "может ткнуть штыком если враг близко (а потом перезарядка пули продолжится в фоне).\n")
-    A("### Штраф к дальности при движении\n")
-    A("Источник: [`unit.script:8011-8023`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), "
-      "константа `gc_obj_maxattackradiusdisp = 3` (`dmscript.global:116`)\n")
-    A("Юнит, который только что двигался (`standtime < 0.25 sec`), теряет в дальности:\n")
-    A("```")
-    A("if (standtime < 0.25) AND (weapon.kind != cannister):")
-    A("    if (NOT bArtillery):")
-    A("        radiusmax -= 3 × uniqrnd          # пехота: до -3 тайла")
-    A("    else:")
-    A("        radiusmax -= 3 × uniqrnd × 0.5    # артиллерия: до -1.5 тайла")
-    A("```")
-    A("**uniqrnd** — индивидуальный коэффициент юнита (см. секцию uniqrnd выше) ∈ [0..1]. "
-      "Так что у разных стрелков в отряде штраф разный: «снайперы» (низкий uniqrnd) теряют меньше, "
-      "«мазилы» (высокий uniqrnd) — почти весь штраф.\n")
-    A("**Стратегические выводы:**\n")
-    A("- **Стрелок в движении не выстрелит на полную дальность** — нужно ~0.25 сек постоять. "
-      "Это объясняет почему мушкетёры «промахиваются» по дальним целям при подходе.")
-    A("- **Картечь не штрафуется** — пушка может бить картечью даже на ходу (но в реальности "
-      "пушка `bartillery` всё равно `bstandground=True` по умолчанию).")
-    A("- **Артиллерия штрафуется в 2 раза меньше** — мортира/пушка после короткого movement готова "
-      "стрелять почти на полную дальность.")
-    A("- В сочетании с RunAway создаёт **отход — пауза — выстрел**: мушкетёр отбежал на 3.5 t, ждёт "
-      "0.25 сек чтобы вернуть полную дальность, стреляет, и снова отходит.\n")
-    A("### Бонус к дальности в покое\n")
-    A("Источник: [`unit.script:8026-8028`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("Если юнит в состоянии **idle** (флаг `gc_statetag_move_idle`), он получает бонус к дальности:\n")
-    A("```")
-    A("rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 тайла")
-    A("```")
-    A("**Кому даётся:** мушкетёрам, лучникам, пушкам — у всех `addradius = 32 px = 0.6 t`. Для слабых стен "
-      "(`gc_obj_usage_weakwall`) — дополнительно **+0.36 тайла** rbonus.\n")
-    A("**Эффект:** стационарная защита (например, гарнизон на холме в standground) стреляет на "
-      "**~0.6 t дальше** чем тот же отряд в движении. Мелочь, но в сочетании с high-ground (см. выше) "
-      "и устранением movement penalty получается заметный буст эффективной дальности обороны.\n")
-    A("### Захват юнитов\n")
-    A("Источник: [`unit.script:7289-7307`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("Военные юниты могут **захватывать** мирные/нейтральные юниты противника (не убивая). "
-      "Каждый scan tick (раз в ~0.5 сек) с шансом **5%** проверяется условие захвата:\n")
-    A("```")
-    A("if (random < 0.05) AND (target.bcapture=True) AND (NOT target.bbuilding)")
-    A("    AND (NOT attacker.bcapture)  # сам не захватываемый")
-    A("    AND (NOT attacker.media=water)")
-    A("    AND (target.orderlist.count < cMinCaptureOrdListCount)  # цель «занята делом»")
-    A("    AND (path_distance(attacker, target) <= attacker.searchradius):")
-    A("        attacker.OrderMove(target.position)")
-    A("        attacker.SetOrderTrg(target)  # фиксируется на захват")
-    A("```")
-    A("**Кто может захватывать (`bcancapture=True`):** все военные юниты-некрестьяне.\n")
-    A("**Кого можно захватить (`bcapture=True`):**\n")
-    A("- Большинство **крестьян** (peasant, peabav, peaaus, ...) — кроме `Ukrainian` и `Scottish` "
-      "(их крестьяне `bcapture := False` явно).")
-    A("- **Артиллерия** (`cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`) — `bcapture := True` "
-      "при определении ([unit.script:1721](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)).")
-    A("- **Здания** (`bbuilding=True`) тоже захватываются (но через отдельный механизм — пехота окружает).")
-    A("\n**Стратегические выводы:**\n")
-    A("- **Захваченная пушка переходит на твою сторону полностью** — со всеми прокачками атакующей нации! "
-      "Это очень мощный экономический эффект.")
-    A("- **Защищай пушки пехотой** — пехота противника в радиусе захвата может «увести» пушку без боя.")
-    A("- **Украинские/шотландские крестьяне иммунны к захвату** — сильное национальное преимущество "
-      "(не теряешь экономику от соседа-кавалериста).")
-    A("- **5% шанс на тик** — захват не мгновенный, нужно несколько секунд возле цели. "
-      "За 5-7 сек шанс ~25-30% завершить попытку.\n")
-    A("### Лечение священниками\n")
-    A("Источник: [`unit.script:1151-1188`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), "
-      "формула в [`miscext2.script:371-398`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)\n")
-    A("Священники (`priest`, `pope`, `mullah`, `padre`) лечат союзных юнитов. Используют псевдо-оружие "
-      "`gc_obj_weapon_kind_heal`. Формула:\n")
-    A("```")
-    A("target.hp += weapon.damage      # БЕЗ shield, БЕЗ protection!")
-    A("target.hp = min(target.hp, target.maxhp)")
-    A("```")
-    A("**Heal pause = 0** — лечат каждый цикл анимации (~0.7 сек), пока цель не полное HP.\n")
-    A("| Юнит | heal/удар | дальн. (px / tiles) | Где доступен |")
-    A("|---|---:|---|---|")
-    A("| Priest | 20 | 0-400 / 7.5 t | большинство европейских наций |")
-    A("| Pope | 25 | 0-350 / 6.6 t | Папская область / Венеция |")
-    A("| Mullah | 15 | 0-500 / **9.4 t** | Турция / Алжир (самый дальний heal) |")
-    A("| Padre | 30 | 0-400 / 7.5 t | Испания / Португалия (самый сильный heal) |")
-    A("\n**Стратегические выводы:**\n")
-    A("- **Heal игнорирует броню** — лечит на полное значение независимо от того, кто-кого защитного.")
-    A("- **Несколько священников лечат одну цель параллельно** — рейтер с 282 HP лечится 4 священниками "
-      "= +80 HP/цикл = ~115 HP/сек. Можно держать тяжёлую кавалерию вечно.")
-    A("- **Mullah имеет самую большую дальность** (9.4 t) — лечит из второй линии, недосягаем для ближнего боя.")
-    A("- **Padre самый эффективный** (30/удар) — испанско-португальская армия очень живуча.")
-    A("- Священники сами **уязвимы** (низкий HP, нет брони) — главный таргет для рейдов.\n")
-    A("### Shield /3 при недостроенном здании\n")
-    A("Источник: [`miscext2.script:339-342`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)\n")
-    A("При расчёте урона: если здание **ещё строится** (`bbuilt=False`), его shield делится на 3:\n")
-    A("```")
-    A("if (target.bbuilt):  damage -= shield        # достроено: полный shield")
-    A("else:                 damage -= shield // 3   # стройка: 1/3 shield")
-    A("```")
-    A("**Стратегический смысл:** **сноси здания пока они строятся**. Например, башня на стройке имеет "
-      "shield ~33 (вместо 100), и каждый удар по ней проходит почти полностью. Контр-стройка "
-      "(атака на возводимое здание противника) гораздо эффективнее чем атака готового.\n")
-    A("Касается ТОЛЬКО зданий — юниты не имеют состояния «строится».\n")
-    A("### Реакция ИИ — отряд переходит в атаку от одного удара\n")
-    A("Источник: [`miscext2.script:406-417`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)\n")
-    A("Любой не-артиллерийский юнит ИИ, **получивший урон**, переключает свой отряд (`squad`) в "
-      "`fAgressive=True` и обновляет `fLastBattleTime`.\n")
-    A("**Эффект:** один поражающий выстрел/удар по отряду ИИ переводит его в боевой режим. "
-      "ИИ начинает контратаковать, преследовать, искать врага активно.\n")
-    A("**Стратегические выводы:**\n")
-    A("- **Поклёвывание ИИ** (один лучник в крестьянина) **активирует реакцию всего отряда ИИ**. "
-      "Может быть полезно: отвлекаешь лучником, основная сила атакует с другой стороны.")
-    A("- ИИ на артиллерии (пушки/мортиры) — НЕ переключается (особый случай в коде).")
-    A("- Если хочешь скрытно собрать ресурсы рядом с ИИ — **не атакуй вообще**, иначе вся армия "
-      "зашевелится.\n")
-    A("### Офицеры — миф о боевой ауре\n")
-    A("Источник: [`player.script:810-858`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script), "
-      "[`unit.script:163-164`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)\n")
-    A("**В игре НЕТ персонального бонуса-ауры от офицера.** Офицеры/барабанщики занимают слоты "
-      "`maskOfficers` в формационной сетке, но в коде **нет** проверок типа "
-      "`if (officer in radius) then damage += X`.\n")
-    A("**Что реально даёт офицер:**\n")
-    A("- Без офицера **нельзя сформировать отряд** — а без отряда нет `fAddDamage` / `fAddShield` "
-      "(см. секцию Формационные бонусы).")
-    A("- Офицер ходит в составе строя и держит формацию.")
-    A("- При смерти офицера отряд **рассыпается** → теряет все формационные бонусы (это и есть "
-      "«потеря ауры» которую ощущают игроки).")
-    A("\n**Стратегический вывод:** **убийство офицера = убийство всех бонусов отряда**. "
-      "Если в LINE-формации все мушкетёры имели +7 hold dmg / +7 hold shield — после смерти "
-      "офицера это всё пропадает мгновенно. **Офицеры — снайперская цель №1.**\n")
-    A("### Чего НЕТ в игре (подтверждённое отсутствие)\n")
-    A("После проверки `unit.script`, `weapon.script`, `miscext2.script`, `player.script`:\n")
-    A("- **НЕТ бонуса за кавалерийский натиск.** Кавалерия не получает бонусного урона на разгоне или при "
-      "первом ударе. Поиск `bcharging`/`firsthit`/`chargebonus` ничего не находит. "
-      "Урон кавалерии = базовый урон оружия.")
-    A("- **НЕТ отдельного типа урона против лошадей.** Пикинёры не имеют умножителя «×N против кавалерии». "
-      "Эффективность пикинёра против рейтара — это просто `weapon.damage(pike)` против "
-      "`target.protection[pike]` где у кавалерии эта защита обычно низкая.")
-    A("- **НЕТ ауры барабанщика.** Барабанщик — просто слот в формации (формальное наполнение). "
-      "Не даёт +урон, +скорость, +мораль.")
-    A("- **НЕТ особой траектории у гранатомёта.** Гранатомёт использует обычный AoE-конвейер (тип cannonball с "
-      "радиусом взрыва). Никаких специальных эффектов траектории нет.")
-    A("- **НЕТ скрытности/невидимости.** Все юниты видны если в зоне обзора игрока. Нет флага `bstealth`.")
-    A("\n**Что это меняет:** **формация — единственный способ умножить урон**. Никаких скрытых "
-      "бонусов от позиции (кроме high-ground / standground). Прокачки + формация + тип оружия "
-      "против типа брони — это вся боевая математика.\n")
-    A("### Свойства формулы урона\n")
-    A("- `protection` и `shield` уменьшают урон **аддитивно** (не процентно).")
-    A("- **Минимум 1 хп** урона: даже если `protection > damage + bonuses`, пройдёт 1 hp.")
-    A("- Shield применяется ВСЕГДА (включая поверх protection). Танки с shield эффективнее тяжёлой защиты.")
-    A("- При постройке здания shield делится на 3.")
-    A("- `firearrow` (зажигательная стрела лучников) НЕ получает отрядный бонус к урону.\n")
-    A("### Рассеяние — почему выстрелы промахиваются\n")
-    A("Источник: [`weapon.script:_weapon_CalcShotDispertion:625`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script)\n")
-    A("При каждом выстреле снаряд **рассеивается** относительно цели:\n")
-    A("```")
-    A("maxdisp = dist × disp × 0.0267   # в тайлах")
-    A("shot_x = target_x + (1 - random*2) × maxdisp")
-    A("shot_z = target_z + (1 - random*2) × maxdisp")
-    A("```")
-    A("Где `dist` — дистанция до цели (тайлы), `disp` — `weapon.dispertion` (тайлы, после "
-      "_misc_PixelsToTiles). **Чем дальше — тем больше рассеяние** (линейно).\n")
-    A("**Базовые значения dispertion** (из unit.script):")
-    A("| Оружие | dispertion (px / tiles) | На 15 t отклонение |")
-    A("|---|---:|---:|")
-    A("| Strelet (SHOTMUSKET, base) | 200 / 3.75 | **±1.50 t** |")
-    A("| Archer (STRELA) | 175 / 3.28 | ±1.31 t |")
-    A("| Archer (OSTRELA fire) | 200 / 3.75 | ±1.50 t |")
-    A("| Musketeer base | 250 / 4.69 | ±1.88 t |")
-    A("| Cannon (PPOINTT) | ~250 / 4.69 | ±1.88 t |")
-    A("| Tower (PPOINTTTOW) | ~100 / 1.88 | ±0.75 t |")
-    A("| Yacht/galley (PPOINTTKOR) | 25 / 0.47 | ±0.19 t |")
-    A("\n**Шанс попасть в юнит размером 1×1 t** на дистанции d:\n")
-    A("- Если 2×maxdisp ≤ 1 → ~100% попадание")
-    A("- Если 2×maxdisp > 1 → шанс ≈ 1 / (2×maxdisp) попасть точно в нужный квадрат")
-    A("\nПример: мушкетёр (disp=3.75) на 15 t → maxdisp=1.50, окно ±1.50 = 3.00 → шанс попасть "
-      "в 1×1 цель ≈ 1/3 = **~33%** одним выстрелом. Это означает что **TTK в матрице контр-эффективности ниже "
-      "реального в 3 раза для дальних пуль/стрел**.\n")
-    A("**Апгрейды dispertion** — только для **артиллерии**:")
-    A("- `aca.20` (Research new sighting devices for artillery): **-35% dispersion**")
-    A("- `aca.27` (Develop mathematics): **-35% dispersion** (накапливается с aca.20)")
-    A("- ⚠ Для **мушкетёров и лучников** прямого dispersion-апгрейда нет.")
-    A("")
-    A("### uniqrnd — индивидуальное случайное число юнита\n")
-    A("При спавне каждый юнит получает `uniqrnd ∈ [0..1]` ([`unit.script:2726`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)). "
-      "Это **зафиксированное** число, остаётся неизменным до смерти. "
-      "Используется в **4 механиках одновременно**:\n")
-    A("| # | Где применяется | Эффект |")
-    A("|---:|---|---|")
-    A("| 1 | Бонус хедшота | `+floor(uniqrnd × 500)` дополнительного урона при крите |")
-    A("| 2 | Эффективная max range | `radiusmax -= uniqrnd × 3` тайла. Каждый стрелок стреляет чуть на разную дистанцию (асинхронные залпы) |")
-    A("| 3 | Search timing | `nextSearch = now + uniqrnd × 0.15 + 0.3` сек. Юниты не сканируют синхронно |")
-    A("| 4 | Multiplayer sync seed | `SetRandomKey(floor(uniqrnd × MaxInt))` для синхронизации |")
-    A("\nЭффекты — это **компромисс**, встроенный в каждого юнита: высокий uniqrnd → большие криты, "
-      "но меньшая дальность. Низкий → дальше стреляет, но слабее криты.\n")
-    A("В C3 разработчики **специально расширили base range на +100 px** для лучников (`unit.script:999` "
-      "комментарий: `// c3 added range +100 cause of uniqrnd range dispertion`) — компенсировать "
-      "uniqrnd usage #2.\n")
-    A("## Типы оружия (gc_obj_weapon_kind_*)\n")
-    A("| Kind | Описание | Носители |")
-    A("|---|---|---|")
-    A("| `pike` | Длинное копьё/пика | Pikemen, Pikeman18 |")
-    A("| `sword` | Меч/сабля | Light infantry, swordsmen, кавалерия в ближнем бою |")
-    A("| `bullet` | Пуля огнестрела | Musketeer, Strelet, Janissary, Dragoon, etc. |")
-    A("| `arrow` | Стрела/болт | Archer (`SHOTLU` ammo) |")
-    A("| `cannonball` | Пушечное ядро | Cannon, Tower, Frigate (single shot) |")
-    A("| `cannister` | Картечь | Cannon close-range, multi-cannon |")
-    A("\nКаждый юнит имеет `protection[kind]` отдельно по каждому типу — см. колонки `prot_*` в [04_units.md](04_units.md).\n")
+    out.extend(render_template("02_combat_intro.md"))
     A("## Скорости юнитов\n")
     A("Базовые `gc_obj_speed_*` из `dmscript.global:603-620`. **Абстрактные единицы** (не tiles/sec). "
       "Реальная скорость в тайлах/сек зависит от animation `walkInterval`, `walkintervalfactor` "
@@ -1798,46 +1298,63 @@ def write_upgrades(data: dict) -> None:
 def write_market(data: dict) -> None:
     out = []
     A = out.append
-    A("# 06. Рынок\n")
-    A("[← Index](README.md)\n")
-    A("## Курсы обмена\n")
-    A("Каждый ресурс имеет диапазон цен **buy** (когда покупаешь его) и **sell** (когда продаёшь). "
-      "После сделки цены **сдвигаются**: покупка двигает `buycost` к `buycostmax`, продажа двигает "
-      "`sellcost` к `sellcostmin`. Поэтому **повторные операции с одним ресурсом дают всё хуже курс**.\n")
+    out.extend(render_template("06_market_intro.md"))
+    A("")
     A("| Ресурс | buy_min | buy_def | buy_max | sell_min | sell_def | sell_max |")
     A("|---|---:|---:|---:|---:|---:|---:|")
-    for res, vals in data.get("market_rates", {}).items():
-        if res.startswith("_"): continue
+    rates = data.get("market_rates", {})
+    for res, vals in rates.items():
+        if res.startswith("_"):
+            continue
         A(f"| {res} | {vals['buycostmin']:.0f} | {vals['buycostdef']:.2f} | {vals['buycostmax']:.0f} "
           f"| {vals['sellcostmin']:.2f} | {vals['sellcostdef']:.2f} | {vals['sellcostmax']:.2f} |")
     A("")
-    A("## Формула обмена\n")
-    A("```")
-    A("received_Y = sold_X * sellcost[X] / buycost[Y]")
-    A("```")
-    A("\n## Примеры (при default ценах)\n")
-    rates = data.get("market_rates", {})
+    out.extend(render_template("06_market_mechanics.md"))
+    A("")
+    A("### Примеры обменов на дефолтном курсе\n")
+    A("Сколько Y получишь за 100 единиц X на свежем рынке. После пары сделок цифры сместятся к худшему.\n")
+    A("| Продаёшь | Получаешь | Чего | По формуле |")
+    A("|---|---:|---|---|")
     examples = [
         ("food", "wood", 100), ("food", "gold", 100),
         ("gold", "wood", 100), ("gold", "food", 100),
         ("iron", "food", 100), ("wood", "stone", 100),
     ]
-    A("| Sell | Получишь | Buy | По формуле |")
-    A("|---|---:|---|---|")
     for sell, buy, amount in examples:
         sd = rates.get(sell, {}).get("sellcostdef", 0)
         bd = rates.get(buy, {}).get("buycostdef", 0)
         if bd:
-            received = round(amount * sd / bd, 1)
-            A(f"| {amount} {sell} | **{received}** | {buy} | "
-              f"{amount} × {sd:.2f} / {bd:.2f} |")
+            received = int(amount * sd / bd)
+            A(f"| {amount} {sell} | **{received}** | {buy} | floor({amount} × {sd:.2f} / {bd:.2f}) |")
     A("")
-    A("## Деградация\n")
-    A("После каждой сделки `buycost` растёт к `buycostmax`, `sellcost` падает к `sellcostmin`. "
-      "Скорость восстановления — `gc_economy_time = 0.0001 × time_to_frames = 0.0032`/тик. "
-      "В UI это выглядит как «курс становится хуже после многих обменов и медленно восстанавливается».\n")
-    A("Источник: `res.script:_res_InitEconomy` (lines 178-249), "
-      "`res.script:_res_MarketTradeResources` (lines 320-344).\n")
+    A("### Численный пример сдвига курса\n")
+    A("Что произойдёт с курсом после **одного** обмена 5000 food → wood на свежем рынке "
+      "(food.sellcost = 15.20, wood.buycost = 50.00):\n")
+    food = rates.get("food", {})
+    wood = rates.get("wood", {})
+    if food and wood:
+        amount = 5000
+        bought_wood = int(amount * food.get("sellcostdef", 0) / wood.get("buycostdef", 1))
+        weight_buy = bought_wood * 0.00002
+        weight_sell = amount * 0.00002
+        new_wood_buy = (wood["buycostdef"] + wood["buycostmax"] * weight_buy) / (1 + weight_buy)
+        new_wood_sell = (wood["sellcostdef"] + wood["sellcostmax"] * weight_buy) / (1 + weight_buy)
+        new_food_sell = (food["sellcostdef"] + food["sellcostmin"] * weight_sell) / (1 + weight_sell)
+        new_food_buy = (food["buycostdef"] + food["buycostmin"] * weight_sell) / (1 + weight_sell)
+        A(f"- Получено wood: `floor(5000 × 15.20 / 50.00) = {bought_wood}`.")
+        A(f"- `wood.buycost`: 50.00 → **{new_wood_buy:.3f}** "
+          f"(сдвиг на {(new_wood_buy - 50) / 50 * 100:+.2f}%, к buycostmax = 60).")
+        A(f"- `wood.sellcost`: 30.00 → **{new_wood_sell:.3f}** "
+          f"(к sellcostmax = 40).")
+        A(f"- `food.sellcost`: 15.20 → **{new_food_sell:.3f}** "
+          f"(сдвиг на {(new_food_sell - 15.20) / 15.20 * 100:+.2f}%, к sellcostmin = 10.64). Догоняющий получит за свою еду меньше дерева.")
+        A(f"- `food.buycost`: 25.00 → **{new_food_buy:.3f}** "
+          f"(к buycostmin = 20). Зато купить food теперь чуть дешевле.")
+        A("")
+    A("Цены восстанавливаются к default'у со скоростью ≈ 2.5%/g-сек гэпа в обе стороны. "
+      "Полупериод — около 28 g-секунд (≈ 20 real-сек @ fast). Так что через минуту-две большая часть "
+      "движения откатится — но если торгуешь часто или большими лотами, курс хронически «болеет».\n")
+    out.extend(render_template("06_market_strategy.md"))
     write_md(TREE_ROOT / "06_market.md", out)
 
 
@@ -2393,86 +1910,8 @@ def write_top_inventory(data: dict) -> None:
     if banner:
         A(banner + "\n")
     A("Все сгенерированные файлы для справочника по игре. Главная точка входа.\n")
-    A("## Начни здесь\n")
-    A("**[reference/README.md](reference/README.md)** — структурированный справочник: "
-      "формулы, главы, 21 нация, 16 сравнений, derived-расчёты.\n")
-    A("## Структура `output/`\n")
-    A("```")
-    A("output/")
-    A("├── README.md              ← этот файл (каталог)")
-    A("├── data.json              ← сырой источник правды (~4.7 MB)")
-    A("├── reference/             ← каноническая справка по игре")
-    A("│   ├── README.md          ← TL;DR + index + glossary")
-    A("│   ├── 01_economy.md … 06_market.md  ← главы по темам")
-    A("│   ├── nations/           ← 21 cheatsheet по нациям")
-    A("│   └── compare/           ← side-by-side сравнения юнитов/зданий")
-    A("├── reports/               ← все производные расчёты (.md)")
-    A("│   ├── README.md          ← индекс отчётов")
-    A("│   ├── combat_stats.md    ← DPS / EHP")
-    A("│   ├── counter_matrix.md  ← TTK между классами юнитов")
-    A("│   ├── scaling_prices.md  ← цена N-го экземпляра здания")
-    A("│   ├── efficiency_upgrades.md")
-    A("│   ├── tech_tree.md       ← граф зависимостей")
-    A("│   ├── production_rates.md ← units/min")
-    A("│   ├── construction_times.md ← время постройки с N строителями")
-    A("│   ├── builder_slots.md   ← макс. число строителей на здание")
-    A("│   ├── map_resources.md   ← подсчёт на стандартной карте")
-    A("│   └── starting_layout.md ← стартовая раскладка")
-    A("├── simulations/           ← выходы симулятора экономики")
-    A("│   ├── README.md          ← как запустить, формат build order")
-    A("│   └── sim_*.{csv,md}     ← результаты прогонов")
-    A("└── derived/               ← машинно-читаемые JSON-датасеты")
-    A("    ├── tech_tree.json")
-    A("    ├── animations.json")
-    A("    ├── builder_slots.json")
-    A("    └── pattern_*.json")
-    A("```")
+    out.extend(render_template("output_readme.md"))
     A("")
-    A("## Reference — каноническая справка\n")
-    A("[**reference/**](reference/) — главы по темам, по одному cheatsheet на нацию, "
-      "side-by-side сравнения. Старт — [reference/README.md](reference/README.md):\n")
-    A("- **Главы:** [01_economy](reference/01_economy.md), [02_combat](reference/02_combat.md), "
-      "[03_buildings](reference/03_buildings.md), [04_units](reference/04_units.md), "
-      "[05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md)")
-    A("- **Нации:** [reference/nations/](reference/nations/README.md) — 21 нация")
-    A("- **Сравнения:** [reference/compare/](reference/compare/README.md) — pikemen / musketeers / cavalry / ships / weapons и др.")
-    A("")
-    A("## Reports — производные расчёты\n")
-    A("Всё что считается из `data.json`: бой (DPS/EHP, контр-матрица), цены и масштабирование, "
-      "темпы и тайминги, карта. Индекс — [reports/README.md](reports/README.md).\n")
-    A("- **Бой:** [combat_stats](reports/combat_stats.md), [counter_matrix](reports/counter_matrix.md)")
-    A("- **Цены:** [scaling_prices](reports/scaling_prices.md), [efficiency_upgrades](reports/efficiency_upgrades.md)")
-    A("- **Темп:** [tech_tree](reports/tech_tree.md), [production_rates](reports/production_rates.md), "
-      "[construction_times](reports/construction_times.md), [builder_slots](reports/builder_slots.md)")
-    A("- **Карта:** [map_resources](reports/map_resources.md), [starting_layout](reports/starting_layout.md)")
-    A("")
-    A("## Simulations — выходы симулятора\n")
-    A("[**simulations/**](simulations/README.md) — таймлайны экономики по конкретным build order'ам "
-      "(скрипт `simulator/simulate_economy.py`). Build orders (вход) — в [`../simulator/build_orders/`](../simulator/build_orders/).\n")
-    A("## Сырой JSON\n")
-    A("[`data.json`](data.json) — единый источник правды, выход `parser/build_data.py`. "
-      "Все writer-скрипты читают отсюда. После патча игры регенерируется.\n")
-    A("## Глубокие исследования (`../recon/`)\n")
-    A("Research notes по конкретным механикам ([`../recon/README.md`](../recon/) — индекс):\n")
-    A("- [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — добыча: цикл крестьянина, формулы, шахты, поля, апгрейды")
-    A("- [`../recon/building_mechanics.md`](../recon/building_mechanics.md) — постройка/починка, builder slots, стены, гарнизон, захват")
-    A("- [`../recon/map_generation_pipeline.md`](../recon/map_generation_pipeline.md) — DoGenerate timeline + seed space")
-    A("- [`../recon/determinism_audit.md`](../recon/determinism_audit.md) — RNG-сайты, save/load, мод-фикс")
-    A("- [`../recon/ticks_and_subticks.md`](../recon/ticks_and_subticks.md) — модель времени, adaptive game speed")
-    A("- [`../recon/server_sync_architecture.md`](../recon/server_sync_architecture.md) — server-authoritative модель C3")
-    A("")
-    A("## Регенерация\n")
-    A("После патча игры или изменений в скриптах:\n")
-    A("```")
-    A("python parser/build_data.py                 # → output/data.json (источник правды)")
-    A("python writers/write_md_tree.py             # → output/reference/ + output/README.md")
-    A("python compute/compute_scaling.py           # → output/reports/scaling_prices.md")
-    A("python compute/compute_map_resources.py     # → output/reports/map_resources.md")
-    A("python compute/build_tech_tree.py           # → output/reports/tech_tree.md + production_rates.md + derived/tech_tree.json")
-    A("python simulator/simulate_economy.py <build_order.json>  # → output/simulations/sim_<name>.{csv,md}")
-    A("```")
-    A("Все writer-скрипты читают только из `data.json` — кроме `build_data.py`, "
-      "который читает напрямую из файлов игры.\n")
     A("## Стат\n")
     f = data
     A(f"- Нации: **{len(f['nations'])}**")

@@ -2,44 +2,75 @@
 
 _Extracted **2026-04-29 01:48:04** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
-Полный справочник по экономике, юнитам, зданиям и апгрейдам игры Cossacks 3, извлечённый напрямую из файлов игры в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\`.
-
-Парсер: `parser/` (запусти `python parser/build_data.py && python writers/write_md_tree.py` после патча игры).
+Структурированный справочник по игре, извлечённый напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, локали). Здесь — главы по темам, по одному cheatsheet на нацию и сравнения юнитов одного класса. Все цифры — `output/data.json` (источник правды), регенерируется через `python parser/build_data.py`.
 
 ---
 
-## TL;DR — главные цифры
+## С чего начать
 
-- **Время:** `gc_time_to_frames = 32` (32 кадра / игр-сек). Game speeds: slow=`7`, normal=`10`, fast=`14` тиков/сек.
-- **Pixels-to-tile:** `53.3333`. Радиус 800 px = 15 тайлов.
-- **Лимиты:** 32000 объектов на карте, 12 игроков.
-- **Поле:** HP = 25000. Шахта (база): 5 крестьян → 1.664 ресурса/игр-сек на крестьянина.
+**Главы по темам:**
 
-### Базовая добыча
+| Глава | О чём |
+|---|---|
+| [01_economy.md](01_economy.md) | Добыча ресурсов: формулы, eff, шахты, поля, голод/upkeep, рыбалка |
+| [02_combat.md](02_combat.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица |
+| [03_buildings.md](03_buildings.md) | Все здания (per-nation + общие), цены, footprint |
+| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли |
+| [05_upgrades.md](05_upgrades.md) | Все апгрейды по местам исследования |
+| [06_market.md](06_market.md) | Рынок, курсы обмена, first-mover advantage, деградация |
 
-| Ресурс | Порция за рейс | Hits перед сдачей | Real rate (1 крестьянин, eff=100) |
+**Лукапы:**
+
+- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).
+- [compare/](compare/README.md) — side-by-side сравнения юнитов одного класса (все мушкетёры 17 в., все драгуны и т.д.).
+
+**Расчёты и симуляции (рядом, в соседних каталогах):**
+
+- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.
+- [`../simulations/`](../simulations/README.md) — таймлайны экономики по конкретным build order'ам (выходы симулятора).
+- [`../../recon/`](../../recon/README.md) — глубокие исследования механик (добыча, постройка, RNG, тики, server sync, генерация карт).
+- [`../derived/`](../derived/) — машинно-читаемые JSON-датасеты (tech_tree.json и др.).
+- [`../data.json`](../data.json) — сырой JSON (~4.7 MB), вход для всех writer-скриптов.
+
+---
+
+## Краткая справка
+
+### Добыча
+
+| Ресурс | Порция / рейс | Hits до сдачи | Идеальный rate (1 крестьянин, eff=100, без дороги) |
 |---|---:|---:|---:|
-| food (еда) | **45** | 22 | ≈ 2.97 / игр-сек (без дороги к складу) |
-| wood | **28** | 14 | ≈ 3.56 / игр-сек |
-| stone | **40** | 20 | ≈ 3.56 / игр-сек |
-| gold/iron/coal | **20** (хардкод) | n/a | через шахту: 1.664 / крестьянин / игр-сек |
+| food | **45** | 22 | ≈ 2.97 / g-сек |
+| wood | **28** | 14 | ≈ 3.56 / g-сек |
+| stone | **40** | 20 | ≈ 3.56 / g-сек |
+| gold / iron / coal | **20** (хардкод) | n/a | через шахту: 1.664 / крестьянин / g-сек (база, без апгрейдов) |
 
-**Формула:** `delivered = (portion × eff) / 100`  (целочисл. деление). `eff` стартует со 100, апгрейды добавляют **аддитивно**.
+**Формула:** `delivered = (portion × eff) / 100` (целочисленное деление). `eff` стартует со 100; апгрейды (mill, academy, blacksmith) накапливаются аддитивно.
 
-### Боевая формула
+### Бой
 
 ```
 applied = max(1, weapon.damage
-                 - target.shield               # /3 if target is being built
-                 - target.protection[kind]
-                 + squad bonuses
-                 + HEADSHOT: +floor(uniqrnd × 500) at 5% chance (arrow/bullet vs non-buildings))
+                 − target.shield                 # /3 если здание ещё строится
+                 − target.protection[weapon.kind]
+                 + бонусы отряда (формация LINE/SQUARE/KARE: +2..+7)
+                 + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow/bullet
+                                                  по не-зданиям, кроме fasthorse в движении)
 ```
-**Минимум 1 хп**. Хедшот = 5% шанс на каждый bullet/arrow выстрел против любого юнита (кроме light-cavalry-в-движении) даёт **до +499** бонусного урона. См. подробности в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). Источник: `miscext2.script:_misc_DoDamage`.
+Минимум 1 hp. Подробности — в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). Источник: `miscext2.script:_misc_DoDamage`.
 
-### Цена N-го здания того же типа
+### Цены и масштабирование
 
-`cost(N) = floor(base_cost × (costpercent/100)^(N-1))`. См. [`../reports/scaling_prices.md`](../reports/scaling_prices.md).
+- **N-й экземпляр здания того же типа:** `cost(N) = floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 — в [`../reports/scaling_prices.md`](../reports/scaling_prices.md).
+- **N строителей:** реальное время постройки = `buildtime × 1.13 / N` (cap = builder slots, см. [`../reports/builder_slots.md`](../reports/builder_slots.md)).
+- **Real-time @ fast:** `real_sec = game_sec / 1.4`. Game speeds: slow=7, normal=10, fast=14 тиков/сек.
+
+### Ключевые константы
+
+- **Время:** `gc_time_to_frames = 32` — 32 кадра в одной игровой секунде.
+- **Pixels-to-tile:** `53.3333` — для перевода weapon.range из пикселей в тайлы (например, 800 px = 15 тайлов).
+- **Лимиты карты:** 32000 объектов всего, 12 игроков.
+- **Поле:** HP = 25000. Шахта база: 5 крестьян, 1.664 ресурса / g-сек на каждого.
 
 ---
 
@@ -92,75 +123,30 @@ applied = max(1, weapon.damage
 
 ---
 
-## Где что искать
+## Стат и проверки
 
-### Главы справочника (этот каталог)
+- **Sanity checks:** **112/112 PASS** (полный список — лист `Sanity_checks` в xlsx).
+- **Нации:** 21 играбельных.
+- **Здания:** 414 строк (sid×nation).
+- **Юниты:** 714 строк.
+- **Апгрейды:** 4429 строк (с полностью разрешёнными cost / value / itype / prereqs).
+- **Офицеры/формации:** 231 групп.
 
-| Хочу узнать… | Открой |
-|---|---|
-| Формулы добычи и цикл крестьянина | [01_economy.md](01_economy.md) |
-| Формула урона, защиты, скорости, формации | [02_combat.md](02_combat.md) |
-| Все здания (общие + per-nation) | [03_buildings.md](03_buildings.md) |
-| Все юниты по классам | [04_units.md](04_units.md) |
-| Все апгрейды по местам | [05_upgrades.md](05_upgrades.md) |
-| Курсы рынка и примеры обмена | [06_market.md](06_market.md) |
-| Что уникального у нации X | [nations/](nations/README.md) |
-| Сравнить юнитов одного класса | [compare/](compare/README.md) |
+## Расхождения с внешними источниками
 
-### Производные расчёты (рядом с этой папкой)
+Несколько чисел в этом справочнике отличаются от того, что встречается в чужих гайдах и калькуляторах. Источник истины — игровые скрипты; расхождения помечаем явно.
 
-Все автоматически вычисляемые отчёты — в [`../reports/`](../reports/README.md):
-
-- **Бой:** [`combat_stats.md`](../reports/combat_stats.md), [`counter_matrix.md`](../reports/counter_matrix.md)
-- **Цены:** [`scaling_prices.md`](../reports/scaling_prices.md) — цена N-го экземпляра. [`efficiency_upgrades.md`](../reports/efficiency_upgrades.md) — что меняют апгрейды.
-- **Темп:** [`tech_tree.md`](../reports/tech_tree.md), [`production_rates.md`](../reports/production_rates.md), [`construction_times.md`](../reports/construction_times.md), [`builder_slots.md`](../reports/builder_slots.md)
-- **Карта:** [`map_resources.md`](../reports/map_resources.md), [`starting_layout.md`](../reports/starting_layout.md)
-
-Машинно-читаемые JSON-датасеты — в [`../derived/`](../derived/) (`tech_tree.json`, `animations.json`, `builder_slots.json`, `pattern_*.json`).
-
-### Сырой источник
-
-| Файл | Что |
-|---|---|
-| [../data.json](../data.json) | Сырой JSON (~4.7 MB) — вход для всех writer-скриптов. Регенерируется через `python parser/build_data.py`. |
-
-### Глубокие исследования (recon/)
-
-| Файл | Тема |
-|---|---|
-| [../../recon/peasant_extraction.md](../../recon/peasant_extraction.md) | Полный разбор добычи: цикл крестьянина, animation frames, walk speed, fieldlife регенерация, спавн ресурсов |
-| [../../recon/building_mechanics.md](../../recon/building_mechanics.md) | Постройка/починка крестьянами, builder slots, стены, гарнизон/башни, захват, разрушение |
-| [../../recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) | Полный таймлайн `DoGenerate` + что определяет уникальную карту (seed space) |
-| [../../recon/determinism_audit.md](../../recon/determinism_audit.md) | RNG-сайты в hot-path добычи и боя, save/load, мод-фикс |
-| [../../recon/ticks_and_subticks.md](../../recon/ticks_and_subticks.md) | Модель времени: progress-loop, sub-tick state, adaptive game speed |
-| [../../recon/server_sync_architecture.md](../../recon/server_sync_architecture.md) | Server-authoritative модель C3, net modes, sync пакеты |
-
-## Расхождения с заметками из промпта
-
-(детали в [01_economy.md#discrepancies](01_economy.md))
-| Факт | Заметки | Файл |
+| Факт | Где видели | В файле игры |
 |---|---|---|
 | hits_needed for food | 30 | **22** |
 | Field melioration (academy aca.4) cost | W1400 / G522 | **W1000 / G475 (any nation)** |
 | 'Manufacture agricultural equipment' (blacksmith) cost | W400 / G100 | **не найден в blacksmith — этот апгрейд может быть из старого названия** |
 
-## Sanity checks: **112/112 PASS**
-
-Полный список и категории — в xlsx-листе `Sanity_checks` или [01_economy.md](01_economy.md#sanity).
-
----
-
-## Стат по объёмам
-
-- **Нации:** 21
-- **Здания:** 414 строк (sid×nation)
-- **Юниты:** 714 строк
-- **Апгрейды:** 4429 строк
-- **Офицеры/формации:** 231 групп
+Детали и обоснования — в [01_economy.md → Discrepancies](01_economy.md#discrepancies-расхождения-с-промпт-заметками).
 
 ## Принципы справочника
 
-1. **Источник истины — файлы игры.** Если что-то расходится с внешними калькуляторами/гайдами — доверяй файлу. Расхождения задокументированы в `discrepancies`.
-2. **Идемпотентность.** `python build_data.py && python write_xlsx.py && python write_md_tree.py` перегенерирует всё с нуля.
-3. **Sanity checks.** 100+ автопроверок ловят регрессии после игровых патчей.
-4. **Нет ручных правок.** Если хочешь подкрутить — правь скрипты в `parser/`, не сами md.
+1. **Источник истины — файлы игры.** Если что-то расходится с внешними калькуляторами или гайдами — доверяй файлам в этом репозитории. Все расхождения задокументированы.
+2. **Идемпотентность.** Запуск `python parser/build_data.py && python writers/write_md_tree.py` (плюс `compute/*.py` для отчётов) перегенерирует всё с нуля.
+3. **Sanity checks.** 100+ автопроверок прогоняются на каждом запуске парсера. Любая регрессия после игрового патча сразу видна.
+4. **Нет ручных правок.** Если хочется подкрутить формулировку или цифру — правь скрипты в `parser/`, `writers/`, `compute/`, не сами `.md`. Они перезаписываются при следующей регенерации.

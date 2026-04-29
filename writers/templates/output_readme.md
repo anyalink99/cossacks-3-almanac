@@ -1,9 +1,3 @@
-# Cossacks 3 — каталог артефактов
-
-_Extracted **2026-04-29 01:48:04** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
-
-Все сгенерированные файлы для справочника по игре. Главная точка входа.
-
 ## Начни здесь
 
 **[reference/README.md](reference/README.md)** — структурированный справочник по игре: формулы, главы, 21 нация, 16 сравнений.
@@ -91,12 +85,3 @@ python simulator/simulate_economy.py <build_order.json>  # → output/simulation
 ```
 
 Все writer-скрипты читают только из `data.json` — кроме `build_data.py`, который читает напрямую из файлов игры.
-
-## Стат
-
-- Нации: **21**
-- Здания: **414** строк (sid×nation)
-- Юниты: **714** строк
-- Апгрейды: **4429** строк (с полными cost/value/itype)
-- Офицеры: **231** групп
-- Sanity checks: **112/112** PASS
