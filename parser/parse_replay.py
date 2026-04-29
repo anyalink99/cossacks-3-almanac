@@ -18,7 +18,7 @@ These files share the OSWMap13 format. Layout (RE'd from binary inspection):
 
 - All placed pattern instances appear as ASCII pattern names (e.g. `frt_b_p_1`,
   `d_stn_2`, `mng_3`) at various offsets — these are the patterns the engine
-  actually selected for this game. Cross-reference with `output/derived/
+  actually selected for this game. Cross-reference with `docs/derived/
   pattern_types.json` to count by pattern type (= GROUND TRUTH for map gen).
 
 Usage:

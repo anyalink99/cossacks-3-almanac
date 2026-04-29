@@ -1,13 +1,13 @@
 """Validate compute_map_resources predictions against replay ground truth.
 
-For each replay in `output/derived/replay_ground_truth.json`:
+For each replay in `docs/derived/replay_ground_truth.json`:
   1. Reconstruct game settings (mapsize, relieftype, resourcemines, foreststype, ...)
   2. Run `compute_counts(...)` from compute_map_resources to get the model prediction
   3. Compare predicted clusters/type to actual clusters/type from replay
 
 Outputs:
   - stdout: per-replay diff table
-  - output/reports/map_predictions_validation.md: aggregate calibration report
+  - docs/reports/map/map_predictions_validation.md: aggregate calibration report
 
 This is the empirical-validation harness that lets us tune compute_map_resources
 without needing to play 100 games — we already have replays.
@@ -22,11 +22,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DERIVED_DIR, REPORTS_DIR
+from config import DERIVED_DIR, REPORTS_DIR, REPORTS_MAP_DIR
 from compute_map_resources import compute_counts
 
 GROUND_TRUTH = DERIVED_DIR / "replay_ground_truth.json"
-OUT_MD = REPORTS_DIR / "map_predictions_validation.md"
+OUT_MD = REPORTS_MAP_DIR / "map_predictions_validation.md"
 
 
 def spcount_from_maskname(maskname: str | None) -> int:
@@ -260,14 +260,14 @@ def main():
         print(f"  {t:<33} {a:>10.1f} {p:>9.1f} {ratio_str:>6} {n:>3}")
 
     # Markdown report
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    OUT_MD.parent.mkdir(parents=True, exist_ok=True)
     L = []
     A = L.append
     A("# Map predictions vs replay ground truth")
     A("")
     A("Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
       "cluster counts из replay/save файлов "
-      "(`output/derived/replay_ground_truth.json`).")
+      "(`docs/derived/replay_ground_truth.json`).")
     A("")
     A(f"**Replays processed:** {len(rows)}")
     A("")

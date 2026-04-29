@@ -1,6 +1,6 @@
 # Templates — статичная проза writer'ов
 
-Здесь живут все статичные текстовые блоки, которые писатели в `writers/` склеивают с computed-таблицами (генерируемыми из `output/data.json`). Идея: Python отвечает только за сборку и расчёты, прозу правят прямо в `.md`.
+Здесь живут все статичные текстовые блоки, которые писатели в `writers/` склеивают с computed-таблицами (генерируемыми из `docs/data.json`). Идея: Python отвечает только за сборку и расчёты, прозу правят прямо в `.md`.
 
 ## Как использовать
 
@@ -19,9 +19,9 @@ out.extend(render_template("foo.md", time_to_frames=32, ...))
 ```
 templates/
 ├── README.md                  ← этот файл
-├── output_readme.md           ← для output/README.md (каталог артефактов)
+├── output_readme.md           ← для docs/README.md (каталог артефактов)
 │
-├── reference/                 ← все блоки для output/reference/*
+├── reference/                 ← все блоки для docs/reference/*
 │   ├── readme/                ← главный README справочника
 │   │   ├── glossary.md        ← глоссарий игровых тегов (sid, eff, bnohungry, …)
 │   │   └── principles.md      ← четыре принципа справочника
@@ -40,8 +40,8 @@ templates/
 │   │                              формации + AoE + high ground + score + standground +
 │   │                              runaway + friendly fire + weapon switching +
 │   │                              standtime + addradius + capture + healing + shield/3 +
-│   │                              AI reaction + officers myth + «Чего нет в игре» +
-│   │                              dispertion + uniqrnd + типы оружия (~510 строк)
+│   │                              AI reaction + officers myth + упрощения боевой формулы +
+│   │                              dispertion + uniqrnd + типы оружия (~700 строк)
 │   │
 │   ├── 03_buildings/
 │   │   └── legend.md          ← расшифровка колонок таблиц зданий
@@ -64,7 +64,7 @@ templates/
 │   └── nations/
 │       └── readme_intro.md    ← заголовок nations/README.md
 │
-└── legacy/                    ← блоки для устаревшего output/cossacks3_reference.md
+└── legacy/                    ← блоки для устаревшего docs/cossacks3_reference.md
     ├── header_banner.md       ← deprecation-баннер + общий TOC монолита
     ├── section_4_buildings_intro.md
     ├── section_4_2_common_intro.md
@@ -96,14 +96,14 @@ templates/
 
 | Output | Writer | Шаблоны |
 |---|---|---|
-| `output/README.md` | `write_md_tree.py:write_top_inventory` | `output_readme.md` |
-| `output/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md`, `reference/readme/principles.md` |
-| `output/reference/01_economy.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
-| `output/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
-| `output/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/legend.md` |
-| `output/reference/04_units.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
-| `output/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
-| `output/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
-| `output/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
-| `output/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |
-| `output/cossacks3_reference.md` (legacy) | `write_md.py:main` | `legacy/*.md` |
+| `docs/README.md` | `write_md_tree.py:write_top_inventory` | `output_readme.md` |
+| `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md`, `reference/readme/principles.md` |
+| `docs/reference/01_economy.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
+| `docs/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
+| `docs/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/legend.md` |
+| `docs/reference/04_units.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
+| `docs/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
+| `docs/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
+| `docs/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
+| `docs/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |
+| `docs/cossacks3_reference.md` (legacy) | `write_md.py:main` | `legacy/*.md` |

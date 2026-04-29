@@ -16,7 +16,7 @@ Melee weapons (`pause = 0`) have no game-defined pause; their cycle is animation
 bound (~13-frame swing ≈ 0.4 g-sec assumption). They're shown with `melee` annotation
 and a parametric TTK using that assumption — clearly marked.
 
-Output: output/reports/counter_matrix.md
+Output: docs/reports/combat/counter_matrix.md
 """
 from __future__ import annotations
 import sys
@@ -26,11 +26,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import (DATA_JSON, REPORTS_DIR, MELEE_SWING_FALLBACK_SEC,
+from config import (DATA_JSON, REPORTS_COMBAT_DIR, MELEE_SWING_FALLBACK_SEC,
                     MELEE_SWING_FALLBACK_FRAMES, melee_swing_sec)
 
 
-MD_PATH = REPORTS_DIR / "counter_matrix.md"
+MD_PATH = REPORTS_COMBAT_DIR / "counter_matrix.md"
 FAST_SPEED_MULT = 1.4
 
 # Per-unit melee swing length is looked up via `melee_swing_sec(sid)` from the
@@ -279,13 +279,13 @@ def main():
     if missing:
         print("WARNING: missing roster units:", missing)
 
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
     L = []
     A = L.append
     A("# Cossacks 3 — Counter-unit matrix")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`output/data.json` скриптом "
+      "`docs/data.json` скриптом "
       "[`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).")
     A("")
     A("## Метод")
@@ -305,7 +305,7 @@ def main():
     L.extend(render_notes())
     A("---")
     A("")
-    A("Сгенерировано из `output/data.json`. Для перегенерации:")
+    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_counter_matrix.py")

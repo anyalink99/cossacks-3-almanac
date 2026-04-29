@@ -32,7 +32,7 @@ Mechanics modeled (simplified — see assumptions in §END):
     * food/wood/stone: portion × eff / (hits × T_hit) × (1 - walk_overhead)
     * gold/iron/coal:  produce(13) × 32 / 250 × (1 - mine_overhead)
 - buildings: time = buildtime_sec × 1.13 / N_builders, clamped at the per-building
-  slot cap from output/derived/builder_slots.json (range 19..30).
+  slot cap from docs/derived/builder_slots.json (range 19..30).
 - units: each building instance has its own queue; with N buildings of same sid →
   N units progress in parallel. Rate per building = 1/unit_buildtime.
 - upkeep: per-unit food drain per g-sec = (consume.food + (bnohungry ? 0 : 30)) × 32 / 20000
@@ -562,7 +562,7 @@ class SimState:
         """Multiplier on buildtime for `sid`. Engine math (player.script:1848):
             buildtime *= (1 + value / (100 * 100000)) = (1 + value / 10_000_000)
         applied per upgrade. Order-independent because multiplication commutes —
-        see output/reference/05_upgrades.md «Математика применения». Typical
+        see docs/reference/05_upgrades.md «Математика применения». Typical
         values: -7500000 = -75% per upgrade. Clamp to 0.05 to avoid zero/negative.
         """
         factor = 1.0
@@ -584,7 +584,7 @@ class SimState:
         slots and aren't extracted by simulate_upgrades.py yet (the direct
         `sarrparam2[X] := 'NN'` assignments are AST-opaque), so this returns 1.0
         unconditionally. When wired up, stacking is multiplicative per the engine
-        (commutative — order doesn't matter). See output/reference/05_upgrades.md
+        (commutative — order doesn't matter). See docs/reference/05_upgrades.md
         «Математика применения».
         """
         return 1.0

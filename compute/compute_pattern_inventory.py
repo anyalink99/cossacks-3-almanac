@@ -2,9 +2,9 @@
 write per-pattern + per-type inventory.
 
 Outputs:
-  - `output/reference/derived/pattern_inventory.json` — per pattern_name:
+  - `docs/reference/derived/pattern_inventory.json` — per pattern_name:
       {width, height, cells, occupied_cells, object_count, file_size, valid}
-  - `output/reference/derived/pattern_type_stats.json` — per pattern_type
+  - `docs/reference/derived/pattern_type_stats.json` — per pattern_type
     (joined via parse_generator_cfg.parse() = generator.cfg PatternList map):
       {n_files, min, median, mean, max, files: [pattern_names]}
 

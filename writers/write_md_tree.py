@@ -1,4 +1,4 @@
-"""Generate a structured markdown tree under output/reference/.
+"""Generate a structured markdown tree under docs/reference/.
 
 Tree:
     reference/
@@ -339,7 +339,7 @@ def write_readme(data: dict) -> None:
     A("Структурированный справочник по игре, извлечённый напрямую из её скриптов "
       "(`unit.script`, `country.script`, `dmscript.global`, локали). Здесь — главы "
       "по темам, по одному cheatsheet на нацию и сравнения юнитов одного класса. "
-      "Все цифры — `output/data.json` (источник правды), регенерируется через "
+      "Все цифры — `docs/data.json` (источник правды), регенерируется через "
       "`python parser/build_data.py`.\n")
     A("---\n")
 
@@ -354,6 +354,7 @@ def write_readme(data: dict) -> None:
     A("| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли |")
     A("| [05_upgrades.md](05_upgrades.md) | Все апгрейды по местам исследования |")
     A("| [06_market.md](06_market.md) | Рынок, курсы обмена, first-mover advantage, деградация |")
+    A("| [07_naval.md](07_naval.md) | Морской флот: порт, корабли, транспорт, рыболов, особые DLC. |")
     A("")
     A("**Лукапы:**\n")
     A("- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).")
@@ -362,7 +363,7 @@ def write_readme(data: dict) -> None:
     A("**Расчёты и симуляции (рядом, в соседних каталогах):**\n")
     A("- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.")
     A("- [`../simulations/`](../simulations/README.md) — таймлайны экономики по конкретным build order'ам (выходы симулятора).")
-    A("- [`../../recon/`](../../recon/README.md) — глубокие исследования механик (добыча, постройка, RNG, тики, server sync, генерация карт).")
+    A("- [`../recon/`](../recon/README.md) — глубокие исследования механик (добыча, постройка, RNG, тики, server sync, генерация карт).")
     A("- [`../derived/`](../derived/) — машинно-читаемые JSON-датасеты (tech_tree.json и др.).")
     A("- [`../data.json`](../data.json) — сырой JSON (~4.7 MB), вход для всех writer-скриптов.")
     A("\n---\n")
@@ -390,8 +391,8 @@ def write_readme(data: dict) -> None:
     A("Минимум 1 hp. Подробности — в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). "
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
     A("### Цены и масштабирование\n")
-    A("- **N-й экземпляр здания того же типа:** `cost(N) = floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 — в [`../reports/scaling_prices.md`](../reports/scaling_prices.md).")
-    A("- **N строителей:** реальное время постройки = `buildtime × 1.13 / N` (cap = builder slots, см. [`../reports/builder_slots.md`](../reports/builder_slots.md)).")
+    A("- **N-й экземпляр здания того же типа:** `cost(N) = floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 — в [`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md).")
+    A("- **N строителей:** реальное время постройки = `buildtime × 1.13 / N` (cap = builder slots, см. [`../reports/economy/builder_slots.md`](../reports/economy/builder_slots.md)).")
     A("- **Real-time @ fast:** `real_sec = game_sec / 1.4`. Game speeds: slow=7, normal=10, fast=14 тиков/сек.")
     A("\n### Ключевые константы\n")
     A(f"- **Время:** `gc_time_to_frames = {e['time_to_frames']}` — 32 кадра в одной игровой секунде.")
@@ -775,7 +776,7 @@ def write_combat(data: dict) -> None:
     A("| Апгрейд | Эффект | val | Стоимость (F/W/S/G/I/C) | Что улучшает |")
     A("|---|---|---:|---|---|")
     for u in aca_ups:
-        place = "Academy" if "aca" in u["sid"] else "Mill"
+        place = "Академия" if "aca" in u["sid"] else "Мельница"
         eff = u.get("itype_short") or "—"
         val = u.get("value")
         f = u.get("food") or 0; w = u.get("wood") or 0; s = u.get("stone") or 0
@@ -870,14 +871,16 @@ def write_combat(data: dict) -> None:
 # ---------- 03_buildings.md ----------
 
 PER_NAT_NAMES = {
-    "cen": "Town Hall", "hou": "Housing", "bar": "Barracks 17c", "ba2": "Barracks 18c",
-    "bla": "Blacksmith", "sta": "Stable", "tem": "Cathedral",
-    "aca": "Academy", "art": "Artillery Depot", "dip": "Diplomatic Center",
+    "cen": "Городской центр", "hou": "Дом",
+    "bar": "Казарма 17 в.", "ba2": "Казарма 18 в.",
+    "bla": "Кузница", "sta": "Конюшня", "tem": "Собор",
+    "aca": "Академия", "art": "Артиллерийское депо", "dip": "Дипломатический центр",
 }
 COMMON_NAMES = {
-    "mil": "Mill", "sto": "Storehouse", "mar": "Market", "por": "Shipyard",
-    "tow": "Tower", "gol": "Gold Mine", "iro": "Iron Mine", "coa": "Coal Mine",
-    "swa": "Stone Wall", "sga": "Stone Gate", "wga": "Wood Gate", "wwa": "Palisade",
+    "mil": "Мельница", "sto": "Склад", "mar": "Рынок", "por": "Порт",
+    "tow": "Башня", "gol": "Золотая шахта", "iro": "Железная шахта", "coa": "Угольная шахта",
+    "swa": "Каменная стена", "sga": "Каменные ворота",
+    "wga": "Деревянные ворота", "wwa": "Палисад",
 }
 
 
@@ -890,9 +893,13 @@ def write_buildings(data: dict) -> None:
       "и **common** (`<cluster>+suffix`, общие для группы наций: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).\n")
     A("Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = "
       "`floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — "
-      "в [`../reports/scaling_prices.md`](../reports/scaling_prices.md), генератор — "
+      "в [`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md), генератор — "
       "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).\n")
     out.extend(render_template("reference/03_buildings/legend.md"))
+    A("")
+    out.extend(render_template("reference/03_buildings/lifecycle.md"))
+    A("")
+    out.extend(render_template("reference/03_buildings/era_progression.md"))
     A("")
     # TOC
     A("## Содержание\n")
@@ -984,6 +991,8 @@ def write_buildings(data: dict) -> None:
               f"| {fmt(b['stone'])} | {fmt(b['gold'])} | {fmt(b['iron'])} "
               f"| {fmt(b['coal'])} | {extra_str} |")
         A("")
+        if suf == "tow":
+            out.extend(render_template("reference/03_buildings/tow_combat.md"))
     A("## Шахты — апгрейды (gol/iro/coa)\n")
     A("Каждая шахта начинается с `peasantabsorber=5`. 6 апгрейдов накопительно доводят до "
       "**95 крестьян** на шахту.\n")
@@ -1096,21 +1105,21 @@ def write_upgrades(data: dict) -> None:
         # per-nation places (`<nat><place>.<...>`)
         "aca": "Академия (исследования)",
         "bla": "Кузница (поюнитные урон/защита)",
-        "bar": "Бараки 17 в. (поюнитные апгрейды)",
-        "ba2": "Бараки 18 в. (поюнитные апгрейды)",
+        "bar": "Казарма 17 в. (поюнитные апгрейды)",
+        "ba2": "Казарма 18 в. (поюнитные апгрейды)",
         "sta": "Конюшня (поюнитные кавалерийские)",
         "mil": "Мельница (эффективность еды)",
-        "art": "Арт-склад (апгрейды пушек)",
+        "art": "Артиллерийское депо (апгрейды пушек)",
         "tem": "Собор (апгрейды священников)",
-        "cen": "Ратуша (переход эпохи)",
-        "dip": "Дипцентр",
+        "cen": "Городской центр (переход эпохи)",
+        "dip": "Дипломатический центр",
         # common-building places (`<cluster><place>.<...>`)
         "tow": "Башня (скорость перезарядки)",
         "swa": "Каменная стена (постройка ворот)",
         "wwa": "Палисад (постройка ворот)",
-        "por": "Верфь (лечение)",
+        "por": "Порт (лечение)",
         # bare-name common buildings (no cluster prefix)
-        "ferry": "Паром (вместимость)",
+        "ferry": "Транспорт (вместимость)",
     }
     MINE_PLACES = {"eurgol", "eurcoa", "euriro"}
     # Cluster prefixes that appear before common-building suffixes (config.building_cluster).
@@ -1274,6 +1283,14 @@ def write_market(data: dict) -> None:
       "движения откатится — но если торгуешь часто или большими лотами, курс хронически «болеет».\n")
     out.extend(render_template("reference/06_market/strategy.md"))
     write_md(TREE_ROOT / "06_market.md", out)
+
+
+# ---------- 07_naval.md ----------
+
+def write_naval(data: dict) -> None:
+    out = []
+    out.extend(render_template("reference/07_naval/main.md"))
+    write_md(TREE_ROOT / "07_naval.md", out)
 
 
 # ---------- nations/ ----------
@@ -1837,6 +1854,8 @@ def main():
     print("  05_upgrades.md", flush=True)
     write_market(data)
     print("  06_market.md", flush=True)
+    write_naval(data)
+    print("  07_naval.md", flush=True)
     write_nations(data)
     print(f"  nations/ ({len(PLAYABLE_NATIONS) + 1} files)", flush=True)
     write_compare(data)

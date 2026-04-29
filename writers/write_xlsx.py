@@ -56,7 +56,7 @@ def main():
     ws_readme["A1"] = "Cossacks 3 — Reference (LEGACY xlsx)"
     ws_readme["A1"].font = openpyxl.styles.Font(bold=True, size=14)
     ws_readme["A3"] = ("⚠ Это устаревший монолитный xlsx. Актуальная структурированная "
-                       "справка — в каталоге output/reference/ (главы 01-06, нации, "
+                       "справка — в каталоге docs/reference/ (главы 01-06, нации, "
                        "сравнения). Производные расчёты — в output/reports/. "
                        "Файл сохраняется для обратной совместимости.")
     ws_readme["A3"].alignment = openpyxl.styles.Alignment(wrap_text=True, vertical="top")

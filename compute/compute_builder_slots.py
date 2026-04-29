@@ -20,8 +20,8 @@ to convert it. Their slot counts are reported but unused in practice.
 
 Reads each `.prop` in `<game>/data/objects/buildings/`, parses
 `collisionmaskproperty.Mask`, runs the chosen formula, and writes:
-  - output/derived/builder_slots.json  — {sid: {cols, rows, cells, slots, method, ...}}
-  - output/reports/builder_slots.md    — per-category table (Russian)
+  - docs/derived/builder_slots.json  — {sid: {cols, rows, cells, slots, method, ...}}
+  - docs/reports/economy/builder_slots.md    — per-category table (Russian)
 """
 from __future__ import annotations
 import json
@@ -32,7 +32,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR
+from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR, REPORTS_ECONOMY_DIR
 
 BUILDINGS_DIR = GAME_ROOT / "data" / "objects" / "buildings"
 
@@ -326,7 +326,7 @@ def calc_slots(mask: list[list[bool]]) -> tuple[int, str]:
 
 def main():
     DERIVED_DIR.mkdir(parents=True, exist_ok=True)
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_ECONOMY_DIR.mkdir(parents=True, exist_ok=True)
 
     results: dict[str, dict] = {}
     for prop in sorted(BUILDINGS_DIR.glob("*.prop")):
@@ -377,7 +377,7 @@ def main():
              "`collisionmaskproperty.Mask` каждого `.prop` файла в "
              "`data/objects/buildings/` по правилу, эмпирически согласованному с игрой.")
     L.append("")
-    L.append("**Формула** (см. [`recon/building_mechanics.md`](../../recon/building_mechanics.md), "
+    L.append("**Формула** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md), "
              "раздел про слоты):")
     L.append("")
     L.append("- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "
@@ -489,7 +489,7 @@ def main():
         )))
         L.append("")
 
-    out_md = REPORTS_DIR / "builder_slots.md"
+    out_md = REPORTS_ECONOMY_DIR / "builder_slots.md"
     out_md.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {out_md}")
 

@@ -2,7 +2,7 @@
 
 Scans `<game>/data/animations/aaf/*.aaf`, extracts every animation track's
 [start, end] frame range, and writes a flat dictionary keyed by aaf basename:
-  output/reference/derived/animations.json
+  docs/reference/derived/animations.json
     {
       "pikeman": {"attack0": [32, 46], "walk": [1, 24], ...},
       "peaaus":  {"construct": [186, 198], "workfood": [278, 299], ...},

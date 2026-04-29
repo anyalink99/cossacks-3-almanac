@@ -19,37 +19,47 @@ WEAPON_SCRIPT = LIB / "weapon.script"
 
 # Repository paths (resolved relative to this file: parser/config.py → repo root).
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_DIR = PROJECT_ROOT / "output"
-# After 2026-04-29 reorganization:
-#   output/reference/ → canonical chapters (01-06, nations/, compare/)
-#   output/reports/   → ALL derived markdown reports (combat_stats, scaling, tech_tree, …)
-#   output/derived/   → machine-readable JSON datasets (tech_tree.json, animations.json, …)
-#   output/simulations/ → simulator outputs (sim_*.{csv,md})
-RECON_DIR = PROJECT_ROOT / "recon"
+DOCS_DIR = PROJECT_ROOT / "docs"
 
-# Canonical paths used by all writers.
+# Layout (reorganized 2026-04-29):
 #
-# Layout (cleaned up 2026-04-29):
-#   output/
-#   ├── data.json              master unified data (input for downstream)
-#   ├── derived/               machine-readable JSON for tooling
-#   │   ├── animations.json
-#   │   ├── builder_slots.json
-#   │   ├── pattern_*.json
-#   │   └── tech_tree.json
-#   ├── reference/             human-readable docs + auto-generated MD reports
-#   │   ├── README.md, 01_economy.md, ...   (curated)
-#   │   └── reports/                          (auto-generated)
-#   │       └── combat_stats.md, counter_matrix.md, map_resources.md, ...
-#   └── strategy/              strategy/sim outputs (MD)
-#       ├── construction_times.md, production_rates.md, tech_tree.md, ...
-#       └── sim/
-DATA_JSON = OUTPUT_DIR / "data.json"
-DERIVED_DIR = OUTPUT_DIR / "derived"             # JSON datasets (machine-readable)
-REFERENCE_DIR = OUTPUT_DIR / "reference"         # canonical reference chapters (MD)
-REPORTS_DIR = OUTPUT_DIR / "reports"             # ALL derived markdown reports
-SIM_DIR = OUTPUT_DIR / "simulations"             # economy simulator outputs
-# Deprecated alias (retained briefly so older imports don't break before next regen):
+#   docs/
+#   ├── README.md                navigation + project overview
+#   ├── data.json                master unified data (input for all downstream)
+#   ├── derived/                 machine-readable JSON datasets
+#   │   ├── animations.json, builder_slots.json, tech_tree.json,
+#   │   ├── pattern_*.json, replay_ground_truth.json
+#   ├── reference/               canonical reference chapters (generated)
+#   │   ├── 01_economy.md … 07_naval.md
+#   │   ├── nations/<nat>.md (×21 + README)
+#   │   └── compare/<class>.md
+#   ├── recon/                   deep-mechanics docs (handwritten)
+#   │   └── ai_behavior.md, capture_mechanics.md, …
+#   ├── reports/                 derived computational reports, grouped by topic
+#   │   ├── combat/   combat_stats, counter_matrix, attack_rates, vision_radii
+#   │   ├── economy/  builder_slots, construction_times, efficiency_upgrades,
+#   │   │             production_rates, scaling_prices
+#   │   ├── tech/     tech_tree
+#   │   ├── map/      map_resources, map_predictions_validation, starting_layout
+#   │   └── nations/  overview
+#   └── simulations/             economy simulator outputs (sim_*.{csv,md})
+#
+DATA_JSON = DOCS_DIR / "data.json"
+DERIVED_DIR = DOCS_DIR / "derived"
+REFERENCE_DIR = DOCS_DIR / "reference"
+RECON_DIR = DOCS_DIR / "recon"
+REPORTS_DIR = DOCS_DIR / "reports"
+SIM_DIR = DOCS_DIR / "simulations"
+
+# Topical sub-dirs of docs/reports/.
+REPORTS_COMBAT_DIR  = REPORTS_DIR / "combat"
+REPORTS_ECONOMY_DIR = REPORTS_DIR / "economy"
+REPORTS_TECH_DIR    = REPORTS_DIR / "tech"
+REPORTS_MAP_DIR     = REPORTS_DIR / "map"
+REPORTS_NATIONS_DIR = REPORTS_DIR / "nations"
+
+# Backwards-compat aliases (some old imports may still reference these names).
+OUTPUT_DIR = DOCS_DIR
 STRATEGY_DIR = REPORTS_DIR
 
 # Nation table from country.script:7-41

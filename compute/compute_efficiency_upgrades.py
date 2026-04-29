@@ -9,7 +9,7 @@ path to +200% wood for ven".
 The values are **additive** to a base of 100 — see `_player_ApplyUpgrade` in
 player.script:1812+. So `value: 40` means "+40% to that resource's efficiency".
 
-Output: output/reports/efficiency_upgrades.md
+Output: docs/reports/economy/efficiency_upgrades.md
 """
 from __future__ import annotations
 import sys
@@ -20,10 +20,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR
 
 
-MD_PATH = REPORTS_DIR / "efficiency_upgrades.md"
+MD_PATH = REPORTS_ECONOMY_DIR / "efficiency_upgrades.md"
 
 # Group `effectfood` and `effectfoodperc` together — they apply the same way
 # (additive to resefficiency[food]), the `perc` suffix is historical naming.
@@ -102,7 +102,7 @@ def render_md(by_nation: dict) -> str:
     A("# Cossacks 3 — Efficiency upgrades per nation")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`output/data.json` скриптом "
+      "`docs/data.json` скриптом "
       "[`compute/compute_efficiency_upgrades.py`](../../compute/compute_efficiency_upgrades.py).")
     A("")
     A("## Что это")
@@ -193,7 +193,7 @@ def render_md(by_nation: dict) -> str:
         A("")
     A("---")
     A("")
-    A("Сгенерировано из `output/data.json`. Для перегенерации:")
+    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_efficiency_upgrades.py")
@@ -204,7 +204,7 @@ def render_md(by_nation: dict) -> str:
 def main():
     data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
     by_nation = collect(data)
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
     md = render_md(by_nation)
     MD_PATH.write_text(md, encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")

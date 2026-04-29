@@ -1,6 +1,6 @@
 """Orchestrator: assemble all parsers into a unified per-nation, per-sid dataset.
 
-Output structure (written to output/data.json):
+Output structure (written to docs/data.json):
 {
   "constants": { "gc_*": {raw, value} },
   "nations": [{"sid", "name", "members": [sids], "upgrades": [upgrade-ids]}],
@@ -534,12 +534,23 @@ def _format_upgrade_row(uid: str, nation: str, meta: dict, loc_en, loc_ru) -> di
     # Synthesize a name from sid for blacksmith/stable/barracks unit upgrades:
     # "<nat><place>.<member>.<itype>.<level>" → "<Place> <Member> +<value> (lvl X)"
     if name_en is None and meta.get("place") and meta.get("member"):
+        place_suffix = meta["place"][3:]
         place_name = {
             "bla": "Blacksmith", "bar": "Barracks 17c", "ba2": "Barracks 18c",
             "sta": "Stable", "aca": "Academy", "art": "Artillery",
-        }.get(meta["place"][3:], meta["place"][3:].upper())
+        }.get(place_suffix, place_suffix.upper())
         itype_name = {"damage": "damage", "protection": "protection"}.get(meta.get("itype"), meta.get("itype") or "")
         name_en = f"{place_name} {meta['member']} {itype_name} +{meta.get('value','?')} (lvl {meta.get('level','?')})"
+
+    # Same synthesis for Russian when name_ru is missing.
+    if not name_ru and meta.get("place") and meta.get("member"):
+        place_suffix = meta["place"][3:]
+        place_ru = {
+            "bla": "Кузница", "bar": "Казарма 17 в.", "ba2": "Казарма 18 в.",
+            "sta": "Конюшня", "aca": "Академия", "art": "Артиллерийское депо",
+        }.get(place_suffix, place_suffix.upper())
+        itype_ru = {"damage": "урон", "protection": "защита"}.get(meta.get("itype"), meta.get("itype") or "")
+        name_ru = f"{place_ru} · {meta['member']} {itype_ru} +{meta.get('value','?')} (ур. {meta.get('level','?')})"
 
     # Clean locale noise: %color(XXX)%, %include(...)%, leftover %word%
     name_en_clean = (name_en or "").split("\n", 1)[0]
@@ -977,18 +988,18 @@ def build_sanity_checks(data: dict, parsed_units: dict, constants: dict) -> list
         if b["sid"] == b["nation"] + "bar":
             bar_in_nation[b["nation"]] = True
     for nat in PLAYABLE_NATIONS:
-        add("buildings", f"{nat} has Town Hall ({nat}cen)", True, cen_in_nation.get(nat, False))
-        add("buildings", f"{nat} has Barracks 17c ({nat}bar)", True, bar_in_nation.get(nat, False))
+        add("buildings", f"у {nat} есть Городской центр ({nat}cen)", True, cen_in_nation.get(nat, False))
+        add("buildings", f"у {nat} есть Казарма 17 в. ({nat}bar)", True, bar_in_nation.get(nat, False))
 
     # Building base values
     cen_data = parsed_units["nation_buildings"].get("cen", {}).get("base", {})
     bar_data = parsed_units["nation_buildings"].get("bar", {}).get("base", {})
     ba2_data = parsed_units["nation_buildings"].get("ba2", {}).get("base", {})
-    add("buildings", "Town Hall base HP", 4000, cen_data.get("maxhp"))
-    add("buildings", "Town Hall base farm", 100, cen_data.get("farm"))
-    add("buildings", "Town Hall base costpercent", 300, cen_data.get("costpercent"))
-    add("buildings", "Barracks 17c base farm", 150, bar_data.get("farm"))
-    add("buildings", "Barracks 18c base farm", 250, ba2_data.get("farm"))
+    add("buildings", "базовый HP Городского центра", 4000, cen_data.get("maxhp"))
+    add("buildings", "базовое farm Городского центра", 100, cen_data.get("farm"))
+    add("buildings", "базовый costpercent Городского центра", 300, cen_data.get("costpercent"))
+    add("buildings", "базовое farm Казармы 17 в.", 150, bar_data.get("farm"))
+    add("buildings", "базовое farm Казармы 18 в.", 250, ba2_data.get("farm"))
 
     # Mine semantics
     gol_data = parsed_units["common_buildings"].get("gol", {}).get("base", {})

@@ -1,6 +1,6 @@
 """Compute per-building construction time for different builder counts.
 
-Output: output/reports/construction_times.md — table for every building showing:
+Output: docs/reports/economy/construction_times.md — table for every building showing:
 - buildtime (1 builder, real game-sec)
 - time with 2/5/10/cap builders
 - repair time (full HP) with 1/cap builders
@@ -18,9 +18,9 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, DERIVED_DIR, REPORTS_DIR, PEASANT_ANIM_SEC
+from config import DATA_JSON, DERIVED_DIR, REPORTS_DIR, PEASANT_ANIM_SEC, REPORTS_ECONOMY_DIR
 
-OUT_PATH = REPORTS_DIR / "construction_times.md"
+OUT_PATH = REPORTS_ECONOMY_DIR / "construction_times.md"
 BUILDER_SLOTS_JSON = DERIVED_DIR / "builder_slots.json"
 
 GAMESPEED_FAST = 1.4
@@ -105,7 +105,7 @@ def main():
     L.append("Время постройки (с нуля, новое здание) и ремонта (полностью повреждённое → полное HP) "
              "для каждого здания. Считается для разного числа крестьян.")
     L.append("")
-    L.append("**Формулы** (см. [`recon/building_mechanics.md`](../../recon/building_mechanics.md)):")
+    L.append("**Формулы** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md)):")
     L.append("")
     L.append("- **Постройка**, время с N крестьянами: `buildtime_sec × 1.13 / N` (ограничено slot cap)")
     L.append("- **Ремонт**, время с N крестьянами: `maxhp / (20 × N / 0.406)` g-sec")

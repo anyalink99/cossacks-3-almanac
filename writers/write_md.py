@@ -45,6 +45,13 @@ def fmt_cost(row, keys=("food", "wood", "stone", "gold", "iron", "coal")):
     return " ".join(parts) if parts else "—"
 
 
+def name_ru_or_en(item: dict) -> str:
+    """Russian name from locale; falls back to English; then to em-dash."""
+    ru = (item.get("name_ru") or "").strip()
+    en = (item.get("name_en") or "").strip()
+    return ru or en or "—"
+
+
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     out: list[str] = []
@@ -147,9 +154,9 @@ def main():
     out.extend(render_template("legacy/section_4_buildings_intro.md"))
     A("")
     PER_NAT_SUF_NAMES = {
-        "cen": "Ratusha (Town Hall)", "bar": "Barracks 17в.", "ba2": "Barracks 18в.",
-        "aca": "Academy", "bla": "Blacksmith", "sta": "Stable", "tem": "Cathedral",
-        "art": "Artillery Depot", "dip": "Diplomatic Center", "hou": "Housing/Dwelling",
+        "cen": "Городской центр", "bar": "Казарма 17 в.", "ba2": "Казарма 18 в.",
+        "aca": "Академия", "bla": "Кузница", "sta": "Конюшня", "tem": "Собор",
+        "art": "Артиллерийское депо", "dip": "Дипломатический центр", "hou": "Дом",
     }
     by_suffix = defaultdict(list)
     for b in data["buildings"]:
@@ -163,10 +170,10 @@ def main():
         if not rows:
             continue
         A(f"#### {suf} — {PER_NAT_SUF_NAMES.get(suf, suf)}\n")
-        A("| Нация | sid | Имя (EN) | HP | Время (сек) | costpercent | Цена | farm |")
+        A("| Нация | sid | Имя | HP | Время (сек) | costpercent | Цена | farm |")
         A("|---|---|---|---:|---:|---:|---|---:|")
         for b in rows:
-            A(f"| {b['nation']} | `{b['sid']}` | {b['name_en'] or '—'} "
+            A(f"| {b['nation']} | `{b['sid']}` | {name_ru_or_en(b)} "
               f"| {fmt(b['hp'])} | {fmt(b['buildtime_sec'])} | {fmt(b['costpercent'])} "
               f"| {fmt_cost(b)} | {fmt(b['farm'])} |")
         A("")
@@ -174,9 +181,10 @@ def main():
     out.extend(render_template("legacy/section_4_2_common_intro.md"))
     A("")
     COMMON_SUF_NAMES = {
-        "mil": "Mill", "sto": "Storehouse", "mar": "Market", "por": "Shipyard",
-        "tow": "Tower", "gol": "Gold Mine", "iro": "Iron Mine", "coa": "Coal Mine",
-        "swa": "Stone Wall", "sga": "Stone Gate", "wga": "Wood Gate", "wwa": "Palisade",
+        "mil": "Мельница", "sto": "Склад", "mar": "Рынок", "por": "Порт",
+        "tow": "Башня", "gol": "Золотая шахта", "iro": "Железная шахта", "coa": "Угольная шахта",
+        "swa": "Каменная стена", "sga": "Каменные ворота",
+        "wga": "Деревянные ворота", "wwa": "Палисад",
     }
     by_suffix = defaultdict(list)
     for b in data["buildings"]:
@@ -230,7 +238,7 @@ def main():
         for b in bldgs:
             produces = b.get("produces") or []
             prod_str = ", ".join(produces[:6]) + (f" (+{len(produces)-6})" if len(produces) > 6 else "")
-            A(f"| `{b['sid']}` | {b['name_en'] or '—'} | {fmt(b['hp'])} "
+            A(f"| `{b['sid']}` | {name_ru_or_en(b)} | {fmt(b['hp'])} "
               f"| {fmt(b['buildtime_sec'])} | {fmt(b['costpercent'])} "
               f"| {fmt(b['food'])} | {fmt(b['wood'])} | {fmt(b['stone'])} "
               f"| {fmt(b['gold'])} | {fmt(b['iron'])} | {fmt(b['coal'])} "
@@ -254,7 +262,7 @@ def main():
         for u in units:
             w0 = (u["weapons"] or [{}])[0]
             train_str = ", ".join(u.get("trained_in", []) or []) or "—"
-            A(f"| `{u['sid']}` | {u['name_en'] or '—'} "
+            A(f"| `{u['sid']}` | {name_ru_or_en(u)} "
               f"| {u.get('usage_short') or '—'} | {train_str} "
               f"| {u.get('uniqueness') or '—'} "
               f"| {fmt(u['hp'])} | {fmt(u['buildtime_sec'])} "
@@ -287,7 +295,7 @@ def main():
         w1 = weapons[1] if len(weapons) > 1 else {}
         consume = u.get("consume") or {}
         cost_str = json.dumps(w0.get("cost"), ensure_ascii=False) if w0.get("cost") else "—"
-        A(f"| `{u['sid']}` | {u['nation']} | {u['name_en'] or '—'} "
+        A(f"| `{u['sid']}` | {u['nation']} | {name_ru_or_en(u)} "
           f"| {', '.join(u.get('trained_in', []) or []) or '—'} "
           f"| {fmt(u['hp'])} | {fmt(u['wood'])} | {fmt(u['gold'])} | {fmt(u['iron'])} | {fmt(u['coal'])} "
           f"| {fmt(w0.get('damage'))} | {fmt(w0.get('radiusmax_tiles'))} | {fmt(w0.get('pause_sec'))} | {cost_str} "
@@ -425,7 +433,7 @@ def main():
         A("| sid | имя (EN) | level | value | время (s) | F | W | S | G | I | C |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
         for u in upgs:
-            A(f"| `{u['sid']}` | {u['name_en'] or '—'} | {fmt(u['level'])} | {fmt(u['value'])} "
+            A(f"| `{u['sid']}` | {name_ru_or_en(u)} | {fmt(u['level'])} | {fmt(u['value'])} "
               f"| {fmt(u['time_sec'])} | {fmt(u['food'])} | {fmt(u['wood'])} | {fmt(u['stone'])} "
               f"| {fmt(u['gold'])} | {fmt(u['iron'])} | {fmt(u['coal'])} |")
         A("")

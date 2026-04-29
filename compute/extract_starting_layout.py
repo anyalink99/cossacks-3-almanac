@@ -9,7 +9,7 @@ Sources:
 - `data/game/var/startingsettings.cfg`: pickable starting-units presets
    (selected via the multiplayer-lobby "starting units" dropdown)
 
-Output: output/reports/starting_layout.md
+Output: docs/reports/map/starting_layout.md
 """
 from __future__ import annotations
 import sys
@@ -19,13 +19,13 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import GAME_ROOT, REPORTS_DIR
+from config import GAME_ROOT, REPORTS_DIR, REPORTS_MAP_DIR
 
 
 DOGEN_PATH = GAME_ROOT / "data" / "scripts" / "common.inc" / "dogenerate.inc"
 SETTINGS_PATH = GAME_ROOT / "data" / "game" / "var" / "startingsettings.cfg"
 DM_GLOBAL_PATH = GAME_ROOT / "data" / "scripts" / "dmscript.global"
-MD_PATH = REPORTS_DIR / "starting_layout.md"
+MD_PATH = REPORTS_MAP_DIR / "starting_layout.md"
 
 # These map the startid integer to the symbolic enum name from dmscript.global:1032-1045.
 PRESET_NAMES = {
@@ -309,7 +309,7 @@ def main():
     grid = extract_peasant_grid(dogen_text)
     presets = parse_settings(settings_text)
 
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
     md = render(circles, grid, presets)
     MD_PATH.write_text(md, encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")

@@ -16,7 +16,7 @@ incremented on creation and decremented on death/destruction, so destroying a
 town center actually makes the next one cheaper again.
 
 This script reads the already-extracted base prices from data.json and writes:
-- output/reports/scaling_prices.md (grouped by building suffix)
+- docs/reports/economy/scaling_prices.md (grouped by building suffix)
 
 Re-run it whenever the base data is regenerated.
 """
@@ -30,10 +30,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR
 
 DATA_PATH = DATA_JSON
-MD_PATH = REPORTS_DIR / "scaling_prices.md"
+MD_PATH = REPORTS_ECONOMY_DIR / "scaling_prices.md"
 
 MAX_N = 6
 RES_KEYS = ("food", "wood", "stone", "gold", "iron", "coal")
@@ -42,22 +42,22 @@ RES_LETTER = {"food": "F", "wood": "W", "stone": "S",
 
 # Per-nation building suffix categories — ordered for output.
 PER_NAT_SUF = [
-    ("cen", "Ратуша (Town Hall)"),
-    ("hou", "Жилище"),
+    ("cen", "Городской центр"),
+    ("hou", "Дом"),
     ("bar", "Казарма 17 в."),
     ("ba2", "Казарма 18 в."),
     ("bla", "Кузница"),
     ("sta", "Конюшня"),
     ("tem", "Собор"),
     ("aca", "Академия"),
-    ("art", "Арт-склад"),
+    ("art", "Артиллерийское депо"),
     ("dip", "Дипломатический центр"),
 ]
 COMMON_SUF = [
     ("mil", "Мельница"),
     ("sto", "Склад"),
     ("mar", "Рынок"),
-    ("por", "Верфь"),
+    ("por", "Порт"),
     ("tow", "Башня"),
     ("gol", "Золотая шахта"),
     ("iro", "Железная шахта"),
@@ -122,7 +122,7 @@ def header_block() -> list[str]:
     L.append("# Cossacks 3 — Цены зданий по N-му экземпляру")
     L.append("")
     L.append("**Производный** файл (расчётный, не извлечение). Считается из "
-             "`output/data.json` скриптом "
+             "`docs/data.json` скриптом "
              "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).")
     L.append("")
     L.append("## Формула")
@@ -266,7 +266,7 @@ def write_md(data: dict):
     # Footer with derivation note
     A("---")
     A("")
-    A("Сгенерировано из `output/data.json`. Для перегенерации:")
+    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_scaling.py")
@@ -278,7 +278,7 @@ def write_md(data: dict):
 
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
     write_md(data)
     # xlsx output dropped — md is the canonical format. The write_xlsx() function
     # is kept in this file for reference but no longer invoked from main().

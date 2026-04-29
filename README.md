@@ -6,74 +6,62 @@
 
 ## Что внутри
 
-📖 **Готовый справочник** — открывай прямо на GitHub, ничего запускать не надо:
-- [`output/reference/`](output/reference/) — каноническая справка: главы по темам, 21 нация, 16 сравнений
-- [`output/reports/`](output/reports/) — все производные расчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, map resources, starting layout
-- [`output/simulations/`](output/simulations/) — выходы симулятора экономики (build orders → таймлайн)
-- [`recon/`](recon/) — глубокие исследования механик (добыча, строительство, эмпирика, детерминизм/синк)
+**Готовый справочник** — открывай прямо на GitHub, ничего запускать не надо. Всё лежит в [`docs/`](docs/):
 
-🔧 **Pipeline** — для регенерации после патча игры:
+- [`docs/reference/`](docs/reference/) — каноническая справка: 7 глав по темам, 21 нация, 15 side-by-side сравнений
+- [`docs/recon/`](docs/recon/) — глубокие исследования механик (захват, путь, ИИ, наёмники, сетевая модель, RNG, генерация карт)
+- [`docs/reports/`](docs/reports/) — производные расчёты, сгруппированные по теме:
+  `combat/` (DPS, контр-матрица, скорость атаки, vision), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (ресурсы, стартовая раскладка, валидация по реплеям), `nations/` (overview)
+- [`docs/simulations/`](docs/simulations/) — выходы симулятора экономики (build orders → таймлайн)
+
+**Pipeline** — для регенерации после патча игры:
+
 - [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением)
-- [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times)
+- [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times, и т. д.)
 - [`writers/`](writers/) — генерация markdown / xlsx / diff между снапшотами
 - [`simulator/`](simulator/) — timeline-симулятор экономики + примеры build orders
+- [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
-🛠 **Моды** — изменения игровой логики через C3 mod-loader:
+**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список парсерных пробелов, расхождений с внешними гайдами, open empirical questions. Самый известный кейс: для 168 dip-юнитов в `data.json` лежат не наёмничьи статы; правильные числа — в `docs/recon/mercenaries_diplomacy.md`.
+
+**Моды** — изменения игровой логики через C3 mod-loader:
+
 - [`mods/`](mods/) — каждый мод как подпапка с `build.py` (патчер) и собранным результатом. См. [`mods/README.md`](mods/README.md) для конвенции.
 
 ## Структура репозитория
 
 ```
 .
-├── parser/                      ← парсеры игровых .script-файлов → output/data.json
-│   ├── config.py                ← пути, константы, табличные маппинги
-│   ├── build_data.py            ← orchestrator (запускать первым)
-│   ├── extract_constants.py
-│   ├── parse_locale.py
-│   ├── parse_country.py
-│   ├── parse_units.py
-│   ├── simulate_upgrades.py
-│   └── debug/                   ← вспомогательные dev-скрипты для парсера
-├── compute/                     ← производные расчёты от data.json (всё пишет в output/reports/)
-│   ├── compute_scaling.py             → scaling_prices.md
-│   ├── compute_map_resources.py       → map_resources.md
-│   ├── compute_construction_times.py  → construction_times.md
-│   ├── compute_builder_slots.py       → builder_slots.md (+derived/builder_slots.json)
-│   ├── compute_efficiency_upgrades.py → efficiency_upgrades.md
-│   ├── compute_combat_stats.py        → combat_stats.md (DPS / EHP / armor)
-│   ├── compute_counter_matrix.py      → counter_matrix.md (TTK matrix)
-│   ├── extract_starting_layout.py     → starting_layout.md
-│   └── build_tech_tree.py             → tech_tree.md, production_rates.md (+derived/tech_tree.json)
-├── writers/                     ← форматирование data.json в человеко-читаемые формы
-│   ├── write_md_tree.py         ← основной writer (output/reference/ дерево)
-│   ├── write_md.py              ← (legacy) монолитный md
-│   ├── write_xlsx.py            ← xlsx со sanity-проверками
-│   └── diff_snapshots.py        ← diff двух снапшотов data.json (после патча)
-├── simulator/                   ← timeline-симулятор экономики → output/simulations/
-│   ├── simulate_economy.py
-│   └── build_orders/            ← примеры входных build orders (.json)
-├── recon/                       ← research notes (механики добычи, строительства, эмпирика, детерминизм/синк)
-├── mods/                        ← моды для игры (каждый — подпапка с build.py + src/ + build/)
-│   └── Deterministic Extraction/  ← воспроизводимая добыча через SetRandomKey+RandomExt
-└── output/                      ← сгенерированные артефакты (всё это уже в репо)
-    ├── data.json                ← единый источник правды (~4.7 MB)
-    ├── cossacks3_reference.{md,xlsx}  ← (legacy) монолитная версия
-    ├── reference/               ← каноническая справка (главы 01-06, nations/, compare/)
-    ├── reports/                 ← все производные расчёты (.md), индекс — reports/README.md
-    ├── simulations/             ← выходы симулятора (sim_*.{csv,md})
-    └── derived/                 ← машинно-читаемые JSON-датасеты
+├── parser/                  парсеры игровых .script-файлов → docs/data.json
+├── compute/                 производные расчёты от data.json → docs/reports/<topic>/
+├── writers/                 рендер data.json в markdown/xlsx + шаблоны прозы
+├── simulator/               timeline-симулятор экономики → docs/simulations/
+├── mods/                    моды (каждый — build.py + src/ + build/)
+└── docs/                    единая база человеко-читаемых артефактов
+    ├── data.json            мастер-данные (~4.7 МБ, источник правды)
+    ├── derived/             машинно-читаемые JSON (animations, tech_tree, builder_slots, …)
+    ├── reference/           каноническая справка (01_economy.md … 07_naval.md, nations/, compare/)
+    ├── recon/               глубокие исследования механик (handwritten)
+    ├── reports/             производные отчёты, по темам:
+    │   ├── combat/          DPS / EHP / counter matrix / attack rates / vision
+    │   ├── economy/         scaling / builder_slots / construction / production / efficiency
+    │   ├── tech/            tech tree
+    │   ├── map/             map resources / starting layout / replay validation
+    │   └── nations/         cross-nation overview
+    ├── simulations/         выходы симулятора экономики
+    └── cossacks3_reference.{md,xlsx}   (legacy) монолитная версия
 ```
 
 ## Быстрый старт
 
-### Просто почитать справочник
+### Просто почитать
 
 GitHub рендерит markdown — открывай нужный файл. Точки входа:
 
-- [output/reference/README.md](output/reference/README.md) — TL;DR + index + glossary
-- [output/reports/README.md](output/reports/README.md) — индекс всех производных расчётов
-- [output/simulations/README.md](output/simulations/README.md) — как запустить симулятор и формат build order
-- [recon/README.md](recon/README.md) — research notes по конкретным механикам
+- [`docs/reference/README.md`](docs/reference/README.md) — оглавление справочника + краткая выжимка
+- [`docs/recon/README.md`](docs/recon/README.md) — индекс глубоких исследований
+- [`docs/reports/README.md`](docs/reports/README.md) — индекс производных отчётов
+- [`docs/simulations/README.md`](docs/simulations/README.md) — как запустить симулятор и формат build order
 
 ### Регенерировать после патча игры
 
@@ -87,38 +75,69 @@ export COSSACKS3_PATH="/path/to/Cossacks 3"
 $env:COSSACKS3_PATH = "D:\Games\Cossacks 3"
 ```
 
-Затем из корня репозитория:
+Затем из корня репозитория один из вариантов:
 
 ```bash
-python -m pip install openpyxl                       # для writers/write_xlsx.py
+python -m pip install openpyxl                  # для writers/write_xlsx.py
 
-python parser/build_data.py                          # → output/data.json
-python writers/write_md_tree.py                      # → output/reference/ + output/README.md
-python compute/compute_scaling.py                    # → output/reports/scaling_prices.md
-python compute/compute_map_resources.py              # → output/reports/map_resources.md
-python compute/compute_construction_times.py         # → output/reports/construction_times.md
-python compute/compute_efficiency_upgrades.py        # → output/reports/efficiency_upgrades.md
-python compute/compute_combat_stats.py               # → output/reports/combat_stats.md
-python compute/compute_counter_matrix.py             # → output/reports/counter_matrix.md
-python compute/extract_starting_layout.py            # → output/reports/starting_layout.md
-python compute/build_tech_tree.py                    # → output/reports/tech_tree.md + production_rates.md + output/derived/tech_tree.json
-python compute/compute_animations.py                 # → output/derived/animations.json
-python compute/compute_builder_slots.py              # → output/reports/builder_slots.md + output/derived/builder_slots.json
-python parser/parse_generator_cfg.py                 # → output/derived/pattern_types.json
-python compute/compute_pattern_inventory.py          # → output/derived/pattern_{inventory,type_stats}.json
-python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → output/simulations/
+# Вариант 1 — Python-runner (работает на любой ОС):
+python scripts/regen.py                         # full regen, всё что ниже разом
+python scripts/regen.py reference               # только writers/
+python scripts/regen.py reports-combat          # только docs/reports/combat/
+python scripts/regen.py help                    # все targets
+
+# Вариант 2 — make (где есть `make`):
+make all          # = python scripts/regen.py all
+make reference
+make reports
+make sanity       # parser + проверка 112 sanity-чеков
+make help
 ```
 
-`parser/build_data.py` — единственный скрипт, который читает игровые файлы. Все остальные потребляют `output/data.json` и работают за <30 сек суммарно.
+Что внутри (для пошагового вызова без runner'а):
+
+```bash
+python parser/build_data.py                     # → docs/data.json (мастер-данные)
+python writers/write_md_tree.py                 # → docs/reference/ + docs/README.md
+python writers/write_md.py                      # → docs/cossacks3_reference.md (legacy monolith)
+python writers/write_xlsx.py                    # → docs/cossacks3_reference.xlsx
+python compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md
+python compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md
+python compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md
+python compute/compute_vision.py                # → docs/reports/combat/vision_radii.md
+python compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md
+python compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md
+python compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md
+python compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)
+python compute/build_tech_tree.py               # → docs/reports/tech/tech_tree.md + economy/production_rates.md + derived/tech_tree.json
+python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
+python compute/extract_starting_layout.py       # → docs/reports/map/starting_layout.md
+python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
+python compute/compute_nations_overview.py     # → docs/reports/nations/overview.md
+python compute/compute_animations.py            # → docs/derived/animations.json
+python parser/parse_generator_cfg.py            # → docs/derived/pattern_types.json
+python compute/compute_pattern_inventory.py     # → docs/derived/pattern_{inventory,type_stats}.json
+python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → docs/simulations/
+```
+
+`parser/build_data.py` — единственный скрипт, который читает игровые файлы. Все остальные потребляют `docs/data.json` и работают за <30 сек суммарно.
 
 ### Diff снапшотов после патча
 
+Один шаг через make (или ручной — три команды ниже):
+
+```bash
+make diff   # снапшотит docs/data.json, regen, diff в diff.md
+```
+
+Или вручную:
+
 ```bash
 python parser/build_data.py
-cp output/data.json /tmp/data_old.json
+cp docs/data.json /tmp/data_old.json
 # … обновляешь игру …
 python parser/build_data.py
-python writers/diff_snapshots.py /tmp/data_old.json output/data.json --out diff.md
+python writers/diff_snapshots.py /tmp/data_old.json docs/data.json --out diff.md
 ```
 
 ## Sanity checks

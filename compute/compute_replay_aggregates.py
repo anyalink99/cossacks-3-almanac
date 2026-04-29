@@ -7,7 +7,7 @@ For each `.rep` / `.map` file:
      EXACT clusters the engine placed on this game's map.
 
 Writes:
-  output/derived/replay_ground_truth.json — per-replay records:
+  docs/derived/replay_ground_truth.json — per-replay records:
     {
       "file": "<basename>",
       "size_mb": float,

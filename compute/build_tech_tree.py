@@ -1,9 +1,9 @@
 """Build tech tree (dependency graph) from data.json.
 
 Outputs:
-- output/derived/tech_tree.json   — структурированный граф (для симулятора и других консументов)
-- output/reports/tech_tree.md     — человеко-читаемая версия (по нациям)
-- output/reports/production_rates.md — таблица «сколько юнитов/мин одно здание»
+- docs/derived/tech_tree.json   — структурированный граф (для симулятора и других консументов)
+- docs/reports/tech/tech_tree.md     — человеко-читаемая версия (по нациям)
+- docs/reports/economy/production_rates.md — таблица «сколько юнитов/мин одно здание»
 
 Зависимости извлекаются из:
 - building.prereqs (список зданий или апгрейдов, нужных чтобы строить здание)
@@ -25,11 +25,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, REPORTS_DIR, DERIVED_DIR
+from config import DATA_JSON, REPORTS_DIR, DERIVED_DIR, REPORTS_ECONOMY_DIR, REPORTS_TECH_DIR
 DATA_PATH = DATA_JSON
 TREE_JSON = DERIVED_DIR / "tech_tree.json"  # JSON → derived/
-TREE_MD = REPORTS_DIR / "tech_tree.md"
-RATES_MD = REPORTS_DIR / "production_rates.md"
+TREE_MD = REPORTS_TECH_DIR / "tech_tree.md"
+RATES_MD = REPORTS_ECONOMY_DIR / "production_rates.md"
 
 GAMESPEED_FAST = 1.4
 
@@ -163,19 +163,93 @@ def build_tree(data: dict) -> dict:
 
 # ---------- Markdown output ----------
 
+# Russian short labels for building suffixes — used in the mermaid graph
+# (full locale names like "Городской центр" make node-text wrap awkwardly).
+SHORT_BLD_LABELS = {
+    "cen": "Город. центр", "hou": "Дом",
+    "bar": "Казарма 17", "ba2": "Казарма 18",
+    "bla": "Кузница", "sta": "Конюшня", "tem": "Собор",
+    "aca": "Академия", "art": "Артдепо", "dip": "Диппцентр",
+    "mil": "Мельница", "sto": "Склад", "mar": "Рынок",
+    "por": "Порт", "tow": "Башня",
+    "gol": "Шахта (gold)", "iro": "Шахта (iron)", "coa": "Шахта (coal)",
+    "swa": "Стена", "sga": "Кам. ворота",
+    "wga": "Дер. ворота", "wwa": "Палисад",
+}
+
+
+def _short_bld_label(sid: str, nat: str) -> str:
+    """Pick a compact mermaid label: locale short name when known, else sid."""
+    suf = sid[len(nat):] if sid.startswith(nat) else (sid[3:] if len(sid) > 3 else sid)
+    return SHORT_BLD_LABELS.get(suf, sid)
+
+
+def render_buildings_mermaid(nat: str, nt: dict) -> list[str]:
+    """Render a mermaid building-dependency graph for one nation.
+
+    Buildings only (units/upgrades clutter the diagram). Edges go prereq → building.
+    Includes only prereqs that themselves are buildings (so that all nodes appear).
+    """
+    L = []
+    A = L.append
+    A("```mermaid")
+    A("graph LR")
+    # Stable sort by sid so the graph is reproducible
+    bld_sids = sorted(nt["buildings"].keys())
+    bld_set = set(bld_sids)
+    # Declare all nodes with their short labels
+    for sid in bld_sids:
+        label = _short_bld_label(sid, nat)
+        A(f'    {sid}["{label}<br/>`{sid}`"]')
+    # Mermaid node IDs must be alphanumeric — replace '.' with '_' for upgrades.
+    def _nid(s: str) -> str:
+        return s.replace(".", "_")
+
+    # Edges: only building→building dependencies
+    for sid in bld_sids:
+        b = nt["buildings"][sid]
+        for p in b.get("prereqs") or []:
+            if p.get("kind") == "building" and p.get("sid") in bld_set:
+                A(f"    {_nid(p['sid'])} --> {_nid(sid)}")
+            elif p.get("kind") == "upgrade" and p.get("sid", "").endswith(".1"):
+                # cen.1 (era upgrade) is the gateway to ba2 — show it as a special node
+                up_sid = p["sid"]
+                A(f'    {_nid(up_sid)}{{"{up_sid}<br/>(апгрейд)"}}')
+                A(f"    {_nid(up_sid)} --> {_nid(sid)}")
+                # And the building that hosts it
+                host = up_sid.split(".")[0]  # 'auscen'
+                if host in bld_set:
+                    A(f"    {host} -.-> {_nid(up_sid)}")
+    A("```")
+    A("")
+    return L
+
+
 def write_tree_md(tree: dict):
     L = []
     L.append("# Cossacks 3 — Tech Tree (по нациям)")
     L.append("")
     L.append("Граф зависимостей: что нужно построить/исследовать перед чем. Извлечено из "
              "`_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` "
-             "(параметры `req0`..`req7`). Источник истины — `output/derived/tech_tree.json`.")
+             "(параметры `req0`..`req7`). Источник истины — `docs/derived/tech_tree.json`.")
     L.append("")
     L.append("**Условные обозначения:**")
     L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")
     L.append("- `→ X, Y` — для разблокировки нужны X и Y одновременно")
-    L.append("- Для зданий показана базовая цена (см. [`scaling_prices.md`](scaling_prices.md) для N>1)")
+    L.append("- Для зданий показана базовая цена (см. [`scaling_prices.md`](../economy/scaling_prices.md) для N>1)")
     L.append("")
+    # Mermaid graph for a representative nation (aus), embedded inline.
+    # Larger graphs (per-nation) are rendered into Содержание below.
+    if "aus" in tree["nations"]:
+        L.append("## Граф зданий (Австрия как репрезентативный пример)")
+        L.append("")
+        L.append("Граф показывает зависимости постройки одного здания от другого. "
+                 "Сплошные стрелки — `prereqs` из `country.script`, пунктирные — "
+                 "связь «здание → его апгрейд» (например, `auscen → auscen.1`, "
+                 "переход в 18 век). У других наций граф структурно идентичен — "
+                 "отличаются только нация-специфичные имена `<nat>cen`, `<nat>bar` и т. д.")
+        L.append("")
+        L.extend(render_buildings_mermaid("aus", tree["nations"]["aus"]))
     L.append("## Содержание")
     L.append("")
     nations_sorted = sorted(tree["nations"].keys())
@@ -325,7 +399,8 @@ def write_production_rates_md(data: dict):
 
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    TREE_MD.parent.mkdir(parents=True, exist_ok=True)
+    RATES_MD.parent.mkdir(parents=True, exist_ok=True)
     print("Building tech tree…")
     tree = build_tree(data)
     TREE_JSON.write_text(json.dumps(tree, ensure_ascii=False, indent=2), encoding="utf-8")

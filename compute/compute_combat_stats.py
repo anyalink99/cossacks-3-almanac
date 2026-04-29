@@ -8,7 +8,7 @@ Squad bonuses (formation + standing) are ignored here — we report unmodified
 unit-vs-unit numbers, treating shield as a flat reduction (the game subtracts it
 **before** protection in `miscext2.script:340-354`).
 
-Outputs (output/reports/combat_stats.md):
+Outputs (docs/reports/combat/combat_stats.md):
 
   §1  Unit combat sheet  — hp, speed, weapons (dmg/pause/range/kind),
                             DPS @ g-sec & @ fast-real, protections
@@ -26,10 +26,10 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR
+from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_COMBAT_DIR
 
 
-MD_PATH = REPORTS_DIR / "combat_stats.md"
+MD_PATH = REPORTS_COMBAT_DIR / "combat_stats.md"
 
 # Weapon kinds with a corresponding protection field on units.
 PROT_KINDS = ("pike", "sword", "bullet", "cannister", "arrow", "cannonball")
@@ -308,14 +308,14 @@ def render_notes() -> list[str]:
 def main():
     data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
     units = data["units"]
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     L = []
     A = L.append
     A("# Cossacks 3 — DPS / EHP / armor metrics")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`output/data.json` скриптом "
+      "`docs/data.json` скриптом "
       "[`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).")
     A("")
     A("## Формула урона")
@@ -339,7 +339,7 @@ def main():
     L.extend(render_notes())
     A("---")
     A("")
-    A("Сгенерировано из `output/data.json`. Для перегенерации:")
+    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_combat_stats.py")
