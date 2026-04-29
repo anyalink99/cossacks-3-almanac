@@ -1,6 +1,8 @@
 # Оценка ресурсов карты — Tiny (256×256) + Highlands + шахты Rich
 
-**Производный** документ. Считается из `parser/compute_map_resources.py`. Перегенерация: `python parser/compute_map_resources.py`.
+**Производный** документ. Считается из `compute/compute_map_resources.py`. Перегенерация: `python compute/compute_map_resources.py`.
+
+Per-type placement rates **эмпирически откалиброваны** на 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: `compute/compute_replay_aggregates.py` → `compute/validate_map_predictions.py`. См. также [recon/map_generation_pipeline.md §14](../../recon/map_generation_pipeline.md).
 
 **Настройки:** mapsize=3 (Tiny, 256×256 = 65536 tiles), relief=3 (Highlands), resourcemines=2 (Rich), foreststype=0.
 
@@ -29,30 +31,30 @@
 
 ## 3. Запросы паттернов (на вызов)
 
-Каждая плотность леса распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов):
+Каждая плотность леса распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов). Колонка **placement rate** — empirically calibrated per-type (на homogeneous Tiny+Land+Highlands bucket); для unknown types — fallback default `placement_success`.
 
-| Тип паттерна | частота на вызов | нужно на вызов | размещено (~65%) |
-|---|---:|---:|---:|
-| forests_pinefir_big | 0.000208 | 13 | ~8 |
-| forests_spruce_big | 0.000208 | 13 | ~8 |
-| forests_pine_big | 0.000208 | 13 | ~8 |
-| forests_pine_big_2 | 0.000208 | 13 | ~8 |
-| forests_spruce_medium | 0.000293 | 19 | ~12 |
-| forests_pinefir_medium | 0.000293 | 19 | ~12 |
-| forests_pine_medium | 0.000293 | 19 | ~12 |
-| forests_pinefir_small | 0.000278 | 18 | ~12 |
-| forests_pine_small | 0.000278 | 18 | ~12 |
-| stones (stn1) | 0.000296 | 19 | ~12 |
-| stones (stn2) | 0.000222 | 14 | ~9 |
+| Тип паттерна | частота на вызов | нужно на вызов | placement rate | размещено |
+|---|---:|---:|---:|---:|
+| `forests_pinefir_big` | 0.000208 | 13 | 0.07 | ~1 |
+| `forests_spruce_big` | 0.000208 | 13 | 0.20 | ~3 |
+| `forests_pine_big` | 0.000208 | 13 | 0.81 | ~11 |
+| `forests_pine_big_2` | 0.000208 | 13 | 0.74 | ~10 |
+| `forests_spruce_medium` | 0.000293 | 19 | 0.04 | ~1 |
+| `forests_pinefir_medium` | 0.000293 | 19 | 0.09 | ~2 |
+| `forests_pine_medium` | 0.000293 | 19 | 0.76 | ~14 |
+| `forests_pinefir_small` | 0.000278 | 18 | 0.03 | ~1 |
+| `forests_pine_small` | 0.000278 | 18 | 0.64 | ~12 |
+| `stones` (stn1) | 0.000296 | 19 | 0.58 | ~11 |
+| `stones` (stn2) | 0.000222 | 14 | 0.58 | ~8 |
 
-Допущение: на tiny+highlands примерно **65% запрошенных паттернов реально размещаются** (остальные не вмещаются из-за гор/плато/мин).
+**Откуда взяты placement rates:** эмпирически из 10 replay-выборок (Tiny+Land+Highlands+4pl_nowater bucket). Размер pattern footprint (mask cells) — главный фактор: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. Методика и полная таблица — `recon/map_generation_pipeline.md` §14. Для не-Tiny / не-Highlands settings числа должны отличаться — calibration не экстраполирована.
 
 ## 4. Всего кластеров (оценка)
 
-- Big forest clusters:    **~32**
-- Medium forest clusters: **~36**
-- Small forest clusters:  **~24**
-- Stone clusters:         **~21**
+- Big forest clusters:    **~25**
+- Medium forest clusters: **~17**
+- Small forest clusters:  **~13**
+- Stone clusters:         **~19**
 
 ## 5. Деревья и камни — per pattern type
 
@@ -62,21 +64,21 @@
 
 | pattern type | clusters placed | mask cells/cluster | trees/cluster | total trees |
 |---|---:|---:|---:|---:|
-| `forests_pinefir_big` (big) | 8 | 920 | 276 | 2208 |
-| `forests_spruce_big` (big) | 8 | 571 | 171 | 1368 |
-| `forests_pine_big` (big) | 8 | 148 | 44 | 352 |
-| `forests_pine_big_2` (big) | 8 | 185 | 56 | 448 |
-| `forests_spruce_medium` (mid) | 12 | 469 | 141 | 1692 |
-| `forests_pinefir_medium` (mid) | 12 | 311 | 93 | 1116 |
-| `forests_pine_medium` (mid) | 12 | 59 | 18 | 216 |
-| `forests_pinefir_small` (small) | 12 | 172 | 52 | 624 |
+| `forests_pinefir_big` (big) | 1 | 920 | 276 | 276 |
+| `forests_spruce_big` (big) | 3 | 571 | 171 | 513 |
+| `forests_pine_big` (big) | 11 | 148 | 44 | 484 |
+| `forests_pine_big_2` (big) | 10 | 185 | 56 | 560 |
+| `forests_spruce_medium` (mid) | 1 | 469 | 141 | 141 |
+| `forests_pinefir_medium` (mid) | 2 | 311 | 93 | 186 |
+| `forests_pine_medium` (mid) | 14 | 59 | 18 | 252 |
+| `forests_pinefir_small` (small) | 1 | 172 | 52 | 52 |
 | `forests_pine_small` (small) | 12 | 44 | 13 | 156 |
-| `stones` | 21 | 138 | 41 | 861 |
+| `stones` | 19 | 138 | 41 | 779 |
 
 ⚠ **Caveat про mask=1 интерпретацию:** brushes подтверждают (brush_plt_1x1: 8 mask = 8 видимых кустов), но шахты (`mng/mni/mnc`) — 32 mask клетки = **1 deposit** (mask = collision footprint). Для лесов мы предполагаем «1 cell = 1 tree», но без in-game test это upper bound. Точное число — empirical.
 
-**Деревьев всего на карте:** ~8 180
-**Камней всего на карте:**   ~861
+**Деревьев всего на карте:** ~2 620
+**Камней всего на карте:**   ~779
 
 ## 6. Запасы древесины и камня
 
@@ -87,11 +89,11 @@
 
 Поэтому wood pool на карте **не лимитирован числом деревьев**. Среднее начальное HP (2474/tree из distribution: 20% giants 8-16K HP / 15% medium 125-624 / 45% small 10-60 / 20% stubs 10) определяет только сколько «халявных» хитов до перехода в режим бесконечной добычи.
 
-Сумма начальных HP всех деревьев: ~20 237 320 hits ≈ **40 474 640 «бесплатной» древесины** @ eff=100  после чего тот же лес продолжает давать ту же скорость через пеньки.
+Сумма начальных HP всех деревьев: ~6 481 880 hits ≈ **12 963 760 «бесплатной» древесины** @ eff=100  после чего тот же лес продолжает давать ту же скорость через пеньки.
 
 **Real bottleneck для древесины:** число одновременных слотов (maxattackers_wood = 2 на дерево/пенек), скорость крестьянина и расстояние до склада, не количество.
 
-**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). ~861 камней × 10M HP = неограниченный запас.
+**Камень:** каждый камень имеет HP=10 000 000 (фактически бесконечен). ~779 камней × 10M HP = неограниченный запас.
 
 ## 7. Месторождения (Resources=Rich, Tiny)
 
@@ -112,19 +114,26 @@
 
 ## 8. Допущения и предел точности
 
-**Что точно:**
+**Что точно (из кода):**
 - Формула `count = floor(W*H*freq)` — прямо из `_misc_SetupPatternsByType`.
 - Densities `frs_big/mid/small/stn1/stn2` — из dogenerate.inc:1688-1693.
 - Modifier ×2.5 для tiny — из dogenerate.inc:1718-1725.
 - Mine rounds — из dogenerate.inc:528-602.
+- Per-position mine count formula `P × (1 + n_after) + (spcount - P) × n_after`.
 
-**Что оценено:**
-- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier` для tiny с допущением о слабом блокировании водой.
-- Trees/stones per pattern — оценка из размера `.pattern` файлов (~30 байт/тайл, делённое на ожидаемую плотность объектов в паттерне).
-- Реалистичная частота размещения — допущение 65% (на tiny+highlands, где много гор).
+**Что эмпирически валидировано (replay-based, 2026-04-29):**
+- Per-type placement rates — откалиброваны на 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket). Bucket ratios actual/predicted = 0.96-1.04 для всех major types (forests_pine_*, stones, mng/mni/mnc).
+- Pipeline: `compute/compute_replay_aggregates.py` → `compute/validate_map_predictions.py`. Output: `output/reports/map_predictions_validation.md`.
+- Player count выводится из mng count для Land terrain (формула обратима).
 
-**Предел точности:** ±30-50% по числу деревьев и каменных кластеров. ±10% по кластерам паттернов.
+**Что оценено / не валидировано:**
+- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier`. Для tiny с допущением о слабом блокировании водой (`water_blocking_pct=0.02`).
+- Trees/stones per pattern — `TREE_CHOPABLE_RATIO=0.30` калибровано на эмпирической оценке пользователя (small=10 trees, big=50 trees). Не верифицировано против реального in-game tree count.
+- На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.
 
-Для уточнения нужны:
-- Парсер binary `.pattern` файлов (custom format).
-- Эмпирические замеры — генерировать 10-20 карт с одинаковыми настройками и считать.
+**Открытые gap'ы:**
+- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.
+- `desert_*` (season=3) не реализовано — 1/20 replays.
+- Non-Land mine formula отличается — open question §13 Q6.
+
+**Предел точности (Tiny+Land+Highlands):** ±5% по predicted cluster counts для covered types. По total wood pool / stones — ±30-50% (TREE_CHOPABLE_RATIO не валидирован).

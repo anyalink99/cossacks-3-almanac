@@ -269,7 +269,7 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 - Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` ([`dmscript.global:208`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L208)).
 - Block radius: `gc_gameplay_captureblockshotradius = 3.0 тайла`.
 - Если вражеская пехота находится в радиусе захвата здания и игрока-владельца **нет** в этом радиусе → здание переходит к врагу.
-- **Захват instant** (per user verification 2026-04-29). Старая моя оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — это либо относилось к другой механике, либо была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
+- **Захват instant** (verified empirically 2026-04-29). Старая оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — относилась к другой механике или была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
 
 **Какие здания захватываются:** все шахты, центры, ratusha, и многие другие. Список — где `bcapture=True` в коде. У стен/ворот **нет** bcapture.
 

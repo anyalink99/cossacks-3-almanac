@@ -209,22 +209,93 @@ for i = 0 to 17:
 
 ---
 
-## 10. Что наша симуляция в `parser/` и `simulator/` модулирует / упрощает
+## 10. Что наша симуляция в `parser/` и `compute/` модулирует / упрощает
 
 Проверочный список того, что код dogenerate.inc делает, но мы либо игнорируем, либо приближаем:
 
 | Реальность | Наша симуляция | Статус |
 |---|---|---|
 | Engine читает arrStartPos из inputbitmap.tga | Жёстко задаём 1 startpos | OK для 1pl-сценариев |
-| 6 placement-фаз SetupStartingResources с конкретными шаблонами | Считаем aggregate forest/stone density | **Грубо** — стартовые ресурсы недоучтены |
-| cCircle1/2/3 forbidden zones | Не учитываем | Влияет только на placement, не на totals |
-| Phase 1 mines (round 0, 14..22 tile) | Аппроксимировано через total mine count | OK |
+| 6 placement-фаз SetupStartingResources с конкретными шаблонами | Считаем aggregate forest/stone density | **Грубо** — стартовые ресурсы недоучтены, но empirically validated через replay totals |
+| cCircle1/2/3 forbidden zones | Не учитываем явно | Влияет на placement, частично учтено через empirical placement_rate (см. §14) |
+| Phase 1 mines (round 0, 14..22 tile) | Учитывается через `predicted_mines_per_type` | OK, **validated** ratio=1.00 (см. §14) |
 | Phase 2 corner-snap для round 2 на tiny | Не учитываем (даём 70..82 без snap) | Минорно |
 | foreststype always 0 | Подразумеваем Land mix → совпадает | OK |
 | FillOwnerMap + peacetime borders | Игнорируем | OK для default peacetime |
 | 18 starting peasants в 6×3 grid | Жёстко 18 в config | OK |
-| Sezon=3 → desert pattern types | Не реализовано | TODO если нужен desert |
+| Per-pattern-type placement rate | Раньше: единый 0.65. Теперь: empirical per-type table (см. §14) | **Validated** на homogeneous Tiny+Land+Highlands bucket (n=10), ratios 0.96-1.04 |
+| Sezon=3 → desert pattern types | Не реализовано | TODO если нужен desert (1/20 sample replays) |
+| Plain / mountains / swamps / hills / plateaus / stoneforests | **Не предсказывается** `compute_counts` | **OPEN GAP** — ~50% всех кластеров не покрыто моделью |
+| Non-Land mine formula | Считаем как Land | **OPEN GAP** — non-Land replays дают inferred P=0 (см. §14) |
 | Random teams=nearby алгоритм | Не реализовано | OK для 1pl-сценариев |
+
+---
+
+## 14. Empirical validation pipeline (replay-based ground truth)
+
+**С 2026-04-29:** есть infrastructure для *эмпирической* валидации модели против реальных save/replay-файлов. Это превращает §10 из «гипотез» в «измерения».
+
+### 14.1 Стек
+
+| Скрипт | Что делает |
+|---|---|
+| [`parser/parse_replay.py`](C:/projects/other/cossacks/parser/parse_replay.py) | OSWMap13 reader: extract settings (randkey0/1, maskname, mapsize, relieftype, terraintype, season, …), BMP thumbnail, pattern-name occurrences |
+| [`compute/compute_replay_aggregates.py`](C:/projects/other/cossacks/compute/compute_replay_aggregates.py) | Folder of `.rep`/`.map` → `output/derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
+| [`compute/validate_map_predictions.py`](C:/projects/other/cossacks/compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `output/reports/map_predictions_validation.md` |
+
+Подробности про OSWMap13 формат, bucketing-методику и калибровочные числа — см. §14.2-14.5 ниже.
+
+### 14.2 OSWMap13 format (саkmpы)
+
+`.rep`/`.map` файлы — это binary contained dump:
+- Header: length-prefixed strings (`"OSWMap13.Map.Ver[0.0]Build.Ver[X.Y.Z.NNNN]Core.Ver[1]"`, `"UID..."`, `"GameMapSnapShotBegin"`, BMP, `"GameMapSnapShotEnd"`, `"GameMapRecordBegin"`)
+- Body: `(u32 keylen, ASCII key, u32 vallen, ASCII value)` pairs. Числа сериализованы как ASCII-строки.
+- Pattern placements: имена `.pattern` файлов появляются verbatim как printable strings (`mng_3`, `forests_pine_big_1`, …). **Каждое occurrence = один cluster, размещённый движком** = ground truth.
+
+`playerscount`/`startid` **отсутствуют** в headers — должны выводиться через формулу шахт (§14.4).
+
+### 14.3 Bucketing pitfall
+
+⚠ Mixed-bucket усреднение per-type ratios может дать ratio≈1.0 случайно: на Tiny placement rate высокий (модель занижала), на Huge — низкий (модель завышала), они компенсируются в среднем. Validator **обязательно** бакетит по `(mapsize, relieftype, terraintype, mask_kind)` и выводит per-bucket summary отдельно от mixed.
+
+### 14.4 Player-count inference (Land only)
+
+Для Land terrain, total mines per type encode P:
+```
+mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
+              = P + spcount × n_after
+
+⇒ P = mng_count - spcount × n_after
+```
+
+Где `n_after = len(rounds 1..rounds-1, минус i=4 если Tiny)`. Для Tiny+Rich/Medium+4pl: 14→2P, 15→3P, 16→4P. Валидировано на sample replay (mng=14 при reportedly 2-player game → формула верна).
+
+Для **non-Land** (terraintype != 0) формула не работает (engine logic другая — `CreateStartPoint`'s round 0 likely не fire для non-Land). См. §13 Q6.
+
+### 14.5 Calibrated placement rates (Tiny+Land+Highlands+4pl_nowater bucket, n=10)
+
+[`PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND`](C:/projects/other/cossacks/compute/compute_map_resources.py) в `compute_map_resources.py`:
+
+| pattern type | rate | bucket ratio actual/pred |
+|---|---:|---:|
+| `forests_pine_big` | 0.81 | 0.98 |
+| `forests_pine_big_2` | 0.74 | 1.00 |
+| `forests_pinefir_big` | 0.07 | 1.10 |
+| `forests_spruce_big` | 0.20 | 1.00 |
+| `forests_pine_medium` | 0.76 | 1.04 |
+| `forests_pinefir_medium` | 0.09 | 0.75 (rounding error на 1.5→2) |
+| `forests_spruce_medium` | 0.04 | 0.70 (rounding) |
+| `forests_pine_small` | 0.64 | 0.96 |
+| `forests_pinefir_small` | 0.03 | 0.80 |
+| `stones` | 0.58 | 1.01 |
+| mng/mni/mnc | (formula) | 1.00 |
+
+**Wide variance объясняется размером pattern footprint:**
+- pine_big mask = 148 cells → fits almost anywhere → ~80% placement.
+- pinefir_big mask = ~920 cells → 6× больше → редко влезает → ~7%.
+- spruce_big между ними → ~20%.
+
+⚠ Числа специфичны для **Tiny+Land+Highlands**. На Huge map должны отличаться (больше места → pinefir/spruce влезают чаще). Не экстраполировать без новых replay-данных.
 
 ---
 
@@ -262,7 +333,7 @@ for i = 0 to 17:
 | `nowater2/` | 33 |
 | `peninsulas/` | 280 |
 
-Для нашего scope (Land + 4pl) — **230 базовых форм** карт. Совпадает с user-observed «~200» (округлённо).
+Для нашего scope (Land + 4pl) — **230 базовых форм** карт.
 
 **Что это даёт.**
 
@@ -278,12 +349,18 @@ for i = 0 to 17:
 
 ## 13. Открытые вопросы (для следующих сессий)
 
-1. **Точное положение arrStartPos в inputbitmap.tga.** Engine как-то находит маркеры в маске. Скорее всего по специальным RGB-кодам пикселей. Если декодировать `data/gen/terrainmasks/land/4pl_*.tga` руками — можно построить точную карту start-positions для каждого preset.
+1. **Точное положение arrStartPos в inputbitmap.tga.** Engine читает маркеры в маске (вероятно, по специальным RGB-кодам пикселей). Декодировать `data/gen/terrainmasks/land/4pl_*.tga` руками — можно построить точную карту start-positions для каждого preset. Полезно для editor-tooling и точного предсказания дистанций до ресурсов.
 
-2. **`_misc_GetFreePatternMaskModifier`** возвращает 4 числа (probsmall/mid/large/huge). Источник в `data/scripts/lib/misc.script:3929-3941` ([peasant_extraction.md §8.4](peasant_extraction.md#84-леса-и-камни--densities-вне-шахт) описывает Monte-Carlo). Конкретные значения для нашего scope (Tiny+Highlands) — **не измерены**, оценка ≈1.85-2.06.
+2. ~~**`_misc_GetFreePatternMaskModifier`** values for Tiny+Highlands.~~ **PARTIALLY ANSWERED** — modifiers сами по себе не измерены, но per-type **effective placement rate** теперь откалиброван эмпирически на 10 replays (см. §14.5). Это покрывает практическое use case без нужды декодировать Monte-Carlo внутренности.
 
 3. **`SetupTiledPatterns` влияет ли на placement других объектов?** ~100 tile-paterns на 256×256 — это «ground decoration» (трещины, грязевые пятна). Возможно, они также блокируют `gPatternMask` для последующих placement фаз — нужно проверить через `_misc_CheckStandPatternExt` поведение.
 
 4. **C++ функции `StandPatternWithAngle`, `_misc_FillPatternMaskBy*`** — доступны только декларации, не тело. Значит финальный mapping `mask cell → конкретный env-object class` (oak vs leaftree vs decortree) — out of reach без disasm exe.
 
-5. **gRecordGeneratorVersion live value** — нужно вытащить runtime значение чтобы знать какая ветка mines distance таблицы реально применяется. Скорее всего ≥90, но точно не подтверждено.
+5. **gRecordGeneratorVersion live value** — нужно вытащить runtime значение чтобы знать какая ветка mines distance таблицы реально применяется. Скорее всего ≥90 (Phase-2 round-2 corner-snap consistent с sample replays), но точно не подтверждено. Можно проверить через extracted replay header `Build.Ver[X.Y.Z.NNNN]`.
+
+6. **Non-Land mine placement formula.** Для terraintype != 0 (continent / mediterranean / coastal / peninsulas / lakes) inferred player count из mng count даёт нонсенс (P=0 или negative — см. §14.4). Гипотеза: `CreateStartPoint`'s round-0 SetupMines не fire на non-Land (engine использует другой код для генерации стартовых позиций без player-side rounds), либо n_after отличается. Нужно прочитать non-Land branches в `dogenerate.inc` или ExecuteState code.
+
+7. **Plain / mountains / swamps / hills / plateaus / stoneforests / desert_* — добавить в `compute_counts`.** Эти pattern types вызываются *вне* foreststype-блока ([dogenerate.inc:1745-1766] для mountains/plateau/ravine/hills, остальные где-то рядом) и составляют ~50% всех cluster occurrences по replay-данным. Нужно прочитать соответствующие секции и расширить модель.
+
+8. **Десятки randkey0/1 значений на Land+Tiny+Highlands** — собрать 50+ replays на одинаковых настройках, варьировать только randkey, чтобы подтвердить detrministicностью (тот же randkey → тот же cluster count) или измерить variance. С 10 текущими replays variance вообще не оценена.

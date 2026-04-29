@@ -1,8 +1,22 @@
-"""Estimate forest/stone/mine counts on a randomly-generated map.
+"""Predict forest/stone/mine counts on a randomly-generated map.
 
 Closes Open Question P3 from project_extraction_model_plan.md by running the
-same density math the game uses (dogenerate.inc) with assumed prob* values
-from a Monte-Carlo simulation of _misc_GetFreePatternMaskCountModifier.
+same density math the game uses (dogenerate.inc) combined with empirically
+calibrated per-pattern-type placement rates.
+
+**Empirical validation (2026-04-29):** `PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND`
+calibrated against 10 sample replays in the homogeneous bucket
+Tiny + Land + Highlands + 4pl_mask_nowater. Bucket ratios actual/predicted
+all fall in 0.96-1.04 for forests_pine_*, stones, mng/mni/mnc.
+Validation pipeline:
+  compute/compute_replay_aggregates.py → output/derived/replay_ground_truth.json
+  compute/validate_map_predictions.py  → output/reports/map_predictions_validation.md
+Full guide: recon/map_generation_pipeline.md §14.
+
+⚠ Calibration is *setting-specific*. On Huge maps / non-Highlands relief /
+non-Land terrain, placement rates likely differ — for those, model falls back
+to global `placement_success` parameter (default 0.65). Don't trust outputs
+blindly outside the calibrated bucket without fresh replays.
 
 Output: prints estimated counts and total wood pool. Also writes
 output/reports/map_resources.md.
@@ -142,6 +156,49 @@ STN2_BASE = 0.00012
 
 # misc.script:3933-3936 (calibration for prob_raw)
 CALIB = {12: 340, 16: 182, 24: 74, 29: 55}
+
+# Empirically calibrated effective placement rate per pattern type for
+# Tiny+Land+Highlands (the user's dominant lobby setting).
+# = (actual clusters in replay) / (engine-requested count via floor(area×density)).
+# Source: HOMOGENEOUS subset of 10 replays — Tiny + Land (terraintype=0) +
+# Highlands (relieftype=3) + 4pl_mask_nowater + season=0 (non-desert).
+# Pipeline: compute/compute_replay_aggregates.py → compute/validate_map_predictions.py
+# (2026-04-29).
+#
+# IMPORTANT: these rates are SETTING-SPECIFIC. On Huge maps (4× area, same
+# density) pinefir/spruce should fit more readily but pine variants saturate
+# earlier — we don't have enough Huge replays to calibrate. Don't trust these
+# numbers blindly for non-Tiny / non-Highlands settings — for those, the
+# default `placement_success` (0.65) kicks in for all forest types.
+#
+# Why pine variants near 1.0: 148-cell mask fits almost anywhere on Tiny.
+# Why pinefir/spruce ~0.13/0.20: 920+-cell mask + cCircle1/2/3 forbidden
+# zones around starting points + mountains/water → most attempts fail.
+# Why pine_big_2 a bit lower than pine_big: it's the SECOND pine call,
+# placing into already-thinned space. (0.81 < 0.97 — ratio ~5/6.)
+# Why stones at 0.66: stn1+stn2 over-request relative to stoneable terrain.
+PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND = {
+    "forests_pine_big":        0.81,
+    "forests_pine_big_2":      0.74,
+    "forests_pinefir_big":     0.07,
+    "forests_spruce_big":      0.20,
+    "forests_pine_medium":     0.76,
+    "forests_pinefir_medium":  0.09,
+    "forests_spruce_medium":   0.04,
+    "forests_pine_small":      0.64,
+    "forests_pinefir_small":   0.03,
+    "stones":                  0.58,
+}
+
+# Active calibration table — point at the setting-specific dict for now.
+# When we have data for other settings, build a (mapsize, relief, terraintype)
+# → table dispatch.
+PER_TYPE_PLACEMENT = PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND
+
+
+def _effective_placement(type_name: str, default: float) -> float:
+    """Return empirically-calibrated placement rate for `type_name`, or `default`."""
+    return PER_TYPE_PLACEMENT.get(type_name, default)
 
 # Trees per pattern — EMPIRICAL eye-counts from in-game screenshots (Tiny+Highlands+Land).
 # The .pattern mask=1 count is the placement footprint (collision area used by
@@ -296,23 +353,26 @@ def compute_counts(mapsize_tag: int, relieftype: int, resourcemines: int,
     total_small_req = sum(needed(area, fr) for _, fr in small_calls)
     total_stone_req = sum(needed(area, fr) for _, fr in stone_calls)
 
-    # 6. Realistic placement (per individual call, summed)
+    # 6. Realistic placement (per individual call, summed). Per-type empirical
+    # rate from PER_TYPE_PLACEMENT supersedes the global `placement_success`
+    # for known forest sub-types and stones (see calibration block above).
     big_real_per_call = [
-        (type_name, round(needed(area, fr) * placement_success))
+        (type_name, round(needed(area, fr) * _effective_placement(type_name, placement_success)))
         for type_name, fr in big_calls
     ]
     mid_real_per_call = [
-        (type_name, round(needed(area, fr) * placement_success))
+        (type_name, round(needed(area, fr) * _effective_placement(type_name, placement_success)))
         for type_name, fr in mid_calls
     ]
     small_real_per_call = [
-        (type_name, round(needed(area, fr) * placement_success))
+        (type_name, round(needed(area, fr) * _effective_placement(type_name, placement_success)))
         for type_name, fr in small_calls
     ]
     big_real = sum(n for _, n in big_real_per_call)
     mid_real = sum(n for _, n in mid_real_per_call)
     small_real = sum(n for _, n in small_real_per_call)
-    stone_real = round(total_stone_req * placement_success)
+    # Stones: 2 calls (stn1, stn2), both attribute to "stones" pattern type.
+    stone_real = round(total_stone_req * _effective_placement("stones", placement_success))
 
     # 7. Trees and stones — use per-pattern-type medians from generator.cfg
     # rather than a single TREES_PER_BIG value. Each `forests_X_big` call uses
@@ -368,8 +428,13 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"# Оценка ресурсов карты — {r['map_name']} ({r['dim']}×{r['dim']}) "
              f"+ {r['relief_name']} + шахты {r['mine_density_name']}")
     L.append("")
-    L.append("**Производный** документ. Считается из `parser/compute_map_resources.py`. "
-             "Перегенерация: `python parser/compute_map_resources.py`.")
+    L.append("**Производный** документ. Считается из `compute/compute_map_resources.py`. "
+             "Перегенерация: `python compute/compute_map_resources.py`.")
+    L.append("")
+    L.append("Per-type placement rates **эмпирически откалиброваны** на 10 sample replays "
+             "(Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: "
+             "`compute/compute_replay_aggregates.py` → `compute/validate_map_predictions.py`. "
+             "См. также [recon/map_generation_pipeline.md §14](../../recon/map_generation_pipeline.md).")
     L.append("")
     L.append(f"**Настройки:** mapsize={settings['mapsize']} ({r['map_name']}, {r['dim']}×{r['dim']} = {r['area']} tiles), "
              f"relief={settings['relief']} ({r['relief_name']}), "
@@ -403,25 +468,34 @@ def write_report(r: dict, settings: dict) -> str:
 
     L.append("## 3. Запросы паттернов (на вызов)")
     L.append("")
-    L.append("Каждая плотность леса распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов):")
+    L.append("Каждая плотность леса распределяется на N разных типов леса (foreststype=0 → 4 big / 3 mid / 2 small типов). "
+             "Колонка **placement rate** — empirically calibrated per-type (на homogeneous Tiny+Land+Highlands bucket); "
+             "для unknown types — fallback default `placement_success`.")
     L.append("")
-    L.append("| Тип паттерна | частота на вызов | нужно на вызов | размещено (~65%) |")
-    L.append("|---|---:|---:|---:|")
+    L.append(f"| Тип паттерна | частота на вызов | нужно на вызов | placement rate | размещено |")
+    L.append("|---|---:|---:|---:|---:|")
+    def _row(name: str, fr: float) -> str:
+        n = needed(r['area'], fr)
+        rate = _effective_placement(name, settings['placement_success'])
+        is_default = name not in PER_TYPE_PLACEMENT
+        rate_str = f"{rate:.2f}" + (" (default)" if is_default else "")
+        return f"| `{name}` | {fr:.6f} | {n} | {rate_str} | ~{round(n*rate)} |"
     for name, fr in r['big_calls']:
-        n = needed(r['area'], fr)
-        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+        L.append(_row(name, fr))
     for name, fr in r['mid_calls']:
-        n = needed(r['area'], fr)
-        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+        L.append(_row(name, fr))
     for name, fr in r['small_calls']:
+        L.append(_row(name, fr))
+    for i, (name, fr) in enumerate(r['stone_calls']):
         n = needed(r['area'], fr)
-        L.append(f"| {name} | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
-    for name, fr in r['stone_calls']:
-        n = needed(r['area'], fr)
-        L.append(f"| {name} (stn{r['stone_calls'].index((name,fr))+1}) | {fr:.6f} | {n} | ~{round(n*settings['placement_success'])} |")
+        rate = _effective_placement(name, settings['placement_success'])
+        L.append(f"| `{name}` (stn{i+1}) | {fr:.6f} | {n} | {rate:.2f} | ~{round(n*rate)} |")
     L.append("")
-    L.append(f"Допущение: на tiny+highlands примерно **{settings['placement_success']*100:.0f}% запрошенных паттернов реально размещаются** "
-             "(остальные не вмещаются из-за гор/плато/мин).")
+    L.append("**Откуда взяты placement rates:** эмпирически из 10 replay-выборок "
+             "(Tiny+Land+Highlands+4pl_nowater bucket). Размер pattern footprint (mask cells) — "
+             "главный фактор: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. "
+             "Методика и полная таблица — `recon/map_generation_pipeline.md` §14. "
+             "Для не-Tiny / не-Highlands settings числа должны отличаться — calibration не экстраполирована.")
     L.append("")
 
     L.append("## 4. Всего кластеров (оценка)")
@@ -521,22 +595,38 @@ def write_report(r: dict, settings: dict) -> str:
 
     L.append("## 8. Допущения и предел точности")
     L.append("")
-    L.append("**Что точно:**")
+    L.append("**Что точно (из кода):**")
     L.append("- Формула `count = floor(W*H*freq)` — прямо из `_misc_SetupPatternsByType`.")
     L.append("- Densities `frs_big/mid/small/stn1/stn2` — из dogenerate.inc:1688-1693.")
     L.append("- Modifier ×2.5 для tiny — из dogenerate.inc:1718-1725.")
     L.append("- Mine rounds — из dogenerate.inc:528-602.")
+    L.append("- Per-position mine count formula `P × (1 + n_after) + (spcount - P) × n_after`.")
     L.append("")
-    L.append("**Что оценено:**")
-    L.append("- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier` для tiny с допущением о слабом блокировании водой.")
-    L.append("- Trees/stones per pattern — оценка из размера `.pattern` файлов (~30 байт/тайл, делённое на ожидаемую плотность объектов в паттерне).")
-    L.append("- Реалистичная частота размещения — допущение 65% (на tiny+highlands, где много гор).")
+    L.append("**Что эмпирически валидировано (replay-based, 2026-04-29):**")
+    L.append("- Per-type placement rates — откалиброваны на 10 sample replays "
+             "(Tiny+Land+Highlands+4pl_nowater bucket). Bucket ratios actual/predicted = 0.96-1.04 "
+             "для всех major types (forests_pine_*, stones, mng/mni/mnc).")
+    L.append("- Pipeline: `compute/compute_replay_aggregates.py` → `compute/validate_map_predictions.py`. "
+             "Output: `output/reports/map_predictions_validation.md`.")
+    L.append("- Player count выводится из mng count для Land terrain (формула обратима).")
     L.append("")
-    L.append("**Предел точности:** ±30-50% по числу деревьев и каменных кластеров. ±10% по кластерам паттернов.")
+    L.append("**Что оценено / не валидировано:**")
+    L.append("- `prob*` modifiers — Monte Carlo симуляция `_misc_GetFreePatternMaskCountModifier`. "
+             "Для tiny с допущением о слабом блокировании водой (`water_blocking_pct=0.02`).")
+    L.append("- Trees/stones per pattern — `TREE_CHOPABLE_RATIO=0.30` калибровано на эмпирической "
+             "оценке пользователя (small=10 trees, big=50 trees). Не верифицировано против реального "
+             "in-game tree count.")
+    L.append("- На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.")
     L.append("")
-    L.append("Для уточнения нужны:")
-    L.append("- Парсер binary `.pattern` файлов (custom format).")
-    L.append("- Эмпирические замеры — генерировать 10-20 карт с одинаковыми настройками и считать.")
+    L.append("**Открытые gap'ы:**")
+    L.append("- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, "
+             "`plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences "
+             "в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.")
+    L.append("- `desert_*` (season=3) не реализовано — 1/20 replays.")
+    L.append("- Non-Land mine formula отличается — open question §13 Q6.")
+    L.append("")
+    L.append("**Предел точности (Tiny+Land+Highlands):** ±5% по predicted cluster counts для "
+             "covered types. По total wood pool / stones — ±30-50% (TREE_CHOPABLE_RATIO не валидирован).")
     return "\n".join(L)
 
 
@@ -548,9 +638,9 @@ def main():
         "mines": 2,          # Rich
         "foreststype": 0,    # pinefir/spruce/pine (most common for non-desert)
         "water_blocking_pct": 0.02,  # Land terrain — minimal water
-        # Engine: free_pattern_count_sim returns max-fit count, but actual placement
-        # also rolls per-cluster probability. 0.65 is what we observed on Tiny+Highlands;
-        # other map sizes/reliefs are unconfirmed (recon/peasant_extraction.md §9).
+        # Fallback placement rate for pattern types NOT in PER_TYPE_PLACEMENT.
+        # The known forest/stone types use empirical rates from replay calibration.
+        # 0.65 is the legacy "tiny+highlands" guess for unknown types.
         "placement_success": 0.65,
     }
     r = compute_counts(
@@ -568,7 +658,7 @@ def main():
     for k, v in r["probs"].items():
         print(f"  {k:7s}: {v:.3f}")
     print()
-    print(f"Forest clusters (placed, ~65% success):")
+    print(f"Forest clusters (per-type empirical placement rates, see PER_TYPE_PLACEMENT):")
     print(f"  big:    ~{r['big_real']}")
     print(f"  mid:    ~{r['mid_real']}")
     print(f"  small:  ~{r['small_real']}")
