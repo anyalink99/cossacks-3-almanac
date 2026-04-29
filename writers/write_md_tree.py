@@ -1141,6 +1141,8 @@ def write_upgrades(data: dict) -> None:
     PLACE_ORDER = ["mines", "aca", "mil", "bla", "sta", "bar", "ba2", "art", "tem",
                    "cen", "dip", "tow", "swa", "wwa", "por", "ferry"]
     A("## Содержание\n")
+    A("- [Математика применения: порядок и комбинирование]"
+      f"(#{heading_anchor('Математика применения: порядок и комбинирование')})")
     for place in PLACE_ORDER:
         if not by_place.get(place):
             continue
@@ -1150,6 +1152,9 @@ def write_upgrades(data: dict) -> None:
             label = f"{place} — {PLACE_NAMES.get(place, place)}"
         anchor = heading_anchor(label)
         A(f"- [{label}](#{anchor})")
+    A("")
+
+    out.extend(render_template("reference/05_upgrades/order_math.md"))
     A("")
 
     A("## Апгрейды шахт (eurgol/eurcoa/euriro)\n")

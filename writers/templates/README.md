@@ -50,7 +50,8 @@ templates/
 │   │   └── legend.md          ← расшифровка колонок таблиц юнитов
 │   │
 │   ├── 05_upgrades/
-│   │   └── legend.md          ← структура sid + расшифровка колонок таблиц апгрейдов
+│   │   ├── legend.md          ← структура sid + расшифровка колонок таблиц апгрейдов
+│   │   └── order_math.md      ← как _player_ApplyUpgrade аккумулирует апгрейды (порядок безразличен)
 │   │
 │   ├── 06_market/
 │   │   ├── intro.md           ← заголовок + TL;DR
@@ -101,7 +102,7 @@ templates/
 | `output/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
 | `output/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/legend.md` |
 | `output/reference/04_units.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
-| `output/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/legend.md` |
+| `output/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
 | `output/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
 | `output/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
 | `output/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |

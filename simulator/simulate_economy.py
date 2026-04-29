@@ -558,63 +558,35 @@ class SimState:
                 # below). Adding them eagerly here is wrong since they often target
                 # specific sids via sarrparam2.
 
-    def _upgrade_modifier_for_target(self, target_sid: str, itype: str) -> float:
-        """Sum the `value` (or per-resource pct) across all completed upgrades
-        of `itype` whose `targets` list includes `target_sid`.
-
-        Returns the cumulative percent (e.g. -25 means -25%). Multiple stacking
-        upgrades add (player.script:1841 / :1848 multiplies stepwise, so this is
-        an approximation — true engine math is `price *= (1 + pct/100)` per
-        upgrade, not additive — but for the current sim's resolution it's fine).
+    def buildtime_modifier(self, sid: str) -> float:
+        """Multiplier on buildtime for `sid`. Engine math (player.script:1848):
+            buildtime *= (1 + value / (100 * 100000)) = (1 + value / 10_000_000)
+        applied per upgrade. Order-independent because multiplication commutes —
+        see output/reference/05_upgrades.md «Математика применения». Typical
+        values: -7500000 = -75% per upgrade. Clamp to 0.05 to avoid zero/negative.
         """
-        total = 0.0
+        factor = 1.0
         for done_sid in self.upgrades_done:
             ug = self.upg_idx.get(done_sid)
-            if not ug:
+            if not ug or (ug.get("itype") or "") != "gc_upg_type_buildtimeperc":
                 continue
-            if (ug.get("itype") or "") != itype:
-                continue
-            targets = ug.get("targets") or []
-            if target_sid not in targets:
+            if sid not in (ug.get("targets") or []):
                 continue
             v = ug.get("value")
             if v is not None:
-                total += float(v)
-        return total
-
-    def _upgrade_resource_pct_for_target(self, target_sid: str, resource: str) -> float:
-        """For priceperc upgrades only: sum per-resource percentage modifiers
-        from `resource_pcts` dict across applicable upgrades.
-
-        Note: simulate_upgrades.py extracts targets but NOT resource_pcts (the
-        direct `sarrparam2[X] := 'NN'` assignments are AST-opaque; matching
-        them back to specific upgrades requires nation-aware re-walking which
-        we haven't done yet). This stub returns 0 — see TODO in parser.
-        """
-        return 0.0
-
-    def buildtime_modifier(self, sid: str) -> float:
-        """Multiplier on buildtime for `sid`.
-
-        Engine formula (player.script:1848):
-            buildtime *= (1 + value / (100 * 100000)) = (1 + value / 10_000_000)
-
-        We approximate stacking via sum-of-values (rather than product of
-        per-upgrade factors). Clamp to 0.05 minimum to avoid zero/negative.
-        Typical values: -7500000 = -75% (most common form for "instant build"),
-        smaller magnitudes like -250000 = -2.5% etc.
-        """
-        total_value = self._upgrade_modifier_for_target(sid, "gc_upg_type_buildtimeperc")
-        modifier = 1.0 + total_value / 10_000_000.0
-        return max(0.05, modifier)
+                factor *= 1.0 + float(v) / 10_000_000.0
+        return max(0.05, factor)
 
     def price_modifier(self, sid: str) -> float:
-        """Multiplier on cost for `sid`. priceperc effect is per-resource via
-        resource_pcts which we don't extract yet — so this returns 1.0
-        unconditionally for now even though `targets` is populated.
+        """Multiplier on cost for `sid`. Engine math (player.script:1841):
+            price[j] *= (1 + StrToInt(sarrparam2[...]) / 100)
+        per resource. The per-resource percentages live in `sarrparam2` last 6
+        slots and aren't extracted by simulate_upgrades.py yet (the direct
+        `sarrparam2[X] := 'NN'` assignments are AST-opaque), so this returns 1.0
+        unconditionally. When wired up, stacking is multiplicative per the engine
+        (commutative — order doesn't matter). See output/reference/05_upgrades.md
+        «Математика применения».
         """
-        # For priceperc, value is always 0; real pct is in sarrparam2 last 6 slots.
-        # See _upgrade_resource_pct_for_target stub — currently inactive.
         return 1.0
 
     # --- actions ---
