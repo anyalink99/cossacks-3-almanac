@@ -1,6 +1,6 @@
 # Cossacks 3 Reference
 
-_Extracted **2026-04-30 05:30:05** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-04-30 06:07:10** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Структурированный справочник по игре, извлечённый напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, локали). Здесь — главы по темам, по одному cheatsheet на нацию и сравнения юнитов одного класса. Все цифры — `docs/data.json` (источник правды), регенерируется через `python parser/build_data.py`.
 

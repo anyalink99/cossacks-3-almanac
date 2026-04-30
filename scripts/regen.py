@@ -1,15 +1,24 @@
 """Single-command pipeline runner — works on any OS with Python 3.11+.
 
 Usage:
-    python scripts/regen.py            # full pipeline
-    python scripts/regen.py reference  # only reference chapters
-    python scripts/regen.py reports    # only derived reports
-    python scripts/regen.py help       # list targets
+    python scripts/regen.py             # full pipeline
+    python scripts/regen.py reference   # only reference chapters
+    python scripts/regen.py reports     # only derived reports
+    python scripts/regen.py --serial    # disable parallelism within a target
+    python scripts/regen.py help        # list targets
 
-Mirrors the Makefile targets so contributors without `make` (typical on Windows)
-can run any subset.
+Each named target is a list of independent script invocations. When the
+target has more than one script, they run **concurrently** (default), since
+all reports / derived JSONs read from `docs/data.json` and don't write to
+each other. Pass `--serial` to disable this if you're debugging.
+
+Mirrors the Makefile targets so contributors without `make` (typical on
+Windows) can run any subset.
 """
 from __future__ import annotations
+import argparse
+import concurrent.futures as cf
+import os
 import subprocess
 import sys
 import time
@@ -20,17 +29,53 @@ sys.stdout.reconfigure(encoding="utf-8")
 ROOT = Path(__file__).resolve().parent.parent
 PY = sys.executable
 
+# Targets that MUST run sequentially (output of one feeds input of another).
+# All other targets fan out their scripts in parallel.
+SEQUENTIAL_TARGETS = {"data", "tech", "simulations"}
 
-def run(*args: str) -> None:
+
+def run_one(args: list[str], capture: bool) -> tuple[list[str], int, float, str]:
+    """Invoke one script. Returns (args, returncode, elapsed_seconds, output)."""
     cmd = [PY, *args]
-    print(f"$ {' '.join(args)}", flush=True)
     t0 = time.time()
-    r = subprocess.run(cmd, cwd=ROOT)
-    dt = time.time() - t0
-    if r.returncode != 0:
-        print(f"FAILED ({dt:.1f}s) — exit {r.returncode}", flush=True)
-        sys.exit(r.returncode)
-    print(f"  ok ({dt:.1f}s)\n", flush=True)
+    if capture:
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        out = (r.stdout or "") + (r.stderr or "")
+    else:
+        r = subprocess.run(cmd, cwd=ROOT)
+        out = ""
+    return args, r.returncode, time.time() - t0, out
+
+
+def run_group(group: list[list[str]], parallel: bool) -> None:
+    """Run a list of script invocations. If parallel, fan out via thread pool;
+    otherwise run sequentially with live output."""
+    if not parallel or len(group) <= 1:
+        for args in group:
+            print(f"$ {' '.join(args)}", flush=True)
+            args, rc, dt, _ = run_one(args, capture=False)
+            if rc != 0:
+                print(f"FAILED ({dt:.1f}s) — exit {rc}", flush=True)
+                sys.exit(rc)
+            print(f"  ok ({dt:.1f}s)\n", flush=True)
+        return
+    # Parallel: capture each script's output so they don't interleave on stdout.
+    print(f"# running {len(group)} scripts in parallel:", flush=True)
+    for args in group:
+        print(f"  $ {' '.join(args)}", flush=True)
+    workers = min(len(group), os.cpu_count() or 4)
+    with cf.ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(run_one, args, True) for args in group]
+        for fut in cf.as_completed(futures):
+            args, rc, dt, out = fut.result()
+            if out.strip():
+                print(out.rstrip(), flush=True)
+            if rc != 0:
+                print(f"FAILED ({' '.join(args)}, {dt:.1f}s) — exit {rc}", flush=True)
+                sys.exit(rc)
+            print(f"  ok ({' '.join(args)}, {dt:.1f}s)", flush=True)
+    print()
 
 
 # Targets are pure shell-callable: a list of argv-tails, each launched via `python <tail>`.
@@ -41,6 +86,7 @@ TARGETS: dict[str, list[list[str]]] = {
         ["parser/build_data.py"],
         ["parser/parse_generator_cfg.py"],
         ["parser/build_canonical_terms.py"],
+        ["parser/build_tech_graph.py"],
     ],
 
     "reference": [
@@ -64,7 +110,7 @@ TARGETS: dict[str, list[list[str]]] = {
     "reports-map": [
         ["compute/compute_game_settings.py"],
         ["compute/compute_map_resources.py"],
-        ["compute/extract_starting_layout.py"],
+        ["compute/compute_starting_layout.py"],
         ["compute/validate_map_predictions.py"],
     ],
 
@@ -73,7 +119,7 @@ TARGETS: dict[str, list[list[str]]] = {
     ],
 
     "tech": [
-        ["compute/build_tech_tree.py"],
+        ["compute/compute_tech_tree.py"],
     ],
 
     "derived": [
@@ -135,14 +181,32 @@ def expand(name: str) -> list[list[str]]:
 
 
 def main() -> None:
-    args = sys.argv[1:] or ["all"]
-    if any(a in ("help", "-h", "--help") for a in args):
+    parser = argparse.ArgumentParser(prog="scripts/regen.py", add_help=False)
+    parser.add_argument("targets", nargs="*", default=["all"])
+    parser.add_argument("--serial", action="store_true",
+                        help="run scripts within each target sequentially "
+                             "(default: parallel where safe)")
+    parser.add_argument("-h", "--help", action="store_true")
+    args = parser.parse_args()
+
+    if args.help or "help" in args.targets:
         print(help_text())
         return
+
+    targets = args.targets or ["all"]
     t0 = time.time()
-    for name in args:
-        for tail in expand(name):
-            run(*tail)
+    for name in targets:
+        # `data`, `tech`, `simulations` chain steps that depend on each other,
+        # so always run them sequentially regardless of --serial.
+        force_serial = name in SEQUENTIAL_TARGETS or args.serial
+        # An alias (e.g. `all`) expands into a list of named targets; we run
+        # them in order, but inside each named target the scripts can fan out.
+        if name in ALIASES:
+            for sub in ALIASES[name]:
+                group = TARGETS[sub] if sub in TARGETS else expand(sub)
+                run_group(group, parallel=not (sub in SEQUENTIAL_TARGETS or args.serial))
+        else:
+            run_group(expand(name), parallel=not force_serial)
     print(f"== done ({time.time() - t0:.1f}s total) ==")
 
 
