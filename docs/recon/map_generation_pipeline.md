@@ -1,12 +1,31 @@
-# Recon: Map generation pipeline (DoGenerate full timeline)
+# Recon: pipeline генерации карты
 
-**Источник:** `data/scripts/common.inc/dogenerate.inc` (2103 строки), вызывается через `ExecuteState('DoGenerate')` из `initmapgen.inc:232`.
+Полный таймлайн `DoGenerate`. Источник: `data/scripts/common.inc/dogenerate.inc`
+(2103 строки), вызывается через `ExecuteState('DoGenerate')` из
+`initmapgen.inc:232`.
 
-> **Связанные документы:**
-> - [peasant_extraction.md §8](peasant_extraction.md) — densities (frs_big, mnt, …) и distance-таблицы для mines.
-> - [peasant_extraction.md §8.4](peasant_extraction.md) — что такое `.pattern` файл и как mask мапится в env-объекты.
+**Связанные документы:**
 
----
+- [peasant_extraction.md §8](peasant_extraction.md) — плотности
+  (`frs_big`, `mnt`, …) и расстояния от центра для шахт.
+- [peasant_extraction.md §8.4](peasant_extraction.md) — что такое
+  `.pattern` файл и как mask мапится в env-объекты.
+
+## TL;DR
+
+- Карта строится в **5 фаз**: подготовка → terrain → старт-поинты +
+  стартовые ресурсы → глобальные ресурсы → финализация.
+- Тройка `(inputbitmap, randkey0, randkey1)` **детерминирует карту**
+  полностью — поэтому реплеи воспроизводят ту же карту (см. §12).
+- Вокруг каждой стартовой позиции — три эллипса (`cCircle1/2/3`):
+  внутренний (5 × 7 тайлов) — только крестьяне, средний (12 × 15) —
+  гарантированный stoneforest + камни + леса, внешний (22 × 18) —
+  ещё один лес.
+- На Land-картах `foreststype` всегда = 0 (engine жёстко перезаписывает
+  выбор лобби в `dogenerate.inc:5-6`). На non-Land действует значение
+  из лобби.
+- В фазе 4 всегда вызывается `CreateStartPointPeasants` — **18
+  крестьян** в сетке 6 × 3, независимо от опции `startingunits` в лобби.
 
 ## 1. Глобальные константы (объявлены до процедур)
 

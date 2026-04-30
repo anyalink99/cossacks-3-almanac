@@ -1,12 +1,33 @@
-# Recon: Cossacks 3 — тики, сабтики, время
+# Recon: тики, сабтики, время
 
-Цель: задокументировать модель времени в C3 — главный progress-loop, sub-tick state machine intervals, variable timestep, адаптивную скорость игры. База для понимания почему симуляция не воспроизводима даже на одном хосте после Save/Load и почему разные машины расходятся.
+Модель времени в C3: главный progress-loop, интервалы sub-tick state-machine,
+variable timestep, адаптивная скорость игры. База, чтобы понять, почему
+симуляция не воспроизводится даже на одном хосте после Save / Load и почему
+разные машины расходятся.
 
-> **Связанные документы (читать в комплекте):**
-> - [determinism_audit.md](determinism_audit.md) — RNG-сайты в добыче и бою; этот документ описывает **когда** они вызываются.
-> - [server_sync_architecture.md](server_sync_architecture.md) — как server-authoritative архитектура связана с тиками; sync пакеты в real-time vs game-time-логика.
+**Связанные документы:**
 
-Все ссылки относятся к `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\`.
+- [determinism_audit.md](determinism_audit.md) — RNG-сайты в добыче и
+  бою; этот документ описывает **когда** они вызываются.
+- [server_sync_architecture.md](server_sync_architecture.md) — как
+  server-authoritative архитектура связана с тиками; sync-пакеты в
+  real-time против game-time-логики.
+
+Все пути к скриптам ниже — относительно `data/` в установке Cossacks 3.
+
+## TL;DR
+
+- В коде сосуществуют **три временных шкалы**: real time (стенные
+  секунды), game time (логическое время симуляции, скейлится по
+  `TimeSpeedFactor`) и frames (кадры анимаций; 32 кадра = 1 game-second).
+- Главный progress-loop тикает каждые **20 ms** real time
+  (`gc_progress_Interval = 0.02`). Внутри — раздача pathfinding'a,
+  периодические события, экономика, адаптация скорости игры.
+- Юниты тикают **не каждый кадр**, а раз в свой интервал: военные —
+  100 ms, крестьяне — 135 ms (`gc_statemachine_interval_*`).
+- На Save / Load часть `gProgress.last*time` таймштампов **не
+  восстанавливается точно** — сабсистемы могут пропустить тик или
+  получить два подряд. Это один из источников нерекурсивности.
 
 ---
 

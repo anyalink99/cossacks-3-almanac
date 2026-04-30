@@ -1,10 +1,27 @@
-# Recon: Cossacks 3 — Building Mechanics
+# Recon: механика зданий
 
-Глубокий разбор: footprint, постройка/починка крестьянами, стены, гарнизон/башни, захват, разрушение.
+Глубокий разбор: footprint, постройка и ремонт крестьянами, стены, гарнизон
+башен, захват, разрушение. Все пути ниже — относительно `data/` в
+установке Cossacks 3.
 
-**Контекст:** game speed = fast (×1.4). Все длительности в game-seconds, real-seconds = g-sec / 1.4.
+**Контекст:** скорость партии — fast (×1.4). Все длительности — в игровых
+секундах; real-seconds = g-sec / 1.4.
 
-> **Buildtime в game-time.** Для зданий движок хранит `objbase.buildtime = frames × (1/32) × gc_buildtime_modifier`, где `gc_buildtime_modifier = 10` (`misc.script:478-482`). Для юнитов модификатор = 1. Это объясняет, почему «реальное» время постройки здания ≈ frames × 10/32, а не frames/32. В нашем `docs/data.json` поле `building.buildtime_sec` уже учитывает ×10.
+## TL;DR
+
+- **Buildtime** для зданий хранится с дополнительным множителем
+  `gc_buildtime_modifier = 10` (`misc.script:478-482`). У юнитов
+  множитель = 1. Реальное время постройки = `frames × 10 / 32`, а не
+  `frames / 32`. В `docs/data.json` поле `building.buildtime_sec` уже
+  учитывает ×10.
+- **Footprint = collision mask** в файле `<sid>.prop`. Размер ячейки —
+  0.5 тайла (`gc_collision_size = 0.5`).
+- **Ремонт бесплатен**, +20 HP за один удар крестьянина (`gc_gameplay_repairhp`).
+- **Постройка**: `delta = 0.359 / buildtime` за удар. Анимация
+  `construct` = 13 кадров = 0.406 g-сек.
+- **Builder slots** = `bbox_cols + bbox_rows` (Manhattan-периметр) для
+  выпуклых форм. Жёсткий лимит движка — 30. Стены — 4 слота на сегмент.
+- **Captureradius** = 4 тайла (см. [capture_mechanics.md](capture_mechanics.md)).
 
 ---
 
