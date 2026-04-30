@@ -306,9 +306,9 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 
 **Что НЕ починить модом:**
 - Pathfinding tie-breaking.
-- Save format расширение (нужно DLL injection / hex-патч exe).
-- Иterating order в `gResGrid` (порядок вставок).
-- Glоballоe state PRNG межзапусковая стабильность (нужно патчить engine init).
+- Расширение save-формата (нужен DLL injection или hex-патч exe).
+- Порядок обхода в `gResGrid` (порядок вставок).
+- Межзапусковая стабильность глобального состояния PRNG (нужно патчить инициализацию движка).
 
 **Деплой:** через mod-систему игры (`mods/<modname>/data/scripts/lib/...` оверрайдит файлы из игры). Mod manager — `modman.exe`, конфиг — `mods/mods.ini`. Существующие воркшоп-моды (например, `1585067167` — Back to War OST) подтверждают этот формат.
 

@@ -9,7 +9,7 @@
 - [peasant_extraction.md §8](peasant_extraction.md) — плотности
   (`frs_big`, `mnt`, …) и расстояния от центра для шахт.
 - [peasant_extraction.md §8.4](peasant_extraction.md) — что такое
-  `.pattern` файл и как mask мапится в env-объекты.
+  `.pattern` файл и как `mask`-клетки превращаются в env-объекты.
 
 ## TL;DR
 
@@ -248,7 +248,7 @@ for i = 0 to 17:
 - Phase 2: rounds 1..4, но round 4 = `continue` на tiny ⇒ 3 outer rounds × 3 ресурса = 9 outer deposits.
 - **Итого 12 deposits per player** при условии успеха всех 256-try попыток.
 
-Особый случай: round 2 на tiny+spcount≤4 (line 658-696, version≥90) — `newpointx/y` snap на угол карты (`±maphW∓24, ±maphH∓24`) для самых дальних деопозитов. Это «ничейные» mines в углах, к которым нужно ехать вдоль карты.
+Особый случай: round 2 на tiny + spcount ≤ 4 (`line 658-696`, `version ≥ 90`) — `newpointx/y` снапается к углу карты (`±maphW ∓ 24, ±maphH ∓ 24`) для самых дальних депозитов. Это «ничейные» шахты в углах, до которых нужно идти вдоль края карты.
 
 ---
 
@@ -300,7 +300,7 @@ for i = 0 to 17:
 
 Подробности про OSWMap13 формат, bucketing-методику и калибровочные числа — см. §14.2-14.5 ниже.
 
-### 14.2 OSWMap13 format (саkmpы)
+### 14.2 Формат OSWMap13 (карты)
 
 `.rep`/`.map` файлы — это binary contained dump:
 - Header: length-prefixed strings (`"OSWMap13.Map.Ver[0.0]Build.Ver[X.Y.Z.NNNN]Core.Ver[1]"`, `"UID..."`, `"GameMapSnapShotBegin"`, BMP, `"GameMapSnapShotEnd"`, `"GameMapRecordBegin"`)
@@ -356,7 +356,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 ## 11. Ключевые файлы pipeline
 
-| Что | Где | Linenoы |
+| Что | Где | Строки |
 |---|---|---|
 | Главный orchestrator | `data/scripts/common.inc/dogenerate.inc` | 1-2103 |
 | Точка входа | `data/scripts/common.inc/initmapgen.inc` | 232 |
@@ -418,4 +418,4 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 7. **Plain / mountains / swamps / hills / plateaus / stoneforests / desert_* — добавить в `compute_counts`.** Эти pattern types вызываются *вне* foreststype-блока ([dogenerate.inc:1745-1766] для mountains/plateau/ravine/hills, остальные где-то рядом) и составляют ~50% всех cluster occurrences по replay-данным. Нужно прочитать соответствующие секции и расширить модель.
 
-8. **Десятки randkey0/1 значений на Land+Tiny+Highlands** — собрать 50+ replays на одинаковых настройках, варьировать только randkey, чтобы подтвердить detrministicностью (тот же randkey → тот же cluster count) или измерить variance. С 10 текущими replays variance вообще не оценена.
+8. **Десятки значений `randkey0` / `randkey1` на Land + Tiny + Highlands** — нужно собрать 50+ реплеев на одинаковых настройках и варьировать только `randkey`, чтобы либо подтвердить детерминированность (тот же `randkey` → тот же cluster count), либо измерить variance. На 10 имеющихся реплеях variance не оценена.

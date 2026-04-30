@@ -297,8 +297,9 @@ procedure _misc_CheckCapture(goHnd):
 - Cannon/mortar: переключают игрока, заряд сохраняется в инвентаре weapon.cost. Производственные delay сбрасываются.
 - Squad: захваченный юнит **выходит из squad** (см. `_misc_SquadChangePlayer`); если артиллерия была в строю — разваливает строй.
 
-### Defaults в Deathmatch / Historical battles
-`map.script:276, 283` — оба режима устанавливают `capture_nopeasants` ⇒ **peasant **в стандартных матчах НЕ захватывается**, только убивается. Захват peasant'а реален лишь в скирмише с custom-настройкой `capture_default`.
+### По умолчанию в Deathmatch и Historical Battle
+
+`map.script:276, 283` — оба режима устанавливают `capture_nopeasants`, поэтому **в стандартных матчах крестьяне не захватываются**, только убиваются. Захват крестьянина возможен лишь в скирмише с настройкой `capture_default`.
 
 ---
 

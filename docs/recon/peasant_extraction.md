@@ -377,7 +377,7 @@ Densities (dogenerate.inc:1688-1693):
 
 ### Per-pattern-type tree counts (real data)
 
-После расшифровки `data/game/var/generator.cfg` — `PatternList` секции мапят тип паттерна (типа `forests_pine_big`) на список конкретных `.pattern` файлов. Парсер: [`parser/parse_generator_cfg.py`](../parser/parse_generator_cfg.py) → `docs/derived/pattern_types.json`.
+После расшифровки `data/game/var/generator.cfg` секции `PatternList` сопоставляют тип паттерна (например, `forests_pine_big`) со списком конкретных `.pattern` файлов. Парсер — [`parser/parse_generator_cfg.py`](../../parser/parse_generator_cfg.py) → `docs/derived/pattern_types.json`.
 
 Кросс-tabulating с `pattern_inventory.json` (mask cell counts) → `docs/derived/pattern_type_stats.json`:
 
