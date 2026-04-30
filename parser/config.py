@@ -121,6 +121,10 @@ NATION_TO_COMMON_CLUSTER = {nat: _commonname(nat) for nat in PLAYABLE_NATIONS}
 
 RESOURCES = ["food", "wood", "stone", "gold", "iron", "coal"]
 RESOURCE_INDEX = {r: i + 1 for i, r in enumerate(RESOURCES)}  # 1..6 (matches gc_resource_type_*)
+RESOURCE_NAMES_RU = {
+    "food": "еда", "wood": "дерево", "stone": "камень",
+    "gold": "золото", "iron": "железо", "coal": "уголь",
+}
 
 WEAPON_KIND_NAMES = {
     "gc_obj_weapon_kind_pike": "pike",
@@ -129,6 +133,18 @@ WEAPON_KIND_NAMES = {
     "gc_obj_weapon_kind_arrow": "arrow",
     "gc_obj_weapon_kind_cannonball": "cannonball",
     "gc_obj_weapon_kind_cannister": "cannister",
+}
+
+# Russian labels for `gc_obj_weapon_kind_*` taken from
+# `data/locale/ru/gui.txt @unitpanel.hint.damage.weaponkind.*` (verified 2026-04-30).
+WEAPON_KIND_RU = {
+    "sword":      "меч",          # gui.weaponkind.0 = "Атака мечом"
+    "pike":       "пика",         # gui.weaponkind.1 = "Атака пикой"
+    "bullet":     "пуля",         # gui.weaponkind.2 = "Сила выстрела"
+    "arrow":      "стрелы",       # gui.weaponkind.3 = "Стрелы"
+    "cannonball": "ядро",         # gui.weaponkind.4 = "Урон от ядер"
+    "cannister":  "картечь",      # gui.weaponkind.5 = "Урон от картечи"
+    "firearrow":  "огненная стрела",  # gui.weaponkind.6 = "Огненные стрелы"
 }
 
 # px / tile (dmscript.global:172)
@@ -144,110 +160,230 @@ def px_to_tiles(px: int | float | None) -> float | None:
         return None
 
 
-# Upgrade type decoder (dmscript.global:737-764)
+# Upgrade type decoder (dmscript.global:737-764).
+# Tuple: (numeric_id, short_label_en, description_en, short_label_ru).
 UPG_TYPE_DECODE = {
-    "gc_upg_type_none": (0, "—", ""),
-    "gc_upg_type_lifeperc": (1, "HP %", "Health % bonus"),
-    "gc_upg_type_damage": (2, "+damage", "Adds flat damage to specific weapon kind"),
-    "gc_upg_type_damageperc": (3, "+damage %", "Damage % bonus"),
-    "gc_upg_type_protection": (4, "+protection", "Adds flat protection vs weapon kinds"),
-    "gc_upg_type_shield": (5, "+shield", "Shield bonus (negates damage up to N)"),
-    "gc_upg_type_enableunit": (6, "enable unit", "Unlocks a unit/building"),
-    "gc_upg_type_effectfood": (7, "+food eff %", "Adds X% to food extraction efficiency"),
-    "gc_upg_type_effectfoodperc": (8, "+food eff %", "Adds X% to food extraction efficiency"),
-    "gc_upg_type_effectwood": (9, "+wood eff %", "Adds X% to wood extraction efficiency"),
-    "gc_upg_type_effectwoodperc": (10, "+wood eff %", "Adds X% to wood extraction efficiency"),
-    "gc_upg_type_effectstone": (11, "+stone eff %", "Adds X% to stone extraction efficiency"),
-    "gc_upg_type_effectstoneperc": (12, "+stone eff %", "Adds X% to stone extraction efficiency"),
-    "gc_upg_type_priceperc": (13, "price %", "Modifies unit/building price by %"),
-    "gc_upg_type_buildtimeperc": (14, "build time %", "Modifies build time by %"),
-    "gc_upg_type_attpauseperc": (15, "reload %", "Modifies attack pause (lower = faster)"),
-    "gc_upg_type_attrangeperc": (16, "range %", "Modifies attack range %"),
-    "gc_upg_type_attdispertionperc": (17, "accuracy %", "Modifies dispersion (lower = more accurate)"),
-    "gc_upg_type_healing": (18, "healing", "Heals all units (one-time)"),
-    "gc_upg_type_fishingperc": (19, "+fish eff %", "Increases boat fish capacity"),
-    "gc_upg_type_geology": (20, "geology", "Reveals hidden mineral deposits"),
-    "gc_upg_type_balloon": (21, "balloon", "Reveals whole map (Montgolfier)"),
-    "gc_upg_type_speedperc": (22, "speed %", "Movement speed %"),
-    "gc_upg_type_fieldlifeperc": (23, "+field HP %", "Adds X to fieldlife (HP/hit reduction)"),
-    "gc_upg_type_single_inside": (24, "+building capacity", "Increases building peasant capacity"),
-    "gc_upg_type_single_inside_mine": (25, "+mine workers", "Adds X workers to mine capacity (per mine)"),
-    "gc_upg_type_single_attpauseperc": (26, "single reload %", "Per-building attack pause %"),
-    "gc_upg_type_single_buildgate": (27, "build gate", "Allows wall→gate conversion"),
+    "gc_upg_type_none": (0, "—", "", "—"),
+    "gc_upg_type_lifeperc": (1, "HP %", "Health % bonus", "+HP %"),
+    "gc_upg_type_damage": (2, "+damage", "Adds flat damage to specific weapon kind", "+урон"),
+    "gc_upg_type_damageperc": (3, "+damage %", "Damage % bonus", "+урон %"),
+    "gc_upg_type_protection": (4, "+protection", "Adds flat protection vs weapon kinds", "+защита"),
+    "gc_upg_type_shield": (5, "+shield", "Shield bonus (negates damage up to N)", "+щит"),
+    "gc_upg_type_enableunit": (6, "enable unit", "Unlocks a unit/building", "разблокировка"),
+    "gc_upg_type_effectfood": (7, "+food eff %", "Adds X% to food extraction efficiency", "+эффект. еды %"),
+    "gc_upg_type_effectfoodperc": (8, "+food eff %", "Adds X% to food extraction efficiency", "+эффект. еды %"),
+    "gc_upg_type_effectwood": (9, "+wood eff %", "Adds X% to wood extraction efficiency", "+эффект. дерева %"),
+    "gc_upg_type_effectwoodperc": (10, "+wood eff %", "Adds X% to wood extraction efficiency", "+эффект. дерева %"),
+    "gc_upg_type_effectstone": (11, "+stone eff %", "Adds X% to stone extraction efficiency", "+эффект. камня %"),
+    "gc_upg_type_effectstoneperc": (12, "+stone eff %", "Adds X% to stone extraction efficiency", "+эффект. камня %"),
+    "gc_upg_type_priceperc": (13, "price %", "Modifies unit/building price by %", "цена %"),
+    "gc_upg_type_buildtimeperc": (14, "build time %", "Modifies build time by %", "время постройки %"),
+    "gc_upg_type_attpauseperc": (15, "reload %", "Modifies attack pause (lower = faster)", "перезарядка %"),
+    "gc_upg_type_attrangeperc": (16, "range %", "Modifies attack range %", "дальность %"),
+    "gc_upg_type_attdispertionperc": (17, "accuracy %", "Modifies dispersion (lower = more accurate)", "точность %"),
+    "gc_upg_type_healing": (18, "healing", "Heals all units (one-time)", "лечение"),
+    "gc_upg_type_fishingperc": (19, "+fish eff %", "Increases boat fish capacity", "+рыбалка %"),
+    "gc_upg_type_geology": (20, "geology", "Reveals hidden mineral deposits", "геология"),
+    "gc_upg_type_balloon": (21, "balloon", "Reveals whole map (Montgolfier)", "монгольфьер"),
+    "gc_upg_type_speedperc": (22, "speed %", "Movement speed %", "скорость %"),
+    "gc_upg_type_fieldlifeperc": (23, "+field HP %", "Adds X to fieldlife (HP/hit reduction)", "+живучесть поля"),
+    "gc_upg_type_single_inside": (24, "+building capacity", "Increases building peasant capacity", "+вместимость здания"),
+    "gc_upg_type_single_inside_mine": (25, "+mine workers", "Adds X workers to mine capacity (per mine)", "+рабочих в шахту"),
+    "gc_upg_type_single_attpauseperc": (26, "single reload %", "Per-building attack pause %", "перезарядка здания %"),
+    "gc_upg_type_single_buildgate": (27, "build gate", "Allows wall→gate conversion", "ворота из стены"),
 }
 
 
-def decode_upg_type(itype_str) -> tuple[str, str]:
-    """Return (short_name, description) for a gc_upg_type_* identifier or numeric ID."""
+def decode_upg_type(itype_str, lang: str = "en") -> tuple[str, str]:
+    """Return (short_name, description) for a gc_upg_type_* identifier or numeric ID.
+
+    lang='ru' returns the Russian short label; description stays English.
+    """
     if not itype_str:
         return ("", "")
     s = str(itype_str).strip()
+    short_idx = 3 if lang == "ru" else 1
     if s in UPG_TYPE_DECODE:
-        _, short, desc = UPG_TYPE_DECODE[s]
-        return (short, desc)
+        tup = UPG_TYPE_DECODE[s]
+        return (tup[short_idx], tup[2])
     try:
         n = int(s)
-        for name, (i, short, desc) in UPG_TYPE_DECODE.items():
-            if i == n:
-                return (short, desc)
+        for name, tup in UPG_TYPE_DECODE.items():
+            if tup[0] == n:
+                return (tup[short_idx], tup[2])
     except (ValueError, TypeError):
         pass
     return (s, "")  # unknown
 
 
-# Object usage decoder (dmscript.global:307-339)
+# Object usage decoder (dmscript.global:307-339).
+# Tuple: (numeric_id, label_en, label_ru).
 USAGE_DECODE = {
-    "gc_obj_usage_none":          (0, "—"),
-    "gc_obj_usage_mill":          (1, "Mill"),
-    "gc_obj_usage_farm":          (2, "Housing/Farm"),
-    "gc_obj_usage_center":        (3, "Town Hall"),
-    "gc_obj_usage_storage":       (4, "Storehouse"),
-    "gc_obj_usage_tower":         (5, "Tower"),
-    "gc_obj_usage_field":         (6, "Field"),
-    "gc_obj_usage_mine":          (7, "Mine"),
-    "gc_obj_usage_fasthorse":     (8, "Light Cavalry"),
-    "gc_obj_usage_mortar":        (9, "Mortar"),
-    "gc_obj_usage_cannon":        (10, "Cannon"),
-    "gc_obj_usage_grenadier":     (11, "Grenadier"),
-    "gc_obj_usage_hardwall":      (12, "Stone Wall/Gate"),
-    "gc_obj_usage_weakwall":      (13, "Wood Wall/Gate"),
-    "gc_obj_usage_battleship":    (14, "Battleship"),
-    "gc_obj_usage_weak":          (15, "Weak unit"),
-    "gc_obj_usage_fisher":        (16, "Fishing Boat"),
-    "gc_obj_usage_artdepo":       (17, "Artillery Depot"),
-    "gc_obj_usage_supermortar":   (18, "Super Mortar"),
-    "gc_obj_usage_port":          (19, "Shipyard"),
-    "gc_obj_usage_lightinfantry": (20, "Light Infantry"),
-    "gc_obj_usage_shooter":       (21, "Shooter"),
-    "gc_obj_usage_hardhorse":     (22, "Heavy Cavalry"),
-    "gc_obj_usage_peasant":       (23, "Peasant"),
-    "gc_obj_usage_horseshooter":  (24, "Mounted Shooter"),
-    "gc_obj_usage_frigate":       (25, "Frigate"),
-    "gc_obj_usage_galley":        (26, "Galley"),
-    "gc_obj_usage_yacht":         (27, "Yacht"),
-    "gc_obj_usage_xebec":         (28, "Xebec"),
-    "gc_obj_usage_transport":     (29, "Transport"),
-    "gc_obj_usage_archer":        (30, "Archer"),
-    "gc_obj_usage_mcannon":       (31, "Multi-cannon"),
-    "gc_obj_usage_dipcenter":     (32, "Diplomatic Center"),
+    "gc_obj_usage_none":          (0,  "—",                  "—"),
+    "gc_obj_usage_mill":          (1,  "Mill",               "Мельница"),
+    "gc_obj_usage_farm":          (2,  "Housing/Farm",       "Дом"),
+    "gc_obj_usage_center":        (3,  "Town Hall",          "Городской центр"),
+    "gc_obj_usage_storage":       (4,  "Storehouse",         "Склад"),
+    "gc_obj_usage_tower":         (5,  "Tower",              "Башня"),
+    "gc_obj_usage_field":         (6,  "Field",              "Поле"),
+    "gc_obj_usage_mine":          (7,  "Mine",               "Шахта"),
+    "gc_obj_usage_fasthorse":     (8,  "Light Cavalry",      "Лёгкая кавалерия"),
+    "gc_obj_usage_mortar":        (9,  "Mortar",             "Мортира"),
+    "gc_obj_usage_cannon":        (10, "Cannon",             "Пушка"),
+    "gc_obj_usage_grenadier":     (11, "Grenadier",          "Гренадёр"),
+    "gc_obj_usage_hardwall":      (12, "Stone Wall/Gate",    "Каменная стена/ворота"),
+    "gc_obj_usage_weakwall":      (13, "Wood Wall/Gate",     "Деревянная стена/ворота"),
+    "gc_obj_usage_battleship":    (14, "Battleship",         "Линейный корабль"),
+    "gc_obj_usage_weak":          (15, "Weak unit",          "Слабый юнит"),
+    "gc_obj_usage_fisher":        (16, "Fishing Boat",       "Рыбацкая лодка"),
+    "gc_obj_usage_artdepo":       (17, "Artillery Depot",    "Артиллерийское депо"),
+    "gc_obj_usage_supermortar":   (18, "Super Mortar",       "Сверхмортира"),
+    "gc_obj_usage_port":          (19, "Shipyard",           "Порт"),
+    "gc_obj_usage_lightinfantry": (20, "Light Infantry",     "Лёгкая пехота"),
+    "gc_obj_usage_shooter":       (21, "Shooter",            "Стрелок"),
+    "gc_obj_usage_hardhorse":     (22, "Heavy Cavalry",      "Тяжёлая кавалерия"),
+    "gc_obj_usage_peasant":       (23, "Peasant",            "Крестьянин"),
+    "gc_obj_usage_horseshooter":  (24, "Mounted Shooter",    "Конный стрелок"),
+    "gc_obj_usage_frigate":       (25, "Frigate",            "Фрегат"),
+    "gc_obj_usage_galley":        (26, "Galley",             "Галера"),
+    "gc_obj_usage_yacht":         (27, "Yacht",              "Яхта"),
+    "gc_obj_usage_xebec":         (28, "Xebec",              "Шебека"),
+    "gc_obj_usage_transport":     (29, "Transport",          "Транспорт"),
+    "gc_obj_usage_archer":        (30, "Archer",             "Лучник"),
+    "gc_obj_usage_mcannon":       (31, "Multi-cannon",       "Многоствольная пушка"),
+    "gc_obj_usage_dipcenter":     (32, "Diplomatic Center",  "Дипломатический центр"),
 }
 
+# Map English `usage_short` (as stored in data.json) → Russian label.
+USAGE_RU = {tup[1]: tup[2] for tup in USAGE_DECODE.values()}
 
-def decode_usage(usage_str) -> str:
-    """Convert gc_obj_usage_* identifier (or numeric ID) to human-readable name."""
+
+def decode_usage(usage_str, lang: str = "en") -> str:
+    """Convert gc_obj_usage_* identifier (or numeric ID) to human-readable name.
+
+    lang='ru' returns the Russian label.
+    """
     if not usage_str:
         return ""
     s = str(usage_str).strip()
+    idx = 2 if lang == "ru" else 1
     if s in USAGE_DECODE:
-        return USAGE_DECODE[s][1]
+        return USAGE_DECODE[s][idx]
     try:
         n = int(s)
-        for name, (i, short) in USAGE_DECODE.items():
-            if i == n:
-                return short
+        for name, tup in USAGE_DECODE.items():
+            if tup[0] == n:
+                return tup[idx]
     except (ValueError, TypeError):
         pass
     return s
+
+
+def usage_ru(usage_short: str | None) -> str:
+    """Translate an English `usage_short` (as stored in data.json) to Russian.
+    Falls back to the input when no mapping exists."""
+    if not usage_short:
+        return "—"
+    return USAGE_RU.get(usage_short, usage_short)
+
+
+# =============================================================================
+# Russian display names — single source of truth
+# =============================================================================
+# Loaded from `docs/derived/canonical_terms.json` (generated from game locale by
+# `parser/build_canonical_terms.py`). All writers and compute scripts that emit
+# Russian text MUST use these maps — never hard-code translations.
+
+NATION_NAMES_RU: dict[str, str] = {}
+NATION_NAMES_EN: dict[str, str] = {}
+BUILDING_NAMES_RU: dict[str, str] = {}  # by suffix: 'cen' → 'Городской центр'
+BUILDING_NAMES_EN: dict[str, str] = {}
+
+_CANON_FALLBACK_NATIONS_RU = {
+    "aus": "Австрия", "fra": "Франция", "eng": "Англия", "spa": "Испания",
+    "rus": "Россия",  "ukr": "Украина", "pol": "Польша", "swe": "Швеция",
+    "pru": "Пруссия", "ven": "Венеция", "tur": "Турция", "alg": "Алжир",
+    "net": "Нидерланды", "den": "Дания", "por": "Португалия", "pie": "Пьемонт",
+    "sax": "Саксония", "bav": "Бавария", "hun": "Венгрия", "swi": "Швейцария",
+    "sco": "Шотландия",
+}
+_CANON_FALLBACK_NATIONS_EN = {
+    "aus": "Austria", "fra": "France", "eng": "England", "spa": "Spain",
+    "rus": "Russia", "ukr": "Ukraine", "pol": "Poland", "swe": "Sweden",
+    "pru": "Prussia", "ven": "Venice", "tur": "Turkey", "alg": "Algeria",
+    "net": "Netherlands", "den": "Denmark", "por": "Portugal", "pie": "Piedmont",
+    "sax": "Saxony", "bav": "Bavaria", "hun": "Hungary", "swi": "Switzerland",
+    "sco": "Scotland",
+}
+_CANON_FALLBACK_BUILDINGS_RU = {
+    "cen": "Городской центр", "bar": "Казарма 17в.", "ba2": "Казарма 18в.",
+    "aca": "Академия", "art": "Артиллерийское депо", "bla": "Кузница",
+    "dip": "Дипломатический центр", "hou": "Дом", "sta": "Конюшня",
+    "tem": "Собор",
+    "mar": "Рынок", "mil": "Мельница", "por": "Порт", "sto": "Склад",
+    "tow": "Башня", "coa": "Шахта", "gol": "Шахта", "iro": "Шахта",
+    "sga": "Каменные ворота", "wga": "Деревянные ворота",
+    "swa": "Стена", "wwa": "Частокол",
+}
+
+
+def _load_canonical_terms() -> None:
+    """Populate NATION_NAMES_*, BUILDING_NAMES_* from canonical_terms.json.
+
+    Falls back to the hardcoded constants above when the file is missing
+    (e.g., before the first run of `parser/build_canonical_terms.py`).
+    """
+    global NATION_NAMES_RU, NATION_NAMES_EN
+    global BUILDING_NAMES_RU, BUILDING_NAMES_EN
+    NATION_NAMES_RU = dict(_CANON_FALLBACK_NATIONS_RU)
+    NATION_NAMES_EN = dict(_CANON_FALLBACK_NATIONS_EN)
+    BUILDING_NAMES_RU = dict(_CANON_FALLBACK_BUILDINGS_RU)
+    BUILDING_NAMES_EN = {}
+
+    canon_path = DERIVED_DIR / "canonical_terms.json"
+    if not canon_path.exists():
+        return
+    try:
+        canon = json.loads(canon_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return
+
+    for sid, names in (canon.get("nations") or {}).items():
+        if names.get("ru"):
+            NATION_NAMES_RU[sid] = names["ru"]
+        if names.get("en"):
+            NATION_NAMES_EN[sid] = names["en"]
+    for suffix, names in (canon.get("buildings") or {}).items():
+        if names.get("ru"):
+            BUILDING_NAMES_RU[suffix] = names["ru"]
+        if names.get("en"):
+            BUILDING_NAMES_EN[suffix] = names["en"]
+
+
+_load_canonical_terms()
+
+
+def nation_ru(sid: str) -> str:
+    """Russian name for a nation sid; falls back to the sid itself."""
+    return NATION_NAMES_RU.get(sid, sid)
+
+
+def nation_en(sid: str) -> str:
+    """English name for a nation sid; falls back to the sid itself."""
+    return NATION_NAMES_EN.get(sid, sid)
+
+
+def nation_label(sid: str, *, en: bool = True, ru: bool = True) -> str:
+    """`AUS — Австрия` style header label. Use in cheatsheet headings."""
+    parts = [sid.upper()]
+    if en and sid in NATION_NAMES_EN:
+        parts.append(NATION_NAMES_EN[sid])
+    if ru and sid in NATION_NAMES_RU:
+        ru_name = NATION_NAMES_RU[sid]
+        if en and sid in NATION_NAMES_EN:
+            return f"{sid.upper()} — {NATION_NAMES_EN[sid]} ({ru_name})"
+        return f"{sid.upper()} — {ru_name}"
+    return parts[0]
 
 
 # =============================================================================

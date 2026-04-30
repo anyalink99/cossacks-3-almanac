@@ -1,0 +1,1570 @@
+{
+  "_meta": {
+    "source": "Cossacks 3 game files (data/locale/{ru,en}/*.txt)",
+    "note": "Generated from game locale; do not edit by hand. Regenerate via `python parser/build_canonical_terms.py`."
+  },
+  "nations": {
+    "aus": {
+      "ru": "Австрия",
+      "en": "Austria"
+    },
+    "fra": {
+      "ru": "Франция",
+      "en": "France"
+    },
+    "eng": {
+      "ru": "Англия",
+      "en": "England"
+    },
+    "spa": {
+      "ru": "Испания",
+      "en": "Spain"
+    },
+    "rus": {
+      "ru": "Россия",
+      "en": "Russia"
+    },
+    "ukr": {
+      "ru": "Украина",
+      "en": "Ukraine"
+    },
+    "pol": {
+      "ru": "Польша",
+      "en": "Poland"
+    },
+    "swe": {
+      "ru": "Швеция",
+      "en": "Sweden"
+    },
+    "pru": {
+      "ru": "Пруссия",
+      "en": "Prussia"
+    },
+    "ven": {
+      "ru": "Венеция",
+      "en": "Venice"
+    },
+    "tur": {
+      "ru": "Турция",
+      "en": "Turkey"
+    },
+    "alg": {
+      "ru": "Алжир",
+      "en": "Algeria"
+    },
+    "net": {
+      "ru": "Нидерланды",
+      "en": "Netherlands"
+    },
+    "den": {
+      "ru": "Дания",
+      "en": "Denmark"
+    },
+    "por": {
+      "ru": "Португалия",
+      "en": "Portugal"
+    },
+    "pie": {
+      "ru": "Пьемонт",
+      "en": "Piedmont"
+    },
+    "sax": {
+      "ru": "Саксония",
+      "en": "Saxony"
+    },
+    "bav": {
+      "ru": "Бавария",
+      "en": "Bavaria"
+    },
+    "hun": {
+      "ru": "Венгрия",
+      "en": "Hungary"
+    },
+    "swi": {
+      "ru": "Швейцария",
+      "en": "Switzerland"
+    },
+    "sco": {
+      "ru": "Шотландия",
+      "en": "Scotland"
+    }
+  },
+  "settings": {
+    "customgame.text.nation": {
+      "ru": "Нация",
+      "en": "Nation"
+    },
+    "randommap.initialresources.0": {
+      "ru": "Обычные",
+      "en": "Normal"
+    },
+    "randommap.initialresources.1": {
+      "ru": "Богатые",
+      "en": "Rich"
+    },
+    "randommap.initialresources.2": {
+      "ru": "Тысячи",
+      "en": "Thousands"
+    },
+    "randommap.initialresources.3": {
+      "ru": "Миллионы",
+      "en": "Millions"
+    },
+    "randommap.minerals.0": {
+      "ru": "Мало",
+      "en": "Poor"
+    },
+    "randommap.minerals.1": {
+      "ru": "Средне",
+      "en": "Medium"
+    },
+    "randommap.minerals.2": {
+      "ru": "Много",
+      "en": "Rich"
+    },
+    "randommap.relieftype.0": {
+      "ru": "Равнина",
+      "en": "Plain"
+    },
+    "randommap.relieftype.1": {
+      "ru": "Холмы",
+      "en": "Low Mountains"
+    },
+    "randommap.relieftype.2": {
+      "ru": "Горы",
+      "en": "High Mountains"
+    },
+    "randommap.relieftype.3": {
+      "ru": "Высокогорье",
+      "en": "Highlands"
+    },
+    "randommap.relieftype.4": {
+      "ru": "Плато",
+      "en": "Plateaus"
+    },
+    "randommap.relieftype.5": {
+      "ru": "Пустыня",
+      "en": "Desert"
+    },
+    "randommap.settings.adviserassistant": {
+      "ru": "Помощник",
+      "en": "Adviser Assistant"
+    },
+    "randommap.settings.adviserassistant.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.adviserassistant.with": {
+      "ru": "С помощником",
+      "en": "With adviser"
+    },
+    "randommap.settings.adviserassistant.without": {
+      "ru": "Без помощника",
+      "en": "Without adviser"
+    },
+    "randommap.settings.balloon": {
+      "ru": "Опции монгольфьера",
+      "en": "Balloon Options"
+    },
+    "randommap.settings.balloon.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.balloon.no": {
+      "ru": "Без монгольфьеров",
+      "en": "No Balloons"
+    },
+    "randommap.settings.balloon.with": {
+      "ru": "Монгольфьеры",
+      "en": "Balloons"
+    },
+    "randommap.settings.cannons": {
+      "ru": "Пушки",
+      "en": "Cannons"
+    },
+    "randommap.settings.cannons.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.cannons.expensivecannons": {
+      "ru": "Дорогие пушки",
+      "en": "Expensive Cannons"
+    },
+    "randommap.settings.cannons.nocannonstowerswalls": {
+      "ru": "Без пушек, башен и стен",
+      "en": "No Cannons, Towers and Walls"
+    },
+    "randommap.settings.capture": {
+      "ru": "Захват",
+      "en": "Capture"
+    },
+    "randommap.settings.capture.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.capture.nocenterspeasants": {
+      "ru": "Без захвата крестьян и центров",
+      "en": "No Capturing Peasants or Centres"
+    },
+    "randommap.settings.capture.nopeasants": {
+      "ru": "Без захвата крестьян",
+      "en": "No Capturing Peasants"
+    },
+    "randommap.settings.capture.onlyartillery": {
+      "ru": "Только пушки",
+      "en": "Artillery Only"
+    },
+    "randommap.settings.century18": {
+      "ru": "Опции 18 века",
+      "en": "18th Century Options"
+    },
+    "randommap.settings.century18.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.century18.no": {
+      "ru": "Никогда",
+      "en": "Never"
+    },
+    "randommap.settings.century18.with": {
+      "ru": "Сразу",
+      "en": "Immediately"
+    },
+    "randommap.settings.limit": {
+      "ru": "Лимит населения",
+      "en": "Limit of population"
+    },
+    "randommap.settings.limit.custom": {
+      "ru": "%value% юнитов",
+      "en": "%value% units"
+    },
+    "randommap.settings.limit.default": {
+      "ru": "Без ограничения",
+      "en": "Without limitation"
+    },
+    "randommap.settings.marketdip": {
+      "ru": "Дип. центр и рынок",
+      "en": "Dip. center and market"
+    },
+    "randommap.settings.marketdip.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.marketdip.noboth": {
+      "ru": "Не доступны",
+      "en": "Without both"
+    },
+    "randommap.settings.marketdip.nodip": {
+      "ru": "Без дип. центра",
+      "en": "Without dip. center"
+    },
+    "randommap.settings.marketdip.nomarket": {
+      "ru": "Без рынка",
+      "en": "Without market"
+    },
+    "randommap.settings.peacetime": {
+      "ru": "Время мира",
+      "en": "Peace Time"
+    },
+    "randommap.settings.peacetime.10": {
+      "ru": "10 мин",
+      "en": "10 min"
+    },
+    "randommap.settings.peacetime.120": {
+      "ru": "2 часа",
+      "en": "2 hours"
+    },
+    "randommap.settings.peacetime.15": {
+      "ru": "15 мин",
+      "en": "15 min"
+    },
+    "randommap.settings.peacetime.180": {
+      "ru": "3 часа",
+      "en": "3 hours"
+    },
+    "randommap.settings.peacetime.20": {
+      "ru": "20 мин",
+      "en": "20 min"
+    },
+    "randommap.settings.peacetime.240": {
+      "ru": "4 часа",
+      "en": "4 hours"
+    },
+    "randommap.settings.peacetime.30": {
+      "ru": "30 мин",
+      "en": "30 min"
+    },
+    "randommap.settings.peacetime.45": {
+      "ru": "45 мин",
+      "en": "45 min"
+    },
+    "randommap.settings.peacetime.60": {
+      "ru": "60 мин",
+      "en": "60 min"
+    },
+    "randommap.settings.peacetime.90": {
+      "ru": "90 мин",
+      "en": "1.5 hours"
+    },
+    "randommap.settings.peacetime.default": {
+      "ru": "Без времени мира",
+      "en": "No Peace Time"
+    },
+    "randommap.settings.startingunits": {
+      "ru": "Стартовые опции",
+      "en": "Start Options"
+    },
+    "randommap.settings.startingunits.armylarge": {
+      "ru": "Огромная армия",
+      "en": "Huge Army"
+    },
+    "randommap.settings.startingunits.armymedium": {
+      "ru": "Большая армия",
+      "en": "Big Army"
+    },
+    "randommap.settings.startingunits.armysmall": {
+      "ru": "Армия",
+      "en": "Army"
+    },
+    "randommap.settings.startingunits.barrack18": {
+      "ru": "Казармы 18 века",
+      "en": "18th Century Barracks"
+    },
+    "randommap.settings.startingunits.cannons": {
+      "ru": "Пушки",
+      "en": "Cannons"
+    },
+    "randommap.settings.startingunits.cannonsandhowitzers": {
+      "ru": "Пушки и гаубицы",
+      "en": "Cannons and Howitzers"
+    },
+    "randommap.settings.startingunits.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.startingunits.differentnations": {
+      "ru": "Разные нации",
+      "en": "Different Nations"
+    },
+    "randommap.settings.startingunits.peasantslot": {
+      "ru": "Множество крестьян",
+      "en": "Army of Peasants"
+    },
+    "randommap.settings.startingunits.towers": {
+      "ru": "Башни",
+      "en": "Towers"
+    },
+    "randommap.settings.teams": {
+      "ru": "Союзники",
+      "en": "Allies"
+    },
+    "randommap.settings.teams.default": {
+      "ru": "По умолчанию",
+      "en": "Default"
+    },
+    "randommap.settings.teams.nearby": {
+      "ru": "Рядом",
+      "en": "Nearby"
+    },
+    "randommap.terraintype.0": {
+      "ru": "Суша",
+      "en": "Land"
+    },
+    "randommap.terraintype.1": {
+      "ru": "Средиземное море",
+      "en": "Mediterranean"
+    },
+    "randommap.terraintype.2": {
+      "ru": "Полуострова",
+      "en": "Peninsulas"
+    },
+    "randommap.terraintype.3": {
+      "ru": "Острова",
+      "en": "Islands"
+    },
+    "randommap.terraintype.4": {
+      "ru": "Континенты",
+      "en": "Several Continents"
+    },
+    "randommap.terraintype.5": {
+      "ru": "Континент",
+      "en": "Single Continent"
+    },
+    "randommap.terraintype.6": {
+      "ru": "Озера",
+      "en": "Lakes"
+    },
+    "randommap.terraintype.7": {
+      "ru": "Берег",
+      "en": "Coast"
+    },
+    "randommap.terraintype.8": {
+      "ru": "Реки",
+      "en": "Rivers"
+    },
+    "randommap.terraintype.9": {
+      "ru": "Без воды",
+      "en": "Without water"
+    }
+  },
+  "difficulty": {
+    "difficulty.0": {
+      "ru": "Пусто",
+      "en": "None"
+    },
+    "difficulty.1": {
+      "ru": "Нормальный",
+      "en": "Normal"
+    },
+    "difficulty.2": {
+      "ru": "Тяжелый",
+      "en": "Hard"
+    },
+    "difficulty.3": {
+      "ru": "Очень тяжелый",
+      "en": "Very Hard"
+    },
+    "difficulty.4": {
+      "ru": "Невозможный",
+      "en": "Impossible"
+    }
+  },
+  "buildings": {
+    "cen": {
+      "kind": "nat",
+      "template_key": "%nat%cen",
+      "ru": "Городской центр",
+      "en": "Town Hall"
+    },
+    "bar": {
+      "kind": "nat",
+      "template_key": "%nat%bar",
+      "ru": "Казарма 17в.",
+      "en": "Barracks, 17th century"
+    },
+    "ba2": {
+      "kind": "nat",
+      "template_key": "%nat%ba2",
+      "ru": "Казарма 18в.",
+      "en": "Barracks, 18th century"
+    },
+    "aca": {
+      "kind": "nat",
+      "template_key": "%nat%aca",
+      "ru": "Академия",
+      "en": "Academy"
+    },
+    "art": {
+      "kind": "nat",
+      "template_key": "%nat%art",
+      "ru": "Артиллерийское депо",
+      "en": "Artillery Depot"
+    },
+    "bla": {
+      "kind": "nat",
+      "template_key": "%nat%bla",
+      "ru": "Кузница",
+      "en": "Blacksmith"
+    },
+    "dip": {
+      "kind": "nat",
+      "template_key": "%nat%dip",
+      "ru": "Дипломатический центр",
+      "en": "Diplomatic Center"
+    },
+    "hou": {
+      "kind": "nat",
+      "template_key": "%nat%hou",
+      "ru": "Дом",
+      "en": "Housing"
+    },
+    "sta": {
+      "kind": "nat",
+      "template_key": "%nat%sta",
+      "ru": "Конюшня",
+      "en": "Stable"
+    },
+    "tem": {
+      "kind": "nat",
+      "template_key": "%nat%tem",
+      "ru": "Собор",
+      "en": "Cathedral"
+    },
+    "mar": {
+      "kind": "com",
+      "template_key": "%com%mar",
+      "ru": "Рынок",
+      "en": "Market"
+    },
+    "mil": {
+      "kind": "com",
+      "template_key": "%com%mil",
+      "ru": "Мельница",
+      "en": "Mill"
+    },
+    "por": {
+      "kind": "com",
+      "template_key": "%com%por",
+      "ru": "Порт",
+      "en": "Shipyard"
+    },
+    "sto": {
+      "kind": "com",
+      "template_key": "%com%sto",
+      "ru": "Склад",
+      "en": "Storehouse"
+    },
+    "tow": {
+      "kind": "com",
+      "template_key": "%com%tow",
+      "ru": "Башня",
+      "en": "Tower"
+    },
+    "coa": {
+      "kind": "com",
+      "template_key": "%com%coa",
+      "ru": "Шахта",
+      "en": "Mine"
+    },
+    "gol": {
+      "kind": "com",
+      "template_key": "%com%gol",
+      "ru": "Шахта",
+      "en": "Mine"
+    },
+    "iro": {
+      "kind": "com",
+      "template_key": "%com%iro",
+      "ru": "Шахта",
+      "en": "Mine"
+    },
+    "sga": {
+      "kind": "com",
+      "template_key": "%com%sga",
+      "ru": "Каменные ворота",
+      "en": "Gate"
+    },
+    "wga": {
+      "kind": "com",
+      "template_key": "%com%wga",
+      "ru": "Деревянные ворота",
+      "en": "Gate"
+    },
+    "swa": {
+      "kind": "com",
+      "template_key": "%com%swa",
+      "ru": "Стена",
+      "en": "Wall"
+    },
+    "wwa": {
+      "kind": "com",
+      "template_key": "%com%wwa",
+      "ru": "Частокол",
+      "en": "Palisade"
+    }
+  },
+  "resources": {
+    "food": {
+      "ru": "Еда",
+      "en": "Food"
+    },
+    "wood": {
+      "ru": "Дерево",
+      "en": "Wood"
+    },
+    "stone": {
+      "ru": "Камень",
+      "en": "Stone"
+    },
+    "gold": {
+      "ru": "Золото",
+      "en": "Gold"
+    },
+    "iron": {
+      "ru": "Железо",
+      "en": "Iron"
+    },
+    "coal": {
+      "ru": "Уголь",
+      "en": "Coal"
+    }
+  },
+  "weapon_kinds": {
+    "sword": {
+      "index": 0,
+      "gc_id": "gc_obj_weapon_kind_sword",
+      "ru": "Атака мечом",
+      "en": "Sword Attack"
+    },
+    "pike": {
+      "index": 1,
+      "gc_id": "gc_obj_weapon_kind_pike",
+      "ru": "Атака пикой",
+      "en": "Pike Attack"
+    },
+    "bullet": {
+      "index": 2,
+      "gc_id": "gc_obj_weapon_kind_bullet",
+      "ru": "Сила выстрела",
+      "en": "Fire Power"
+    },
+    "arrow": {
+      "index": 3,
+      "gc_id": "gc_obj_weapon_kind_arrow",
+      "ru": "Стрелы",
+      "en": "Arrow Attack"
+    },
+    "cannonball": {
+      "index": 4,
+      "gc_id": "gc_obj_weapon_kind_cannonball",
+      "ru": "Урон от ядер",
+      "en": "Cannonball Damage"
+    },
+    "cannister": {
+      "index": 5,
+      "gc_id": "gc_obj_weapon_kind_cannister",
+      "ru": "Урон от картечи",
+      "en": "Grapeshot Damage"
+    },
+    "firearrow": {
+      "index": 6,
+      "gc_id": "gc_obj_weapon_kind_firearrow",
+      "ru": "Огненные стрелы",
+      "en": "Fire Arrow Attack"
+    }
+  },
+  "upgrade_names": {
+    "%com%cen.1": {
+      "ru": "Перейти в 18 век",
+      "en": "Progress to the 18th Century"
+    },
+    "%com%coa.1": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+5)",
+      "en": "Enlarge mines and build extensive railroad network for them (+5)"
+    },
+    "%com%coa.2": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+8)",
+      "en": "Enlarge mines and build extensive railroad network for them (+8)"
+    },
+    "%com%coa.3": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+10)",
+      "en": "Enlarge mines and build extensive railroad network for them (+10)"
+    },
+    "%com%coa.4": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+12)",
+      "en": "Enlarge mines and build extensive railroad network for them (+12)"
+    },
+    "%com%coa.5": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+15)",
+      "en": "Enlarge mines and build extensive railroad network for them (+15)"
+    },
+    "%com%coa.6": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+40)",
+      "en": "Enlarge mines and build extensive railroad network for them (+40)"
+    },
+    "%com%gol.1": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+5)",
+      "en": "Enlarge mines and build extensive railroad network for them (+5)"
+    },
+    "%com%gol.2": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+8)",
+      "en": "Enlarge mines and build extensive railroad network for them (+8)"
+    },
+    "%com%gol.3": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+10)",
+      "en": "Enlarge mines and build extensive railroad network for them (+10)"
+    },
+    "%com%gol.4": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+12)",
+      "en": "Enlarge mines and build extensive railroad network for them (+12)"
+    },
+    "%com%gol.5": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+15)",
+      "en": "Enlarge mines and build extensive railroad network for them (+15)"
+    },
+    "%com%gol.6": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+40)",
+      "en": "Enlarge mines and build extensive railroad network for them (+40)"
+    },
+    "%com%gol.template": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог",
+      "en": "Enlarge mines and build extensive railroad network for them"
+    },
+    "%com%iro.1": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+5)",
+      "en": "Enlarge mines and build extensive railroad network for them (+5)"
+    },
+    "%com%iro.2": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+8)",
+      "en": "Enlarge mines and build extensive railroad network for them (+8)"
+    },
+    "%com%iro.3": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+10)",
+      "en": "Enlarge mines and build extensive railroad network for them (+10)"
+    },
+    "%com%iro.4": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+12)",
+      "en": "Enlarge mines and build extensive railroad network for them (+12)"
+    },
+    "%com%iro.5": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+15)",
+      "en": "Enlarge mines and build extensive railroad network for them (+15)"
+    },
+    "%com%iro.6": {
+      "ru": "Расширить шахты и построить в них разветвленную сеть рельсовых дорог (+40)",
+      "en": "Enlarge mines and build extensive railroad network for them (+40)"
+    },
+    "%com%mil.1": {
+      "ru": "Усовершенствовать способы переработки зерна (сбор еды +140%)",
+      "en": "Improve grain crops treatment (harvesting +140%)"
+    },
+    "%com%mil.2": {
+      "ru": "Усовершенствовать способы хранения зерна (сбор еды +180%)",
+      "en": "Improve grain crops storage (harvesting +180%)"
+    },
+    "%com%por.1": {
+      "ru": "Обучить столяров (отремонтировать все корабли)",
+      "en": "Train woodworkers (repair all ships)"
+    },
+    "%com%tow.1": {
+      "ru": "Увеличить количество оборонительных орудий (20%)",
+      "en": "Increase number of defensive cannons (20%)"
+    },
+    "%com%tow.2": {
+      "ru": "Увеличить количество оборонительных орудий (20%)",
+      "en": "Increase number of defensive cannons (20%)"
+    },
+    "%com%tow.3": {
+      "ru": "Увеличить количество оборонительных орудий (10%)",
+      "en": "Increase number of defensive cannons (10%)"
+    },
+    "%com%tow.4": {
+      "ru": "Увеличить количество оборонительных орудий (10%)",
+      "en": "Increase number of defensive cannons (10%)"
+    },
+    "%com%tow.5": {
+      "ru": "Увеличить количество оборонительных орудий (10%)",
+      "en": "Increase number of defensive cannons (10%)"
+    },
+    "%com%tow.6": {
+      "ru": "Увеличить количество оборонительных орудий (10%)",
+      "en": "Increase number of defensive cannons (10%)"
+    },
+    "%com%tow.template": {
+      "ru": "Увеличить количество оборонительных орудий",
+      "en": "Increase number of defensive cannons"
+    },
+    "%nat%aca.1": {
+      "ru": "Культивировать новые сорта пшеницы (сбор еды +40%)",
+      "en": "Cultivate new cultures of wheat (harvesting +40%)"
+    },
+    "%nat%aca.10": {
+      "ru": "Увеличить жалование строителям (время постройки зданий -75%)",
+      "en": "Raise builders' salary (building construction time -75%)"
+    },
+    "%nat%aca.11": {
+      "ru": "Исследовать новые методы фортификации (прочность стен и башен +80)",
+      "en": "Research new fortification grades (durability of walls and towers +80)"
+    },
+    "%nat%aca.12": {
+      "ru": "Улучшить стрелковое оружие: нарезной ствол (сила выстрела +10%)",
+      "en": "Improve firearms: rifled barrel (fire power +10%)"
+    },
+    "%nat%aca.13": {
+      "ru": "Исследовать гранулированный порох (сила выстрела +10%)",
+      "en": "Research granular gunpowder (fire power +10%)"
+    },
+    "%nat%aca.14": {
+      "ru": "Исследовать новые методы очистки серы (сила выстрела +15%)",
+      "en": "Research new sulphur purification methods (fire power +15%)"
+    },
+    "%nat%aca.15": {
+      "ru": "Исследовать новые методы очистки селитры (сила выстрела +25%)",
+      "en": "Research new nitre purification methods (fire power +25%)"
+    },
+    "%nat%aca.16": {
+      "ru": "Исследовать новые добавки в порох (дальность стрельбы артиллерии +5%)",
+      "en": "Research improved additions to gunpowder formula (artillery range +5%)"
+    },
+    "%nat%aca.17": {
+      "ru": "Разработать новые виды стволов: единорог, карронада (дальность стрельбы артиллерии +10%)",
+      "en": "Design new barrel types: unicorn, carronade (artillery range +10%)"
+    },
+    "%nat%aca.18": {
+      "ru": "Разработать более прочный лафет для орудий: система Грибоваля (прочность пушек +50%)",
+      "en": "Design more durable gun carriage: Gribovalle system (artillery durability +50%)"
+    },
+    "%nat%aca.19": {
+      "ru": "Разработать многоствольное орудие",
+      "en": "Design multi-barrelled cannon"
+    },
+    "%nat%aca.2": {
+      "ru": "Культивировать новые сорта ржи (сбор еды +50%)",
+      "en": "Cultivate new cultures of rye (harvesting +50%)"
+    },
+    "%nat%aca.20": {
+      "ru": "Разработать новые прицельные системы для пушек (меткость стрельбы артиллерии +35%)",
+      "en": "Research new sighting devices for artillery (artillery accuracy +35%)"
+    },
+    "%nat%aca.21": {
+      "ru": "Выделить деньги на ремонтные мастерские для пушек (отремонтировать все пушки)",
+      "en": "Finance artillery repair shops (repair all artillery)"
+    },
+    "%nat%aca.22": {
+      "ru": "Развивать геологию (на карте появляются скрытые месторождения)",
+      "en": "Develop geology (previously hidden deposits appear on the map)"
+    },
+    "%nat%aca.23": {
+      "ru": "Развивать горное дело (эффективность добычи камня +100%)",
+      "en": "Develop mining (stone excavation efficiency +100%)"
+    },
+    "%nat%aca.24": {
+      "ru": "Увеличить жалование горным рабочим (эффективность добычи камня +200%)",
+      "en": "Raise miners' salary (stone excavation efficiency +200%)"
+    },
+    "%nat%aca.25": {
+      "ru": "Разработать монгольфьер (открывает всю карту)",
+      "en": "Design Montgolfier (reveals the whole map)"
+    },
+    "%nat%aca.26": {
+      "ru": "Развивать медицину (вылечить всех живых юнитов)",
+      "en": "Develop medical science (heals all live units)"
+    },
+    "%nat%aca.27": {
+      "ru": "Развивать математику (меткость выстрела орудий +35%)",
+      "en": "Develop mathematics (artillery accuracy +35%)"
+    },
+    "%nat%aca.28": {
+      "ru": "Разработать новые парусные системы (скорость кораблей +40%)",
+      "en": "Design new rigging types (ship speed +40%)"
+    },
+    "%nat%aca.29": {
+      "ru": "Разработать новую систему шпангоутов и корпуса корабля (условие для постройки линейных кораблей)",
+      "en": "Design new rib system and new hulls (battleship construction)"
+    },
+    "%nat%aca.3": {
+      "ru": "Увеличить жалование агрономам (сбор еды +50%)",
+      "en": "Raise agriculturists' salary (harvesting +50%)"
+    },
+    "%nat%aca.30": {
+      "ru": "Обучить плотников (скорость постройки кораблей увеличивается в 10 раз)",
+      "en": "Train carpenters (shipbuilding speed x10)"
+    },
+    "%nat%aca.31": {
+      "ru": "Разработать колесцовый замок к ружьям (скорострельность +30%)",
+      "en": "Design wheellock (rate of fire +30%)"
+    },
+    "%nat%aca.32": {
+      "ru": "Разработать кремниевый замок к ружьям (цена мушкета -50%)",
+      "en": "Design flintlock (musket cost -50%)"
+    },
+    "%nat%aca.33": {
+      "ru": "Разработать бумажный патрон и железный шомпол (скорострельность +30%)",
+      "en": "Design paper cartridge and iron ramrod (rate of fire +30%)"
+    },
+    "%nat%aca.34": {
+      "ru": "Разработать новые сорта стали для кирас (защита солдат в доспехах +2)",
+      "en": "Research improved steel grades for cuirasses (armoured soldier defence +2)"
+    },
+    "%nat%aca.35": {
+      "ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой (сила удара холодного оружия +5)",
+      "en": "Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)"
+    },
+    "%nat%aca.36": {
+      "ru": "Разработать новые сорта стали (эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
+      "en": "Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)"
+    },
+    "%nat%aca.4": {
+      "ru": "Провести мелиорацию полей (количество еды на полях +200%)",
+      "en": "Carry out field melioration (field capacity +200%)"
+    },
+    "%nat%aca.5": {
+      "ru": "Разработать новые снасти и сети для ловли рыбы (эффективность рыбацких лодок +100%)",
+      "en": "Design new tackle and fishing nets (boat efficiency +100%)"
+    },
+    "%nat%aca.6": {
+      "ru": "Разработать новые методы древообработки (условие для постройки фрегатов)",
+      "en": "Develop new woodworking methods (frigate building)"
+    },
+    "%nat%aca.7": {
+      "ru": "Построить новые верфи для рыбацких лодок (стоимость рыбацкой лодки -85%)",
+      "en": "Build new shipyards for fishing boats (fishing boat cost -85%)"
+    },
+    "%nat%aca.8": {
+      "ru": "Разработать новые инструменты для древообработки (эффективность добычи дерева +100%)",
+      "en": "Design new woodworking tools (woodcutting efficiency +100%)"
+    },
+    "%nat%aca.9": {
+      "ru": "Использовать новые строительные материалы (прочность зданий +85)",
+      "en": "Use new construction materials (durability of buildings +85)"
+    },
+    "%nat%bla.1": {
+      "ru": "Изготовить сельскохозяйственный инвентарь (эффективность полей, количество еды +100%)",
+      "en": "Manufacture agricultural equipment (field capacity +100%)"
+    },
+    "%nat%bla.2": {
+      "ru": "Выковать металлическую арматуру и решетки (прочность зданий +50)",
+      "en": "Forge metal armature and gratings (building defence +50)"
+    },
+    "%nat%bla.3": {
+      "ru": "Выковать сбрую для лошадей (конные войска строятся на 33% быстрее)",
+      "en": "Forge harnesses for horses (mounted units recruitment speed -33%)"
+    },
+    "%nat%bla.4": {
+      "ru": "Выковать штыки и тесаки для пехоты (сила удара мушкетера 18 века и гренадера +5)",
+      "en": "Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)"
+    },
+    "%nat%bla.5": {
+      "ru": "Выковать новые палаши и сабли (сила удара кавалерии и мечника кланов +5)",
+      "en": "Forge new types of broadswords and sabres (cavalry and sword clansman attack +5)"
+    },
+    "%nat%bla.6": {
+      "ru": "Выковать новые кирасы (защита солдат в доспехах +2)",
+      "en": "Forge new cuirasses (armoured soldiers defence +2)"
+    },
+    "algaca.6": {
+      "ru": "Разработать новые методы древообработки (условие для постройки шебек)",
+      "en": "Develop new woodworking methods (xebec building)"
+    },
+    "ferry.1": {
+      "ru": "Усовершенствовать конструкцию транспортного судна (+ посадочных мест)",
+      "en": "Improve transport vessel design (+ capacity)"
+    },
+    "turaca.6": {
+      "ru": "Разработать новые методы древообработки (условие для постройки шебек)",
+      "en": "Develop new woodworking methods (xebec building)"
+    }
+  },
+  "tooltip_types": {
+    "tooltiptype.1": {
+      "ru": "Провести занятия по фехтованию (сила удара холодного оружия +)",
+      "en": "Conduct a fencing drill (cold steel weapon attack +)"
+    },
+    "tooltiptype.2": {
+      "ru": "Провести физическую подготовку (боевой дух, защита +)",
+      "en": "Conduct a physical training (defence +)"
+    },
+    "tooltiptype.3": {
+      "ru": "Провести учебные стрельбы (сила выстрела +)",
+      "en": "Conduct a firing practice (fire power +)"
+    },
+    "tooltiptype.4": {
+      "ru": "Снабдить новыми гранатами (эффективность осколочной гранаты +)",
+      "en": "Supply with new grenades (fragmentation grenade efficiency +)"
+    },
+    "tooltiptype.5": {
+      "ru": "Провести учения по верховой езде (боевой дух, защита +)",
+      "en": "Conduct a riding drill (defence +)"
+    },
+    "tooltiptype.6": {
+      "ru": "Механизация литейного производства (снижение стоимости на %)",
+      "en": "Foundry mechanization (decreases cost by %)"
+    },
+    "tooltiptype.7": {
+      "ru": "Разработать новые методы металлообработки (время постройки %)",
+      "en": "Develop new metalworking methods (speed up building by %)"
+    },
+    "tooltiptype.8": {
+      "ru": "Провести репетиции (боевой дух, защита +)",
+      "en": "Conduct rehearsals (defence +)"
+    },
+    "tooltiptype.9": {
+      "ru": "Улучшить наемников (прирост ко всем боевым параметрам, повышение лимитов населения для наемников)",
+      "en": ""
+    }
+  },
+  "units": {
+    "mis": {
+      "ru": "Уникальный",
+      "en": "Originals"
+    },
+    "def": {
+      "ru": "#151",
+      "en": "#151"
+    },
+    "pos": {
+      "ru": "#151",
+      "en": "#151"
+    },
+    "neg": {
+      "ru": "#151 @*************INCLUDES TEMPLATES*************",
+      "en": "#151 @*************INCLUDES TEMPLATES*************"
+    },
+    "pikeman": {
+      "ru": "Пикинер 17в.",
+      "en": "Pikeman, 17th century"
+    },
+    "pikemanpol": {
+      "ru": "Пикинер 17в.",
+      "en": "Pikeman, 17th century"
+    },
+    "pikemantur": {
+      "ru": "Турецкий пикинер",
+      "en": "Ottoman Pikeman"
+    },
+    "pikemanrus": {
+      "ru": "Копейщик",
+      "en": "Spearman"
+    },
+    "pikeman18": {
+      "ru": "Пикинер 18в.",
+      "en": "Pikeman, 18th century"
+    },
+    "pikeman18swe": {
+      "ru": "Пикинер 18в.",
+      "en": "Pikeman, 18th century"
+    },
+    "lightinfantry": {
+      "ru": "Легкий пехотинец",
+      "en": "Light Infantryman"
+    },
+    "roundshier": {
+      "ru": "Рундашир",
+      "en": "Roundshier"
+    },
+    "musketeer": {
+      "ru": "Мушкетер 17в.",
+      "en": "Musketeer, 17th century"
+    },
+    "musketeeraus": {
+      "ru": "Мушкетер 17в.",
+      "en": "Musketeer, 17th century"
+    },
+    "musketeernet": {
+      "ru": "Мушкетер 17в.",
+      "en": "Musketeer, 17th century"
+    },
+    "musketeerpol": {
+      "ru": "Мушкетер 17в.",
+      "en": "Musketeer, 17th century"
+    },
+    "musketeerspa": {
+      "ru": "Мушкетер 17в.",
+      "en": "Musketeer, 17th century"
+    },
+    "musketeer18": {
+      "ru": "Мушкетер 18в.",
+      "en": "Musketeer, 18th century"
+    },
+    "musketeer18pru": {
+      "ru": "Мушкетер 18в.",
+      "en": "Musketeer, 18th century"
+    },
+    "musketeer18sax": {
+      "ru": "Мушкетер 18в.",
+      "en": "Musketeer, 18th century"
+    },
+    "grenadier": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "grenadiersax": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "chasseur": {
+      "ru": "Егерь",
+      "en": "Chasseur"
+    },
+    "highlander": {
+      "ru": "Шотландский стрелок",
+      "en": "Highlander"
+    },
+    "strelet": {
+      "ru": "Стрелец",
+      "en": "Strelets"
+    },
+    "pandur": {
+      "ru": "Пандур",
+      "en": "Pandur"
+    },
+    "serdiuk": {
+      "ru": "Сердюк",
+      "en": "Serdiuk"
+    },
+    "jannisary": {
+      "ru": "Янычар",
+      "en": "Janissary"
+    },
+    "archer": {
+      "ru": "Лучник",
+      "en": "Archer"
+    },
+    "peaaus": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "peaukr": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "peatur": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "pearus": {
+      "ru": "Крепостной",
+      "en": "Serf"
+    },
+    "peapol": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "peaspa": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "peaeng": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "officer": {
+      "ru": "Офицер 17в.",
+      "en": "Officer, 17th century"
+    },
+    "officertur": {
+      "ru": "Офицер",
+      "en": "Officer"
+    },
+    "officerrus": {
+      "ru": "Командир",
+      "en": "Commander"
+    },
+    "officer18": {
+      "ru": "Офицер 18в.",
+      "en": "Officer, 18th century"
+    },
+    "drummer": {
+      "ru": "Барабанщик 17в.",
+      "en": "Drummer, 17th century"
+    },
+    "drummerrus": {
+      "ru": "Барабанщик 17в.",
+      "en": "Drummer, 17th century"
+    },
+    "drummertur": {
+      "ru": "Барабанщик",
+      "en": "Drummer, 17th century"
+    },
+    "drummer18": {
+      "ru": "Барабанщик 18в.",
+      "en": "Drummer, 18th century"
+    },
+    "bagpiper": {
+      "ru": "Волынщик",
+      "en": "Bagpiper"
+    },
+    "priest": {
+      "ru": "Капеллан",
+      "en": "Priest"
+    },
+    "padre": {
+      "ru": "Падре",
+      "en": "Padre"
+    },
+    "pope": {
+      "ru": "Поп",
+      "en": "Pope"
+    },
+    "mullah": {
+      "ru": "Мулла",
+      "en": "Mullah"
+    },
+    "croat": {
+      "ru": "Кроат",
+      "en": "Croat"
+    },
+    "hussar": {
+      "ru": "Гусар",
+      "en": "Hussar"
+    },
+    "hussarpru": {
+      "ru": "Гусар",
+      "en": "Hussar"
+    },
+    "wingedhussar": {
+      "ru": "Крылатый гусар",
+      "en": "Winged Hussar"
+    },
+    "cossacksich": {
+      "ru": "Сечевой козак",
+      "en": "Sich Cossack"
+    },
+    "reiter": {
+      "ru": "Рейтар",
+      "en": "Reiter"
+    },
+    "cuirassier": {
+      "ru": "Кирасир",
+      "en": "Cuirassier"
+    },
+    "cavalryguard": {
+      "ru": "Гвардейский кавалерист",
+      "en": "Cavalry Guard"
+    },
+    "reiterswe": {
+      "ru": "Шведский рейтар",
+      "en": "Swedish Reiter"
+    },
+    "reiterpol": {
+      "ru": "Легкий рейтар",
+      "en": "Light Reiter"
+    },
+    "hetman": {
+      "ru": "Гетьман",
+      "en": "Hetman"
+    },
+    "cossackdon": {
+      "ru": "Донской козак",
+      "en": "Don Cossack"
+    },
+    "vityaz": {
+      "ru": "Витязь",
+      "en": "Vityaz"
+    },
+    "cossackregister": {
+      "ru": "Реестровый козак",
+      "en": "Register Cossack"
+    },
+    "spakh": {
+      "ru": "Легкий сипах",
+      "en": "Light Sipahi"
+    },
+    "mameluke": {
+      "ru": "Мамлюк",
+      "en": "Mameluke"
+    },
+    "dragoon": {
+      "ru": "Драгун 17в.",
+      "en": "Dragoon, 17th century"
+    },
+    "dragoon18fra": {
+      "ru": "Драгун 18в.",
+      "en": "Dragoon, 18th century"
+    },
+    "dragoon18": {
+      "ru": "Драгун 18в.",
+      "en": "Dragoon, 18th century"
+    },
+    "kingmusketeer": {
+      "ru": "Королевский мушкетер",
+      "en": "King's Musketeer"
+    },
+    "tatar": {
+      "ru": "Татарин",
+      "en": "Tatar"
+    },
+    "roundshierdip": {
+      "ru": "Рундашир (наемник)",
+      "en": "Roundshier (mercenary)"
+    },
+    "grenadierdip": {
+      "ru": "Гренадер (наемник)",
+      "en": "Grenadier (mercenary)"
+    },
+    "lightinfantrydip": {
+      "ru": "Легкий пехотинец (наемник)",
+      "en": "Light Infantryman (mercenary)"
+    },
+    "archerdip": {
+      "ru": "Лучник (наемник)",
+      "en": "Archer (mercenary)"
+    },
+    "dragoon18dip": {
+      "ru": "Драгун 18в. (наемник)",
+      "en": "Dragoon, 18th century (mercenary)"
+    },
+    "cossacksichdip": {
+      "ru": "Сечевой козак (наемник)",
+      "en": "Sich Cossack (mercenary)"
+    },
+    "fishboat": {
+      "ru": "Рыбацкая лодка",
+      "en": "Boat"
+    },
+    "yacht": {
+      "ru": "Яхта",
+      "en": "Yacht"
+    },
+    "yachttur": {
+      "ru": "Турецкая яхта",
+      "en": "Yacht"
+    },
+    "galley": {
+      "ru": "Галера",
+      "en": "Galley"
+    },
+    "frigate": {
+      "ru": "Фрегат",
+      "en": "Frigate"
+    },
+    "battleship": {
+      "ru": "Линейный корабль",
+      "en": "Ship of the Line"
+    },
+    "ferry": {
+      "ru": "Транспорт",
+      "en": "Ferry"
+    },
+    "xebec": {
+      "ru": "Шебека",
+      "en": "Xebec"
+    },
+    "cannon": {
+      "ru": "Пушка",
+      "en": "Cannon"
+    },
+    "howitzer": {
+      "ru": "Гаубица",
+      "en": "Howitzer"
+    },
+    "mortar": {
+      "ru": "Мортира",
+      "en": "Bombard"
+    },
+    "multicannon": {
+      "ru": "Многоствольное орудие",
+      "en": "Multi-barrelled Cannon"
+    },
+    "field": {
+      "ru": "Зерно",
+      "en": "Grain Crops"
+    },
+    "turbar": {
+      "ru": "Казарма",
+      "en": "Barracks"
+    },
+    "turtem": {
+      "ru": "Мечеть",
+      "en": "Mosque"
+    },
+    "algtem": {
+      "ru": "Мечеть",
+      "en": "Mosque"
+    },
+    "rustem": {
+      "ru": "Православная церковь",
+      "en": "Orthodox Cathedral"
+    },
+    "ukrtem": {
+      "ru": "Православная церковь",
+      "en": "Orthodox Cathedral"
+    },
+    "algbar": {
+      "ru": "Казарма",
+      "en": "Barracks"
+    },
+    "rushou": {
+      "ru": "Изба",
+      "en": "Izba"
+    },
+    "ukrhou": {
+      "ru": "Хижина",
+      "en": "Hut"
+    },
+    "rusbar": {
+      "ru": "Стрелецкая казарма",
+      "en": "Strelets Barracks"
+    },
+    "ukrbar": {
+      "ru": "Козацкий дом",
+      "en": "Cossack House"
+    },
+    "turmar": {
+      "ru": "Базар",
+      "en": "Bazaar"
+    },
+    "algmar": {
+      "ru": "Базар",
+      "en": "Bazaar"
+    },
+    "turaca": {
+      "ru": "Минарет",
+      "en": "Minaret"
+    },
+    "algaca": {
+      "ru": "Минарет",
+      "en": "Minaret"
+    },
+    "misdonkey": {
+      "ru": "Вьючный ослик",
+      "en": "Packhorse"
+    },
+    "misflagman": {
+      "ru": "Знаменосец",
+      "en": "Standard Bearer"
+    },
+    "misgeneral": {
+      "ru": "Генерал",
+      "en": "General"
+    },
+    "mistrader": {
+      "ru": "Купец",
+      "en": "Merchant"
+    },
+    "misbridge": {
+      "ru": "Мост",
+      "en": "Bridge"
+    },
+    "misblg": {
+      "ru": "Блокгауз",
+      "en": "Log Cabin"
+    },
+    "misblg2": {
+      "ru": "Блокгауз",
+      "en": "Log Cabin"
+    },
+    "miscommandcenter": {
+      "ru": "Командный центр",
+      "en": "Command Centre"
+    },
+    "mistent": {
+      "ru": "Шатер",
+      "en": "Tent"
+    },
+    "misyurt": {
+      "ru": "Юрта",
+      "en": "Yurt"
+    },
+    "archertur": {
+      "ru": "Турецкий лучник",
+      "en": "Turkish archer"
+    },
+    "archerturdip": {
+      "ru": "Турецкий лучник (наемник)",
+      "en": "Turkish archer (mercenary)"
+    },
+    "lightcavalry": {
+      "ru": "Легкий кавалерист",
+      "en": "Light cavalry"
+    },
+    "lightcavalrydip": {
+      "ru": "Легкий кавалерист (наемник)",
+      "en": "Light cavalry (mercenary)"
+    },
+    "dragoonpol": {
+      "ru": "Посполитое рушение",
+      "en": "Pospolite ruszenie"
+    },
+    "dragoon18net": {
+      "ru": "Драгун 18в.",
+      "en": "Dragoon, 18th century"
+    },
+    "musketeer18den": {
+      "ru": "Мушкетер 18в.",
+      "en": "Musketeer, 18th century"
+    },
+    "grenadierden": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "hackapell": {
+      "ru": "Гаккапелит",
+      "en": "Hakkapeliitta"
+    },
+    "grenadierpru": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "musketeer18bav": {
+      "ru": "Мушкетер 18в.",
+      "en": "Musketeer, 18th century"
+    },
+    "grenadierbav": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "guardcavalrysax": {
+      "ru": "Гвардейский кавалерист",
+      "en": "Cavalry Guard"
+    },
+    "peasco": {
+      "ru": "Крестьянин",
+      "en": "Peasant"
+    },
+    "pikemansco": {
+      "ru": "Пикинер Ковенанта",
+      "en": "Covenanter pikeman"
+    },
+    "musketeersco": {
+      "ru": "Мушкетер Ковенанта",
+      "en": "Covenanter musketeer"
+    },
+    "swordsmansco": {
+      "ru": "Мечник кланов",
+      "en": "Sword Clansman"
+    },
+    "archersco": {
+      "ru": "Лучник кланов",
+      "en": "Bow Clansman"
+    },
+    "officersco": {
+      "ru": "Офицер",
+      "en": "Officer"
+    },
+    "lancersco": {
+      "ru": "Лансер",
+      "en": "Lancer"
+    },
+    "raidersco": {
+      "ru": "Рейдер",
+      "en": "Raider"
+    },
+    "framegun": {
+      "ru": "Рибадекин",
+      "en": "Frame gun"
+    },
+    "scoba2": {
+      "ru": "Замок",
+      "en": "Castle"
+    },
+    "sipahi": {
+      "ru": "Тяжелый сипах",
+      "en": "Heavy Sipahi"
+    },
+    "gauduk": {
+      "ru": "Гайдук",
+      "en": "Hajduk"
+    },
+    "pikemanspa": {
+      "ru": "Коселет",
+      "en": "Coselete"
+    },
+    "hussarhun": {
+      "ru": "Гусар",
+      "en": "Hussar"
+    },
+    "jagerpor": {
+      "ru": "Доброволец",
+      "en": "Volunteer"
+    },
+    "grenadierhun": {
+      "ru": "Гренадер",
+      "en": "Grenadier"
+    },
+    "pandurhun": {
+      "ru": "Секей",
+      "en": "Szekely"
+    },
+    "pikemanpor": {
+      "ru": "Пикинер 17в.",
+      "en": "Pikeman, 17th century"
+    },
+    "pikemanswi": {
+      "ru": "Пикинер 17в.",
+      "en": "Pikeman, 17th century"
+    },
+    "jagerswi": {
+      "ru": "Егерь",
+      "en": "Jaeger"
+    },
+    "hussarswi": {
+      "ru": "Конный егерь",
+      "en": "Mounted Jaeger"
+    },
+    "dragoon18pie": {
+      "ru": "Драгун 18в.",
+      "en": "Dragoon, 18th century"
+    }
+  }
+}
