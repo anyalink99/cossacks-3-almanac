@@ -1,0 +1,42 @@
+# Default: detect text vs binary, normalise EOL to LF in repo (Git checks
+# files out with platform-native line endings on Windows when core.autocrlf
+# is set, but the canonical version stored in the repo is always LF).
+* text=auto eol=lf
+
+# Sources — always LF
+*.py     text eol=lf
+*.md     text eol=lf
+*.json   text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.toml   text eol=lf
+*.cfg    text eol=lf
+*.ini    text eol=lf
+*.txt    text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+Makefile text eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+
+# Binaries — never normalise
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.zip    binary
+*.gz     binary
+*.exe    binary
+*.dll    binary
+*.so     binary
+*.pyc    binary
+*.aaf    binary
+*.tga    binary
+*.pattern binary
+*.lib    binary
+*.lng    binary
+*.rep    binary
+*.map    binary
+*.xlsx   binary
