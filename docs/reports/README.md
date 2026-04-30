@@ -31,9 +31,10 @@
 
 | Файл | Что внутри | Генератор |
 |---|---|---|
-| [map/map_resources.md](map/map_resources.md) | Подсчёт лесов / камней / шахт на стандартной карте Tiny + Highlands + Rich. Около 109 больших деревьев, 33 камня, до 12 месторождений на игрока. | `compute/compute_map_resources.py` |
-| [map/starting_layout.md](map/starting_layout.md) | Стартовая раскладка: 18 крестьян в 6×3 grid возле Городского центра, расположение `cen` / `sto` / шахт. | `compute/extract_starting_layout.py` |
-| [map/map_predictions_validation.md](map/map_predictions_validation.md) | Валидация модели `compute_map_resources` против реплейного ground truth (10 однородных Tiny+Land+Highlands replays). | `compute/validate_map_predictions.py` |
+| [map/lobby_settings.md](map/lobby_settings.md) | Все опции лобби с каноничными русскими названиями из локали игры (рельеф, ресурсы, время мира, лимит населения, сложность ИИ — 95 значений в 18 категориях). | `compute/compute_game_settings.py` |
+| [map/map_resources.md](map/map_resources.md) | Подсчёт лесов, камней и шахт на стандартной карте Маленькая + Высокогорье + Много. Около 109 больших деревьев, 33 камня, до 12 месторождений на игрока. | `compute/compute_map_resources.py` |
+| [map/starting_layout.md](map/starting_layout.md) | Стартовая раскладка: 18 крестьян в сетке 6×3 возле Городского центра, расположение `cen` / `sto` / шахт. | `compute/extract_starting_layout.py` |
+| [map/map_predictions_validation.md](map/map_predictions_validation.md) | Валидация модели `compute_map_resources` против реплейного ground truth (10 однородных реплеев Маленькая + Суша + Высокогорье). | `compute/validate_map_predictions.py` |
 
 ## Нации ([`nations/`](nations/))
 
@@ -62,8 +63,9 @@ python compute/compute_efficiency_upgrades.py # → reports/economy/efficiency_u
 python compute/compute_builder_slots.py       # → reports/economy/builder_slots.md (+derived/builder_slots.json)
 python compute/compute_construction_times.py  # → reports/economy/construction_times.md
 python compute/build_tech_tree.py             # → reports/tech/tech_tree.md, reports/economy/production_rates.md (+derived/tech_tree.json)
-python compute/compute_map_resources.py       # → reports/map/map_resources.md
-python compute/extract_starting_layout.py     # → reports/map/starting_layout.md
-python compute/validate_map_predictions.py    # → reports/map/map_predictions_validation.md
-python compute/compute_nations_overview.py    # → reports/nations/overview.md
+python compute/compute_game_settings.py        # → reports/map/lobby_settings.md (+derived/game_settings.json)
+python compute/compute_map_resources.py        # → reports/map/map_resources.md
+python compute/extract_starting_layout.py      # → reports/map/starting_layout.md
+python compute/validate_map_predictions.py     # → reports/map/map_predictions_validation.md
+python compute/compute_nations_overview.py     # → reports/nations/overview.md
 ```

@@ -337,7 +337,7 @@ AI снижает приоритет защиты собственных наё�
 
 ## 5. Map-настройка `marketdip` — отключить / удорожить
 
-`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров для сценария. Полный обзор всех опций лобби — [`game_settings.md`](game_settings.md) §3.7.
+`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров в партии. Все 5 значений с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр); поведение движка — [`game_settings.md`](game_settings.md) §3.5.
 
 ```
 gc_mapsettings_marketdip_default        = 0   // оба включены

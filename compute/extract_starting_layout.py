@@ -238,7 +238,9 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/game/var/startingsettings.cfg>) + "
       "enum `gc_mapsettings_startingunits_*` ([`dmscript.global:1032-1045`]"
       "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global>)). "
-      "Все 14 пресетов с описаниями — [`recon/game_settings.md`](../recon/game_settings.md) §3.1.")
+      "Все 14 пресетов с каноничными русскими названиями — "
+      "[`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются "
+      "юниты и ресурсы) — [`recon/game_settings.md`](../../recon/game_settings.md) §3.1.")
     A("")
     A("Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, "
       "что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или "

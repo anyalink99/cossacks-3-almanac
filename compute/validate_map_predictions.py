@@ -169,7 +169,7 @@ def diff_replay(actual: dict, predicted: dict) -> dict:
 
 def main():
     if not GROUND_TRUTH.exists():
-        print(f"Run compute/compute_replay_aggregates.py first to populate {GROUND_TRUTH}")
+        print(f"Run parser/parse_replay_aggregates.py first to populate {GROUND_TRUTH}")
         sys.exit(1)
     truth = json.loads(GROUND_TRUTH.read_text(encoding="utf-8"))
 
@@ -266,10 +266,10 @@ def main():
     A("# Map predictions vs replay ground truth")
     A("")
     A("Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
-      "cluster counts из replay/save файлов "
-      "(`docs/derived/replay_ground_truth.json`). "
-      "Расшифровка `mapsize/relief/terraintype/season` enum'ов — "
-      "[`recon/game_settings.md`](../recon/game_settings.md) §2.")
+      "cluster counts из replay / save файлов "
+      "(`docs/derived/replay_ground_truth.json`). Расшифровка значений "
+      "`mapsize` / `relieftype` / `terraintype` / `season` — "
+      "[`lobby_settings.md`](lobby_settings.md).")
     A("")
     A(f"**Replays processed:** {len(rows)}")
     A("")
@@ -314,7 +314,7 @@ def main():
     A("")
     A("Для каждой replay-выборки: settings + diff таблица. Pattern types с большими "
       "расхождениями отмечены ⚠. Имена опаковые (`Replay NN` назначены детерминированно по "
-      "хешу содержимого — см. `compute_replay_aggregates.py`).")
+      "хешу содержимого — см. `parse_replay_aggregates.py`).")
     A("")
     # Sort replays by bucket key for stable output, then by mask + randkey for tie-break
     sorted_rows = sorted(rows, key=lambda r: (

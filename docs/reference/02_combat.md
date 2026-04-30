@@ -556,7 +556,7 @@ Footprint здания **не учитывается** — берётся одн
 | `capture_nocenterspeasants = 2` | Нельзя захватить ни крестьян, ни Городской центр |
 | `capture_onlyartillery = 3` | Захвату поддаётся только артиллерия |
 
-То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`. Все остальные опции лобби (peacetime, marketdip, century18 и др.) — [`docs/recon/game_settings.md`](../recon/game_settings.md).
+То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`. Все опции лобби (`peacetime`, `marketdip`, `century18` и др.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/game_settings.md`](../recon/game_settings.md).
 
 ### ИИ-захватчик: 75% шанс снести вместо захвата
 
@@ -660,7 +660,7 @@ target.hp = min(target.hp, target.maxhp)
 
 - **Wonder of the World.** В отличие от AoE2, здания-таймера победы в C3 нет (поиск `wonder|monument` по скриптам ничего не находит).
 - **Победа по очкам.** Score копится исключительно для статистики и в условие победы не входит.
-- **Time-limit.** Партия не заканчивается по таймеру. Есть только peacetime (запрет атаки в первые N минут — см. [`game_settings.md`](../recon/game_settings.md) §3.4) и pause-limit (4 × 120 сек).
+- **Time-limit.** Партия не заканчивается по таймеру. Есть только время мира (запрет атаки в первые N минут — таблица в [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#peacetime--время-мира), механика в [`recon/game_settings.md`](../recon/game_settings.md#peacetime--как-устроен-мир)) и pause-limit (4 × 120 секунд).
 - **Дипломатическая победа.** Команды статично заданы лобби, в рантайме не меняются.
 
 ### Game modes
@@ -831,7 +831,7 @@ TTK = target.HP / DPS
 | Cannons | `cannon` (Cannon) | 1800 | 10.94 | cannonball | `cannon` (Cannon) | 9000 | 75 |
 | Mortars | `howitzer` (Howitzer) | 4000 | 18.75 | cannonball | `howitzer` (Howitzer) | 3000 | 75 |
 
-### Матрица контр-эффективности — TTK в игр-сек
+### Матрица контр-эффективности — TTK в g-сек
 
 Строки = **атакующий**. Колонки = **защищающийся**. Ячейка = TTK (game-sec). Зелёные/низкие = атакующий быстро убивает; красные/высокие = защитник долго стоит.
 

@@ -35,7 +35,7 @@ Game speed presets ([dmscript.global:1027-1029](C:/Program Files (x86)/Steam/ste
 - `gc_settings_gamespeed_1 = 10` (normal)
 - `gc_settings_gamespeed_2 = 14` (fast)
 
-Это лобби-настройка `gMap.settings.additional.gamespeed` — см. [`game_settings.md`](game_settings.md) §3.10 для всех опций партии.
+Это лобби-опция `gMap.settings.additional.gamespeed`. Таблица всех скоростей — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#gamespeed--скорость-партии); расшифровка поведения — [`game_settings.md`](game_settings.md) §3.6.
 
 Все длительности в скриптах (анимации, buildtime, attackpause) — в **frames**. Перевод в game-seconds: `frames / 32`. Перевод в real-seconds: дополнительно делить на `TimeSpeedFactor/10`.
 
@@ -249,7 +249,7 @@ SetTimeSpeedFactor(newspeed);
 |---|---|---|
 | Progress | `SwitchTo('Nothing')` | `SwitchTo('Nothing')` |
 | Unit (peasant) | `SwitchTo('Nothing')` | `SwitchTo('Nothing')` (+ ship childs если водный) |
-| Env (resource) | — (по дефолту) | `ExecuteState('Initial'); SwitchTo('Nothing')` |
+| Env (resource) | — (по умолчанию) | `ExecuteState('Initial'); SwitchTo('Nothing')` |
 
 [progress.inc/onbeforesave.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/onbeforesave.inc), [progress.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/onafterload.inc), [units/unit.inc/onbeforesave.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onbeforesave.inc), [units/unit.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onafterload.inc), [env/env.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/onafterload.inc).
 

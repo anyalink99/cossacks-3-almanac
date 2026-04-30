@@ -179,7 +179,7 @@ flowchart TB
 
 ## 6. `SetupBorderObjects` — peacetime walls
 
-[dogenerate.inc:1430-1527](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1430). Запускается **только если `gbool_peacemode`** (т.е. peacetime <> default). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.4.
+[dogenerate.inc:1430-1527](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1430). Запускается **только если `gbool_peacemode`** (т. е. `peacetime` ≠ 0). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.2.
 
 Идея: для каждой пары соседних клеток `gScanGrid[i,j]` и `gScanGrid[i+1,j]` (а также `[i, j+1]`):
 - Если `owner` различается → провести цепочку border-объектов между центрами этих клеток.
@@ -209,7 +209,7 @@ for i = 0 to 17:
 
 Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy.md`](../docs/reference/01_economy.md) §Famine).
 
-Если `gMap.settings.additional.startingunits > default` → вместо 18 пеасантов вызывается `CreateUniqueStartingUnits` (нация-специфичный squad: офицер + барабанщик + несколько infantry). Полный список из 14 пресетов стартовой армии — [`game_settings.md`](game_settings.md) §3.1.
+Если `gMap.settings.additional.startingunits > 0` (не «По умолчанию») → вместо 18 крестьян вызывается `CreateUniqueStartingUnits` (нация-специфичный отряд: офицер + барабанщик + несколько пехотинцев). Все 14 пресетов с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#startingunits--стартовая-армия); поведение — [`game_settings.md`](game_settings.md) §3.1.
 
 ---
 
@@ -276,7 +276,7 @@ for i = 0 to 17:
 | Скрипт | Что делает |
 |---|---|
 | [`parser/parse_replay.py`](C:/projects/other/cossacks/parser/parse_replay.py) | OSWMap13 reader: extract settings (randkey0/1, maskname, mapsize, relieftype, terraintype, season, …), BMP thumbnail, pattern-name occurrences |
-| [`compute/compute_replay_aggregates.py`](C:/projects/other/cossacks/compute/compute_replay_aggregates.py) | Folder of `.rep`/`.map` → `docs/derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
+| [`parser/parse_replay_aggregates.py`](C:/projects/other/cossacks/parser/parse_replay_aggregates.py) | Folder of `.rep`/`.map` → `docs/derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
 | [`compute/validate_map_predictions.py`](C:/projects/other/cossacks/compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `docs/reports/map/map_predictions_validation.md` |
 
 Подробности про OSWMap13 формат, bucketing-методику и калибровочные числа — см. §14.2-14.5 ниже.

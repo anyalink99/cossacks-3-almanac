@@ -1,28 +1,20 @@
-"""Extract all lobby/game settings from dmscript.global + locale,
-emit `docs/derived/game_settings.json` for the editor.
+"""Extract all lobby/game settings from dmscript.global + locale.
 
-Source-of-truth for the *meaning* of each enum value: docs/recon/game_settings.md.
-This script just dumps the structured data so the editor doesn't reinvent it.
+Two outputs:
+  1. `docs/derived/game_settings.json` — machine-readable, consumed by the editor.
+  2. `docs/reports/map/lobby_settings.md` — human-readable reference table set.
 
-Outputs `docs/derived/game_settings.json` with keys:
-  - mapsize       — list of {value, tiles, label_en, label_ru}
-  - terraintype   — list of {value, label_en, label_ru}
-  - relieftype    — list of {value, label_en, label_ru}
-  - resourcestart — list of {value, amount, label_en, label_ru}
-  - resourcemines — list of {value, label_en, label_ru}
-  - season        — list of {value, label_ru}     (no locale — handcrafted)
-  - startingunits — list of {value, label_en, label_ru}
-  - balloon       — list of {value, label_en, label_ru}
-  - cannons       — list of {value, label_en, label_ru}
-  - peacetime     — list of {value, minutes, gsec, label_en, label_ru}
-  - century18     — list of {value, label_en, label_ru}
-  - capture       — list of {value, label_en, label_ru}
-  - marketdip     — list of {value, label_en, label_ru}
-  - teams         — list of {value, label_en, label_ru}
-  - limit         — list of {value, units, label_en, label_ru}
-  - gamespeed     — list of {value, ticks_per_sec, factor, label_ru}
-  - difficulty    — list of {value, label_ru, koef}
-  - defaults      — {gen: {...}, additional: {...}} matching initmap.inc
+Source-of-truth for the *behavior* of each option: `docs/recon/game_settings.md`
+(handwritten reverse-engineering of the engine's reaction to each value).
+
+Run after game patch:
+    python compute/compute_game_settings.py
+
+JSON schema (`game_settings.json`) — list of `{value, label_en, label_ru, ...}`
+per category (`mapsize`, `terraintype`, `relieftype`, `resourcestart`,
+`resourcemines`, `season`, `startingunits`, `balloon`, `cannons`, `peacetime`,
+`century18`, `capture`, `marketdip`, `teams`, `limit`, `gamespeed`,
+`adviserassistant`, `difficulty`) plus `defaults` from `initmap.inc:29-31`.
 """
 from __future__ import annotations
 import json
@@ -30,7 +22,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DM_GLOBAL, LOCALE, DERIVED_DIR
+from config import DM_GLOBAL, LOCALE, DERIVED_DIR, REPORTS_MAP_DIR
 from parse_locale import parse_locale_file
 
 
@@ -244,14 +236,357 @@ def build_settings():
     return out
 
 
+# =============================================================================
+# Markdown rendering — `docs/reports/map/lobby_settings.md`
+# =============================================================================
+
+LOBBY_MD_INTRO = """\
+# Настройки лобби — справочник значений
+
+**Производный отчёт.** Считается из локали игры и `dmscript.global` скриптом
+[`compute/compute_game_settings.py`](../../../compute/compute_game_settings.py).
+Регенерация: `python compute/compute_game_settings.py`.
+
+Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,
+`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже
+«Высокогорье». Машинная версия для редакторов и инструментов —
+[`docs/derived/game_settings.json`](../../derived/game_settings.json).
+
+Поведение каждой опции в движке (что происходит после выбора) — в
+[`docs/recon/game_settings.md`](../../recon/game_settings.md).
+
+## Структура
+
+Все опции лобби живут в `gMap.settings` (`classes.script:85-88`):
+
+- `gMap.settings.gen` — параметры **генератора карты** (как карта рисуется).
+- `gMap.settings.additional` — **правила игры** (peacetime, лимит населения,
+  захват, скорость и т. д.).
+"""
+
+
+def _section(title: str, key: str, settings: dict, *, columns: list[tuple[str, str]]) -> list[str]:
+    """Render one settings table.
+
+    `columns` is a list of `(header, attribute)` pairs. Special attributes:
+      `value`     — integer enum value
+      `label_en`  — English label
+      `label_ru`  — Russian label
+      anything else is fetched via `row.get(attribute)`.
+    """
+    rows = settings.get(key) or []
+    if not rows:
+        return []
+    L = [f"### {title}", ""]
+    headers = [c[0] for c in columns]
+    L.append("| " + " | ".join(headers) + " |")
+    L.append("| " + " | ".join(":---:" if h == "Значение" else "---" for h in headers) + " |")
+    for row in rows:
+        cells: list[str] = []
+        for _, attr in columns:
+            v = row.get(attr)
+            if v is None:
+                cells.append("—")
+            else:
+                cells.append(str(v))
+        L.append("| " + " | ".join(cells) + " |")
+    L.append("")
+    return L
+
+
+def render_lobby_md(settings: dict) -> list[str]:
+    L = LOBBY_MD_INTRO.splitlines()
+    L.append("")
+
+    # ─── gen ───────────────────────────────────────────────────────────────
+    L += ["## Генератор карты — `gMap.settings.gen`", ""]
+    L += _section(
+        "`mapsize` — размер карты",
+        "mapsize", settings,
+        columns=[("Значение", "value"), ("Размер, тайлы", "tiles"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Размер карты — квадрат `tiles × tiles`. UI игры лейблов не показывает "
+        "(значения зашиты в `miscext2.script:19-26`).",
+        "",
+    ]
+    L += _section(
+        "`terraintype` — тип ландшафта и воды",
+        "terraintype", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` "
+        "(`Полуострова` / `Острова` / `Континенты`) проверяются движком "
+        "(`_misc_HasMaritime`, `misc.script:5466`) — на этих картах есть «морские» "
+        "воды, доступ к ним требует порта.",
+        "",
+    ]
+    L += _section(
+        "`relieftype` — рельеф",
+        "relieftype", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "По умолчанию `relieftype = 3` («Высокогорье») — `initmap.inc:29`.",
+        "",
+    ]
+    L += _section(
+        "`resourcestart` — стартовые ресурсы у игроков",
+        "resourcestart", settings,
+        columns=[("Значение", "value"), ("На каждый ресурс", "amount"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают "
+        "одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 "
+        "каждого) — `initmap.inc:30`.",
+        "",
+    ]
+    L += _section(
+        "`resourcemines` — плотность месторождений",
+        "resourcemines", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "По умолчанию `resourcemines = 1` («Средне») — `initmap.inc:31`. "
+        "Конкретные числа шахт за уровень — в "
+        "[`map_resources.md`](map_resources.md) и в "
+        "[`recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md).",
+        "",
+    ]
+    L += _section(
+        "`season` — сезон",
+        "season", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический "
+        "эффект — `season = 3` («Пустыня») форсит `bDesert = True` "
+        "(`dogenerate.inc:4`); engine использует другой набор pattern-типов "
+        "(`desert_*` вместо обычных лесов и камней).",
+        "",
+    ]
+
+    # ─── additional ────────────────────────────────────────────────────────
+    L += ["## Правила игры — `gMap.settings.additional`", ""]
+
+    L += _section(
+        "`startingunits` — стартовая армия",
+        "startingunits", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Конкретный набор юнитов на каждый вариант — в "
+        "`data/game/var/startingsettings.cfg` (`addresources`, `countries`).",
+        "",
+        "> Независимо от выбора движок всегда вызывает `CreateStartPointPeasants` "
+        "(`dogenerate.inc:1231-1281`) и размещает **18 крестьян** в сетке 6×3 "
+        "вокруг стартовой точки. Даже на `startingunits = 0` («По умолчанию») у "
+        "игрока сразу 18 крестьян.",
+        "",
+    ]
+
+    L += _section(
+        "`balloon` — монгольфьеры",
+        "balloon", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Монгольфьер — особый юнит, открывающий обзор на большой высоте.",
+        "",
+    ]
+
+    L += _section(
+        "`cannons` — пушки, башни и стены",
+        "cannons", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Опция «Дорогие пушки» поднимает цены пушек через апгрейд — точные "
+        "множители читать в `country.script` (раздел артиллерийских апгрейдов).",
+        "",
+    ]
+
+    L += _section(
+        "`peacetime` — время мира",
+        "peacetime", settings,
+        columns=[("Значение", "value"), ("Минут (игр.)", "minutes_g"),
+                 ("g-секунд", "gsec"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Минуты — **игровые**. На скорости fast (`gamespeed = 2`, ×1.4) одна "
+        "игровая минута = 60 / 1.4 ≈ 42.9 реальных секунд: 10-минутный мир "
+        "длится ≈ 7 реальных минут. Значение `value = 11` (15 минут) лежит "
+        "между `1` и `2` — историческая неровность; movement к концу таблицы.",
+        "",
+        "Подробности механики (как движок блокирует поиск врагов, ничейные "
+        "ячейки, переход от мира к войне) — в "
+        "[`recon/game_settings.md`](../../recon/game_settings.md#peacetime--как-устроен-мир).",
+        "",
+    ]
+
+    L += _section(
+        "`century18` — переход в 18 век",
+        "century18", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "На 17 в.-only нациях (Украина, Турция, Алжир) опция «Сразу» бесполезна — "
+        "у них нет апгрейда `<nat>cen.1` («Переход в 18 век»).",
+        "",
+    ]
+
+    L += _section(
+        "`capture` — правила захвата",
+        "capture", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Геометрия захвата (радиусы, кто захватывается, кто нет) — в "
+        "[`recon/capture_mechanics.md`](../../recon/capture_mechanics.md).",
+        "",
+    ]
+
+    L += _section(
+        "`marketdip` — рынок и дипцентр",
+        "marketdip", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Опция `value = 4` («Дорогие наёмники») умножает цену найма в дипцентре "
+        "на `gc_gameplay_expensivemercskoef = 3`. Подробности про наёмников — в "
+        "[`recon/mercenaries_diplomacy.md`](../../recon/mercenaries_diplomacy.md).",
+        "",
+    ]
+
+    L += _section(
+        "`teams` — расположение союзников",
+        "teams", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "При `teams = 1` команда стартует в соседних позициях, а не "
+        "разбросанной по карте.",
+        "",
+    ]
+
+    L += _section(
+        "`limit` — лимит населения",
+        "limit", settings,
+        columns=[("Значение", "value"), ("Юнитов", "units"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Это **глобальный потолок поверх** локального лимита, считаемого по "
+        "зданиям: `pop_cap = cen × 100 + bar × 150 + ba2 × 250 + hou × 25`. "
+        "Глобальный потолок никогда не превышается, даже если ферм-бонус "
+        "позволяет больше.",
+        "",
+    ]
+
+    L += _section(
+        "`gamespeed` — скорость партии",
+        "gamespeed", settings,
+        columns=[("Значение", "value"), ("Тиков/реальная секунда", "ticks_per_sec"),
+                 ("Множитель к норме", "factor"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "`gc_time_to_frames = 32` для всех скоростей (32 кадра в одной игровой "
+        "секунде) — меняется только real-time-фактор. Слот `value = 3` (×2.0) "
+        "был, но в текущей версии закомментирован.",
+        "",
+    ]
+
+    L += _section(
+        "`adviserassistant` — помощник",
+        "adviserassistant", settings,
+        columns=[("Значение", "value"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Контекстные подсказки в углу экрана. Не влияет на симуляцию — только UI.",
+        "",
+    ]
+
+    # ─── difficulty ────────────────────────────────────────────────────────
+    L += ["## Сложность ИИ — `gc_player_difficulty_*`", ""]
+    L += _section(
+        "`difficulty` — сложность",
+        "difficulty", settings,
+        columns=[("Значение", "value"), ("Множитель скорости", "koef"),
+                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+    )
+    L += [
+        "Только AI-игроки. «Преимущество» сложности — это множитель к скорости "
+        "постройки/найма (`koef`), стартовых ресурсов AI **не получает** ни на "
+        "какой сложности. Поведение AI разобрано в "
+        "[`recon/ai_behavior.md`](../../recon/ai_behavior.md).",
+        "",
+    ]
+
+    # ─── defaults ──────────────────────────────────────────────────────────
+    defaults = settings.get("defaults") or {}
+    if defaults:
+        L += [
+            "## Значения по умолчанию",
+            "",
+            "Из `initmap.inc:29-31` (для `gen`) и общего поведения движка (для "
+            "`additional`):",
+            "",
+            "| Поле | Значение по умолчанию |",
+            "| --- | --- |",
+        ]
+        for section_name in ("gen", "additional"):
+            section = defaults.get(section_name) or {}
+            for k, v in section.items():
+                L.append(f"| `settings.{section_name}.{k}` | `{v}` |")
+        L.append("")
+
+    L += [
+        "---",
+        "",
+        "**См. также:**",
+        "",
+        "- [`docs/recon/game_settings.md`](../../recon/game_settings.md) — поведение "
+        "движка по каждой опции (peacetime, peace mode, captureradius, …).",
+        "- [`docs/derived/game_settings.json`](../../derived/game_settings.json) — "
+        "то же самое в машинно-читаемом виде.",
+        "- [`docs/recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md) — "
+        "что именно делает генератор карты с этими значениями.",
+        "",
+    ]
+    return L
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     settings = build_settings()
-    out_path = DERIVED_DIR / "game_settings.json"
     DERIVED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(settings, ensure_ascii=False, indent=2), encoding="utf-8")
+    REPORTS_MAP_DIR.mkdir(parents=True, exist_ok=True)
+
+    json_path = DERIVED_DIR / "game_settings.json"
+    json_path.write_text(json.dumps(settings, ensure_ascii=False, indent=2), encoding="utf-8")
     total = sum(len(v) for v in settings.values() if isinstance(v, list))
-    print(f"Wrote {out_path} ({total} enum values across {len(settings) - 1} categories)")
+    print(f"Wrote {json_path} ({total} enum values across {len(settings) - 1} categories)")
+
+    md_path = REPORTS_MAP_DIR / "lobby_settings.md"
+    md_path.write_text("\n".join(render_lobby_md(settings)), encoding="utf-8")
+    print(f"Wrote {md_path} ({md_path.stat().st_size:,} bytes)")
 
 
 if __name__ == "__main__":

@@ -50,7 +50,7 @@ if distSqr < gc_gameplay_captureradiusSqr then ...
 3 capture_onlyartillery      — только артиллерию можно захватывать
 ```
 
-Полный обзор всех опций лобби (включая `capture` и взаимодействие с `peacetime`/territory ownership) — [`game_settings.md`](game_settings.md) §3.6.
+Все 4 значения опции `capture` с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#capture--правила-захвата). Поведение движка (как `capture` взаимодействует с `peacetime` и владением территорией) — [`game_settings.md`](game_settings.md) §3.4.
 
 ---
 
