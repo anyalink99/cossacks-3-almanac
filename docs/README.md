@@ -1,14 +1,16 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-04-30 02:30:49** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-04-30 05:30:05** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 
 ## Начни здесь
 
-**[reference/README.md](reference/README.md)** — структурированный справочник по игре: формулы, главы по темам, 21 нация, 15 сравнений.
+**[reference/README.md](reference/README.md)** — структурированный справочник по игре: формулы, главы по темам, 21 нация, 16 сравнений.
 
-**[known_issues.md](known_issues.md)** — что в `data.json` неточно, расхождения с внешними гайдами, open empirical questions. Читать **перед** тем как писать инструмент поверх `data.json`.
+**[architecture.md](architecture.md)** — поток данных в проекте: что откуда берётся, кто что генерирует. Читать **перед** тем как добавлять новый отчёт или править генератор.
+
+**[known_issues.md](known_issues.md)** — парсерные пробелы, расхождения с внешними гайдами, open empirical questions. Закрытые проблемы — в [known_issues_archive.md](known_issues_archive.md). Читать **перед** тем как писать инструмент поверх `data.json`.
 
 ## Структура `docs/`
 
@@ -42,11 +44,11 @@ docs/
 │   ├── README.md
 │   └── sim_*.{csv,md}
 │
-├── derived/               ← машинно-читаемые JSON-датасеты
-│   ├── animations.json, builder_slots.json, tech_tree.json,
-│   ├── pattern_*.json, replay_ground_truth.json
-│
-└── cossacks3_reference.{md,xlsx}   ← (legacy) монолитная версия
+└── derived/               ← машинно-читаемые JSON-датасеты
+    ├── README.md          ← каталог всех JSON
+    ├── animations.json, builder_slots.json, tech_tree.json,
+    ├── canonical_terms.json, game_settings.json,
+    ├── pattern_*.json, replay_ground_truth.json
 ```
 
 ## Reference — каноническая справка
@@ -72,7 +74,7 @@ docs/
 - **Бой:** [combat_stats](reports/combat/combat_stats.md), [counter_matrix](reports/combat/counter_matrix.md), [attack_rates](reports/combat/attack_rates.md), [vision_radii](reports/combat/vision_radii.md)
 - **Экономика:** [scaling_prices](reports/economy/scaling_prices.md), [efficiency_upgrades](reports/economy/efficiency_upgrades.md), [production_rates](reports/economy/production_rates.md), [construction_times](reports/economy/construction_times.md), [builder_slots](reports/economy/builder_slots.md)
 - **Тех-дерево:** [tech_tree](reports/tech/tech_tree.md)
-- **Карта:** [map_resources](reports/map/map_resources.md), [starting_layout](reports/map/starting_layout.md), [map_predictions_validation](reports/map/map_predictions_validation.md)
+- **Карта:** [lobby_settings](reports/map/lobby_settings.md), [map_resources](reports/map/map_resources.md), [starting_layout](reports/map/starting_layout.md), [map_predictions_validation](reports/map/map_predictions_validation.md)
 - **Нации:** [overview](reports/nations/overview.md) — side-by-side сравнение всех 21
 
 ## Simulations — выходы симулятора
@@ -89,8 +91,10 @@ docs/
 
 ```
 python parser/build_data.py                 # → docs/data.json (источник правды)
+python parser/build_canonical_terms.py      # → docs/derived/canonical_terms.json
 python writers/write_md_tree.py             # → docs/reference/ + docs/README.md
 python compute/compute_scaling.py           # → docs/reports/economy/scaling_prices.md
+python compute/compute_game_settings.py     # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py     # → docs/reports/map/map_resources.md
 python compute/build_tech_tree.py           # → docs/reports/tech/tech_tree.md + reports/economy/production_rates.md + derived/tech_tree.json
 python simulator/simulate_economy.py <build_order.json>  # → docs/simulations/sim_<name>.{csv,md}
