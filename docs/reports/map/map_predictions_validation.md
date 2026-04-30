@@ -29,8 +29,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_small` | 28.9 | 0.0 | — | 9 |
 | `stones` | 19.2 | 19.0 | 1.01 | 10 |
 | `plain_medium` | 17.1 | 0.0 | — | 9 |
-| `mni` | 14.7 | 14.7 | 1.00 | 10 |
 | `mnc` | 14.7 | 14.7 | 1.00 | 10 |
+| `mni` | 14.7 | 14.7 | 1.00 | 10 |
 | `mng` | 14.7 | 14.7 | 1.00 | 10 |
 | `forests_pine_medium` | 14.5 | 14.0 | 1.04 | 10 |
 | `mountains` | 11.7 | 0.0 | — | 9 |
@@ -76,9 +76,9 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_pine_big_2` | 10.8 | 27.9 | 0.39 | 20 |
 | `swamp_small` | 10.3 | 0.0 | — | 18 |
 | `desert_mni` | 8.0 | 0.0 | — | 1 |
-| `desert_mng` | 8.0 | 0.0 | — | 1 |
-| `desert_mountains` | 8.0 | 0.0 | — | 1 |
 | `desert_mnc` | 8.0 | 0.0 | — | 1 |
+| `desert_mountains` | 8.0 | 0.0 | — | 1 |
+| `desert_mng` | 8.0 | 0.0 | — | 1 |
 | `desert_plain_small` | 5.0 | 0.0 | — | 1 |
 | `forests_spruce_big` | 4.2 | 7.7 | 0.55 | 20 |
 | `hills_dark` | 3.4 | 0.0 | — | 14 |
@@ -113,27 +113,27 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_small` | 39 | 0 | — |
 | `stones` | 22 | 38 | 0.58 |
 | `forests_pine_medium` | 21 | 28 | 0.75 |
-| `plain_medium` | 18 | 0 | — |
 | `forests_pine_small` | 18 | 22 | 0.82 |
-| `mni` | 15 | 20 | 0.75 |
+| `plain_medium` | 18 | 0 | — |
 | `mnc` | 15 | 20 | 0.75 |
+| `mni` | 15 | 20 | 0.75 |
 | `forests_pine_big` | 15 | 21 | 0.71 |
 | `mng` | 15 | 20 | 0.75 |
 | `swamp_small` | 13 | 0 | — |
 | `forests_pine_big_2` | 10 | 19 | 0.53 |
-| `forests_spruce_big` | 4 | 5 | 0.80 |
 | `mountains` | 4 | 0 | — |
+| `forests_spruce_big` | 4 | 5 | 0.80 |
 | `plain_huge` | 4 | 0 | — |
-| `plain_big` | 3 | 0 | — |
 | `forests_spruce_medium` | 3 | 1 | 3.00 ⚠ |
+| `plain_big` | 3 | 0 | — |
 | `stoneforests` | 3 | 0 | — |
-| `hills_dark` | 2 | 0 | — |
-| `plateau_big` | 2 | 0 | — |
 | `plateau` | 2 | 0 | — |
+| `hills_dark` | 2 | 0 | — |
 | `hills_light` | 2 | 0 | — |
+| `plateau_big` | 2 | 0 | — |
 | `forests_pinefir_big` | 1 | 2 | 0.50 |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_medium` | 0 | 3 | 0.00 ⚠ |
 
@@ -145,8 +145,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 
 | pattern_type | actual | predicted | actual/pred |
 | --- | ---: | ---: | ---: |
-| `mni` | 16 | 20 | 0.80 |
 | `mnc` | 16 | 20 | 0.80 |
+| `mni` | 16 | 20 | 0.80 |
 | `mng` | 16 | 20 | 0.80 |
 | `stones` | 11 | 38 | 0.29 ⚠ |
 | `forests_pine_big_2` | 5 | 19 | 0.26 ⚠ |
@@ -154,15 +154,15 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_small` | 4 | 0 | — |
 | `swamp_small` | 3 | 0 | — |
 | `forests_spruce_medium` | 2 | 1 | 2.00 |
-| `forests_pinefir_big` | 2 | 2 | 1.00 |
 | `plain_medium` | 2 | 0 | — |
+| `forests_pinefir_big` | 2 | 2 | 1.00 |
 | `forests_pine_medium` | 2 | 28 | 0.07 ⚠ |
-| `forests_spruce_big` | 1 | 5 | 0.20 ⚠ |
 | `forests_pine_small` | 1 | 22 | 0.05 ⚠ |
 | `forests_pine_big` | 1 | 21 | 0.05 ⚠ |
+| `forests_spruce_big` | 1 | 5 | 0.20 ⚠ |
 | `forests_pinefir_medium` | 1 | 3 | 0.33 ⚠ |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
 ### Replay 09
@@ -174,25 +174,25 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | pattern_type | actual | predicted | actual/pred |
 | --- | ---: | ---: | ---: |
 | `mng` | 16 | 20 | 0.80 |
-| `mni` | 15 | 20 | 0.75 |
 | `mnc` | 15 | 20 | 0.75 |
+| `mni` | 15 | 20 | 0.75 |
 | `stones` | 12 | 38 | 0.32 ⚠ |
 | `plain_small` | 9 | 0 | — |
 | `swamp_small` | 8 | 0 | — |
 | `forests_pine_medium` | 6 | 28 | 0.21 ⚠ |
 | `forests_pine_big_2` | 5 | 19 | 0.26 ⚠ |
 | `forests_pine_big` | 5 | 21 | 0.24 ⚠ |
-| `plain_medium` | 3 | 0 | — |
 | `forests_pine_small` | 3 | 22 | 0.14 ⚠ |
+| `plain_medium` | 3 | 0 | — |
 | `stoneforests` | 3 | 0 | — |
 | `forests_spruce_big` | 2 | 5 | 0.40 ⚠ |
 | `forests_spruce_medium` | 1 | 1 | 1.00 |
 | `mountains` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 3 | 0.33 ⚠ |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 2 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 2 | 0.00 ⚠ |
 
 ### Replay 14
 
@@ -210,9 +210,9 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_medium` | 52 | 0 | — |
 | `stones` | 46 | 126 | 0.37 ⚠ |
 | `forests_pine_big_2` | 29 | 64 | 0.45 ⚠ |
-| `mng` | 24 | 24 | 1.00 |
-| `mni` | 24 | 24 | 1.00 |
 | `mnc` | 24 | 24 | 1.00 |
+| `mni` | 24 | 24 | 1.00 |
+| `mng` | 24 | 24 | 1.00 |
 | `swamp_small` | 16 | 0 | — |
 | `hills_dark` | 11 | 0 | — |
 | `forests_spruce_big` | 8 | 17 | 0.47 ⚠ |
@@ -223,8 +223,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_spruce_medium` | 2 | 5 | 0.40 ⚠ |
 | `forests_pinefir_small` | 1 | 4 | 0.25 ⚠ |
 | `plateau` | 1 | 0 | — |
-| `plain_huge` | 1 | 0 | — |
 | `hills_light` | 1 | 0 | — |
+| `plain_huge` | 1 | 0 | — |
 | `_n_real_players` | 0 | 6 | 0.00 ⚠ |
 | `_spcount` | 0 | 6 | 0.00 ⚠ |
 
@@ -243,8 +243,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_medium` | 78 | 0 | — |
 | `forests_pine_big` | 77 | 163 | 0.47 ⚠ |
 | `stones` | 68 | 290 | 0.23 ⚠ |
-| `mni` | 27 | 35 | 0.77 |
 | `mnc` | 27 | 35 | 0.77 |
+| `mni` | 27 | 35 | 0.77 |
 | `mng` | 27 | 35 | 0.77 |
 | `forests_pine_big_2` | 22 | 149 | 0.15 ⚠ |
 | `swamp_small` | 20 | 0 | — |
@@ -252,8 +252,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `hills_dark` | 8 | 0 | — |
 | `stoneforests` | 6 | 0 | — |
 | `forests_pinefir_big` | 3 | 14 | 0.21 ⚠ |
-| `plain_big` | 2 | 0 | — |
 | `forests_spruce_medium` | 2 | 11 | 0.18 ⚠ |
+| `plain_big` | 2 | 0 | — |
 | `forests_pinefir_medium` | 2 | 26 | 0.08 ⚠ |
 | `forests_pinefir_small` | 1 | 9 | 0.11 ⚠ |
 | `_n_real_players` | 0 | 7 | 0.00 ⚠ |
@@ -278,20 +278,20 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_spruce_big` | 15 | 40 | 0.38 ⚠ |
 | `swamp_small` | 11 | 0 | — |
 | `hills_dark` | 10 | 0 | — |
-| `mni` | 9 | 12 | 0.75 |
 | `mnc` | 9 | 12 | 0.75 |
+| `mni` | 9 | 12 | 0.75 |
 | `mng` | 9 | 12 | 0.75 |
 | `stoneforests` | 3 | 0 | — |
-| `plain_big` | 2 | 0 | — |
 | `forests_pinefir_small` | 2 | 9 | 0.22 ⚠ |
+| `plain_big` | 2 | 0 | — |
 | `forests_pinefir_medium` | 2 | 26 | 0.08 ⚠ |
 | `forests_spruce_medium` | 1 | 11 | 0.09 ⚠ |
 | `swamp_medium` | 1 | 0 | — |
-| `plain_huge` | 1 | 0 | — |
 | `hills_light` | 1 | 0 | — |
+| `plain_huge` | 1 | 0 | — |
 | `_n_real_players` | 0 | 3 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 14 | 0.00 ⚠ |
 | `_spcount` | 0 | 3 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 14 | 0.00 ⚠ |
 
 ### Replay 04
 
@@ -305,9 +305,9 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_pine_medium` | 20 | 14 | 1.43 |
 | `plain_medium` | 19 | 0 | — |
 | `stones` | 17 | 19 | 0.89 |
-| `mni` | 14 | 14 | 1.00 |
 | `mnc` | 14 | 14 | 1.00 |
 | `forests_pine_small` | 14 | 12 | 1.17 |
+| `mni` | 14 | 14 | 1.00 |
 | `mng` | 14 | 14 | 1.00 |
 | `mountains` | 13 | 0 | — |
 | `forests_pine_big` | 12 | 11 | 1.09 |
@@ -316,16 +316,16 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_spruce_big` | 3 | 3 | 1.00 |
 | `plain_huge` | 3 | 0 | — |
 | `forests_pinefir_small` | 2 | 1 | 2.00 |
-| `hills_dark` | 2 | 0 | — |
 | `stoneforests` | 2 | 0 | — |
-| `plateau_big` | 1 | 0 | — |
+| `hills_dark` | 2 | 0 | — |
 | `plateau` | 1 | 0 | — |
 | `plateau_small` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
+| `plateau_big` | 1 | 0 | — |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
 | `_n_real_players` | 0 | 2 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 
 ### Replay 06
 
@@ -340,25 +340,25 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_medium` | 20 | 0 | — |
 | `forests_pine_big_2` | 16 | 10 | 1.60 |
 | `forests_pine_medium` | 16 | 14 | 1.14 |
-| `mni` | 14 | 14 | 1.00 |
 | `mnc` | 14 | 14 | 1.00 |
 | `forests_pine_small` | 14 | 12 | 1.17 |
+| `mni` | 14 | 14 | 1.00 |
 | `mng` | 14 | 14 | 1.00 |
 | `mountains` | 13 | 0 | — |
 | `forests_pine_big` | 13 | 11 | 1.18 |
 | `swamp_small` | 12 | 0 | — |
 | `forests_pinefir_small` | 2 | 1 | 2.00 |
-| `hills_dark` | 2 | 0 | — |
 | `stoneforests` | 2 | 0 | — |
-| `plain_huge` | 2 | 0 | — |
+| `hills_dark` | 2 | 0 | — |
 | `hills_light` | 2 | 0 | — |
+| `plain_huge` | 2 | 0 | — |
 | `forests_spruce_big` | 1 | 3 | 0.33 ⚠ |
-| `plateau_big` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
+| `plateau_big` | 1 | 0 | — |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
 | `_n_real_players` | 0 | 2 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 
 ### Replay 20
 
@@ -370,27 +370,27 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | --- | ---: | ---: | ---: |
 | `plain_small` | 24 | 0 | — |
 | `stones` | 23 | 19 | 1.21 |
-| `mng` | 16 | 16 | 1.00 |
-| `mni` | 16 | 16 | 1.00 |
 | `mnc` | 16 | 16 | 1.00 |
-| `forests_pine_medium` | 15 | 14 | 1.07 |
+| `mni` | 16 | 16 | 1.00 |
+| `mng` | 16 | 16 | 1.00 |
 | `swamp_small` | 15 | 0 | — |
+| `forests_pine_medium` | 15 | 14 | 1.07 |
 | `plain_medium` | 14 | 0 | — |
 | `forests_pine_big` | 11 | 11 | 1.00 |
 | `forests_pine_small` | 10 | 12 | 0.83 |
 | `mountains` | 9 | 0 | — |
 | `forests_pine_big_2` | 8 | 10 | 0.80 |
-| `forests_spruce_big` | 4 | 3 | 1.33 |
 | `stoneforests` | 4 | 0 | — |
 | `forests_pinefir_medium` | 4 | 2 | 2.00 |
+| `forests_spruce_big` | 4 | 3 | 1.33 |
 | `forests_pinefir_big` | 2 | 1 | 2.00 |
-| `plain_big` | 1 | 0 | — |
-| `forests_pinefir_small` | 1 | 1 | 1.00 |
-| `hills_dark` | 1 | 0 | — |
-| `plain_huge` | 1 | 0 | — |
-| `hills_light` | 1 | 0 | — |
 | `forests_spruce_medium` | 1 | 1 | 1.00 |
+| `forests_pinefir_small` | 1 | 1 | 1.00 |
+| `hills_light` | 1 | 0 | — |
+| `plain_big` | 1 | 0 | — |
+| `hills_dark` | 1 | 0 | — |
 | `plateau_big` | 1 | 0 | — |
+| `plain_huge` | 1 | 0 | — |
 | `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
@@ -406,25 +406,25 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `stones` | 22 | 19 | 1.16 |
 | `plain_medium` | 19 | 0 | — |
 | `forests_pine_medium` | 17 | 14 | 1.21 |
-| `mni` | 14 | 14 | 1.00 |
-| `forests_pine_small` | 14 | 12 | 1.17 |
 | `mnc` | 14 | 14 | 1.00 |
+| `forests_pine_small` | 14 | 12 | 1.17 |
+| `mni` | 14 | 14 | 1.00 |
 | `mng` | 14 | 14 | 1.00 |
 | `forests_pine_big_2` | 12 | 10 | 1.20 |
 | `mountains` | 12 | 0 | — |
 | `swamp_small` | 12 | 0 | — |
 | `forests_pine_big` | 11 | 11 | 1.00 |
 | `forests_spruce_big` | 3 | 3 | 1.00 |
-| `hills_dark` | 2 | 0 | — |
 | `stoneforests` | 2 | 0 | — |
+| `hills_dark` | 2 | 0 | — |
 | `hills_light` | 2 | 0 | — |
 | `forests_spruce_medium` | 1 | 1 | 1.00 |
-| `forests_pinefir_big` | 1 | 1 | 1.00 |
 | `plateau` | 1 | 0 | — |
-| `plain_huge` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
-| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
+| `forests_pinefir_big` | 1 | 1 | 1.00 |
+| `plain_huge` | 1 | 0 | — |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
 ### Replay 13
@@ -437,28 +437,28 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | --- | ---: | ---: | ---: |
 | `plain_small` | 25 | 0 | — |
 | `stones` | 21 | 19 | 1.11 |
-| `mni` | 16 | 16 | 1.00 |
 | `mnc` | 16 | 16 | 1.00 |
+| `mni` | 16 | 16 | 1.00 |
 | `mng` | 16 | 16 | 1.00 |
 | `plain_medium` | 14 | 0 | — |
-| `forests_pine_medium` | 13 | 14 | 0.93 |
 | `swamp_small` | 13 | 0 | — |
+| `forests_pine_medium` | 13 | 14 | 0.93 |
 | `forests_pine_big_2` | 10 | 10 | 1.00 |
 | `forests_pine_small` | 10 | 12 | 0.83 |
 | `mountains` | 9 | 0 | — |
 | `forests_pine_big` | 9 | 11 | 0.82 |
 | `forests_spruce_big` | 5 | 3 | 1.67 |
 | `forests_spruce_medium` | 4 | 1 | 4.00 ⚠ |
-| `forests_pinefir_big` | 4 | 1 | 4.00 ⚠ |
 | `stoneforests` | 4 | 0 | — |
+| `forests_pinefir_big` | 4 | 1 | 4.00 ⚠ |
 | `forests_pinefir_medium` | 3 | 2 | 1.50 |
 | `plain_big` | 1 | 0 | — |
 | `hills_dark` | 1 | 0 | — |
+| `hills_light` | 1 | 0 | — |
 | `plateau_big` | 1 | 0 | — |
 | `plain_huge` | 1 | 0 | — |
-| `hills_light` | 1 | 0 | — |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
 ### Replay 19
@@ -473,9 +473,9 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `stones` | 22 | 19 | 1.16 |
 | `plain_medium` | 17 | 0 | — |
 | `forests_pine_medium` | 17 | 14 | 1.21 |
-| `mni` | 14 | 14 | 1.00 |
-| `forests_pine_small` | 14 | 12 | 1.17 |
 | `mnc` | 14 | 14 | 1.00 |
+| `forests_pine_small` | 14 | 12 | 1.17 |
+| `mni` | 14 | 14 | 1.00 |
 | `mng` | 14 | 14 | 1.00 |
 | `mountains` | 13 | 0 | — |
 | `forests_pine_big` | 13 | 11 | 1.18 |
@@ -483,13 +483,13 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `swamp_small` | 9 | 0 | — |
 | `forests_spruce_big` | 3 | 3 | 1.00 |
 | `plain_huge` | 3 | 0 | — |
-| `hills_dark` | 2 | 0 | — |
 | `stoneforests` | 2 | 0 | — |
+| `hills_dark` | 2 | 0 | — |
 | `forests_pinefir_small` | 1 | 1 | 1.00 |
-| `forests_pinefir_big` | 1 | 1 | 1.00 |
 | `plateau` | 1 | 0 | — |
 | `hills_light` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
+| `forests_pinefir_big` | 1 | 1 | 1.00 |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
 | `_n_real_players` | 0 | 2 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
@@ -504,8 +504,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | --- | ---: | ---: | ---: |
 | `stones` | 26 | 19 | 1.37 |
 | `plain_small` | 26 | 0 | — |
-| `mni` | 16 | 16 | 1.00 |
 | `mnc` | 16 | 16 | 1.00 |
+| `mni` | 16 | 16 | 1.00 |
 | `forests_pine_medium` | 16 | 14 | 1.14 |
 | `mng` | 16 | 16 | 1.00 |
 | `plain_medium` | 15 | 0 | — |
@@ -518,15 +518,15 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `stoneforests` | 4 | 0 | — |
 | `hills_dark` | 2 | 0 | — |
 | `hills_light` | 2 | 0 | — |
-| `plain_big` | 1 | 0 | — |
 | `forests_pinefir_small` | 1 | 1 | 1.00 |
-| `decor_big` | 1 | 0 | — |
 | `plateau` | 1 | 0 | — |
+| `decor_big` | 1 | 0 | — |
+| `plain_big` | 1 | 0 | — |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
 | `_n_real_players` | 0 | 4 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_medium` | 0 | 2 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 
 ### Replay 01
 
@@ -540,25 +540,25 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `plain_medium` | 18 | 0 | — |
 | `stones` | 16 | 19 | 0.84 |
 | `forests_pine_medium` | 15 | 14 | 1.07 |
-| `mni` | 14 | 14 | 1.00 |
-| `forests_pine_small` | 14 | 12 | 1.17 |
 | `mnc` | 14 | 14 | 1.00 |
+| `forests_pine_small` | 14 | 12 | 1.17 |
+| `mni` | 14 | 14 | 1.00 |
 | `forests_pine_big` | 14 | 11 | 1.27 |
 | `mng` | 14 | 14 | 1.00 |
 | `mountains` | 13 | 0 | — |
 | `swamp_small` | 11 | 0 | — |
 | `forests_pine_big_2` | 8 | 10 | 0.80 |
 | `plain_huge` | 3 | 0 | — |
+| `stoneforests` | 2 | 0 | — |
 | `forests_spruce_big` | 2 | 3 | 0.67 |
 | `hills_dark` | 2 | 0 | — |
 | `plateau_big` | 2 | 0 | — |
-| `stoneforests` | 2 | 0 | — |
-| `plain_big` | 1 | 0 | — |
 | `forests_spruce_medium` | 1 | 1 | 1.00 |
-| `forests_pinefir_big` | 1 | 1 | 1.00 |
+| `plain_big` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
-| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
+| `forests_pinefir_big` | 1 | 1 | 1.00 |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
 ### Replay 07
@@ -569,21 +569,21 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 
 | pattern_type | actual | predicted | actual/pred |
 | --- | ---: | ---: | ---: |
-| `mni` | 15 | 15 | 1.00 |
 | `mnc` | 15 | 15 | 1.00 |
+| `mni` | 15 | 15 | 1.00 |
 | `mng` | 15 | 15 | 1.00 |
-| `forests_pine_big_2` | 0 | 10 | 0.00 ⚠ |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
-| `_n_real_players` | 0 | 3 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
-| `forests_spruce_big` | 0 | 3 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
+| `forests_pine_big_2` | 0 | 10 | 0.00 ⚠ |
 | `forests_pine_small` | 0 | 12 | 0.00 ⚠ |
 | `stones` | 0 | 19 | 0.00 ⚠ |
-| `forests_pine_medium` | 0 | 14 | 0.00 ⚠ |
 | `forests_pine_big` | 0 | 11 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 3 | 0.00 ⚠ |
+| `forests_spruce_big` | 0 | 3 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_medium` | 0 | 2 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
+| `forests_pine_medium` | 0 | 14 | 0.00 ⚠ |
 
 ### Replay 02
 
@@ -597,8 +597,8 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `stones` | 24 | 19 | 1.26 |
 | `plain_medium` | 18 | 0 | — |
 | `forests_pine_medium` | 16 | 14 | 1.14 |
-| `mni` | 14 | 14 | 1.00 |
 | `mnc` | 14 | 14 | 1.00 |
+| `mni` | 14 | 14 | 1.00 |
 | `mng` | 14 | 14 | 1.00 |
 | `forests_pine_small` | 13 | 12 | 1.08 |
 | `forests_pine_big` | 13 | 11 | 1.18 |
@@ -606,15 +606,15 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `mountains` | 12 | 0 | — |
 | `swamp_small` | 10 | 0 | — |
 | `forests_pinefir_medium` | 3 | 2 | 1.50 |
-| `forests_spruce_big` | 2 | 3 | 0.67 |
-| `forests_pinefir_big` | 2 | 1 | 2.00 |
-| `hills_dark` | 2 | 0 | — |
 | `stoneforests` | 2 | 0 | — |
+| `forests_spruce_big` | 2 | 3 | 0.67 |
+| `hills_dark` | 2 | 0 | — |
+| `forests_pinefir_big` | 2 | 1 | 2.00 |
 | `plain_huge` | 2 | 0 | — |
-| `plain_big` | 1 | 0 | — |
 | `forests_pinefir_small` | 1 | 1 | 1.00 |
-| `plateau_big` | 1 | 0 | — |
+| `plain_big` | 1 | 0 | — |
 | `hills_light` | 1 | 0 | — |
+| `plateau_big` | 1 | 0 | — |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
 | `_n_real_players` | 0 | 2 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
@@ -632,27 +632,27 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `desert_lake` | 15 | 0 | — |
 | `desert_forests_small` | 11 | 0 | — |
 | `desert_mni` | 8 | 0 | — |
-| `desert_mng` | 8 | 0 | — |
-| `desert_mountains` | 8 | 0 | — |
 | `desert_mnc` | 8 | 0 | — |
+| `desert_mountains` | 8 | 0 | — |
+| `desert_mng` | 8 | 0 | — |
 | `desert_plain_small` | 5 | 0 | — |
 | `desert_plain_big` | 3 | 0 | — |
 | `desert_forests_unique` | 2 | 0 | — |
-| `forests_pine_big_2` | 0 | 10 | 0.00 ⚠ |
 | `forests_spruce_medium` | 0 | 1 | 0.00 ⚠ |
-| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
-| `forests_spruce_big` | 0 | 3 | 0.00 ⚠ |
-| `mni` | 0 | 8 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `mnc` | 0 | 8 | 0.00 ⚠ |
+| `forests_pine_medium` | 0 | 14 | 0.00 ⚠ |
+| `forests_pine_big_2` | 0 | 10 | 0.00 ⚠ |
 | `forests_pine_small` | 0 | 12 | 0.00 ⚠ |
 | `stones` | 0 | 19 | 0.00 ⚠ |
-| `forests_pine_medium` | 0 | 14 | 0.00 ⚠ |
 | `forests_pine_big` | 0 | 11 | 0.00 ⚠ |
-| `mng` | 0 | 8 | 0.00 ⚠ |
+| `mni` | 0 | 8 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 2 | 0.00 ⚠ |
+| `forests_spruce_big` | 0 | 3 | 0.00 ⚠ |
 | `_spcount` | 0 | 2 | 0.00 ⚠ |
 | `forests_pinefir_medium` | 0 | 2 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
+| `mng` | 0 | 8 | 0.00 ⚠ |
 
 ### Replay 16
 
@@ -664,12 +664,12 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | --- | ---: | ---: | ---: |
 | `plain_small` | 24 | 0 | — |
 | `stones` | 18 | 19 | 0.95 |
-| `mni` | 16 | 16 | 1.00 |
 | `mnc` | 16 | 16 | 1.00 |
+| `mni` | 16 | 16 | 1.00 |
 | `mng` | 16 | 16 | 1.00 |
 | `forests_pine_small` | 11 | 12 | 0.92 |
-| `forests_pine_medium` | 11 | 14 | 0.79 |
 | `swamp_small` | 11 | 0 | — |
+| `forests_pine_medium` | 11 | 14 | 0.79 |
 | `plain_medium` | 10 | 0 | — |
 | `forests_pine_big` | 10 | 11 | 0.91 |
 | `forests_pine_big_2` | 9 | 10 | 0.90 |
@@ -680,12 +680,12 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `mountains` | 2 | 0 | — |
 | `plateau_big` | 2 | 0 | — |
 | `plain_huge` | 2 | 0 | — |
-| `hills_dark` | 1 | 0 | — |
 | `plateau` | 1 | 0 | — |
+| `hills_dark` | 1 | 0 | — |
 | `hills_light` | 1 | 0 | — |
 | `forests_pinefir_medium` | 1 | 2 | 0.50 |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
 
 ### Replay 17
@@ -702,19 +702,19 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `stones` | 7 | 19 | 0.37 ⚠ |
 | `stoneforests` | 3 | 0 | — |
 | `forests_spruce_medium` | 2 | 1 | 2.00 |
-| `forests_spruce_big` | 2 | 3 | 0.67 |
 | `plain_medium` | 2 | 0 | — |
-| `forests_pine_medium` | 2 | 14 | 0.14 ⚠ |
-| `plain_small` | 2 | 0 | — |
+| `forests_spruce_big` | 2 | 3 | 0.67 |
 | `forests_pinefir_medium` | 2 | 2 | 1.00 |
+| `plain_small` | 2 | 0 | — |
+| `forests_pine_medium` | 2 | 14 | 0.14 ⚠ |
 | `forests_pine_big_2` | 1 | 10 | 0.10 ⚠ |
 | `swamp_small` | 1 | 0 | — |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `forests_pine_small` | 0 | 12 | 0.00 ⚠ |
 | `forests_pine_big` | 0 | 11 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 
 ### Replay 05
 
@@ -733,12 +733,12 @@ Bucket: msz=3 (Tiny=3, Normal=0, Large=1, Huge=2), rel=3 (Highlands=3, Random=5)
 | `forests_pine_big` | 2 | 11 | 0.18 ⚠ |
 | `forests_pine_big_2` | 1 | 10 | 0.10 ⚠ |
 | `forests_spruce_big` | 1 | 3 | 0.33 ⚠ |
-| `forests_pine_medium` | 1 | 14 | 0.07 ⚠ |
+| `forests_pinefir_medium` | 1 | 2 | 0.50 |
 | `plain_small` | 1 | 0 | — |
 | `swamp_small` | 1 | 0 | — |
-| `forests_pinefir_medium` | 1 | 2 | 0.50 |
-| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
+| `forests_pine_medium` | 1 | 14 | 0.07 ⚠ |
 | `forests_pinefir_small` | 0 | 1 | 0.00 ⚠ |
-| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |
 | `forests_pine_small` | 0 | 12 | 0.00 ⚠ |
+| `_n_real_players` | 0 | 4 | 0.00 ⚠ |
 | `_spcount` | 0 | 4 | 0.00 ⚠ |
+| `forests_pinefir_big` | 0 | 1 | 0.00 ⚠ |

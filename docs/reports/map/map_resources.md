@@ -131,7 +131,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 - Trees/stones per pattern — `TREE_CHOPABLE_RATIO=0.30` калибровано на эмпирической оценке пользователя (small=10 trees, big=50 trees). Не верифицировано против реального in-game tree count.
 - На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.
 
-**Открытые gap'ы:**
+**Открытые пробелы:**
 - Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.
 - `desert_*` (season=3) не реализовано — 1/20 replays.
 - Non-Land mine formula отличается — open question §13 Q6.

@@ -570,7 +570,7 @@
         },
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -681,7 +681,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -710,7 +710,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -829,7 +829,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -929,7 +929,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -1084,7 +1084,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -4431,7 +4431,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -4542,7 +4542,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -4677,7 +4677,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -4873,7 +4873,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -4984,7 +4984,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -5312,7 +5312,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -10676,7 +10676,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -10787,7 +10787,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -10898,7 +10898,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -11094,7 +11094,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -11205,7 +11205,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -11485,7 +11485,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -16303,7 +16303,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -16414,7 +16414,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -16525,7 +16525,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -16721,7 +16721,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -16832,7 +16832,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -17112,7 +17112,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -21930,7 +21930,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -22065,7 +22065,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -22176,7 +22176,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -22348,7 +22348,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -22483,7 +22483,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -22763,7 +22763,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -27803,7 +27803,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -27938,7 +27938,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -28020,7 +28020,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -28245,7 +28245,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -28380,7 +28380,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -28660,7 +28660,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -33802,7 +33802,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -33913,7 +33913,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -33995,7 +33995,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -34191,7 +34191,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -34350,7 +34350,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -34630,7 +34630,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -39550,7 +39550,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -39661,7 +39661,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -39743,7 +39743,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -39968,7 +39968,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -40079,7 +40079,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -40359,7 +40359,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -45177,7 +45177,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -45288,7 +45288,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -45370,7 +45370,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -45595,7 +45595,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -45706,7 +45706,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -45986,7 +45986,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -50804,7 +50804,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -50915,7 +50915,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -51026,7 +51026,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -51246,7 +51246,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -51357,7 +51357,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -51637,7 +51637,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -56683,7 +56683,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -56794,7 +56794,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -56905,7 +56905,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -57101,7 +57101,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -57236,7 +57236,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -57516,7 +57516,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -62538,7 +62538,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -62649,7 +62649,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -62760,7 +62760,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -62956,7 +62956,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -63091,7 +63091,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -63371,7 +63371,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -68189,7 +68189,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -68318,7 +68318,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -68405,7 +68405,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -68601,7 +68601,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -68712,7 +68712,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -68944,7 +68944,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -73708,7 +73708,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -73819,7 +73819,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -73930,7 +73930,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -74102,7 +74102,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -74266,7 +74266,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -74546,7 +74546,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -79364,7 +79364,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -79523,7 +79523,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -79552,7 +79552,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -79676,7 +79676,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -79782,7 +79782,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -79967,7 +79967,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -83726,7 +83726,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -83837,7 +83837,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -83948,7 +83948,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -84144,7 +84144,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -84255,7 +84255,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -84559,7 +84559,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -89581,7 +89581,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -89692,7 +89692,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -89803,7 +89803,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -89999,7 +89999,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -90134,7 +90134,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -90414,7 +90414,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -95436,7 +95436,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -95547,7 +95547,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -95658,7 +95658,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -95854,7 +95854,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -95989,7 +95989,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -96269,7 +96269,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -101241,7 +101241,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -101376,7 +101376,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -101405,7 +101405,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -101524,7 +101524,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -101648,7 +101648,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -101785,7 +101785,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -105757,7 +105757,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -105905,7 +105905,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -105934,7 +105934,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -106029,7 +106029,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -106129,7 +106129,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -106218,7 +106218,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -109092,7 +109092,7 @@
       "units": {
         "archerdip": {
           "name_en": "Archer (mercenary)",
-          "name_ru": "Лучник  (наемник)",
+          "name_ru": "Лучник (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -109203,7 +109203,7 @@
         },
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
-          "name_ru": "Сечевой козак  (наемник)",
+          "name_ru": "Сечевой козак (наемник)",
           "buildtime_sec": 2.5,
           "cost": {
             "food": 0,
@@ -109314,7 +109314,7 @@
         },
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
-          "name_ru": "Драгун 18в.  (наемник)",
+          "name_ru": "Драгун 18в. (наемник)",
           "buildtime_sec": 2.0,
           "cost": {
             "food": 0,
@@ -109510,7 +109510,7 @@
         },
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
-          "name_ru": "Гренадер  (наемник)",
+          "name_ru": "Гренадер (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
@@ -109621,7 +109621,7 @@
         },
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
-          "name_ru": "Легкий пехотинец  (наемник)",
+          "name_ru": "Легкий пехотинец (наемник)",
           "buildtime_sec": 1.25,
           "cost": {
             "food": 0,
@@ -109901,7 +109901,7 @@
         },
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
-          "name_ru": "Рундашир  (наемник)",
+          "name_ru": "Рундашир (наемник)",
           "buildtime_sec": 1.5,
           "cost": {
             "food": 0,
