@@ -3590,8 +3590,8 @@
           ]
         },
         "algaca.12": {
-          "name_en": "Improve firearms: rifled barrel %color(FFAA00)%(fire power +10%)",
-          "name_ru": "Улучшить стрелковое оружие: нарезной ствол %color(FFAA00)%(сила выстрела +10%)",
+          "name_en": "Improve firearms: rifled barrel (fire power +10%)",
+          "name_ru": "Улучшить стрелковое оружие: нарезной ствол (сила выстрела +10%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3607,8 +3607,8 @@
           "prereqs": []
         },
         "algaca.13": {
-          "name_en": "Research granular gunpowder %color(FFAA00)%(fire power +10%)",
-          "name_ru": "Исследовать гранулированный порох %color(FFAA00)%(сила выстрела +10%)",
+          "name_en": "Research granular gunpowder (fire power +10%)",
+          "name_ru": "Исследовать гранулированный порох (сила выстрела +10%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3624,8 +3624,8 @@
           "prereqs": []
         },
         "algaca.14": {
-          "name_en": "Research new sulphur purification methods %color(FFAA00)%(fire power +15%)",
-          "name_ru": "Исследовать новые методы очистки серы %color(FFAA00)%(сила выстрела +15%)",
+          "name_en": "Research new sulphur purification methods (fire power +15%)",
+          "name_ru": "Исследовать новые методы очистки серы (сила выстрела +15%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3641,8 +3641,8 @@
           "prereqs": []
         },
         "algaca.15": {
-          "name_en": "Research new nitre purification methods %color(FFAA00)%(fire power +25%)",
-          "name_ru": "Исследовать новые методы очистки селитры %color(FFAA00)%(сила выстрела +25%)",
+          "name_en": "Research new nitre purification methods (fire power +25%)",
+          "name_ru": "Исследовать новые методы очистки селитры (сила выстрела +25%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3658,8 +3658,8 @@
           "prereqs": []
         },
         "algaca.19": {
-          "name_en": "%color(FFAA00)%Design multi-barrelled cannon",
-          "name_ru": "%color(FFAA00)%Разработать многоствольное орудие",
+          "name_en": "Design multi-barrelled cannon",
+          "name_ru": "Разработать многоствольное орудие",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3675,8 +3675,8 @@
           "prereqs": []
         },
         "algaca.25": {
-          "name_en": "Design Montgolfier %color(FFAA00)%(reveals the whole map)",
-          "name_ru": "Разработать монгольфьер %color(FFAA00)%(открывает всю карту)",
+          "name_en": "Design Montgolfier (reveals the whole map)",
+          "name_ru": "Разработать монгольфьер (открывает всю карту)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3692,8 +3692,8 @@
           "prereqs": []
         },
         "algaca.31": {
-          "name_en": "Design wheellock %color(FFAA00)%(rate of fire +30%)",
-          "name_ru": "Разработать колесцовый замок к ружьям %color(FFAA00)%(скорострельность +30%)",
+          "name_en": "Design wheellock (rate of fire +30%)",
+          "name_ru": "Разработать колесцовый замок к ружьям (скорострельность +30%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3709,8 +3709,8 @@
           "prereqs": []
         },
         "algaca.32": {
-          "name_en": "Design flintlock %color(FFAA00)%(musket cost -50%)",
-          "name_ru": "Разработать кремниевый замок к ружьям %color(FFAA00)%(цена мушкета -50%)",
+          "name_en": "Design flintlock (musket cost -50%)",
+          "name_ru": "Разработать кремниевый замок к ружьям (цена мушкета -50%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3726,8 +3726,8 @@
           "prereqs": []
         },
         "algaca.33": {
-          "name_en": "Design paper cartridge and iron ramrod %color(FFAA00)%(rate of fire +30%)",
-          "name_ru": "Разработать бумажный патрон и железный шомпол %color(FFAA00)%(скорострельность +30%)",
+          "name_en": "Design paper cartridge and iron ramrod (rate of fire +30%)",
+          "name_ru": "Разработать бумажный патрон и железный шомпол (скорострельность +30%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3743,8 +3743,8 @@
           "prereqs": []
         },
         "algaca.34": {
-          "name_en": "Research improved steel grades for cuirasses %color(FFAA00)%(armoured soldier defence +2)",
-          "name_ru": "Разработать новые сорта стали для кирас %color(FFAA00)%(защита солдат в доспехах +2)",
+          "name_en": "Research improved steel grades for cuirasses (armoured soldier defence +2)",
+          "name_ru": "Разработать новые сорта стали для кирас (защита солдат в доспехах +2)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3760,8 +3760,8 @@
           "prereqs": []
         },
         "algaca.35": {
-          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube %color(FFAA00)%(cold steel weapons +5)",
-          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой %color(FFAA00)%(сила удара холодного оружия +5)",
+          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)",
+          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой (сила удара холодного оружия +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3777,8 +3777,8 @@
           "prereqs": []
         },
         "algaca.36": {
-          "name_en": "Research new steel grades %color(FFAA00)%(18c musketeer/grenadier melee attack efficiency +25%)",
-          "name_ru": "Разработать новые сорта стали %color(FFAA00)%(эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
+          "name_en": "Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)",
+          "name_ru": "Разработать новые сорта стали (эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3794,8 +3794,8 @@
           "prereqs": []
         },
         "algbla.4": {
-          "name_en": "Forge bayonets and broadswords for infantry %color(FFAA00)%(18c musketeer/grenadier melee attack +5)",
-          "name_ru": "Выковать штыки и тесаки для пехоты %color(FFAA00)%(сила удара мушкетера 18 века и гренадера +5)",
+          "name_en": "Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)",
+          "name_ru": "Выковать штыки и тесаки для пехоты (сила удара мушкетера 18 века и гренадера +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -3811,8 +3811,8 @@
           "prereqs": []
         },
         "algbla.6": {
-          "name_en": "Forge new cuirasses %color(FFAA00)%(armoured soldiers defence +2)",
-          "name_ru": "Выковать новые кирасы %color(FFAA00)%(защита солдат в доспехах +2)",
+          "name_en": "Forge new cuirasses (armoured soldiers defence +2)",
+          "name_ru": "Выковать новые кирасы (защита солдат в доспехах +2)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -83106,8 +83106,8 @@
           ]
         },
         "scoaca.19": {
-          "name_en": "%color(FFAA00)%Design multi-barrelled cannon",
-          "name_ru": "%color(FFAA00)%Разработать многоствольное орудие",
+          "name_en": "Design multi-barrelled cannon",
+          "name_ru": "Разработать многоствольное орудие",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105171,8 +105171,8 @@
           ]
         },
         "turaca.19": {
-          "name_en": "%color(FFAA00)%Design multi-barrelled cannon",
-          "name_ru": "%color(FFAA00)%Разработать многоствольное орудие",
+          "name_en": "Design multi-barrelled cannon",
+          "name_ru": "Разработать многоствольное орудие",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105188,8 +105188,8 @@
           "prereqs": []
         },
         "turaca.25": {
-          "name_en": "Design Montgolfier %color(FFAA00)%(reveals the whole map)",
-          "name_ru": "Разработать монгольфьер %color(FFAA00)%(открывает всю карту)",
+          "name_en": "Design Montgolfier (reveals the whole map)",
+          "name_ru": "Разработать монгольфьер (открывает всю карту)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105205,8 +105205,8 @@
           "prereqs": []
         },
         "turaca.32": {
-          "name_en": "Design flintlock %color(FFAA00)%(musket cost -50%)",
-          "name_ru": "Разработать кремниевый замок к ружьям %color(FFAA00)%(цена мушкета -50%)",
+          "name_en": "Design flintlock (musket cost -50%)",
+          "name_ru": "Разработать кремниевый замок к ружьям (цена мушкета -50%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105222,8 +105222,8 @@
           "prereqs": []
         },
         "turaca.35": {
-          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube %color(FFAA00)%(cold steel weapons +5)",
-          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой %color(FFAA00)%(сила удара холодного оружия +5)",
+          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)",
+          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой (сила удара холодного оружия +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105239,8 +105239,8 @@
           "prereqs": []
         },
         "turaca.36": {
-          "name_en": "Research new steel grades %color(FFAA00)%(18c musketeer/grenadier melee attack efficiency +25%)",
-          "name_ru": "Разработать новые сорта стали %color(FFAA00)%(эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
+          "name_en": "Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)",
+          "name_ru": "Разработать новые сорта стали (эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -105256,8 +105256,8 @@
           "prereqs": []
         },
         "turbla.4": {
-          "name_en": "Forge bayonets and broadswords for infantry %color(FFAA00)%(18c musketeer/grenadier melee attack +5)",
-          "name_ru": "Выковать штыки и тесаки для пехоты %color(FFAA00)%(сила удара мушкетера 18 века и гренадера +5)",
+          "name_en": "Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)",
+          "name_ru": "Выковать штыки и тесаки для пехоты (сила удара мушкетера 18 века и гренадера +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108319,8 +108319,8 @@
           ]
         },
         "ukraca.6": {
-          "name_en": "Develop new woodworking methods %color(FFAA00)%(frigate building)",
-          "name_ru": "Разработать новые методы древообработки %color(FFAA00)%(условие для постройки фрегатов)",
+          "name_en": "Develop new woodworking methods (frigate building)",
+          "name_ru": "Разработать новые методы древообработки (условие для постройки фрегатов)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108336,8 +108336,8 @@
           "prereqs": []
         },
         "ukraca.11": {
-          "name_en": "Research new fortification grades %color(FFAA00)%(durability of walls and towers +80)",
-          "name_ru": "Исследовать новые методы фортификации %color(FFAA00)%(прочность стен и башен +80)",
+          "name_en": "Research new fortification grades (durability of walls and towers +80)",
+          "name_ru": "Исследовать новые методы фортификации (прочность стен и башен +80)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108353,8 +108353,8 @@
           "prereqs": []
         },
         "ukraca.19": {
-          "name_en": "%color(FFAA00)%Design multi-barrelled cannon",
-          "name_ru": "%color(FFAA00)%Разработать многоствольное орудие",
+          "name_en": "Design multi-barrelled cannon",
+          "name_ru": "Разработать многоствольное орудие",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108370,8 +108370,8 @@
           "prereqs": []
         },
         "ukraca.29": {
-          "name_en": "Design new rib system and new hulls %color(FFAA00)%(battleship construction)",
-          "name_ru": "Разработать новую систему шпангоутов и корпуса корабля %color(FFAA00)%(условие для постройки линейных кораблей)",
+          "name_en": "Design new rib system and new hulls (battleship construction)",
+          "name_ru": "Разработать новую систему шпангоутов и корпуса корабля (условие для постройки линейных кораблей)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108387,8 +108387,8 @@
           "prereqs": []
         },
         "ukraca.32": {
-          "name_en": "Design flintlock %color(FFAA00)%(musket cost -50%)",
-          "name_ru": "Разработать кремниевый замок к ружьям %color(FFAA00)%(цена мушкета -50%)",
+          "name_en": "Design flintlock (musket cost -50%)",
+          "name_ru": "Разработать кремниевый замок к ружьям (цена мушкета -50%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108404,8 +108404,8 @@
           "prereqs": []
         },
         "ukraca.34": {
-          "name_en": "Research improved steel grades for cuirasses %color(FFAA00)%(armoured soldier defence +2)",
-          "name_ru": "Разработать новые сорта стали для кирас %color(FFAA00)%(защита солдат в доспехах +2)",
+          "name_en": "Research improved steel grades for cuirasses (armoured soldier defence +2)",
+          "name_ru": "Разработать новые сорта стали для кирас (защита солдат в доспехах +2)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108421,8 +108421,8 @@
           "prereqs": []
         },
         "ukraca.35": {
-          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube %color(FFAA00)%(cold steel weapons +5)",
-          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой %color(FFAA00)%(сила удара холодного оружия +5)",
+          "name_en": "Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)",
+          "name_ru": "Разработать штык: вставляемый в ствол багинет, штык с трубкой (сила удара холодного оружия +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108438,8 +108438,8 @@
           "prereqs": []
         },
         "ukraca.36": {
-          "name_en": "Research new steel grades %color(FFAA00)%(18c musketeer/grenadier melee attack efficiency +25%)",
-          "name_ru": "Разработать новые сорта стали %color(FFAA00)%(эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
+          "name_en": "Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)",
+          "name_ru": "Разработать новые сорта стали (эффективность рукопашной атаки мушкетера 18 века и гренадера +25%)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108455,8 +108455,8 @@
           "prereqs": []
         },
         "ukrbla.4": {
-          "name_en": "Forge bayonets and broadswords for infantry %color(FFAA00)%(18c musketeer/grenadier melee attack +5)",
-          "name_ru": "Выковать штыки и тесаки для пехоты %color(FFAA00)%(сила удара мушкетера 18 века и гренадера +5)",
+          "name_en": "Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)",
+          "name_ru": "Выковать штыки и тесаки для пехоты (сила удара мушкетера 18 века и гренадера +5)",
           "itype": null,
           "value": null,
           "time_sec": null,
@@ -108472,8 +108472,8 @@
           "prereqs": []
         },
         "ukrbla.6": {
-          "name_en": "Forge new cuirasses %color(FFAA00)%(armoured soldiers defence +2)",
-          "name_ru": "Выковать новые кирасы %color(FFAA00)%(защита солдат в доспехах +2)",
+          "name_en": "Forge new cuirasses (armoured soldiers defence +2)",
+          "name_ru": "Выковать новые кирасы (защита солдат в доспехах +2)",
           "itype": null,
           "value": null,
           "time_sec": null,

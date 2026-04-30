@@ -607,7 +607,9 @@ def _format_locale_only_upgrade(uid: str, nation: str, locale_key: str, loc_en, 
     name_ru = loc_ru.get("upgrades", locale_key) or ""
     name_en = name_en.replace("%nat%", nation).split("\n", 1)[0]
     name_ru = name_ru.replace("%nat%", nation).split("\n", 1)[0]
-    # Strip %include(style;...)% etc.
+    # Strip locale noise: %color(...)%, %include(...)%, leftover %word% style markers.
+    name_en = re.sub(r"%color\([^)]+\)%", "", name_en)
+    name_ru = re.sub(r"%color\([^)]+\)%", "", name_ru)
     name_en = re.sub(r"%include\([^)]+\)%", "", name_en).strip()
     name_ru = re.sub(r"%include\([^)]+\)%", "", name_ru).strip()
     return {
