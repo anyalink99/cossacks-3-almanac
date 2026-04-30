@@ -619,7 +619,7 @@ def write_report(r: dict, settings: dict) -> str:
              "in-game tree count.")
     L.append("- На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.")
     L.append("")
-    L.append("**Открытые gap'ы:**")
+    L.append("**Открытые пробелы:**")
     L.append("- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, "
              "`plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences "
              "в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.")
