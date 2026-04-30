@@ -233,23 +233,30 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137
 
 ### 5.3 Tower — built-in cannon
 
-Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием (`unit.script:2223-2240`):
+Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием. Базовые параметры (европейский вариант, `unit.script:2223-2240`, вызов `SetObjBaseWeapon(objprop, objbase, 0, 1000, 400, 550, 1500, 550, 50000, gc_obj_weapon_kind_cannonball, True)` с сигнатурой `SetObjBaseWeapon(... index, damage, pause, radiusmin, radiusmax, detectradiusmin, detectradiusmax, kind, bSearchMin)` из `unit.script:520`):
 
 | параметр | значение |
 |---|---|
 | weapon[0].kind | `gc_obj_weapon_kind_cannonball` |
-| weapon[0].damage | 400 |
-| weapon[0].radiusmin/max (px) | 400 / 1500 |
+| weapon[0].damage | 1000 |
+| weapon[0].pause | 400 frames = 12.5 g-сек |
+| weapon[0].radiusmin / radiusmax (px) | 550 / 1500 |
 | weapon[0].radiusmax (tiles) | ≈ 28.1 |
-| weapon[0].pause | 1000 frames = 31.25 g-sec |
+| weapon[0].detectradiusmin / detectradiusmax (px) | 550 / 50000 |
 | weapon[0].cost / shot | iron=10, coal=30 |
 | weapon[0].dispertion | 100 px |
 | searchradius | 1400 px ≈ 26.25 tiles |
-| consume.gold | **500/tick = 0.8 gold/g-sec** ([`unit.script:2235`](.)) |
+| consume.gold | **500/tick = 0.8 gold/g-сек** ([`unit.script:2235`](.)) |
 | HP | 20000 |
+| buildtime | 3937 frames ≈ 123 g-сек |
+| costpercent | 120 |
 | `bturnoff=True` | можно отключить — снижает gold-drain |
 
-**Apgrades:** `gc_ach_upgrade_towerattspeed` (achievement-related, attack speed). RUS вариант: dmg 300 (вместо 400), shield=5, dispertion 125.
+**Russian вариант** (`unit.script:2241-2247`, `commonrus` ветка): HP=21000, buildtime=4725, costpercent=125, shield=5, dispertion=125 px. Перезаписывается только `pause` (300 frames = 9.375 g-сек); `damage`, `radiusmin/max`, `kind` остаются как у EUR (передан литерал `default = -1`, который `SetObjBaseWeapon` пропускает, см. условия `if (damage<>-1)` в `unit.script:523-538`).
+
+**Turkish вариант** (`unit.script:2248-2256`, `commontur` ветка): HP=22500, buildtime=3150, costpercent=125, цена 150 stone/90 wood/100 gold. weapon: damage=1200, pause=500 frames = 15.625 g-сек, radiusmax=1600 px, searchradius=1500 px, weapon.cost — coal=40, iron=15.
+
+**Апгрейды:** `gc_ach_upgrade_towerattspeed` (achievement-related, attack speed).
 
 ⚠ Гарнизон-ить пехоту в башню **нельзя** — это другие RTS. В C3 башня сама стреляет.
 
@@ -308,7 +315,7 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 | Ветшание (decay) | **Нет.** Здания теряют HP только от damage. Ни константы `gc_decay`, ни вызовов `_hp_decay` в скриптах не существует. |
 | Можно ли восстановить здание после HP=0 | **Нет.** `OnDeath` вызывает `_unit_DestroyObj` — здание удаляется. Мэш `<sid>_death1a/2a` — визуальные руины, не игровой объект. Только новое foundation. |
 | Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` (`miscext.script:1018`). Per-building override не найден. |
-| Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` даёт full refund. **Foundation (Del):** добавляется в `deluids`, refund foundation cost в коде не найден — скорее всего **не возвращается**. |
+| Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` (`unit.script:5891-5977`) возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в момент заказа. То есть возвращается ровно столько, сколько было списано. **Foundation (отмена кнопкой):** GUI-обработчик `_misc_GUICancelBuilding` (`miscext2.script:3898-3953`) вызывает только `GameObjectDestroyByHandle`. Зеркального `_res_AddResToPlayerByIndex` для foundation cost в скриптах нет — обработка возврата 100% потраченных ресурсов делается, видимо, на стороне C++ (поведение в игре подтверждено). |
 
 ## 9. Открытые вопросы
 

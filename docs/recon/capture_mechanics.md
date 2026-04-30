@@ -338,7 +338,7 @@ procedure _misc_CheckCapture(goHnd):
 
 `unit.script:2224, 2540` — все башни (`commonsid+'tow'`, `misblg`, `misblg2`) имеют **`bcapture=False`**.
 - Они НЕ вызывают `_misc_CheckCapture` после постройки.
-- Гарнизон внутри (`pObjInside`) при разрушении башни умирает вместе со зданием (cf. `miscext.script:451-459`).
+- У башни нет garrison-слотов (`peasantabsorber=0`, `transport=0`, см. `unit.script:2223-2224` и [`5.3 Tower`](building_mechanics.md#53-tower--built-in-cannon) в `building_mechanics.md`), поэтому вопрос «что происходит с гарнизоном при разрушении» к башне неприменим. Для прочих зданий с `peasantabsorber>0` или `transport>0` (центр, казармы, корабли-транспорты) при разрушении срабатывает `_unit_DestroyObj` (`miscext2.script:4232-4242`), который вызывает `_unit_DoUnitsGoOutside(list, bDead=True, ...)`. В этом режиме процедура (`unit.script:4559-4564`) устанавливает `essential_death` каждому юниту в списке — то есть содержимое убивается одновременно со зданием.
 - **Исключение:** во время стройки (когда `arg_obj.bbuilt=False`), любое здание проверяется на захват (`building.inc\nothing.inc:300`). Поэтому **недостроенную башню можно захватить** обычным infantry-юнитом подходом ближе 4 тайлов.
 
 ---
