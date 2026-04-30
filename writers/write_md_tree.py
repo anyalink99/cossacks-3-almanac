@@ -297,102 +297,134 @@ def write_readme(data: dict) -> None:
     out = []
     A = out.append
     e = data["economy"]
-    A("# Cossacks 3 Reference\n")
+    A("# Справочник по Cossacks 3\n")
     banner = _version_banner(data)
     if banner:
         A(banner + "\n")
-    A("Структурированный справочник по игре, извлечённый напрямую из её скриптов "
-      "(`unit.script`, `country.script`, `dmscript.global`, локали). Здесь — главы "
-      "по темам, по одному cheatsheet на нацию и сравнения юнитов одного класса. "
-      "Все цифры — `docs/data.json` (источник правды), регенерируется через "
-      "`python parser/build_data.py`.\n")
-    A("---\n")
+    A("Структурированный справочник по игре. Все числа извлечены напрямую из "
+      "её скриптов (`unit.script`, `country.script`, `dmscript.global`, "
+      "файлы локали) и лежат в [`../data.json`](../data.json); этот каталог "
+      "— человеко-читаемый рендер.\n")
+    A("Что внутри:\n")
+    A("- **7 глав по темам** — экономика, бой, здания, юниты, апгрейды, "
+      "рынок, флот.")
+    A("- **Cheatsheet'ы наций** — отдельная страница на каждую из 21 "
+      "играбельных, с уникальными юнитами, аномалиями и доступом к 18 веку.")
+    A("- **Сравнения** — side-by-side таблицы по классам юнитов (все "
+      "пикинёры, все мушкетёры 18 в. и т. д.).")
+    A("- **Шпаргалка по формулам** ниже на этой странице, плюс глоссарий "
+      "ключевых игровых тегов.")
+    A("\n---\n")
 
-    # Navigation FIRST — what the reader actually wants on landing
-    A("## С чего начать\n")
+    # ─── Навигация ─────────────────────────────────────────────────────
+    A("## Навигация\n")
     A("**Главы по темам:**\n")
     A("| Глава | О чём |")
     A("|---|---|")
-    A("| [01_economy.md](01_economy.md) | Добыча ресурсов: формулы, eff, шахты, поля, голод/upkeep, рыбалка |")
-    A("| [02_combat.md](02_combat.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица |")
-    A("| [03_buildings.md](03_buildings.md) | Все здания (per-nation + общие), цены, footprint |")
-    A("| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли |")
-    A("| [05_upgrades.md](05_upgrades.md) | Все апгрейды по местам исследования |")
-    A("| [06_market.md](06_market.md) | Рынок, курсы обмена, first-mover advantage, деградация |")
-    A("| [07_naval.md](07_naval.md) | Морской флот: порт, корабли, транспорт, рыболов, особые DLC. |")
+    A("| [01_economy.md](01_economy.md) | Добыча ресурсов: формулы, `eff`, шахты, поля, голод и upkeep, рыбалка. |")
+    A("| [02_combat.md](02_combat.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица. |")
+    A("| [03_buildings.md](03_buildings.md) | Все здания (национальные и общие), цены, footprint. |")
+    A("| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли. |")
+    A("| [05_upgrades.md](05_upgrades.md) | Все апгрейды, сгруппированы по месту исследования. |")
+    A("| [06_market.md](06_market.md) | Рынок: курсы обмена, преимущество первого хода, деградация цен. |")
+    A("| [07_naval.md](07_naval.md) | Морской флот: порт, корабли, транспорт, рыболов, DLC-юниты. |")
     A("")
-    A("**Лукапы:**\n")
-    A("- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).")
-    A("- [compare/](compare/README.md) — side-by-side сравнения юнитов одного класса (все мушкетёры 17 в., все драгуны и т.д.).")
-    A("- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) — все опции лобби с каноничными русскими названиями (карта, ресурсы, время мира, переход в 18 век, захват, рынок и дипцентр, лимит населения, скорость, сложность ИИ); поведение движка по каждой опции — в [`../recon/game_settings.md`](../recon/game_settings.md).")
+    A("**Указатели по объектам:**\n")
+    A("- [`nations/`](nations/README.md) — по одному cheatsheet'у на каждую "
+      "из 21 наций (что у неё уникального).")
+    A("- [`compare/`](compare/README.md) — side-by-side сравнения юнитов "
+      "одного класса (все мушкетёры 17 в., все драгуны и т. д.).")
+    A("- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) "
+      "— все опции лобби с каноничными русскими названиями. Поведение "
+      "движка по каждой опции — в "
+      "[`../recon/game_settings.md`](../recon/game_settings.md).")
     A("")
-    A("**Расчёты и симуляции (рядом, в соседних каталогах):**\n")
-    A("- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.")
-    A("- [`../simulations/`](../simulations/README.md) — таймлайны экономики по конкретным build order'ам (выходы симулятора).")
-    A("- [`../recon/`](../recon/README.md) — глубокие исследования механик (добыча, постройка, RNG, тики, server sync, генерация карт).")
-    A("- [`../derived/`](../derived/) — машинно-читаемые JSON-датасеты (tech_tree.json и др.).")
-    A("- [`../data.json`](../data.json) — сырой JSON (~4.7 MB), вход для всех writer-скриптов.")
+    A("**Где искать остальное:**\n")
+    A("| Каталог | Что внутри |")
+    A("|---|---|")
+    A("| [`../reports/`](../reports/README.md) | Производные расчёты: DPS, EHP, counter matrix, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты. |")
+    A("| [`../simulations/`](../simulations/README.md) | Таймлайны экономики по конкретным build order'ам (выходы симулятора). |")
+    A("| [`../recon/`](../recon/README.md) | Handwritten reverse-engineering механик: добыча, постройка, RNG, тики, server sync, генерация карт. |")
+    A("| [`../derived/`](../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |")
+    A("| [`../architecture.md`](../architecture.md) | Поток данных в проекте: что из чего рождается. |")
+    A("| [`../data.json`](../data.json) | Мастер-структура (~4.7 МБ). Вход для всех writer'ов и compute-скриптов. |")
     A("\n---\n")
 
-    # Quick reference — formulas grouped by topic
-    A("## Краткая справка\n")
-    A("### Добыча\n")
-    A("| Ресурс | Порция / рейс | Hits до сдачи | Идеальный rate (1 крестьянин, eff=100, без дороги) |")
+    # ─── Шпаргалка по формулам ─────────────────────────────────────────
+    A("## Шпаргалка по формулам\n")
+    A("Канонические формулы, на которые опираются все остальные числа. "
+      "Если что-то в таблицах ниже расходится с твоими ожиданиями — "
+      "сначала проверь эту шпаргалку: расхождение в правом столбце "
+      "обычно объясняется одной из формул здесь.\n")
+
+    A("### Добыча ресурсов\n")
+    A("| Ресурс | Порция / рейс | Ударов до сдачи | Идеальный rate (1 крестьянин, `eff = 100`, без дороги) |")
     A("|---|---:|---:|---:|")
     A(f"| food | **{e['resource_portion_food']}** | {e['hits_needed_food']} | ≈ 2.97 / g-сек |")
     A(f"| wood | **{e['resource_portion_wood']}** | {e['hits_needed_wood']} | ≈ 3.56 / g-сек |")
     A(f"| stone | **{e['resource_portion_stone']}** | {e['hits_needed_stone']} | ≈ 3.56 / g-сек |")
-    A(f"| gold / iron / coal | **{e['resource_portion_others']}** (хардкод) | n/a | через шахту: 1.664 / крестьянин / g-сек (база, без апгрейдов) |")
+    A(f"| gold / iron / coal | **{e['resource_portion_others']}** (хардкод) | n/a | через шахту: 1.664 на крестьянина в g-сек (без апгрейдов) |")
     A("")
-    A("**Формула:** `delivered = (portion × eff) / 100` (целочисленное деление). `eff` стартует со 100; апгрейды (mill, academy, blacksmith) накапливаются аддитивно.\n")
-    A("### Бой\n")
+    A("`delivered = floor(portion × eff / 100)`. `eff` стартует со 100; "
+      "апгрейды (`mill.X`, `aca.X`, `bla.X`) добавляются **аддитивно**. "
+      "Подробности — [01_economy.md](01_economy.md).\n")
+
+    A("### Урон в бою\n")
     A("```")
     A("applied = max(1, weapon.damage")
-    A("                 − target.shield                 # /3 если здание ещё строится")
+    A("                 − target.shield                # / 3, если здание ещё строится")
     A("                 − target.protection[weapon.kind]")
-    A("                 + бонусы отряда (формация LINE/SQUARE/KARE: +2..+7)")
-    A("                 + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow/bullet")
-    A("                                                  по не-зданиям, кроме fasthorse в движении)")
+    A("                 + бонусы отряда (LINE / SQUARE / KARE: +2..+7)")
+    A("                 + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow / bullet")
+    A("                                                по не-зданиям, кроме fasthorse в движении)")
     A("```")
-    A("Минимум 1 hp. Подробности — в [02_combat.md → Хедшот](02_combat.md#хедшот-критический-удар--главная-скрытая-механика). "
+    A("Минимум 1 HP проходит всегда. Подробности — "
+      "[02_combat.md → Хедшот](02_combat.md#хедшот--критический-удар-главная-скрытая-механика). "
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
-    A("### Цены и масштабирование\n")
-    A("- **N-й экземпляр здания того же типа:** `cost(N) = floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 — в [`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md).")
-    A("- **N строителей:** реальное время постройки = `buildtime × 1.13 / N` (cap = builder slots, см. [`../reports/economy/builder_slots.md`](../reports/economy/builder_slots.md)).")
-    A("- **Real-time @ fast:** `real_sec = game_sec / 1.4`. Game speeds: slow=7, normal=10, fast=14 тиков/сек.")
-    A("\n### Ключевые константы\n")
-    A(f"- **Время:** `gc_time_to_frames = {e['time_to_frames']}` — 32 кадра в одной игровой секунде.")
-    A(f"- **Pixels-to-tile:** `{e['pixels_to_tile']:.4f}` — для перевода weapon.range из пикселей в тайлы (например, 800 px = 15 тайлов).")
-    A(f"- **Лимиты карты:** {e['max_obj_count']} объектов всего, {e['max_player_count']} игроков.")
-    A(f"- **Поле:** HP = {e['field_max_hp']}. Шахта база: 5 крестьян, 1.664 ресурса / g-сек на каждого.")
+
+    A("### Цены и время\n")
+    A("- **N-й экземпляр здания того же типа:** "
+      "`cost(N) = floor(base × (costpercent / 100)^(N-1))`. "
+      "Готовые таблицы N = 1..6 — в "
+      "[`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md).")
+    A("- **Время постройки с N строителями:** "
+      "`buildtime_sec × 1.13 / N`. Лимит N — builder slots здания (см. "
+      "[`../reports/economy/builder_slots.md`](../reports/economy/builder_slots.md)).")
+    A("- **Real-time на скорости fast:** `real_sec = g-sec / 1.4`. "
+      "Скорости: slow = 7, normal = 10, fast = 14 тиков на реальную секунду.")
+    A("- **`buildtime` зданий хранится с множителем 10:** "
+      "`g-sec = frames × 10 / 32`, у юнитов — `frames / 32`. "
+      "В `data.json` поле `building.buildtime_sec` уже учитывает ×10.\n")
+
+    A("### Ключевые константы\n")
+    A(f"- `gc_time_to_frames = {e['time_to_frames']}` — 32 кадра в одной игровой секунде.")
+    A(f"- `gc_pixels_to_tile = {e['pixels_to_tile']:.4f}` — перевод `weapon.range` из пикселей в тайлы (например, 800 px = 15 тайлов).")
+    A(f"- Лимиты карты: **{e['max_obj_count']}** объектов всего, **{e['max_player_count']}** игроков.")
+    A(f"- Поле: HP = **{e['field_max_hp']}**. Шахта без апгрейдов — 5 крестьян, 1.664 ресурса / g-сек на каждого.")
     A("\n---\n")
 
-    # Glossary
+    # ─── Глоссарий ─────────────────────────────────────────────────────
     out.extend(render_template("reference/readme/glossary.md"))
     A("\n---\n")
 
-    # Meta footer: sanity, stats, discrepancies, principles
+    # ─── Что в данных ──────────────────────────────────────────────────
     sanity = data.get("sanity_checks", [])
     n_pass = sum(1 for c in sanity if c["pass"])
-    A(f"## Стат и проверки\n")
-    A(f"- **Sanity checks:** **{n_pass}/{len(sanity)} PASS** (полный список — лист `Sanity_checks` в xlsx).")
-    A(f"- **Нации:** {len(data['nations'])} играбельных.")
-    A(f"- **Здания:** {len(data['buildings'])} строк (sid×nation).")
-    A(f"- **Юниты:** {len(data['units'])} строк.")
-    A(f"- **Апгрейды:** {len(data['upgrades'])} строк (с полностью разрешёнными cost / value / itype / prereqs).")
-    A(f"- **Офицеры/формации:** {len(data.get('officers', []))} групп.")
+    A("## Что в данных\n")
+    A("Источник всех чисел — `docs/data.json`, генерируется "
+      "`python parser/build_data.py`. После каждой регенерации прогоняются "
+      "автоматические проверки.\n")
+    A("| Что | Сколько |")
+    A("|---|---:|")
+    A(f"| Sanity checks (PASS / всего) | **{n_pass} / {len(sanity)}** |")
+    A(f"| Играбельных наций | {len(data['nations'])} |")
+    A(f"| Зданий (`sid` × нация) | {len(data['buildings'])} |")
+    A(f"| Юнитов | {len(data['units'])} |")
+    A(f"| Апгрейдов с полностью разрешёнными `cost / value / itype / prereqs` | {len(data['upgrades'])} |")
+    A(f"| Групп офицеров и формаций | {len(data.get('officers', []))} |")
     A("")
-    discrepancies = data.get("discrepancies", [])
-    if discrepancies:
-        A("## Расхождения с внешними источниками\n")
-        A("Несколько чисел в этом справочнике отличаются от того, что встречается в чужих гайдах "
-          "и калькуляторах. Источник истины — игровые скрипты; расхождения помечаем явно.\n")
-        A("| Факт | Где видели | В файле игры |")
-        A("|---|---|---|")
-        for d in discrepancies:
-            A(f"| {d['fact']} | {d['user_note']} | **{d['file_value']}** |")
-        A("\nДетали и обоснования — в [01_economy.md → Discrepancies](01_economy.md#discrepancies-расхождения-с-промпт-заметками).\n")
-    out.extend(render_template("reference/readme/principles.md"))
+    A("Известные парсерные пробелы и расхождения с внешними гайдами — в "
+      "[`../known_issues.md`](../known_issues.md).")
 
     write_md(TREE_ROOT / "README.md", out)
 
@@ -1583,33 +1615,33 @@ def write_compare(data: dict) -> None:
               f"| {r['uniqueness'] or '—'} |")
         write_md(cmp_dir / filename, out)
 
-    write_unit_compare("pikemen.md", ["Pikemen 17c"], "Пикинеры 17 век",
-                        "Базовая пехота ближнего боя с пиками. Эффективна против кавалерии (высокая защита от cannister).")
-    write_unit_compare("pikemen18.md", ["Pikemen 18c"], "Пикинеры 18 век",
-                        "Поздние пикинеры с улучшенной бронёй.")
+    write_unit_compare("pikemen.md", ["Pikemen 17c"], "Пикинёры (17 в.)",
+                        "Базовая пехота ближнего боя с пиками. Эффективна против кавалерии — высокая защита от картечи.")
+    write_unit_compare("pikemen18.md", ["Pikemen 18c"], "Пикинёры (18 в.)",
+                        "Поздние пикинёры с улучшенной бронёй.")
     write_unit_compare("light_infantry.md", ["Light Infantry"], "Лёгкая пехота",
-                        "Лёгкая пехота с мечом/саблей. Дешевле пикинеров, слабее против кавалерии.")
-    write_unit_compare("musketeers17.md", ["Musketeers 17c"], "Мушкетёры 17 век",
-                        "Стрелки с пулевым оружием. У каждой нации свой вариант. Стрелец (rus), Янычар (tur), Сердюк (ukr).")
-    write_unit_compare("musketeers18.md", ["Musketeers 18c"], "Мушкетёры 18 век",
+                        "Лёгкая пехота с мечом или саблей. Дешевле пикинёров, но слабее против кавалерии.")
+    write_unit_compare("musketeers17.md", ["Musketeers 17c"], "Мушкетёры (17 в.)",
+                        "Стрелки с пулевым оружием. У каждой нации свой вариант: Стрелец (rus), Янычар (tur), Сердюк (ukr).")
+    write_unit_compare("musketeers18.md", ["Musketeers 18c"], "Мушкетёры (18 в.)",
                         "Поздние мушкетёры — выше урон, лучше броня.")
     write_unit_compare("grenadiers.md", ["Grenadiers"], "Гренадёры",
-                        "Метатели гранат + мушкет. Против зданий и башен.")
+                        "Гранаты плюс мушкет. Эффективны против зданий и башен.")
     write_unit_compare("archers.md", ["Archers"], "Лучники",
-                        "Лук/стрелы. Выгоднее против тяжёлой пехоты с низкой защитой от стрел.")
+                        "Лук и стрелы. Выгоднее всего против тяжёлой пехоты с низкой защитой от стрел.")
     write_unit_compare("light_cavalry.md", ["Light Cavalry"], "Лёгкая кавалерия",
-                        "Лёгкая конница с саблей/копьём, fasthorse speed=96.")
+                        "Лёгкая конница с саблей или копьём; `fasthorse speed = 96`.")
     write_unit_compare("dragoons.md", ["Dragoons"], "Драгуны",
-                        "Конные стрелки. Тактика «ударь и беги».")
+                        "Конные стрелки. Основная тактика — «ударь и отойди».")
     write_unit_compare("heavy_cavalry.md", ["Heavy Cavalry"], "Тяжёлая кавалерия",
                         "Reiter, Cuirassier, Vityaz, Winged Hussar — таран.")
     write_unit_compare("siege.md", ["Cannons", "Mortars"], "Артиллерия",
-                        "Пушка (cannonball/cannister), мортира (против зданий). Speed=20-24.")
+                        "Пушка (ядро + картечь), мортира (для разрушения зданий). `speed = 20..24`.")
     write_unit_compare("ships.md", ["Fishing Boat", "Warships"], "Корабли",
-                        "Морские юниты. Рыбацкая лодка для еды, военные корабли — для морского боя.")
+                        "Морские юниты. Рыбацкая лодка добывает рыбу; военные корабли ведут морской бой.")
     write_unit_compare("peasants.md", ["Peasant"], "Крестьяне",
-                        "8 типов крестьян (peaaus/peaeng/peapol/pearus/peaspa/peatur/peaukr/peasco). "
-                        "Различия во внешности и стартовых HP.")
+                        "8 типов крестьян (`peaaus` / `peaeng` / `peapol` / `pearus` / `peaspa` / "
+                        "`peatur` / `peaukr` / `peasco`) — отличаются внешним видом и стартовыми HP.")
 
     # Weapons catalog (projectile-level data)
     out = []

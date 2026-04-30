@@ -24,7 +24,7 @@ templates/
 ├── reference/                 ← все блоки для docs/reference/*
 │   ├── readme/                ← главный README справочника
 │   │   ├── glossary.md        ← глоссарий игровых тегов (sid, eff, bnohungry, …)
-│   │   └── principles.md      ← четыре принципа справочника
+│   │   (principles.md убран — принципы переехали в CONTRIBUTING.md и docs/architecture.md)
 │   │
 │   ├── 01_economy/            ← блоки для 01_economy.md
 │   │   ├── recon_refs.md      ← блок «Глубокие исследования по этой главе»
@@ -80,7 +80,7 @@ templates/
 | Output | Writer | Шаблоны |
 |---|---|---|
 | `docs/README.md` | `write_md_tree.py:write_top_inventory` | `output_readme.md` |
-| `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md`, `reference/readme/principles.md` |
+| `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md` |
 | `docs/reference/01_economy.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
 | `docs/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
 | `docs/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/legend.md` |

@@ -1,4 +1,4 @@
-# Мушкетёры 18 век
+# Мушкетёры (18 в.)
 
 [← compare/](README.md) · [← Index](../README.md)
 
