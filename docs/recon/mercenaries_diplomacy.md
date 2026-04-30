@@ -1,17 +1,39 @@
-# Дипломатические центры и наёмники
+# Recon: дипломатические центры и наёмники
 
-Реверс-инжиниринг по `data/scripts/lib/{unit,country,player}.script`,
-`data/scripts/units/unit.inc/nothing.inc` и `data/scripts/dmscript.global`
-(путь установки см. `reference_game_path.md`). Перекрёстные ссылки:
+Реверс-инжиниринг по `data/scripts/lib/{unit, country, player}.script`,
+`data/scripts/units/unit.inc/nothing.inc` и `data/scripts/dmscript.global`.
 
-- [peasant_extraction.md](peasant_extraction.md) — семантика флага `bnohungry`; наёмники имеют **bnohungry := True** (не потребляют пищу).
-- [building_mechanics.md](building_mechanics.md) — footprint и модель постройки дипломатических зданий.
-- [server_sync_architecture.md](server_sync_architecture.md) — переназначение через `_misc_ChangePlayer` — это server-authoritative событие.
-- [determinism_audit.md](determinism_audit.md) — переход наёмников при бунте использует `_misc_RandomInt` → seeded RNG.
+**Связанные документы:**
+
+- [peasant_extraction.md](peasant_extraction.md) — семантика флага
+  `bnohungry`; у наёмников он `True` — пищу они не едят.
+- [building_mechanics.md](building_mechanics.md) — footprint и модель
+  постройки дипломатического центра.
+- [server_sync_architecture.md](server_sync_architecture.md) —
+  переназначение наёмников при бунте идёт через `_misc_ChangePlayer`,
+  это server-authoritative событие.
+- [determinism_audit.md](determinism_audit.md) — переход при бунте
+  использует `_misc_RandomInt` (seeded RNG).
 
 ## TL;DR
 
-Дипломатический центр (`<nat>dip`) — мид-гейм здание у каждой нации (цена ~6.6k wood+stone, 4500 HP, требует `<nat>aca` Академию + `<nat>cen` Городской центр), производящее 6 базовых + 2 EarlyBird-DLC наёмников. Список **идентичен для всех 21 нации** — статы наёмников не зависят от нации, варьируется только sid юнита. Наёмники нанимаются исключительно за **золото**, имеют флаг **bnohungry** (не едят пищу), но непрерывно потребляют **золото на юнита**. Когда у игрока заканчивается золото *и* `resconsume[gold] > resincome[gold]`, выставляется `brebellion := True`; на каждом Nothing-тике каждый наёмник в собственности игрока имеет шанс перейти к глобальному NPC-слоту "наёмник" (`gc_player_mercenaryind = MaxPlayerCount-1`): ~0.3% easy / 0.6% normal / **18.3% hard и выше**. Этот NPC всегда враждебен всем реальным игрокам.
+- **Дипломатический центр** (`<nat>dip`) — мид-гейм здание у каждой из
+  21 наций. Цена ≈ 6.6k wood + stone, 4500 HP, пререквизиты — Академия
+  и Городской центр.
+- Производит **8 наёмников** (6 базовых + 2 из Early Bird-DLC). Каталог
+  **одинаковый у всех наций** — статы юнитов не зависят от того, кто их
+  нанимает; меняется только `sid`.
+- Наёмник стоит **только золото** при найме, флаг `bnohungry = True`
+  (пищу не ест), но **постоянно потребляет золото** в качестве upkeep
+  (`consume.gold > 0`).
+- Когда у игрока кончилось золото **и** `resconsume[gold] > resincome[gold]`,
+  поднимается флаг `brebellion`. На каждом Nothing-тике каждый наёмник
+  имеет шанс перейти к глобальному NPC-слоту «наёмник»
+  (`gc_player_mercenaryind = MaxPlayerCount - 1`):
+  - **easy:** 0.3% за тик
+  - **normal:** 0.6% за тик
+  - **hard и выше:** 18.3% за тик
+- Этот NPC-слот всегда враждебен ко всем реальным игрокам.
 
 ---
 
