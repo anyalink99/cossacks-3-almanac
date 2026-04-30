@@ -25,7 +25,9 @@ from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from config import (OUTPUT_DIR, PLAYABLE_NATIONS, _commonname, DATA_JSON, REFERENCE_DIR,
-                    MELEE_SWING_FALLBACK_SEC, melee_swing_sec)
+                    MELEE_SWING_FALLBACK_SEC, melee_swing_sec,
+                    USAGE_RU, NATION_NAMES_RU, NATION_NAMES_EN, nation_ru, nation_label,
+                    usage_ru)
 
 DATA_PATH = DATA_JSON
 TREE_ROOT = REFERENCE_DIR
@@ -229,50 +231,13 @@ CLASS_RU = {
     "Other":                 "Прочее",
 }
 
-# Map of `usage_short` (from data.json — values that come from the game's
-# `gc_obj_usage_*` constants) → Russian label for in-table display.
-USAGE_RU = {
-    "Peasant":          "Крестьянин",
-    "Officer":          "Офицер",
-    "Priest":           "Священник",
-    "Drummer":          "Барабанщик",
-    "Bagpiper":         "Волынщик",
-    "Pikeman":          "Пикинёр",
-    "Musketeer":        "Мушкетёр",
-    "Grenadier":        "Гренадёр",
-    "Archer":           "Лучник",
-    "Light Infantry":   "Лёгкая пехота",
-    "Light Infantryman": "Лёгкий пехотинец",
-    "Shooter":          "Стрелок",
-    "Light Cavalry":    "Лёгкая кавалерия",
-    "Heavy Cavalry":    "Тяжёлая кавалерия",
-    "Mounted Shooter":  "Конный стрелок",
-    "Dragoon":          "Драгун",
-    "Cannon":           "Пушка",
-    "Mortar":           "Мортира",
-    "Super Mortar":     "Сверхмортира",
-    "Multi-cannon":     "Многоствольная пушка",
-    "Fisher":           "Рыболов",
-    "Fishing Boat":     "Рыбацкая лодка",
-    "Yacht":            "Яхта",
-    "Galley":           "Галера",
-    "Frigate":          "Фрегат",
-    "Xebec":            "Шебека",
-    "Battleship":       "Линейный корабль",
-    "Ferry":            "Паром",
-}
+# `USAGE_RU` (English `usage_short` → Russian) is imported from `parser/config.py`
+# so this writer and all `compute/*.py` reports stay in lock-step.
 
 
 def cls_ru(cls: str) -> str:
-    """Russian label for a classify_unit() class key. Falls back to the key."""
+    """Russian label for a `classify_unit()` class key. Falls back to the key."""
     return CLASS_RU.get(cls, cls)
-
-
-def usage_ru(usage_short: str | None) -> str:
-    """Russian label for a unit's usage_short. Falls back to the input."""
-    if not usage_short:
-        return "—"
-    return USAGE_RU.get(usage_short, usage_short)
 
 
 def classify_unit(sid: str, usage_short: str) -> str:
@@ -359,7 +324,7 @@ def write_readme(data: dict) -> None:
     A("**Лукапы:**\n")
     A("- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).")
     A("- [compare/](compare/README.md) — side-by-side сравнения юнитов одного класса (все мушкетёры 17 в., все драгуны и т.д.).")
-    A("- [`../recon/game_settings.md`](../recon/game_settings.md) — все опции лобби (карта, ресурсы, peacetime, century18, capture, marketdip, лимит населения, скорость, сложность ИИ).")
+    A("- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) — все опции лобби с каноничными русскими названиями (карта, ресурсы, время мира, переход в 18 век, захват, рынок и дипцентр, лимит населения, скорость, сложность ИИ); поведение движка по каждой опции — в [`../recon/game_settings.md`](../recon/game_settings.md).")
     A("")
     A("**Расчёты и симуляции (рядом, в соседних каталогах):**\n")
     A("- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.")
@@ -458,7 +423,7 @@ def write_economy(data: dict) -> None:
     A(f"| `gc_obj_foodperunit` | {e['food_per_unit_upkeep']} food / юнит | dmscript.global:808 |")
     A(f"| Default `eff` | {e['default_eff_percent']}% | player.script:109 |")
     A("")
-    A("Полная сводка лобби-опций партии (стартовые ресурсы, peacetime, лимит населения, century18, сложность ИИ и т. д.) — [`docs/recon/game_settings.md`](../recon/game_settings.md).\n")
+    A("Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/game_settings.md`](../recon/game_settings.md).\n")
     A("## Базовые порции и hits\n")
     A("| Ресурс | Базовая порция | Hits | Источник |")
     A("|---|---:|---:|---|")
@@ -481,7 +446,7 @@ def write_economy(data: dict) -> None:
         cumulative += u.get("value") or 0
         A(f"| {u['sid']} | +{u['value']} | {u['food']} | {u['gold']} | {cumulative} |")
     A(f"\n**Итого:** 5 базовых + 6 апгрейдов = **{cumulative} крестьян/шахта = "
-      f"{cumulative * 1.664:.1f} ресурса/игр-сек = {cumulative * 99.84:.0f} / игр-мин**.\n")
+      f"{cumulative * 1.664:.1f} ресурса в g-сек = {cumulative * 99.84:.0f} в g-мин**.\n")
     total_food_cost = sum(u['food'] for u in mine_ups)
     total_gold_cost = sum(u['gold'] for u in mine_ups)
     A(f"**Стоимость полной прокачки одной шахты:** F{total_food_cost:,} + G{total_gold_cost:,}.\n")
@@ -647,7 +612,7 @@ def write_combat(data: dict) -> None:
           f"| {fmt(a['pause_sec']) if a else '—'} | {a['kind'] if a else '—'} "
           f"| {d_str} | {fmt(d['hp']) if d else '—'} | {fmt(d['shield']) if d else '—'} |")
     A("")
-    A(f"### Матрица контр-эффективности — TTK в игр-сек\n")
+    A(f"### Матрица контр-эффективности — TTK в g-сек\n")
     A("Строки = **атакующий**. Колонки = **защищающийся**. Ячейка = TTK (game-sec). "
       "Зелёные/низкие = атакующий быстро убивает; красные/высокие = защитник долго стоит.\n")
     header = "| Atk \\ Def | " + " | ".join(short_names[c] for c in BATTLE_CLASSES) + " |"

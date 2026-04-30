@@ -18,7 +18,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, DERIVED_DIR, REPORTS_DIR, PEASANT_ANIM_SEC, REPORTS_ECONOMY_DIR
+from config import (DATA_JSON, DERIVED_DIR, REPORTS_DIR, PEASANT_ANIM_SEC,
+                    REPORTS_ECONOMY_DIR, nation_label)
 
 OUT_PATH = REPORTS_ECONOMY_DIR / "construction_times.md"
 BUILDER_SLOTS_JSON = DERIVED_DIR / "builder_slots.json"
@@ -125,7 +126,7 @@ def main():
     L.append("")
 
     for nat in nations:
-        L.append(f"## {nat}")
+        L.append(f"## {nation_label(nat)}")
         L.append("")
         L.append("### Постройка с нуля")
         L.append("")

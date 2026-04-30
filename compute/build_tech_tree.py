@@ -25,7 +25,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, REPORTS_DIR, DERIVED_DIR, REPORTS_ECONOMY_DIR, REPORTS_TECH_DIR
+from config import (DATA_JSON, REPORTS_DIR, DERIVED_DIR, REPORTS_ECONOMY_DIR,
+                    REPORTS_TECH_DIR, nation_label)
 DATA_PATH = DATA_JSON
 TREE_JSON = DERIVED_DIR / "tech_tree.json"  # JSON → derived/
 TREE_MD = REPORTS_TECH_DIR / "tech_tree.md"
@@ -259,16 +260,17 @@ def write_tree_md(tree: dict):
     for nat in nations_sorted:
         nt = tree["nations"][nat]
         has_ug = any(ug["prereqs"] for ug in nt["upgrades"].values())
+        anchor = heading_anchor(nation_label(nat))
         bld_link = f"[здания](#{heading_anchor(nat + ' — здания')})"
         unit_link = f"[юниты](#{heading_anchor(nat + ' — юниты')})"
         ug_link = (f"[апгрейды](#{heading_anchor(nat + ' — ключевые апгрейды (с зависимостями)')})"
                    if has_ug else "—")
-        L.append(f"| **[{nat}](#{nat})** | {bld_link} | {unit_link} | {ug_link} |")
+        L.append(f"| **[{nation_label(nat)}](#{anchor})** | {bld_link} | {unit_link} | {ug_link} |")
     L.append("")
 
     for nat in nations_sorted:
         nt = tree["nations"][nat]
-        L.append(f"## {nat}")
+        L.append(f"## {nation_label(nat)}")
         L.append("")
         # Buildings
         L.append(f"### `{nat}` — здания")
@@ -356,11 +358,12 @@ def write_production_rates_md(data: dict):
             f"[`{b['sid']}`](#{heading_anchor(b['sid'] + ' — ' + name_ru_en(b))})"
             for b in sorted(bldgs, key=lambda x: x["sid"])
         )
-        L.append(f"- **[{nat}](#{nat})** — {bld_links}")
+        anchor = heading_anchor(nation_label(nat))
+        L.append(f"- **[{nation_label(nat)}](#{anchor})** — {bld_links}")
     L.append("")
 
     for nat in nations:
-        L.append(f"## {nat}")
+        L.append(f"## {nation_label(nat)}")
         L.append("")
         # All buildings for this nation that have a `produces` list
         bldgs = [b for b in data["buildings"] if b["nation"] == nat and (b.get("produces") or [])]
@@ -390,7 +393,7 @@ def write_production_rates_md(data: dict):
     L.append("## Замечания")
     L.append("")
     L.append("1. **farm = 1 для каждого юнита** — каждый юнит занимает 1 слот популяции (контролируется `gPlayer.farm`). Зданиям, увеличивающим лимит — `cen=+100, hou=+25, bar=+150, ba2=+250` и т.д.")
-    L.append("2. **расход еды** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.")
+    L.append("2. **Расход еды** — потребление еды в одну игровую секунду делится на 32 (см. `gc_obj_foodperunit`). Стандарт — 32 для пехоты, 26 для русских крестьян, 40+ для тяжёлой кавалерии.")
     L.append("3. **При нехватке farm производство останавливается** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.")
     L.append("4. **N зданий = N×rate.** 5 бараков пехотных = 5 × ~13 musketeer/min @ fast = ~65 musketeer/min.")
     RATES_MD.write_text("\n".join(L), encoding="utf-8")

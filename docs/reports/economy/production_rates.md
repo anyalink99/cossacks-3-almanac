@@ -17,29 +17,29 @@
 
 ## Содержание
 
-- **[alg](#alg)** — [`algart`](#algart--артиллерийское-депо), [`algbar`](#algbar--казарма), [`algcen`](#algcen--городской-центр), [`algdip`](#algdip--дипломатический-центр), [`algsta`](#algsta--конюшня), [`algtem`](#algtem--мечеть), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт)
-- **[aus](#aus)** — [`ausart`](#ausart--артиллерийское-депо), [`ausba2`](#ausba2--казарма-18в), [`ausbar`](#ausbar--казарма-17в), [`auscen`](#auscen--городской-центр), [`ausdip`](#ausdip--дипломатический-центр), [`aussta`](#aussta--конюшня), [`austem`](#austem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[bav](#bav)** — [`bavart`](#bavart--артиллерийское-депо), [`bavba2`](#bavba2--казарма-18в), [`bavbar`](#bavbar--казарма-17в), [`bavcen`](#bavcen--городской-центр), [`bavdip`](#bavdip--дипломатический-центр), [`bavsta`](#bavsta--конюшня), [`bavtem`](#bavtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[den](#den)** — [`denart`](#denart--артиллерийское-депо), [`denba2`](#denba2--казарма-18в), [`denbar`](#denbar--казарма-17в), [`dencen`](#dencen--городской-центр), [`dendip`](#dendip--дипломатический-центр), [`densta`](#densta--конюшня), [`dentem`](#dentem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[eng](#eng)** — [`engart`](#engart--артиллерийское-депо), [`engba2`](#engba2--казарма-18в), [`engbar`](#engbar--казарма-17в), [`engcen`](#engcen--городской-центр), [`engdip`](#engdip--дипломатический-центр), [`engsta`](#engsta--конюшня), [`engtem`](#engtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[fra](#fra)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`fraart`](#fraart--артиллерийское-депо), [`fraba2`](#fraba2--казарма-18в), [`frabar`](#frabar--казарма-17в), [`fracen`](#fracen--городской-центр), [`fradip`](#fradip--дипломатический-центр), [`frasta`](#frasta--конюшня), [`fratem`](#fratem--собор)
-- **[hun](#hun)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`hunart`](#hunart--артиллерийское-депо), [`hunba2`](#hunba2--казарма-18в), [`hunbar`](#hunbar--казарма-17в), [`huncen`](#huncen--городской-центр), [`hundip`](#hundip--дипломатический-центр), [`hunsta`](#hunsta--конюшня), [`huntem`](#huntem--собор)
-- **[net](#net)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`netart`](#netart--артиллерийское-депо), [`netba2`](#netba2--казарма-18в), [`netbar`](#netbar--казарма-17в), [`netcen`](#netcen--городской-центр), [`netdip`](#netdip--дипломатический-центр), [`netsta`](#netsta--конюшня), [`nettem`](#nettem--собор)
-- **[pie](#pie)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pieart`](#pieart--артиллерийское-депо), [`pieba2`](#pieba2--казарма-18в), [`piebar`](#piebar--казарма-17в), [`piecen`](#piecen--городской-центр), [`piedip`](#piedip--дипломатический-центр), [`piesta`](#piesta--конюшня), [`pietem`](#pietem--собор)
-- **[pol](#pol)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`polart`](#polart--артиллерийское-депо), [`polba2`](#polba2--казарма-18в), [`polbar`](#polbar--казарма-17в), [`polcen`](#polcen--городской-центр), [`poldip`](#poldip--дипломатический-центр), [`polsta`](#polsta--конюшня), [`poltem`](#poltem--собор)
-- **[por](#por)** — [`eurmil`](#eurmil--мельница), [`porart`](#porart--артиллерийское-депо), [`porba2`](#porba2--казарма-18в), [`porbar`](#porbar--казарма-17в), [`porcen`](#porcen--городской-центр), [`pordip`](#pordip--дипломатический-центр), [`porpor`](#porpor--порт), [`porsta`](#porsta--конюшня), [`portem`](#portem--собор)
-- **[pru](#pru)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pruart`](#pruart--артиллерийское-депо), [`pruba2`](#pruba2--казарма-18в), [`prubar`](#prubar--казарма-17в), [`prucen`](#prucen--городской-центр), [`prudip`](#prudip--дипломатический-центр), [`prusta`](#prusta--конюшня), [`prutem`](#prutem--собор)
-- **[rus](#rus)** — [`rusart`](#rusart--артиллерийское-депо), [`rusba2`](#rusba2--казарма-18в), [`rusbar`](#rusbar--стрелецкая-казарма), [`ruscen`](#ruscen--городской-центр), [`rusdip`](#rusdip--дипломатический-центр), [`rusmil`](#rusmil--мельница), [`ruspor`](#ruspor--порт), [`russta`](#russta--конюшня), [`rustem`](#rustem--православная-церковь)
-- **[sax](#sax)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`saxart`](#saxart--артиллерийское-депо), [`saxba2`](#saxba2--казарма-18в), [`saxbar`](#saxbar--казарма-17в), [`saxcen`](#saxcen--городской-центр), [`saxdip`](#saxdip--дипломатический-центр), [`saxsta`](#saxsta--конюшня), [`saxtem`](#saxtem--собор)
-- **[sco](#sco)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`scoart`](#scoart--артиллерийское-депо), [`scoba2`](#scoba2--замок), [`scobar`](#scobar--казарма-17в), [`scocen`](#scocen--городской-центр), [`scodip`](#scodip--дипломатический-центр), [`scosta`](#scosta--конюшня), [`scotem`](#scotem--собор)
-- **[spa](#spa)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`spaart`](#spaart--артиллерийское-депо), [`spaba2`](#spaba2--казарма-18в), [`spabar`](#spabar--казарма-17в), [`spacen`](#spacen--городской-центр), [`spadip`](#spadip--дипломатический-центр), [`spasta`](#spasta--конюшня), [`spatem`](#spatem--собор)
-- **[swe](#swe)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`sweart`](#sweart--артиллерийское-депо), [`sweba2`](#sweba2--казарма-18в), [`swebar`](#swebar--казарма-17в), [`swecen`](#swecen--городской-центр), [`swedip`](#swedip--дипломатический-центр), [`swesta`](#swesta--конюшня), [`swetem`](#swetem--собор)
-- **[swi](#swi)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`swiart`](#swiart--артиллерийское-депо), [`swiba2`](#swiba2--казарма-18в), [`swibar`](#swibar--казарма-17в), [`swicen`](#swicen--городской-центр), [`swidip`](#swidip--дипломатический-центр), [`swista`](#swista--конюшня), [`switem`](#switem--собор)
-- **[tur](#tur)** — [`turart`](#turart--артиллерийское-депо), [`turbar`](#turbar--казарма), [`turcen`](#turcen--городской-центр), [`turdip`](#turdip--дипломатический-центр), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт), [`tursta`](#tursta--конюшня), [`turtem`](#turtem--мечеть)
-- **[ukr](#ukr)** — [`rusmil`](#rusmil--мельница), [`ukrart`](#ukrart--артиллерийское-депо), [`ukrbar`](#ukrbar--козацкий-дом), [`ukrcen`](#ukrcen--городской-центр), [`ukrdip`](#ukrdip--дипломатический-центр), [`ukrpor`](#ukrpor--порт), [`ukrsta`](#ukrsta--конюшня), [`ukrtem`](#ukrtem--православная-церковь)
-- **[ven](#ven)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`venart`](#venart--артиллерийское-депо), [`venba2`](#venba2--казарма-18в), [`venbar`](#venbar--казарма-17в), [`vencen`](#vencen--городской-центр), [`vendip`](#vendip--дипломатический-центр), [`vensta`](#vensta--конюшня), [`ventem`](#ventem--собор)
+- **[ALG — Algeria (Алжир)](#alg--algeria-алжир)** — [`algart`](#algart--артиллерийское-депо), [`algbar`](#algbar--казарма), [`algcen`](#algcen--городской-центр), [`algdip`](#algdip--дипломатический-центр), [`algsta`](#algsta--конюшня), [`algtem`](#algtem--мечеть), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт)
+- **[AUS — Austria (Австрия)](#aus--austria-австрия)** — [`ausart`](#ausart--артиллерийское-депо), [`ausba2`](#ausba2--казарма-18в), [`ausbar`](#ausbar--казарма-17в), [`auscen`](#auscen--городской-центр), [`ausdip`](#ausdip--дипломатический-центр), [`aussta`](#aussta--конюшня), [`austem`](#austem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
+- **[BAV — Bavaria (Бавария)](#bav--bavaria-бавария)** — [`bavart`](#bavart--артиллерийское-депо), [`bavba2`](#bavba2--казарма-18в), [`bavbar`](#bavbar--казарма-17в), [`bavcen`](#bavcen--городской-центр), [`bavdip`](#bavdip--дипломатический-центр), [`bavsta`](#bavsta--конюшня), [`bavtem`](#bavtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
+- **[DEN — Denmark (Дания)](#den--denmark-дания)** — [`denart`](#denart--артиллерийское-депо), [`denba2`](#denba2--казарма-18в), [`denbar`](#denbar--казарма-17в), [`dencen`](#dencen--городской-центр), [`dendip`](#dendip--дипломатический-центр), [`densta`](#densta--конюшня), [`dentem`](#dentem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
+- **[ENG — England (Англия)](#eng--england-англия)** — [`engart`](#engart--артиллерийское-депо), [`engba2`](#engba2--казарма-18в), [`engbar`](#engbar--казарма-17в), [`engcen`](#engcen--городской-центр), [`engdip`](#engdip--дипломатический-центр), [`engsta`](#engsta--конюшня), [`engtem`](#engtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
+- **[FRA — France (Франция)](#fra--france-франция)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`fraart`](#fraart--артиллерийское-депо), [`fraba2`](#fraba2--казарма-18в), [`frabar`](#frabar--казарма-17в), [`fracen`](#fracen--городской-центр), [`fradip`](#fradip--дипломатический-центр), [`frasta`](#frasta--конюшня), [`fratem`](#fratem--собор)
+- **[HUN — Hungary (Венгрия)](#hun--hungary-венгрия)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`hunart`](#hunart--артиллерийское-депо), [`hunba2`](#hunba2--казарма-18в), [`hunbar`](#hunbar--казарма-17в), [`huncen`](#huncen--городской-центр), [`hundip`](#hundip--дипломатический-центр), [`hunsta`](#hunsta--конюшня), [`huntem`](#huntem--собор)
+- **[NET — Netherlands (Нидерланды)](#net--netherlands-нидерланды)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`netart`](#netart--артиллерийское-депо), [`netba2`](#netba2--казарма-18в), [`netbar`](#netbar--казарма-17в), [`netcen`](#netcen--городской-центр), [`netdip`](#netdip--дипломатический-центр), [`netsta`](#netsta--конюшня), [`nettem`](#nettem--собор)
+- **[PIE — Piedmont (Пьемонт)](#pie--piedmont-пьемонт)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pieart`](#pieart--артиллерийское-депо), [`pieba2`](#pieba2--казарма-18в), [`piebar`](#piebar--казарма-17в), [`piecen`](#piecen--городской-центр), [`piedip`](#piedip--дипломатический-центр), [`piesta`](#piesta--конюшня), [`pietem`](#pietem--собор)
+- **[POL — Poland (Польша)](#pol--poland-польша)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`polart`](#polart--артиллерийское-депо), [`polba2`](#polba2--казарма-18в), [`polbar`](#polbar--казарма-17в), [`polcen`](#polcen--городской-центр), [`poldip`](#poldip--дипломатический-центр), [`polsta`](#polsta--конюшня), [`poltem`](#poltem--собор)
+- **[POR — Portugal (Португалия)](#por--portugal-португалия)** — [`eurmil`](#eurmil--мельница), [`porart`](#porart--артиллерийское-депо), [`porba2`](#porba2--казарма-18в), [`porbar`](#porbar--казарма-17в), [`porcen`](#porcen--городской-центр), [`pordip`](#pordip--дипломатический-центр), [`porpor`](#porpor--порт), [`porsta`](#porsta--конюшня), [`portem`](#portem--собор)
+- **[PRU — Prussia (Пруссия)](#pru--prussia-пруссия)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pruart`](#pruart--артиллерийское-депо), [`pruba2`](#pruba2--казарма-18в), [`prubar`](#prubar--казарма-17в), [`prucen`](#prucen--городской-центр), [`prudip`](#prudip--дипломатический-центр), [`prusta`](#prusta--конюшня), [`prutem`](#prutem--собор)
+- **[RUS — Russia (Россия)](#rus--russia-россия)** — [`rusart`](#rusart--артиллерийское-депо), [`rusba2`](#rusba2--казарма-18в), [`rusbar`](#rusbar--стрелецкая-казарма), [`ruscen`](#ruscen--городской-центр), [`rusdip`](#rusdip--дипломатический-центр), [`rusmil`](#rusmil--мельница), [`ruspor`](#ruspor--порт), [`russta`](#russta--конюшня), [`rustem`](#rustem--православная-церковь)
+- **[SAX — Saxony (Саксония)](#sax--saxony-саксония)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`saxart`](#saxart--артиллерийское-депо), [`saxba2`](#saxba2--казарма-18в), [`saxbar`](#saxbar--казарма-17в), [`saxcen`](#saxcen--городской-центр), [`saxdip`](#saxdip--дипломатический-центр), [`saxsta`](#saxsta--конюшня), [`saxtem`](#saxtem--собор)
+- **[SCO — Scotland (Шотландия)](#sco--scotland-шотландия)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`scoart`](#scoart--артиллерийское-депо), [`scoba2`](#scoba2--замок), [`scobar`](#scobar--казарма-17в), [`scocen`](#scocen--городской-центр), [`scodip`](#scodip--дипломатический-центр), [`scosta`](#scosta--конюшня), [`scotem`](#scotem--собор)
+- **[SPA — Spain (Испания)](#spa--spain-испания)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`spaart`](#spaart--артиллерийское-депо), [`spaba2`](#spaba2--казарма-18в), [`spabar`](#spabar--казарма-17в), [`spacen`](#spacen--городской-центр), [`spadip`](#spadip--дипломатический-центр), [`spasta`](#spasta--конюшня), [`spatem`](#spatem--собор)
+- **[SWE — Sweden (Швеция)](#swe--sweden-швеция)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`sweart`](#sweart--артиллерийское-депо), [`sweba2`](#sweba2--казарма-18в), [`swebar`](#swebar--казарма-17в), [`swecen`](#swecen--городской-центр), [`swedip`](#swedip--дипломатический-центр), [`swesta`](#swesta--конюшня), [`swetem`](#swetem--собор)
+- **[SWI — Switzerland (Швейцария)](#swi--switzerland-швейцария)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`swiart`](#swiart--артиллерийское-депо), [`swiba2`](#swiba2--казарма-18в), [`swibar`](#swibar--казарма-17в), [`swicen`](#swicen--городской-центр), [`swidip`](#swidip--дипломатический-центр), [`swista`](#swista--конюшня), [`switem`](#switem--собор)
+- **[TUR — Turkey (Турция)](#tur--turkey-турция)** — [`turart`](#turart--артиллерийское-депо), [`turbar`](#turbar--казарма), [`turcen`](#turcen--городской-центр), [`turdip`](#turdip--дипломатический-центр), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт), [`tursta`](#tursta--конюшня), [`turtem`](#turtem--мечеть)
+- **[UKR — Ukraine (Украина)](#ukr--ukraine-украина)** — [`rusmil`](#rusmil--мельница), [`ukrart`](#ukrart--артиллерийское-депо), [`ukrbar`](#ukrbar--козацкий-дом), [`ukrcen`](#ukrcen--городской-центр), [`ukrdip`](#ukrdip--дипломатический-центр), [`ukrpor`](#ukrpor--порт), [`ukrsta`](#ukrsta--конюшня), [`ukrtem`](#ukrtem--православная-церковь)
+- **[VEN — Venice (Венеция)](#ven--venice-венеция)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`venart`](#venart--артиллерийское-депо), [`venba2`](#venba2--казарма-18в), [`venbar`](#venbar--казарма-17в), [`vencen`](#vencen--городской-центр), [`vendip`](#vendip--дипломатический-центр), [`vensta`](#vensta--конюшня), [`ventem`](#ventem--собор)
 
-## alg
+## ALG — Algeria (Алжир)
 
 ### `algart` — Артиллерийское депо
 
@@ -107,7 +107,7 @@
 
 [↑ к содержанию](#содержание)
 
-## aus
+## AUS — Austria (Австрия)
 
 ### `ausart` — Артиллерийское депо
 
@@ -193,7 +193,7 @@
 
 [↑ к содержанию](#содержание)
 
-## bav
+## BAV — Bavaria (Бавария)
 
 ### `bavart` — Артиллерийское депо
 
@@ -276,7 +276,7 @@
 
 [↑ к содержанию](#содержание)
 
-## den
+## DEN — Denmark (Дания)
 
 ### `denart` — Артиллерийское депо
 
@@ -359,7 +359,7 @@
 
 [↑ к содержанию](#содержание)
 
-## eng
+## ENG — England (Англия)
 
 ### `engart` — Артиллерийское депо
 
@@ -443,7 +443,7 @@
 
 [↑ к содержанию](#содержание)
 
-## fra
+## FRA — France (Франция)
 
 ### `eurmil` — Мельница
 
@@ -528,7 +528,7 @@
 
 [↑ к содержанию](#содержание)
 
-## hun
+## HUN — Hungary (Венгрия)
 
 ### `eurmil` — Мельница
 
@@ -612,7 +612,7 @@
 
 [↑ к содержанию](#содержание)
 
-## net
+## NET — Netherlands (Нидерланды)
 
 ### `eurmil` — Мельница
 
@@ -695,7 +695,7 @@
 
 [↑ к содержанию](#содержание)
 
-## pie
+## PIE — Piedmont (Пьемонт)
 
 ### `eurmil` — Мельница
 
@@ -778,7 +778,7 @@
 
 [↑ к содержанию](#содержание)
 
-## pol
+## POL — Poland (Польша)
 
 ### `eurmil` — Мельница
 
@@ -863,7 +863,7 @@
 
 [↑ к содержанию](#содержание)
 
-## por
+## POR — Portugal (Португалия)
 
 ### `eurmil` — Мельница
 
@@ -947,7 +947,7 @@
 
 [↑ к содержанию](#содержание)
 
-## pru
+## PRU — Prussia (Пруссия)
 
 ### `eurmil` — Мельница
 
@@ -1031,7 +1031,7 @@
 
 [↑ к содержанию](#содержание)
 
-## rus
+## RUS — Russia (Россия)
 
 ### `rusart` — Артиллерийское депо
 
@@ -1114,7 +1114,7 @@
 
 [↑ к содержанию](#содержание)
 
-## sax
+## SAX — Saxony (Саксония)
 
 ### `eurmil` — Мельница
 
@@ -1198,7 +1198,7 @@
 
 [↑ к содержанию](#содержание)
 
-## sco
+## SCO — Scotland (Шотландия)
 
 ### `eurmil` — Мельница
 
@@ -1274,7 +1274,7 @@
 
 [↑ к содержанию](#содержание)
 
-## spa
+## SPA — Spain (Испания)
 
 ### `eurmil` — Мельница
 
@@ -1358,7 +1358,7 @@
 
 [↑ к содержанию](#содержание)
 
-## swe
+## SWE — Sweden (Швеция)
 
 ### `eurmil` — Мельница
 
@@ -1442,7 +1442,7 @@
 
 [↑ к содержанию](#содержание)
 
-## swi
+## SWI — Switzerland (Швейцария)
 
 ### `eurmil` — Мельница
 
@@ -1526,7 +1526,7 @@
 
 [↑ к содержанию](#содержание)
 
-## tur
+## TUR — Turkey (Турция)
 
 ### `turart` — Артиллерийское депо
 
@@ -1598,7 +1598,7 @@
 
 [↑ к содержанию](#содержание)
 
-## ukr
+## UKR — Ukraine (Украина)
 
 ### `rusmil` — Мельница
 
@@ -1663,7 +1663,7 @@
 
 [↑ к содержанию](#содержание)
 
-## ven
+## VEN — Venice (Венеция)
 
 ### `eurmil` — Мельница
 
@@ -1751,6 +1751,6 @@
 ## Замечания
 
 1. **farm = 1 для каждого юнита** — каждый юнит занимает 1 слот популяции (контролируется `gPlayer.farm`). Зданиям, увеличивающим лимит — `cen=+100, hou=+25, bar=+150, ba2=+250` и т.д.
-2. **расход еды** — потребление еды/g-sec, делится на 32 для игр-секунды (см. `gc_obj_foodperunit`). Стандарт = 32 для пехоты, 26 для рус крестьян, 40+ для тяжёлой кавалерии.
+2. **Расход еды** — потребление еды в одну игровую секунду делится на 32 (см. `gc_obj_foodperunit`). Стандарт — 32 для пехоты, 26 для русских крестьян, 40+ для тяжёлой кавалерии.
 3. **При нехватке farm производство останавливается** — здание попытается списать ресурс, но units не выйдет, прогресс заморожен.
 4. **N зданий = N×rate.** 5 бараков пехотных = 5 × ~13 musketeer/min @ fast = ~65 musketeer/min.

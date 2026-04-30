@@ -20,7 +20,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR
+from config import (PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR,
+                    nation_label, nation_ru)
 
 
 MD_PATH = REPORTS_ECONOMY_DIR / "efficiency_upgrades.md"
@@ -159,14 +160,14 @@ def render_md(by_nation: dict) -> str:
         food_costs.append((nat, g, f, w))
     food_costs.sort(key=lambda x: (x[1], x[2]))
     for nat, g, f, w in food_costs:
-        A(f"| {nat} | {g} | {f} | {w} |")
+        A(f"| **{nat}** {nation_ru(nat)} | {g} | {f} | {w} |")
     A("")
     A("## Подробно по нациям")
     A("")
     A("Каждая ячейка cost — стоимость **этого** апгрейда (не суммарная).")
     A("")
     for nat in nations_sorted:
-        A(f"### {nat}")
+        A(f"### {nation_label(nat)}")
         A("")
         for bucket in BUCKET_ORDER:
             rows = by_nation[nat].get(bucket) or []

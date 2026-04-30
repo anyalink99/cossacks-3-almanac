@@ -26,7 +26,8 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_COMBAT_DIR
+from config import (PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_COMBAT_DIR,
+                    USAGE_RU, WEAPON_KIND_RU, nation_ru)
 
 
 MD_PATH = REPORTS_COMBAT_DIR / "combat_stats.md"
@@ -51,14 +52,13 @@ COMBAT_USAGES = {
 FAST_SPEED_MULT = 1.4  # gc_settings_gamespeed_2 = 14 → ×1.4 vs game-time second
 REF_DAMAGE = 10        # reference attacker damage for EHP table
 
-NATION_NAMES = {
-    "aus": "Austria", "fra": "France", "eng": "England", "spa": "Spain",
-    "rus": "Russia", "ukr": "Ukraine", "pol": "Poland", "swe": "Sweden",
-    "pru": "Prussia", "ven": "Venice", "tur": "Turkey", "alg": "Algeria",
-    "net": "Netherlands", "den": "Denmark", "por": "Portugal", "pie": "Piedmont",
-    "sax": "Saxony", "bav": "Bavaria", "hun": "Hungary", "swi": "Switzerland",
-    "sco": "Scotland",
-}
+
+def usg_ru(usg_short: str | None) -> str:
+    return "—" if not usg_short else USAGE_RU.get(usg_short, usg_short)
+
+
+def kind_ru(kind: str | None) -> str:
+    return "—" if not kind else WEAPON_KIND_RU.get(kind, kind)
 
 
 def primary_weapon(u: dict) -> dict | None:
@@ -163,10 +163,11 @@ def fmt_nation_list(nations: list[str]) -> str:
     if not nations:
         return "—"
     if len(nations) == len(PLAYABLE_NATIONS):
-        return "all"
+        return "все 21"
     if len(nations) > 8:
-        return f"{', '.join(nations[:5])} … (+{len(nations) - 5} more)"
-    return ", ".join(nations)
+        head = ", ".join(f"**{n}** {nation_ru(n)}" for n in nations[:5])
+        return f"{head} … (+{len(nations) - 5})"
+    return ", ".join(f"**{n}** {nation_ru(n)}" for n in nations)
 
 
 def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
@@ -175,17 +176,17 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
     A("## §1. Сводная таблица боевых юнитов")
     A("")
     A("Группировка: одна строка на каждый уникальный набор статов. Колонка "
-      "**nations** — нации, в которых этот юнит с этими статами доступен "
-      "(`all` = все 21). Если у юнита разные значения у разных наций "
-      "(например `pikeman/pol` имеет половину брони от стандарта) — это "
-      "разные строки.")
+      "**Нации** — где этот юнит с этими статами доступен (`все 21` = во всех). "
+      "Если у юнита разные значения у разных наций (например `pikemanpol` имеет "
+      "половину брони от стандарта) — это разные строки.")
     A("")
-    A("Колонки: HP, скорость (px/g-sec; 32 = крестьянин), основное оружие "
-      "(урон / пауза / дальность / тип), DPS @ game-sec, DPS @ real-sec (×1.4 fast), "
-      "protections (только ненулевые), shield. Юнит может иметь ≥1 оружия — "
+    A("Колонки: HP, скорость (px на игровую секунду; 32 = крестьянин), "
+      "основное оружие (урон / пауза / дальность / тип), DPS в игровых "
+      "секундах, DPS в реальных секундах (×1.4 на скорости fast), защиты "
+      "(только ненулевые) и щит. У юнита может быть несколько оружий — "
       "показано **сильнейшее по соотношению урон/пауза**.")
     A("")
-    A("| sid | нации | usage | HP | speed | primary weapon | DPS g-s | DPS real | protections |")
+    A("| `sid` | Нации | Класс | HP | Скорость | Основное оружие | DPS, g-сек | DPS, real (fast) | Защиты |")
     A("| --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- |")
     sorted_groups = sorted(groups, key=lambda g: _row_key(g[0]))
     for u, nats in sorted_groups:
@@ -197,7 +198,7 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
         cells = [
             f"`{u['sid']}`",
             fmt_nation_list(nats),
-            (u.get("usage_short") or "—"),
+            usg_ru(u.get("usage_short")),
             str(u.get("hp") or "—"),
             str(u.get("speed") or "—"),
             fmt_w(w),
