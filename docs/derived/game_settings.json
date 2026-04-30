@@ -1,0 +1,586 @@
+{
+  "mapsize": [
+    {
+      "value": 0,
+      "tiles": 320,
+      "label_en": "Standard",
+      "label_ru": "Стандартная"
+    },
+    {
+      "value": 1,
+      "tiles": 480,
+      "label_en": "Big",
+      "label_ru": "Большая"
+    },
+    {
+      "value": 2,
+      "tiles": 640,
+      "label_en": "Huge",
+      "label_ru": "Огромная"
+    },
+    {
+      "value": 3,
+      "tiles": 256,
+      "label_en": "Tiny",
+      "label_ru": "Маленькая"
+    }
+  ],
+  "terraintype": [
+    {
+      "value": 0,
+      "label_en": "Land",
+      "label_ru": "Суша"
+    },
+    {
+      "value": 1,
+      "label_en": "Mediterranean",
+      "label_ru": "Средиземное море"
+    },
+    {
+      "value": 2,
+      "label_en": "Peninsulas",
+      "label_ru": "Полуострова"
+    },
+    {
+      "value": 3,
+      "label_en": "Islands",
+      "label_ru": "Острова"
+    },
+    {
+      "value": 4,
+      "label_en": "Several Continents",
+      "label_ru": "Континенты"
+    },
+    {
+      "value": 5,
+      "label_en": "Single Continent",
+      "label_ru": "Континент"
+    },
+    {
+      "value": 6,
+      "label_en": "Lakes",
+      "label_ru": "Озера"
+    },
+    {
+      "value": 7,
+      "label_en": "Coast",
+      "label_ru": "Берег"
+    },
+    {
+      "value": 8,
+      "label_en": "Rivers",
+      "label_ru": "Реки"
+    },
+    {
+      "value": 9,
+      "label_en": "Without water",
+      "label_ru": "Без воды"
+    }
+  ],
+  "relieftype": [
+    {
+      "value": 0,
+      "label_en": "Plain",
+      "label_ru": "Равнина"
+    },
+    {
+      "value": 1,
+      "label_en": "Low Mountains",
+      "label_ru": "Холмы"
+    },
+    {
+      "value": 2,
+      "label_en": "High Mountains",
+      "label_ru": "Горы"
+    },
+    {
+      "value": 3,
+      "label_en": "Highlands",
+      "label_ru": "Высокогорье"
+    },
+    {
+      "value": 4,
+      "label_en": "Plateaus",
+      "label_ru": "Плато"
+    },
+    {
+      "value": 5,
+      "label_en": "Desert",
+      "label_ru": "Пустыня"
+    }
+  ],
+  "resourcestart": [
+    {
+      "value": 0,
+      "amount": 1000,
+      "label_en": "Normal",
+      "label_ru": "Обычные"
+    },
+    {
+      "value": 1,
+      "amount": 4000,
+      "label_en": "Rich",
+      "label_ru": "Богатые"
+    },
+    {
+      "value": 2,
+      "amount": 5000,
+      "label_en": "Thousands",
+      "label_ru": "Тысячи"
+    },
+    {
+      "value": 3,
+      "amount": 1000000,
+      "label_en": "Millions",
+      "label_ru": "Миллионы"
+    }
+  ],
+  "resourcemines": [
+    {
+      "value": 0,
+      "label_en": "Poor",
+      "label_ru": "Мало"
+    },
+    {
+      "value": 1,
+      "label_en": "Medium",
+      "label_ru": "Средне"
+    },
+    {
+      "value": 2,
+      "label_en": "Rich",
+      "label_ru": "Много"
+    }
+  ],
+  "season": [
+    {
+      "value": 0,
+      "label_ru": "Лето",
+      "label_en": "Summer"
+    },
+    {
+      "value": 1,
+      "label_ru": "Осень",
+      "label_en": "Autumn"
+    },
+    {
+      "value": 2,
+      "label_ru": "Зима",
+      "label_en": "Winter"
+    },
+    {
+      "value": 3,
+      "label_ru": "Пустыня",
+      "label_en": "Desert"
+    }
+  ],
+  "startingunits": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "Army",
+      "label_ru": "Армия"
+    },
+    {
+      "value": 2,
+      "label_en": "Big Army",
+      "label_ru": "Большая армия"
+    },
+    {
+      "value": 3,
+      "label_en": "Huge Army",
+      "label_ru": "Огромная армия"
+    },
+    {
+      "value": 4,
+      "label_en": "Army of Peasants",
+      "label_ru": "Множество крестьян"
+    },
+    {
+      "value": 5,
+      "label_en": "Different Nations",
+      "label_ru": "Разные нации"
+    },
+    {
+      "value": 6,
+      "label_en": "Towers",
+      "label_ru": "Башни"
+    },
+    {
+      "value": 7,
+      "label_en": "Cannons",
+      "label_ru": "Пушки"
+    },
+    {
+      "value": 8,
+      "label_en": "Cannons and Howitzers",
+      "label_ru": "Пушки и гаубицы"
+    },
+    {
+      "value": 9,
+      "label_en": "18th Century Barracks",
+      "label_ru": "Казармы 18 века"
+    },
+    {
+      "value": 10,
+      "label_en": "Barrack17",
+      "label_ru": "Казарма 17 в."
+    },
+    {
+      "value": 11,
+      "label_en": "Village",
+      "label_ru": "Деревня"
+    },
+    {
+      "value": 12,
+      "label_en": "Logcabins",
+      "label_ru": "Срубы"
+    },
+    {
+      "value": 13,
+      "label_en": "Union",
+      "label_ru": "Уния"
+    }
+  ],
+  "balloon": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "No Balloons",
+      "label_ru": "Без монгольфьеров"
+    },
+    {
+      "value": 2,
+      "label_en": "Balloons",
+      "label_ru": "Монгольфьеры"
+    }
+  ],
+  "cannons": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "No Cannons, Towers and Walls",
+      "label_ru": "Без пушек, башен и стен"
+    },
+    {
+      "value": 2,
+      "label_en": "Expensive Cannons",
+      "label_ru": "Дорогие пушки"
+    }
+  ],
+  "peacetime": [
+    {
+      "value": 0,
+      "minutes_g": 0,
+      "gsec": 0,
+      "label_en": "No Peace Time",
+      "label_ru": "Без времени мира"
+    },
+    {
+      "value": 1,
+      "minutes_g": 10,
+      "gsec": 600,
+      "label_en": "10 min",
+      "label_ru": "10 мин"
+    },
+    {
+      "value": 2,
+      "minutes_g": 20,
+      "gsec": 1200,
+      "label_en": "20 min",
+      "label_ru": "20 мин"
+    },
+    {
+      "value": 3,
+      "minutes_g": 30,
+      "gsec": 1800,
+      "label_en": "30 min",
+      "label_ru": "30 мин"
+    },
+    {
+      "value": 4,
+      "minutes_g": 45,
+      "gsec": 2700,
+      "label_en": "45 min",
+      "label_ru": "45 мин"
+    },
+    {
+      "value": 5,
+      "minutes_g": 60,
+      "gsec": 3600,
+      "label_en": "60 min",
+      "label_ru": "60 мин"
+    },
+    {
+      "value": 6,
+      "minutes_g": 90,
+      "gsec": 5400,
+      "label_en": "1.5 hours",
+      "label_ru": "90 мин"
+    },
+    {
+      "value": 7,
+      "minutes_g": 120,
+      "gsec": 7200,
+      "label_en": "2 hours",
+      "label_ru": "2 часа"
+    },
+    {
+      "value": 8,
+      "minutes_g": 180,
+      "gsec": 10800,
+      "label_en": "3 hours",
+      "label_ru": "3 часа"
+    },
+    {
+      "value": 9,
+      "minutes_g": 240,
+      "gsec": 14400,
+      "label_en": "4 hours",
+      "label_ru": "4 часа"
+    },
+    {
+      "value": 11,
+      "minutes_g": 15,
+      "gsec": 900,
+      "label_en": "15 min",
+      "label_ru": "15 мин"
+    }
+  ],
+  "century18": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "Never",
+      "label_ru": "Никогда"
+    },
+    {
+      "value": 2,
+      "label_en": "Immediately",
+      "label_ru": "Сразу"
+    }
+  ],
+  "capture": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "No Capturing Peasants",
+      "label_ru": "Без захвата крестьян"
+    },
+    {
+      "value": 2,
+      "label_en": "No Capturing Peasants or Centres",
+      "label_ru": "Без захвата крестьян и центров"
+    },
+    {
+      "value": 3,
+      "label_en": "Artillery Only",
+      "label_ru": "Только пушки"
+    }
+  ],
+  "marketdip": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "Without dip. center",
+      "label_ru": "Без дип. центра"
+    },
+    {
+      "value": 2,
+      "label_en": "Without market",
+      "label_ru": "Без рынка"
+    },
+    {
+      "value": 3,
+      "label_en": "Without both",
+      "label_ru": "Не доступны"
+    },
+    {
+      "value": 4,
+      "label_en": "Expensive Mercenaries",
+      "label_ru": "Дорогие наёмники"
+    }
+  ],
+  "teams": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "Nearby",
+      "label_ru": "Рядом"
+    }
+  ],
+  "limit": [
+    {
+      "value": 0,
+      "units": null,
+      "label_en": "Without limitation",
+      "label_ru": "Без ограничения"
+    },
+    {
+      "value": 1,
+      "units": 500,
+      "label_en": "500 units",
+      "label_ru": "500 юнитов"
+    },
+    {
+      "value": 2,
+      "units": 750,
+      "label_en": "750 units",
+      "label_ru": "750 юнитов"
+    },
+    {
+      "value": 3,
+      "units": 1000,
+      "label_en": "1000 units",
+      "label_ru": "1000 юнитов"
+    },
+    {
+      "value": 4,
+      "units": 1500,
+      "label_en": "1500 units",
+      "label_ru": "1500 юнитов"
+    },
+    {
+      "value": 5,
+      "units": 2200,
+      "label_en": "2200 units",
+      "label_ru": "2200 юнитов"
+    },
+    {
+      "value": 6,
+      "units": 3000,
+      "label_en": "3000 units",
+      "label_ru": "3000 юнитов"
+    },
+    {
+      "value": 7,
+      "units": 5000,
+      "label_en": "5000 units",
+      "label_ru": "5000 юнитов"
+    },
+    {
+      "value": 8,
+      "units": 8000,
+      "label_en": "8000 units",
+      "label_ru": "8000 юнитов"
+    }
+  ],
+  "gamespeed": [
+    {
+      "value": 0,
+      "ticks_per_sec": 7,
+      "factor": 0.7,
+      "label_ru": "Медленно",
+      "label_en": "Slow"
+    },
+    {
+      "value": 1,
+      "ticks_per_sec": 10,
+      "factor": 1.0,
+      "label_ru": "Нормально",
+      "label_en": "Normal"
+    },
+    {
+      "value": 2,
+      "ticks_per_sec": 14,
+      "factor": 1.4,
+      "label_ru": "Быстро",
+      "label_en": "Fast"
+    }
+  ],
+  "adviserassistant": [
+    {
+      "value": 0,
+      "label_en": "Default",
+      "label_ru": "По умолчанию"
+    },
+    {
+      "value": 1,
+      "label_en": "Without adviser",
+      "label_ru": "Без помощника"
+    }
+  ],
+  "difficulty": [
+    {
+      "value": 0,
+      "koef": 0.3,
+      "label_ru": "Легко",
+      "label_en": "Easy"
+    },
+    {
+      "value": 1,
+      "koef": 0.5,
+      "label_ru": "Нормально",
+      "label_en": "Normal"
+    },
+    {
+      "value": 2,
+      "koef": 0.75,
+      "label_ru": "Сложно",
+      "label_en": "Hard"
+    },
+    {
+      "value": 3,
+      "koef": 1.0,
+      "label_ru": "Очень сложно",
+      "label_en": "Very Hard"
+    },
+    {
+      "value": 4,
+      "koef": 1.25,
+      "label_ru": "Невозможно",
+      "label_en": "Impossible"
+    }
+  ],
+  "defaults": {
+    "gen": {
+      "mapsize": 0,
+      "terraintype": 0,
+      "relieftype": 3,
+      "resourcestart": 2,
+      "resourcemines": 1,
+      "season": 0
+    },
+    "additional": {
+      "startingunits": 0,
+      "balloon": 0,
+      "cannons": 0,
+      "peacetime": 0,
+      "century18": 0,
+      "capture": 0,
+      "marketdip": 0,
+      "teams": 0,
+      "limit": 0,
+      "gamespeed": 2,
+      "adviserassistant": 0
+    }
+  }
+}

@@ -69,11 +69,20 @@ def _merge_stats(base: dict, override: dict) -> dict:
     return out
 
 
-def _compute_effective_unit(unit_data: dict, nation: str) -> dict:
-    """Apply the matching nation override to base. nation is sid suffix like 'rus'."""
+def _compute_effective_unit(unit_data: dict, nation: str, sid: str) -> dict:
+    """Apply nation override to base, then merc override if sid is in BMERCENARY_SIDS.
+    nation is sid suffix like 'rus'. The merc override is the body of the
+    `if (bmercenary)` block from unit.script — applies only to the 8 dip-suffixed
+    sids that pass the bmercenary check (unit.script:613)."""
+    from parse_units import BMERCENARY_SIDS
     base = unit_data["base"]
     override = unit_data["overrides"].get(nation)
-    return _merge_stats(base, override) if override else copy.deepcopy(base)
+    stats = _merge_stats(base, override) if override else copy.deepcopy(base)
+    if sid in BMERCENARY_SIDS:
+        merc = unit_data.get("bmerc_override")
+        if merc:
+            stats = _merge_stats(stats, merc)
+    return stats
 
 
 def _compute_effective_common_building(b_data: dict, cluster: str) -> dict:
@@ -270,7 +279,7 @@ def assemble() -> dict:
                 continue
             # Determine nation suffix for override
             nation_suf = _sid_nation_suffix(sid) or nat
-            stats = _compute_effective_unit(u_data, nation_suf)
+            stats = _compute_effective_unit(u_data, nation_suf, sid)
             key = (sid, nat)
             if key in seen_unit_keys:
                 continue
@@ -477,6 +486,7 @@ def _format_unit_row(sid: str, nation: str, stats: dict, loc_en, loc_ru) -> dict
         "gold": stats.get("gold", 0),
         "iron": stats.get("iron", 0),
         "coal": stats.get("coal", 0),
+        "costpercent": stats.get("costpercent"),
         "score": stats.get("score"),
         "usage": stats.get("usage"),
         "usage_short": decode_usage(stats.get("usage")),

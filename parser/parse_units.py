@@ -587,6 +587,8 @@ def apply_assignment(stats: dict, lhs: str, rhs: str):
         if val is not None: stats["bbuilding"] = val
     elif lhs == "objprop.bmercenary":
         if val is not None: stats["bmercenary"] = val
+    elif lhs.startswith("objprop.costpercent"):
+        if val is not None: stats["costpercent"] = val
     elif lhs == "objprop.bofficer":
         if val is not None: stats["bofficer"] = val
     elif lhs == "objprop.bdrummer":
@@ -984,7 +986,12 @@ def parse_unit_init_base(text: str) -> dict:
             body_text_inlined = inline_int_var_decls(body_text)
             base = parse_branch_body(body_text_inlined)
             overrides = parse_nation_overrides(body_text_inlined)
-            sid_overrides = parse_sid_overrides(body_text_inlined)
+            sid_overrides, sid_merc_overrides = parse_sid_overrides(body_text_inlined)
+            # Outer-branch merc override (e.g. 'lightinfantry','lightinfantrydip' with
+            # no nested case objprop.sid — `if (bmercenary)` sits directly in the branch).
+            outer_merc_block = find_bmercenary_block_body(body_text_inlined)
+            outer_merc = (parse_branch_body(outer_merc_block, exclude_if_blocks=False)
+                          if outer_merc_block is not None else None)
             for sid in sids:
                 # Per-sid override stacks on top of the shared base; per-nation
                 # override (if any) is still applied later at row-build time.
@@ -992,7 +999,15 @@ def parse_unit_init_base(text: str) -> dict:
                     sid_base = _merge_unit_stats(base, sid_overrides[sid])
                 else:
                     sid_base = base
-                result["units"][sid] = {"base": sid_base, "overrides": overrides}
+                # Pick the merc override that applies in this scope: per-sid first,
+                # else the outer-branch one. apply_only_if_bmerc filtering happens at
+                # row-build time (only sids in BMERCENARY_SIDS get this merged).
+                merc_override = sid_merc_overrides.get(sid) or outer_merc
+                result["units"][sid] = {
+                    "base": sid_base,
+                    "overrides": overrides,
+                    "bmerc_override": merc_override,
+                }
     if common_case:
         cb_text = body[common_case[0]:common_case[1]]
         for label, body_text in split_case_branches(cb_text):
@@ -1095,13 +1110,36 @@ def _merge_unit_stats(base: dict, override: dict) -> dict:
     return out
 
 
-def parse_sid_overrides(body: str) -> dict:
+# sids that pass `if (bmercenary)` check (unit.script:613). Anything else with a 'dip'
+# suffix is registered as a building/unit but is NOT a paid mercenary — the bmercenary
+# override block in its branch must NOT be applied.
+BMERCENARY_SIDS = frozenset({
+    "roundshierdip", "lightinfantrydip", "archerdip", "grenadierdip",
+    "cossacksichdip", "dragoon18dip", "archerturdip", "lightcavalrydip",
+})
+
+
+def find_bmercenary_block_body(body: str) -> str | None:
+    """Find first `if (bmercenary) then begin ... end[;]` in body and return the
+    statement body (begin..end included). Used to apply the merc-only override on
+    top of the default unit base. Returns None if no such block exists."""
+    m = re.search(r"\bif\s*\(\s*bmercenary\s*\)\s*then\b", body)
+    if not m:
+        return None
+    body_text, _ = consume_statement(body, m.end())
+    return body_text
+
+
+def parse_sid_overrides(body: str) -> tuple[dict, dict]:
     """Find a nested `case objprop.sid of 'sidA':…; 'sidB':…; end;` block in body and
-    return {sid: stats} for each branch. Used for unit families where the outer branch
-    label lists multiple sids and an inner `case objprop.sid` carves per-sid overrides
-    on top of the shared base (e.g., the musketeer-line: musketeerpol/musketeernet/
-    pandur/chasseur/highlander/etc all live in one outer branch)."""
+    return ({sid: stats}, {sid: merc_override_stats}) for each branch. Used for unit
+    families where the outer branch label lists multiple sids and an inner
+    `case objprop.sid` carves per-sid overrides on top of the shared base
+    (e.g., the musketeer-line: musketeerpol/musketeernet/pandur/chasseur/highlander/etc).
+    The second dict carries merc-only overrides extracted from `if (bmercenary)` blocks
+    nested inside per-sid sub-branches (e.g., 'cossacksich','cossacksichdip')."""
     out: dict[str, dict] = {}
+    out_merc: dict[str, dict] = {}
     for m in re.finditer(r"\bcase\s+objprop\.sid\s+of\b", body):
         start = m.end()
         depth = 1
@@ -1146,10 +1184,16 @@ def parse_sid_overrides(body: str) -> dict:
                 continue
             sids = parse_label_sids(label)
             stats = parse_branch_body(branch_body)
+            merc_block = find_bmercenary_block_body(branch_body)
+            merc_stats = None
+            if merc_block is not None:
+                merc_stats = parse_branch_body(merc_block, exclude_if_blocks=False)
             for s in sids:
                 out[s] = stats
+                if merc_stats is not None:
+                    out_merc[s] = merc_stats
         break
-    return out
+    return out, out_merc
 
 
 def parse_nation_overrides(body: str) -> dict:

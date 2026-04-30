@@ -439,7 +439,8 @@ def write_report(r: dict, settings: dict) -> str:
     L.append(f"**Настройки:** mapsize={settings['mapsize']} ({r['map_name']}, {r['dim']}×{r['dim']} = {r['area']} tiles), "
              f"relief={settings['relief']} ({r['relief_name']}), "
              f"resourcemines={settings['mines']} ({r['mine_density_name']}), "
-             f"foreststype={settings['foreststype']}.")
+             f"foreststype={settings['foreststype']}. "
+             f"Расшифровка enum'ов — [`recon/game_settings.md`](../recon/game_settings.md) §2.")
     L.append("")
     L.append("## 1. Модификаторы вероятности паттернов (оценка)")
     L.append("")

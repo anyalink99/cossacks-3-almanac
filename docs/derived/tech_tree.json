@@ -571,16 +571,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "algdip"
           ],
@@ -600,16 +600,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "algdip"
           ],
@@ -682,16 +682,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "algdip"
           ],
@@ -711,16 +711,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "algdip"
           ],
@@ -830,16 +830,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "algdip"
           ],
@@ -883,16 +883,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "algdip"
           ],
@@ -930,16 +930,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "algdip"
           ],
@@ -1085,16 +1085,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "algdip"
           ],
@@ -4432,16 +4432,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "ausdip"
           ],
@@ -4461,16 +4461,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "ausdip"
           ],
@@ -4543,16 +4543,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "ausdip"
           ],
@@ -4678,16 +4678,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "ausdip"
           ],
@@ -4874,16 +4874,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "ausdip"
           ],
@@ -4956,16 +4956,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "ausdip"
           ],
@@ -4985,16 +4985,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "ausdip"
           ],
@@ -5313,16 +5313,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "ausdip"
           ],
@@ -10677,16 +10677,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "bavdip"
           ],
@@ -10706,16 +10706,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "bavdip"
           ],
@@ -10788,16 +10788,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "bavdip"
           ],
@@ -10899,16 +10899,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "bavdip"
           ],
@@ -11095,16 +11095,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "bavdip"
           ],
@@ -11177,16 +11177,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "bavdip"
           ],
@@ -11206,16 +11206,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "bavdip"
           ],
@@ -11486,16 +11486,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "bavdip"
           ],
@@ -16304,16 +16304,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "dendip"
           ],
@@ -16333,16 +16333,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "dendip"
           ],
@@ -16415,16 +16415,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "dendip"
           ],
@@ -16526,16 +16526,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "dendip"
           ],
@@ -16722,16 +16722,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "dendip"
           ],
@@ -16804,16 +16804,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "dendip"
           ],
@@ -16833,16 +16833,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "dendip"
           ],
@@ -17113,16 +17113,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "dendip"
           ],
@@ -21931,16 +21931,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "engdip"
           ],
@@ -21960,16 +21960,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "engdip"
           ],
@@ -22066,16 +22066,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "engdip"
           ],
@@ -22177,16 +22177,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "engdip"
           ],
@@ -22349,16 +22349,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "engdip"
           ],
@@ -22455,16 +22455,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "engdip"
           ],
@@ -22484,16 +22484,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "engdip"
           ],
@@ -22764,16 +22764,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "engdip"
           ],
@@ -27804,16 +27804,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "fradip"
           ],
@@ -27833,16 +27833,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "fradip"
           ],
@@ -27939,16 +27939,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "fradip"
           ],
@@ -28021,16 +28021,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "fradip"
           ],
@@ -28246,16 +28246,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "fradip"
           ],
@@ -28352,16 +28352,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "fradip"
           ],
@@ -28381,16 +28381,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "fradip"
           ],
@@ -28661,16 +28661,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "fradip"
           ],
@@ -33803,16 +33803,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "hundip"
           ],
@@ -33832,16 +33832,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "hundip"
           ],
@@ -33914,16 +33914,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "hundip"
           ],
@@ -33996,16 +33996,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "hundip"
           ],
@@ -34192,16 +34192,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "hundip"
           ],
@@ -34322,16 +34322,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "hundip"
           ],
@@ -34351,16 +34351,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "hundip"
           ],
@@ -34631,16 +34631,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "hundip"
           ],
@@ -39551,16 +39551,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "netdip"
           ],
@@ -39580,16 +39580,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "netdip"
           ],
@@ -39662,16 +39662,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "netdip"
           ],
@@ -39744,16 +39744,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "netdip"
           ],
@@ -39969,16 +39969,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "netdip"
           ],
@@ -40051,16 +40051,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "netdip"
           ],
@@ -40080,16 +40080,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "netdip"
           ],
@@ -40360,16 +40360,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "netdip"
           ],
@@ -45178,16 +45178,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "piedip"
           ],
@@ -45207,16 +45207,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "piedip"
           ],
@@ -45289,16 +45289,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "piedip"
           ],
@@ -45371,16 +45371,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "piedip"
           ],
@@ -45596,16 +45596,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "piedip"
           ],
@@ -45678,16 +45678,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "piedip"
           ],
@@ -45707,16 +45707,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "piedip"
           ],
@@ -45987,16 +45987,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "piedip"
           ],
@@ -50805,16 +50805,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "poldip"
           ],
@@ -50834,16 +50834,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "poldip"
           ],
@@ -50916,16 +50916,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "poldip"
           ],
@@ -51027,16 +51027,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "poldip"
           ],
@@ -51247,16 +51247,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "poldip"
           ],
@@ -51329,16 +51329,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "poldip"
           ],
@@ -51358,16 +51358,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "poldip"
           ],
@@ -51638,16 +51638,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "poldip"
           ],
@@ -56684,16 +56684,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "pordip"
           ],
@@ -56713,16 +56713,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "pordip"
           ],
@@ -56795,16 +56795,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "pordip"
           ],
@@ -56906,16 +56906,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "pordip"
           ],
@@ -57102,16 +57102,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "pordip"
           ],
@@ -57208,16 +57208,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "pordip"
           ],
@@ -57237,16 +57237,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "pordip"
           ],
@@ -57517,16 +57517,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "pordip"
           ],
@@ -62539,16 +62539,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "prudip"
           ],
@@ -62568,16 +62568,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "prudip"
           ],
@@ -62650,16 +62650,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "prudip"
           ],
@@ -62761,16 +62761,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "prudip"
           ],
@@ -62957,16 +62957,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "prudip"
           ],
@@ -63063,16 +63063,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "prudip"
           ],
@@ -63092,16 +63092,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "prudip"
           ],
@@ -63372,16 +63372,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "prudip"
           ],
@@ -68190,16 +68190,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "rusdip"
           ],
@@ -68219,16 +68219,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "rusdip"
           ],
@@ -68319,16 +68319,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "rusdip"
           ],
@@ -68406,16 +68406,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "rusdip"
           ],
@@ -68602,16 +68602,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "rusdip"
           ],
@@ -68684,16 +68684,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "rusdip"
           ],
@@ -68713,16 +68713,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "rusdip"
           ],
@@ -68945,16 +68945,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "rusdip"
           ],
@@ -73709,16 +73709,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "saxdip"
           ],
@@ -73738,16 +73738,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "saxdip"
           ],
@@ -73820,16 +73820,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "saxdip"
           ],
@@ -73931,16 +73931,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "saxdip"
           ],
@@ -74103,16 +74103,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "saxdip"
           ],
@@ -74238,16 +74238,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "saxdip"
           ],
@@ -74267,16 +74267,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "saxdip"
           ],
@@ -74547,16 +74547,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "saxdip"
           ],
@@ -79365,16 +79365,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 80,
-            "wood": 5,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 7,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 150,
+          "hp": 20,
           "trained_in": [
             "scodip"
           ],
@@ -79418,16 +79418,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 80,
-            "wood": 5,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 7,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 150,
+          "hp": 20,
           "trained_in": [
             "scodip"
           ],
@@ -79524,16 +79524,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "scodip"
           ],
@@ -79553,16 +79553,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "scodip"
           ],
@@ -79677,16 +79677,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "scodip"
           ],
@@ -79754,16 +79754,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "scodip"
           ],
@@ -79783,16 +79783,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "scodip"
           ],
@@ -79968,16 +79968,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 7.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 110,
-            "wood": 5,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 10,
+            "gold": 12,
             "iron": 0,
             "coal": 0
           },
-          "hp": 180,
+          "hp": 75,
           "trained_in": [
             "scodip"
           ],
@@ -83727,16 +83727,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "spadip"
           ],
@@ -83756,16 +83756,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "spadip"
           ],
@@ -83838,16 +83838,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "spadip"
           ],
@@ -83949,16 +83949,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "spadip"
           ],
@@ -84145,16 +84145,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "spadip"
           ],
@@ -84227,16 +84227,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "spadip"
           ],
@@ -84256,16 +84256,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "spadip"
           ],
@@ -84560,16 +84560,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "spadip"
           ],
@@ -89582,16 +89582,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "swedip"
           ],
@@ -89611,16 +89611,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "swedip"
           ],
@@ -89693,16 +89693,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "swedip"
           ],
@@ -89804,16 +89804,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "swedip"
           ],
@@ -90000,16 +90000,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "swedip"
           ],
@@ -90106,16 +90106,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "swedip"
           ],
@@ -90135,16 +90135,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "swedip"
           ],
@@ -90415,16 +90415,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "swedip"
           ],
@@ -95437,16 +95437,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "swidip"
           ],
@@ -95466,16 +95466,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "swidip"
           ],
@@ -95548,16 +95548,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "swidip"
           ],
@@ -95659,16 +95659,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "swidip"
           ],
@@ -95855,16 +95855,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "swidip"
           ],
@@ -95961,16 +95961,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "swidip"
           ],
@@ -95990,16 +95990,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "swidip"
           ],
@@ -96270,16 +96270,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "swidip"
           ],
@@ -101242,16 +101242,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 3.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 45,
-            "wood": 3,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 4,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 65,
+          "hp": 20,
           "trained_in": [
             "turdip"
           ],
@@ -101295,16 +101295,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 3.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 45,
-            "wood": 3,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 4,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 65,
+          "hp": 20,
           "trained_in": [
             "turdip"
           ],
@@ -101377,16 +101377,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "turdip"
           ],
@@ -101406,16 +101406,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "turdip"
           ],
@@ -101525,16 +101525,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "turdip"
           ],
@@ -101602,16 +101602,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "turdip"
           ],
@@ -101649,16 +101649,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "turdip"
           ],
@@ -101786,16 +101786,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "turdip"
           ],
@@ -105758,16 +105758,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "ukrdip"
           ],
@@ -105787,16 +105787,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "ukrdip"
           ],
@@ -105906,16 +105906,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "ukrdip"
           ],
@@ -105935,16 +105935,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "ukrdip"
           ],
@@ -106030,16 +106030,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "ukrdip"
           ],
@@ -106101,16 +106101,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "ukrdip"
           ],
@@ -106130,16 +106130,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "ukrdip"
           ],
@@ -106219,16 +106219,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "ukrdip"
           ],
@@ -109093,16 +109093,16 @@
         "archerdip": {
           "name_en": "Archer (mercenary)",
           "name_ru": "Лучник  (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "vendip"
           ],
@@ -109122,16 +109122,16 @@
         "archerturdip": {
           "name_en": "Turkish archer (mercenary)",
           "name_ru": "Турецкий лучник (наемник)",
-          "buildtime_sec": 1.5,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 20,
-            "wood": 2,
+            "food": 0,
+            "wood": 0,
             "stone": 0,
-            "gold": 1,
+            "gold": 15,
             "iron": 0,
             "coal": 0
           },
-          "hp": 40,
+          "hp": 20,
           "trained_in": [
             "vendip"
           ],
@@ -109204,16 +109204,16 @@
         "cossacksichdip": {
           "name_en": "Sich Cossack (mercenary)",
           "name_ru": "Сечевой козак  (наемник)",
-          "buildtime_sec": 13.5,
+          "buildtime_sec": 2.5,
           "cost": {
-            "food": 130,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 2,
+            "gold": 60,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 250,
+          "hp": 150,
           "trained_in": [
             "vendip"
           ],
@@ -109315,16 +109315,16 @@
         "dragoon18dip": {
           "name_en": "Dragoon, 18th century (mercenary)",
           "name_ru": "Драгун 18в.  (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "vendip"
           ],
@@ -109511,16 +109511,16 @@
         "grenadierdip": {
           "name_en": "Grenadier (mercenary)",
           "name_ru": "Гренадер  (наемник)",
-          "buildtime_sec": 6.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 80,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 40,
+            "gold": 25,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 120,
+          "hp": 30,
           "trained_in": [
             "vendip"
           ],
@@ -109593,16 +109593,16 @@
         "lightcavalrydip": {
           "name_en": "Light cavalry (mercenary)",
           "name_ru": "Легкий кавалерист (наемник)",
-          "buildtime_sec": 22.5,
+          "buildtime_sec": 2.0,
           "cost": {
-            "food": 70,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 60,
-            "iron": 7,
+            "gold": 120,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 225,
+          "hp": 100,
           "trained_in": [
             "vendip"
           ],
@@ -109622,16 +109622,16 @@
         "lightinfantrydip": {
           "name_en": "Light Infantryman (mercenary)",
           "name_ru": "Легкий пехотинец  (наемник)",
-          "buildtime_sec": 1.0,
+          "buildtime_sec": 1.25,
           "cost": {
-            "food": 25,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 0,
-            "iron": 1,
+            "gold": 4,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 55,
+          "hp": 50,
           "trained_in": [
             "vendip"
           ],
@@ -109902,16 +109902,16 @@
         "roundshierdip": {
           "name_en": "Roundshier (mercenary)",
           "name_ru": "Рундашир  (наемник)",
-          "buildtime_sec": 4.0,
+          "buildtime_sec": 1.5,
           "cost": {
-            "food": 20,
+            "food": 0,
             "wood": 0,
             "stone": 0,
-            "gold": 3,
-            "iron": 25,
+            "gold": 12,
+            "iron": 0,
             "coal": 0
           },
-          "hp": 100,
+          "hp": 75,
           "trained_in": [
             "vendip"
           ],

@@ -36,7 +36,7 @@ gc_player_difficulty_impossible =  4;
 
 `gc_MaxAIDifficultyCount = 4` (`:235`) — UI показывает четыре уровня (easy / normal / hard / veryhard); `impossible` зарезервирован для сценариев (`initmaphistoricalbattle.inc:121` ставит исторические битвы на этот уровень).
 
-Сложность хранится в `gMap.players[i].aidifficulty` (`classes.script:105`), копируется в `gPlayer[i].difficulty` при старте партии (`initmapgen.inc:132`). Дефолт в лобби — `easy` (`map.script:244`, `player.script:118`).
+Сложность хранится в `gMap.players[i].aidifficulty` (`classes.script:105`), копируется в `gPlayer[i].difficulty` при старте партии (`initmapgen.inc:132`). Дефолт в лобби — `easy` (`map.script:244`, `player.script:118`). Полная сводка лобби-опций (включая сложность) — [`game_settings.md`](game_settings.md) §4.
 
 ### Что меняется между уровнями
 

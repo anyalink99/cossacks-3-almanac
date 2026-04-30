@@ -56,31 +56,23 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Heavy Cavalry | `reiterpol` | 3 | **32** | 13.13 | pol |
 | Heavy Cavalry | `spakh` | 3 | **32** | 11.25 | tur |
 | Light Cavalry | `cossacksich` | 3 | **32** | 15.0 | ukr |
-| Light Cavalry | `cossacksichdip` | 3 | **32** | 15.0 | all |
 | Light Cavalry | `hackapell` | 3 | **32** | 15.0 | swe |
 | Light Cavalry | `hussar` | 3 | **32** | 13.13 | aus, bav, den, eng, fra, net … (+8) |
 | Light Cavalry | `hussarhun` | 3 | **32** | 16.88 | hun |
 | Light Infantry | `officertur` | 3 | **32** | 9.38 | alg, tur |
 | Mounted Shooter | `dragoon` | 3 | **32** | 15.0 | aus, bav, den, eng, fra, hun … (+10) |
 | Mounted Shooter | `dragoon18` | 3 | **32** | 16.88 | aus, bav, den, eng, pol, por … (+7) |
-| Mounted Shooter | `dragoon18dip` | 3 | **32** | 16.88 | all |
 | Mounted Shooter | `dragoon18net` | 3 | **32** | 15.94 | net |
-| Mounted Shooter | `lightcavalrydip` | 3 | **32** | 16.88 | all |
 | Peasant | `pearus` | 3 | **32** | 9.38 | rus |
 | Shooter | `pandurhun` | 3 | **32** | 18.75 | hun |
 | Yacht | `yacht` | 3 | **32** | 19.69 | aus, bav, den, eng, fra, hun … (+12) |
 | Yacht | `yachttur` | 3 | **32** | 19.69 | tur |
 | Archer | `archer` | 2 | **28** | 15.0 | alg |
-| Archer | `archerdip` | 2 | **28** | 15.0 | alg, aus, bav, den, eng, fra … (+13) |
-| Archer | `archerdip` | 2 | **28** | 18.75 | sco |
 | Archer | `archersco` | 2 | **28** | 18.75 | sco |
-| Archer | `archerturdip` | 2 | **28** | 15.0 | alg, aus, bav, den, eng, fra … (+13) |
-| Archer | `archerturdip` | 2 | **28** | 18.75 | sco |
 | Galley | `galley` | 2 | **28** | 20.63 | alg, aus, bav, den, eng, fra … (+14) |
 | Grenadier | `grenadier` | 2 | **28** | 16.88 | aus, eng, fra, net, pie, pol … (+7) |
 | Grenadier | `grenadierbav` | 2 | **28** | 16.88 | bav |
 | Grenadier | `grenadierden` | 2 | **28** | 16.88 | den |
-| Grenadier | `grenadierdip` | 2 | **28** | 16.88 | all |
 | Grenadier | `grenadierhun` | 2 | **28** | 18.75 | hun |
 | Grenadier | `grenadierpru` | 2 | **28** | 16.88 | pru |
 | Grenadier | `grenadiersax` | 2 | **28** | 17.81 | sax |
@@ -92,12 +84,11 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Light Cavalry | `raidersco` | 2 | **28** | 18.75 | sco |
 | Light Cavalry | `wingedhussar` | 2 | **28** | 11.25 | pol |
 | Light Infantry | `lightinfantry` | 2 | **28** | 13.13 | alg, tur |
-| Light Infantry | `lightinfantrydip` | 2 | **28** | 13.13 | all |
 | Light Infantry | `officer` | 2 | **28** | 9.38 | aus, bav, den, eng, fra, hun … (+10) |
 | Light Infantry | `officersco` | 2 | **28** | 9.38 | sco |
 | Light Infantry | `pikeman18` | 2 | **28** | 13.13 | aus, bav, den, eng, fra, hun … (+10) |
 | Light Infantry | `pikemansco` | 2 | **28** | 13.13 | sco |
-| Light Infantry | `roundshierdip` | 2 | **28** | 15.0 | sco |
+| Light Infantry | `roundshierdip` | 2 | **28** | 13.13 | sco |
 | Light Infantry | `swordsmansco` | 2 | **28** | 15.0 | sco |
 | Mounted Shooter | `dragoon18fra` | 2 | **28** | 15.0 | fra |
 | Mounted Shooter | `dragoonpol` | 2 | **28** | 15.94 | pol |
@@ -114,13 +105,16 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Shooter | `pandur` | 2 | **28** | 16.88 | aus |
 | Shooter | `serdiuk` | 2 | **28** | 16.88 | ukr |
 | ? | `unitbox` | 1 | **24** | — | all |
-| Archer | `archerdip` | 1 | **24** | 16.88 | tur |
+| Archer | `archerdip` | 1 | **24** | 12.19 | all |
 | Archer | `archertur` | 1 | **24** | 16.88 | tur |
-| Archer | `archerturdip` | 1 | **24** | 16.88 | tur |
+| Archer | `archerturdip` | 1 | **24** | 12.19 | all |
 | Cannon | `cannon` | 1 | **24** | 9.38 | all |
 | Cannon | `framegun` | 1 | **24** | 22.5 | sco |
 | Fishing Boat | `fishboat` | 1 | **24** | — | all |
+| Grenadier | `grenadierdip` | 1 | **24** | 15.0 | all |
 | Heavy Cavalry | `reiter` | 1 | **24** | 9.38 | aus, bav, den, eng, fra, hun … (+8) |
+| Light Cavalry | `cossacksichdip` | 1 | **24** | 13.13 | all |
+| Light Infantry | `lightinfantrydip` | 1 | **24** | 13.13 | all |
 | Light Infantry | `mullah` | 1 | **24** | 9.38 | alg, tur |
 | Light Infantry | `officerrus` | 1 | **24** | 9.38 | rus |
 | Light Infantry | `padre` | 1 | **24** | 9.38 | pie |
@@ -135,7 +129,7 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Light Infantry | `pope` | 1 | **24** | 9.38 | rus, ukr |
 | Light Infantry | `priest` | 1 | **24** | 9.38 | aus, bav, den, eng, fra, hun … (+10) |
 | Light Infantry | `roundshier` | 1 | **24** | 11.25 | aus |
-| Light Infantry | `roundshierdip` | 1 | **24** | 11.25 | alg, aus, bav, den, eng, fra … (+14) |
+| Light Infantry | `roundshierdip` | 1 | **24** | 13.13 | alg, aus, bav, den, eng, fra … (+14) |
 | Mortar | `howitzer` | 1 | **24** | 18.75 | all |
 | Multi-cannon | `multicannon` | 1 | **24** | 13.13 | aus, bav, den, eng, fra, hun … (+11) |
 | Peasant | `peaaus` | 1 | **24** | 5.63 | aus, bav, pru, sax, swi |
@@ -144,9 +138,11 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Peasant | `peasco` | 1 | **24** | 7.5 | sco |
 | Peasant | `peaspa` | 1 | **24** | 5.63 | pie, por, spa, ven |
 | Peasant | `peatur` | 1 | **24** | 5.63 | alg, tur |
+| Shooter | `dragoon18dip` | 1 | **24** | 15.94 | all |
 | Shooter | `highlander` | 1 | **24** | 15.94 | eng |
 | Shooter | `jagerpor` | 1 | **24** | 15.0 | por |
 | Shooter | `jannisary` | 1 | **24** | 15.94 | tur |
+| Shooter | `lightcavalrydip` | 1 | **24** | 15.94 | all |
 | Shooter | `musketeeraus` | 1 | **24** | 15.94 | aus |
 | Shooter | `musketeerpol` | 1 | **24** | 13.13 | pol |
 | Shooter | `musketeerspa` | 1 | **24** | 15.94 | spa |

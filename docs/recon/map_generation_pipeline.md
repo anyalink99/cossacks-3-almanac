@@ -179,7 +179,7 @@ flowchart TB
 
 ## 6. `SetupBorderObjects` — peacetime walls
 
-[dogenerate.inc:1430-1527](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1430). Запускается **только если `gbool_peacemode`** (т.е. peacetime <> default).
+[dogenerate.inc:1430-1527](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1430). Запускается **только если `gbool_peacemode`** (т.е. peacetime <> default). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.4.
 
 Идея: для каждой пары соседних клеток `gScanGrid[i,j]` и `gScanGrid[i+1,j]` (а также `[i, j+1]`):
 - Если `owner` различается → провести цепочку border-объектов между центрами этих клеток.
@@ -209,7 +209,7 @@ for i = 0 to 17:
 
 Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy.md`](../docs/reference/01_economy.md) §Famine).
 
-Если `gMap.settings.additional.startingunits > default` → вместо 18 пеасантов вызывается `CreateUniqueStartingUnits` (нация-специфичный squad: офицер + барабанщик + несколько infantry).
+Если `gMap.settings.additional.startingunits > default` → вместо 18 пеасантов вызывается `CreateUniqueStartingUnits` (нация-специфичный squad: офицер + барабанщик + несколько infantry). Полный список из 14 пресетов стартовой армии — [`game_settings.md`](game_settings.md) §3.1.
 
 ---
 

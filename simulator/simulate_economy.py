@@ -763,6 +763,39 @@ def run_simulation(build_order_path: Path, output_prefix: Path):
     write_md(sim, build_order_path, output_prefix.with_suffix(".md"))
 
 
+def simulate_in_memory(build_order: dict, data: dict, tree: dict,
+                       builder_slots: dict | None = None) -> dict:
+    """Run a simulation without touching the filesystem. Used by the visual
+    editor (browser/Pyodide) to drive the same engine without file IO.
+
+    Returns a dict with:
+    - `snapshots`: list of per-tick dicts (resources, units, buildings, …)
+    - `events`: list of event log lines from sim
+    - `final`: convenience copy of the last snapshot
+    - `meta`: nation, gamespeed_name, gamespeed_factor, max_time_g, walk_overhead, mine_overhead
+    """
+    global BUILDER_SLOTS
+    if builder_slots is not None:
+        BUILDER_SLOTS = dict(builder_slots)
+    nation = build_order["nation"]
+    sim = SimState(nation, build_order, data, tree)
+    while sim.t_g <= sim.max_time_g:
+        sim.step()
+    return {
+        "snapshots": list(sim.snapshots),
+        "events": list(sim.events),
+        "final": dict(sim.snapshots[-1]) if sim.snapshots else {},
+        "meta": {
+            "nation": sim.nation,
+            "gamespeed_name": sim.gamespeed_name,
+            "gamespeed_factor": sim.gamespeed_factor,
+            "max_time_g": sim.max_time_g,
+            "walk_overhead": sim.walk_overhead,
+            "mine_overhead": sim.mine_overhead,
+        },
+    }
+
+
 def write_csv(sim: SimState, path: Path):
     if not sim.snapshots:
         return

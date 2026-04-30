@@ -10,27 +10,27 @@ Side-by-side сравнение всех 21 наций. Для подробно�
 
 | Nation | Total units | Combat | Shooters | Cavalry | Grenadiers | Ships | 18c access |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
-| **alg** Algeria | 25 | 18 | 0 | 4 | 1 | 5 | ❌ |
-| **aus** Austria | 38 | 30 | 3 | 9 | 2 | 6 | ✅ |
-| **bav** Bavaria | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
-| **den** Denmark | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
-| **eng** England | 36 | 28 | 3 | 8 | 2 | 6 | ✅ |
-| **fra** France | 37 | 29 | 3 | 9 | 2 | 6 | ✅ |
-| **hun** Hungary | 36 | 28 | 3 | 8 | 2 | 6 | ✅ |
-| **net** Netherlands | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
-| **pie** Piedmont | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
-| **pol** Poland | 37 | 29 | 2 | 10 | 2 | 6 | ✅ |
-| **por** Portugal | 36 | 28 | 3 | 8 | 2 | 6 | ✅ |
-| **pru** Prussia | 36 | 28 | 2 | 8 | 3 | 6 | ✅ |
-| **rus** Russia | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
-| **sax** Saxony | 36 | 28 | 2 | 9 | 2 | 6 | ✅ |
-| **sco** Scotland | 28 | 21 | 1 | 5 | 1 | 5 | ✅ |
-| **spa** Spain | 36 | 28 | 2 | 8 | 2 | 6 | ✅ |
-| **swe** Sweden | 36 | 28 | 2 | 9 | 2 | 6 | ✅ |
-| **swi** Switzerland | 36 | 28 | 3 | 8 | 2 | 6 | ✅ |
-| **tur** Turkey | 29 | 21 | 1 | 5 | 1 | 6 | ❌ |
-| **ukr** Ukraine | 22 | 16 | 1 | 6 | 1 | 4 | ❌ |
-| **ven** Venice | 35 | 27 | 2 | 8 | 2 | 6 | ✅ |
+| **alg** Algeria | 25 | 18 | 2 | 2 | 1 | 5 | ❌ |
+| **aus** Austria | 38 | 30 | 5 | 7 | 2 | 6 | ✅ |
+| **bav** Bavaria | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **den** Denmark | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **eng** England | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **fra** France | 37 | 29 | 5 | 7 | 2 | 6 | ✅ |
+| **hun** Hungary | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **net** Netherlands | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **pie** Piedmont | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **pol** Poland | 37 | 29 | 4 | 8 | 2 | 6 | ✅ |
+| **por** Portugal | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **pru** Prussia | 36 | 28 | 4 | 6 | 3 | 6 | ✅ |
+| **rus** Russia | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **sax** Saxony | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
+| **sco** Scotland | 28 | 21 | 3 | 3 | 1 | 5 | ✅ |
+| **spa** Spain | 36 | 28 | 4 | 6 | 2 | 6 | ✅ |
+| **swe** Sweden | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
+| **swi** Switzerland | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **tur** Turkey | 29 | 21 | 3 | 3 | 1 | 6 | ❌ |
+| **ukr** Ukraine | 22 | 16 | 3 | 4 | 1 | 4 | ❌ |
+| **ven** Venice | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
 
 ## §2. Покрытие стандартных построек
 
@@ -116,14 +116,14 @@ Side-by-side сравнение всех 21 наций. Для подробно�
 
 | Sid | Usage | HP | max dmg | bmerc? | nations |
 | --- | --- | ---: | ---: | :---: | --- |
-| `archerdip` | Archer | 150 | 150 | — | all |
-| `archerturdip` | Archer | 150 | 150 | — | all |
-| `grenadierdip` | Grenadier | 120 | 110 | — | all |
-| `cossacksichdip` | Light Cavalry | 250 | 13 | — | all |
-| `lightinfantrydip` | Light Infantry | 55 | 5 | — | all |
-| `roundshierdip` | Light Infantry | 180 | 10 | — | all |
-| `dragoon18dip` | Mounted Shooter | 225 | 19 | — | all |
-| `lightcavalrydip` | Mounted Shooter | 225 | 19 | — | all |
+| `archerdip` | Archer | 20 | 100 | ✅ | all |
+| `archerturdip` | Archer | 20 | 100 | ✅ | all |
+| `grenadierdip` | Grenadier | 30 | 200 | ✅ | all |
+| `cossacksichdip` | Light Cavalry | 150 | 8 | ✅ | all |
+| `lightinfantrydip` | Light Infantry | 50 | 16 | ✅ | all |
+| `roundshierdip` | Light Infantry | 75 | 6 | ✅ | all |
+| `dragoon18dip` | Shooter | 100 | 18 | ✅ | all |
+| `lightcavalrydip` | Shooter | 100 | 18 | ✅ | all |
 
 ## §6. Вариант рынка
 

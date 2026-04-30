@@ -13,21 +13,27 @@
 
 ## Парсерные пробелы (`data.json`)
 
-### bmercenary override не разрешён — 168 dip-юнитов в `data.json` имеют не-наёмничьи статы
+### ~~bmercenary override не разрешён — 168 dip-юнитов в `data.json` имеют не-наёмничьи статы~~ — ИСПРАВЛЕНО 2026-04-30
 
-**Что:** `parser/parse_units.py` не учитывает `if (bmercenary)` ветку в `unit.script` для юнитов с суффиксом `dip` (8 sid × 21 нация = 168 строк). В `data.json` для них лежат **обычные** статы (HP, damage, цена, consume), а не наёмничьи.
+**Было:** `parser/parse_units.py` не учитывал `if (bmercenary)` ветку в `unit.script` для юнитов с суффиксом `dip` (8 sid × 21 нация = 168 строк).
 
-**Где правда:** в [`docs/recon/mercenaries_diplomacy.md`](recon/mercenaries_diplomacy.md) §2.2 — таблица per-merc stats с цитатами строк `unit.script:611-1662`.
+**Фикс:** добавлены `BMERCENARY_SIDS` и `find_bmercenary_block_body()` в [parse_units.py](../parser/parse_units.py), `_compute_effective_unit()` в [build_data.py](../parser/build_data.py) применяет merc-override для sid'ов из BMERCENARY_SIDS. Параллельно добавлен парсинг `objprop.costpercent := X;` для unit-веток (3 не-merc юнита тоже его имеют: 1867, 1889, 2018 в unit.script).
 
-**Затрагиваемые поля:** `hp`, `food/wood/stone/gold/iron/coal`, `consume.gold`, `bnohungry`, `costpercent`, `weapons`.
-
-**Кто пострадает:** любой потребитель `data.json`, фильтрующий по `bmercenary=True` (в текущей версии — только `battleship`, потому что только у него флаг проставлен) или работающий с конкретными dip-sid'ами.
+**Подтверждено:** 8 dip-sid × 21 нация = 168 строк теперь имеют правильные merc-статы — HP, gold, consume.gold, bmercenary=True, bnohungry=True, costpercent (100/100.5/102) совпадают с [recon §2.2](recon/mercenaries_diplomacy.md). Стат идентичен между нациями (nation-independent). 112/112 sanity checks PASS.
 
 ### Weapons у зданий пока не извлекаются полностью
 
 **Что:** для зданий в `data.json` есть скалярные `weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`. Если у здания два оружия (теоретически возможно для будущих модов), извлечётся только первое.
 
 **В реальной игре:** все боевые здания (Башни, Порт) имеют одно оружие, так что прямо сейчас этот пробел не проявляется. Замечание оставлено как напоминание для парсера.
+
+### ~~Ценовые проценты `priceperc` апгрейдов не извлекались~~ — ИСПРАВЛЕНО 2026-04-30
+
+**Было:** 291 priceperc-апгрейд в `data.json` имел корректную базовую цену исследования (food/wood/stone/gold/iron/coal), но **не имел** `resource_pcts` — процентного снижения стоимости целевых юнитов/зданий. Эти проценты выставляются в country.script через `country.upgrade[ind-1].sarrparam2[gc_upgrade_maxarrparam2count-gc_ResCount+gc_resource_type_X-1] := 'NN';` — после `_country_AddUpgrade*` вызова. Существующий `_attach_resource_pcts` пытался re-resolve sid из текстовой позиции и не справлялся с per-nation шаблонами (`csid+'art.'+member+...`).
+
+**Фикс:** добавлен handler в `walk_sim`'s `assign` branch ([simulate_upgrades.py:870-887](../parser/simulate_upgrades.py)) — `_SARR2_RES_LHS_RE` распознаёт LHS, парсит RHS как процент и присваивает `state["last_upgrade"]["resource_pcts"][resource]`. AST уже трактовал эти assigns правильно, просто handler их игнорировал.
+
+**Подтверждено:** 291/291 priceperc-апгрейдов имеют resource_pcts (раньше 0/291). Числа совпадают с прямым чтением country.script (artillery .1.1-.1.6 = wood/gold/iron −25%, aca.7 = wood −85%, aca.32 = gold/iron −50%). Полное покрытие: 13-14 priceperc на нацию × 21 нация = 291. Параллельно `_attach_resource_pcts` оставлен как backstop для апгрейдов, чьи if-условия вернули False в AST-walk.
 
 ### Сценарные триггеры не парсятся
 

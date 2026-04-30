@@ -35,6 +35,8 @@ Game speed presets ([dmscript.global:1027-1029](C:/Program Files (x86)/Steam/ste
 - `gc_settings_gamespeed_1 = 10` (normal)
 - `gc_settings_gamespeed_2 = 14` (fast)
 
+Это лобби-настройка `gMap.settings.additional.gamespeed` — см. [`game_settings.md`](game_settings.md) §3.10 для всех опций партии.
+
 Все длительности в скриптах (анимации, buildtime, attackpause) — в **frames**. Перевод в game-seconds: `frames / 32`. Перевод в real-seconds: дополнительно делить на `TimeSpeedFactor/10`.
 
 ---

@@ -993,16 +993,16 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | ausdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | ausdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | ausdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | ausdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | ausart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | ausdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | ausdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `croat` | Кроат | Light Cavalry | aussta | unique | 260 | 15.75 | 80 | 6 | 2 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | aussta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | aussta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | aussta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | ausdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | ausdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | ausbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | ausba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1010,11 +1010,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | ausba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | ausdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | ausdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | ausart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | aussta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | ausdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | ausdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | ausdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | ausdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | ausart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | ausart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | ausba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1028,7 +1028,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `priest` | Капеллан | Light Infantry | austem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | aussta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
 | `roundshier` | Рундашир | Light Infantry | ausbar | unique | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | ausdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | ausdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1036,15 +1036,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | fradip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | fradip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | fradip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | fradip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | fraart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
 | `chasseur` | Егерь | Shooter | fraba2 | unique | 75 | 6.0 | 50 | 45 | 15 | 20 | 19.69 | 5.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | fradip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | fradip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | frasta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | frasta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | fradip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | fradip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `dragoon18fra` | Драгун 18в. | Mounted Shooter | frasta | unique | 140 | 15.0 | 50 | 30 | 6 | 10 | 15.0 | 4.69 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | frabar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | fraba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
@@ -1053,12 +1053,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | fraba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | fradip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | fradip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | fraart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | frasta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `kingmusketeer` | Королевский мушкетер | Mounted Shooter | frasta | unique | 280 | 27.0 | 100 | 100 | 8 | 43 | 13.13 | 6.88 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | fradip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | fradip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | fradip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | fradip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | fraart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | fraart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | frabar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1070,7 +1070,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | fraba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | fratem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | frasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | fradip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | fradip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1078,28 +1078,28 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | engdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | engdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | engdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | engdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `bagpiper` | Волынщик | Light Infantry | engba2 | semi-unique (2n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | engart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | engdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | engdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | engsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | engsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | engsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | engdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | engdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | engbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | engba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | engdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | engdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `highlander` | Шотландский стрелок | Shooter | engba2 | unique | 130 | 6.0 | 90 | 25 | 10 | 16 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | engart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | engsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | engdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | engdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | engdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | engdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | engart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | engart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | engbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1111,7 +1111,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | engba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | engtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | engsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | engdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | engdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1119,15 +1119,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | spadip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | spadip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | spadip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | spadip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | spaart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | spadip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | spadip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | spasta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | spasta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | spasta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | spadip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | spadip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | spabar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | spaba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1135,11 +1135,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | spaba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | spadip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | spadip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | spaart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | spasta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | spadip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | spadip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | spadip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | spadip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | spaart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | spaart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | spaba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1152,7 +1152,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemanspa` | Коселет | Light Infantry | spabar | unique | 100 | 5.5 | 35 | 7 | 30 | 10 | 1.88 | 0.0 | 3 | 4 | 6 | 240 | 12 | 50 |
 | `priest` | Капеллан | Light Infantry | spatem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | spasta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | spadip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | spadip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1160,15 +1160,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | rusdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | rusdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | rusdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | rusdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | ruspor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | rusart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
 | `cossackdon` | Донской козак | Heavy Cavalry | russta | unique | 220 | 13.5 | 100 | 0 | 0 | 13 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | rusdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | rusdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | russta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | russta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | rusdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | rusdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | rusba2 | shared (16n) | 100 | 6.0 | 90 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummerrus` | Барабанщик 17в. | Light Infantry | rusbar | unique | 100 | 6.0 | 90 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | ruspor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1176,11 +1176,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | ruspor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | ruspor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | rusba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | rusdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | rusdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | rusart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | russta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | rusdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | rusdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | rusdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | rusdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | rusart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | rusart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | rusba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1190,7 +1190,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | rusba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `pikemanrus` | Копейщик | Light Infantry | rusbar | unique | 85 | 5.5 | 45 | 4 | 15 | 8 | 1.69 | 0.0 | 2 | 1 | 4 | 140 | 4 | 25 |
 | `pope` | Поп | Light Infantry | rustem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | rusdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | rusdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `strelet` | Стрелец | Shooter | rusbar | unique | 85 | 8.5 | 70 | 7 | 9 | 12 | 13.13 | 4.69 | — | — | — | — | — | — |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `vityaz` | Витязь | Heavy Cavalry | russta | unique | 380 | 25.5 | 160 | 13 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 3 | 160 | 17 | 40 |
@@ -1200,26 +1200,26 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | ukrdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | ukrdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | ukrdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | ukrdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | ukrart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
 | `chaika` | — | Yacht | ukrpor | unique | 25000 | 40.0 | 0 | 600 | 200 | 1000 | 20.63 | 2.34 | — | — | — | — | — | — |
 | `cossackregister` | Реестровый козак | Heavy Cavalry | ukrsta | unique | 250 | 10.5 | 70 | 15 | 0 | 12 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `cossacksich` | Сечевой козак | Light Cavalry | ukrsta | unique | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | ukrdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | ukrdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | ukrdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | ukrdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | ukrpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | ukrpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Галера | Galley | ukrpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | ukrdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | ukrdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `hetman` | Гетьман | Heavy Cavalry | ukrsta | unique | 320 | 16.5 | 150 | 150 | 10 | 70 | 1.22 | 0.0 | 0 | 1 | 3 | 75 | 3 | 15 |
 | `howitzer` | Гаубица | Mortar | ukrart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | ukrdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | ukrdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | ukrdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | ukrdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | ukrart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `peaukr` | Крестьянин | Peasant | ukrcen | unique | 75 | 11.25 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pope` | Поп | Light Infantry | ukrtem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | ukrdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | ukrdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `serdiuk` | Сердюк | Shooter | ukrbar | unique | 85 | 11.0 | 60 | 11 | 5 | 12 | 16.88 | 4.06 | — | — | — | — | — | — |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 
@@ -1227,15 +1227,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | poldip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | poldip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | poldip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | poldip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | polart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | poldip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | poldip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | polsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | polsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | polsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | poldip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | poldip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `dragoonpol` | Посполитое рушение | Mounted Shooter | polsta | unique | 185 | 13.5 | 70 | 5 | 4 | 13 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | polbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | polba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
@@ -1244,11 +1244,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | polba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | poldip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | poldip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | polart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | polsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | poldip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | poldip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | poldip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | poldip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | polart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | polart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | polba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1260,7 +1260,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemanpol` | Пикинер 17в. | Light Infantry | polbar | unique | 90 | 3.0 | 25 | 1 | 0 | 8 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `priest` | Капеллан | Light Infantry | poltem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiterpol` | Легкий рейтар | Heavy Cavalry | polsta | unique | 190 | 8.25 | 60 | 5 | 2 | 9 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | poldip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | poldip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `wingedhussar` | Крылатый гусар | Light Cavalry | polsta | unique | 225 | 26.0 | 130 | 30 | 25 | 14 | 1.88 | 0.0 | 1 | 2 | 5 | 160 | 10 | 30 |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
@@ -1269,15 +1269,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | swedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | swedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | swedip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | swedip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | sweart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | swedip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | swedip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | swesta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | swesta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | swesta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | swedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | swedip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | swebar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | sweba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1285,12 +1285,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | sweba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | swedip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | swedip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `hackapell` | Гаккапелит | Light Cavalry | swesta | unique | 245 | 18.0 | 80 | 7 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | sweart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | swesta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | swedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | swedip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | swedip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | swedip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | sweart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | sweart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | swebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1302,7 +1302,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18swe` | Пикинер 18в. | Light Infantry | sweba2 | unique | 110 | 1.5 | 40 | 3 | 0 | 11 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | swetem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiterswe` | Шведский рейтар | Heavy Cavalry | swesta | unique | 300 | 22.5 | 130 | 7 | 20 | 14 | 1.22 | 0.0 | 2 | 3 | 7 | 140 | 7 | 35 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | swedip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | swedip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1310,15 +1310,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | prudip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | prudip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | prudip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | prudip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | pruart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | prudip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | prudip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | prusta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | prusta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | prusta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | prudip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | prudip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | prubar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | pruba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1326,12 +1326,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | pruba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | prudip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | prudip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierpru` | Гренадер | Grenadier | pruba2 | unique | 125 | 7.0 | 90 | 100 | 45 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | pruart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussarpru` | Гусар | Light Cavalry | prusta | unique | 240 | 11.25 | 80 | 15 | 2 | 9 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | prudip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | prudip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | prudip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | prudip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | pruart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | pruart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | prubar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1343,7 +1343,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | pruba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | prutem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | prusta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | prudip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | prudip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1351,15 +1351,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | vendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | vendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | vendip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | vendip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | venart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | vendip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | vendip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | vensta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | vensta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | vensta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | vendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | vendip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | venbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | venba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1367,11 +1367,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | venba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | vendip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | vendip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | venart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | vensta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | vendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | vendip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | vendip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | vendip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | venart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | venart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | venbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1383,7 +1383,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | venba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | ventem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | vensta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | vendip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | vendip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1391,29 +1391,29 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | turdip | common | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | turdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `archertur` | Турецкий лучник | Archer | turbar | unique | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | turdip | common | 65 | 3.0 | 45 | 4 | 0 | 20 | 16.88 | 2.66 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | turdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | turpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | turart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | turdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | turdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | turdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | turdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummertur` | Барабанщик | Light Infantry | turbar | semi-unique (2n) | 50 | 4.0 | 30 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | turpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | turpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Галера | Galley | turpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | turdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | turdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | turart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `jannisary` | Янычар | Shooter | turbar | unique | 65 | 8.0 | 55 | 13 | 5 | 12 | 15.94 | 4.69 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | turdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | turdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `lightinfantry` | Легкий пехотинец | Light Infantry | turbar | semi-unique (2n) | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | turdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | turdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | turart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `mullah` | Мулла | Light Infantry | turtem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `officertur` | Офицер | Light Infantry | turbar | semi-unique (2n) | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `peatur` | Крестьянин | Peasant | turcen | semi-unique (2n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikemantur` | Турецкий пикинер | Light Infantry | turbar | semi-unique (2n) | 95 | 5.5 | 55 | 5 | 0 | 9 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | turdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | turdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `sipahi` | Тяжелый сипах | Heavy Cavalry | tursta | unique | 360 | 18.0 | 130 | 20 | 70 | 15 | 1.22 | 0.0 | 3 | 7 | 4 | 225 | 24 | 60 |
 | `spakh` | Легкий сипах | Heavy Cavalry | tursta | unique | 230 | 9.0 | 80 | 6 | 5 | 15 | 1.88 | 0.0 | 0 | 1 | 0 | 10 | 2 | 0 |
 | `tatar` | Татарин | Archer | tursta | unique | 185 | 11.25 | 70 | 6 | 0 | 15 | 20.63 | 1.56 | — | — | — | — | — | — |
@@ -1426,28 +1426,28 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `archer` | Лучник | Archer | algbar | unique | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerdip` | Лучник  (наемник) | Archer | algdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | algdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | algdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | algdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | turpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | algart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | algdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | algdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | algdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | algdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummertur` | Барабанщик | Light Infantry | algbar | semi-unique (2n) | 50 | 4.0 | 30 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | turpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | turpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `galley` | Галера | Galley | turpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | algdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | algdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | algart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | algdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | algdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `lightinfantry` | Легкий пехотинец | Light Infantry | algbar | semi-unique (2n) | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | algdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | algdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mameluke` | Мамлюк | Heavy Cavalry | algsta | unique | 280 | 12.0 | 100 | 8 | 0 | 16 | 1.88 | 0.0 | 1 | 3 | 1 | 75 | 8 | 0 |
 | `mortar` | Мортира | Super Mortar | algart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `mullah` | Мулла | Light Infantry | algtem | semi-unique (2n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `officertur` | Офицер | Light Infantry | algbar | semi-unique (2n) | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `peatur` | Крестьянин | Peasant | algcen | semi-unique (2n) | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `pikemantur` | Турецкий пикинер | Light Infantry | algbar | semi-unique (2n) | 95 | 5.5 | 55 | 5 | 0 | 9 | 2.06 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | algdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | algdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `xebec` | Шебека | Frigate | turpor | semi-unique (2n) | 65000 | 230.0 | 0 | 1600 | 320 | 1800 | 31.88 | 1.56 | — | — | — | — | — | — |
 
@@ -1455,14 +1455,14 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | netdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | netdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | netdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | netdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | netart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | netdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | netdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | netsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | netsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | netdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | netdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `dragoon18net` | Драгун 18в. | Mounted Shooter | netsta | unique | 320 | 24.0 | 100 | 70 | 7 | 17 | 15.94 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | netbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | netba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
@@ -1471,11 +1471,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | netba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | netdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | netdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | netart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | netsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | netdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | netdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | netdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | netdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | netart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | netart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | netba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1487,7 +1487,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | netba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | nettem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | netsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | netdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | netdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1495,15 +1495,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | dendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | dendip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | dendip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | dendip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | denart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | dendip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | dendip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | densta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | densta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | densta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | dendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | dendip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | denbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | denba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1511,11 +1511,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierden` | Гренадер | Grenadier | denba2 | unique | 125 | 6.5 | 100 | 90 | 40 | 22 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | dendip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | dendip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | denart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | densta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | dendip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | dendip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | dendip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | dendip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | denart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | denart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | denbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1527,7 +1527,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | denba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | dentem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | densta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | dendip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | dendip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1535,15 +1535,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | pordip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | pordip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | pordip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | pordip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | porpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | porart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | pordip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | pordip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | porsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | porsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | porsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | pordip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | pordip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | porbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | porba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | porpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1551,12 +1551,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | porpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | porpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | porba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | pordip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | pordip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | porart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | porsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `jagerpor` | Доброволец | Shooter | porba2 | unique | 50 | 6.0 | 30 | 2 | 5 | 10 | 15.0 | 5.94 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | pordip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | pordip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | pordip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | pordip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | porart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | porart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | porbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1568,7 +1568,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemanpor` | Пикинер 17в. | Light Infantry | porbar | unique | 100 | 4.0 | 40 | 4 | 5 | 9 | 1.88 | 0.0 | 0 | 1 | 1 | 25 | 4 | 0 |
 | `priest` | Капеллан | Light Infantry | portem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | porsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | pordip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | pordip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | porpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1576,14 +1576,14 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | piedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | piedip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | piedip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | piedip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | pieart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | piedip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | piedip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | piesta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | piesta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | piedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | piedip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `dragoon18pie` | Драгун 18в. | Mounted Shooter | piesta | unique | 200 | 20.25 | 60 | 65 | 7 | 19 | 16.88 | 5.0 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | piebar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | pieba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
@@ -1592,11 +1592,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | pieba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | piedip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | piedip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | pieart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | piesta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | piedip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | piedip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | piedip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | piedip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | pieart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | pieart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | piebar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1608,7 +1608,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman` | Пикинер 17в. | Light Infantry | piebar | shared (13n) | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 |
 | `pikeman18` | Пикинер 18в. | Light Infantry | pieba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | piesta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | piedip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | piedip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1616,28 +1616,28 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | saxdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | saxdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | saxdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | saxdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | saxart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | saxdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | saxdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | saxsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | saxsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | saxsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | saxdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | saxdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | saxbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | saxba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | saxdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | saxdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadiersax` | Гренадер | Grenadier | saxba2 | unique | 100 | 6.0 | 50 | 60 | 40 | 22 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `guardcavalrysax` | Гвардейский кавалерист | Heavy Cavalry | saxsta | unique | 320 | 24.0 | 140 | 50 | 20 | 15 | 1.22 | 0.0 | 2 | 5 | 9 | 150 | 9 | 70 |
 | `howitzer` | Гаубица | Mortar | saxart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | saxsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | saxdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | saxdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | saxdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | saxdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | saxart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | saxart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | saxbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1649,7 +1649,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | saxba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | saxtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | saxsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | saxdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | saxdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1657,15 +1657,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | bavdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | bavdip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | bavdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | bavdip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | bavart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | bavdip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | bavdip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | bavsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | bavsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | bavsta | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | bavdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | bavdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | bavbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | bavba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1673,11 +1673,11 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadierbav` | Гренадер | Grenadier | bavba2 | unique | 125 | 6.0 | 95 | 70 | 40 | 14 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | bavdip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | bavdip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | bavart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussar` | Гусар | Light Cavalry | bavsta | shared (14n) | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | bavdip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | bavdip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | bavdip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | bavdip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | bavart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | bavart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | bavbar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1689,7 +1689,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | bavba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | bavtem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | bavsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | bavdip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | bavdip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1697,14 +1697,14 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | hundip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | hundip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | hundip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | hundip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | hunart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | hundip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | hundip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | hunsta | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | hunsta | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | hundip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | hundip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | hunbar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | hunba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1712,13 +1712,13 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `gauduk` | Гайдук | Shooter | hunbar | unique | 60 | 4.5 | 35 | 4 | 4 | 9 | 14.06 | 3.12 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | hundip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | hundip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `grenadierhun` | Гренадер | Grenadier | hunba2 | unique | 125 | 6.5 | 90 | 80 | 40 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | hunart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussarhun` | Гусар | Light Cavalry | hunsta | unique | 250 | 21.0 | 100 | 30 | 2 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `lightcavalry` | Легкий кавалерист | Mounted Shooter | hunsta | unique | 175 | 21.0 | 90 | 50 | 6 | 14 | 18.75 | 5.31 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | hundip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | hundip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | hundip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | hundip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | hunart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | hunart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer18` | Мушкетер 18в. | Shooter | hunba2 | shared (13n) | 100 | 4.5 | 50 | 40 | 40 | 10 | 1.22 | 0.0 | — | — | — | — | — | — |
@@ -1730,7 +1730,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikeman18` | Пикинер 18в. | Light Infantry | hunba2 | shared (16n) | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | — | — | — | — | — | — |
 | `priest` | Капеллан | Light Infantry | huntem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | hunsta | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | hundip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | hundip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1738,15 +1738,15 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | swidip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | swidip | common | 40 | 1.5 | 20 | 1 | 0 | 15 | 15.0 | 2.34 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | swidip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | swidip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | swiart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | swidip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | swidip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `cuirassier` | Кирасир | Heavy Cavalry | swista | shared (17n) | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 10 | 160 | 5 | 80 |
 | `dragoon` | Драгун 17в. | Mounted Shooter | swista | shared (16n) | 220 | 15.0 | 90 | 7 | 5 | 15 | 15.0 | 5.62 | — | — | — | — | — | — |
 | `dragoon18` | Драгун 18в. | Mounted Shooter | swista | shared (13n) | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | swidip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | swidip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `drummer` | Барабанщик 17в. | Light Infantry | swibar | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `drummer18` | Барабанщик 18в. | Light Infantry | swiba2 | shared (16n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
@@ -1754,12 +1754,12 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
 | `galley` | Галера | Galley | eurpor | common | 35000 | 50.0 | 0 | 900 | 800 | 100 | 22.5 | 4.69 | — | — | — | — | — | — |
 | `grenadier` | Гренадер | Grenadier | swiba2 | shared (13n) | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | swidip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | swidip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | swiart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `hussarswi` | Конный егерь | Light Cavalry | swista | unique | 265 | 19.5 | 120 | 30 | 2 | 14 | 1.22 | 0.0 | — | — | — | — | — | — |
 | `jagerswi` | Егерь | Shooter | swiba2 | unique | 65 | 6.0 | 40 | 70 | 20 | 20 | 22.5 | 6.88 | — | — | — | — | — | — |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | swidip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | swidip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | swidip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | swidip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | swiart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `multicannon` | Многоствольное орудие | Multi-cannon | swiart | shared (17n) | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 | `musketeer` | Мушкетер 17в. | Shooter | swibar | shared (11n) | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | — | — | — | — | — | — |
@@ -1771,7 +1771,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemanswi` | Пикинер 17в. | Light Infantry | swibar | unique | 90 | 5.0 | 40 | 6 | 20 | 10 | 1.88 | 0.0 | 3 | 3 | 6 | 220 | 6 | 45 |
 | `priest` | Капеллан | Light Infantry | switem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `reiter` | Рейтар | Heavy Cavalry | swista | shared (14n) | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | 2 | 6 | 6 | 190 | 15 | 40 |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | swidip | common | 100 | 4.0 | 20 | 3 | 25 | 6 | 1.13 | 0.0 | 3 | 3 | 7 | 225 | 16 | 80 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | swidip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 
@@ -1779,23 +1779,23 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 
 | sid | name | usage | trained_in | uniqueness | HP | Time | F | G | I | dmg | rng (t) | reload | пика | меч | пуля | картечь | стрела | ядро |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `archerdip` | Лучник  (наемник) | Archer | scodip | common | 150 | 6.0 | 80 | 7 | 0 | 20 | 18.75 | 3.12 | — | — | — | — | — | — |
+| `archerdip` | Лучник  (наемник) | Archer | scodip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `archersco` | Лучник кланов | Archer | scoba2 | unique | 150 | 6.0 | 80 | 7 | 0 | 20 | 18.75 | 3.12 | — | — | — | — | — | — |
-| `archerturdip` | Турецкий лучник (наемник) | Archer | scodip | common | 150 | 6.0 | 80 | 7 | 0 | 20 | 18.75 | 3.12 | — | — | — | — | — | — |
+| `archerturdip` | Турецкий лучник (наемник) | Archer | scodip | common | 20 | 1.25 | 0 | 15 | 0 | 25 | 13.13 | 2.5 | — | — | — | — | — | — |
 | `bagpiper` | Волынщик | Light Infantry | scobar | semi-unique (2n) | 75 | 6.0 | 50 | 30 | 0 | — | — | — | — | — | — | — | — | — |
 | `battleship` | Линейный корабль | Battleship | eurpor | common | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | — | — | — | — | — | — |
 | `cannon` | Пушка | Cannon | scoart | common | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | scodip | common | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `dragoon18dip` | Драгун 18в.  (наемник) | Mounted Shooter | scodip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
+| `cossacksichdip` | Сечевой козак  (наемник) | Light Cavalry | scodip | common | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | — | — | — | — | — | — |
+| `dragoon18dip` | Драгун 18в.  (наемник) | Shooter | scodip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
 | `ferry` | Транспорт | Transport | eurpor | common | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | — | — | — | — | — | — |
 | `fishboat` | Рыбацкая лодка | Fishing Boat | eurpor | common | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `framegun` | Рибадекин | Cannon | scoart | unique | 3000 | 50.0 | 0 | 300 | 150 | 500 | 33.75 | 2.81 | — | — | — | — | — | — |
 | `frigate` | Фрегат | Frigate | eurpor | common | 50000 | 230.0 | 0 | 1100 | 600 | 1800 | 30.94 | 2.34 | — | — | — | — | — | — |
-| `grenadierdip` | Гренадер  (наемник) | Grenadier | scodip | common | 120 | 6.0 | 80 | 60 | 40 | 18 | 1.5 | 0.0 | — | — | — | — | — | — |
+| `grenadierdip` | Гренадер  (наемник) | Grenadier | scodip | common | 30 | 1.5 | 0 | 25 | 0 | 30 | 1.5 | 0.0 | — | — | — | — | — | — |
 | `howitzer` | Гаубица | Mortar | scoart | common | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | `lancersco` | Лансер | Heavy Cavalry | scosta | unique | 320 | 21.0 | 120 | 6 | 0 | 11 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | Mounted Shooter | scodip | common | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | — | — | — | — | — | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | scodip | common | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | — | — | — | — | — | — |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | Shooter | scodip | common | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | — | — | — | — | — | — |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | Light Infantry | scodip | common | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | — | — | — | — | — | — |
 | `mortar` | Мортира | Super Mortar | scoart | common | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 | `musketeersco` | Мушкетер Ковенанта | Shooter | scobar | unique | 90 | 7.0 | 55 | 8 | 7 | 12 | 15.94 | 4.69 | — | — | — | — | — | — |
 | `officersco` | Офицер | Light Infantry | scobar | unique | 150 | 10.0 | 130 | 130 | 10 | 40 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -1803,7 +1803,7 @@ Sid формируется как `<cluster>+<3-letter>`, где cluster зав�
 | `pikemansco` | Пикинер Ковенанта | Light Infantry | scobar | unique | 100 | 4.0 | 35 | 2 | 0 | 9 | 1.88 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `priest` | Капеллан | Light Infantry | scotem | shared (16n) | 100 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | — | — | — | — | — | — |
 | `raidersco` | Рейдер | Light Cavalry | scosta | unique | 280 | 22.5 | 130 | 8 | 2 | 11 | 1.22 | 0.0 | — | — | — | — | — | — |
-| `roundshierdip` | Рундашир  (наемник) | Light Infantry | scodip | common | 180 | 7.0 | 110 | 10 | 0 | 10 | 1.13 | 0.0 | 1 | 2 | 2 | 110 | 6 | 10 |
+| `roundshierdip` | Рундашир  (наемник) | Light Infantry | scodip | common | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | 5 | 3 | 8 | 225 | 17 | 80 |
 | `swordsmansco` | Мечник кланов | Light Infantry | scoba2 | unique | 180 | 7.0 | 110 | 10 | 0 | 10 | 1.13 | 0.0 | 1 | 2 | 2 | 110 | 6 | 10 |
 | `unitbox` | — | — | — | common | 100 | 3.12 | 100 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 | `yacht` | Яхта | Yacht | eurpor | common | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
@@ -2284,50 +2284,50 @@ target.hp -= damage
 | sid | nation | weapon | dmg | reload (s) | shots/min | iron/выстрел | coal/выстрел | gold/выстрел |
 |---|---|---|---:|---:|---:|---:|---:|---:|
 | `archer` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | aus | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | bav | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | den | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | eng | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | fra | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | hun | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | net | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | pie | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | pol | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | por | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | pru | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | rus | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | sax | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerdip` | spa | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | swe | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | swi | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerdip` | ukr | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | ven | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
+| `archerdip` | alg | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | aus | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | bav | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | den | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | eng | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | fra | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | hun | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | net | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | pie | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | pol | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | por | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | pru | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | rus | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | sax | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | sco | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | spa | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | swe | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | swi | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | tur | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | ukr | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | ven | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
 | `archersco` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
 | `archertur` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerturdip` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | aus | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | bav | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | den | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | eng | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | fra | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | hun | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | net | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | pie | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | pol | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | por | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | pru | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | rus | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | sax | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerturdip` | spa | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | swe | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | swi | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerturdip` | ukr | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | ven | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
+| `archerturdip` | alg | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | aus | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | bav | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | den | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | eng | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | fra | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | hun | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | net | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | pie | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | pol | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | por | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | pru | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | rus | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | sax | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | sco | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | spa | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | swe | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | swi | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | tur | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | ukr | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | ven | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
 | `battleship` | alg | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
 | `battleship` | aus | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
 | `battleship` | bav | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
@@ -2400,27 +2400,27 @@ target.hp -= damage
 | `dragoon18` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
 | `dragoon18` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
 | `dragoon18` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | alg | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | aus | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | bav | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | den | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | eng | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | fra | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | hun | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | net | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | pie | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | pol | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | por | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | pru | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | rus | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | sax | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | sco | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | spa | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | swe | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | swi | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | tur | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | ukr | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `dragoon18dip` | ven | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
 | `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
 | `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
 | `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
@@ -2497,27 +2497,27 @@ target.hp -= damage
 | `grenadier` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
 | `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
-| `grenadierdip` | alg | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | aus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | bav | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | den | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | eng | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | fra | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | net | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | pie | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | pol | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | por | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | pru | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | rus | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | sax | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | sco | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | spa | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | swe | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | swi | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | tur | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | ukr | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierdip` | ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierdip` | alg | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | aus | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | bav | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | den | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | eng | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | fra | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | hun | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | net | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | pie | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | pol | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | por | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | pru | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | rus | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | sax | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | sco | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | spa | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | swe | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | swi | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | tur | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | ukr | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| `grenadierdip` | ven | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
 | `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
 | `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
@@ -2548,27 +2548,27 @@ target.hp -= damage
 | `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
 | `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
 | `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
-| `lightcavalrydip` | alg | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | aus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | den | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | eng | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | fra | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | hun | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | net | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | pie | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | pol | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | por | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | pru | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | rus | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | sco | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | spa | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | swe | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | swi | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | tur | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | ukr | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `lightcavalrydip` | ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | alg | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | aus | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | bav | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | den | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | eng | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | fra | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | hun | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | net | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | pie | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | pol | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | por | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | pru | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | rus | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | sax | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | sco | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | spa | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | swe | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | swi | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | tur | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | ukr | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| `lightcavalrydip` | ven | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
 | `mortar` | alg | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | aus | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `mortar` | bav | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |

@@ -30,46 +30,41 @@ attacks_per_real_sec @ fast = 1 / cycle × 1.4
 | sid | usage | weapon | dmg | range_t | cycle_g | src | att/g-sec | att/real @ fast | nations |
 | --- | --- | --- | ---: | ---: | ---: | --- | ---: | ---: | --- |
 | `battleship` | Battleship | cannonball #0 | 1800 | 36.56 | 0.62 | pause | 1.61 | 2.26 | alg, aus, bav, den … (+16) |
+| `archerdip` | Archer | firearrow #1 | 100 | 14.06 | 0.78 | pause | 1.28 | 1.79 | all |
+| `archerturdip` | Archer | firearrow #1 | 100 | 14.06 | 0.78 | pause | 1.28 | 1.79 | all |
 | `galley` | Galley | mortarball #1 | 1000 | 58.13 | 1.56 | pause | 0.64 | 0.90 | alg, aus, bav, den … (+16) |
 | `tatar` | Archer | arrow #0 | 15 | 20.63 | 1.56 | pause | 0.64 | 0.90 | tur |
 | `xebec` | Frigate | cannonball #0 | 1800 | 31.88 | 1.56 | pause | 0.64 | 0.90 | alg, tur |
 | `multicannon` | Multi-cannon | cannister #0 | 500 | 13.13 | 1.88 | pause | 0.53 | 0.74 | aus, bav, den, eng … (+13) |
+| `dragoon18dip` | Shooter | bullet #0 | 18 | 15.0 | 2.25 | pause | 0.44 | 0.62 | all |
+| `lightcavalrydip` | Shooter | bullet #0 | 18 | 15.0 | 2.25 | pause | 0.44 | 0.62 | all |
 | `archer` | Archer | arrow #0 | 15 | 15.0 | 2.34 | pause | 0.43 | 0.60 | alg |
-| `archerdip` | Archer | arrow #0 | 15 | 15.0 | 2.34 | pause | 0.43 | 0.60 | alg, aus, bav, den … (+15) |
-| `archerturdip` | Archer | arrow #0 | 15 | 15.0 | 2.34 | pause | 0.43 | 0.60 | alg, aus, bav, den … (+15) |
 | `chaika` | Yacht | cannonball #0 | 1000 | 20.63 | 2.34 | pause | 0.43 | 0.60 | ukr |
 | `frigate` | Frigate | cannonball #0 | 1800 | 30.94 | 2.34 | pause | 0.43 | 0.60 | aus, bav, den, eng … (+14) |
 | `grenadier` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | aus, eng, fra, net … (+9) |
 | `grenadierbav` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | bav |
 | `grenadierden` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | den |
-| `grenadierdip` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | all |
 | `grenadierpru` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | pru |
 | `grenadiersax` | Grenadier | mortarball #2 | 110 | 9.38 | 2.34 | pause | 0.43 | 0.60 | sax |
-| `archerdip` | Archer | arrow #0 | 20 | 16.88 | 2.66 | pause | 0.38 | 0.53 | tur |
+| `archerdip` | Archer | arrow #0 | 25 | 13.13 | 2.50 | pause | 0.40 | 0.56 | all |
+| `archerturdip` | Archer | arrow #0 | 25 | 13.13 | 2.50 | pause | 0.40 | 0.56 | all |
 | `archertur` | Archer | arrow #0 | 20 | 16.88 | 2.66 | pause | 0.38 | 0.53 | tur |
-| `archerturdip` | Archer | arrow #0 | 20 | 16.88 | 2.66 | pause | 0.38 | 0.53 | tur |
 | `framegun` | Cannon | cannonball #0 | 500 | 33.75 | 2.81 | pause | 0.36 | 0.50 | sco |
 | `grenadierhun` | Grenadier | mortarball #2 | 110 | 11.25 | 2.81 | pause | 0.36 | 0.50 | hun |
-| `archerdip` | Archer | arrow #0 | 20 | 18.75 | 3.12 | pause | 0.32 | 0.45 | sco |
 | `archersco` | Archer | arrow #0 | 20 | 18.75 | 3.12 | pause | 0.32 | 0.45 | sco |
-| `archerturdip` | Archer | arrow #0 | 20 | 18.75 | 3.12 | pause | 0.32 | 0.45 | sco |
 | `gauduk` | Shooter | bullet #1 | 9 | 14.06 | 3.12 | pause | 0.32 | 0.45 | hun |
+| `grenadierdip` | Grenadier | mortarball #2 | 200 | 7.5 | 3.12 | pause | 0.32 | 0.45 | all |
 | `musketeerpol` | Shooter | bullet #1 | 9 | 13.13 | 3.12 | pause | 0.32 | 0.45 | pol |
 | `musketeernet` | Shooter | bullet #1 | 10 | 15.0 | 3.75 | pause | 0.27 | 0.37 | net |
 | `archer` | Archer | firearrow #1 | 150 | 11.25 | 3.91 | pause | 0.26 | 0.36 | alg |
-| `archerdip` | Archer | firearrow #1 | 150 | 11.25 | 3.91 | pause | 0.26 | 0.36 | alg, aus, bav, den … (+15) |
-| `archerturdip` | Archer | firearrow #1 | 150 | 11.25 | 3.91 | pause | 0.26 | 0.36 | alg, aus, bav, den … (+15) |
 | `serdiuk` | Shooter | bullet #1 | 12 | 16.88 | 4.06 | pause | 0.25 | 0.34 | ukr |
-| `archerdip` | Archer | firearrow #1 | 150 | 16.88 | 4.38 | pause | 0.23 | 0.32 | tur |
-| `archerdip` | Archer | firearrow #1 | 150 | 18.75 | 4.38 | pause | 0.23 | 0.32 | sco |
 | `archersco` | Archer | firearrow #1 | 150 | 18.75 | 4.38 | pause | 0.23 | 0.32 | sco |
 | `archertur` | Archer | firearrow #1 | 150 | 16.88 | 4.38 | pause | 0.23 | 0.32 | tur |
-| `archerturdip` | Archer | firearrow #1 | 150 | 16.88 | 4.38 | pause | 0.23 | 0.32 | tur |
-| `archerturdip` | Archer | firearrow #1 | 150 | 18.75 | 4.38 | pause | 0.23 | 0.32 | sco |
 | `grenadierpru` | Grenadier | bullet #1 | 16 | 16.88 | 4.38 | pause | 0.23 | 0.32 | pru |
 | `musketeer18sax` | Shooter | bullet #1 | 19 | 16.88 | 4.38 | pause | 0.23 | 0.32 | sax |
 | `dragoon18fra` | Mounted Shooter | bullet #0 | 10 | 15.0 | 4.69 | pause | 0.21 | 0.30 | fra |
 | `galley` | Galley | cannonball #0 | 100 | 22.5 | 4.69 | pause | 0.21 | 0.30 | alg, aus, bav, den … (+16) |
+| `grenadierdip` | Grenadier | bullet #1 | 16 | 15.0 | 4.69 | pause | 0.21 | 0.30 | all |
 | `jannisary` | Shooter | bullet #1 | 12 | 15.94 | 4.69 | pause | 0.21 | 0.30 | tur |
 | `musketeer` | Shooter | bullet #1 | 12 | 15.0 | 4.69 | pause | 0.21 | 0.30 | bav, den, eng, fra … (+7) |
 | `musketeer18` | Shooter | bullet #1 | 16 | 16.88 | 4.69 | pause | 0.21 | 0.30 | aus, eng, fra, hun … (+9) |
@@ -85,14 +80,11 @@ attacks_per_real_sec @ fast = 1 / cycle × 1.4
 | `musketeeraus` | Shooter | bullet #0 | 12 | 15.0 | 5.00 | pause | 0.20 | 0.28 | aus |
 | `pandurhun` | Shooter | bullet #1 | 19 | 18.75 | 5.00 | pause | 0.20 | 0.28 | hun |
 | `dragoon18` | Mounted Shooter | bullet #0 | 19 | 16.88 | 5.31 | pause | 0.19 | 0.26 | aus, bav, den, eng … (+9) |
-| `dragoon18dip` | Mounted Shooter | bullet #0 | 19 | 16.88 | 5.31 | pause | 0.19 | 0.26 | all |
 | `grenadier` | Grenadier | bullet #1 | 16 | 16.88 | 5.31 | pause | 0.19 | 0.26 | aus, eng, fra, net … (+9) |
 | `grenadierbav` | Grenadier | bullet #1 | 19 | 16.88 | 5.31 | pause | 0.19 | 0.26 | bav |
-| `grenadierdip` | Grenadier | bullet #1 | 16 | 16.88 | 5.31 | pause | 0.19 | 0.26 | all |
 | `grenadierhun` | Grenadier | bullet #1 | 16 | 16.88 | 5.31 | pause | 0.19 | 0.26 | hun |
 | `grenadiersax` | Grenadier | bullet #1 | 19 | 17.81 | 5.31 | pause | 0.19 | 0.26 | sax |
 | `lightcavalry` | Mounted Shooter | bullet #0 | 14 | 18.75 | 5.31 | pause | 0.19 | 0.26 | hun |
-| `lightcavalrydip` | Mounted Shooter | bullet #0 | 19 | 16.88 | 5.31 | pause | 0.19 | 0.26 | all |
 | `dragoon` | Mounted Shooter | bullet #0 | 15 | 15.0 | 5.62 | pause | 0.18 | 0.25 | aus, bav, den, eng … (+12) |
 | `chasseur` | Shooter | bullet #1 | 20 | 19.69 | 5.94 | pause | 0.17 | 0.24 | fra |
 | `grenadierden` | Grenadier | bullet #1 | 19 | 16.88 | 5.94 | pause | 0.17 | 0.24 | den |
@@ -140,17 +132,16 @@ attacks_per_real_sec @ fast = 1 / cycle × 1.4
 | `reiterpol` | Heavy Cavalry | sword #0 | 9 | 1.22 | 0.44 | anim | 2.29 | 3.20 | pol |
 | `reiterswe` | Heavy Cavalry | pike #0 | 14 | 1.22 | 0.44 | anim | 2.29 | 3.20 | swe |
 | `spakh` | Heavy Cavalry | pike #0 | 15 | 1.88 | 0.44 | anim | 2.29 | 3.20 | tur |
-| `cossacksichdip` | Light Cavalry | sword #0 | 13 | 1.22 | 0.47 | fallback | 2.13 | 2.99 | all |
-| `grenadierdip` | Grenadier | pike #0 | 18 | 1.5 | 0.47 | fallback | 2.13 | 2.99 | all |
+| `cossacksichdip` | Light Cavalry | sword #0 | 8 | 1.22 | 0.47 | fallback | 2.13 | 2.99 | all |
+| `grenadierdip` | Grenadier | pike #0 | 30 | 1.5 | 0.47 | fallback | 2.13 | 2.99 | all |
 | `hetman` | Heavy Cavalry | pike #0 | 70 | 1.22 | 0.47 | anim | 2.13 | 2.99 | ukr |
-| `lightinfantrydip` | Light Infantry | sword #0 | 5 | 0.94 | 0.47 | fallback | 2.13 | 2.99 | all |
+| `lightinfantrydip` | Light Infantry | sword #0 | 16 | 0.94 | 0.47 | fallback | 2.13 | 2.99 | all |
 | `pikeman` | Light Infantry | pike #0 | 8 | 1.88 | 0.47 | anim | 2.13 | 2.99 | aus, bav, den, eng … (+8) |
 | `pikeman` | Light Infantry | pike #0 | 10 | 1.88 | 0.47 | anim | 2.13 | 2.99 | spa |
 | `pikemansco` | Light Infantry | pike #0 | 9 | 1.88 | 0.47 | anim | 2.13 | 2.99 | sco |
 | `pikemanspa` | Light Infantry | pike #0 | 10 | 1.88 | 0.47 | anim | 2.13 | 2.99 | spa |
 | `pikemanswi` | Light Infantry | pike #0 | 10 | 1.88 | 0.47 | anim | 2.13 | 2.99 | swi |
-| `roundshierdip` | Light Infantry | sword #0 | 6 | 1.13 | 0.47 | fallback | 2.13 | 2.99 | alg, aus, bav, den … (+16) |
-| `roundshierdip` | Light Infantry | sword #0 | 10 | 1.13 | 0.47 | fallback | 2.13 | 2.99 | sco |
+| `roundshierdip` | Light Infantry | sword #0 | 6 | 1.13 | 0.47 | fallback | 2.13 | 2.99 | all |
 | `grenadier` | Grenadier | pike #0 | 18 | 1.5 | 0.50 | anim | 2.00 | 2.80 | aus, eng, fra, net … (+9) |
 | `grenadierbav` | Grenadier | pike #0 | 14 | 1.5 | 0.50 | anim | 2.00 | 2.80 | bav |
 | `grenadierden` | Grenadier | pike #0 | 22 | 1.5 | 0.50 | anim | 2.00 | 2.80 | den |
@@ -179,14 +170,14 @@ Min / median / max длительности цикла для каждого `ki
 
 | kind | n | min cycle (g-sec) | median | max | min att/real @ fast |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| arrow | 10 | 1.56 | 2.66 | 3.12 | 0.90 |
-| bullet | 38 | 3.12 | 5.00 | 6.88 | 0.45 |
+| arrow | 6 | 1.56 | 2.50 | 3.12 | 0.90 |
+| bullet | 38 | 2.25 | 5.00 | 6.88 | 0.62 |
 | cannister | 1 | 1.88 | 1.88 | 1.88 | 0.74 |
 | cannonball | 10 | 0.62 | 4.69 | 18.75 | 2.26 |
-| firearrow | 10 | 3.91 | 4.38 | 4.69 | 0.36 |
+| firearrow | 6 | 0.78 | 4.38 | 4.69 | 1.79 |
 | mortarball | 9 | 1.56 | 2.34 | 7.81 | 0.90 |
 | pike | 41 | 0.28 | 0.44 | 0.56 | 4.98 |
-| sword | 24 | 0.38 | 0.47 | 0.56 | 3.73 |
+| sword | 23 | 0.38 | 0.44 | 0.56 | 3.73 |
 
 ## §3. Замечания
 

@@ -267,7 +267,9 @@ def main():
     A("")
     A("Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
       "cluster counts из replay/save файлов "
-      "(`docs/derived/replay_ground_truth.json`).")
+      "(`docs/derived/replay_ground_truth.json`). "
+      "Расшифровка `mapsize/relief/terraintype/season` enum'ов — "
+      "[`recon/game_settings.md`](../recon/game_settings.md) §2.")
     A("")
     A(f"**Replays processed:** {len(rows)}")
     A("")

@@ -4,7 +4,7 @@
 
 Per-type placement rates **эмпирически откалиброваны** на 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: `compute/compute_replay_aggregates.py` → `compute/validate_map_predictions.py`. См. также [recon/map_generation_pipeline.md §14](../recon/map_generation_pipeline.md).
 
-**Настройки:** mapsize=3 (Tiny, 256×256 = 65536 tiles), relief=3 (Highlands), resourcemines=2 (Rich), foreststype=0.
+**Настройки:** mapsize=3 (Tiny, 256×256 = 65536 tiles), relief=3 (Highlands), resourcemines=2 (Rich), foreststype=0. Расшифровка enum'ов — [`recon/game_settings.md`](../recon/game_settings.md) §2.
 
 ## 1. Модификаторы вероятности паттернов (оценка)
 

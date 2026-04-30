@@ -556,7 +556,7 @@ Footprint здания **не учитывается** — берётся одн
 | `capture_nocenterspeasants = 2` | Нельзя захватить ни крестьян, ни Городской центр |
 | `capture_onlyartillery = 3` | Захвату поддаётся только артиллерия |
 
-То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`.
+То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`. Все остальные опции лобби (peacetime, marketdip, century18 и др.) — [`docs/recon/game_settings.md`](../recon/game_settings.md).
 
 ### ИИ-захватчик: 75% шанс снести вместо захвата
 
@@ -660,7 +660,7 @@ target.hp = min(target.hp, target.maxhp)
 
 - **Wonder of the World.** В отличие от AoE2, здания-таймера победы в C3 нет (поиск `wonder|monument` по скриптам ничего не находит).
 - **Победа по очкам.** Score копится исключительно для статистики и в условие победы не входит.
-- **Time-limit.** Партия не заканчивается по таймеру. Есть только peacetime (запрет атаки в первые N минут) и pause-limit (4 × 120 сек).
+- **Time-limit.** Партия не заканчивается по таймеру. Есть только peacetime (запрет атаки в первые N минут — см. [`game_settings.md`](../recon/game_settings.md) §3.4) и pause-limit (4 × 120 сек).
 - **Дипломатическая победа.** Команды статично заданы лобби, в рантайме не меняются.
 
 ### Game modes
@@ -820,13 +820,13 @@ TTK = target.HP / DPS
 | Peasant | `peatur` (Peasant) | 20 | 0.5625 | sword | `peatur` (Peasant) | 50 | 0 |
 | Pikemen 17c | `pikeman` (Pikeman, 17th century) | 8 | 0.4688 | pike | `pikeman` (Pikeman, 17th century) | 90 | 0 |
 | Pikemen 18c | `pikeman18` (Pikeman, 18th century) | 9 | 0.2812 | pike | `pikeman18` (Pikeman, 18th century) | 85 | 0 |
-| Light Infantry | `roundshier` (Roundshier) | 6 | 0.375 | sword | `roundshier` (Roundshier) | 100 | 0 |
+| Light Infantry | `roundshierdip` (Roundshier (mercenary)) | 6 | 0.4688 | sword | `roundshierdip` (Roundshier (mercenary)) | 75 | 0 |
 | Musketeers 17c | `musketeer` (Musketeer, 17th century) | 12 | 4.69 | bullet | `musketeer` (Musketeer, 17th century) | 70 | 0 |
 | Musketeers 18c | `musketeer18` (Musketeer, 18th century) | 16 | 4.69 | bullet | `musketeer18pru` (Musketeer, 18th century) | 100 | 0 |
-| Grenadiers | `grenadierdip` (Grenadier (mercenary)) | 16 | 5.31 | bullet | `grenadierdip` (Grenadier (mercenary)) | 120 | 0 |
-| Archers | `archerturdip` (Turkish archer (mercenary)) | 15 | 2.34 | arrow | `archerturdip` (Turkish archer (mercenary)) | 40 | 0 |
-| Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 19 | 5.31 | bullet | `lightcavalrydip` (Light cavalry (mercenary)) | 225 | 0 |
-| Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 19 | 5.31 | bullet | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 225 | 0 |
+| Grenadiers | `grenadierdip` (Grenadier (mercenary)) | 16 | 4.69 | bullet | `grenadierdip` (Grenadier (mercenary)) | 30 | 0 |
+| Archers | `archerturdip` (Turkish archer (mercenary)) | 100 | 0.78 | firearrow | `archerdip` (Archer (mercenary)) | 20 | 0 |
+| Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 18 | 2.25 | bullet | `lightcavalry` (Light cavalry) | 175 | 0 |
+| Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 18 | 2.25 | bullet | `dragoon` (Dragoon, 17th century) | 220 | 0 |
 | Heavy Cavalry | `wingedhussar` (Winged Hussar) | 14 | 0.375 | pike | `cuirassier` (Cuirassier) | 300 | 0 |
 | Cannons | `cannon` (Cannon) | 1800 | 10.94 | cannonball | `cannon` (Cannon) | 9000 | 75 |
 | Mortars | `howitzer` (Howitzer) | 4000 | 18.75 | cannonball | `howitzer` (Howitzer) | 3000 | 75 |
@@ -837,19 +837,19 @@ TTK = target.HP / DPS
 
 | Atk \ Def | Pea | Pik17 | Pik18 | LtInf | Mus17 | Mus18 | Gren | Arch | LtCav | Drag | HvCav | Cnn | Mor |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| **Pea** (Peasant) | 1.4 | 2.8 | 2.4 | 3.3 | 2.0 | 2.8 | 3.4 | 1.1 | 6.3 | 6.3 | 11 | _5062_ | _1688_ |
-| **Pik17** (Pikemen 17c) | 2.9 | 8.4 | 5.0 | 9.4 | 4.1 | 5.9 | 7.0 | 2.3 | 13 | 13 | 23 | _4219_ | _1406_ |
-| **Pik18** (Pikemen 18c) | 1.6 | 4.2 | 2.7 | 4.7 | 2.2 | 3.1 | 3.7 | 1.2 | 7.0 | 7.0 | 12 | _2531_ | _844_ |
-| **LtInf** (Light Infantry) | 3.1 | 8.4 | 5.3 | 12 | 4.4 | 6.2 | 7.5 | 2.5 | 14 | 14 | 56 | _3375_ | _1125_ |
-| **Mus17** (Musketeers 17c) | 20 | 53 | 33 | 94 | 27 | 39 | 47 | 16 | 88 | 88 | _704_ | _42210_ | _14070_ |
-| **Mus18** (Musketeers 18c) | 15 | 35 | 25 | 52 | 21 | 29 | 35 | 12 | 66 | 66 | _235_ | _42210_ | _14070_ |
-| **Gren** (Grenadiers) | 17 | 40 | 28 | 59 | 23 | 33 | 40 | 13 | 75 | 75 | _266_ | _47790_ | _15930_ |
-| **Arch** (Archers) | 7.8 | 23 | 13 | _234_ | 11 | 16 | 19 | 6.2 | 35 | 35 | 70 | _21060_ | _7020_ |
-| **LtCav** (Light Cavalry) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
-| **Drag** (Dragoons) | 14 | 32 | 24 | 44 | 20 | 28 | 34 | 11 | 63 | 63 | _177_ | _47790_ | _15930_ |
-| **HvCav** (Heavy Cavalry) | 1.3 | 3.1 | 2.3 | 3.4 | 1.9 | 2.7 | 3.2 | 1.1 | 6.0 | 6.0 | 9.4 | _3375_ | _1125_ |
-| **Cnn** (Cannons) | **0.3** | **0.6** | **0.5** | **0.6** | **0.4** | **0.6** | **0.7** | **0.2** | 1.4 | 1.4 | 1.9 | 57 | 19 |
-| **Mor** (Mortars) | **0.2** | **0.4** | **0.4** | **0.5** | **0.3** | **0.5** | **0.6** | **0.2** | 1.1 | 1.1 | 1.4 | 43 | 14 |
+| **Pea** (Peasant) | 1.4 | 2.8 | 2.4 | 2.5 | 2.0 | 2.8 | **0.8** | **0.6** | 4.9 | 6.2 | 11 | _5062_ | _1688_ |
+| **Pik17** (Pikemen 17c) | 2.9 | 8.4 | 5.0 | 12 | 4.1 | 5.9 | 1.8 | 1.2 | 10 | 13 | 23 | _4219_ | _1406_ |
+| **Pik18** (Pikemen 18c) | 1.6 | 4.2 | 2.7 | 5.3 | 2.2 | 3.1 | **0.9** | **0.6** | 5.5 | 6.9 | 12 | _2531_ | _844_ |
+| **LtInf** (Light Infantry) | 3.9 | 11 | 6.6 | 12 | 5.5 | 7.8 | 2.3 | 1.6 | 14 | 17 | 70 | _4219_ | _1406_ |
+| **Mus17** (Musketeers 17c) | 20 | 53 | 33 | 88 | 27 | 39 | 12 | 7.8 | 68 | 86 | _704_ | _42210_ | _14070_ |
+| **Mus18** (Musketeers 18c) | 15 | 35 | 25 | 44 | 21 | 29 | 8.8 | 5.9 | 51 | 64 | _235_ | _42210_ | _14070_ |
+| **Gren** (Grenadiers) | 15 | 35 | 25 | 44 | 21 | 29 | 8.8 | 5.9 | 51 | 64 | _235_ | _42210_ | _14070_ |
+| **Arch** (Archers) | **0.4** | **0.7** | **0.7** | **0.6** | **0.5** | **0.8** | **0.2** | **0.2** | 1.4 | 1.7 | 2.3 | _281_ | 94 |
+| **LtCav** (Light Cavalry) | 6.2 | 14 | 11 | 17 | 8.8 | 12 | 3.8 | 2.5 | 22 | 28 | 84 | _20250_ | _6750_ |
+| **Drag** (Dragoons) | 6.2 | 14 | 11 | 17 | 8.8 | 12 | 3.8 | 2.5 | 22 | 28 | 84 | _20250_ | _6750_ |
+| **HvCav** (Heavy Cavalry) | 1.3 | 3.1 | 2.3 | 3.1 | 1.9 | 2.7 | **0.8** | **0.5** | 4.7 | 5.9 | 9.4 | _3375_ | _1125_ |
+| **Cnn** (Cannons) | **0.3** | **0.6** | **0.5** | **0.5** | **0.4** | **0.6** | **0.2** | **0.1** | 1.1 | 1.3 | 1.9 | 57 | 19 |
+| **Mor** (Mortars) | **0.2** | **0.4** | **0.4** | **0.4** | **0.3** | **0.5** | **0.1** | **0.1** | **0.8** | 1.0 | 1.4 | 43 | 14 |
 
 **Чтение:** жирным — быстро убивает (TTK <1 сек), курсивом — почти не убивает (TTK >100 сек).
 
@@ -866,12 +866,12 @@ real_TTK = ideal_TTK / hit_chance
 
 | Atk \ Def | Pea | Pik17 | LtInf | Mus17 | Gren | Arch | LtCav | HvCav |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| **Mus17** (Musketeers 17c, hit≈41%) | 47 | _127_ | _225_ | _66_ | _113_ | 38 | _211_ | _1691_ |
-| **Mus18** (Musketeers 18c, hit≈41%) | 35 | _85_ | _125_ | 49 | _85_ | 28 | _158_ | _564_ |
-| **Gren** (Grenadiers, hit≈41%) | 40 | _96_ | _142_ | 56 | _96_ | 32 | _179_ | _638_ |
-| **Arch** (Archers, hit≈41%) | 19 | 56 | _562_ | 26 | 45 | 15 | _84_ | _169_ |
-| **LtCav** (Light Cavalry, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |
-| **Drag** (Dragoons, hit≈41%) | 34 | _77_ | _106_ | 47 | _81_ | 27 | _151_ | _425_ |
+| **Mus17** (Musketeers 17c, hit≈41%) | 47 | _127_ | _211_ | _66_ | 28 | 19 | _164_ | _1691_ |
+| **Mus18** (Musketeers 18c, hit≈41%) | 35 | _85_ | _106_ | 49 | 21 | 14 | _123_ | _564_ |
+| **Gren** (Grenadiers, hit≈41%) | 35 | _85_ | _106_ | 49 | 21 | 14 | _123_ | _564_ |
+| **Arch** (Archers, hit≈100%) | 0.4 | 0.7 | 0.6 | 0.5 | 0.2 | 0.2 | 1.4 | 2.3 |
+| **LtCav** (Light Cavalry, hit≈41%) | 15 | 35 | 41 | 21 | 9 | 6 | 53 | _203_ |
+| **Drag** (Dragoons, hit≈41%) | 15 | 35 | 41 | 21 | 9 | 6 | 53 | _203_ |
 
 **Что добавилось** относительно идеального TTK:
 - Стрелки на дистанции 12 t **попадают ~50%** выстрелов → TTK ×2.
@@ -973,20 +973,14 @@ real_TTK = ideal_TTK / hit_chance
 |---|---|---|---:|---:|---:|---:|---:|---:|
 | `archer` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
 | `archer` | alg | `STRELA` | 15 | 2.34 | 25.6 | — | — | — |
-| `archerdip` | all | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerdip` | sco, tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerdip` | all | `STRELA` | 15 | 2.34 | 25.6 | — | — | — |
-| `archerdip` | tur | `STRELA` | 20 | 2.66 | 22.6 | — | — | — |
-| `archerdip` | sco | `STRELA` | 20 | 3.12 | 19.2 | — | — | — |
+| `archerdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
 | `archersco` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
 | `archersco` | sco | `STRELA` | 20 | 3.12 | 19.2 | — | — | — |
 | `archertur` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
 | `archertur` | tur | `STRELA` | 20 | 2.66 | 22.6 | — | — | — |
-| `archerturdip` | all | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archerturdip` | sco, tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archerturdip` | all | `STRELA` | 15 | 2.34 | 25.6 | — | — | — |
-| `archerturdip` | tur | `STRELA` | 20 | 2.66 | 22.6 | — | — | — |
-| `archerturdip` | sco | `STRELA` | 20 | 3.12 | 19.2 | — | — | — |
+| `archerturdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| `archerturdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
 | `battleship` | all | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
 | `cannon` | all | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
 | `cannon` | all | `PSMPOINTTPUS` | 0 | 10.94 | 5.5 | 24 | 21 | — |
@@ -994,7 +988,7 @@ real_TTK = ideal_TTK / hit_chance
 | `chasseur` | fra | `SHOTMUSKET` | 20 | 5.94 | 10.1 | 4 | 8 | — |
 | `dragoon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, spa, swe, swi, ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
 | `dragoon18` | aus, bav, den, eng, pol, por, pru, rus, sax, spa, swe, swi, ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | all | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `dragoon18dip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
 | `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
 | `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
 | `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
@@ -1008,7 +1002,7 @@ real_TTK = ideal_TTK / hit_chance
 | `grenadier` | aus, eng, fra, net, pie, pol, por, pru, rus, spa, swe, swi, ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
 | `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
-| `grenadierdip` | all | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| `grenadierdip` | all | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
 | `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
 | `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
 | `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
@@ -1019,7 +1013,7 @@ real_TTK = ideal_TTK / hit_chance
 | `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
 | `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
 | `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
-| `lightcavalrydip` | all | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| `lightcavalrydip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
 | `mortar` | all | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
 | `multicannon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, spa, swe, swi, ven | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
 | `musketeer` | bav, den, eng, fra, pie, por, pru, sax, swe, swi, ven | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |

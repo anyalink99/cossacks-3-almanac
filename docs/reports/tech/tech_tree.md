@@ -109,28 +109,28 @@ graph LR
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
 | `archer` | Лучник | 1.50 | F20 W2 G1 | algbar | — |
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | algdip | [B] `algaca`, [B] `algcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | algdip | [B] `algaca`, [B] `algcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | algdip | [B] `algaca`, [B] `algcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | algdip | [B] `algaca`, [B] `algcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | turpor | [T] `algaca.29`, [B] `algart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | algart | [B] `algbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | algdip | [B] `algaca`, [B] `algcen` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | algdip | [B] `algaca`, [B] `algcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | algdip | [B] `algaca`, [B] `algcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | algdip | [B] `algaca`, [B] `algcen` |
 | `drummertur` | Барабанщик | 4.00 | F30 G15 | algbar | [B] `algaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | turpor | [B] `algart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | turpor | — |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | turpor | [B] `algart` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | algdip | [B] `algaca`, [B] `algcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | algdip | [B] `algaca`, [B] `algcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | algart | [B] `algbla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | algdip | [B] `algaca`, [B] `algcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | algdip | [B] `algaca`, [B] `algcen` |
 | `lightinfantry` | Легкий пехотинец | 1.00 | F25 I1 | algbar | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | algdip | [B] `algaca`, [B] `algcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | algdip | [B] `algaca`, [B] `algcen` |
 | `mameluke` | Мамлюк | 12.00 | F100 W5 G8 | algsta | — |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | algart | [B] `algbla` |
 | `mullah` | Мулла | 15.00 | F30 G10 | algtem | — |
 | `officertur` | Офицер | 7.50 | F50 G100 | algbar | [B] `algaca` |
 | `peatur` | Крестьянин | 12.50 | F100 | algcen | — |
 | `pikemantur` | Турецкий пикинер | 5.50 | F55 G5 | algbar | [B] `algbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | algdip | [B] `algaca`, [B] `algcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | algdip | [B] `algaca`, [B] `algcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `xebec` | Шебека | 230.00 | W7000 G1600 I320 C960 | turpor | [T] `algaca.6`, [B] `algart` |
 
@@ -223,16 +223,16 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `ausaca.29`, [B] `ausart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | ausart | [B] `ausbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `croat` | Кроат | 15.75 | F80 G6 I2 | aussta | [B] `ausbla` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | aussta | [B] `ausbla`, [T] `auscen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | aussta | [B] `ausbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | ausbar | [B] `ausaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | ausba2 | [B] `ausaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `ausart` |
@@ -240,11 +240,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `ausaca.6`, [B] `ausart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `ausart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | ausba2 | [B] `ausbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | ausart | [B] `ausbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | ausart | [B] `ausbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | ausart | [T] `ausaca.19`, [B] `ausbla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | ausba2 | [B] `ausbla` |
@@ -258,7 +258,7 @@ graph LR
 | `priest` | Капеллан | 15.00 | F30 G10 | austem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | aussta | [B] `ausbla` |
 | `roundshier` | Рундашир | 4.00 | F20 G3 I25 | ausbar | [B] `ausbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | ausdip | [B] `ausaca`, [B] `auscen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | ausdip | [B] `ausaca`, [B] `auscen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `ausart` |
 
@@ -373,15 +373,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `bavaca.29`, [B] `bavart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | bavart | [B] `bavbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | bavsta | [B] `bavbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | bavbar | [B] `bavaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | bavba2 | [B] `bavaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `bavart` |
@@ -389,11 +389,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `bavaca.6`, [B] `bavart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `bavart` |
 | `grenadierbav` | Гренадер | 6.00 | F95 G70 I40 | bavba2 | [B] `bavbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | bavart | [B] `bavbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | bavart | [B] `bavbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | bavart | [T] `bavaca.19`, [B] `bavbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | bavbar | [B] `bavbla` |
@@ -405,7 +405,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | bavba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | bavtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | bavsta | [B] `bavbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | bavdip | [B] `bavaca`, [B] `bavcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `bavart` |
 
@@ -514,15 +514,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | dendip | [B] `denaca`, [B] `dencen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | dendip | [B] `denaca`, [B] `dencen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | dendip | [B] `denaca`, [B] `dencen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | dendip | [B] `denaca`, [B] `dencen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `denaca.29`, [B] `denart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | denart | [B] `denbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | dendip | [B] `denaca`, [B] `dencen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | dendip | [B] `denaca`, [B] `dencen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | densta | [B] `denbla`, [T] `dencen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | densta | [B] `denbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | densta | [B] `denbla`, [T] `dencen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | dendip | [B] `denaca`, [B] `dencen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | dendip | [B] `denaca`, [B] `dencen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | denbar | [B] `denaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | denba2 | [B] `denaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `denart` |
@@ -530,11 +530,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `denaca.6`, [B] `denart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `denart` |
 | `grenadierden` | Гренадер | 6.50 | F100 G90 I40 | denba2 | [B] `denbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | dendip | [B] `denaca`, [B] `dencen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | dendip | [B] `denaca`, [B] `dencen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | denart | [B] `denbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | densta | [B] `denbla`, [T] `dencen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | dendip | [B] `denaca`, [B] `dencen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | dendip | [B] `denaca`, [B] `dencen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | dendip | [B] `denaca`, [B] `dencen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | dendip | [B] `denaca`, [B] `dencen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | denart | [B] `denbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | denart | [T] `denaca.19`, [B] `denbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | denbar | [B] `denbla` |
@@ -546,7 +546,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | denba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | dentem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | densta | [B] `denbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | dendip | [B] `denaca`, [B] `dencen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | dendip | [B] `denaca`, [B] `dencen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `denart` |
 
@@ -655,28 +655,28 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | engdip | [B] `engaca`, [B] `engcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | engdip | [B] `engaca`, [B] `engcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
 | `bagpiper` | Волынщик | 6.00 | F50 G30 | engba2 | [B] `engaca` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `engaca.29`, [B] `engart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | engart | [B] `engbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | engdip | [B] `engaca`, [B] `engcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | engdip | [B] `engaca`, [B] `engcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | engsta | [B] `engbla`, [T] `engcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | engsta | [B] `engbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | engdip | [B] `engaca`, [B] `engcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | engbar | [B] `engaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `engart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `engaca.6`, [B] `engart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `engart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | engba2 | [B] `engbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | engdip | [B] `engaca`, [B] `engcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | engdip | [B] `engaca`, [B] `engcen` |
 | `highlander` | Шотландский стрелок | 6.00 | F90 G25 I10 | engba2 | [B] `engbla` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | engart | [B] `engbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | engdip | [B] `engaca`, [B] `engcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | engdip | [B] `engaca`, [B] `engcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | engdip | [B] `engaca`, [B] `engcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | engart | [B] `engbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | engart | [T] `engaca.19`, [B] `engbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | engbar | [B] `engbla` |
@@ -688,7 +688,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | engba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | engtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | engsta | [B] `engbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | engdip | [B] `engaca`, [B] `engcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | engdip | [B] `engaca`, [B] `engcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `engart` |
 
@@ -800,15 +800,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | fradip | [B] `fraaca`, [B] `fracen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | fradip | [B] `fraaca`, [B] `fracen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | fradip | [B] `fraaca`, [B] `fracen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | fradip | [B] `fraaca`, [B] `fracen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `fraaca.29`, [B] `fraart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | fraart | [B] `frabla` |
 | `chasseur` | Егерь | 6.00 | F50 G45 I15 | fraba2 | [B] `frabla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | fradip | [B] `fraaca`, [B] `fracen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | fradip | [B] `fraaca`, [B] `fracen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | frasta | [B] `frabla` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | fradip | [B] `fraaca`, [B] `fracen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | fradip | [B] `fraaca`, [B] `fracen` |
 | `dragoon18fra` | Драгун 18в. | 15.00 | F50 G30 I6 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | frabar | [B] `fraaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | fraba2 | [B] `fraaca` |
@@ -817,12 +817,12 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `fraaca.6`, [B] `fraart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `fraart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | fraba2 | [B] `frabla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | fradip | [B] `fraaca`, [B] `fracen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | fradip | [B] `fraaca`, [B] `fracen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | fraart | [B] `frabla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `kingmusketeer` | Королевский мушкетер | 27.00 | F100 G100 I8 | frasta | [B] `frabla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | fradip | [B] `fraaca`, [B] `fracen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | fradip | [B] `fraaca`, [B] `fracen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | fradip | [B] `fraaca`, [B] `fracen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | fradip | [B] `fraaca`, [B] `fracen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | fraart | [B] `frabla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | fraart | [T] `fraaca.19`, [B] `frabla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | frabar | [B] `frabla` |
@@ -834,7 +834,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | fraba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | fratem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | frasta | [B] `frabla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | fradip | [B] `fraaca`, [B] `fracen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | fradip | [B] `fraaca`, [B] `fracen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `fraart` |
 
@@ -943,14 +943,14 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | hundip | [B] `hunaca`, [B] `huncen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | hundip | [B] `hunaca`, [B] `huncen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | hundip | [B] `hunaca`, [B] `huncen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | hundip | [B] `hunaca`, [B] `huncen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `hunaca.29`, [B] `hunart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | hunart | [B] `hunbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | hundip | [B] `hunaca`, [B] `huncen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | hundip | [B] `hunaca`, [B] `huncen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | hunsta | [B] `hunbla`, [T] `huncen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | hunsta | [B] `hunbla` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | hundip | [B] `hunaca`, [B] `huncen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | hundip | [B] `hunaca`, [B] `huncen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | hunbar | [B] `hunaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | hunba2 | [B] `hunaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `hunart` |
@@ -958,13 +958,13 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `hunaca.6`, [B] `hunart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `hunart` |
 | `gauduk` | Гайдук | 4.50 | F35 G4 I4 | hunbar | [B] `hunbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | hundip | [B] `hunaca`, [B] `huncen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | hundip | [B] `hunaca`, [B] `huncen` |
 | `grenadierhun` | Гренадер | 6.50 | F90 G80 I40 | hunba2 | [B] `hunbla` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | hunart | [B] `hunbla` |
 | `hussarhun` | Гусар | 21.00 | F100 G30 I2 | hunsta | [B] `hunbla` |
 | `lightcavalry` | Легкий кавалерист | 21.00 | F90 G50 I6 | hunsta | [B] `hunbla`, [T] `huncen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | hundip | [B] `hunaca`, [B] `huncen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | hundip | [B] `hunaca`, [B] `huncen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | hundip | [B] `hunaca`, [B] `huncen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | hundip | [B] `hunaca`, [B] `huncen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | hunart | [B] `hunbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | hunart | [T] `hunaca.19`, [B] `hunbla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | hunba2 | [B] `hunbla` |
@@ -976,7 +976,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | hunba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | huntem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | hunsta | [B] `hunbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | hundip | [B] `hunaca`, [B] `huncen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | hundip | [B] `hunaca`, [B] `huncen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `hunart` |
 
@@ -1085,14 +1085,14 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | netdip | [B] `netaca`, [B] `netcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | netdip | [B] `netaca`, [B] `netcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | netdip | [B] `netaca`, [B] `netcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | netdip | [B] `netaca`, [B] `netcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `netaca.29`, [B] `netart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | netart | [B] `netbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | netdip | [B] `netaca`, [B] `netcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | netdip | [B] `netaca`, [B] `netcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | netsta | [B] `netbla`, [T] `netcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | netsta | [B] `netbla` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | netdip | [B] `netaca`, [B] `netcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | netdip | [B] `netaca`, [B] `netcen` |
 | `dragoon18net` | Драгун 18в. | 24.00 | F100 G70 I7 | netsta | [B] `netbla`, [T] `netcen.1` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | netbar | [B] `netaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | netba2 | [B] `netaca` |
@@ -1101,11 +1101,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `netaca.6`, [B] `netart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `netart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | netba2 | [B] `netbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | netdip | [B] `netaca`, [B] `netcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | netdip | [B] `netaca`, [B] `netcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | netart | [B] `netbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | netdip | [B] `netaca`, [B] `netcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | netdip | [B] `netaca`, [B] `netcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | netdip | [B] `netaca`, [B] `netcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | netdip | [B] `netaca`, [B] `netcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | netart | [B] `netbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | netart | [T] `netaca.19`, [B] `netbla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | netba2 | [B] `netbla` |
@@ -1117,7 +1117,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | netba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | nettem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | netsta | [B] `netbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | netdip | [B] `netaca`, [B] `netcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | netdip | [B] `netaca`, [B] `netcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `netart` |
 
@@ -1226,14 +1226,14 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | piedip | [B] `pieaca`, [B] `piecen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | piedip | [B] `pieaca`, [B] `piecen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | piedip | [B] `pieaca`, [B] `piecen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | piedip | [B] `pieaca`, [B] `piecen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `pieaca.29`, [B] `pieart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | pieart | [B] `piebla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | piedip | [B] `pieaca`, [B] `piecen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | piedip | [B] `pieaca`, [B] `piecen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | piesta | [B] `piebla`, [T] `piecen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | piesta | [B] `piebla` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | piedip | [B] `pieaca`, [B] `piecen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | piedip | [B] `pieaca`, [B] `piecen` |
 | `dragoon18pie` | Драгун 18в. | 20.25 | F60 G65 I7 | piesta | [B] `piebla`, [T] `piecen.1` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | piebar | [B] `pieaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | pieba2 | [B] `pieaca` |
@@ -1242,11 +1242,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `pieaca.6`, [B] `pieart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `pieart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | pieba2 | [B] `piebla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | piedip | [B] `pieaca`, [B] `piecen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | piedip | [B] `pieaca`, [B] `piecen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | pieart | [B] `piebla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | piedip | [B] `pieaca`, [B] `piecen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | piedip | [B] `pieaca`, [B] `piecen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | piedip | [B] `pieaca`, [B] `piecen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | piedip | [B] `pieaca`, [B] `piecen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | pieart | [B] `piebla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | pieart | [T] `pieaca.19`, [B] `piebla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | piebar | [B] `piebla` |
@@ -1258,7 +1258,7 @@ graph LR
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | piebar | [B] `piebla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | pieba2 | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | piesta | [B] `piebla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | piedip | [B] `pieaca`, [B] `piecen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | piedip | [B] `pieaca`, [B] `piecen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `pieart` |
 
@@ -1367,15 +1367,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | poldip | [B] `polaca`, [B] `polcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | poldip | [B] `polaca`, [B] `polcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | poldip | [B] `polaca`, [B] `polcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | poldip | [B] `polaca`, [B] `polcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `polaca.29`, [B] `polart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | polart | [B] `polbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | poldip | [B] `polaca`, [B] `polcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | poldip | [B] `polaca`, [B] `polcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | polsta | [B] `polbla`, [T] `polcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | polsta | [B] `polbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | poldip | [B] `polaca`, [B] `polcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | poldip | [B] `polaca`, [B] `polcen` |
 | `dragoonpol` | Посполитое рушение | 13.50 | F70 G5 I4 | polsta | [B] `polbla` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | polbar | [B] `polaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | polba2 | [B] `polaca` |
@@ -1384,11 +1384,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `polaca.6`, [B] `polart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `polart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | polba2 | [B] `polbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | poldip | [B] `polaca`, [B] `polcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | poldip | [B] `polaca`, [B] `polcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | polart | [B] `polbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | poldip | [B] `polaca`, [B] `polcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | poldip | [B] `polaca`, [B] `polcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | poldip | [B] `polaca`, [B] `polcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | poldip | [B] `polaca`, [B] `polcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | polart | [B] `polbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | polart | [T] `polaca.19`, [B] `polbla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | polba2 | [B] `polbla` |
@@ -1400,7 +1400,7 @@ graph LR
 | `pikemanpol` | Пикинер 17в. | 3.00 | F25 G1 | polbar | [B] `polbla` |
 | `priest` | Капеллан | 15.00 | F30 G10 | poltem | — |
 | `reiterpol` | Легкий рейтар | 8.25 | F60 G5 I2 | polsta | [B] `polbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | poldip | [B] `polaca`, [B] `polcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | poldip | [B] `polaca`, [B] `polcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `wingedhussar` | Крылатый гусар | 26.00 | F130 G30 I25 | polsta | [B] `polbla` |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `polart` |
@@ -1510,15 +1510,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | pordip | [B] `poraca`, [B] `porcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | pordip | [B] `poraca`, [B] `porcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | pordip | [B] `poraca`, [B] `porcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | pordip | [B] `poraca`, [B] `porcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | porpor | [T] `poraca.29`, [B] `porart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | porart | [B] `porbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | pordip | [B] `poraca`, [B] `porcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | pordip | [B] `poraca`, [B] `porcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | porsta | [B] `porbla`, [T] `porcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | porsta | [B] `porbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | porsta | [B] `porbla`, [T] `porcen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | pordip | [B] `poraca`, [B] `porcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | porbar | [B] `poraca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | porba2 | [B] `poraca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | porpor | [B] `porart` |
@@ -1526,12 +1526,12 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | porpor | [T] `poraca.6`, [B] `porart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | porpor | [B] `porart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | porba2 | [B] `porbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | pordip | [B] `poraca`, [B] `porcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | pordip | [B] `poraca`, [B] `porcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | porart | [B] `porbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | porsta | [B] `porbla`, [T] `porcen.1` |
 | `jagerpor` | Доброволец | 6.00 | F30 G2 I5 | porba2 | [B] `porbla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | pordip | [B] `poraca`, [B] `porcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | pordip | [B] `poraca`, [B] `porcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | pordip | [B] `poraca`, [B] `porcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | porart | [B] `porbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | porart | [T] `poraca.19`, [B] `porbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | porbar | [B] `porbla` |
@@ -1543,7 +1543,7 @@ graph LR
 | `pikemanpor` | Пикинер 17в. | 4.00 | F40 G4 I5 | porbar | [B] `porbla` |
 | `priest` | Капеллан | 15.00 | F30 G10 | portem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | porsta | [B] `porbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | pordip | [B] `poraca`, [B] `porcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | pordip | [B] `poraca`, [B] `porcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | porpor | [B] `porart` |
 
@@ -1652,15 +1652,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | prudip | [B] `pruaca`, [B] `prucen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | prudip | [B] `pruaca`, [B] `prucen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | prudip | [B] `pruaca`, [B] `prucen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | prudip | [B] `pruaca`, [B] `prucen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `pruaca.29`, [B] `pruart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | pruart | [B] `prubla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | prudip | [B] `pruaca`, [B] `prucen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | prudip | [B] `pruaca`, [B] `prucen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | prusta | [B] `prubla`, [T] `prucen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | prusta | [B] `prubla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | prudip | [B] `pruaca`, [B] `prucen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | prudip | [B] `pruaca`, [B] `prucen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | prubar | [B] `pruaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | pruba2 | [B] `pruaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `pruart` |
@@ -1668,12 +1668,12 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `pruaca.6`, [B] `pruart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `pruart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | pruba2 | [B] `prubla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | prudip | [B] `pruaca`, [B] `prucen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | prudip | [B] `pruaca`, [B] `prucen` |
 | `grenadierpru` | Гренадер | 7.00 | F90 G100 I45 | pruba2 | [B] `prubla` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | pruart | [B] `prubla` |
 | `hussarpru` | Гусар | 11.25 | F80 G15 I2 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | prudip | [B] `pruaca`, [B] `prucen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | prudip | [B] `pruaca`, [B] `prucen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | prudip | [B] `pruaca`, [B] `prucen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | prudip | [B] `pruaca`, [B] `prucen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | pruart | [B] `prubla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | pruart | [T] `pruaca.19`, [B] `prubla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | prubar | [B] `prubla` |
@@ -1685,7 +1685,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | pruba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | prutem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | prusta | [B] `prubla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | prudip | [B] `pruaca`, [B] `prucen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | prudip | [B] `pruaca`, [B] `prucen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `pruart` |
 
@@ -1794,15 +1794,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | ruspor | [T] `rusaca.29`, [B] `rusart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | rusart | [B] `rusbla` |
 | `cossackdon` | Донской козак | 13.50 | F100 W1 | russta | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | russta | [B] `rusbla`, [T] `ruscen.1` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F90 G15 | rusba2 | [B] `rusaca` |
 | `drummerrus` | Барабанщик 17в. | 6.00 | F90 G15 | rusbar | [B] `rusaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | ruspor | [B] `rusart` |
@@ -1810,11 +1810,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | ruspor | [T] `rusaca.6`, [B] `rusart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | ruspor | [B] `rusart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | rusba2 | [B] `rusbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | rusart | [B] `rusbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | rusart | [B] `rusbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | rusart | [T] `rusaca.19`, [B] `rusbla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | rusba2 | [B] `rusbla` |
@@ -1824,7 +1824,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | rusba2 | — |
 | `pikemanrus` | Копейщик | 5.50 | F45 G4 I15 | rusbar | [B] `rusbla` |
 | `pope` | Поп | 15.00 | F30 G10 | rustem | — |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | rusdip | [B] `rusaca`, [B] `ruscen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `strelet` | Стрелец | 8.50 | F70 G7 I9 | rusbar | [B] `rusbla` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `vityaz` | Витязь | 25.50 | F160 G13 I25 | russta | [B] `rusbla` |
@@ -1935,28 +1935,28 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `saxaca.29`, [B] `saxart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | saxart | [B] `saxbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | saxsta | [B] `saxbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | saxbar | [B] `saxaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | saxba2 | [B] `saxaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `saxart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `saxaca.6`, [B] `saxart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `saxart` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `grenadiersax` | Гренадер | 6.00 | F50 G60 I40 | saxba2 | [B] `saxbla` |
 | `guardcavalrysax` | Гвардейский кавалерист | 24.00 | F140 G50 I20 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | saxart | [B] `saxbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | saxart | [B] `saxbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | saxart | [T] `saxaca.19`, [B] `saxbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | saxbar | [B] `saxbla` |
@@ -1968,7 +1968,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | saxba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | saxtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | saxsta | [B] `saxbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | saxdip | [B] `saxaca`, [B] `saxcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `saxart` |
 
@@ -2077,23 +2077,23 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 6.00 | F80 W5 G7 | scodip | [B] `scoaca`, [B] `scocen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
 | `archersco` | Лучник кланов | 6.00 | F80 W5 G7 | scoba2 | [B] `scobla` |
-| `archerturdip` | Турецкий лучник (наемник) | 6.00 | F80 W5 G7 | scodip | [B] `scoaca`, [B] `scocen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
 | `bagpiper` | Волынщик | 6.00 | F50 G30 | scobar | [B] `scoaca` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `scoaca.29`, [B] `scoart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | scoart | [B] `scobla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | scodip | [B] `scoaca`, [B] `scocen` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | scodip | [B] `scoaca`, [B] `scocen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | scodip | [B] `scoaca`, [B] `scocen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | scodip | [B] `scoaca`, [B] `scocen` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `scoart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
 | `framegun` | Рибадекин | 50.00 | W200 G300 I150 | scoart | [B] `scobla` |
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `scoaca.6`, [B] `scoart` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | scodip | [B] `scoaca`, [B] `scocen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | scodip | [B] `scoaca`, [B] `scocen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | scoart | [B] `scobla` |
 | `lancersco` | Лансер | 21.00 | F120 G6 | scosta | [B] `scobla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | scodip | [B] `scoaca`, [B] `scocen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | scodip | [B] `scoaca`, [B] `scocen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | scodip | [B] `scoaca`, [B] `scocen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | scodip | [B] `scoaca`, [B] `scocen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | scoart | [B] `scobla` |
 | `musketeersco` | Мушкетер Ковенанта | 7.00 | F55 G8 I7 | scobar | [B] `scobla` |
 | `officersco` | Офицер | 10.00 | F130 G130 I10 | scobar | [B] `scoaca` |
@@ -2101,7 +2101,7 @@ graph LR
 | `pikemansco` | Пикинер Ковенанта | 4.00 | F35 G2 | scobar | [B] `scobla` |
 | `priest` | Капеллан | 15.00 | F30 G10 | scotem | — |
 | `raidersco` | Рейдер | 22.50 | F130 G8 I2 | scosta | [B] `scobla` |
-| `roundshierdip` | Рундашир  (наемник) | 7.00 | F110 W5 G10 | scodip | [B] `scoaca`, [B] `scocen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | scodip | [B] `scoaca`, [B] `scocen` |
 | `swordsmansco` | Мечник кланов | 7.00 | F110 W5 G10 | scoba2 | [B] `scobla` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `scoart` |
@@ -2209,15 +2209,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | spadip | [B] `spaaca`, [B] `spacen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | spadip | [B] `spaaca`, [B] `spacen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | spadip | [B] `spaaca`, [B] `spacen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | spadip | [B] `spaaca`, [B] `spacen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `spaaca.29`, [B] `spaart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | spaart | [B] `spabla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | spadip | [B] `spaaca`, [B] `spacen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | spadip | [B] `spaaca`, [B] `spacen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | spasta | [B] `spabla`, [T] `spacen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | spasta | [B] `spabla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | spadip | [B] `spaaca`, [B] `spacen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | spadip | [B] `spaaca`, [B] `spacen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | spabar | [B] `spaaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | spaba2 | [B] `spaaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `spaart` |
@@ -2225,11 +2225,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `spaaca.6`, [B] `spaart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `spaart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | spaba2 | [B] `spabla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | spadip | [B] `spaaca`, [B] `spacen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | spadip | [B] `spaaca`, [B] `spacen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | spaart | [B] `spabla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | spadip | [B] `spaaca`, [B] `spacen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | spadip | [B] `spaaca`, [B] `spacen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | spadip | [B] `spaaca`, [B] `spacen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | spadip | [B] `spaaca`, [B] `spacen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | spaart | [B] `spabla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | spaart | [T] `spaaca.19`, [B] `spabla` |
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | spaba2 | [B] `spabla` |
@@ -2242,7 +2242,7 @@ graph LR
 | `pikemanspa` | Коселет | 5.50 | F35 G7 I30 | spabar | [B] `spabla` |
 | `priest` | Капеллан | 15.00 | F30 G10 | spatem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | spasta | [B] `spabla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | spadip | [B] `spaaca`, [B] `spacen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | spadip | [B] `spaaca`, [B] `spacen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `spaart` |
 
@@ -2351,15 +2351,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | swedip | [B] `sweaca`, [B] `swecen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | swedip | [B] `sweaca`, [B] `swecen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | swedip | [B] `sweaca`, [B] `swecen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | swedip | [B] `sweaca`, [B] `swecen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `sweaca.29`, [B] `sweart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | sweart | [B] `swebla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | swedip | [B] `sweaca`, [B] `swecen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | swedip | [B] `sweaca`, [B] `swecen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | swesta | [B] `swebla`, [T] `swecen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | swesta | [B] `swebla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | swedip | [B] `sweaca`, [B] `swecen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | swedip | [B] `sweaca`, [B] `swecen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | swebar | [B] `sweaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | sweba2 | [B] `sweaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `sweart` |
@@ -2367,12 +2367,12 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `sweaca.6`, [B] `sweart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `sweart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | sweba2 | [B] `swebla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | swedip | [B] `sweaca`, [B] `swecen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | swedip | [B] `sweaca`, [B] `swecen` |
 | `hackapell` | Гаккапелит | 18.00 | F80 G7 I2 | swesta | [B] `swebla` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | sweart | [B] `swebla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | swedip | [B] `sweaca`, [B] `swecen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | swedip | [B] `sweaca`, [B] `swecen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | swedip | [B] `sweaca`, [B] `swecen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | swedip | [B] `sweaca`, [B] `swecen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | sweart | [B] `swebla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | sweart | [T] `sweaca.19`, [B] `swebla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | swebar | [B] `swebla` |
@@ -2384,7 +2384,7 @@ graph LR
 | `pikeman18swe` | Пикинер 18в. | 1.50 | F40 G3 | sweba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | swetem | — |
 | `reiterswe` | Шведский рейтар | 22.50 | F130 G7 I20 | swesta | [B] `swebla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | swedip | [B] `sweaca`, [B] `swecen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | swedip | [B] `sweaca`, [B] `swecen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `sweart` |
 
@@ -2493,15 +2493,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | swidip | [B] `swiaca`, [B] `swicen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | swidip | [B] `swiaca`, [B] `swicen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | swidip | [B] `swiaca`, [B] `swicen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | swidip | [B] `swiaca`, [B] `swicen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `swiaca.29`, [B] `swiart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | swiart | [B] `swibla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | swidip | [B] `swiaca`, [B] `swicen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | swidip | [B] `swiaca`, [B] `swicen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | swista | [B] `swibla`, [T] `swicen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | swista | [B] `swibla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | swista | [B] `swibla`, [T] `swicen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | swidip | [B] `swiaca`, [B] `swicen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | swibar | [B] `swiaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | swiba2 | [B] `swiaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `swiart` |
@@ -2509,12 +2509,12 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `swiaca.6`, [B] `swiart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `swiart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | swiba2 | [B] `swibla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | swidip | [B] `swiaca`, [B] `swicen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | swidip | [B] `swiaca`, [B] `swicen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | swiart | [B] `swibla` |
 | `hussarswi` | Конный егерь | 19.50 | F120 G30 I2 | swista | [B] `swibla`, [T] `swicen.1` |
 | `jagerswi` | Егерь | 6.00 | F40 G70 I20 | swiba2 | [B] `swibla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | swidip | [B] `swiaca`, [B] `swicen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | swidip | [B] `swiaca`, [B] `swicen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | swidip | [B] `swiaca`, [B] `swicen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | swiart | [B] `swibla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | swiart | [T] `swiaca.19`, [B] `swibla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | swibar | [B] `swibla` |
@@ -2526,7 +2526,7 @@ graph LR
 | `pikemanswi` | Пикинер 17в. | 5.00 | F40 G6 I20 | swibar | [B] `swibla` |
 | `priest` | Капеллан | 15.00 | F30 G10 | switem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | swista | [B] `swibla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | swidip | [B] `swiaca`, [B] `swicen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | swidip | [B] `swiaca`, [B] `swicen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `swiart` |
 
@@ -2634,29 +2634,29 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 3.00 | F45 W3 G4 | turdip | [B] `turaca`, [B] `turcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | turdip | [B] `turaca`, [B] `turcen` |
 | `archertur` | Турецкий лучник | 3.00 | F45 W3 G4 | turbar | [B] `turbla` |
-| `archerturdip` | Турецкий лучник (наемник) | 3.00 | F45 W3 G4 | turdip | [B] `turaca`, [B] `turcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | turdip | [B] `turaca`, [B] `turcen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | turpor | [T] `turaca.29`, [B] `turart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | turart | [B] `turbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | turdip | [B] `turaca`, [B] `turcen` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | turdip | [B] `turaca`, [B] `turcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | turdip | [B] `turaca`, [B] `turcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | turdip | [B] `turaca`, [B] `turcen` |
 | `drummertur` | Барабанщик | 4.00 | F30 G15 | turbar | [B] `turaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | turpor | [B] `turart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | turpor | — |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | turpor | [B] `turart` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | turdip | [B] `turaca`, [B] `turcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | turdip | [B] `turaca`, [B] `turcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | turart | [B] `turbla` |
 | `jannisary` | Янычар | 8.00 | F55 G13 I5 | turbar | [B] `turbla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | turdip | [B] `turaca`, [B] `turcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | turdip | [B] `turaca`, [B] `turcen` |
 | `lightinfantry` | Легкий пехотинец | 1.00 | F25 I1 | turbar | — |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | turdip | [B] `turaca`, [B] `turcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | turdip | [B] `turaca`, [B] `turcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | turart | [B] `turbla` |
 | `mullah` | Мулла | 15.00 | F30 G10 | turtem | — |
 | `officertur` | Офицер | 7.50 | F50 G100 | turbar | [B] `turaca` |
 | `peatur` | Крестьянин | 12.50 | F100 | turcen | — |
 | `pikemantur` | Турецкий пикинер | 5.50 | F55 G5 | turbar | [B] `turbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | turdip | [B] `turaca`, [B] `turcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | turdip | [B] `turaca`, [B] `turcen` |
 | `sipahi` | Тяжелый сипах | 18.00 | F130 G20 I70 | tursta | [B] `turbla` |
 | `spakh` | Легкий сипах | 9.00 | F80 G6 I5 | tursta | — |
 | `tatar` | Татарин | 11.25 | F70 W2 G6 | tursta | — |
@@ -2757,26 +2757,26 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | ukrart | [B] `ukrbla` |
 | `chaika` | — | 40.00 | W1050 G600 I200 C400 | ukrpor | [B] `ukrart` |
 | `cossackregister` | Реестровый козак | 10.50 | F70 G15 | ukrsta | [B] `ukrbla` |
 | `cossacksich` | Сечевой козак | 13.50 | F130 I2 | ukrsta | — |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | ukrpor | [B] `ukrart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | ukrpor | — |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | ukrpor | [B] `ukrart` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `hetman` | Гетьман | 16.50 | F150 G150 I10 | ukrsta | — |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | ukrart | [B] `ukrbla` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | ukrart | [B] `ukrbla` |
 | `peaukr` | Крестьянин | 11.25 | F100 | ukrcen | — |
 | `pope` | Поп | 15.00 | F30 G10 | ukrtem | — |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `serdiuk` | Сердюк | 11.00 | F60 G11 I5 | ukrbar | — |
 | `unitbox` | — | 3.12 | F100 | — | — |
 
@@ -2860,15 +2860,15 @@ graph LR
 
 | sid | имя | Время (g-сек) | цена | тренируется в | требует |
 |---|---|---:|---|---|---|
-| `archerdip` | Лучник  (наемник) | 1.50 | F20 W2 G1 | vendip | [B] `venaca`, [B] `vencen` |
-| `archerturdip` | Турецкий лучник (наемник) | 1.50 | F20 W2 G1 | vendip | [B] `venaca`, [B] `vencen` |
+| `archerdip` | Лучник  (наемник) | 1.25 | G15 | vendip | [B] `venaca`, [B] `vencen` |
+| `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | vendip | [B] `venaca`, [B] `vencen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `venaca.29`, [B] `venart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | venart | [B] `venbla` |
-| `cossacksichdip` | Сечевой козак  (наемник) | 13.50 | F130 I2 | vendip | [B] `venaca`, [B] `vencen` |
+| `cossacksichdip` | Сечевой козак  (наемник) | 2.50 | G60 | vendip | [B] `venaca`, [B] `vencen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | vensta | [B] `venbla`, [T] `vencen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | vensta | [B] `venbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `dragoon18dip` | Драгун 18в.  (наемник) | 22.50 | F70 G60 I7 | vendip | [B] `venaca`, [B] `vencen` |
+| `dragoon18dip` | Драгун 18в.  (наемник) | 2.00 | G120 | vendip | [B] `venaca`, [B] `vencen` |
 | `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | venbar | [B] `venaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | venba2 | [B] `venaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `venart` |
@@ -2876,11 +2876,11 @@ graph LR
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `venaca.6`, [B] `venart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `venart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | venba2 | [B] `venbla` |
-| `grenadierdip` | Гренадер  (наемник) | 6.00 | F80 G60 I40 | vendip | [B] `venaca`, [B] `vencen` |
+| `grenadierdip` | Гренадер  (наемник) | 1.50 | G25 | vendip | [B] `venaca`, [B] `vencen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | venart | [B] `venbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `lightcavalrydip` | Легкий кавалерист (наемник) | 22.50 | F70 G60 I7 | vendip | [B] `venaca`, [B] `vencen` |
-| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.00 | F25 I1 | vendip | [B] `venaca`, [B] `vencen` |
+| `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | vendip | [B] `venaca`, [B] `vencen` |
+| `lightinfantrydip` | Легкий пехотинец  (наемник) | 1.25 | G4 | vendip | [B] `venaca`, [B] `vencen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | venart | [B] `venbla` |
 | `multicannon` | Многоствольное орудие | 50.00 | W200 G400 I250 | venart | [T] `venaca.19`, [B] `venbla` |
 | `musketeer` | Мушкетер 17в. | 6.00 | F45 G6 I5 | venbar | [B] `venbla` |
@@ -2892,7 +2892,7 @@ graph LR
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | venba2 | — |
 | `priest` | Капеллан | 15.00 | F30 G10 | ventem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | vensta | [B] `venbla` |
-| `roundshierdip` | Рундашир  (наемник) | 4.00 | F20 G3 I25 | vendip | [B] `venaca`, [B] `vencen` |
+| `roundshierdip` | Рундашир  (наемник) | 1.50 | G12 | vendip | [B] `venaca`, [B] `vencen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Яхта | 48.00 | W900 G450 I150 C200 | eurpor | [B] `venart` |
 

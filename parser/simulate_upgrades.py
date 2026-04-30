@@ -870,8 +870,24 @@ def walk_sim(node: Node, state: dict, env: dict, sink: list, nation: str):
     elif k == "assign":
         lhs = node.name
         rhs = node.args[0] if node.args else ""
+        # Resource percentage assignments: `country.upgrade[ind-1].sarrparam2[...]:='-NN';`
+        # The index expression is `gc_upgrade_maxarrparam2count - gc_ResCount + gc_resource_type_X - 1`,
+        # where X resolves to a hardcoded resource id. Attach to the just-added upgrade
+        # (state["last_upgrade"]) under `resource_pcts`.
+        m = _SARR2_RES_LHS_RE.match(lhs or "")
+        if m:
+            last = state.get("last_upgrade")
+            if last is not None:
+                res = m.group(1)
+                pct_str = rhs.strip().strip("'\"")
+                try:
+                    pct = int(pct_str)
+                except ValueError:
+                    pct = None
+                if pct is not None and pct != 0:
+                    last.setdefault("resource_pcts", {})[res] = pct
         # Track string variables AND simple int variables (member, upgplace, tmptype, etc.)
-        if lhs in ("member", "upgplace"):
+        elif lhs in ("member", "upgplace"):
             v = _eval_string_arg(rhs, env)
             env[lhs] = v
         elif "." not in lhs and "[" not in lhs:
@@ -990,6 +1006,13 @@ _RES_PCT_RE = re.compile(
     r"gc_resource_type_(\w+)\s*-\s*1\s*\]"
     r"\s*:=\s*'(-?\d+)'\s*;"
 )
+
+# Same pattern but for assign-node LHS (no whitespace, no `:=`/RHS — just the
+# `country.upgrade[ind-1].sarrparam2[<idx>]` part). Used by walk_sim's assign branch.
+_SARR2_RES_LHS_RE = re.compile(
+    r"country\.upgrade\[ind-1\]\.sarrparam2\["
+    r"gc_upgrade_maxarrparam2count-gc_ResCount\+gc_resource_type_(\w+)-1\]"
+)
 # Pattern matching an `_country_AddUpgrade*` call line (just to find positions).
 _ADDUPG_RE = re.compile(
     r"_country_AddUpgrade(?:WithAccessControl)?\s*\(\s*country\s*,\s*([^,]+)"
@@ -997,14 +1020,12 @@ _ADDUPG_RE = re.compile(
 
 
 def _attach_resource_pcts(country_text: str, nat: str, sink: list) -> None:
-    """Walk the country.script body line by line. For each `AddUpgrade*(...)` call,
-    capture `sarrparam2[...] := 'NN'` lines until the next AddUpgrade — these
-    are the per-resource percentage modifiers for that upgrade. Match them to
-    upgrade entries in `sink` by sid and attach to `resource_pcts`.
+    """Legacy fallback: walk the country.script body and match `sarrparam2[...] := 'NN'`
+    text positions to upgrades. Superseded by direct AST handling in walk_sim's
+    `assign` branch — kept as a backstop for upgrades whose enclosing if-branch
+    eval'd False during AST simulation but whose pcts we'd still like surfaced.
 
-    The script doesn't include line numbers, but we can scan the textual order
-    and use the upgrade sid (after pre-substitution for nation) as the key.
-    """
+    Only fills entries that don't already have `resource_pcts` set."""
     # Pre-substitute the body for this nation so 'csid+' / 'commonName+' resolve
     body = _presubstitute(country_text, nat)
     # Index sink by sid for quick lookup

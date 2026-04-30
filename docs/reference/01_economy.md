@@ -27,6 +27,8 @@
 | `gc_obj_foodperunit` | 30 food / юнит | dmscript.global:808 |
 | Default `eff` | 100% | player.script:109 |
 
+Полная сводка лобби-опций партии (стартовые ресурсы, peacetime, лимит населения, century18, сложность ИИ и т. д.) — [`docs/recon/game_settings.md`](../recon/game_settings.md).
+
 ## Базовые порции и hits
 
 | Ресурс | Базовая порция | Hits | Источник |
@@ -174,7 +176,7 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 Ростер одинаков для **всех 21 нации**. Цена в gold, upkeep тоже в gold (`consume.gold`), `bnohungry = True` (food не потребляют).
 
-⚠️ **В `docs/data.json` для всех 168 dip-юнитов лежат НЕ-наёмничьи характеристики** — парсер не учитывает `if (bmercenary)`-override в скриптах. Числа ниже взяты из исходника `unit.script`.
+С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary)`-override; все 168 dip-юнитов несут merc-статы. Числа ниже совпадают с тем, что в data.json.
 
 | sid | HP | buildtime (frames) | gold (цена) | consume.gold (upkeep) | costpercent | оружие |
 |---|---:|---:|---:|---:|---:|---|

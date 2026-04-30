@@ -124,7 +124,7 @@ bmercenary := True;
 
 Внутри case каждого юнита (например, `'archer','archerdip','archertur','archerturdip',...`) блок `if (bmercenary) then begin ... end` переопределяет hp/оружие/цену/consume/`bnohungry`/`costpercent`. Диспетчер использует тот же case, что и для обычного юнита, и затем сужает.
 
-> ⚠️ ВНИМАНИЕ — **`docs/data.json` НЕ учитывает переопределения из `if (bmercenary)`.** Текущий парсер захватывает только "default"-ветку каждого case, поэтому все 168 строк юнитов с суффиксом dip в `data.json` (8 sid × 21 нация) несут **немерсенарские** статы. Значения ниже считаны напрямую из `unit.script` и являются ground truth.
+> ✅ С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary)` — `parse_units.py` извлекает merc-блок и `_compute_effective_unit` применяет его для sid'ов из `BMERCENARY_SIDS` (8 dip-суффиксов). Все 168 строк (8 sid × 21 нация) теперь имеют merc-статы. Значения ниже считаны из `unit.script` и совпадают с тем, что в `data.json`.
 
 ### 2.2 Статы каждого наёмника (из `unit.script`)
 
@@ -337,7 +337,7 @@ AI снижает приоритет защиты собственных наё�
 
 ## 5. Map-настройка `marketdip` — отключить / удорожить
 
-`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров для сценария:
+`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров для сценария. Полный обзор всех опций лобби — [`game_settings.md`](game_settings.md) §3.7.
 
 ```
 gc_mapsettings_marketdip_default        = 0   // оба включены
@@ -438,4 +438,4 @@ end;
 
 ## 10. Резюме (≤200 слов)
 
-В Cossacks 3 у каждой из 21 нации есть один и тот же дипломатический центр `<nat>dip` (HP 4500-6500, цена ~6.6k wood+stone, prereq — `<nat>aca` Академия), производящий 8 одинаковых для всех наций наёмников: `roundshierdip, lightinfantrydip, archerdip, grenadierdip, cossacksichdip, dragoon18dip` плюс EarlyBird-DLC `archerturdip, lightcavalrydip`. Парные SID (archerdip↔archerturdip, dragoon18dip↔lightcavalrydip) — это арт-варианты с общим счётчиком цены. Наёмники стоят **только золото** (4-150) при найме, имеют флаг `bnohungry` (не едят пищу) и потребляют золото каждый кадр по формуле `consume.gold × 32/20000` per g-сек. Когда `gold=0` И `consume[gold]>income[gold]`, выставляется `brebellion := True`; в Nothing-обработчике каждого юнита-наёмника проверяется RNG (100/200/6000 из 32768 для difficulty 0/1/>1 — на hard ~18% за тик), и при срабатывании `_misc_ChangePlayer` переводит юнита в специальный игрок-слот `gc_player_mercenaryind` (последний слот, hard-coded enemy для всех). Нейтральных деревень нет — наёмники только из своего дипцентра. Map-setting `marketdip=expensivemercs` утраивает золотую цену найма (`gc_gameplay_expensivemercskoef=3`). **Важный gotcha:** `docs/data.json` содержит non-mercenary ветку для всех 168 dip-юнитов; реальные мерсенарские статы видны только в `unit.script` после ветки `if (bmercenary) then ...`.
+В Cossacks 3 у каждой из 21 нации есть один и тот же дипломатический центр `<nat>dip` (HP 4500-6500, цена ~6.6k wood+stone, prereq — `<nat>aca` Академия), производящий 8 одинаковых для всех наций наёмников: `roundshierdip, lightinfantrydip, archerdip, grenadierdip, cossacksichdip, dragoon18dip` плюс EarlyBird-DLC `archerturdip, lightcavalrydip`. Парные SID (archerdip↔archerturdip, dragoon18dip↔lightcavalrydip) — это арт-варианты с общим счётчиком цены. Наёмники стоят **только золото** (4-150) при найме, имеют флаг `bnohungry` (не едят пищу) и потребляют золото каждый кадр по формуле `consume.gold × 32/20000` per g-сек. Когда `gold=0` И `consume[gold]>income[gold]`, выставляется `brebellion := True`; в Nothing-обработчике каждого юнита-наёмника проверяется RNG (100/200/6000 из 32768 для difficulty 0/1/>1 — на hard ~18% за тик), и при срабатывании `_misc_ChangePlayer` переводит юнита в специальный игрок-слот `gc_player_mercenaryind` (последний слот, hard-coded enemy для всех). Нейтральных деревень нет — наёмники только из своего дипцентра. Map-setting `marketdip=expensivemercs` утраивает золотую цену найма (`gc_gameplay_expensivemercskoef=3`). С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary) then ...` — все 168 dip-юнитов несут merc-статы и идентичны между нациями.

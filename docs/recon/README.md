@@ -15,7 +15,8 @@
 | [victory_conditions.md](victory_conditions.md) | Условия победы/поражения: last-team-standing (`farmused=0` ⇒ defeat). Wonder отсутствует. Score копится только для статистики (kill +2×, capture +5×, build +1×). Surrender (`bleave=True`), first-leaver penalty −w ELO. Time-limit отсутствует. Game modes: skirmish / Historical Battle / Campaign / Scenario / Rated MP. |
 | [ai_behavior.md](ai_behavior.md) | AI: тикает каждые 2.4 g-сек. Difficulty cheat = build/produce speed (easy 30%, normal 50%, hard 75%, veryhard 100%, impossible 125%). **Стартовых ресурсов не получает**. Build order rule-based, нация-зависимый. Aggressor wave = 5 squads. Diplomacy: команды статически из лобби, no alliance formation. |
 | [pathfinding.md](pathfinding.md) | Pathfinding: алгоритм в нативном движке (A*-like через `TopologyGetPath`). Двухуровневый: high-level batched раз в 20мс + per-frame CollisionInertia (mass+radius). Collision grid = 0.5 t. Friendly push беззвучен; враг в 90° спереди → авто-атака. Formation = jittered per-unit, не squad-leader. |
-| [mercenaries_diplomacy.md](mercenaries_diplomacy.md) | Diplomatic center (`<nat>dip`): 21 нация × 1 здание, 4500-6500 HP, prereq=academy. Каталог 8 наёмников (одинаковый у всех наций). Cost only gold + `consume.gold` upkeep, `bnohungry=True`. Cap масштабирования = 2× (vs 20000× у обычных юнитов). Pair-counter `archerdip ↔ archerturdip`. Rebellion 18.31% per tick на hard+. ⚠ data.json wrong для 168 dip-юнитов. |
+| [mercenaries_diplomacy.md](mercenaries_diplomacy.md) | Diplomatic center (`<nat>dip`): 21 нация × 1 здание, 4500-6500 HP, prereq=academy. Каталог 8 наёмников (одинаковый у всех наций). Cost only gold + `consume.gold` upkeep, `bnohungry=True`. Cap масштабирования = 2× (vs 20000× у обычных юнитов). Pair-counter `archerdip ↔ archerturdip`. Rebellion 18.31% per tick на hard+. С 2026-04-30 data.json учитывает `if (bmercenary)` — все 168 dip-строк правильные. |
+| [game_settings.md](game_settings.md) | Все опции лобби: `gen` (mapsize/terraintype/relieftype/resourcestart/resourcemines/season/randkey0/1) и `additional` (startingunits/balloon/cannons/peacetime/century18/capture/marketdip/teams/limit/gamespeed/adviserassistant). Полные таблицы значений + механика peacetime (`gbool_peacemode`, граница территории, `_unit_SearchEnemy` блок). Источник для машинного `docs/derived/game_settings.json` (генерируется `compute/compute_game_settings.py`). |
 
 ### Engine internals
 
@@ -40,6 +41,7 @@
 - **«Как выиграть партию?»** → [victory_conditions.md](victory_conditions.md) §3.
 - **«Как работают наёмники / Rebellion?»** → [mercenaries_diplomacy.md](mercenaries_diplomacy.md) §§3-4.
 - **«Как ходят юниты в формации?»** → [pathfinding.md](pathfinding.md) §6.
+- **«Какие опции есть в лобби и что они дают?»** → [game_settings.md](game_settings.md). Машинный JSON для editor — `../derived/game_settings.json`.
 
 ## Что НЕ в этой папке
 

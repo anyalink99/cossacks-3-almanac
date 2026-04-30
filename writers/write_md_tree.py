@@ -359,6 +359,7 @@ def write_readme(data: dict) -> None:
     A("**Лукапы:**\n")
     A("- [nations/](nations/README.md) — по одному cheatsheet на каждую из 21 наций (что у неё уникального).")
     A("- [compare/](compare/README.md) — side-by-side сравнения юнитов одного класса (все мушкетёры 17 в., все драгуны и т.д.).")
+    A("- [`../recon/game_settings.md`](../recon/game_settings.md) — все опции лобби (карта, ресурсы, peacetime, century18, capture, marketdip, лимит населения, скорость, сложность ИИ).")
     A("")
     A("**Расчёты и симуляции (рядом, в соседних каталогах):**\n")
     A("- [`../reports/`](../reports/README.md) — производные отчёты: DPS/EHP, контр-матрица, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты.")
@@ -457,6 +458,7 @@ def write_economy(data: dict) -> None:
     A(f"| `gc_obj_foodperunit` | {e['food_per_unit_upkeep']} food / юнит | dmscript.global:808 |")
     A(f"| Default `eff` | {e['default_eff_percent']}% | player.script:109 |")
     A("")
+    A("Полная сводка лобби-опций партии (стартовые ресурсы, peacetime, лимит населения, century18, сложность ИИ и т. д.) — [`docs/recon/game_settings.md`](../recon/game_settings.md).\n")
     A("## Базовые порции и hits\n")
     A("| Ресурс | Базовая порция | Hits | Источник |")
     A("|---|---:|---:|---|")
@@ -1193,14 +1195,18 @@ def write_upgrades(data: dict) -> None:
         A(f"## {place} — {PLACE_NAMES.get(place, place)}\n")
         A("Каждая запись — одна нация. Если значение одинаковое для всех 21 нации, показано одной строкой "
           "с `nation=all`. Если есть пер-национальное переопределение (через `_country_ModifyUpgrade`), показаны отдельно.\n")
-        A("| Апгрейд | нации | itype | val | F | W | S | G | I | C | время |")
-        A("|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+        A("| Апгрейд | нации | itype | val | % ресурс. | F | W | S | G | I | C | время |")
+        A("|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|")
         for stripped in sorted(by_stripped.keys()):
             entries = by_stripped[stripped]
             sig: dict[tuple, list[dict]] = defaultdict(list)
             for e in entries:
+                # Include resource_pcts in the dedup key so per-nation differences in
+                # priceperc % don't collapse incorrectly into one row.
+                pcts = e.get("resource_pcts") or {}
+                pcts_key = tuple(sorted(pcts.items()))
                 key = (e.get("value"), e["food"], e["wood"], e["stone"],
-                        e["gold"], e["iron"], e["coal"])
+                        e["gold"], e["iron"], e["coal"], pcts_key)
                 sig[key].append(e)
             for key, group in sorted(sig.items(), key=lambda kv: -len(kv[1])):
                 first = group[0]
@@ -1211,8 +1217,14 @@ def write_upgrades(data: dict) -> None:
                     nat_str = group[0]["nation"]
                 else:
                     nat_str = ",".join(sorted(g["nation"] for g in group))
+                pcts = first.get("resource_pcts") or {}
+                if pcts:
+                    pcts_str = " / ".join(f"{k} {v:+d}%" for k, v in sorted(pcts.items()))
+                else:
+                    pcts_str = "—"
                 A(f"| {name_cell_short(first)} | {nat_str} "
                   f"| {first.get('itype_short') or '—'} | {fmt(first['value'])} "
+                  f"| {pcts_str} "
                   f"| {fmt(first['food'])} | {fmt(first['wood'])} | {fmt(first['stone'])} "
                   f"| {fmt(first['gold'])} | {fmt(first['iron'])} | {fmt(first['coal'])} "
                   f"| {fmt(first['time_sec'])} |")

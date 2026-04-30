@@ -80,6 +80,7 @@ TARGETS: dict[str, list[list[str]]] = {
         ["compute/compute_animations.py"],
         ["compute/compute_pattern_inventory.py"],
         ["compute/compute_replay_aggregates.py"],
+        ["compute/compute_game_settings.py"],
     ],
 
     "simulations": [
