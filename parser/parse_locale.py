@@ -20,6 +20,18 @@ from collections import OrderedDict
 KEY_RE = re.compile(r"^\t@(.+?)\s*$")
 INCLUDE_RE = re.compile(r"%include\(([^;]+);([^)]+)\)%")
 STYLE_RE = re.compile(r"%(def|pos|neg|val)%")
+WHITESPACE_RUN_RE = re.compile(r"\s+")
+
+
+def _normalize_label(s: str) -> str:
+    """Collapse all whitespace runs to a single space and strip ends.
+
+    Locale templates frequently introduce double spaces after `%include(...)%`
+    expansion, because both the parent string and the included fragment carry
+    a separator space. Run this on every value that ends up as user-facing
+    text (unit / building / upgrade names).
+    """
+    return WHITESPACE_RUN_RE.sub(" ", s).strip()
 
 
 def parse_locale_file(path: Path, encoding: str | None = None) -> "OrderedDict[str, str]":
@@ -102,24 +114,31 @@ class LocaleResolver:
     def lookup_unit_name(self, sid: str, nat: str | None = None,
                          com: str | None = None) -> str | None:
         """Look up the display name for a unit/building sid. Tries direct key first,
-        then per-nation/per-cluster templates if nat/com given."""
+        then per-nation/per-cluster templates if nat/com given.
+
+        After include-resolution, locale templates can leave double spaces (the
+        included fragment has a leading space, plus a separator space already in
+        the parent — e.g., `archerdip = "Лучник %include(units;descr.ability.
+        mercenary)%"` + `descr.ability.mercenary = " (наемник)"`). Collapse
+        runs of whitespace to a single space.
+        """
         # First, try direct
         v = self.get("units", sid)
         if v is not None:
-            return STYLE_RE.sub("", v.split("\n", 1)[0]).strip()
+            return _normalize_label(STYLE_RE.sub("", v.split("\n", 1)[0]))
         # Try template form
         if nat is not None and sid.startswith(nat):
             tail = sid[len(nat):]
             v = self.get("units", "%nat%" + tail)
             if v is not None:
                 v = v.split("\n", 1)[0]
-                return STYLE_RE.sub("", v.replace("%nat%", nat)).strip()
+                return _normalize_label(STYLE_RE.sub("", v.replace("%nat%", nat)))
         if com is not None and sid.startswith(com):
             tail = sid[len(com):]
             v = self.get("units", "%com%" + tail)
             if v is not None:
                 v = v.split("\n", 1)[0]
-                return STYLE_RE.sub("", v.replace("%com%", com)).strip()
+                return _normalize_label(STYLE_RE.sub("", v.replace("%com%", com)))
         return None
 
 
