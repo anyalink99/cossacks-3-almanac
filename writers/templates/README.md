@@ -4,7 +4,7 @@
 
 ## Как использовать
 
-В `writers/write_md_tree.py` и `writers/write_md.py` есть helper `render_template(name, **subs)`:
+В `writers/write_md_tree.py` есть helper `render_template(name, **subs)`:
 
 ```python
 out.extend(render_template("reference/01_economy/famine_rebellion.md"))
@@ -64,25 +64,8 @@ templates/
 │   └── nations/
 │       └── readme_intro.md    ← заголовок nations/README.md
 │
-└── legacy/                    ← блоки для устаревшего docs/cossacks3_reference.md
-    ├── header_banner.md       ← deprecation-баннер + общий TOC монолита
-    ├── section_4_buildings_intro.md
-    ├── section_4_2_common_intro.md
-    ├── section_5_units_intro.md
-    ├── section_5b_ships.md
-    ├── section_5b_ships_notes.md
-    ├── section_5c_mines_intro.md
-    ├── section_5c_mines_outro.md
-    ├── section_6a_combat.md
-    ├── section_6b_speed_intro.md
-    ├── section_6b_speed_outro.md
-    ├── section_6c_officers_intro.md
-    ├── section_6d_market.md
-    ├── section_6d_market_examples.md
-    ├── section_combat_costs_intro.md
-    ├── section_7_upgrades_intro.md
-    ├── section_8_gaps_outro.md
-    └── footer.md
+└── (папка `legacy/` удалена вместе с writers/write_md.py + write_xlsx.py
+    и docs/cossacks3_reference.{md,xlsx})
 ```
 
 ## Когда что добавлять / править
@@ -106,4 +89,3 @@ templates/
 | `docs/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
 | `docs/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
 | `docs/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |
-| `docs/cossacks3_reference.md` (legacy) | `write_md.py:main` | `legacy/*.md` |

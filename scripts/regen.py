@@ -40,12 +40,11 @@ TARGETS: dict[str, list[list[str]]] = {
     "data": [
         ["parser/build_data.py"],
         ["parser/parse_generator_cfg.py"],
+        ["parser/build_canonical_terms.py"],
     ],
 
     "reference": [
         ["writers/write_md_tree.py"],
-        ["writers/write_md.py"],
-        ["writers/write_xlsx.py"],
     ],
 
     "reports-combat": [
@@ -63,6 +62,7 @@ TARGETS: dict[str, list[list[str]]] = {
     ],
 
     "reports-map": [
+        ["compute/compute_game_settings.py"],
         ["compute/compute_map_resources.py"],
         ["compute/extract_starting_layout.py"],
         ["compute/validate_map_predictions.py"],
@@ -77,9 +77,9 @@ TARGETS: dict[str, list[list[str]]] = {
     ],
 
     "derived": [
-        ["compute/compute_animations.py"],
-        ["compute/compute_pattern_inventory.py"],
-        ["compute/compute_replay_aggregates.py"],
+        ["parser/parse_animations.py"],
+        ["parser/parse_pattern_inventory.py"],
+        ["parser/parse_replay_aggregates.py"],
         ["compute/compute_game_settings.py"],
     ],
 

@@ -18,7 +18,7 @@
 
 - [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением)
 - [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times, и т. д.)
-- [`writers/`](writers/) — генерация markdown / xlsx / diff между снапшотами
+- [`writers/`](writers/) — генерация markdown-справочника + diff между снапшотами
 - [`simulator/`](simulator/) — timeline-симулятор экономики + примеры build orders
 - [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
@@ -48,8 +48,7 @@
     │   ├── tech/            tech tree
     │   ├── map/             map resources / starting layout / replay validation
     │   └── nations/         cross-nation overview
-    ├── simulations/         выходы симулятора экономики
-    └── cossacks3_reference.{md,xlsx}   (legacy) монолитная версия
+    └── simulations/         выходы симулятора экономики
 ```
 
 ## Быстрый старт
@@ -78,8 +77,6 @@ $env:COSSACKS3_PATH = "D:\Games\Cossacks 3"
 Затем из корня репозитория один из вариантов:
 
 ```bash
-python -m pip install openpyxl                  # для writers/write_xlsx.py
-
 # Вариант 1 — Python-runner (работает на любой ОС):
 python scripts/regen.py                         # full regen, всё что ниже разом
 python scripts/regen.py reference               # только writers/
@@ -98,9 +95,8 @@ make help
 
 ```bash
 python parser/build_data.py                     # → docs/data.json (мастер-данные)
+python parser/build_canonical_terms.py          # → docs/derived/canonical_terms.json
 python writers/write_md_tree.py                 # → docs/reference/ + docs/README.md
-python writers/write_md.py                      # → docs/cossacks3_reference.md (legacy monolith)
-python writers/write_xlsx.py                    # → docs/cossacks3_reference.xlsx
 python compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md
 python compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md
 python compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md
@@ -110,13 +106,14 @@ python compute/compute_efficiency_upgrades.py   # → docs/reports/economy/effic
 python compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md
 python compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)
 python compute/build_tech_tree.py               # → docs/reports/tech/tech_tree.md + economy/production_rates.md + derived/tech_tree.json
+python compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
 python compute/extract_starting_layout.py       # → docs/reports/map/starting_layout.md
 python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
-python compute/compute_nations_overview.py     # → docs/reports/nations/overview.md
-python compute/compute_animations.py            # → docs/derived/animations.json
+python compute/compute_nations_overview.py      # → docs/reports/nations/overview.md
+python parser/parse_animations.py               # → docs/derived/animations.json
 python parser/parse_generator_cfg.py            # → docs/derived/pattern_types.json
-python compute/compute_pattern_inventory.py     # → docs/derived/pattern_{inventory,type_stats}.json
+python parser/parse_pattern_inventory.py        # → docs/derived/pattern_{inventory,type_stats}.json
 python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → docs/simulations/
 ```
 
@@ -139,6 +136,8 @@ cp docs/data.json /tmp/data_old.json
 python parser/build_data.py
 python writers/diff_snapshots.py /tmp/data_old.json docs/data.json --out diff.md
 ```
+
+После регенерации в `diff.md` видны все изменения статов между версиями игры.
 
 ## Sanity checks
 
