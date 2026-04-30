@@ -4,7 +4,7 @@
 
 ## Формула урона
 
-Источник: [`miscext2.script:380`, `434`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script>) (damage application).
+Источник: `miscext2.script:380, 434` — `_misc_DoDamage`, вычитание защиты + headshot trigger.
 
 ```
 applied_damage = max(1, base_damage + squad_bonus - target.protection[weapon_kind])

@@ -1,6 +1,6 @@
 # Recon: Map generation pipeline (DoGenerate full timeline)
 
-**Источник:** [`data/scripts/common.inc/dogenerate.inc`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc) (2103 строки), вызывается через `ExecuteState('DoGenerate')` из [`initmapgen.inc:232`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/initmapgen.inc#L232).
+**Источник:** `data/scripts/common.inc/dogenerate.inc` (2103 строки), вызывается через `ExecuteState('DoGenerate')` из `initmapgen.inc:232`.
 
 > **Связанные документы:**
 > - [peasant_extraction.md §8](peasant_extraction.md) — densities (frs_big, mnt, …) и distance-таблицы для mines.
@@ -10,7 +10,7 @@
 
 ## 1. Глобальные константы (объявлены до процедур)
 
-Из [dogenerate.inc:407-416](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L407):
+Из dogenerate.inc:407-416:
 
 ```
 cCircle1MaskX = 5    cCircle1MaskY = 7    // forbidden zone — здесь только Phase-1 mines
@@ -22,7 +22,7 @@ cBorderObjDist = 1                        // peacetime wall spacing (tiles)
 Это **полу-оси эллипсов** в `gPatternMask`, центрированные на каждой стартовой точке. Внутри эллипса `gPatternMask[x,y] := True` → ничего больше нельзя ставить (ни лес, ни камни, ни здания env-плеера). Эллипсы заполняются через `_misc_FillPatternMaskElipse(pointx, pointy+2, rx, ry)` — **с +2 смещением по Y** (стартовый поинт сдвинут вверх относительно центра масок).
 
 Также:
-- `var foreststype : Integer = floor(RandomExt*3); foreststype := 0;` ([dogenerate.inc:5-6](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L5)) — **foreststype всегда = 0**. Случайная инициализация немедленно перезаписана. Следствие: на Land **никогда** не бывает leaf-only (`foreststype=1`) или mixed-only (`foreststype=2`) карт. Только foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
+- `var foreststype : Integer = floor(RandomExt*3); foreststype := 0;` (dogenerate.inc:5-6) — **foreststype всегда = 0**. Случайная инициализация немедленно перезаписана. Следствие: на Land **никогда** не бывает leaf-only (`foreststype=1`) или mixed-only (`foreststype=2`) карт. Только foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
 - `var bDesert : Boolean = (gMap.settings.gen.season=3);` — season=3 переключает все pattern types на `desert_*`. Для Land+любая-другая-сезон bDesert=False.
 - `var maphW : Integer = mapW div 2;` — половина ширины карты (используется для tiny-corner-snapping в SetupMines round 2).
 
@@ -118,7 +118,7 @@ flowchart TB
 
 ## 3. `RandomStartingPoints(plcount, minesdensity)` — раздача игроков
 
-[dogenerate.inc:1090-1229](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1090). Две ветки в зависимости от `gMap.settings.additional.teams`:
+dogenerate.inc:1090-1229. Две ветки в зависимости от `gMap.settings.additional.teams`:
 
 ### 3.1 `teams = nearby` (союзники рядом)
 1. Группируем игроков по `team` (5 команд: 0 = соло-плеера, 1..4 = командные).
@@ -142,7 +142,7 @@ flowchart TB
 
 ## 4. `SetupStartingResources(pointx, pointy)` — что спавнится возле города
 
-[dogenerate.inc:720-978](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L720). Шесть последовательных placement-фаз, каждая пытается до 128×3 = 384 разных позиций (vary angle + distance). Вызывается из CreateStartPoint **после** того как cCircle1 уже заполнен.
+dogenerate.inc:720-978. Шесть последовательных placement-фаз, каждая пытается до 128×3 = 384 разных позиций (vary angle + distance). Вызывается из CreateStartPoint **после** того как cCircle1 уже заполнен.
 
 | # | Pattern type | mindst (tiles) | dst формула | После: маска |
 |--:|---|---:|---|---|
@@ -167,7 +167,7 @@ flowchart TB
 
 ## 5. `FillOwnerMap(spCount)` — кому какая клетка принадлежит
 
-[dogenerate.inc:1370-1428](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1370). Простой BFS:
+dogenerate.inc:1370-1428. Простой BFS:
 
 1. Init `gScanGrid[i,j]` (размер `gc_scangrid_countx × gc_scangrid_county`): `owner=-1, dist=-1, fChecked=False`.
 2. Для каждой стартовой позиции: `_misc_PosToScanGridIndices(arrStartPos[i].x, .y, gridX, gridY)` → `gScanGrid[gridX,gridY].owner := arrStartPosBusy[i]` (player id), `dist := 0`.
@@ -179,7 +179,7 @@ flowchart TB
 
 ## 6. `SetupBorderObjects` — peacetime walls
 
-[dogenerate.inc:1430-1527](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1430). Запускается **только если `gbool_peacemode`** (т. е. `peacetime` ≠ 0). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.2.
+dogenerate.inc:1430-1527. Запускается **только если `gbool_peacemode`** (т. е. `peacetime` ≠ 0). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.2.
 
 Идея: для каждой пары соседних клеток `gScanGrid[i,j]` и `gScanGrid[i+1,j]` (а также `[i, j+1]`):
 - Если `owner` различается → провести цепочку border-объектов между центрами этих клеток.
@@ -193,7 +193,7 @@ flowchart TB
 
 ## 7. `CreateStartPointPeasants(plInd, pointx, pointy)` — стартовые крестьяне
 
-[dogenerate.inc:1231-1281](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L1231).
+dogenerate.inc:1231-1281.
 
 ```
 count = 18         # ВСЕГДА 18 крестьян
@@ -241,7 +241,7 @@ for i = 0 to 17:
 - `gRecordGeneratorVersion < 53` → удаляются player handle 8.
 - `< 89` → удаляются 9, 10, 11.
 
-Мод-разработчик может проверить `gRecordGeneratorVersion` через [`data/game/var/data.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/data.cfg) или через git log этого файла.
+Мод-разработчик может проверить `gRecordGeneratorVersion` через `data/game/var/data.cfg` или через git log этого файла.
 
 ---
 
@@ -353,8 +353,8 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 При фиксированных параметрах (terrain + mapsize + relief + mines + players) карта однозначно задаётся парой `(inputbitmap, randkey0/randkey1)`:
 
-- `inputbitmap` — файл из `data/gen/terrainmasks/<terrain>/<N>pl_*.tga`. Выбирается случайно по индексу `floor(RandomExt*count)` ([generatemap.inc:179-191](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/generatemap.inc#L179)). Engine читает .tga и извлекает стартовые позиции по спец-маркерам в маске → `gMap.players[i].startx/y`.
-- `randkey0, randkey1` — 64-битная пара RNG-сидов (`SetRandomExtKey64`, [generatemap.inc:216](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/generatemap.inc#L216)). Все последующие `RandomExt`-вызовы (placement лесов/камней/шахт, выбор bitmap из списка) детерминированы этой парой.
+- `inputbitmap` — файл из `data/gen/terrainmasks/<terrain>/<N>pl_*.tga`. Выбирается случайно по индексу `floor(RandomExt*count)` (generatemap.inc:179-191). Engine читает .tga и извлекает стартовые позиции по спец-маркерам в маске → `gMap.players[i].startx/y`.
+- `randkey0, randkey1` — 64-битная пара RNG-сидов (`SetRandomExtKey64`, generatemap.inc:216). Все последующие `RandomExt`-вызовы (placement лесов/камней/шахт, выбор bitmap из списка) детерминированы этой парой.
 
 **Сколько базовых масок есть.** Для 4 игроков:
 
@@ -375,11 +375,11 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 1. **Bounded enumeration.** Для (Land, Tiny, 4pl, Highlands, Rich) общее число уникальных карт = 230 базовых форм × K randkey-вариаций. K не известно, но в 4-байтном UI seed-поле едва ли > 10⁹; реально пользовательские seed'ы лежат в гораздо меньшем диапазоне.
 
-2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` ([miscext2.script:15](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script#L15)).
+2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` (miscext2.script:15).
 
 3. **Точная калибровка trees-per-pattern.** 5-10 запусков map gen с фиксированными параметрами, парсинг env-объектов из save → empirical mapping `bitmap → tree count`. Это даст точную замену текущей константы `0.30 × mask_cells`.
 
-**Ограничения.** `GenerateMapRandKey` ([map.script:322](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/map.script#L322)) — engine-builtin, тело недоступно. Точный диапазон randkey0/1 не подтверждён.
+**Ограничения.** `GenerateMapRandKey` (map.script:322) — engine-builtin, тело недоступно. Точный диапазон randkey0/1 не подтверждён.
 
 ---
 

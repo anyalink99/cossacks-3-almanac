@@ -31,7 +31,7 @@ received_Y = floor(sold_X × sellcost[X] / buycost[Y])
 
 ## Курсы — глобальные. Их видят все игроки
 
-Массив `gEconomy[restype]` ([`res.script:_res_InitEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script)) индексируется только типом ресурса — **не по игрокам**. Когда ты совершаешь обмен через [`_res_MarketTradeResources`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script), скрипт мутирует именно этот глобальный массив — те же `buycost` / `sellcost`, которые в тот же момент видит соперник в своём UI рынка.
+Массив `gEconomy[restype]` (`res.script:_res_InitEconomy`) индексируется только типом ресурса — **не по игрокам**. Когда ты совершаешь обмен через `_res_MarketTradeResources`, скрипт мутирует именно этот глобальный массив — те же `buycost` / `sellcost`, которые в тот же момент видит соперник в своём UI рынка.
 
 Здание `mar` (рынок) — это просто разрешение игроку **участвовать** в обмене. Оно не создаёт «свой» рынок и не делает курс выгоднее тому, кто его построил. Все шесть ресурсов и их шесть значений `gEconomy[*].{buy,sell}cost` — общие на всю игру.
 
@@ -97,7 +97,7 @@ buycost[X]  ← (buycost[X]  + buycostmin[X]  × weight) / (1 + weight)
 
 ## Источник
 
-- [`res.script:_res_InitEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 178-249) — стартовые `buy/sell × min/def/max` для каждого ресурса.
-- [`res.script:_res_MarketTradeResources`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 320-344) — обмен и пересчёт цен после сделки.
-- [`res.script:_res_ProcessEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 270-309) — экспоненциальное восстановление к стандартным курсам между сделками.
+- `res.script:_res_InitEconomy` (стр. 178-249) — стартовые `buy/sell × min/def/max` для каждого ресурса.
+- `res.script:_res_MarketTradeResources` (стр. 320-344) — обмен и пересчёт цен после сделки.
+- `res.script:_res_ProcessEconomy` (стр. 270-309) — экспоненциальное восстановление к стандартным курсам между сделками.
 - Константы: `gc_economy_exp = 0.00002` (вес одной сделки), `gc_economy_time = 0.0001 × 32 = 0.0032` (устарело; фактическая скорость восстановления ≈ 0.025 за игровую секунду — см. формулу выше).

@@ -109,8 +109,7 @@ def render_md(by_nation: dict) -> str:
     A("## Что это")
     A("")
     A("Каждый апгрейд `gc_upg_type_effect{food,wood,stone}[perc]` **аддитивно** "
-      "прибавляет `value` к `resefficiency[res]` ([`player.script:1812+`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script>)).")
+      "прибавляет `value` к `resefficiency[res]` (`player.script:1812+`).")
     A("База = 100. Формула добычи на удар: `delivered = floor(portion × eff / 100)`, "
       "где `portion` = 45/28/40 для food/wood/stone (`unit.script:9551-9555`).")
     A("")

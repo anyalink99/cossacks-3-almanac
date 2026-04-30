@@ -127,9 +127,7 @@ def header_block() -> list[str]:
     L.append("")
     L.append("## Формула")
     L.append("")
-    L.append("Источник: [`unit.script:5650-5689`]"
-             "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script>) "
-             "функция `_unit_GetCostByID`.")
+    L.append("Источник: `unit.script:5650-5689` — функция `_unit_GetCostByID`.")
     L.append("")
     L.append("```")
     L.append("costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока")

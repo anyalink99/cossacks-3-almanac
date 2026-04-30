@@ -44,8 +44,7 @@ def render_legend() -> list[str]:
     A("")
     A("Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — "
       "поле в `objprop`, ЦЕЛОЕ число (обычно 0..8). Источник — "
-      "`_unit_GetVision` в [`unit.script:11565`]"
-      "(file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script).")
+      "`_unit_GetVision` в `unit.script:11565`.")
     A("")
     A("| `vision` | tiles | Кто типичный носитель |")
     A("| ---: | ---: | --- |")

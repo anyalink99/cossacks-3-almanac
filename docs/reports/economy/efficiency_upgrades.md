@@ -4,7 +4,7 @@
 
 ## Что это
 
-Каждый апгрейд `gc_upg_type_effect{food,wood,stone}[perc]` **аддитивно** прибавляет `value` к `resefficiency[res]` ([`player.script:1812+`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script>)).
+Каждый апгрейд `gc_upg_type_effect{food,wood,stone}[perc]` **аддитивно** прибавляет `value` к `resefficiency[res]` (`player.script:1812+`).
 База = 100. Формула добычи на удар: `delivered = floor(portion × eff / 100)`, где `portion` = 45/28/40 для food/wood/stone (`unit.script:9551-9555`).
 
 `gc_upg_type_fieldlifeperc` аддитивно прибавляет к `objbase.fieldlife` поля. Снижает урон/удар по полю на `100 / (1 + fieldlife/100)` — повышает выход за один цикл и уменьшает частоту перезапусков.

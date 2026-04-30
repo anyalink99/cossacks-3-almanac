@@ -8,7 +8,7 @@
 
 ## Источник
 
-- [`res.script:_res_InitEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 178-249) — стартовые `buy/sell × min/def/max` для каждого ресурса.
-- [`res.script:_res_MarketTradeResources`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 320-344) — обмен и пересчёт цен после сделки.
-- [`res.script:_res_ProcessEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script) (стр. 270-309) — экспоненциальное восстановление к стандартным курсам между сделками.
+- `res.script:_res_InitEconomy` (стр. 178-249) — стартовые `buy/sell × min/def/max` для каждого ресурса.
+- `res.script:_res_MarketTradeResources` (стр. 320-344) — обмен и пересчёт цен после сделки.
+- `res.script:_res_ProcessEconomy` (стр. 270-309) — экспоненциальное восстановление к стандартным курсам между сделками.
 - Константы: `gc_economy_exp = 0.00002` (вес одной сделки), `gc_economy_time = 0.0001 × 32 = 0.0032` (устарело; фактическая скорость восстановления ≈ 0.025 за игровую секунду — см. формулу выше).

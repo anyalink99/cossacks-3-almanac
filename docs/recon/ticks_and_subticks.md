@@ -30,7 +30,7 @@
                 = 0.71 real-sec @ fast (factor 14)
 ```
 
-Game speed presets ([dmscript.global:1027-1029](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global#L1027)):
+Game speed presets (dmscript.global:1027-1029):
 - `gc_settings_gamespeed_0 = 7` (slow)
 - `gc_settings_gamespeed_1 = 10` (normal)
 - `gc_settings_gamespeed_2 = 14` (fast)
@@ -43,7 +43,7 @@ Game speed presets ([dmscript.global:1027-1029](C:/Program Files (x86)/Steam/ste
 
 ## 2. Главный progress-loop
 
-Сердце симуляции живёт в [progress/progress.inc/nothing.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc) (745 строк). Это state машина «прогресса» — отдельный «игрок» в архитектуре C3, который тикает каждый раз, когда движок зовёт state Nothing.
+Сердце симуляции живёт в progress/progress.inc/nothing.inc (745 строк). Это state машина «прогресса» — отдельный «игрок» в архитектуре C3, который тикает каждый раз, когда движок зовёт state Nothing.
 
 ### 2.1 Структура одного тика
 
@@ -72,7 +72,7 @@ if (lastprogresstime>0) and (deltatime>0) then
 gProgress.lastprogresstime := gametime;
 ```
 
-[progress.inc/nothing.inc:71-759](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L71)
+progress.inc/nothing.inc:71-759
 
 ### 2.2 Что progress-loop НЕ делает
 
@@ -92,7 +92,7 @@ gProgress.lastprogresstime := gametime;
 
 ### 3.1 Базовые интервалы
 
-[dmscript.global:1458-1459](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global#L1458):
+dmscript.global:1458-1459:
 ```pascal
 gc_statemachine_interval_units = 100;       // 100 ms — military units
 gc_statemachine_interval_peasants = 135;    // 135 ms — peasants
@@ -106,7 +106,7 @@ gc_statemachine_interval_peasants = 135;    // 135 ms — peasants
 
 ### 3.2 Progress sections
 
-Не все юниты тикают каждый кадр — они разбиты на «секции», и движок проходит по `secmax` объектам за тик ([progress.inc/nothing.inc:475-498](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L475)):
+Не все юниты тикают каждый кадр — они разбиты на «секции», и движок проходит по `secmax` объектам за тик (progress.inc/nothing.inc:475-498):
 
 ```pascal
 var psind : Integer = GetPlayerProgressSectionIndexByInterval(plHnd, gc_statemachine_interval_peasants);
@@ -138,13 +138,13 @@ secmax := Max(50, Min(psgocount, secmax));
 
 ### 4.1 По счётчику тиков (`progresstick mod N`)
 
-[progress.inc/nothing.inc:117](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L117):
+progress.inc/nothing.inc:117:
 ```pascal
 if (gWaterPathList.GetCount>0) and ((gGOPathList.GetCount=0) or (gProgress.progresstick mod 2=0)) then
 ```
 Pathfinding для воды — каждый второй тик.
 
-[progress.inc/nothing.inc:405](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L405):
+progress.inc/nothing.inc:405:
 ```pascal
 if ((gProgress.progresstick mod 53)=0) and ... then
    _misc_SyncUnitsParams;
@@ -163,7 +163,7 @@ begin
 end;
 ```
 
-Все интервалы в [dmscript.global:1489-1498](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global#L1489):
+Все интервалы в dmscript.global:1489-1498:
 
 ```pascal
 gc_progress_Interval               = 0.02;        // базовый шаг (50 Hz)
@@ -177,7 +177,7 @@ gc_progress_TimeProgressTopZones   = (gc_top_GlobalTick * 0.02)
 gc_progress_TimeSoundProgressFreq  = 0.02
 ```
 
-Эти таймштампы (`gProgress.last*time`) **сохраняются в save** и инициализируются через `random` ([miscext.script:1891-1898](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L1891)):
+Эти таймштампы (`gProgress.last*time`) **сохраняются в save** и инициализируются через `random` (miscext.script:1891-1898):
 
 ```pascal
 gProgress.lastprogresshistorytime := random;
@@ -206,7 +206,7 @@ var deltatime : Float = gametime - lastprogresstime;
 
 ### 5.2 Adaptive speed (главное!)
 
-[progress.inc/nothing.inc:510-628](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L510) — самый важный механизм:
+progress.inc/nothing.inc:510-628 — самый важный механизм:
 
 Когда CPU не успевает обработать всех юнитов за реальное время:
 1. Engine считает реальный FPS (`realfps`) и performance metrics (`pr`, `pp`, `pt`).
@@ -251,11 +251,11 @@ SetTimeSpeedFactor(newspeed);
 | Unit (peasant) | `SwitchTo('Nothing')` | `SwitchTo('Nothing')` (+ ship childs если водный) |
 | Env (resource) | — (по умолчанию) | `ExecuteState('Initial'); SwitchTo('Nothing')` |
 
-[progress.inc/onbeforesave.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/onbeforesave.inc), [progress.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/onafterload.inc), [units/unit.inc/onbeforesave.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onbeforesave.inc), [units/unit.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onafterload.inc), [env/env.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/onafterload.inc).
+progress.inc/onbeforesave.inc, progress.inc/onafterload.inc, units/unit.inc/onbeforesave.inc, units/unit.inc/onafterload.inc, env/env.inc/onafterload.inc.
 
 ### 6.2 Что точно сохраняется
 
-Из [miscext2.script:4002-4027](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4002) (формат network sync, тот же что и save):
+Из miscext2.script:4002-4027 (формат network sync, тот же что и save):
 - `posx, posz` (Float — sub-cell позиция)
 - `upx, upy, upz, dirx, diry, dirz` (ориентация)
 - `statestag` (битовое состояние tags)
@@ -264,11 +264,11 @@ SetTimeSpeedFactor(newspeed);
 - `cid, id, pl, hp, bbuilt, bdead, buildprogress`
 - **`uniqrnd`** ✓ (per-unit nonce, см. [determinism_audit.md](determinism_audit.md))
 
-Из `gProgress` (TProgress в [classes.script:6011](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/classes.script#L6011)):
+Из `gProgress` (TProgress в classes.script:6011):
 - `lastprogresstime`, `progresstick` — счётчик тиков и время последнего тика
 - Все `last*time` для периодических событий
 
-Из per-unit `TObj` ([classes.script:36-41, 3704+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/classes.script#L36)):
+Из per-unit `TObj` (classes.script:36-41, 3704+):
 - `lastprogresstime`, `progresstick`, `soundlastprogresstime`, `soundprogresstick`, `soundcounterlastprogresstime`, `soundcounterprogresstick` — счётчики прогресса самого юнита.
 
 ### 6.3 Что НЕ сохраняется (или ресетится)

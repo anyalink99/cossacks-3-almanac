@@ -82,7 +82,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 
 ## 6. Запасы древесины и камня
 
-**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок ([`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + [`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc)):
+**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок (`onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`):
 - меняет mesh на `pinestump<N>` (визуально пень)
 - **НЕ меняет** `brised=True` → пенек остаётся валидной целью для поиска
 - продолжает принимать удары: `hp -= 1, peasant.resamount += 1` (даже при HP < 0)
@@ -99,7 +99,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 
 **Терминология:** *месторождение* — геологическая залежь на местности (placed by `SetupMines`, basenames `minegold`/`mineiron`/`minecoal`). *Шахта* — здание `eurgol`/`euriro`/`eurcoa`, которое игрок строит на месторождении крестьянином (peasantabsorber=5, апгрейды до 95).
 
-Параметры из [`dogenerate.inc:522-717`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L522):
+Параметры из `dogenerate.inc:522-717`:
 - minesdensity=2 → **5 раундов** на стартовую точку.
 - На tiny раунд 4 пропускается через `continue` → **4 эффективных раундов**.
 - В каждом раунде ставится по **1 месторождению каждого типа** (gold/iron/coal).

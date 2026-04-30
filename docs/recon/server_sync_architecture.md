@@ -27,14 +27,14 @@ end;
 Клиенты и replay'и **не выполняют гейм-логику**. Они слушают пакеты от сервера и применяют изменения локально.
 
 Примеры этого паттерна:
-- [units/unit.inc/onaclanimationreachedwork.inc:8](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onaclanimationreachedwork.inc#L8) — добыча ресурса
-- [units/unit.inc/onaclanimationreachedattack.inc:8](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onaclanimationreachedattack.inc#L8) — нанесение урона
-- [units/unit.inc/onaclanimationreachedconstruct.inc:8](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onaclanimationreachedconstruct.inc#L8) — прогресс строительства
-- [units/unit.inc/ontagstates.inc:720](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/ontagstates.inc#L720) и др.
+- units/unit.inc/onaclanimationreachedwork.inc:8 — добыча ресурса
+- units/unit.inc/onaclanimationreachedattack.inc:8 — нанесение урона
+- units/unit.inc/onaclanimationreachedconstruct.inc:8 — прогресс строительства
+- units/unit.inc/ontagstates.inc:720 и др.
 
 ### 1.2 Net modes
 
-[lib/net.script:39-67](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/net.script#L39):
+lib/net.script:39-67:
 
 | Mode | Условие | Кто симулирует |
 |---|---|---|
@@ -48,9 +48,9 @@ Single-player = `_net_IsOffline` = клиент-сам-себе-сервер. `b
 
 ### 1.3 Архитектурные следствия
 
-- **Зачем `random` сидируется через `SetRandomKey(uniqrnd*MaxInt)`** ([weapon.script:1051](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/weapon.script#L1051), [unit.script:11453](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11453)): чтобы клиент мог **воспроизвести** дисперсию снаряда от того же seed. Сервер шлёт `frnd : Float = RandomExt` ([unit.script:11554](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11554)) → клиент применяет `SetRandomKey` со значением, восстановленным из этого `frnd`, и получает идентичную дисперсию.
+- **Зачем `random` сидируется через `SetRandomKey(uniqrnd*MaxInt)`** (weapon.script:1051, unit.script:11453): чтобы клиент мог **воспроизвести** дисперсию снаряда от того же seed. Сервер шлёт `frnd : Float = RandomExt` (unit.script:11554) → клиент применяет `SetRandomKey` со значением, восстановленным из этого `frnd`, и получает идентичную дисперсию.
 
-- **Почему `random` (без `SetRandomKey`) не критичен для межхостовой синхронизации**: его результат используется только на сервере (под `bProcess`). Клиенты не вызывают эту ветку. Комментарий [weapon.script:1011](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/weapon.script#L1011) подтверждает: `// I use general random, cause no need to sync it and randomext may change planned results on dif PCs`. Разработчики **знают**, что `random` не воспроизводим между хостами, и используют его только там, где это не нужно для синхронизации.
+- **Почему `random` (без `SetRandomKey`) не критичен для межхостовой синхронизации**: его результат используется только на сервере (под `bProcess`). Клиенты не вызывают эту ветку. Комментарий weapon.script:1011 подтверждает: `// I use general random, cause no need to sync it and randomext may change planned results on dif PCs`. Разработчики **знают**, что `random` не воспроизводим между хостами, и используют его только там, где это не нужно для синхронизации.
 
 ---
 
@@ -58,7 +58,7 @@ Single-player = `_net_IsOffline` = клиент-сам-себе-сервер. `b
 
 ### 2.1 Per-event пакеты (отправляются по факту события)
 
-Каждый игровой объект-«игрок» (player state machine) имеет пары `WriteX` / `ReadX` для каждого типа события. См. [units/global.inc/](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/) — там их 30+:
+Каждый игровой объект-«игрок» (player state machine) имеет пары `WriteX` / `ReadX` для каждого типа события. См. units/global.inc/ — там их 30+:
 
 | Событие | Write* | Read* | Что несёт |
 |---|---|---|---|
@@ -73,7 +73,7 @@ Single-player = `_net_IsOffline` = клиент-сам-себе-сервер. `b
 | Construct progress | writeconstruct.inc | readconstruct.inc | uid, hp delta |
 | ... ещё ~25 событий | | | |
 
-Паттерн writenew.inc ([units/global.inc/writenew.inc:15-71](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/writenew.inc)):
+Паттерн writenew.inc (units/global.inc/writenew.inc:15-71):
 ```pascal
 if _net_IsServer or _net_IsOffline then begin
    // ... locally create unit ...
@@ -96,7 +96,7 @@ end;
 
 ### 2.2 Periodic пакеты (по таймауту)
 
-[progress/progress.inc/nothing.inc:697-713](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L697):
+progress/progress.inc/nothing.inc:697-713:
 
 ```pascal
 var curtime : Float = GetCurrentTime;   // <-- REAL TIME, не game time!
@@ -133,19 +133,19 @@ end;
 
 ### 2.3 Sync unit params (mod 53)
 
-[progress/progress.inc/nothing.inc:405-406](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L405):
+progress/progress.inc/nothing.inc:405-406:
 ```pascal
 if ((gProgress.progresstick mod 53)=0) and (gLanSyncUnitsParamsUIDList.GetCount>0) and ((_net_IsOnline and _net_IsServer) or (_net_IsRecord)) then
    _misc_SyncUnitsParams;
 ```
 
-[miscext2.script:4303-4338](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4303) — `_misc_SyncUnitsParams` берёт юнитов из `gLanSyncUnitsParamsUIDList` (юниты, которые сервер пометил как «нуждающихся в sync», обычно после нетривиальных изменений) и шлёт их состояние через `WriteSyncUnitsParams`.
+miscext2.script:4303-4338 — `_misc_SyncUnitsParams` берёт юнитов из `gLanSyncUnitsParamsUIDList` (юниты, которые сервер пометил как «нуждающихся в sync», обычно после нетривиальных изменений) и шлёт их состояние через `WriteSyncUnitsParams`.
 
 **Период:** каждый 53-й tick прогресса. Tick ≈ зависит от FPS (см. [ticks_and_subticks.md](ticks_and_subticks.md) §5). При 50 Hz tick это ~1.06 sec real-time. То есть unit param sync лагает в среднем на ~1 секунду real-time.
 
 ### 2.4 GameTime/speed sync
 
-[progress/progress.inc/nothing.inc:617-622](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L617):
+progress/progress.inc/nothing.inc:617-622:
 ```pascal
 SetTimeSpeedFactor(newspeed);
 var pLan : Integer = _parser_ParserTemporary(True);
@@ -160,12 +160,12 @@ LanSendParser(gc_LAN_GAME_SYNC_GAMETIME, pLan);
 
 ### 2.5 On-demand full sync
 
-[miscext2.script:3955+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L3955) — при подозрении на десинк:
+miscext2.script:3955+ — при подозрении на десинк:
 
 1. Клиент шлёт `gc_LAN_GAME_SYNC_REQUEST` с `(cuid, nuid, envc)` (счётчики uid'ов)
-2. Сервер запускает `_misc_WriteSyncServer` ([miscext2.script:3965-4072](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L3965)) и шлёт **полное состояние всех юнитов**:
+2. Сервер запускает `_misc_WriteSyncServer` (miscext2.script:3965-4072) и шлёт **полное состояние всех юнитов**:
    - Для каждого uid: bexists + (если есть) racename, basename, posx/z, scale, ориентация, statestag, sto, stp, sta, cid, id, pl, hp, bbuilt, bdead, buildprogress, **uniqrnd**
-3. Клиент в `_misc_ReadSyncClient` ([miscext2.script:4083+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4083)) пересоздаёт недостающие объекты или восстанавливает состояние существующих.
+3. Клиент в `_misc_ReadSyncClient` (miscext2.script:4083+) пересоздаёт недостающие объекты или восстанавливает состояние существующих.
 
 Это «hard reset» — дорогая операция, не используется в нормальном тике, только при потере консистентности.
 
@@ -197,7 +197,7 @@ Sync пакетов идёт в **real time** (см. §2.2). Game-логика �
 
 ### 3.2 Adaptive speed основан на **локальных** perf метриках сервера
 
-[progress/progress.inc/nothing.inc:563-578](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc#L563):
+progress/progress.inc/nothing.inc:563-578:
 
 ```pascal
 var pr, pp : Float;
@@ -224,11 +224,11 @@ progfps := progfps/gc_perf_progresshistory;
 ### 3.3 Init `random` и `RandomExt` различаются между хостами
 
 C3 при старте новой игры (не Load) вызывает много `random` и `RandomExt` для:
-- `gProgress.last*time := random*X` ([miscext.script:1891-1898](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L1891))
-- `obj.uniqrnd := RandomExt` для **каждого** юнита и ресурса ([unit.script:2726](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2726))
-- `obj.progresstick := floor(RandomExt*32)` ([unit.script:2707](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2707))
-- `lasttime*` per-unit ([miscext.script:2757-2762](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L2757))
-- Init положений деревьев на карте через `RandomExt` ([misc.script:3714-3715, 3906-3907](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script))
+- `gProgress.last*time := random*X` (miscext.script:1891-1898)
+- `obj.uniqrnd := RandomExt` для **каждого** юнита и ресурса (unit.script:2726)
+- `obj.progresstick := floor(RandomExt*32)` (unit.script:2707)
+- `lasttime*` per-unit (miscext.script:2757-2762)
+- Init положений деревьев на карте через `RandomExt` (misc.script:3714-3715, 3906-3907)
 
 В multiplayer **только сервер** делает init и шлёт результат через WriteNew/WriteSyncServer. Клиенты получают `uniqrnd`, `pos` etc. от сервера и применяют. Поэтому в multiplayer init консистентен между хостами.
 

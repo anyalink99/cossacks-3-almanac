@@ -53,7 +53,7 @@
 
 ## uniqrnd — индивидуальное случайное число юнита
 
-При спавне каждый юнит получает `uniqrnd ∈ [0..1]` ([`unit.script:2726`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)). Это **зафиксированное** число, остаётся неизменным до смерти. Используется в **4 механиках одновременно**:
+При спавне каждый юнит получает `uniqrnd ∈ [0..1]` (`unit.script:2726`). Это **зафиксированное** число, остаётся неизменным до смерти. Используется в **4 механиках одновременно**:
 
 | # | Где применяется | Эффект |
 |---:|---|---|
@@ -149,7 +149,7 @@ target.hp -= damage
 
 ## Формационные бонусы
 
-Источник: [`data/game/var/formations.cfg`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/formations.cfg)
+Источник: `data/game/var/formations.cfg`
 
 Юниты в строю получают **+урон / +shield** к каждому выстрелу/попаданию. В **hold-mode** (приказ «Стоять») бонусы значительно больше:
 
@@ -169,7 +169,7 @@ target.hp -= damage
 
 ## Офицеры — роль формации и миф об ауре
 
-Источник: [`player.script:810-858`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script), [`unit.script:163-164`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `player.script:810-858`, `unit.script:163-164`
 
 **В игре НЕТ персонального бонуса-ауры от офицера.** Офицеры/барабанщики занимают слоты `maskOfficers` в формационной сетке, но в коде **нет** проверок типа `if (officer in radius) then damage += X`.
 
@@ -183,7 +183,7 @@ target.hp -= damage
 
 ## Высокая позиция (high ground)
 
-Источник: [`unit.script:5469, 7272`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `unit.script:5469, 7272`
 
 Если стрелковый юнит стоит на возвышенности (Y > 0), его **search distance** увеличивается:
 
@@ -198,7 +198,7 @@ searchdist += goHeight × 2  (только для ranged юнитов: minsearch
 
 ## AoE damage cap — как кучкование защищает
 
-Источник: [`miscext2.script:_misc_DoRoundDamage:576`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)
+Источник: `miscext2.script:_misc_DoRoundDamage:576`
 
 Взрывы (cannon, mortar, gun, grenade) попадают по всем юнитам в радиусе `r`, **но только первые N получают урон**:
 
@@ -218,7 +218,7 @@ count = floor(1 + (r / 0.35)²)
 
 ## Shield /3 при недостроенном здании
 
-Источник: [`miscext2.script:339-342`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)
+Источник: `miscext2.script:339-342`
 
 При расчёте урона: если здание **ещё строится** (`bbuilt=False`), его shield делится на 3:
 
@@ -232,7 +232,7 @@ else:                 damage -= shield // 3   # стройка: 1/3 shield
 
 ## Рассеяние — почему выстрелы промахиваются
 
-Источник: [`weapon.script:_weapon_CalcShotDispertion:625`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script)
+Источник: `weapon.script:_weapon_CalcShotDispertion:625`
 
 При каждом выстреле снаряд **рассеивается** относительно цели:
 
@@ -268,7 +268,7 @@ shot_z = target_z + (1 - random*2) × maxdisp
 
 ## Видимость и обзор (vision, FOW)
 
-Источник: [`unit.script:11565-11620`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script) (`_unit_GetVision`), [`player.script:475`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script) (`SetFOWDovFunc`).
+Источник: `unit.script:11565-11620` (`_unit_GetVision`), `player.script:475` (`SetFOWDovFunc`).
 
 В Cossacks 3 у каждого юнита есть **два разных** радиуса «осведомлённости», и их легко спутать:
 
@@ -313,7 +313,7 @@ real_vision_radius_tiles = 20 + 4 × vision
 
 ## Standground / bartprepare — режимы атаки
 
-Источник: [`unit.script:7259-7286`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), [`player.script:2456-2463`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)
+Источник: `unit.script:7259-7286`, `player.script:2456-2463`
 
 **Ключевой механизм:** дальность авто-обнаружения врага (`maxsearchdist`) **радикально различается** в режимах standground и обычном:
 
@@ -344,7 +344,7 @@ else:
 
 ## RunAway — автоматический отход стрелков
 
-Источник: [`unit.script:7363-7369`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `unit.script:7363-7369`
 
 Если у стрелкового юнита (`minsearchdist > 0`, т.е. min range > 0) враг входит в **мёртвую зону** (между 0 и `minsearchdist`), юнит автоматически отступает:
 
@@ -377,7 +377,7 @@ if (cell_search_found_no_target AND враг_в_minsearchdist):
 
 ## Штраф к дальности при движении
 
-Источник: [`unit.script:8011-8023`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), константа `gc_obj_maxattackradiusdisp = 3` (`dmscript.global:116`)
+Источник: `unit.script:8011-8023`, константа `gc_obj_maxattackradiusdisp = 3` (`dmscript.global:116`)
 
 Юнит, который только что двигался (`standtime < 0.25 sec`), теряет в дальности:
 
@@ -399,7 +399,7 @@ if (standtime < 0.25) AND (weapon.kind != cannister):
 
 ## Бонус к дальности в покое
 
-Источник: [`unit.script:8026-8028`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `unit.script:8026-8028`
 
 Если юнит в состоянии **idle** (флаг `gc_statetag_move_idle`), он получает бонус к дальности:
 
@@ -412,7 +412,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 ## Переключение оружия по дистанции
 
-Источник: [`unit.script:_unit_GetWeaponToAttackIndex:6376-6451`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `unit.script:_unit_GetWeaponToAttackIndex:6376-6451`
 
 Многие юниты имеют **несколько слотов оружия** (`weapon[0]`, `weapon[1]`, ...). Игра автоматически выбирает нужный слот по дистанции до цели — каждое оружие имеет `radiusmin..radiusmax`. Если враг вошёл в близкий диапазон — выбирается оружие с маленьким `radiusmin`, иначе — дальнее.
 
@@ -460,7 +460,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 ## Дружественный огонь
 
-Источник: [`miscext2.script:_misc_DoDamage:274`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script), [`weapon.script:482-492`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script), [`unit.script:7686-7714`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)
+Источник: `miscext2.script:_misc_DoDamage:274`, `weapon.script:482-492`, `unit.script:7686-7714`
 
 **Дружественный огонь ВКЛЮЧЁН для большинства снарядов.** В функции `_misc_DoDamage` **нет проверки на сторону/владельца** — урон применяется к любому объекту, попавшему под траекторию.
 
@@ -491,7 +491,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 Полный псевдокод и список всех `bcapture/bcancapture/bprotector` флагов — в [`recon/capture_mechanics.md`](../recon/capture_mechanics.md). Здесь — суть.
 
-Источник: [`miscext.script:961-1185`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext.script) (`_misc_CheckCapture`).
+Источник: `miscext.script:961-1185` (`_misc_CheckCapture`).
 
 ### Геометрический триггер, а не «5% шанс»
 
@@ -511,7 +511,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 **Юниты:**
 
-- **Все крестьяне** всех 8 sid'ов (`peaaus`/`peatur`/`pearus`/`peapol`/`peaspa`/`peaeng`/`peaukr`/`peasco`) — `bcapture=True` ([unit.script:1199](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)). _Раньше в этом справочнике говорилось, что украинский и шотландский Крестьянин не захватываются — это **ошибка**, флаг у них тоже True._
+- **Все крестьяне** всех 8 sid'ов (`peaaus`/`peatur`/`pearus`/`peapol`/`peaspa`/`peaeng`/`peaukr`/`peasco`) — `bcapture=True` (unit.script:1199). _Раньше в этом справочнике говорилось, что украинский и шотландский Крестьянин не захватываются — это **ошибка**, флаг у них тоже True._
 - **Артиллерия** — `cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`. Проверяется в **4× чаще** (0.5 g-сек), поэтому теряется почти мгновенно при подходе кавалерии.
 
 **Здания (захватываются — меняют владельца):** Городской центр, Казарма (17/18 в.), Кузница, Склад, Мельница, Шахты (золото/железо/уголь).
@@ -571,7 +571,7 @@ Footprint здания **не учитывается** — берётся одн
 
 ## Лечение священниками
 
-Источник: [`unit.script:1151-1188`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script), формула в [`miscext2.script:371-398`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)
+Источник: `unit.script:1151-1188`, формула в `miscext2.script:371-398`
 
 Священники (`priest`, `pope`, `mullah`, `padre`) лечат союзных юнитов. Используют псевдо-оружие `gc_obj_weapon_kind_heal`. Формула:
 
@@ -598,7 +598,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Реакция ИИ — отряд переходит в атаку от одного удара
 
-Источник: [`miscext2.script:406-417`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script)
+Источник: `miscext2.script:406-417`
 
 Любой не-артиллерийский юнит ИИ, **получивший урон**, переключает свой отряд (`squad`) в `fAgressive=True` и обновляет `fLastBattleTime`.
 
@@ -612,7 +612,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Score и финальный счёт
 
-Источник: [`miscext2.script:443-461`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script), [`unit.script:3836-3950`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script). Полный разбор — в [`recon/victory_conditions.md`](../recon/victory_conditions.md) §5.
+Источник: `miscext2.script:443-461`, `unit.script:3836-3950`. Полный разбор — в [`recon/victory_conditions.md`](../recon/victory_conditions.md) §5.
 
 Каждый объект (`TObjProp.score`) имеет базовое число очков (Крестьянин = 10, Городской центр = 1000 и т.д.). Все события прибавляют или вычитают `target.score × множитель`:
 
@@ -632,7 +632,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Конец партии: победа и поражение
 
-Источник: [`miscext2.script:3770`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext2.script) (`_misc_CheckEndGame`), [`progress.inc:54-140`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/global.inc/progress.inc) (defeat). Полная картина — в [`recon/victory_conditions.md`](../recon/victory_conditions.md).
+Источник: `miscext2.script:3770` (`_misc_CheckEndGame`), `progress.inc:54-140` (defeat). Полная картина — в [`recon/victory_conditions.md`](../recon/victory_conditions.md).
 
 ### Условие победы (по умолчанию)
 

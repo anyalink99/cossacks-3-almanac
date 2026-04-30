@@ -321,9 +321,8 @@ def main():
     A("")
     A("## Формула урона")
     A("")
-    A("Источник: [`miscext2.script:380`, `434`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script>) "
-      "(damage application).")
+    A("Источник: `miscext2.script:380, 434` — `_misc_DoDamage`, "
+      "вычитание защиты + headshot trigger.")
     A("")
     A("```")
     A("applied_damage = max(1, base_damage + squad_bonus - target.protection[weapon_kind])")

@@ -8,7 +8,7 @@ received_Y = floor(sold_X × sellcost[X] / buycost[Y])
 
 ## Курсы — глобальные. Их видят все игроки
 
-Массив `gEconomy[restype]` ([`res.script:_res_InitEconomy`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script)) индексируется только типом ресурса — **не по игрокам**. Когда ты совершаешь обмен через [`_res_MarketTradeResources`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/res.script), скрипт мутирует именно этот глобальный массив — те же `buycost` / `sellcost`, которые в тот же момент видит соперник в своём UI рынка.
+Массив `gEconomy[restype]` (`res.script:_res_InitEconomy`) индексируется только типом ресурса — **не по игрокам**. Когда ты совершаешь обмен через `_res_MarketTradeResources`, скрипт мутирует именно этот глобальный массив — те же `buycost` / `sellcost`, которые в тот же момент видит соперник в своём UI рынка.
 
 Здание `mar` (рынок) — это просто разрешение игроку **участвовать** в обмене. Оно не создаёт «свой» рынок и не делает курс выгоднее тому, кто его построил. Все шесть ресурсов и их шесть значений `gEconomy[*].{buy,sell}cost` — общие на всю игру.
 

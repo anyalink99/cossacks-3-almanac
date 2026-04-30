@@ -4,7 +4,7 @@
 
 **Контекст:** game speed = fast (×1.4). Все длительности в game-seconds, real-seconds = g-sec / 1.4.
 
-> **Buildtime в game-time.** Для зданий движок хранит `objbase.buildtime = frames × (1/32) × gc_buildtime_modifier`, где `gc_buildtime_modifier = 10` ([`misc.script:478-482`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L478)). Для юнитов модификатор = 1. Это объясняет, почему «реальное» время постройки здания ≈ frames × 10/32, а не frames/32. В нашем `docs/data.json` поле `building.buildtime_sec` уже учитывает ×10.
+> **Buildtime в game-time.** Для зданий движок хранит `objbase.buildtime = frames × (1/32) × gc_buildtime_modifier`, где `gc_buildtime_modifier = 10` (`misc.script:478-482`). Для юнитов модификатор = 1. Это объясняет, почему «реальное» время постройки здания ≈ frames × 10/32, а не frames/32. В нашем `docs/data.json` поле `building.buildtime_sec` уже учитывает ×10.
 
 ---
 
@@ -12,7 +12,7 @@
 
 **Источник:** `data/objects/buildings/<sid>.prop` → `collisionmaskproperty.Mask`.
 
-**Единица:** 1 mask cell = **0.5 тайла** ([`unit.script:8712`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8712) `cellSize := 0.5`).
+**Единица:** 1 mask cell = **0.5 тайла** (`unit.script:8712` `cellSize := 0.5`).
 
 **Mask = 2D ASCII grid of 0/1**, где 1 = занятая клетка. Пример bavcen:
 ```
@@ -32,7 +32,7 @@
 
 **CustomBoundingAABB** (для отрисовки/clicking) — отдельный от collision mask, обычно меньше, в тайлах: для bavcen X=4.45, Z=2.70.
 
-**ScaleFactor для mask:** 1 (из [`refbuilding.prop:45`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/objects/ref/refbuilding.prop#L45)) — mask cells не масштабируются. `DefaultScale=0.662` (визуальный) ≠ collision.
+**ScaleFactor для mask:** 1 (из `refbuilding.prop:45`) — mask cells не масштабируются. `DefaultScale=0.662` (визуальный) ≠ collision.
 
 **Где хранится у нас:** пока нигде, нужно извлечь footprint mask из .prop файлов в JSON.
 
@@ -40,13 +40,13 @@
 
 ## 2. Repair (починка) — БЕСПЛАТНО
 
-**Источник:** [`units/unit.inc/onaclanimationreachedconstruct.inc:40-41`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedconstruct.inc#L40):
+**Источник:** `units/unit.inc/onaclanimationreachedconstruct.inc:40-41`:
 ```pascal
 if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
    TObj(pobj).hp := Min(TObj(pobj).hp + gc_gameplay_repairhp, TObjBase(pobjbase).maxhp);
 ```
 
-**Constant:** `gc_gameplay_repairhp = 20` ([`dmscript.global:211`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L211)).
+**Constant:** `gc_gameplay_repairhp = 20` (`dmscript.global:211`).
 
 **Mechanic:**
 - Каждый завершённый "construct" анимационный цикл крестьянина → +20 HP к зданию.
@@ -70,7 +70,7 @@ if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
 
 ### 3.1 Прогресс за один "удар молотком"
 
-Из [onaclanimationreachedconstruct.inc:25-37](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedconstruct.inc#L25):
+Из onaclanimationreachedconstruct.inc:25-37:
 ```pascal
 delta := (gc_buildtime_progressperhit / TObjBase(pobjbase).buildtime)
 buildprogress += delta
@@ -116,15 +116,15 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 ### 3.2 Builder slots (сколько крестьян могут одновременно строить)
 
-**Cap:** `gc_MaxBuilderCount = 30` ([`dmscript.global:159`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L159)).
-**Min spacing:** `gc_BuilderDist = 1.0` тайл ([`dmscript.global:160`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L160)).
+**Cap:** `gc_MaxBuilderCount = 30` (`dmscript.global:159`).
+**Min spacing:** `gc_BuilderDist = 1.0` тайл (`dmscript.global:160`).
 
 **Builder points** — конкретные позиции вокруг здания, где крестьянин стоит и работает.
 
 **Источник позиций:**
-1. Для большинства зданий — **динамически вычисляются** из collision mask через [`_unit_CalcBuilderPoints`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8702) (unit.script:8702-9006). Алгоритм: обходит периметр маски с шагом 0.5 тайла (1 cell), ставит точку каждые `dist=1.0` тайл, после цикла добавляет ещё одну если `dLen > dist/2`.
-2. Для стен — из [`data/game/var/wallcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/wallcustom.cfg) (BuilderPoints per wall variation, до 16).
-3. (Опционально) Override per-building в [`data/game/var/objcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/objcustom.cfg) — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
+1. Для большинства зданий — **динамически вычисляются** из collision mask через `_unit_CalcBuilderPoints` (unit.script:8702-9006). Алгоритм: обходит периметр маски с шагом 0.5 тайла (1 cell), ставит точку каждые `dist=1.0` тайл, после цикла добавляет ещё одну если `dLen > dist/2`.
+2. Для стен — из `data/game/var/wallcustom.cfg` (BuilderPoints per wall variation, до 16).
+3. (Опционально) Override per-building в `data/game/var/objcustom.cfg` — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
 **Точные значения для каждого здания:** [`docs/reports/economy/builder_slots.md`](../docs/reports/economy/builder_slots.md) и [`docs/derived/builder_slots.json`](../docs/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py).
 
@@ -162,7 +162,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 ### 3.3 Алгоритм назначения крестьянина на стройку
 
-[`_unit_OrderBuild` (unit.script:9285-9378)](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L9285):
+`_unit_OrderBuild` (unit.script:9285-9378):
 1. Получает builder slots для цели.
 2. Для каждого слота проверяет: занят (на нём кто-то уже строит/ремонтирует)? Если да — пропуск.
 3. Из свободных выбирает **ближайший по евклидову расстоянию** к крестьянину.
@@ -178,7 +178,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Тип:** `gc_obj_usage_hardwall` / `gc_obj_usage_weakwall` (palisade, woodgate, stonegate, stonewall).
 
-**Wall segment**: **2×2 тайла** на сегмент. Подтверждено по координатам в [`wallcustom.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/wallcustom.cfg) — все builder points в диапазоне [-1, +1] относительно центра сегмента.
+**Wall segment**: **2×2 тайла** на сегмент. Подтверждено по координатам в `wallcustom.cfg` — все builder points в диапазоне [-1, +1] относительно центра сегмента.
 
 **Builder slots per wall variation:**
 | Variation | Геометрия | Slots |
@@ -190,7 +190,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 | 5 | пересечение или ворота | **12** (12 точек по периметру 2×2) |
 | 6+ | прочие | 4-8 |
 
-Cap из движка: `gc_MaxWallBuilderPointsCount = 16` ([`dmscript.global:137`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L137)).
+Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137`).
 
 **Параметры стен** (после fix ×10):
 | sid | maxhp | buildtime_g | Цена | costpercent |
@@ -211,12 +211,12 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` ([`dmscript.global:13
 
 ### 5.2 transport — для транспорта
 Грузоподъёмность для транспортных юнитов:
-- Ferry: `transport = 80+40 = 120` слотов ([`unit.script:2043`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L2043))
+- Ferry: `transport = 80+40 = 120` слотов (`unit.script:2043`)
 - Другие транспортные суда (`transport`)/корабли — TBD
 
 ### 5.3 Tower — built-in cannon
 
-Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием ([`unit.script:2223-2240`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L2223)):
+Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием (`unit.script:2223-2240`):
 
 | параметр | значение |
 |---|---|
@@ -236,11 +236,11 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` ([`dmscript.global:13
 
 ⚠ Гарнизон-ить пехоту в башню **нельзя** — это другие RTS. В C3 башня сама стреляет.
 
-**Парсер gap:** weapons для зданий пока не извлекаются в `data.json`. См. [`reference_session_findings_2026-04-29.md`](../memory/...) — есть TODO.
+**Парсер gap:** weapons для зданий пока не извлекаются в `data.json` целиком — есть только скалярные поля (`weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`); если у здания два оружия, попадает только первое. Подробнее — [`docs/known_issues.md`](../known_issues.md).
 
 ### 5.4 Other inside-units checks
 - `bcapture=True` отмечает, что объект **может быть захвачен** врагом (см. §7).
-- `gc_obj_usage_tower` — особенный case: захватывается даже без bcapture ([`unit.script:178`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L178)).
+- `gc_obj_usage_tower` — особенный case: захватывается даже без bcapture (`unit.script:178`).
 
 ---
 
@@ -257,16 +257,16 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 **Возможно ли отстроить?** — нужно проверить специально (предположительно: нет, только новое здание ставить).
 
 ### 6.3 Производство при низком HP
-[`doprogressorders.inc`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/doprogressorders.inc): нет проверки на HP. Здание производит юниты пока живо. **Неполное здание (bbuilt=False) — не производит.**
+`doprogressorders.inc`: нет проверки на HP. Здание производит юниты пока живо. **Неполное здание (bbuilt=False) — не производит.**
 
 ---
 
 ## 7. Capture (захват зданий)
 
-**Trigger:** `objprop.bcapture = True` в коде или [`gc_obj_usage_tower`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L178).
+**Trigger:** `objprop.bcapture = True` в коде или `gc_obj_usage_tower`.
 
-**Mechanic:** [`miscext.script:1018-1030`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext.script#L1018):
-- Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` ([`dmscript.global:208`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/dmscript.global#L208)).
+**Mechanic:** `miscext.script:1018-1030`:
+- Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` (`dmscript.global:208`).
 - Block radius: `gc_gameplay_captureblockshotradius = 3.0 тайла`.
 - Если вражеская пехота находится в радиусе захвата здания и игрока-владельца **нет** в этом радиусе → здание переходит к врагу.
 - **Захват instant** (verified empirically 2026-04-29). Старая оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — относилась к другой механике или была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
@@ -276,7 +276,7 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 При захвате:
 - HP сохраняется
 - Player ownership → новый
-- Score "захватчику" с множителем 5 ([`unit.script:3837-3841`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L3837))
+- Score "захватчику" с множителем 5 (`unit.script:3837-3841`)
 
 ⚠ Тонкости: при захвате `counter.all` инкрементируется, но `counter.built` нет. Это влияет на масштабирование цен (если захватили центр, следующий ваш центр будет ×3 как обычно — но захваченный учитывается в счётчике).
 
@@ -289,9 +289,9 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 | Длина одного сегмента стены | 2×2 тайла, 4-12 builder slots в зависимости от variation (§4) |
 | objcustom.cfg BuilderPoints override? | В файле только `ExitPoints/SmokePoints/Decal` — **все здания** считаются через динамический `_unit_CalcBuilderPoints` (обход периметра mask). Стены — единственное исключение, у них explicit BuilderPoints в `wallcustom.cfg`. |
 | Ветшание (decay) | **Нет.** Здания теряют HP только от damage. Ни константы `gc_decay`, ни вызовов `_hp_decay` в скриптах не существует. |
-| Можно ли восстановить здание после HP=0 | **Нет.** [`OnDeath`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/building.inc/ondeath.inc) вызывает `_unit_DestroyObj` — здание удаляется. Мэш `<sid>_death1a/2a` — визуальные руины, не игровой объект. Только новое foundation. |
-| Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` ([`miscext.script:1018`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/miscext.script#L1018)). Per-building override не найден. |
-| Refund при отмене постройки | **Юнит-очередь:** [`_unit_CancelUnitProduction`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L5891) даёт full refund. **Foundation (Del):** добавляется в `deluids`, refund foundation cost в коде не найден — скорее всего **не возвращается**. |
+| Можно ли восстановить здание после HP=0 | **Нет.** `OnDeath` вызывает `_unit_DestroyObj` — здание удаляется. Мэш `<sid>_death1a/2a` — визуальные руины, не игровой объект. Только новое foundation. |
+| Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` (`miscext.script:1018`). Per-building override не найден. |
+| Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` даёт full refund. **Foundation (Del):** добавляется в `deluids`, refund foundation cost в коде не найден — скорее всего **не возвращается**. |
 
 ## 9. Открытые вопросы
 

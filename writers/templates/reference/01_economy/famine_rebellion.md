@@ -1,15 +1,15 @@
 ## Famine (голод) и Rebellion (восстание)
 
-Источник: [`unit.inc/nothing.inc:445-505`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/nothing.inc), [`player.script:280-322`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)
+Источник: `unit.inc/nothing.inc:445-505`, `player.script:280-322`
 
-**Расход food (upkeep).** Каждый юнит без `bnohungry = True` накапливает у игрока `gPlayer.counter.resconsume[food]` ([`unit.script:3810,3821`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)):
+**Расход food (upkeep).** Каждый юнит без `bnohungry = True` накапливает у игрока `gPlayer.counter.resconsume[food]` (`unit.script:3810,3821`):
 
 ```
 per_unit_resconsume_food = consume.food          # из case-ветки в unit.script
                          + gc_obj_foodperunit    # = 30, если !bnohungry и !bbuilding
 ```
 
-Расход food за игровую секунду ([`player.script:_player_ProcessResourceConsume`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/player.script)):
+Расход food за игровую секунду (`player.script:_player_ProcessResourceConsume`):
 
 ```
 food_per_g_sec = sum_of_resconsume_food × gc_time_to_frames / 20000
@@ -45,7 +45,7 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 **Кто иммунен к голоду** (`bnohungry = True` в `unit.script`):
 
-- Все здания — флаг ставится в `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` ([`unit.script:471`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script)).
+- Все здания — флаг ставится в `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` (`unit.script:471`).
 - Наёмники (`bmercenary = True`). У них свой триггер — Rebellion (см. ниже). Едят gold, не food.
 
 **Кто НЕ иммунен** (вопреки распространённому заблуждению):

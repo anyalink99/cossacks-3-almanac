@@ -21,7 +21,7 @@
 
 ## Порт (`<cluster>por`)
 
-Источник: [`unit.script:2148-2206`](file:///C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script).
+Источник: `unit.script:2148-2206`.
 
 | Параметр | Значение |
 |---|---:|

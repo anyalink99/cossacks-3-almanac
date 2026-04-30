@@ -4,7 +4,7 @@
 
 **Формула** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md), раздел про слоты):
 
-- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` ([`unit.script:8702-9006`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script#L8702)) по верхне-левой компоненте collision mask. Для выпуклых форм результат равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.
+- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` (`unit.script:8702-9006`) по верхне-левой компоненте collision mask. Для выпуклых форм результат равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.
 - Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).
 - Жёсткий лимит движка: `gc_MaxBuilderCount = 30`.
 

@@ -1,25 +1,40 @@
-# Recon: Cossacks 3 — добыча ресурсов крестьянами
+# Recon: добыча ресурсов крестьянами
 
-Модель скорости добычи всех ресурсов на основе игровой логики. Уровень B (формулы + шахты + поля + апгрейды), потенциал C (симулятор).
+Полная модель скорости добычи всех ресурсов: формулы, шахты, поля,
+апгрейды эффективности, влияние карты. На этих числах строятся симулятор
+экономики и расчёты в [`docs/reference/01_economy.md`](../reference/01_economy.md).
 
-**Контекст по умолчанию:**
-- Game speed = **fast (2)**, множитель **1.4×** к normal (§1).
-- Карта: terraintype=**0 Land**, relieftype=**3 Highlands**, resourcemines=**2 Rich/Many**, mapsize=**3 Tiny/Small (256×256)**.
-- Все ссылки относятся к `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\`.
+**Контекст по умолчанию (если в тексте не указано иное):**
+
+- Скорость партии — **fast** (`gamespeed = 2`, множитель ×1.4 к нормальной; см. §1).
+- Карта — `terraintype = 0` (Суша), `relieftype = 3` (Высокогорье),
+  `resourcemines = 2` (Много), `mapsize = 3` (Маленькая, 256 × 256).
+- Все пути к скриптам ниже — относительно `data/` в установке Cossacks 3.
 
 > **Связанные документы:**
-> - [determinism_audit.md](determinism_audit.md) — RNG-сайты в hot-path, ожидаемый разброс между запусками.
-> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени, sub-tick state, adaptive speed. Критично для трактовки real-time vs game-time при замерах.
-> - [server_sync_architecture.md](server_sync_architecture.md) — server-authoritative модель C3.
-> - [map_generation_pipeline.md](map_generation_pipeline.md) — таймлайн DoGenerate, стартовые позиции, размещение лесов/камней/шахт.
 >
-> **TL;DR.** Аналитический потолок (формулы ниже) считаем в **game-time**. Реальная in-game добыча будет ниже из-за RNG-выборов в `_misc_FindResourceToExtract` ([determinism_audit.md](determinism_audit.md) §3). Разброс между запусками одного сейва ожидается 5-15%; для шахт — 0%.
+> - [determinism_audit.md](determinism_audit.md) — RNG-сайты в горячем
+>   пути добычи и ожидаемый разброс между запусками.
+> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени,
+>   sub-tick state-machine, адаптивная скорость. Нужен для правильной
+>   интерпретации real-time против game-time при замерах.
+> - [server_sync_architecture.md](server_sync_architecture.md) —
+>   server-authoritative архитектура C3 (важна для multiplayer-замеров).
+> - [map_generation_pipeline.md](map_generation_pipeline.md) — таймлайн
+>   `DoGenerate`, стартовые позиции, размещение лесов / камней / шахт.
+
+> **TL;DR.** Аналитический потолок добычи (формулы ниже) считаем в
+> **игровом времени**. Реальная in-game добыча будет ниже — из-за
+> RNG-выборов цели в `_misc_FindResourceToExtract` (см.
+> [determinism_audit.md](determinism_audit.md) §3). Разброс между
+> запусками одного сейва на 5-минутном окне — 5–15% для леса и камня,
+> ≈ 0% для шахт.
 
 ---
 
 ## 1. Игровая скорость и время
 
-**Базовый тик:** `gc_time_to_frames = 32` ([dmscript.global](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)) — 32 кадра в одной игровой секунде. Все длительности в скриптах в "frames" нужно делить на 32 для перевода в **игровые секунды (game-time)**.
+**Базовый тик:** `gc_time_to_frames = 32` (dmscript.global) — 32 кадра в одной игровой секунде. Все длительности в скриптах в "frames" нужно делить на 32 для перевода в **игровые секунды (game-time)**.
 
 **Скорости игры** (`gc_settings_gamespeed_*`, dmscript.global:1027-1029):
 | Mode | Tag | speedfactor | game-time : real-time |
@@ -35,25 +50,25 @@
 Пайплайн одного крестьянина:
 
 1. **Удар (work tick).** При работе анимация `workfood`/`workwood`/`workstone` цикл = N кадров. По достижении конца цикла:
-    - срабатывает `OnAclAnimationReachedWork` ([units/unit.inc/onaclanimationreachedwork.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onaclanimationreachedwork.inc)).
+    - срабатывает `OnAclAnimationReachedWork` (units/unit.inc/onaclanimationreachedwork.inc).
     - `arg_obj.resamount += 1` — увеличивается счётчик "ударов" в инвентаре.
     - HP ресурса уменьшается:
       - food: `-= Max(1, floor(100/(1+fieldlife/100)))`. Default fieldlife=0 → 100 HP/удар.
       - wood: `-= 1`. При HP=0 → дерево становится пнём (см. §4.2).
       - stone: `-= 1`. Stone HP = 10 000 000, фактически бесконечно.
 
-2. **Возврат к складу.** Когда `resamount >= hitsneeded` ([res.script:346-358](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/res.script#L346)):
+2. **Возврат к складу.** Когда `resamount >= hitsneeded` (res.script:346-358):
     - food: 22, wood: 14, stone: 20 ударов.
-    - Запускается `_unit_GetNearestStorehouse` ([unit.script:9572-9604](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L9572)) — поиск по списку `gPlayer[pl].lists.storehouses`. Учитываются здания с `usage=storage/mill/center` и `resourcebase[restype]=True`.
+    - Запускается `_unit_GetNearestStorehouse` (unit.script:9572-9604) — поиск по списку `gPlayer[pl].lists.storehouses`. Учитываются здания с `usage=storage/mill/center` и `resourcebase[restype]=True`.
     - Цель — `resourcePoint` склада (точка сдачи на конкретном tile-offset от позиции здания).
 
 3. **Сдача.** При попадании в радиус `gc_gameplay_resourceDropRadiusSqr = 0.5` (≈0.707 тайла):
-    - `_unit_PeasantAddResToPlayerByIndex` → `delivered = (portion × eff) / 100` ([unit.script:9544-9569](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L9544)).
+    - `_unit_PeasantAddResToPlayerByIndex` → `delivered = (portion × eff) / 100` (unit.script:9544-9569).
     - Базовые порции (`gc_obj_resource_portion_*`, dmscript.global:803-806): food=**45**, wood=**28**, stone=**40**, прочее=**20**.
     - `eff` — `gPlayer[pl].resefficiency[cid][restype]`, стартует со 100, апгрейды добавляют (см. §7).
     - `restype := none`, `resamount := 0`, поиск нового ресурса.
 
-4. **Re-acquire.** `_unit_SearchResourceInRadius` ([unit.script:4041-4181](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4041)) около **исходной точки задачи** (`TOrderInfo.x/y`):
+4. **Re-acquire.** `_unit_SearchResourceInRadius` (unit.script:4041-4181) около **исходной точки задачи** (`TOrderInfo.x/y`):
     - Стандартный радиус: `gc_obj_res_searchradius = 6` тайлов.
     - Если `standtime>9` или `random>0.9` → расширение до `2× = 12` тайлов.
     - Скоринг кандидатов: `score = (1+myDst/5) × (1+resDst/4) × (1+stoFactor) × (1+attFactor)`. attFactor/stoFactor штрафуют ресурс, к которому уже идут другие.
@@ -63,7 +78,7 @@
 
 ### Анимация — кадры одного work-цикла
 
-Из [data/animations/aaf/peaaus.aaf](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/animations/aaf/peaaus.aaf) (одинаково для всех наций кроме pearus):
+Из data/animations/aaf/peaaus.aaf (одинаково для всех наций кроме pearus):
 
 | Cycle | Frames | game-sec @ 32fps | real-sec @ fast |
 |---|---:|---:|---:|
@@ -105,12 +120,12 @@
 
 ### Скорости (абстрактные ед., не тайлы/сек)
 
-`gc_obj_speed_*` ([dmscript.global:603-620](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global#L603)):
+`gc_obj_speed_*` (dmscript.global:603-620):
 - default = 32
 - **peasant = 40**
 - hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24
 
-⚠ В скриптах строки `objbase.speed := gc_obj_speed_peasant` закомментированы ([unit.script:1192](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L1192)). Глобально `objbase.speed := 1` ([unit.script:618](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L618)). Скорость, видимо, читается из actor/mesh файлов или применяется через анимационный walkInterval. Для конверсии в тайлы/сек **нужен empirical test**: переместить крестьянина из (0,0) в (40,0) на normal speed и засечь время в секундах.
+⚠ В скриптах строки `objbase.speed := gc_obj_speed_peasant` закомментированы (unit.script:1192). Глобально `objbase.speed := 1` (unit.script:618). Скорость, видимо, читается из actor/mesh файлов или применяется через анимационный walkInterval. Для конверсии в тайлы/сек **нужен empirical test**: переместить крестьянина из (0,0) в (40,0) на normal speed и засечь время в секундах.
 
 ### Конкурентные добытчики на одном ресурсе
 
@@ -139,7 +154,7 @@ rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_с
 
 ### 4.2 Wood — большие/средние/мелкие деревья
 
-При спавне случайно ([env/env.inc/initial.inc:79-89](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/initial.inc#L79)):
+При спавне случайно (env/env.inc/initial.inc:79-89):
 
 | Шанс | HP | Тип | Ударов до пенька | Дерева на дереве (round/floor) |
 |---:|---|---|---:|---:|
@@ -152,11 +167,11 @@ rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_с
 - 0.2 × 12000 + 0.15 × 375 + 0.45 × 35 + 0.2 × 10 ≈ **2474 HP** на дерево
 - При 14 hits/trip = ~177 рейсов на одно "среднее" дерево, или ~4956 wood/дерево.
 
-**Переход дерево→пень** ([env/env.inc/ontagstates.inc:50-78](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/ontagstates.inc#L50)):
+**Переход дерево→пень** (env/env.inc/ontagstates.inc:50-78):
 - При HP=0 → `gc_statetag_essential_death` → меш меняется на `pinestump1..4` (распределение 70/20/5/5%), `collisioninertia=False`.
 - `brised` для wood **никогда не выставляется в False** в коде (в отличие от food, где flag используется для замедления роста). Пень остаётся валидным ресурсом в `gResGrid`, search его видит, итип=wood сохраняется.
 
-**Предпочтение целых деревьев — emergent через penalty queueing.** В скоринге кандидата ([unit.script:4141-4145](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4141)):
+**Предпочтение целых деревьев — emergent через penalty queueing.** В скоринге кандидата (unit.script:4141-4145):
 
 ```
 score = (1 + dstMy/5) × (1 + dstRes/4) × (1 + stoFactor) × (1 + attFactor)
@@ -176,11 +191,11 @@ stoFactor = 1 + stocount × 1.5    if stocount ≥ 1, else 0
 
 ### 4.3 Stone — фактически бесконечный
 
-HP = 10 000 000 ([initial.inc:96](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/initial.inc#L96)). Один камень держит 10M ударов = 500k рейсов = 20M камня. Бесконечно для практических целей. Все расчёты для stone — без учёта истощения.
+HP = 10 000 000 (initial.inc:96). Один камень держит 10M ударов = 500k рейсов = 20M камня. Бесконечно для практических целей. Все расчёты для stone — без учёта истощения.
 
 ### 4.4 Food — поле с регенерацией
 
-**HP поля:** старт = 0, при `essential_birth → essential_none` устанавливается = `gc_FieldMaxHP = 25000` ([ontagstates.inc:119](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/ontagstates.inc#L119)).
+**HP поля:** старт = 0, при `essential_birth → essential_none` устанавливается = `gc_FieldMaxHP = 25000` (ontagstates.inc:119).
 
 **Урон полю за удар:** `resdec = Max(1, floor(100/(1+fieldlife/100)))`.
 
@@ -194,18 +209,18 @@ HP = 10 000 000 ([initial.inc:96](C:/Program Files (x86)/Steam/steamapps/common/
 
 (Каждые 22 удара — 1 рейс с 45 еды; формула: hits × portion / hitsneeded.)
 
-**Регенерация поля** ([env/env.inc/nothing.inc:78-87](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/nothing.inc#L78)):
+**Регенерация поля** (env/env.inc/nothing.inc:78-87):
 - При HP < FieldMaxHP **И** visualstage=0 (HP ≥ 13000): каждые `cFieldRestartTime = 31.25` игровых секунд → `HP += floor(25000 × random × 0.1)` (то есть 0..2500 случайно).
 - На стадиях <stage_0 (HP<13000) — НЕ регенерирует.
 
-**Перезапуск поля** ([nothing.inc:31-34](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/nothing.inc#L31)):
+**Перезапуск поля** (nothing.inc:31-34):
 - HP=0 → `essential_death` → 21.875 игровых секунд → `essential_birth+visual_stage_0`.
 - Затем `cFieldGrowTime = 4×21.875 = 87.5` игровых секунд роста (4 visual stages: 0→1→2→3). В это время `brised=False`, добывать нельзя.
 - Полный простой: 21.875 + 87.5 = **109.375 игровых секунд** = 78.1 real sec @ fast.
 
 ## 5. Шахты (gold/iron/coal)
 
-**Здание:** `eurgol`, `euriro`, `eurcoa` (общий cluster `eur` для большинства; `rusgol`/etc для rus/ukr; `turgol`/etc для tur/alg). Параметры ([unit.script:2311-2323](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2311)):
+**Здание:** `eurgol`, `euriro`, `eurcoa` (общий cluster `eur` для большинства; `rusgol`/etc для rus/ukr; `turgol`/etc для tur/alg). Параметры (unit.script:2311-2323):
 
 | Параметр | Значение |
 |---|---:|
@@ -215,14 +230,14 @@ HP = 10 000 000 ([initial.inc:96](C:/Program Files (x86)/Steam/steamapps/common/
 | `peasantabsorber` | **5** (макс 5 крестьян внутри) |
 | `produce[gold/iron/coal]` | **13** |
 
-**Механика:** крестьянин входит → `_unit_AddInside` ([unit.script:3016-3032](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L3016)):
+**Механика:** крестьянин входит → `_unit_AddInside` (unit.script:3016-3032):
 ```
 gPlayer[pl].counter.resincome[i] += produce[i]   # +13 на каждого вошедшего
 ```
 
 При выходе/смерти — соответствующее уменьшение.
 
-**Income tick** ([player.script:240-266](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script#L240)):
+**Income tick** (player.script:240-266):
 ```
 const mult  = 100
 const speed = 256/1.024 = 250
@@ -245,7 +260,7 @@ delivered    = floor(realbank)                        # к плательщик�
 
 Каждая шахта имеет 6 индивидуальных апгрейдов (`<commonName><res>.1`..`.6`, `bindividual=True` — нужно исследовать на каждой шахте отдельно). Type: `gc_upg_type_single_inside_mine`. Эффект: `addpeasantabsorber += value`.
 
-Источник: [country.script:3871-3897](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/country.script#L3871). Время: 300 frames = 9.375 game-sec каждый.
+Источник: country.script:3871-3897. Время: 300 frames = 9.375 game-sec каждый.
 
 | Upgrade | +absorber | абсорбер после | Цена | Требование |
 |---|---:|---:|---|---|
@@ -267,7 +282,7 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 ## 6. Поля и fieldlife — апгрейды
 
-**Type:** `gc_upg_type_fieldlifeperc` (ID 23). Эффект ([player.script:1830-1832](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script#L1830)): `gPlayer.fieldlife += value` (additive).
+**Type:** `gc_upg_type_fieldlifeperc` (ID 23). Эффект (player.script:1830-1832): `gPlayer.fieldlife += value` (additive).
 
 Найдены два апгрейда (стандартная eur-нация):
 | Sid | upgplace | value | Цена | Источник |
@@ -312,9 +327,9 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 | Minerals | `resourcemines` | 2 | Rich |
 | Map Size | `mapsize` | 3 | Tiny (256×256) |
 
-Источники: [data/gui/menu.inc/showcustomgame.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/gui/menu.inc/showcustomgame.inc), labels в `data/locale/{en,ru}/{gui,new}.txt`.
+Источники: data/gui/menu.inc/showcustomgame.inc, labels в `data/locale/{en,ru}/{gui,new}.txt`.
 
-**Важная деталь Highlands**: density гор (`mnt = 0.000120`) — максимальная среди всех рельефов ([dogenerate.inc:1640-1644](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1640)). Меньше ровных площадей под фермы/склады, больше попыток placement фейлятся.
+**Важная деталь Highlands**: density гор (`mnt = 0.000120`) — максимальная среди всех рельефов (dogenerate.inc:1640-1644). Меньше ровных площадей под фермы/склады, больше попыток placement фейлятся.
 
 ### 8.2 Терминология: месторождение vs шахта
 
@@ -329,17 +344,17 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 ### 8.4 Леса и камни — densities + калибровка trees-per-pattern
 
-> **`foreststype` всегда = 0 для Land.** Случайная инициализация `floor(RandomExt*3)` немедленно перезаписана нулём ([dogenerate.inc:5-6](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L5)). foreststype=1 (leaf-only) и =2 (mixed-only) на Land **не активируются**. Используется foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
+> **`foreststype` всегда = 0 для Land.** Случайная инициализация `floor(RandomExt*3)` немедленно перезаписана нулём (dogenerate.inc:5-6). foreststype=1 (leaf-only) и =2 (mixed-only) на Land **не активируются**. Используется foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
 
-Densities ([dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc#L1688)):
+Densities (dogenerate.inc:1688-1693):
 
 - `frs_big = 0.0009`, `frs_mid = 0.0009`, `frs_small = 0.00054`
 - `stn1 = 0.00016`, `stn2 = 0.00012`
 - `dcr = 0.0005` (декор)
 
-Финальная density применяется через `_misc_SetupPatternsByType` ([misc.script:3681-3737](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3681)) с тремя множителями:
+Финальная density применяется через `_misc_SetupPatternsByType` (misc.script:3681-3737) с тремя множителями:
 
-1. `prob*` modifiers ([misc.script:3929-3941](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L3929)) — Monte Carlo на 32000×4 пробах в 12/16/24/29-tile квадратах. Показывает «сколько свободного места» осталось после terrain placement.
+1. `prob*` modifiers (misc.script:3929-3941) — Monte Carlo на 32000×4 пробах в 12/16/24/29-tile квадратах. Показывает «сколько свободного места» осталось после terrain placement.
 2. Tiny modifier ×2.5 (`640/256`) на все `prob*`.
 3. Per-call splits: `frs_big/8` на 4 типа леса, `frs_mid/6` на 3 типа, `frs_small/4` на 2 типа.
 
@@ -362,7 +377,7 @@ Densities ([dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/com
 
 ### Per-pattern-type tree counts (real data)
 
-После расшифровки [`data/game/var/generator.cfg`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/game/var/generator.cfg) — `PatternList` секции мапят тип паттерна (типа `forests_pine_big`) на список конкретных `.pattern` файлов. Парсер: [`parser/parse_generator_cfg.py`](../parser/parse_generator_cfg.py) → `docs/derived/pattern_types.json`.
+После расшифровки `data/game/var/generator.cfg` — `PatternList` секции мапят тип паттерна (типа `forests_pine_big`) на список конкретных `.pattern` файлов. Парсер: [`parser/parse_generator_cfg.py`](../parser/parse_generator_cfg.py) → `docs/derived/pattern_types.json`.
 
 Кросс-tabulating с `pattern_inventory.json` (mask cell counts) → `docs/derived/pattern_type_stats.json`:
 
@@ -390,7 +405,7 @@ Densities ([dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/com
 
 ### Что значит mask=1: РЕШЕНИЕ через empirical calibration
 
-`mask=1` cells = **placement slots для env-объектов**, спавнятся C++ функцией [`StandPatternWithAngle`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3390) (code недоступен).
+`mask=1` cells = **placement slots для env-объектов**, спавнятся C++ функцией `StandPatternWithAngle` (code недоступен).
 
 **Mask cells содержат:** chopable trees (oak/pine/leaftree/...) + ground decoration (drytree, decortree*, fallen logs, grass tufts, stumps). Engine назначает variant_id → конкретный env-object class — но мы не видим этого мэппинга.
 
@@ -407,22 +422,22 @@ Densities ([dogenerate.inc:1688-1693](C:/Program Files (x86)/Steam/steamapps/com
 
 ### Pattern type → file mapping
 
-При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` ([`misc.script:3655`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/misc.script#L3655)) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается C++ `StandPatternWithAngle` — она и спавнит env-объекты (тело недоступно).
+При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` (`misc.script:3655`) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается C++ `StandPatternWithAngle` — она и спавнит env-объекты (тело недоступно).
 
 Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа (pinefir/spruce/pine/pine_big_2), 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
 
 ### 8.5 Пеньки — бесконечный wood pool (критично для симуляции)
 
-**Источник:** [`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + [`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc).
+**Источник:** `onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`.
 
 Жизненный цикл дерева:
-1. **Spawn** ([`initial.inc:75-93`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/initial.inc)): `brised := True`, HP назначается случайно по distribution (giant 8000-16000 / medium 125-624 / small 10-60 / stub 10).
+1. **Spawn** (`initial.inc:75-93`): `brised := True`, HP назначается случайно по distribution (giant 8000-16000 / medium 125-624 / small 10-60 / stub 10).
 2. **Каждый удар** крестьянина: `hp -= 1, peasant.resamount += 1`.
 3. **При hp = 0**: `_unit_SetTagStates(trgHnd, gc_statetag_essential_death)`. Это триггерит ontagstates wood-death-handler:
    - mesh меняется на `pinestump<1..4>` (random)
    - `SetGameObjectCollisionInertiaByHandle(myHnd, False)`
    - **`brised` остаётся True** (никто его не сбрасывает на death)
-4. **Пенек продолжает жить как валидная цель** для `_unit_SearchResourceInRadius` ([`unit.script:4148`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script): `if brised then ...` — проверки HP нет).
+4. **Пенек продолжает жить как валидная цель** для `_unit_SearchResourceInRadius` (`unit.script:4148`: `if brised then ...` — проверки HP нет).
 5. Удары продолжаются: `hp -= 1` уходит в отрицательные значения (-1, -2, -3, ...). Условие `if hp = 0` срабатывает только один раз (при ровно 0), потому повторного перехода в death нет.
 6. `peasant.resamount` инкрементится каждый удар → **дерево даёт wood до бесконечности**.
 

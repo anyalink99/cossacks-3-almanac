@@ -1,28 +1,54 @@
-# Recon: Cossacks 3 — pathfinding и движение юнитов
+# Recon: pathfinding и движение юнитов
 
-Цель: задокументировать, как юниты в C3 ищут путь, обходят друг друга и здания, и что происходит с ними при блокировке. **Главный вывод вперёд:** сам алгоритм pathfinding'а живёт в нативном движке (C++) — скрипты только ставят юнитов в очередь, передают целевую точку и читают результат. Алгоритм не виден; видна архитектура вокруг него.
+Как юниты в Cossacks 3 ищут путь, обходят друг друга и здания, и что
+происходит при блокировке. **Главный вывод сразу:** сам алгоритм
+pathfinding'а живёт в нативном движке (C++); скрипты только ставят юнитов
+в очередь, передают целевую точку и читают результат. Алгоритм не виден —
+виден только каркас вокруг него.
 
-> **Связанные документы:**
-> - [ticks_and_subticks.md](ticks_and_subticks.md) — главный progress-loop (`gc_progress_Interval = 0.02s`), unit-tick = 100 ms.
-> - [server_sync_architecture.md](server_sync_architecture.md) — `WriteMove`/`ReadMove`, server-authoritative модель, сериализация очереди в save.
-> - [building_mechanics.md](building_mechanics.md) — footprint/CIMass у зданий (массивные «якоря»).
+**Связанные документы:**
 
-Все ссылки относительно `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\`.
+- [ticks_and_subticks.md](ticks_and_subticks.md) — главный progress-loop
+  (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
+- [server_sync_architecture.md](server_sync_architecture.md) —
+  `WriteMove` / `ReadMove`, server-authoritative модель, сериализация
+  очереди в save.
+- [building_mechanics.md](building_mechanics.md) — footprint и `CIMass`
+  у зданий (массивные «якоря» для коллизий).
 
----
+Все пути к скриптам ниже — относительно `data/` в установке Cossacks 3.
+
+## TL;DR
+
+- Движение юнита — это **две независимые подсистемы**: глобальный
+  pathfinding (поиск пути A → B через QuadTree-карту препятствий) и
+  локальная коллизия / расталкивание (`CollisionInertia`). Обе живут в
+  нативном движке; в скриптах — только запросы к ним.
+- Pathfinding **батчится** раз в 20 мс (`progress`-тик): движок берёт всю
+  очередь юнитов, ждущих маршрут, и считает пути одним проходом.
+  Локальная коллизия — каждый кадр.
+- Размер ячейки коллизии — `0.5` тайла (`gc_BuilderDist = 1.0` для
+  расстановки строителей вокруг здания).
+- **Дружественный push** — беззвучный: свои отряды раздвигают друг друга,
+  без анимации.
+- **Враг в 90° спереди** → юнит автоматически переключается на атаку
+  даже если шёл на другую цель.
+- **Формация** = jittered offset для каждого юнита, а не следование за
+  squad-leader'ом. Поэтому и двигается «расплываясь».
 
 ## 1. Архитектура: две независимые подсистемы
 
-Engine разделяет навигацию юнита на **две слабо связанные подсистемы**:
+Движок разделяет навигацию юнита на две слабо связанные подсистемы:
 
 | Подсистема | Что делает | Где живёт |
 |---|---|---|
-| **Topology + QuadTree path-search** | Высокоуровневый поиск пути от A→B через зоны проходимости, возвращает массив TrackPoint'ов | `Topology*` / `TraceLine*` нативные API |
-| **CollisionInertia (CI)** | Per-frame локальный обход соседей вдоль проложенного пути (push/avoid с массами и инерцией) | `*CI*` нативные API |
+| **Topology + QuadTree path-search** | Глобальный поиск пути A → B через зоны проходимости; возвращает массив `TrackPoint`'ов. | Нативные API `Topology*` / `TraceLine*`. |
+| **CollisionInertia (CI)** | Per-frame локальный обход соседей вдоль уже проложенного пути (push / avoid с массами и инерцией). | Нативные API `*CI*`. |
 
-Скрипты дёргают обе через `Set/Get*ByHandle`-аксессоры — **детали реализации в нативном коде, в скриптах их нет**.
+Скрипты обращаются к обеим через `Set / Get*ByHandle` — **детали
+реализации в нативном коде, скриптам не видны**.
 
-Точка входа в скрипты: `_init_InitializeTopology` ([lib/init.script:85-93](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/init.script)):
+Точка входа в скрипты: `_init_InitializeTopology` (lib/init.script:85-93):
 
 ```pascal
 procedure _init_InitializeTopology();
@@ -56,7 +82,7 @@ gc_top_MaxUpdateAreas   = 500;
 
 ### 2.1 Очередь и батчевание
 
-**Очередь:** два глобальных списка [`unit.script:3324-3363`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script):
+**Очередь:** два глобальных списка `unit.script:3324-3363`:
 
 ```pascal
 procedure _unit_PathListAdd(const goHnd : Integer);
@@ -76,7 +102,7 @@ begin
 end;
 ```
 
-Юнит добавляется в `gGOPathList` (земля) или `gWaterPathList` (вода) **ровно один раз** при переходе в состояние `gc_statetag_execute_move` ([units/unit.inc/ontagstates.inc:692](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/ontagstates.inc)):
+Юнит добавляется в `gGOPathList` (земля) или `gWaterPathList` (вода) **ровно один раз** при переходе в состояние `gc_statetag_execute_move` (units/unit.inc/ontagstates.inc:692):
 
 ```pascal
 if (switchExecute=gc_statetag_execute_move) then
@@ -87,13 +113,13 @@ begin
 end
 ```
 
-Флаг `bpathrequested : Boolean` ([dmscript.global:1747](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)) защищает от дублирования.
+Флаг `bpathrequested : Boolean` (dmscript.global:1747) защищает от дублирования.
 
-**Списки сериализованы** в save/replay ([dmscript.source:340-341](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.source)) — это часть состояния мира.
+**Списки сериализованы** в save/replay (dmscript.source:340-341) — это часть состояния мира.
 
 ### 2.2 Главный батч (раз в progress-tick = 20ms)
 
-Весь батч pathfinding'а — в [progress/progress.inc/nothing.inc:115-323](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc). Я цитирую ключевые строки (с очищенным синтаксисом):
+Весь батч pathfinding'а — в progress/progress.inc/nothing.inc:115-323. Я цитирую ключевые строки (с очищенным синтаксисом):
 
 ```
 117: if (gWaterPathList.GetCount>0) and ((gGOPathList.GetCount=0) or (gProgress.progresstick mod 2=0)) then
@@ -145,9 +171,9 @@ end
 
 Из контекста использования и имени класса:
 - **QuadTree** — пространственный индекс препятствий, разбивает мир на ячейки.
-- **Topology** — это надстроечный граф **зон** (`TopologyGetZoneIndex(x, z)`), `_unit_TopologyAdd/Remove/Progress` ([unit.script:3248-3287, 6957-6977](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script)) поддерживает «в какой зоне сейчас этот юнит» для быстрого distance-check.
-- **`TopologyGetPathDistance(x1,z1,x2,z2,bIncludeBuildings)`** ([unit.script:6142, 6150](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script)) — синхронная funciton, возвращающая длину пути по топологическому графу. Используется AI, не движением.
-- **`TopologyGetPathToZone(zoneInd)`** ([misc.script:3231, 3255, 5241](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script), [progresswarai.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/progresswarai.inc)) — query «маршрут в зону», AI war-logic.
+- **Topology** — это надстроечный граф **зон** (`TopologyGetZoneIndex(x, z)`), `_unit_TopologyAdd/Remove/Progress` (unit.script:3248-3287, 6957-6977) поддерживает «в какой зоне сейчас этот юнит» для быстрого distance-check.
+- **`TopologyGetPathDistance(x1,z1,x2,z2,bIncludeBuildings)`** (unit.script:6142, 6150) — синхронная funciton, возвращающая длину пути по топологическому графу. Используется AI, не движением.
+- **`TopologyGetPathToZone(zoneInd)`** (misc.script:3231, 3255, 5241, progresswarai.inc) — query «маршрут в зону», AI war-logic.
 
 **Гипотеза о слоях:**
 - Высокий уровень — A* по графу зон (узлы — `TTopZone`, рёбра — соединения через `gc_top_EffectDist=3`).
@@ -155,7 +181,7 @@ end
 
 Это совместимо с константой `TopologySetPosSearchRadius(7)` (как далеко искать «ближайшую проходимую точку»).
 
-**Сетка:** `gc_collision_size = 0.5` ([dmscript.global:178](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)) — это размер base-collision-cell **в тайлах** (т.е. 1 «collision cell» = 0.5 тайла = ~26 пикселей). Также `gc_MaxColMapWidth = 2*gc_MaxMapWidth` подтверждает: collision-карта в 2 раза мельче карты (640 → 1280 cells/side).
+**Сетка:** `gc_collision_size = 0.5` (dmscript.global:178) — это размер base-collision-cell **в тайлах** (т.е. 1 «collision cell» = 0.5 тайла = ~26 пикселей). Также `gc_MaxColMapWidth = 2*gc_MaxMapWidth` подтверждает: collision-карта в 2 раза мельче карты (640 → 1280 cells/side).
 
 > **Алгоритм не виден**: вызовы `TopologyGetPath` / `TopologyGetPathExt` ведут в нативный код. Из скриптов нельзя установить, A* ли это, flow-field, wave-propagation или что-то иное. Документированные косвенные признаки: батчевая обработка списка юнитов, передача squad-id как hint, наличие отдельной структуры зон + QuadTree, raycast-функция `TraceLineQuadTree` (значит, есть LoS-checks внутри path-search).
 
@@ -170,7 +196,7 @@ end
 - `SetGameObjectTrackPointCurrentPointIndexByHandle(hnd, idx)` — установить текущий
 - `GetGameObjectTrackPointCountByHandle(hnd)` — длина списка
 - `SetGameObjectTrackPointSkipPointsByHandle(hnd, true)` — позволять пропускать промежуточные точки (если до следующего видимость есть)
-- `SetGameObjectTrackPointSkipQuadTree(quadTree)` / `SkipFactor(1)` / `SkipEpsilon(0.1)` ([units/unit.inc/initial.inc:280-287](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc)) — параметры smoothing'а пути.
+- `SetGameObjectTrackPointSkipQuadTree(quadTree)` / `SkipFactor(1)` / `SkipEpsilon(0.1)` (units/unit.inc/initial.inc:280-287) — параметры smoothing'а пути.
 
 Каждый юнит-объект инициализирует skip-quadtree выбором:
 ```
@@ -178,9 +204,9 @@ gc_obj_media_land  : quadTree := TopologyGetPathQuadTree;     // 70 (path-mode, 
 gc_obj_media_water : quadTree := TopologyGetTopologyQuadTree; // 90 (full-mode)
 ```
 
-При достижении конца пути: `OnEndPointReached` ([units/unit.inc/onendpointreached.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onendpointreached.inc)) — переключение в `move_idle`, удаление order'а.
+При достижении конца пути: `OnEndPointReached` (units/unit.inc/onendpointreached.inc) — переключение в `move_idle`, удаление order'а.
 
-При завершении поворота: `OnDirectionReached` ([units/unit.inc/ondirectionreached.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/ondirectionreached.inc)).
+При завершении поворота: `OnDirectionReached` (units/unit.inc/ondirectionreached.inc).
 
 ---
 
@@ -190,7 +216,7 @@ gc_obj_media_water : quadTree := TopologyGetTopologyQuadTree; // 90 (full-mode)
 
 ### 4.1 Per-unit init
 
-[units/unit.inc/initial.inc:21-56](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc):
+units/unit.inc/initial.inc:21-56:
 
 ```pascal
 procedure SetCustomCollisionInertia(hnd : Integer; IntersectRadiusFactor, MassFactor, DeltaStepFactor : Float; bMovable : Boolean);
@@ -217,7 +243,7 @@ end;
 ```
 
 Константы:
-- `gc_collision_radius_default = 0.16` ([dmscript.global:972](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)).
+- `gc_collision_radius_default = 0.16` (dmscript.global:972).
 - `gc_collision_radius_stand   = 0.1`.
 - `gc_collision_radius_attack  = 0.1`.
 
@@ -243,7 +269,7 @@ end;
 
 ### 4.3 Здания — неподвижные тяжёлые блокеры
 
-[units/building.inc/initial.inc:59-72](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/building.inc/initial.inc):
+units/building.inc/initial.inc:59-72:
 
 ```pascal
 SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI включён
@@ -266,7 +292,7 @@ SetGameObjectCIMaxCollideCounterByHandle(colHnd, 7);
 
 ### 4.4 Push-mechanic между юнитами: правило «передний + 90° FOV»
 
-[units/unit.inc/initial.inc:303-318](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc):
+units/unit.inc/initial.inc:303-318:
 
 ```
 SetGameObjectMyCollisionExecAsFunc(true);
@@ -278,10 +304,10 @@ if gbool_use_collision then SetGameObjectMyCollidedStateName('_misc_Collided');
 
 Семантика рулей CI (по используемым параметрам):
 - `Fr` (friendly): event **не** генерируется. CI всё равно физически расталкивает (push), но скрипт не вмешивается.
-- `En` (enemy): event генерируется, **только если враг в передних 90°** ([_misc_Collided](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L1235)). Это объясняет, почему юнит начинает атаку врага «лицом к лицу», но не если задели сзади.
+- `En` (enemy): event генерируется, **только если враг в передних 90°** (_misc_Collided). Это объясняет, почему юнит начинает атаку врага «лицом к лицу», но не если задели сзади.
 - `Nl` (neutral): как и friendly — без event'а.
 
-**[lib/miscext.script:1235-1289 `_misc_Collided`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script):**
+**lib/miscext.script:1235-1289 `_misc_Collided`:**
 
 ```pascal
 procedure _misc_Collided(const hnd: Integer);
@@ -323,7 +349,7 @@ end;
 
 ### 5.1 Per-frame: "no path → stop"
 
-В батче pathfinding'а ([progress.inc/nothing.inc:171-316](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc)):
+В батче pathfinding'а (progress.inc/nothing.inc:171-316):
 
 ```
 171: var noPath : Boolean = (GetGameObjectTrackPointCountByHandle(goHnd) = 0);
@@ -344,7 +370,7 @@ end;
 
 ### 5.2 Сжатая толпа — `FindBestPosition`
 
-[lib/miscext.script:190-252](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script): вызывается из nothing.inc когда юнит idle и `standtime>1` ([miscext.script:654-658](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script)) — пытается выйти из плотной толпы:
+lib/miscext.script:190-252: вызывается из nothing.inc когда юнит idle и `standtime>1` (miscext.script:654-658) — пытается выйти из плотной толпы:
 
 ```pascal
 function FindBestPosition(goHnd : Integer; var px, pz : Float) : Boolean;
@@ -375,7 +401,7 @@ end;
 
 ### 5.3 Топология обновляется по таймеру
 
-[units/unit.inc/nothing.inc:128-132](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/nothing.inc):
+units/unit.inc/nothing.inc:128-132:
 
 ```pascal
 if gametime>arg_obj.lasttimetopology then begin
@@ -388,7 +414,7 @@ end;
 
 ### 5.4 Hard «hang fix»
 
-[units/unit.inc/nothing.inc:148-154](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/nothing.inc):
+units/unit.inc/nothing.inc:148-154:
 
 ```pascal
 else if (statetag and gc_statetag_essential_birth<>0)
@@ -406,7 +432,7 @@ end;
 
 ### 5.5 Loader-pass на старте: «два юнита в одной точке»
 
-[lib/misc.script:3739-3780 `_misc_FixCollisionInertiaObjectsInOnePoint`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script):
+lib/misc.script:3739-3780 `_misc_FixCollisionInertiaObjectsInOnePoint`:
 
 ```pascal
 // fix issue when game may stuck on path trace
@@ -425,7 +451,7 @@ if (GetCountOfPlayers>gc_playerind_env) then begin
 end;
 ```
 
-При генерации карты **уничтожаются** environment-объекты, наложившиеся в одну точку — иначе path-trace зацикливался бы. Запускается из [common.inc/dogenerate.inc:2070](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc).
+При генерации карты **уничтожаются** environment-объекты, наложившиеся в одну точку — иначе path-trace зацикливался бы. Запускается из common.inc/dogenerate.inc:2070.
 
 ### 5.6 Чего НЕ найдено
 
@@ -441,7 +467,7 @@ end;
 
 ### 6.1 `WriteMove` — рассыпать squad на per-unit ордера
 
-[units/global.inc/writemove.inc:79-138](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/writemove.inc):
+units/global.inc/writemove.inc:79-138:
 
 ```pascal
 for j:=rows-1 downto 0 do
@@ -473,9 +499,9 @@ end;
 
 ### 6.2 Грид формации
 
-[lib/squad.script:199-263 `_squad_FullRebuildGrid`](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/squad.script): держит per-squad `arGrid[i,j]` — какой юнит в какой клетке формации. При перестроении (drag угол поворота, attack-mode и т.д.) пересортировывает по направлению.
+lib/squad.script:199-263 `_squad_FullRebuildGrid`: держит per-squad `arGrid[i,j]` — какой юнит в какой клетке формации. При перестроении (drag угол поворота, attack-mode и т.д.) пересортировывает по направлению.
 
-Константы ([dmscript.global:166-168](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)):
+Константы (dmscript.global:166-168):
 ```
 gc_formation_maxcount      = 160;   // макс юнитов в squad
 gc_formation_maskmaxwidth  = 54;
@@ -484,7 +510,7 @@ gc_formation_maskmaxheight = 24;
 
 ### 6.3 `fMoveCount` — ПРОСТО счётчик
 
-[lib/player.script:2591-2607](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/player.script):
+lib/player.script:2591-2607:
 
 ```pascal
 procedure _player_CalcSquadsMoveCount(plInd : Integer);
@@ -501,7 +527,7 @@ begin
 end;
 ```
 
-Запускается с периодом `gc_global_TimeCalcSquadsMoveCount = 0.03*10 = 0.3s` ([progress.inc:152](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/progress.inc)). Используется только squad-aggressive-логикой и hold-mode-проверкой ([progress.inc:160](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/global.inc/progress.inc), [miscext.script:20](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script)). К pathfinding'у отношения не имеет.
+Запускается с периодом `gc_global_TimeCalcSquadsMoveCount = 0.03*10 = 0.3s` (progress.inc:152). Используется только squad-aggressive-логикой и hold-mode-проверкой (progress.inc:160, miscext.script:20). К pathfinding'у отношения не имеет.
 
 ### 6.4 Squad-id как hint для kernel
 
@@ -509,7 +535,7 @@ end;
 
 ### 6.5 Orphan-константа
 
-`gc_player_SquadMoveTick = 10` ([dmscript.global:155](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global)) — **определена, но нигде не используется** (Grep по всем .script даёт только определение). Возможно, был зарезервирован для сквадного repath, но не реализован.
+`gc_player_SquadMoveTick = 10` (dmscript.global:155) — **определена, но нигде не используется** (Grep по всем .script даёт только определение). Возможно, был зарезервирован для сквадного repath, но не реализован.
 
 ---
 
@@ -518,14 +544,14 @@ end;
 | Когда юнит запрашивает новый путь | Почему |
 |---|---|
 | Переход в `gc_statetag_execute_move` | `_unit_PathListAdd` явно вызывается из `ontagstates.inc` |
-| Сброс/смена order'а — `_unit_ClearOrders` → новый `_unit_OrderMove` | `_unit_OrderMove` создаёт новый Order с типом `gc_obj_order_type_move`, который → `bDoPosition := True` в `_misc_DoProgressOrders` ([miscext.script:317-330, 613-633](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script)) → `gc_statetag_execute_move` → `_unit_PathListAdd` |
+| Сброс/смена order'а — `_unit_ClearOrders` → новый `_unit_OrderMove` | `_unit_OrderMove` создаёт новый Order с типом `gc_obj_order_type_move`, который → `bDoPosition := True` в `_misc_DoProgressOrders` (miscext.script:317-330, 613-633) → `gc_statetag_execute_move` → `_unit_PathListAdd` |
 | Сжатая толпа — `FindBestPosition` нашла свободную клетку | См. §5.2 — раз в 3.075 s максимум |
 
 **Сценарии, в которых repath НЕ запускается** (подтверждено грепом по `unit.inc`/`miscext.script`):
 
 - **Periodic repath во время движения к цели.** Не реализован — не нашлось ни таймера, ни вызова. Если цель двигается, новый order ставит сама атака-логика.
 - **Repath при коллизии с врагом.** `_misc_Collided` вызывает не repath, а `_unit_TryAttack` / `_unit_OrderAttack`. Сама атака уже даст новый move-order, если он нужен.
-- **Repath при появлении нового препятствия на пути.** Не найден. Если здание поставили прямо на маршрут идущего юнита, тот упрётся в `OnEndPointReached` и через `_unit_RemoveOrder` ([onendpointreached.inc:54-58](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onendpointreached.inc), комментарий «should be logged only if unit stop cause of new unpathable collision on his way») остановится. Дальше поведение зависит от вида order'а: `move` без `bRemove` войдёт в `move_walk` повторно и даст новый `PathListAdd`.
+- **Repath при появлении нового препятствия на пути.** Не найден. Если здание поставили прямо на маршрут идущего юнита, тот упрётся в `OnEndPointReached` и через `_unit_RemoveOrder` (onendpointreached.inc:54-58, комментарий «should be logged only if unit stop cause of new unpathable collision on his way») остановится. Дальше поведение зависит от вида order'а: `move` без `bRemove` войдёт в `move_walk` повторно и даст новый `PathListAdd`.
 
 ---
 
@@ -534,15 +560,15 @@ end;
 ### 8.1 Лимиты в скриптах
 
 - **Очередь pathfinding'а — без cap'а** в скриптах. Сколько юнитов вошли в `gGOPathList` за тик (20 ms), столько и обработается за один `TopologyGetPath`-вызов.
-- **TrackPoint smoothing**: `SkipFactor=1`, `SkipEpsilon=0.1`, `SkipPoints=true` ([initial.inc:286-287](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc)) — значит, юнит может срезать промежуточные точки если впереди прямая видимость.
+- **TrackPoint smoothing**: `SkipFactor=1`, `SkipEpsilon=0.1`, `SkipPoints=true` (initial.inc:286-287) — значит, юнит может срезать промежуточные точки если впереди прямая видимость.
 - **CI per-unit budget**:
   - `MaxCollideCounter = 7*3 = 21` (число коллизий за тик до отбоя)
   - `MaxProcessObject = 4*3 = 12` (число объектов в окрестности, обрабатываемых CI)
-  ([initial.inc:43-44](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc)).
+  (initial.inc:43-44).
 
 ### 8.2 Профайлер встроен
 
-Скрипт оборачивает `TopologyGetPath` в [progress.inc:155, 165](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc):
+Скрипт оборачивает `TopologyGetPath` в progress.inc:155, 165:
 
 ```
 _misc_ProfilerBegin('progress.GetPath');
@@ -554,7 +580,7 @@ _misc_ProfilerEnd('progress.GetPath');
 
 ### 8.3 Глобальный progress-cap
 
-[progress.inc:325-346](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/progress/progress.inc/nothing.inc): для misc/pool-плееров есть динамический `secmax` (адаптивная нарезка обработки).
+progress.inc:325-346: для misc/pool-плееров есть динамический `secmax` (адаптивная нарезка обработки).
 
 ```
 if (count>700) then secmax := secmax+(count div 20)
@@ -573,7 +599,7 @@ else secmax := secmax+(count div 10);
 3. **Граница path-list-burst**: сколько юнитов одновременно стартуют move без падения FPS? 200? 500? 1000? Скрипт не ограничивает, kernel — возможно.
 4. **Repath на новое препятствие**: построить здание ровно на пути идущего отряда. Произойдёт ли автоматический repath или юниты упрутся и остановятся?
 5. **CIStuckAngle = 0** у юнитов vs **= 5** у зданий: что это поведенчески значит? У зданий порог «считать застрявшим» 5°, у юнитов 0°. Скорее всего связано с rotation-snapping CI-physics.
-6. **Корабли + фрегат-дамми**: `bIsShipDummy` ([initial.inc:200-256](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/initial.inc)) — отдельная коллизионная сущность? Влияет ли на pathfinding?
+6. **Корабли + фрегат-дамми**: `bIsShipDummy` (initial.inc:200-256) — отдельная коллизионная сущность? Влияет ли на pathfinding?
 7. **Связь footprint-mask здания (cell=0.5) и CIIntersectRadius=0.35**: 0.35 < 0.5, значит CI-радиус **меньше** грида блокировки. Юниты могут «царапаться» о углы зданий — этой геометрией скрыта. Стоит проверить эмпирически.
 
 ---

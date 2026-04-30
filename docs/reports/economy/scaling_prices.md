@@ -4,7 +4,7 @@
 
 ## Формула
 
-Источник: [`unit.script:5650-5689`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script>) функция `_unit_GetCostByID`.
+Источник: `unit.script:5650-5689` — функция `_unit_GetCostByID`.
 
 ```
 costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока

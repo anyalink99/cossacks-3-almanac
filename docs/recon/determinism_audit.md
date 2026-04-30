@@ -36,8 +36,8 @@ SetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));  // [unit.script:11453, wea
 ```
 
 Комментарии разработчика прямо это подтверждают:
-- [weapon.script:1051](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/weapon.script): `SetRandomKey(floor(newuniqrnd*gc_MaxInt)); // sync multiplayer`
-- [weapon.script:1011](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/weapon.script): `// I use general random, cause no need to sync it and randomext may change planned results on dif PCs` — т.е. `random` и `RandomExt` различаются по гарантиям межхостовой синхронизации.
+- weapon.script:1051: `SetRandomKey(floor(newuniqrnd*gc_MaxInt)); // sync multiplayer`
+- weapon.script:1011: `// I use general random, cause no need to sync it and randomext may change planned results on dif PCs` — т.е. `random` и `RandomExt` различаются по гарантиям межхостовой синхронизации.
 
 **Вывод 1.** В коде есть осознанный паттерн: `random` — одноразовый, `RandomExt` — синхронизируемый через явный seed. Использование `random` без предварительного `SetRandomKey` создаёт зависимость от истории глобального состояния PRNG.
 
@@ -47,26 +47,26 @@ SetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));  // [unit.script:11453, wea
 
 ### 2.1 `uniqrnd` — детерминированный per-unit nonce
 
-Каждый юнит получает `uniqrnd : Float ∈ [0,1)` при создании ([unit.script:2726](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2726) `obj.uniqrnd := RandomExt`) и **этот float явно сериализуется** в network sync / save:
-- Запись: [miscext2.script:4027](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4027) — `ParserSetFloatValueByKeyByHandle(pSync, 'uniqrnd', uniqrnd)`
-- Чтение: [miscext2.script:4120, 4152](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4120) — `TObj(pobj).uniqrnd := uniqrnd`
+Каждый юнит получает `uniqrnd : Float ∈ 0,1)` при создании ([unit.script:2726 `obj.uniqrnd := RandomExt`) и **этот float явно сериализуется** в network sync / save:
+- Запись: miscext2.script:4027 — `ParserSetFloatValueByKeyByHandle(pSync, 'uniqrnd', uniqrnd)`
+- Чтение: miscext2.script:4120, 4152 — `TObj(pobj).uniqrnd := uniqrnd`
 
-Также сохраняется `progresstick : Integer = floor(RandomExt*32)` и ряд per-unit float'ов — `lasttimecheckcapture`, `lasttimeidlegrid`, `lasttimescangrid`, `lasttimetopology`, `lasttimebestposition`, `lastsearchenemy` ([miscext.script:2757-2762](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L2757)) — все инициализируются через `random` один раз при старте и потом сохраняются как обычное состояние.
+Также сохраняется `progresstick : Integer = floor(RandomExt*32)` и ряд per-unit float'ов — `lasttimecheckcapture`, `lasttimeidlegrid`, `lasttimescangrid`, `lasttimetopology`, `lasttimebestposition`, `lastsearchenemy` (miscext.script:2757-2762) — все инициализируются через `random` один раз при старте и потом сохраняются как обычное состояние.
 
 ### 2.2 OnBeforeSave / OnAfterLoad
 
 Движок экспонирует хуки сохранения и загрузки в скрипты. Для крестьянина:
 
-[units/unit.inc/onbeforesave.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onbeforesave.inc):
+units/unit.inc/onbeforesave.inc:
 ```
 SwitchTo('Nothing');
 ```
 
-[units/unit.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onafterload.inc) — для water unit'ов воссоздаёт ship childs, для всех — `SwitchTo('Nothing')`.
+units/unit.inc/onafterload.inc — для water unit'ов воссоздаёт ship childs, для всех — `SwitchTo('Nothing')`.
 
 Для ресурса:
 
-[env/env.inc/onafterload.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/env/env.inc/onafterload.inc):
+env/env.inc/onafterload.inc:
 ```
 ExecuteState('Initial');
 SwitchTo('Nothing');
@@ -90,19 +90,19 @@ SwitchTo('Nothing');
 
 | File:line | Что выбирается | Влияние | Уровень |
 |---|---|---|---|
-| [misc.script:2790](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L2790) | `rndind := floor(random*count)` — стартовый индекс при сканировании выбранной ячейки `gResGrid` в `_misc_FindResourceToExtract` | **Какое дерево/камень** выберет крестьянин в найденной ячейке | script ✓ |
-| [misc.script:2801](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L2801) | `if (random<(testW/(testW+testS)))` — выбор wood vs stone когда `filterres = none` | **Какой ресурс** добывает (только при auto-выборе типа) | script ✓ |
-| [unit.script:4055](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4055) | `if (random<waitrnd)` в `_unit_SearchResourceInRadius` — гейт по standtime | **Запустится ли поиск** на этом тике (если standtime>0.1) | script ✓ |
-| [unit.script:4114](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4114) | `bskipcheck := (random>0.75)` | **Пропустить ли часть проверок** при выборе цели | script ✓ |
-| [unit.script:4120](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4120) | `rndind := floor(random*count)` — стартовый индекс в gIntegerList | **Какой кандидат** выбирается среди равно подходящих ресурсов в радиусе | script ✓ |
-| [unit.script:9790](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L9790) | `rmax := gc_obj_extract_food_radiusmaxSqr*random` (только food, при move_walk) | **Радиус вокруг поля**, в котором считается «можно бить» | script ✓ |
-| [unit.script:9822](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L9822) | `if (TObj(pobj).standtime>=9) or (random>0.9)` | **Триггер расширенного поиска** соседнего ресурса | script ✓ |
+| misc.script:2790 | `rndind := floor(random*count)` — стартовый индекс при сканировании выбранной ячейки `gResGrid` в `_misc_FindResourceToExtract` | **Какое дерево/камень** выберет крестьянин в найденной ячейке | script ✓ |
+| misc.script:2801 | `if (random<(testW/(testW+testS)))` — выбор wood vs stone когда `filterres = none` | **Какой ресурс** добывает (только при auto-выборе типа) | script ✓ |
+| unit.script:4055 | `if (random<waitrnd)` в `_unit_SearchResourceInRadius` — гейт по standtime | **Запустится ли поиск** на этом тике (если standtime>0.1) | script ✓ |
+| unit.script:4114 | `bskipcheck := (random>0.75)` | **Пропустить ли часть проверок** при выборе цели | script ✓ |
+| unit.script:4120 | `rndind := floor(random*count)` — стартовый индекс в gIntegerList | **Какой кандидат** выбирается среди равно подходящих ресурсов в радиусе | script ✓ |
+| unit.script:9790 | `rmax := gc_obj_extract_food_radiusmaxSqr*random` (только food, при move_walk) | **Радиус вокруг поля**, в котором считается «можно бить» | script ✓ |
+| unit.script:9822 | `if (TObj(pobj).standtime>=9) or (random>0.9)` | **Триггер расширенного поиска** соседнего ресурса | script ✓ |
 
 Также внутри `_unit_SearchResourceInRadius` есть ещё несколько `floor(random*count)` для других case'ов поиска (line 4623, 4647, 4674, 4796, 4872).
 
 ### 3.2 Алгоритм поиска (по `_misc_FindResourceToExtract`)
 
-Логика на [misc.script:2730-2823](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L2730):
+Логика на misc.script:2730-2823:
 
 1. Перебор всех ячеек `gResGrid[i,j]` (детерминированный обход — порядок ячеек фиксирован).
 2. Для каждой считается `reldst = (2 + dst) / (1 + (freewood + freestone/2)/40)` — детерминированная метрика «выгодности».
@@ -124,14 +124,14 @@ SwitchTo('Nothing');
 
 | File:line | Что выбирается | Сидируется uniqrnd? | Уровень |
 |---|---|---|---|
-| [miscext2.script:420](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L420) | `bHeadShot := bCanHeadShot and (random<0.05) and (not bFastHorseBullet)` | **НЕТ** — raw `random` | script ✓ |
-| [miscext2.script:437](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L437) | `damage := damage+floor(TObj(pobj).uniqrnd*500)` (бонус хедшота) | **Да** — фиксированный per-unit | детерминирован |
-| [unit.script:11453](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11453) | `SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt))` перед спавном debris при разрушении здания | **Да, явно сидируется** | детерминирован |
-| [unit.script:11528](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11528) | `SetRandomKey(floor(random*gc_MaxInt)); // needed to sync multiplayer arg.frnd` — сидируется через **`random`** перед сетевой синхронизацией снаряда | НЕТ — `random` для сидирования | script ✓ |
-| [unit.script:7289](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L7289) | `(random<0.05)` — какой-то kill check (вероятно для NPC env) | **НЕТ** | script ✓ |
-| [unit.script:11103](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11103) | `SetGameObjectIntervalFactorByHandle(hnd, 0.7+random*0.6)` — десинхронизация анимации смерти **намеренно** | НЕТ | визуал, не геймплей |
-| [unit.script:10824](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L10824) | `GameObjectRollByHandle(hnd, -cDeathRollAngle+random*cDeathRollAngle*2)` — угол падения трупа | НЕТ | визуал |
-| [weapon.script:1051](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/weapon.script#L1051) | `SetRandomKey(floor(newuniqrnd*gc_MaxInt))` для расчёта траектории снаряда | **Да** | детерминирован |
+| miscext2.script:420 | `bHeadShot := bCanHeadShot and (random<0.05) and (not bFastHorseBullet)` | **НЕТ** — raw `random` | script ✓ |
+| miscext2.script:437 | `damage := damage+floor(TObj(pobj).uniqrnd*500)` (бонус хедшота) | **Да** — фиксированный per-unit | детерминирован |
+| unit.script:11453 | `SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt))` перед спавном debris при разрушении здания | **Да, явно сидируется** | детерминирован |
+| unit.script:11528 | `SetRandomKey(floor(random*gc_MaxInt)); // needed to sync multiplayer arg.frnd` — сидируется через **`random`** перед сетевой синхронизацией снаряда | НЕТ — `random` для сидирования | script ✓ |
+| unit.script:7289 | `(random<0.05)` — какой-то kill check (вероятно для NPC env) | **НЕТ** | script ✓ |
+| unit.script:11103 | `SetGameObjectIntervalFactorByHandle(hnd, 0.7+random*0.6)` — десинхронизация анимации смерти **намеренно** | НЕТ | визуал, не геймплей |
+| unit.script:10824 | `GameObjectRollByHandle(hnd, -cDeathRollAngle+random*cDeathRollAngle*2)` — угол падения трупа | НЕТ | визуал |
+| weapon.script:1051 | `SetRandomKey(floor(newuniqrnd*gc_MaxInt))` для расчёта траектории снаряда | **Да** | детерминирован |
 
 ### 4.2 Урон
 
@@ -148,7 +148,7 @@ damage := weapon.damage + squad.bonus - target.protection[weapkind]; // полн
 
 ### 4.3 Снаряды и дисперсия
 
-Паттерн `_unit_DoProjectile` ([unit.script:11518+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11518)):
+Паттерн `_unit_DoProjectile` (unit.script:11518+):
 ```pascal
 SetRandomKey(floor(random*gc_MaxInt)); // line 11528 — сидируем PRNG значением random
 if (disp>0) then
@@ -166,7 +166,7 @@ TPlayerArgs(parg).frnd := RandomExt; // line 11554 — сохраняем seed �
 - Бонус хедшота (через `uniqrnd`)
 - Дисперсия снаряда (через `SetRandomKey + RandomExt`)
 - Время полёта снаряда, упреждение, попадание/промах в общем виде
-- Анимации обозначены `// units die at different animation speed, to desyncronise visual part` ([unit.script:11103](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L11103)) — намеренный десинк только визуала.
+- Анимации обозначены `// units die at different animation speed, to desyncronise visual part` (unit.script:11103) — намеренный десинк только визуала.
 
 **Вывод 3.** Бой намного более детерминирован чем добыча. Главный источник дисперсии — 5% триггер хедшота на raw `random`. Остальные `random` в боевом коде — визуальные.
 
@@ -178,12 +178,12 @@ TPlayerArgs(parg).frnd := RandomExt; // line 11554 — сохраняем seed �
 
 | File:line | Что |
 |---|---|
-| [unit.script:2707](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2707) | `obj.progresstick := floor(RandomExt*32)` — фаза unit progress тика, init-only, **сохраняется как state** |
-| [unit.script:2726](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L2726) | `obj.uniqrnd := RandomExt` — per-unit nonce, **сохраняется** |
-| [miscext.script:1891-1898](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L1891) | Init `gProgress.last*time` через `random` — глобальные таймеры, init-only |
-| [miscext.script:2757-2762](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L2757) | Per-unit `lasttime*` через `random` — init-only, потом сохраняется |
-| [unit.script:3644-3665](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L3644) | AI decisions через `RandomExt < _misc_RandToRandom(N)` — каждый тик AI, влияет на поведение AI игрока |
-| [unit.script:5301](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L5301) | `SetRandomKey(floor(random*gc_MaxInt))` — синхронизация для какого-то процесса |
+| unit.script:2707 | `obj.progresstick := floor(RandomExt*32)` — фаза unit progress тика, init-only, **сохраняется как state** |
+| unit.script:2726 | `obj.uniqrnd := RandomExt` — per-unit nonce, **сохраняется** |
+| miscext.script:1891-1898 | Init `gProgress.last*time` через `random` — глобальные таймеры, init-only |
+| miscext.script:2757-2762 | Per-unit `lasttime*` через `random` — init-only, потом сохраняется |
+| unit.script:3644-3665 | AI decisions через `RandomExt < _misc_RandToRandom(N)` — каждый тик AI, влияет на поведение AI игрока |
+| unit.script:5301 | `SetRandomKey(floor(random*gc_MaxInt))` — синхронизация для какого-то процесса |
 
 AI сильно зависит от `random` и `RandomExt`. Это объясняет почему игры с AI ещё менее детерминированы, чем PvP.
 
@@ -191,7 +191,7 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 
 ## 6. Почему шахты воспроизводимы
 
-Проверяем гипотезу из эмпирики игрока. Шахта — это [unit.script:2311+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script) с `produce[gc_resource_type_*]`. Доход реализован в `player.script:_player_ProcessResourceIncome` (см. [reference_code_map.md](../recon/peasant_extraction.md)). 
+Проверяем гипотезу из эмпирики игрока. Шахта — это unit.script:2311+ с `produce[gc_resource_type_*]`. Доход реализован в `player.script:_player_ProcessResourceIncome` (см. [reference_code_map.md](../recon/peasant_extraction.md)). 
 
 В hot-path шахты **нет вызовов `random`**:
 - Крестьянин входит в шахту → `_unit_AddInside` → state «inside»
@@ -229,13 +229,13 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 Помимо §7.1, добавляются:
 - **Floating-point** различия (особенно если CPU поддерживает разные расширения).
 - Возможный рассинхрон lockstep'а при single-player save (он не сетевой и не обязан быть строго детерминированным).
-- Различный init seed `gProgress.last*time` ([miscext.script:1891-1898](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext.script#L1891)) — выполняются один раз при старте, у каждого хоста свой `random`.
+- Различный init seed `gProgress.last*time` (miscext.script:1891-1898) — выполняются один раз при старте, у каждого хоста свой `random`.
 
 ### 7.3 Ранг источников по влиянию
 
 Для добычи в порядке убывания вклада в дисперсию (по hot-path частоте):
-1. **`_misc_FindResourceToExtract` `random`-выборы** ([misc.script:2790, 2801](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L2790)) — вызывается каждый раз когда крестьянин возвращает ресурс на склад и ищет следующий.
-2. **`_unit_SearchResourceInRadius` `random`-выборы** ([unit.script:4055, 4114, 4120](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4055)) — повторный поиск при потере цели.
+1. **`_misc_FindResourceToExtract` `random`-выборы** (misc.script:2790, 2801) — вызывается каждый раз когда крестьянин возвращает ресурс на склад и ищет следующий.
+2. **`_unit_SearchResourceInRadius` `random`-выборы** (unit.script:4055, 4114, 4120) — повторный поиск при потере цели.
 3. **Pathfinding tie-breaking** (engine, недоступно скрипту) — когда несколько путей одинаковой длины, выбор зависит от внутреннего порядка обхода графа.
 4. **Sub-tick state не нормализуется на Save/Load** (engine, частично смягчено через `SwitchTo('Nothing')`).
 5. **Variable timestep** (engine, если есть).
@@ -250,13 +250,13 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 - **Дисперсия снарядов** (через `SetRandomKey + RandomExt` от per-unit nonce).
 - **Бонус хедшота** (через `uniqrnd`).
 - **Метрика выгодности ячейки `gResGrid`** (`reldst` в `_misc_FindResourceToExtract` — чистая функция координат и счётчиков).
-- **Damage калькуляция в `OnAclAnimationReachedWork`** ([units/unit.inc/onaclanimationreachedwork.inc](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/units/unit.inc/onaclanimationreachedwork.inc)) — полностью детерминирована, нет `random`.
+- **Damage калькуляция в `OnAclAnimationReachedWork`** (units/unit.inc/onaclanimationreachedwork.inc) — полностью детерминирована, нет `random`.
 
 ---
 
 ## 9. Что в движке (вне досягаемости скрипта)
 
-- **Save/load format** — какие поля `TObj` сохраняются, какие нет (но точно сохраняется список из [miscext2.script:4002-4027](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L4002): pos, dir, statestag, sto, hp, uniqrnd). Можно частично смягчить через `OnBeforeSave` (как уже делает `SwitchTo('Nothing')`).
+- **Save/load format** — какие поля `TObj` сохраняются, какие нет (но точно сохраняется список из miscext2.script:4002-4027: pos, dir, statestag, sto, hp, uniqrnd). Можно частично смягчить через `OnBeforeSave` (как уже делает `SwitchTo('Nothing')`).
 - **Pathfinding** и его tie-breaking при равных дистанциях.
 - **Resource grid iteration** — порядок объектов в `gResGrid[i,j]` зависит от истории вставок/удалений в массив, что в свою очередь зависит от истории спавна и убийства ресурсов.
 - **Variable logical tick** — `deltatime` зависит от FPS, см. [ticks_and_subticks.md](ticks_and_subticks.md) §5.
@@ -289,10 +289,10 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 
 Полная картина того, **что моддится**:
 
-- `_misc_FindResourceToExtract` ([misc.script:2730-2823](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/misc.script#L2730)) — переписать `random` → детерминированный hash от `uniqrnd + GetGameTime + goHnd`.
-- `_unit_SearchResourceInRadius` ([unit.script:4043+](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/unit.script#L4043)) — то же.
+- `_misc_FindResourceToExtract` (misc.script:2730-2823) — переписать `random` → детерминированный hash от `uniqrnd + GetGameTime + goHnd`.
+- `_unit_SearchResourceInRadius` (unit.script:4043+) — то же.
 - 7 RNG-сайтов в добыче (см. §3.1) — все script-level.
-- Триггер хедшота ([miscext2.script:420](C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/lib/miscext2.script#L420)) — опционально, для полной детерминированности боя.
+- Триггер хедшота (miscext2.script:420) — опционально, для полной детерминированности боя.
 
 **Что НЕ починить модом:**
 - Pathfinding tie-breaking.

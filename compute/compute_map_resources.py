@@ -552,8 +552,7 @@ def write_report(r: dict, settings: dict) -> str:
     L.append("## 6. Запасы древесины и камня")
     L.append("")
     L.append("**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок "
-             "([`onaclanimationreachedwork.inc:30-39`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/units/unit.inc/onaclanimationreachedwork.inc) + "
-             "[`ontagstates.inc:50-78`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/env/env.inc/ontagstates.inc)):")
+             "(`onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`):")
     L.append("- меняет mesh на `pinestump<N>` (визуально пень)")
     L.append("- **НЕ меняет** `brised=True` → пенек остаётся валидной целью для поиска")
     L.append("- продолжает принимать удары: `hp -= 1, peasant.resamount += 1` (даже при HP < 0)")
@@ -581,7 +580,7 @@ def write_report(r: dict, settings: dict) -> str:
              "basenames `minegold`/`mineiron`/`minecoal`). *Шахта* — здание `eurgol`/`euriro`/`eurcoa`, "
              "которое игрок строит на месторождении крестьянином (peasantabsorber=5, апгрейды до 95).")
     L.append("")
-    L.append(f"Параметры из [`dogenerate.inc:522-717`](C:/Program%20Files%20(x86)/Steam/steamapps/common/Cossacks%203/data/scripts/common.inc/dogenerate.inc#L522):")
+    L.append("Параметры из `dogenerate.inc:522-717`:")
     L.append(f"- minesdensity={settings['mines']} → **{MINE_ROUNDS_BY_DENSITY[settings['mines']]} раундов** на стартовую точку.")
     L.append(f"- На {r['map_name'].lower()} раунд 4 пропускается через `continue` → **{r['effective_rounds']} эффективных раундов**.")
     L.append(f"- В каждом раунде ставится по **1 месторождению каждого типа** (gold/iron/coal).")
