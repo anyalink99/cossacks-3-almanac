@@ -34,7 +34,7 @@
 writers/        compute/                  simulator/
 write_md_tree   compute_scaling           simulate_economy
                 compute_map_resources
-                build_tech_tree
+                compute_tech_tree
                 compute_construction_times
 ```
 
@@ -68,7 +68,8 @@ python parser/build_data.py                   # → docs/data.json (источн
 python writers/write_md_tree.py               # → docs/reference/ + output/README.md
 python compute/compute_scaling.py             # → docs/reports/economy/scaling_prices.md
 python compute/compute_map_resources.py       # → docs/reports/map/map_resources.md
-python compute/build_tech_tree.py             # → docs/reports/tech/tech_tree.md + production_rates.md (+ derived/tech_tree.json)
+python parser/build_tech_graph.py             # → docs/derived/tech_tree.json
+python compute/compute_tech_tree.py           # → docs/reports/tech/tech_tree.md + production_rates.md
 python compute/compute_construction_times.py  # → docs/reports/economy/construction_times.md
 python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → docs/simulations/
 ```

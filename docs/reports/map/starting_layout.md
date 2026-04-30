@@ -1,10 +1,10 @@
 # Cossacks 3 — Starting layout
 
-**Производный** файл (расчётный, не извлечение). Считается из `data/scripts/common.inc/dogenerate.inc` и `data/game/var/startingsettings.cfg` скриптом [`compute/extract_starting_layout.py`](../../compute/extract_starting_layout.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data/scripts/common.inc/dogenerate.inc` и `data/game/var/startingsettings.cfg` скриптом [`compute/compute_starting_layout.py`](../../compute/compute_starting_layout.py).
 
 ## §1. Расстановка крестьян (режим default)
 
-Источник: [`dogenerate.inc:1231-1281` (`CreateStartPointPeasants`)](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>).
+Источник: `dogenerate.inc:1231-1281` (`CreateStartPointPeasants`).
 
 - **18 крестьян** спавнятся в сетке **6×3** (`i div 3`, `i mod 3`)
 - Шаг между крестьянами: `cUnitR = 0.75` тайла
@@ -16,7 +16,7 @@
 
 ## §2. Кольца спавна ресурсов вокруг старт-точки
 
-Источник: [`dogenerate.inc:407-414, 720-978`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>) (`SetupStartingResources` + `cCircle*Mask` константы).
+Источник: `dogenerate.inc:407-414, 720-978` (`SetupStartingResources` + `cCircle*Mask` константы).
 
 Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, тайлы):
 
@@ -37,11 +37,11 @@
 
 Тип леса определяется параметром `foreststype` в настройках генерации карты: 0 = pinefir/spruce/pine (хвойные, 7 вариантов), 1 = leaf (лиственные), 2 = mixed (смешанные). В desert-картах вместо forests используются паттерны `desert_forests_*`.
 
-Шахты (gold/iron/coal) — отдельная функция `SetupMines` ([`dogenerate.inc:985`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>)). Спавн шахт идёт по другой логике (раундами по дистанции, см. `reference_extraction_model.md` § "Map gen для tiny").
+Шахты (gold / iron / coal) — отдельная функция `SetupMines` (`dogenerate.inc:985`). Спавн шахт идёт по другой логике (раундами по дистанции, см. [recon/peasant_extraction.md](../../recon/peasant_extraction.md) §8.3 + [recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) §8).
 
 ## §3. Пресеты стартовых юнитов
 
-Источник: [`startingsettings.cfg`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/game/var/startingsettings.cfg>) + enum `gc_mapsettings_startingunits_*` ([`dmscript.global:1032-1045`](<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global>)). Все 14 пресетов с каноничными русскими названиями — [`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются юниты и ресурсы) — [`recon/game_settings.md`](../../recon/game_settings.md) §3.1.
+Источник: `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` (`dmscript.global:1032-1045`). Все 14 пресетов с каноничными русскими названиями — [`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются юниты и ресурсы) — [`recon/game_settings.md`](../../recon/game_settings.md) §3.1.
 
 Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или юнитов). Остальные режимы добавляют ресурсы и/или дополнительные юниты + здания (через сложные ASCII-маски в cfg-файле).
 
@@ -80,5 +80,5 @@
 Сгенерировано из игровых файлов. Для перегенерации:
 
 ```
-python compute/extract_starting_layout.py
+python compute/compute_starting_layout.py
 ```

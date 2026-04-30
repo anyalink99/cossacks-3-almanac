@@ -105,10 +105,11 @@ python compute/compute_scaling.py               # → docs/reports/economy/scali
 python compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md
 python compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md
 python compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)
-python compute/build_tech_tree.py               # → docs/reports/tech/tech_tree.md + economy/production_rates.md + derived/tech_tree.json
+python parser/build_tech_graph.py               # → docs/derived/tech_tree.json
+python compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md
 python compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
-python compute/extract_starting_layout.py       # → docs/reports/map/starting_layout.md
+python compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md
 python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
 python compute/compute_nations_overview.py      # → docs/reports/nations/overview.md
 python parser/parse_animations.py               # → docs/derived/animations.json

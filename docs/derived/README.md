@@ -10,7 +10,7 @@
 |---|---|---|
 | [`canonical_terms.json`](canonical_terms.json) | Каноничные русские названия из локали игры: 21 нация, 22 здания, 7 типов оружия, 5 уровней сложности, 79 настроек лобби, 9 типов тренировок офицеров, 75 апгрейдов, 148 юнитов, 6 ресурсов. **Единый источник правды** для всех writer'ов и compute-скриптов. | [`parser/build_canonical_terms.py`](../../parser/build_canonical_terms.py) |
 | [`game_settings.json`](game_settings.json) | Все опции лобби (`mapsize`, `terraintype`, `relieftype`, `peacetime`, `gamespeed` и т. д.) — 95 значений в 18 категориях, с английскими и русскими лейблами + значениями по умолчанию из `initmap.inc`. Используется браузерным редактором для построения dropdown'ов. | [`compute/compute_game_settings.py`](../../compute/compute_game_settings.py) |
-| [`tech_tree.json`](tech_tree.json) | Граф зависимостей зданий, юнитов и апгрейдов: для каждого `sid` — список prereq'ов с типами (`[B]` здание, `[U]` юнит, `[T]` апгрейд) + базовая цена и время. Используется симулятором экономики и редактором. | [`compute/build_tech_tree.py`](../../compute/build_tech_tree.py) |
+| [`tech_tree.json`](tech_tree.json) | Граф зависимостей зданий, юнитов и апгрейдов: для каждого `sid` — список prereq'ов с типами (`[B]` здание, `[U]` юнит, `[T]` апгрейд) + базовая цена и время. Используется симулятором экономики и редактором. | [`parser/build_tech_graph.py`](../../parser/build_tech_graph.py) |
 | [`builder_slots.json`](builder_slots.json) | Сколько крестьян одновременно может строить каждое здание. Считается обходом периметра collision-маски с шагом `gc_BuilderDist = 1.0`. Используется в [`reports/economy/builder_slots.md`](../reports/economy/builder_slots.md) и в редакторе. | [`compute/compute_builder_slots.py`](../../compute/compute_builder_slots.py) |
 | [`animations.json`](animations.json) | База анимационных кадров для каждого юнита: `{sid: {anim_name: [start_frame, end_frame]}, ...}` — извлекается из `<game>/data/animations/aaf/*.aaf`. Длина одного кадра = 1 / 32 игровой секунды. Используется для расчёта реальной скорости melee-атак. | [`parser/parse_animations.py`](../../parser/parse_animations.py) |
 | [`pattern_types.json`](pattern_types.json) | Карта pattern-типов из `data/game/var/generator.cfg`: какие конкретные `.pattern` файлы относятся к каждой категории (`forests_pine_big`, `stones`, `mng/mni/mnc` и т. д.) с весами `Freq`. | [`parser/parse_generator_cfg.py`](../../parser/parse_generator_cfg.py) |
@@ -57,7 +57,8 @@ python parser/parse_generator_cfg.py
 python parser/parse_pattern_inventory.py
 python parser/parse_replay_aggregates.py
 python compute/compute_game_settings.py
-python compute/build_tech_tree.py
+python parser/build_tech_graph.py
+python compute/compute_tech_tree.py
 python compute/compute_builder_slots.py
 ```
 

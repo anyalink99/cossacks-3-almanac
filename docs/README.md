@@ -1,6 +1,6 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-04-30 05:30:05** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-04-30 06:07:10** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 
@@ -96,7 +96,8 @@ python writers/write_md_tree.py             # → docs/reference/ + docs/README.
 python compute/compute_scaling.py           # → docs/reports/economy/scaling_prices.md
 python compute/compute_game_settings.py     # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py     # → docs/reports/map/map_resources.md
-python compute/build_tech_tree.py           # → docs/reports/tech/tech_tree.md + reports/economy/production_rates.md + derived/tech_tree.json
+python parser/build_tech_graph.py           # → docs/derived/tech_tree.json
+python compute/compute_tech_tree.py         # → docs/reports/tech/tech_tree.md + reports/economy/production_rates.md
 python simulator/simulate_economy.py <build_order.json>  # → docs/simulations/sim_<name>.{csv,md}
 ```
 

@@ -166,12 +166,11 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data/scripts/common.inc/dogenerate.inc` и "
       "`data/game/var/startingsettings.cfg` скриптом "
-      "[`compute/extract_starting_layout.py`](../../compute/extract_starting_layout.py).")
+      "[`compute/compute_starting_layout.py`](../../compute/compute_starting_layout.py).")
     A("")
     A("## §1. Расстановка крестьян (режим default)")
     A("")
-    A("Источник: [`dogenerate.inc:1231-1281` (`CreateStartPointPeasants`)]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>).")
+    A("Источник: `dogenerate.inc:1231-1281` (`CreateStartPointPeasants`).")
     A("")
     count = grid.get("peasant_count")
     cols = grid.get("cols")
@@ -195,8 +194,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("")
     A("## §2. Кольца спавна ресурсов вокруг старт-точки")
     A("")
-    A("Источник: [`dogenerate.inc:407-414, 720-978`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>) "
+    A("Источник: `dogenerate.inc:407-414, 720-978` "
       "(`SetupStartingResources` + `cCircle*Mask` константы).")
     A("")
     A("Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, тайлы):")
@@ -226,21 +224,19 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       "0 = pinefir/spruce/pine (хвойные, 7 вариантов), 1 = leaf (лиственные), 2 = mixed (смешанные). "
       "В desert-картах вместо forests используются паттерны `desert_forests_*`.")
     A("")
-    A("Шахты (gold/iron/coal) — отдельная функция `SetupMines` "
-      "([`dogenerate.inc:985`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/common.inc/dogenerate.inc>)). "
-      "Спавн шахт идёт по другой логике (раундами по дистанции, см. "
-      "`reference_extraction_model.md` § \"Map gen для tiny\").")
+    A("Шахты (gold / iron / coal) — отдельная функция `SetupMines` "
+      "(`dogenerate.inc:985`). Спавн шахт идёт по другой логике (раундами "
+      "по дистанции, см. [recon/peasant_extraction.md](../../recon/peasant_extraction.md) §8.3 + "
+      "[recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) §8).")
     A("")
     A("## §3. Пресеты стартовых юнитов")
     A("")
-    A("Источник: [`startingsettings.cfg`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/game/var/startingsettings.cfg>) + "
-      "enum `gc_mapsettings_startingunits_*` ([`dmscript.global:1032-1045`]"
-      "(<C:/Program Files (x86)/Steam/steamapps/common/Cossacks 3/data/scripts/dmscript.global>)). "
+    A("Источник: `data/game/var/startingsettings.cfg` + enum "
+      "`gc_mapsettings_startingunits_*` (`dmscript.global:1032-1045`). "
       "Все 14 пресетов с каноничными русскими названиями — "
-      "[`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются "
-      "юниты и ресурсы) — [`recon/game_settings.md`](../../recon/game_settings.md) §3.1.")
+      "[`lobby_settings.md`](lobby_settings.md). Поведение движка (как "
+      "добавляются юниты и ресурсы) — "
+      "[`recon/game_settings.md`](../../recon/game_settings.md) §3.1.")
     A("")
     A("Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, "
       "что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или "
@@ -299,7 +295,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("Сгенерировано из игровых файлов. Для перегенерации:")
     A("")
     A("```")
-    A("python compute/extract_starting_layout.py")
+    A("python compute/compute_starting_layout.py")
     A("```")
     return "\n".join(L)
 

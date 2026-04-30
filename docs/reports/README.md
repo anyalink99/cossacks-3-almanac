@@ -17,7 +17,7 @@
 |---|---|---|
 | [economy/scaling_prices.md](economy/scaling_prices.md) | Цена N-го экземпляра здания: `cost(N) = floor(base × (costpercent/100)^(N-1))`. Таблицы N=1..6. | `compute/compute_scaling.py` |
 | [economy/efficiency_upgrades.md](economy/efficiency_upgrades.md) | Сводка по `gc_upg_type_effect*` — какие апгрейды что прибавляют (food/wood/stone/damage/protection/range). | `compute/compute_efficiency_upgrades.py` |
-| [economy/production_rates.md](economy/production_rates.md) | Для каждой нации × здания × юнита: `buildtime`, `units/g-min`, `units/real-min @ fast`, цена и upkeep. | `compute/build_tech_tree.py` |
+| [economy/production_rates.md](economy/production_rates.md) | Для каждой нации × здания × юнита: `buildtime`, `units/g-min`, `units/real-min @ fast`, цена и upkeep. | `compute/compute_tech_tree.py` |
 | [economy/construction_times.md](economy/construction_times.md) | Время постройки каждого здания с 1, 2, 5, 10 строителями и при максимуме слотов. | `compute/compute_construction_times.py` |
 | [economy/builder_slots.md](economy/builder_slots.md) | Сколько крестьян одновременно могут строить здание (вычисляется обходом периметра mask с шагом `gc_BuilderDist=1.0`). | `compute/compute_builder_slots.py` |
 
@@ -25,7 +25,7 @@
 
 | Файл | Что внутри | Генератор |
 |---|---|---|
-| [tech/tech_tree.md](tech/tech_tree.md) | Дерево зависимостей: для каждого здания/юнита/апгрейда — список пререквизитов (`[B]` здание, `[U]` юнит, `[T]` апгрейд). Машинная версия — `../derived/tech_tree.json`. | `compute/build_tech_tree.py` |
+| [tech/tech_tree.md](tech/tech_tree.md) | Дерево зависимостей: для каждого здания/юнита/апгрейда — список пререквизитов (`[B]` здание, `[U]` юнит, `[T]` апгрейд). Машинная версия — `../derived/tech_tree.json`. | `compute/compute_tech_tree.py` |
 
 ## Карта ([`map/`](map/))
 
@@ -33,7 +33,7 @@
 |---|---|---|
 | [map/lobby_settings.md](map/lobby_settings.md) | Все опции лобби с каноничными русскими названиями из локали игры (рельеф, ресурсы, время мира, лимит населения, сложность ИИ — 95 значений в 18 категориях). | `compute/compute_game_settings.py` |
 | [map/map_resources.md](map/map_resources.md) | Подсчёт лесов, камней и шахт на стандартной карте Маленькая + Высокогорье + Много. Около 109 больших деревьев, 33 камня, до 12 месторождений на игрока. | `compute/compute_map_resources.py` |
-| [map/starting_layout.md](map/starting_layout.md) | Стартовая раскладка: 18 крестьян в сетке 6×3 возле Городского центра, расположение `cen` / `sto` / шахт. | `compute/extract_starting_layout.py` |
+| [map/starting_layout.md](map/starting_layout.md) | Стартовая раскладка: 18 крестьян в сетке 6×3 возле Городского центра, расположение `cen` / `sto` / шахт. | `compute/compute_starting_layout.py` |
 | [map/map_predictions_validation.md](map/map_predictions_validation.md) | Валидация модели `compute_map_resources` против реплейного ground truth (10 однородных реплеев Маленькая + Суша + Высокогорье). | `compute/validate_map_predictions.py` |
 
 ## Нации ([`nations/`](nations/))
@@ -62,10 +62,11 @@ python compute/compute_scaling.py             # → reports/economy/scaling_pric
 python compute/compute_efficiency_upgrades.py # → reports/economy/efficiency_upgrades.md
 python compute/compute_builder_slots.py       # → reports/economy/builder_slots.md (+derived/builder_slots.json)
 python compute/compute_construction_times.py  # → reports/economy/construction_times.md
-python compute/build_tech_tree.py             # → reports/tech/tech_tree.md, reports/economy/production_rates.md (+derived/tech_tree.json)
+python parser/build_tech_graph.py             # → derived/tech_tree.json
+python compute/compute_tech_tree.py           # → reports/tech/tech_tree.md, reports/economy/production_rates.md
 python compute/compute_game_settings.py        # → reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py        # → reports/map/map_resources.md
-python compute/extract_starting_layout.py      # → reports/map/starting_layout.md
+python compute/compute_starting_layout.py     # → reports/map/starting_layout.md
 python compute/validate_map_predictions.py     # → reports/map/map_predictions_validation.md
 python compute/compute_nations_overview.py     # → reports/nations/overview.md
 ```

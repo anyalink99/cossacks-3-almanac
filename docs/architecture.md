@@ -59,13 +59,13 @@
 │   + docs/data.json       │   │   compute_construction_times      │
 │                          │   │   compute_builder_slots           │
 │ diff_snapshots.py        │   │ Тех-дерево:                       │
-│   → diff.md              │   │   build_tech_tree                 │
+│   → diff.md              │   │   compute_tech_tree              │
 │   между двумя data.json  │   │     → tech_tree.json + 2 отчёта  │
 │                          │   │ Карта:                            │
 │                          │   │   compute_game_settings           │
 │                          │   │     → game_settings.json + md     │
 │                          │   │   compute_map_resources           │
-│                          │   │   extract_starting_layout         │
+│                          │   │   compute_starting_layout        │
 │                          │   │   validate_map_predictions        │
 │                          │   │ Нации:                            │
 │                          │   │   compute_nations_overview        │
@@ -144,7 +144,7 @@
 | `docs/reports/` | Производные расчёты по темам: combat / economy / tech / map / nations. | Auto-gen (`compute/*.py`). |
 | `docs/recon/` | Глубокое RE механик движка (скриптов нет, всё руками). | **Handwritten.** |
 | `docs/simulations/` | Таймлайны экономики по конкретным build order'ам. | Auto-gen (`simulator/simulate_economy.py`). |
-| `docs/derived/` | Машинно-читаемые JSON для editor / тулзы. | Auto-gen (`parser/*.py`, `compute/compute_game_settings.py`, `compute/build_tech_tree.py`). |
+| `docs/derived/` | Машинно-читаемые JSON для editor / тулзы. | Auto-gen (`parser/*.py`, `compute/compute_game_settings.py`). |
 | `docs/known_issues*.md` | Парсерные пробелы, расхождения, открытые вопросы. | **Handwritten.** Архив — `known_issues_archive.md`. |
 | `docs/architecture.md` | Этот файл. | **Handwritten.** |
 
@@ -190,7 +190,8 @@ parser/parse_replay_aggregates  ← после parse_pattern_inventory
 writers/write_md_tree.py        ← после data.json + canonical_terms.json
 compute/compute_*.py            ← после data.json (+ derived/*.json для частных)
 compute/compute_game_settings   ← независим (читает локаль напрямую)
-compute/build_tech_tree.py      ← после data.json
+parser/build_tech_graph.py      ← после data.json (эмитит tech_tree.json)
+compute/compute_tech_tree.py    ← после tech_tree.json (эмитит md)
 compute/validate_map_predictions← после replay_ground_truth + compute_map_resources
 simulator/simulate_economy.py   ← после tech_tree.json
 ```
