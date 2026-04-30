@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config import GAME_ROOT, DERIVED_DIR
 
 AAF_DIR = GAME_ROOT / "data" / "animations" / "aaf"

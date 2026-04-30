@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 # Allow running as a script from anywhere within the repo.
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from config import DERIVED_DIR, GAME_ROOT  # noqa: E402
 from parse_patterns import parse_pattern_summary  # noqa: E402

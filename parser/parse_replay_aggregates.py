@@ -19,10 +19,10 @@ Writes:
 
 Usage:
     # Default: scan REPLAYS_DIR env var or known fallback paths
-    python compute/compute_replay_aggregates.py
+    python parser/parse_replay_aggregates.py
 
     # Explicit dir:
-    python compute/compute_replay_aggregates.py "C:\\path\\to\\replays"
+    python parser/parse_replay_aggregates.py "C:\\path\\to\\replays"
 """
 from __future__ import annotations
 import collections
@@ -34,7 +34,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config import DERIVED_DIR
 from parse_replay import extract_settings, count_patterns_fast
 
@@ -83,7 +83,7 @@ def main():
     inv_path = DERIVED_DIR / "pattern_inventory.json"
     types_path = DERIVED_DIR / "pattern_types.json"
     if not inv_path.exists() or not types_path.exists():
-        print("Run parser/parse_generator_cfg.py + compute/compute_pattern_inventory.py first.")
+        print("Run parser/parse_generator_cfg.py + parser/parse_pattern_inventory.py first.")
         sys.exit(1)
     inv = json.loads(inv_path.read_text(encoding="utf-8"))
     types = json.loads(types_path.read_text(encoding="utf-8"))

@@ -4,7 +4,7 @@ Cossacks 3 has two attack-cycle models:
   - Ranged (`weapon.pause > 0`): cycle = pause_sec. Attack rate = 1 / pause_sec.
     The animation overlaps with the pause; pause IS the cooldown.
   - Melee (`weapon.pause = 0`): cycle = `attack0` animation length, looked up
-    per-unit in `data/animations/aaf/<sid>.aaf` (compute/compute_animations.py
+    per-unit in `data/animations/aaf/<sid>.aaf` (parser/parse_animations.py
     extracts these). Falls back to median (15 frames ≈ 0.47 g-sec) when
     the .aaf file is missing or doesn't expose attack0.
 

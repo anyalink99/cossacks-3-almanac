@@ -15,7 +15,7 @@ Output: docs/derived/pattern_types.json
   }
 
 Used by:
-  - compute_pattern_inventory.py (group stats by type, not raw filename prefix)
+  - parser/parse_pattern_inventory.py (group stats by type, not raw filename prefix)
   - compute_map_resources.py (pick correct tree-count median per `foreststype`)
 """
 from __future__ import annotations
