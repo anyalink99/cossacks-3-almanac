@@ -5,6 +5,7 @@ __pycache__/
 venv/
 .idea/
 .vscode/
+.claude/
 *.swp
 .DS_Store
 Thumbs.db
