@@ -431,6 +431,106 @@ def write_readme(data: dict) -> None:
 
 # ---------- 01_economy.md ----------
 
+# Mercenary unit sids — фиксированный порядок (по возрастанию gold-цены).
+# Все наёмники доступны всем нациям, поэтому достаточно одного представителя.
+MERCENARY_SIDS: list[str] = [
+    "lightinfantrydip",
+    "roundshierdip",
+    "archerdip",
+    "archerturdip",
+    "grenadierdip",
+    "cossacksichdip",
+    "dragoon18dip",
+    "lightcavalrydip",
+]
+
+# Cluster prefixes для дип-центров. Один и тот же объект (например, `ausdip` и
+# `fradip`) имеет идентичные статы — фигуру дип-кластеров определяет код в
+# `unit.script:2451-2459`.
+DIP_CLUSTERS: list[tuple[list[str], str]] = [
+    (["aus", "fra", "eng", "spa", "pol", "swe", "pru", "ven",
+      "net", "den", "por", "pie", "sax", "bav", "hun", "swi", "sco"],
+     "default"),
+    (["rus"],          "rus"),
+    (["ukr"],          "ukr"),
+    (["tur", "alg"],   "tur / alg"),
+]
+
+
+def _dip_buildings_table(buildings: list[dict]) -> str:
+    """Сгруппированная таблица Дипломатических центров: по 1 строке на кластер
+    с одинаковыми статами. Имена тянутся из локали."""
+    by_sid = {b["sid"]: b for b in buildings}
+    L = [
+        "| Дип-центр | Нации | HP | Wood | Stone | Gold |",
+        "| --- | --- | ---: | ---: | ---: | ---: |",
+    ]
+    for nats, label in DIP_CLUSTERS:
+        # Берём представителя — первая нация кластера, у которой есть `<nat>dip`.
+        rep = None
+        for nat in nats:
+            b = by_sid.get(f"{nat}dip")
+            if b is not None:
+                rep = b
+                break
+        if rep is None:
+            continue
+        nat_str = ", ".join(nats) if len(nats) <= 6 else (
+            ", ".join(nats[:5]) + f" … (+{len(nats) - 5})"
+        )
+        L.append(
+            f"| {name_cell_short(rep)} ({label}) | {nat_str} | "
+            f"{fmt(rep.get('hp'))} | {fmt(rep.get('wood'))} | "
+            f"{fmt(rep.get('stone'))} | {fmt(rep.get('gold'))} |"
+        )
+    return "\n".join(L)
+
+
+def _mercenary_weapons_summary(unit: dict) -> str:
+    """Кратко: `arrow 25 / firearrow 100`. Промежуточные паузы и cost не
+    нужны в этой обзорной таблице — они в `02_combat.md → Стоимость одного
+    выстрела` и в `compute_combat_stats.py`."""
+    parts: list[str] = []
+    for w in (unit.get("weapons") or []):
+        kind = w.get("kind") or "?"
+        damage = w.get("damage")
+        if damage is None:
+            continue
+        rmax = w.get("radiusmax_tiles")
+        if rmax is not None and rmax > 1.5:
+            parts.append(f"{kind} {damage} (range {rmax} t)")
+        else:
+            parts.append(f"{kind} {damage}")
+    return " / ".join(parts) if parts else "—"
+
+
+def _mercenaries_table(units: list[dict]) -> str:
+    """Таблица 8 наёмников: HP, buildtime в g-сек, gold-цена и upkeep,
+    `costpercent`, краткое описание оружия. Все цифры — из data.json."""
+    by_sid: dict[str, dict] = {}
+    for u in units:
+        # Любой представитель — наёмники одинаковы у всех наций.
+        by_sid.setdefault(u["sid"], u)
+    L = [
+        "| Наёмник | HP | bt, g-сек | gold (цена) | gold/тик upkeep | costpercent | Оружие |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | --- |",
+    ]
+    for sid in MERCENARY_SIDS:
+        u = by_sid.get(sid)
+        if u is None:
+            continue
+        gold_cost = u.get("gold")
+        consume_gold = (u.get("consume") or {}).get("gold") or "—"
+        cp = u.get("costpercent")
+        cp_str = f"{cp}" if cp is not None else "100"
+        L.append(
+            f"| {name_cell_short(u)} | {fmt(u.get('hp'))} "
+            f"| {fmt(u.get('buildtime_sec'))} | **{fmt(gold_cost)}** "
+            f"| {consume_gold} | {cp_str} | {_mercenary_weapons_summary(u)} |"
+        )
+    return "\n".join(L)
+
+
 def write_economy(data: dict) -> None:
     out = []
     A = out.append
@@ -495,7 +595,11 @@ def write_economy(data: dict) -> None:
     A("\nАпгрейды fieldlife: `aca.4` (+200), `bla.1` (+100). Сумма = 300 → ~2045 food / поле.\n")
     out.extend(render_template("reference/01_economy/fishing.md"))
     A("")
-    out.extend(render_template("reference/01_economy/famine_rebellion.md"))
+    out.extend(render_template(
+        "reference/01_economy/famine_rebellion.md",
+        dip_buildings_table=_dip_buildings_table(data["buildings"]),
+        mercenaries_table=_mercenaries_table(data["units"]),
+    ))
     A("")
     A("## Discrepancies (расхождения с промпт-заметками)\n")
     A("| Факт | Заметки | В файле | Источник | Вердикт |")
@@ -596,7 +700,7 @@ def write_combat(data: dict) -> None:
         if pause in (None, 0, 0.0):
             pause = melee_swing_sec(median["sid"])
         return {
-            "name": median.get("name_en") or median["sid"],
+            "name": (median.get("name_ru") or median.get("name_en") or median["sid"]),
             "sid": median["sid"],
             "damage": w.get("damage"),
             "pause_sec": pause,
@@ -610,7 +714,7 @@ def write_combat(data: dict) -> None:
         units.sort(key=lambda x: x["hp"])
         median = units[len(units) // 2]
         return {
-            "name": median.get("name_en") or median["sid"],
+            "name": (median.get("name_ru") or median.get("name_en") or median["sid"]),
             "sid": median["sid"],
             "hp": median.get("hp") or 1,
             "shield": median.get("shield") or 0,
@@ -827,33 +931,40 @@ def write_combat(data: dict) -> None:
       "(независимо от цены постройки самого юнита). Это отдельный налог, помимо `consume[gold]` и `food upkeep`.\n")
     A("Строки сгруппированы по `(sid, оружие)`: если значения одинаковы для всех наций, "
       "показано одной строкой с `nation = all`. Если у нации своё значение — она в отдельной строке.\n")
-    A("| sid | нации | weapon | урон | перезарядка (с) | shots/min | iron / выстрел | coal / выстрел | gold / выстрел |")
+    A("| Юнит | Нации | weapon | урон | перезарядка (с) | shots/min | iron / выстрел | coal / выстрел | gold / выстрел |")
     A("|---|---|---|---:|---:|---:|---:|---:|---:|")
-    # Collect (sid, weapon_id_or_kind) → list of (nation, damage, pause, shots, iron, coal, gold)
+    # Collect (sid, weapon_id_or_kind) → list of (nation, item, damage, pause, shots, iron, coal, gold).
+    # `item` нужен, чтобы рендерить имя через `name_cell_short` — берём первое
+    # попавшееся представление каждого sid'а (имя у одного sid'а одинаково).
     grouped: dict[tuple[str, str], list[tuple]] = defaultdict(list)
+    items_by_sid: dict[str, dict] = {}
     for u in data["units"]:
+        items_by_sid.setdefault(u["sid"], u)
         for w in (u["weapons"] or []):
             cost = w.get("cost") or {}
             if cost:
                 shots = round(60 / w["pause_sec"], 1) if w.get("pause_sec") else None
                 key = (u["sid"], w["weaponsid"] or w["kind"] or "?")
-                grouped[key].append((u["nation"], w.get("damage"), w.get("pause_sec"), shots,
+                grouped[key].append((u["nation"], u, w.get("damage"), w.get("pause_sec"), shots,
                                       cost.get("iron"), cost.get("coal"), cost.get("gold")))
     for b in data["buildings"]:
+        items_by_sid.setdefault(b["sid"], b)
         cost = b.get("weapon_cost") or {}
         if cost:
             pause_sec = (round(b["weapon_pause_frames"]/32, 2) if b["weapon_pause_frames"] else None)
             shots = (round(60 / pause_sec, 1) if pause_sec else None)
             key = (b["sid"], b["weapon_kind"] or "?")
-            grouped[key].append((b["nation"], b["weapon_damage"], pause_sec, shots,
+            grouped[key].append((b["nation"], b, b["weapon_damage"], pause_sec, shots,
                                   cost.get("iron"), cost.get("coal"), cost.get("gold")))
-    # For each (sid, weapon), bucket entries by (damage, pause, shots, iron, coal, gold) signature
+    # For each (sid, weapon), bucket entries by (damage, pause, shots, iron, coal, gold) signature.
     for (sid, weapon) in sorted(grouped.keys()):
         entries = grouped[(sid, weapon)]
         sig: dict[tuple, list[str]] = defaultdict(list)
-        for nation, damage, pause, shots, iron, coal, gold in entries:
+        for nation, _item, damage, pause, shots, iron, coal, gold in entries:
             sig[(damage, pause, shots, iron, coal, gold)].append(nation)
-        # Sort buckets by size desc so the most common variant comes first
+        # Sort buckets by size desc so the most common variant comes first.
+        rep_item = items_by_sid.get(sid) or {}
+        name_cell = name_cell_short(rep_item) if rep_item else f"`{sid}`"
         for stats, nations in sorted(sig.items(), key=lambda kv: -len(kv[1])):
             damage, pause, shots, iron, coal, gold = stats
             if len(nations) >= 18:
@@ -862,8 +973,8 @@ def write_combat(data: dict) -> None:
                 nat_str = nations[0]
             else:
                 nat_str = ", ".join(sorted(set(nations)))
-            A(f"| `{sid}` | {nat_str} | `{weapon}` | {fmt(damage)} | {fmt(pause)} | {fmt(shots)} "
-              f"| {fmt(iron)} | {fmt(coal)} | {fmt(gold)} |")
+            A(f"| {name_cell} | {nat_str} | `{weapon}` | {fmt(damage)} | {fmt(pause)} "
+              f"| {fmt(shots)} | {fmt(iron)} | {fmt(coal)} | {fmt(gold)} |")
     write_md(TREE_ROOT / "02_combat.md", out)
 
 

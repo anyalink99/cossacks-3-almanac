@@ -943,19 +943,19 @@ TTK = target.HP / DPS
 
 | Класс | Атакующий-репрезентант | урон | перезарядка (с) | тип | Защитник-репрезентант | HP | shield |
 |---|---|---:|---:|---|---|---:|---:|
-| Peasant | `peatur` (Peasant) | 20 | 0.5625 | sword | `peatur` (Peasant) | 50 | 0 |
-| Pikemen 17c | `pikeman` (Pikeman, 17th century) | 8 | 0.4688 | pike | `pikeman` (Pikeman, 17th century) | 90 | 0 |
-| Pikemen 18c | `pikeman18` (Pikeman, 18th century) | 9 | 0.2812 | pike | `pikeman18` (Pikeman, 18th century) | 85 | 0 |
-| Light Infantry | `roundshierdip` (Roundshier (mercenary)) | 6 | 0.4688 | sword | `roundshierdip` (Roundshier (mercenary)) | 75 | 0 |
-| Musketeers 17c | `musketeer` (Musketeer, 17th century) | 12 | 4.69 | bullet | `musketeer` (Musketeer, 17th century) | 70 | 0 |
-| Musketeers 18c | `musketeer18` (Musketeer, 18th century) | 16 | 4.69 | bullet | `musketeer18pru` (Musketeer, 18th century) | 100 | 0 |
-| Grenadiers | `grenadierdip` (Grenadier (mercenary)) | 16 | 4.69 | bullet | `grenadierdip` (Grenadier (mercenary)) | 30 | 0 |
-| Archers | `archerturdip` (Turkish archer (mercenary)) | 100 | 0.78 | firearrow | `archerdip` (Archer (mercenary)) | 20 | 0 |
-| Light Cavalry | `lightcavalrydip` (Light cavalry (mercenary)) | 18 | 2.25 | bullet | `lightcavalry` (Light cavalry) | 175 | 0 |
-| Dragoons | `dragoon18dip` (Dragoon, 18th century (mercenary)) | 18 | 2.25 | bullet | `dragoon` (Dragoon, 17th century) | 220 | 0 |
-| Heavy Cavalry | `wingedhussar` (Winged Hussar) | 14 | 0.375 | pike | `cuirassier` (Cuirassier) | 300 | 0 |
-| Cannons | `cannon` (Cannon) | 1800 | 10.94 | cannonball | `cannon` (Cannon) | 9000 | 75 |
-| Mortars | `howitzer` (Howitzer) | 4000 | 18.75 | cannonball | `howitzer` (Howitzer) | 3000 | 75 |
+| Peasant | `peatur` (Крестьянин) | 20 | 0.5625 | sword | `peatur` (Крестьянин) | 50 | 0 |
+| Pikemen 17c | `pikeman` (Пикинер 17в.) | 8 | 0.4688 | pike | `pikeman` (Пикинер 17в.) | 90 | 0 |
+| Pikemen 18c | `pikeman18` (Пикинер 18в.) | 9 | 0.2812 | pike | `pikeman18` (Пикинер 18в.) | 85 | 0 |
+| Light Infantry | `roundshierdip` (Рундашир (наемник)) | 6 | 0.4688 | sword | `roundshierdip` (Рундашир (наемник)) | 75 | 0 |
+| Musketeers 17c | `musketeer` (Мушкетер 17в.) | 12 | 4.69 | bullet | `musketeer` (Мушкетер 17в.) | 70 | 0 |
+| Musketeers 18c | `musketeer18` (Мушкетер 18в.) | 16 | 4.69 | bullet | `musketeer18pru` (Мушкетер 18в.) | 100 | 0 |
+| Grenadiers | `grenadierdip` (Гренадер (наемник)) | 16 | 4.69 | bullet | `grenadierdip` (Гренадер (наемник)) | 30 | 0 |
+| Archers | `archerturdip` (Турецкий лучник (наемник)) | 100 | 0.78 | firearrow | `archerdip` (Лучник (наемник)) | 20 | 0 |
+| Light Cavalry | `lightcavalrydip` (Легкий кавалерист (наемник)) | 18 | 2.25 | bullet | `lightcavalry` (Легкий кавалерист) | 175 | 0 |
+| Dragoons | `dragoon18dip` (Драгун 18в. (наемник)) | 18 | 2.25 | bullet | `dragoon` (Драгун 17в.) | 220 | 0 |
+| Heavy Cavalry | `wingedhussar` (Крылатый гусар) | 14 | 0.375 | pike | `cuirassier` (Кирасир) | 300 | 0 |
+| Cannons | `cannon` (Пушка) | 1800 | 10.94 | cannonball | `cannon` (Пушка) | 9000 | 75 |
+| Mortars | `howitzer` (Гаубица) | 4000 | 18.75 | cannonball | `howitzer` (Гаубица) | 3000 | 75 |
 
 ### Матрица контр-эффективности — TTK в g-сек
 
@@ -1095,72 +1095,72 @@ real_TTK = ideal_TTK / hit_chance
 
 Строки сгруппированы по `(sid, оружие)`: если значения одинаковы для всех наций, показано одной строкой с `nation = all`. Если у нации своё значение — она в отдельной строке.
 
-| sid | нации | weapon | урон | перезарядка (с) | shots/min | iron / выстрел | coal / выстрел | gold / выстрел |
+| Юнит | Нации | weapon | урон | перезарядка (с) | shots/min | iron / выстрел | coal / выстрел | gold / выстрел |
 |---|---|---|---:|---:|---:|---:|---:|---:|
-| `archer` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
-| `archer` | alg | `STRELA` | 15 | 2.34 | 25.6 | — | — | — |
-| `archerdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
-| `archerdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
-| `archersco` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archersco` | sco | `STRELA` | 20 | 3.12 | 19.2 | — | — | — |
-| `archertur` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
-| `archertur` | tur | `STRELA` | 20 | 2.66 | 22.6 | — | — | — |
-| `archerturdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
-| `archerturdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
-| `battleship` | all | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
-| `cannon` | all | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
-| `cannon` | all | `PSMPOINTTPUS` | 0 | 10.94 | 5.5 | 24 | 21 | — |
+| **Лучник** `archer` | alg | `OSTRELA` | 150 | 3.91 | 15.3 | — | — | — |
+| **Лучник** `archer` | alg | `STRELA` | 15 | 2.34 | 25.6 | — | — | — |
+| **Лучник (наемник)** `archerdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| **Лучник (наемник)** `archerdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
+| **Лучник кланов** `archersco` | sco | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
+| **Лучник кланов** `archersco` | sco | `STRELA` | 20 | 3.12 | 19.2 | — | — | — |
+| **Турецкий лучник** `archertur` | tur | `OSTRELA` | 150 | 4.38 | 13.7 | — | — | — |
+| **Турецкий лучник** `archertur` | tur | `STRELA` | 20 | 2.66 | 22.6 | — | — | — |
+| **Турецкий лучник (наемник)** `archerturdip` | all | `OSTRELA` | 100 | 0.78 | 76.9 | — | — | — |
+| **Турецкий лучник (наемник)** `archerturdip` | all | `STRELA` | 25 | 2.5 | 24.0 | — | — | — |
+| **Линейный корабль** `battleship` | all | `PPOINTTKOR` | 1800 | 0.62 | 96.8 | 5 | 15 | — |
+| **Пушка** `cannon` | all | `PPOINTT` | 1800 | 10.94 | 5.5 | 20 | 40 | — |
+| **Пушка** `cannon` | all | `PSMPOINTTPUS` | 0 | 10.94 | 5.5 | 24 | 21 | — |
 | `chaika` | ukr | `PPOINTTKOR` | 1000 | 2.34 | 25.6 | 4 | 9 | — |
-| `chasseur` | fra | `SHOTMUSKET` | 20 | 5.94 | 10.1 | 4 | 8 | — |
-| `dragoon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, spa, swe, swi, ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
-| `dragoon18` | aus, bav, den, eng, pol, por, pru, rus, sax, spa, swe, swi, ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
-| `dragoon18dip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
-| `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
-| `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
-| `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
-| `dragoonpol` | pol | `SHOTMUSKET` | 13 | 5.0 | 12.0 | 2 | 3 | — |
-| `eurtow` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
-| `framegun` | sco | `PPOINTTFRAME` | 500 | 2.81 | 21.4 | 30 | 40 | — |
-| `frigate` | all | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
-| `galley` | all | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
-| `galley` | all | `PPOINTTKOR` | 100 | 4.69 | 12.8 | 4 | 9 | — |
-| `gauduk` | hun | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
-| `grenadier` | aus, eng, fra, net, pie, pol, por, pru, rus, spa, swe, swi, ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
-| `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
-| `grenadierdip` | all | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
-| `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
-| `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
-| `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
-| `highlander` | eng | `SHOTMUSKET` | 16 | 5.0 | 12.0 | 3 | 4 | — |
-| `howitzer` | all | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
-| `jagerpor` | por | `SHOTMUSKET` | 10 | 5.94 | 10.1 | 2 | 4 | — |
-| `jagerswi` | swi | `SHOTMUSKET` | 20 | 6.88 | 8.7 | 4 | 9 | — |
-| `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
-| `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
-| `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
-| `lightcavalrydip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
-| `mortar` | all | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
-| `multicannon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, spa, swe, swi, ven | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
-| `musketeer` | bav, den, eng, fra, pie, por, pru, sax, swe, swi, ven | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
-| `musketeer18` | aus, eng, fra, hun, net, pie, pol, por, rus, spa, swe, swi, ven | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
-| `musketeer18bav` | bav | `SHOTMUSKET` | 22 | 5.94 | 10.1 | 3 | 4 | — |
-| `musketeer18den` | den | `SHOTMUSKET` | 29 | 5.94 | 10.1 | 4 | 5 | — |
-| `musketeer18pru` | pru | `SHOTMUSKET` | 22 | 4.69 | 12.8 | 3 | 4 | — |
-| `musketeer18sax` | sax | `SHOTMUSKET` | 19 | 4.38 | 13.7 | 3 | 3 | — |
-| `musketeeraus` | aus | `SHOTMUSKET` | 12 | 5.0 | 12.0 | 2 | 4 | — |
-| `musketeernet` | net | `SHOTMUSKET` | 10 | 3.75 | 16.0 | 1 | 3 | — |
-| `musketeerpol` | pol | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
-| `musketeersco` | sco | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 5 | — |
-| `musketeerspa` | spa | `SHOTMUSKET` | 15 | 5.94 | 10.1 | 3 | 6 | — |
-| `pandur` | aus | `SHOTMUSKET` | 17 | 4.69 | 12.8 | 3 | 6 | — |
-| `pandurhun` | hun | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 3 | 7 | — |
-| `porpor` | por | `cannonball` | 1000 | 8.75 | 6.9 | 10 | 30 | — |
-| `rustow` | rus | `cannonball` | 1000 | 9.38 | 6.4 | 10 | 30 | — |
-| `serdiuk` | ukr | `SHOTMUSKET` | 12 | 4.06 | 14.8 | 3 | 6 | — |
-| `strelet` | rus | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
-| `tatar` | tur | `STRELA` | 15 | 1.56 | 38.5 | — | — | — |
-| `turtow` | alg, tur | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
-| `xebec` | alg, tur | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
-| `yacht` | all | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
-| `yachttur` | tur | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
+| **Егерь** `chasseur` | fra | `SHOTMUSKET` | 20 | 5.94 | 10.1 | 4 | 8 | — |
+| **Драгун 17в.** `dragoon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, spa, swe, swi, ven | `SHOTMUSKET` | 15 | 5.62 | 10.7 | 2 | 4 | — |
+| **Драгун 18в.** `dragoon18` | aus, bav, den, eng, pol, por, pru, rus, sax, spa, swe, swi, ven | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 4 | 5 | — |
+| **Драгун 18в. (наемник)** `dragoon18dip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| **Драгун 18в.** `dragoon18fra` | fra | `SHOTMUSKET` | 10 | 4.69 | 12.8 | 3 | 3 | — |
+| **Драгун 18в.** `dragoon18net` | net | `SHOTMUSKET` | 17 | 5.0 | 12.0 | 3 | 4 | — |
+| **Драгун 18в.** `dragoon18pie` | pie | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 4 | 5 | — |
+| **Посполитое рушение** `dragoonpol` | pol | `SHOTMUSKET` | 13 | 5.0 | 12.0 | 2 | 3 | — |
+| **Башня** `eurtow` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | `cannonball` | 1000 | 12.5 | 4.8 | 10 | 30 | — |
+| **Рибадекин** `framegun` | sco | `PPOINTTFRAME` | 500 | 2.81 | 21.4 | 30 | 40 | — |
+| **Фрегат** `frigate` | all | `PPOINTTKOR` | 1800 | 2.34 | 25.6 | 25 | 35 | — |
+| **Галера** `galley` | all | `DIMMORT2KOR` | 1000 | 1.56 | 38.5 | 4 | 9 | — |
+| **Галера** `galley` | all | `PPOINTTKOR` | 100 | 4.69 | 12.8 | 4 | 9 | — |
+| **Гайдук** `gauduk` | hun | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
+| **Гренадер** `grenadier` | aus, eng, fra, net, pie, pol, por, pru, rus, spa, swe, swi, ven | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| **Гренадер** `grenadierbav` | bav | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| **Гренадер** `grenadierden` | den | `SHOTMUSKET` | 19 | 5.94 | 10.1 | 3 | 3 | — |
+| **Гренадер (наемник)** `grenadierdip` | all | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 5 | — |
+| **Гренадер** `grenadierhun` | hun | `SHOTMUSKET` | 16 | 5.31 | 11.3 | 2 | 3 | — |
+| **Гренадер** `grenadierpru` | pru | `SHOTMUSKET` | 16 | 4.38 | 13.7 | 2 | 3 | — |
+| **Гренадер** `grenadiersax` | sax | `SHOTMUSKET` | 19 | 5.31 | 11.3 | 3 | 3 | — |
+| **Шотландский стрелок** `highlander` | eng | `SHOTMUSKET` | 16 | 5.0 | 12.0 | 3 | 4 | — |
+| **Гаубица** `howitzer` | all | `DIMMORT1` | 4000 | 18.75 | 3.2 | 20 | 100 | — |
+| **Доброволец** `jagerpor` | por | `SHOTMUSKET` | 10 | 5.94 | 10.1 | 2 | 4 | — |
+| **Егерь** `jagerswi` | swi | `SHOTMUSKET` | 20 | 6.88 | 8.7 | 4 | 9 | — |
+| **Янычар** `jannisary` | tur | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 3 | 5 | — |
+| **Королевский мушкетер** `kingmusketeer` | fra | `SHOTMUSKET` | 43 | 6.88 | 8.7 | 6 | 10 | — |
+| **Легкий кавалерист** `lightcavalry` | hun | `SHOTMUSKET` | 14 | 5.31 | 11.3 | 2 | 3 | — |
+| **Легкий кавалерист (наемник)** `lightcavalrydip` | all | `SHOTMUSKET` | 18 | 2.25 | 26.7 | 5 | 8 | — |
+| **Мортира** `mortar` | all | `DIMMORT2` | 200 | 7.81 | 7.7 | 20 | 30 | — |
+| **Многоствольное орудие** `multicannon` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, spa, swe, swi, ven | `PSMPOINTT` | 500 | 1.88 | 31.9 | 40 | 30 | — |
+| **Мушкетер 17в.** `musketeer` | bav, den, eng, fra, pie, por, pru, sax, swe, swi, ven | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| **Мушкетер 18в.** `musketeer18` | aus, eng, fra, hun, net, pie, pol, por, rus, spa, swe, swi, ven | `SHOTMUSKET` | 16 | 4.69 | 12.8 | 2 | 3 | — |
+| **Мушкетер 18в.** `musketeer18bav` | bav | `SHOTMUSKET` | 22 | 5.94 | 10.1 | 3 | 4 | — |
+| **Мушкетер 18в.** `musketeer18den` | den | `SHOTMUSKET` | 29 | 5.94 | 10.1 | 4 | 5 | — |
+| **Мушкетер 18в.** `musketeer18pru` | pru | `SHOTMUSKET` | 22 | 4.69 | 12.8 | 3 | 4 | — |
+| **Мушкетер 18в.** `musketeer18sax` | sax | `SHOTMUSKET` | 19 | 4.38 | 13.7 | 3 | 3 | — |
+| **Мушкетер 17в.** `musketeeraus` | aus | `SHOTMUSKET` | 12 | 5.0 | 12.0 | 2 | 4 | — |
+| **Мушкетер 17в.** `musketeernet` | net | `SHOTMUSKET` | 10 | 3.75 | 16.0 | 1 | 3 | — |
+| **Мушкетер 17в.** `musketeerpol` | pol | `SHOTMUSKET` | 9 | 3.12 | 19.2 | 1 | 2 | — |
+| **Мушкетер Ковенанта** `musketeersco` | sco | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 5 | — |
+| **Мушкетер 17в.** `musketeerspa` | spa | `SHOTMUSKET` | 15 | 5.94 | 10.1 | 3 | 6 | — |
+| **Пандур** `pandur` | aus | `SHOTMUSKET` | 17 | 4.69 | 12.8 | 3 | 6 | — |
+| **Секей** `pandurhun` | hun | `SHOTMUSKET` | 19 | 5.0 | 12.0 | 3 | 7 | — |
+| **Порт** `porpor` | por | `cannonball` | 1000 | 8.75 | 6.9 | 10 | 30 | — |
+| **Башня** `rustow` | rus | `cannonball` | 1000 | 9.38 | 6.4 | 10 | 30 | — |
+| **Сердюк** `serdiuk` | ukr | `SHOTMUSKET` | 12 | 4.06 | 14.8 | 3 | 6 | — |
+| **Стрелец** `strelet` | rus | `SHOTMUSKET` | 12 | 4.69 | 12.8 | 2 | 4 | — |
+| **Татарин** `tatar` | tur | `STRELA` | 15 | 1.56 | 38.5 | — | — | — |
+| **Башня** `turtow` | alg, tur | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
+| **Шебека** `xebec` | alg, tur | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
+| **Яхта** `yacht` | all | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
+| **Турецкая яхта** `yachttur` | tur | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |

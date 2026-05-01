@@ -65,14 +65,9 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 Полный разбор — в [`recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md). Здесь — суть.
 
-Дипломатический центр (`<nat>dip`) — здание середины игры, требующее **Академию** (`<nat>aca`) и Городской центр. Есть у всех 21 нации, но характеристики различаются:
+Дипломатический центр (`<nat>dip`) — здание середины игры, требующее **Академию** (`<nat>aca`) и Городской центр. Есть у всех 21 нации, но характеристики различаются. Имена и цифры — из локали и `data.json`:
 
-| Здание | Нации | HP | Wood | Stone | Gold |
-|---|---|---:|---:|---:|---:|
-| `<nat>dip` (default) | aus, fra, eng, spa, pol, swe, pru, ven, net, den, por, pie, sax, bav, hun, swi, sco | 4500 | 4900 | 1700 | 0 |
-| `rusdip` | rus | 6500 | 7900 | 3700 | 0 |
-| `ukrdip` | ukr | 5000 | 3900 | 2700 | 0 |
-| `turdip` / `algdip` | tur, alg | 5500 | 4600 | 2020 | 0 |
+{dip_buildings_table}
 
 Для всех: `buildtime = 1000` кадров = **312.5 g-сек**, `costpercent = 100` (цена каждого следующего здания не растёт), `bcapture = False` (захвату не подлежит, только разрушение). По локализации — **«можно построить только один Дипломатический центр на игрока»**; это ограничение GUI, а не `costpercent`.
 
@@ -80,18 +75,9 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 Ростер одинаков для **всех 21 нации**. Цена в gold, upkeep тоже в gold (`consume.gold`), `bnohungry = True` (food не потребляют).
 
-С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary)`-override; все 168 dip-юнитов несут merc-статы. Числа ниже совпадают с тем, что в data.json.
+С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary)`-override; все 168 dip-юнитов несут merc-статы. Таблица ниже строится прямо из `data.json` — не пересохраняется отдельно от него.
 
-| sid | HP | buildtime (frames) | gold (цена) | consume.gold (upkeep) | costpercent | оружие |
-|---|---:|---:|---:|---:|---:|---|
-| `lightinfantrydip` | 50 | 40 | **4** | 4 | 100 | sword 16 (range 50px) |
-| `roundshierdip` | 75 | 48 | **12** | 20 | 100 | sword 6 (range 50px) |
-| `archerdip` | 20 | 40 | **15** | 16 | 100.5 | arrow 25 / firearrow 100 |
-| `archerturdip` *(EarlyBird DLC)* | 20 | 40 | 15 | 16 | 100.5 | то же |
-| `grenadierdip` | 30 | 48 | **25** | 60 | 100.5 | pike 30 / bullet 16 / grenade 200 |
-| `cossacksichdip` | 150 | 80 | **60** | 150 | 100.5 | horse-sword 8 |
-| `dragoon18dip` | 100 | 64 | **120** | 120 | 102 | horse-bullet 18 (range 800) |
-| `lightcavalrydip` *(EarlyBird DLC)* | 100 | 64 | 120 | 120 | 102 | то же |
+{mercenaries_table}
 
 ### Масштабирование цены
 
