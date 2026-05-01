@@ -1294,9 +1294,141 @@ def write_market(data: dict) -> None:
 
 # ---------- 07_naval.md ----------
 
+# Каталог морских юнитов: sid + русский класс. Порядок управляет таблицами
+# в шаблоне `reference/07_naval/main.md`. Цифры (HP / speed / cost / weapons)
+# подтягиваются из `data.json`.
+NAVAL_SHIPS: list[tuple[str, str]] = [
+    ("fishboat",  "Рыбачья лодка"),
+    ("ferry",     "Транспорт"),
+    ("yacht",     "Лёгкий стрелок"),
+    ("chaika",    "Лёгкий стрелок (ukr)"),
+    ("yachttur",  "Лёгкий стрелок (tur)"),
+    ("galley",    "Артиллерийский"),
+    ("frigate",   "Тяжёлый стрелок"),
+    ("xebec",     "Тяжёлый стрелок (alg/tur)"),
+    ("battleship", "Линейный корабль"),
+]
+
+
+def _naval_cost_str(u: dict) -> str:
+    """Сжатая запись цены: `450 G / 900 W / 150 I / 200 C` — пропускаем нулевые."""
+    parts: list[str] = []
+    for res, label in (("food", "F"), ("wood", "W"), ("stone", "S"),
+                       ("gold", "G"), ("iron", "I"), ("coal", "C")):
+        v = u.get(res)
+        if v:
+            parts.append(f"{v} {label}")
+    return " / ".join(parts) if parts else "—"
+
+
+def _naval_shot_cost_str(cost: dict | None) -> str:
+    """Стоимость одного выстрела: `4 I + 9 C` (или `—` если ничего не тратится)."""
+    if not cost:
+        return "—"
+    parts: list[str] = []
+    for res, label in (("iron", "I"), ("coal", "C"), ("wood", "W"),
+                       ("stone", "S"), ("gold", "G"), ("food", "F")):
+        v = cost.get(res)
+        if v:
+            parts.append(f"{v} {label}")
+    return " + ".join(parts) if parts else "—"
+
+
+def _vision_tiles(vision_field: int | None) -> int:
+    """Радиус FOW в тайлах — `floor(20 + 4 × vision)` из `_unit_GetVision`."""
+    return 20 + 4 * (vision_field or 0)
+
+
+def _naval_catalog_table(by_sid: dict[str, dict]) -> str:
+    L = [
+        "| Корабль | Класс | HP | Speed | Vision (t) | Search (t) | Цена | Buildtime g-сек |",
+        "| --- | --- | ---: | ---: | ---: | ---: | --- | ---: |",
+    ]
+    for sid, cls in NAVAL_SHIPS:
+        u = by_sid.get(sid)
+        if u is None:
+            continue
+        sr = u.get("searchradius_tiles") or 0
+        sr_str = f"{sr}" if sr else "—"
+        L.append(
+            f"| {name_cell_short(u)} | {cls} | {fmt(u.get('hp'))} | {fmt(u.get('speed'))} "
+            f"| {_vision_tiles(u.get('vision'))} | {sr_str} | {_naval_cost_str(u)} "
+            f"| {fmt(u.get('buildtime_sec'))} |"
+        )
+    return "\n".join(L)
+
+
+def _naval_combat_table(by_sid: dict[str, dict]) -> str:
+    L = [
+        "| Корабль | № | dmg | pause (g-сек) | range (t) | kind | cost / выстрел |",
+        "| --- | :---: | ---: | ---: | ---: | --- | --- |",
+    ]
+    for sid, _cls in NAVAL_SHIPS:
+        u = by_sid.get(sid)
+        if u is None:
+            continue
+        weapons = u.get("weapons") or []
+        if not weapons:
+            continue
+        for i, w in enumerate(weapons):
+            ship_cell = name_cell_short(u) if i == 0 else " "
+            idx = w.get("index", i)
+            L.append(
+                f"| {ship_cell} | {idx} | {fmt(w.get('damage'))} "
+                f"| {fmt(w.get('pause_sec'))} | {fmt(w.get('radiusmax_tiles'))} "
+                f"| {w.get('kind') or '—'} | {_naval_shot_cost_str(w.get('cost'))} |"
+            )
+    return "\n".join(L)
+
+
+def _naval_ferry_block(ferry: dict) -> str:
+    bt = ferry.get("buildtime_sec") or 0
+    real_sec = round(bt / 1.4, 1) if bt else "—"
+    return "\n".join([
+        "```",
+        f"HP        = {fmt(ferry.get('hp'))}",
+        f"speed     = {fmt(ferry.get('speed'))}",
+        f"transport = {fmt(ferry.get('transport'))}    (количество «слотов» под пехоту/кавалерию)",
+        f"buildtime = {fmt(bt)} g-сек ({real_sec} real-сек @ fast)",
+        f"cost      = {_naval_cost_str(ferry)}",
+        "оружие    = нет (не атакует)",
+        f"vision    = {_vision_tiles(ferry.get('vision'))} t",
+        "```",
+    ])
+
+
+def _naval_fishboat_block(fb: dict) -> str:
+    return "\n".join([
+        "```",
+        f"HP            = {fmt(fb.get('hp'))}",
+        f"speed         = {fmt(fb.get('speed'))}",
+        f"fishingmax    = {fmt(fb.get('fishingmax'))}    (ёмкость накопителя food)",
+        f"fishingspeed  = {fmt(fb.get('fishingspeed'))}      (frames на единицу food)",
+        f"buildtime     = {fmt(fb.get('buildtime_sec'))} g-сек",
+        f"cost          = {_naval_cost_str(fb)}",
+        "```",
+    ])
+
+
 def write_naval(data: dict) -> None:
-    out = []
-    out.extend(render_template("reference/07_naval/main.md"))
+    by_sid: dict[str, dict] = {}
+    for u in data["units"]:
+        # Брать первое попавшееся представление каждого sid'а: морские юниты
+        # одинаковы у всех наций, у которых они есть, поэтому первый ОК.
+        by_sid.setdefault(u["sid"], u)
+
+    catalog_table = _naval_catalog_table(by_sid)
+    combat_table = _naval_combat_table(by_sid)
+    ferry_block = _naval_ferry_block(by_sid.get("ferry") or {})
+    fishboat_block = _naval_fishboat_block(by_sid.get("fishboat") or {})
+
+    out = render_template(
+        "reference/07_naval/main.md",
+        catalog_table=catalog_table,
+        combat_table=combat_table,
+        ferry_block=ferry_block,
+        fishboat_block=fishboat_block,
+    )
     write_md(TREE_ROOT / "07_naval.md", out)
 
 
