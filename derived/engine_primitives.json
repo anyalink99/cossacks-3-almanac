@@ -1,0 +1,7992 @@
+{
+  "stats": {
+    "files_scanned": 218,
+    "defined": 1613,
+    "called": 1937,
+    "native_candidates": 884,
+    "type_casts": 84,
+    "dws_builtins_seen": 21,
+    "unused_defs": 664
+  },
+  "native_primitives": {
+    "errorlog": {
+      "calls": 387,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\country.script",
+        "lib\\gui.script"
+      ],
+      "files_total": 56
+    },
+    "getplayerhandlebyindex": {
+      "calls": 270,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\map.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 43
+    },
+    "getgameobjectpositionxbyhandle": {
+      "calls": 263,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 34
+    },
+    "getgameobjectpositionzbyhandle": {
+      "calls": 263,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 34
+    },
+    "log": {
+      "calls": 210,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 35
+    },
+    "getlocaletablelistitembyid": {
+      "calls": 197,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\profile.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 6
+    },
+    "switchto": {
+      "calls": 146,
+      "files": [
+        "env\\env.inc\\dodeath.inc",
+        "env\\env.inc\\dodestroy.inc",
+        "env\\env.inc\\doextract.inc",
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc"
+      ],
+      "files_total": 145
+    },
+    "vectordistance": {
+      "calls": 137,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 24
+    },
+    "setbehaviourboolproperty": {
+      "calls": 127,
+      "files": [
+        "lib\\misc.script",
+        "lib\\pfx.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "misc\\ballon.inc\\onaclanimationfloat.inc"
+      ],
+      "files_total": 9
+    },
+    "getplayerindexbyhandle": {
+      "calls": 120,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 44
+    },
+    "parsergetfloatvaluebykeybyhandle": {
+      "calls": 115,
+      "files": [
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\country.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 10
+    },
+    "recordcustomwriteinteger": {
+      "calls": 111,
+      "files": [
+        "progress\\progress.inc\\writelansyncdata.inc",
+        "progress\\progress.inc\\writeres.inc",
+        "progress\\progress.inc\\writescenario.inc",
+        "progress\\progress.inc\\writestats.inc",
+        "units\\global.inc\\writeapply.inc"
+      ],
+      "files_total": 32
+    },
+    "readinteger": {
+      "calls": 106,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectuniqueidbyhandle": {
+      "calls": 95,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\net.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 47
+    },
+    "getgameobjecthandlebyuniqueid": {
+      "calls": 94,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\player.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 42
+    },
+    "getplayergameobjectscountbyhandle": {
+      "calls": 89,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 31
+    },
+    "writeinteger": {
+      "calls": 87,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "strexists": {
+      "calls": 86,
+      "files": [
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 16
+    },
+    "setbehaviourfloatproperty": {
+      "calls": 84,
+      "files": [
+        "lib\\pfx.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "misc\\ballon.inc\\onaclanimationfloat.inc",
+        "misc\\ballon.inc\\ontagstates.inc"
+      ],
+      "files_total": 9
+    },
+    "getguitextureheight": {
+      "calls": 83,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "parsergetcountbyhandle": {
+      "calls": 78,
+      "files": [
+        "lib\\country.script",
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 13
+    },
+    "getguitexturewidth": {
+      "calls": 78,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "strreplace": {
+      "calls": 76,
+      "files": [
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 10
+    },
+    "maxfloat": {
+      "calls": 73,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 12
+    },
+    "vectorrotatey": {
+      "calls": 72,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 17
+    },
+    "parsergetintvaluebykeybyhandle": {
+      "calls": 70,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 9
+    },
+    "getgameobjectstatestagbyhandle": {
+      "calls": 68,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 19
+    },
+    "parserselectbyhandlebykey": {
+      "calls": 68,
+      "files": [
+        "lib\\control.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 15
+    },
+    "parsersetfloatvaluebykeybyhandle": {
+      "calls": 68,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\pfx.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 5
+    },
+    "getgameobjecthandlebyindex": {
+      "calls": 64,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 18
+    },
+    "getgameobjectplayerhandlebyhandle": {
+      "calls": 64,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 24
+    },
+    "seekinteger": {
+      "calls": 59,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "statemachinegetargdatabyind": {
+      "calls": 56,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 15
+    },
+    "substr": {
+      "calls": 56,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 15
+    },
+    "getmapcollisiontag": {
+      "calls": 55,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\res.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 16
+    },
+    "getguielementindexbynameparent": {
+      "calls": 50,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\scenario.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 7
+    },
+    "parsergetvaluebykeybyhandle": {
+      "calls": 49,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 14
+    },
+    "parserselectbyhandlebyindex": {
+      "calls": 49,
+      "files": [
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 13
+    },
+    "playerexecutestatebyhandle": {
+      "calls": 49,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 14
+    },
+    "getgameobjectstohandlebyhandle": {
+      "calls": 47,
+      "files": [
+        "lib\\ai.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 15
+    },
+    "freemem": {
+      "calls": 46,
+      "files": [
+        "lib\\classes.script",
+        "lib\\pfx.script",
+        "lib\\player.script",
+        "lib\\steam.script"
+      ],
+      "files_total": 4
+    },
+    "executestate": {
+      "calls": 46,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\dogeneratemissionmap.inc",
+        "common.inc\\generatemap.inc",
+        "common.inc\\initmapgen.inc",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 32
+    },
+    "setguielementvisibleproperties": {
+      "calls": 45,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "movemem": {
+      "calls": 44,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "isfileexists": {
+      "calls": 44,
+      "files": [
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 9
+    },
+    "setgameobjectvisiblebyhandle": {
+      "calls": 43,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 22
+    },
+    "mapdrawcollision": {
+      "calls": 43,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\serial.script",
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 7
+    },
+    "parsersetintvaluebykeybyhandle": {
+      "calls": 43,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script",
+        "lib\\movie.script",
+        "lib\\pfx.script"
+      ],
+      "files_total": 6
+    },
+    "booltostr": {
+      "calls": 42,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script",
+        "lib\\steam.script",
+        "units\\global.inc\\readgate.inc"
+      ],
+      "files_total": 20
+    },
+    "gameobjectaddnewchild": {
+      "calls": 42,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "createplayergameobjecthandlebyhandle": {
+      "calls": 41,
+      "files": [
+        "lib\\gui.script",
+        "lib\\map.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 18
+    },
+    "getplayerstatemachinehandle": {
+      "calls": 41,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\res.script"
+      ],
+      "files_total": 13
+    },
+    "getguielementheight": {
+      "calls": 40,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 4
+    },
+    "fillmem": {
+      "calls": 39,
+      "files": [
+        "lib\\classes.script",
+        "lib\\miscext2.script",
+        "lib\\pfx.script",
+        "lib\\player.script",
+        "lib\\steam.script"
+      ],
+      "files_total": 6
+    },
+    "strlength": {
+      "calls": 39,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 12
+    },
+    "recordcustomwritefloat": {
+      "calls": 39,
+      "files": [
+        "units\\global.inc\\writeconstruct.inc",
+        "units\\global.inc\\writedeath.inc",
+        "units\\global.inc\\writemove.inc",
+        "units\\global.inc\\writenew.inc",
+        "units\\global.inc\\writenewp.inc"
+      ],
+      "files_total": 10
+    },
+    "getgameobjectbasenamebyhandle": {
+      "calls": 38,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 13
+    },
+    "recordcustomwriteboolean": {
+      "calls": 38,
+      "files": [
+        "progress\\progress.inc\\writelansyncdata.inc",
+        "progress\\progress.inc\\writescenario.inc",
+        "units\\global.inc\\writeconstruct.inc",
+        "units\\global.inc\\writedeath.inc",
+        "units\\global.inc\\writegate.inc"
+      ],
+      "files_total": 27
+    },
+    "getgameobjectcountchildbyhandle": {
+      "calls": 37,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\player.script"
+      ],
+      "files_total": 17
+    },
+    "getgameobjectgohandlechildbyhandle": {
+      "calls": 37,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\player.script"
+      ],
+      "files_total": 17
+    },
+    "strpos": {
+      "calls": 36,
+      "files": [
+        "lib\\classes.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 9
+    },
+    "setguielementalign": {
+      "calls": 36,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setbehaviourstringproperty": {
+      "calls": 36,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "misc\\ballon.inc\\onaclanimationfloat.inc",
+        "misc\\ballon.inc\\ontagstates.inc"
+      ],
+      "files_total": 8
+    },
+    "getdelimiterstringbyindex": {
+      "calls": 35,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 4
+    },
+    "getguielementwidth": {
+      "calls": 35,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 4
+    },
+    "recordcustombegin": {
+      "calls": 35,
+      "files": [
+        "progress\\progress.inc\\writelansyncdata.inc",
+        "progress\\progress.inc\\writeres.inc",
+        "progress\\progress.inc\\writescenario.inc",
+        "progress\\progress.inc\\writestats.inc",
+        "units\\global.inc\\writeapply.inc"
+      ],
+      "files_total": 34
+    },
+    "addrtopointer": {
+      "calls": 34,
+      "files": [
+        "lib\\classes.script",
+        "lib\\miscext2.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 3
+    },
+    "getgameobjectabsolutepositionbyhandle": {
+      "calls": 34,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 8
+    },
+    "setgameobjectpositionbyhandle": {
+      "calls": 33,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\player.script"
+      ],
+      "files_total": 15
+    },
+    "parseraddchildbyindex": {
+      "calls": 33,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\pfx.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 6
+    },
+    "isinrangeint": {
+      "calls": 32,
+      "files": [
+        "lib\\ai.script",
+        "lib\\misc.script",
+        "units\\global.inc\\progresseconomicai.inc",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "vectorlength": {
+      "calls": 31,
+      "files": [
+        "lib\\ai.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\squad.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 9
+    },
+    "parserloadfromfilebyhandle": {
+      "calls": 29,
+      "files": [
+        "lib\\control.script",
+        "lib\\country.script",
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 14
+    },
+    "readboolean": {
+      "calls": 29,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "writeboolean": {
+      "calls": 28,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectplayableobjectbyhandle": {
+      "calls": 27,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 9
+    },
+    "getguielementfonttextformatrect": {
+      "calls": 27,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "seekboolean": {
+      "calls": 27,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "guiexecutestate": {
+      "calls": 26,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 8
+    },
+    "getgameobjectcollisionmaskvaluebyhandle": {
+      "calls": 26,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readwall.inc"
+      ],
+      "files_total": 6
+    },
+    "getheightdata": {
+      "calls": 26,
+      "files": [
+        "lib\\miscext.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\texturemap.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectpickedbyhandle": {
+      "calls": 25,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\serial.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 9
+    },
+    "standpattern": {
+      "calls": 25,
+      "files": [
+        "lib\\map.script"
+      ],
+      "files_total": 1
+    },
+    "setbehaviourintproperty": {
+      "calls": 25,
+      "files": [
+        "lib\\misc.script",
+        "lib\\pfx.script",
+        "lib\\scenario.script",
+        "lib\\unit.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 11
+    },
+    "getgameobjectstatetargetpositionxbyhandle": {
+      "calls": 25,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\net.script",
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 7
+    },
+    "getgameobjectvisiblebyhandle": {
+      "calls": 24,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 12
+    },
+    "recordcustomwritebyte": {
+      "calls": 24,
+      "files": [
+        "lib\\classes.script",
+        "progress\\progress.inc\\writeres.inc",
+        "progress\\progress.inc\\writescenario.inc",
+        "units\\global.inc\\writemove.inc",
+        "units\\global.inc\\writetrade.inc"
+      ],
+      "files_total": 7
+    },
+    "vectornormalize": {
+      "calls": 23,
+      "files": [
+        "lib\\ai.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 13
+    },
+    "getmem": {
+      "calls": 23,
+      "files": [
+        "lib\\classes.script",
+        "lib\\pfx.script",
+        "lib\\player.script",
+        "lib\\steam.script"
+      ],
+      "files_total": 4
+    },
+    "setguielementallpositionrect": {
+      "calls": 23,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "parsergetfilesinroot": {
+      "calls": 23,
+      "files": [
+        "lib\\init.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 2
+    },
+    "getplayerhandlebyname": {
+      "calls": 23,
+      "files": [
+        "lib\\player.script",
+        "lib\\serial.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 8
+    },
+    "gameobjectexecutestatebyhandle": {
+      "calls": 22,
+      "files": [
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 10
+    },
+    "vectorangle": {
+      "calls": 22,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\scenario.script",
+        "lib\\squad.script"
+      ],
+      "files_total": 9
+    },
+    "parsersavetofilebyhandle": {
+      "calls": 22,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\pfx.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 7
+    },
+    "seekbuffer": {
+      "calls": 22,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "raycastheight": {
+      "calls": 21,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 14
+    },
+    "setguielementuserblend": {
+      "calls": 21,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 4
+    },
+    "parsersetvaluebykeybyhandle": {
+      "calls": 21,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script",
+        "lib\\movie.script",
+        "lib\\pfx.script"
+      ],
+      "files_total": 10
+    },
+    "getgameobjectstatetargetpositionzbyhandle": {
+      "calls": 21,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\net.script",
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 6
+    },
+    "gameobjectdestroybyhandle": {
+      "calls": 20,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 10
+    },
+    "lerp": {
+      "calls": 20,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\pfx.script",
+        "lib\\res.script"
+      ],
+      "files_total": 7
+    },
+    "getgameobjectpositionybyhandle": {
+      "calls": 20,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "misc\\ballon.inc\\onaclanimationfloat.inc",
+        "misc\\projectile.inc\\doexplode.inc"
+      ],
+      "files_total": 10
+    },
+    "setgameobjectscalebyhandle": {
+      "calls": 20,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\weapon.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 10
+    },
+    "gameobjectrequesttodestroybyhandle": {
+      "calls": 20,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 16
+    },
+    "gettypebasebytypename": {
+      "calls": 20,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "parsercreate": {
+      "calls": 19,
+      "files": [
+        "lib\\gui.script",
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\parser.script",
+        "lib\\pfx.script"
+      ],
+      "files_total": 9
+    },
+    "minfloat": {
+      "calls": 19,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 7
+    },
+    "savestreamtypebase": {
+      "calls": 19,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "mergestreamtypebase": {
+      "calls": 19,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "getstreamsizetypebase": {
+      "calls": 19,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "seekstreamtypebase": {
+      "calls": 19,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectscalexbyhandle": {
+      "calls": 18,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 9
+    },
+    "getgameobjecttrackpointcountbyhandle": {
+      "calls": 18,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\progresswarai.inc",
+        "units\\unit.inc\\nothing.inc"
+      ],
+      "files_total": 6
+    },
+    "addplayerenemyplayerbyhandle": {
+      "calls": 18,
+      "files": [
+        "lib\\player.script",
+        "lib\\scenario.script",
+        "lib\\serial.script",
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 7
+    },
+    "setgameobjectcollisiondetectionbyhandle": {
+      "calls": 18,
+      "files": [
+        "lib\\scenario.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc"
+      ],
+      "files_total": 10
+    },
+    "writefloat": {
+      "calls": 18,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "readfloat": {
+      "calls": 18,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "seekfloat": {
+      "calls": 18,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmatrixbyhandle": {
+      "calls": 18,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "mathceil": {
+      "calls": 17,
+      "files": [
+        "lib\\ai.script",
+        "lib\\misc.script",
+        "lib\\squad.script",
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 7
+    },
+    "getgameobjectstatemachinehandle": {
+      "calls": 17,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 8
+    },
+    "setguielementvisible": {
+      "calls": 17,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "sametext": {
+      "calls": 16,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\pfx.script"
+      ],
+      "files_total": 7
+    },
+    "parsergetboolvaluebykeybyhandle": {
+      "calls": 16,
+      "files": [
+        "lib\\classes.script",
+        "lib\\country.script",
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\pfx.script"
+      ],
+      "files_total": 6
+    },
+    "setguielementmaterial": {
+      "calls": 16,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectsinradius": {
+      "calls": 16,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\scenario.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 10
+    },
+    "getgameobjectlistbyindex": {
+      "calls": 16,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\scenario.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 10
+    },
+    "getplayergrhandlebyhandle": {
+      "calls": 16,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\serial.script",
+        "lib\\squad.script"
+      ],
+      "files_total": 6
+    },
+    "setgameobjectactornamebyhandle": {
+      "calls": 16,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\movie.script",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 5
+    },
+    "gameobjectresetframeanimationblend": {
+      "calls": 16,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "raycastwater": {
+      "calls": 15,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\miscext.script",
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 10
+    },
+    "setguiscrollbuttonsource": {
+      "calls": 15,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectstarrowanglebyhandle": {
+      "calls": 15,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\net.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 8
+    },
+    "getdelimiterstringcount": {
+      "calls": 14,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 4
+    },
+    "setguielementenabled": {
+      "calls": 14,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectstringpropertytag": {
+      "calls": 14,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "common.inc\\onloadfull.inc",
+        "misc\\projectile.inc\\dodeath.inc"
+      ],
+      "files_total": 11
+    },
+    "setgameobjectciintersectradiusbyhandle": {
+      "calls": 14,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 7
+    },
+    "parserclearbyhandle": {
+      "calls": 14,
+      "files": [
+        "lib\\parser.script",
+        "lib\\profile.script",
+        "lib\\steam.script",
+        "resource.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 6
+    },
+    "getgameobjecttrackpointcoordsbyindexbyhandle": {
+      "calls": 14,
+      "files": [
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "getgroupcountgameobjectsbyhandle": {
+      "calls": 13,
+      "files": [
+        "lib\\group.script",
+        "lib\\player.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 4
+    },
+    "parserselectbykey": {
+      "calls": 13,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\parser.script",
+        "lib\\profile.script",
+        "resource.script"
+      ],
+      "files_total": 6
+    },
+    "gameobjectrollbyhandle": {
+      "calls": 13,
+      "files": [
+        "lib\\misc.script",
+        "lib\\scenario.script",
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 9
+    },
+    "setbehaviouraffinevectorproperty": {
+      "calls": 13,
+      "files": [
+        "lib\\misc.script",
+        "lib\\pfx.script",
+        "lib\\weapon.script",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 4
+    },
+    "getgameobjecttransformedvirtualdirectionxbyhandle": {
+      "calls": 13,
+      "files": [
+        "lib\\misc.script",
+        "lib\\movie.script",
+        "lib\\player.script",
+        "lib\\squad.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 7
+    },
+    "getgameobjecttransformedvirtualdirectionzbyhandle": {
+      "calls": 13,
+      "files": [
+        "lib\\misc.script",
+        "lib\\movie.script",
+        "lib\\player.script",
+        "lib\\squad.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 7
+    },
+    "settileindex": {
+      "calls": 13,
+      "files": [
+        "lib\\miscext.script",
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadenvironmentfrombitmap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\smoothforestborders.inc"
+      ],
+      "files_total": 7
+    },
+    "setperformanceview": {
+      "calls": 13,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyplayableobject": {
+      "calls": 13,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "misc\\ballon.inc\\initial.inc",
+        "misc\\movearrow.inc\\initial.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 8
+    },
+    "dec": {
+      "calls": 12,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "recordcustomwriteword": {
+      "calls": 12,
+      "files": [
+        "lib\\classes.script",
+        "progress\\progress.inc\\writelansyncdata.inc",
+        "progress\\progress.inc\\writeres.inc",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 4
+    },
+    "addnewelementbyclassnameparent": {
+      "calls": 12,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "sndgetorcreatesound": {
+      "calls": 12,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\sound.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 5
+    },
+    "isinrange": {
+      "calls": 12,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "getmapcollisiontaginradius": {
+      "calls": 12,
+      "files": [
+        "lib\\misc.script",
+        "common.inc\\texturemap.inc",
+        "misc\\projectile.inc\\doexplode.inc",
+        "misc\\projectile.inc\\doexplodecustom.inc"
+      ],
+      "files_total": 4
+    },
+    "gameobjectswitchtotreeanimationcyclesblendbyhandle": {
+      "calls": 12,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "getbitmappixel": {
+      "calls": 12,
+      "files": [
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadenvironmentfrombitmap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\saveenvironmenttobitmap.inc",
+        "common.inc\\smoothforestborders.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectonstatedestroybyhandle": {
+      "calls": 12,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "env\\env.inc\\ontagstates.inc",
+        "misc\\ballon.inc\\initial.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 11
+    },
+    "setgameobjectcollisioninertiabyhandle": {
+      "calls": 12,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 9
+    },
+    "setgameobjecttagfloatbyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\ai.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 6
+    },
+    "isdelimitercharexists": {
+      "calls": 11,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 4
+    },
+    "getgameobjectpickedbyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 6
+    },
+    "setguiallowevents": {
+      "calls": 11,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementvisible": {
+      "calls": 11,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "progress\\progress.inc\\scenario.inc"
+      ],
+      "files_total": 3
+    },
+    "setguielementcursorbyname": {
+      "calls": 11,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getprojectoptionasstring": {
+      "calls": 11,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 3
+    },
+    "effectclear": {
+      "calls": 11,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "common.inc\\dogenerate.inc",
+        "units\\building.inc\\nothing.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 7
+    },
+    "getgameobjectorientationbyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "units\\global.inc\\writesync.inc"
+      ],
+      "files_total": 6
+    },
+    "setgameobjectorientationbyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 7
+    },
+    "setgameobjectcimovablebyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script",
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 7
+    },
+    "setgameobjectanimationmodebyhandle": {
+      "calls": 11,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "airegiondoupdateobject": {
+      "calls": 11,
+      "files": [
+        "lib\\scenario.script",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "readbuffer": {
+      "calls": 11,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmycollisiondetection": {
+      "calls": 11,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "misc\\ballon.inc\\initial.inc",
+        "misc\\movearrow.inc\\initial.inc",
+        "misc\\projectile.inc\\freetopool.inc"
+      ],
+      "files_total": 10
+    },
+    "gameobjectmydelayexecutestate": {
+      "calls": 11,
+      "files": [
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\deathstage1.inc",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\building.inc\\settagstates.inc",
+        "units\\unit.inc\\deathstage1.inc"
+      ],
+      "files_total": 8
+    },
+    "gamemanagerstartselection": {
+      "calls": 10,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 4
+    },
+    "getplayerprogresssectionindexbyinterval": {
+      "calls": 10,
+      "files": [
+        "lib\\control.script",
+        "lib\\miscext.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\progress.inc"
+      ],
+      "files_total": 4
+    },
+    "getplayerprogresssectioncountgobyindex": {
+      "calls": 10,
+      "files": [
+        "lib\\control.script",
+        "lib\\miscext.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\progress.inc"
+      ],
+      "files_total": 4
+    },
+    "getguielementfontheight": {
+      "calls": 10,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 3
+    },
+    "setguielementcolor": {
+      "calls": 10,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectcollisionmaskwidthbyhandle": {
+      "calls": 10,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readwall.inc"
+      ],
+      "files_total": 6
+    },
+    "getgameobjectcollisionmaskheightbyhandle": {
+      "calls": 10,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readwall.inc"
+      ],
+      "files_total": 6
+    },
+    "statemachineglobalvariablessavetoparser": {
+      "calls": 10,
+      "files": [
+        "lib\\misc.script",
+        "lib\\profile.script",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 3
+    },
+    "behaviourdestroy": {
+      "calls": 10,
+      "files": [
+        "lib\\misc.script",
+        "lib\\scenario.script",
+        "lib\\unit.script",
+        "misc\\ballon.inc\\ontagstates.inc",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 8
+    },
+    "setgameobjectstarrowanglebyhandle": {
+      "calls": 10,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 7
+    },
+    "mapgettileindexbytileblock": {
+      "calls": 10,
+      "files": [
+        "lib\\miscext.script",
+        "common.inc\\loadenvironmentfrombitmap.inc",
+        "common.inc\\smoothforestborders.inc",
+        "common.inc\\smoothtiles.inc",
+        "common.inc\\texturemap.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectmaterialnamebyhandle": {
+      "calls": 10,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\movie.script",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 5
+    },
+    "setprojectoptionasfloat": {
+      "calls": 10,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "addplayerfriendplayerbyhandle": {
+      "calls": 10,
+      "files": [
+        "lib\\scenario.script",
+        "lib\\serial.script",
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 6
+    },
+    "setgameobjectmystatestag": {
+      "calls": 10,
+      "files": [
+        "env\\env.inc\\settagstates.inc",
+        "misc\\ballon.inc\\initial.inc",
+        "misc\\ballon.inc\\settagstates.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 10
+    },
+    "inc": {
+      "calls": 9,
+      "files": [
+        "lib\\classes.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "parserfreebyhandle": {
+      "calls": 9,
+      "files": [
+        "lib\\country.script",
+        "lib\\misc.script",
+        "lib\\pfx.script",
+        "lib\\steam.script",
+        "resource.script"
+      ],
+      "files_total": 6
+    },
+    "setguielementtextformatted": {
+      "calls": 9,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementpositiony": {
+      "calls": 9,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundplaying": {
+      "calls": 9,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\sound.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 5
+    },
+    "extractfilename": {
+      "calls": 9,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 3
+    },
+    "setprogressingpausemode": {
+      "calls": 9,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext3.script",
+        "units\\global.inc\\checkerrors.inc"
+      ],
+      "files_total": 3
+    },
+    "gettriggermanagerstatemachinehandle": {
+      "calls": 9,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\scenario.script",
+        "common.inc\\initmaphistoricalbattle.inc",
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectstohandlebyhandle": {
+      "calls": 9,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readsync.inc"
+      ],
+      "files_total": 3
+    },
+    "behaviourclear": {
+      "calls": 9,
+      "files": [
+        "lib\\miscext2.script",
+        "common.inc\\dogenerate.inc",
+        "misc\\projectile.inc\\dodestroy.inc",
+        "misc\\projectile.inc\\ondestroy.inc",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 8
+    },
+    "geteffectbykey": {
+      "calls": 9,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "misc\\ballon.inc\\ontagstates.inc",
+        "units\\unit.inc\\deathstage1.inc",
+        "units\\unit.inc\\deathstage3.inc"
+      ],
+      "files_total": 5
+    },
+    "createplayerinsert": {
+      "calls": 9,
+      "files": [
+        "lib\\player.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 2
+    },
+    "getairegionstatemachinehandle": {
+      "calls": 9,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectplayableobjectbyhandle": {
+      "calls": 9,
+      "files": [
+        "lib\\scenario.script",
+        "lib\\unit.script",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "gameobjectmakeuniqid": {
+      "calls": 9,
+      "files": [
+        "lib\\unit.script",
+        "common.inc\\dogenerate.inc",
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "misc\\ballon.inc\\initial.inc"
+      ],
+      "files_total": 7
+    },
+    "setbehaviourvectorproperty": {
+      "calls": 9,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytargetrotatingmode": {
+      "calls": 9,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ondirectionreached.inc"
+      ],
+      "files_total": 6
+    },
+    "setgameobjectmyanimationcyclesmode": {
+      "calls": 9,
+      "files": [
+        "misc\\ballon.inc\\initial.inc",
+        "misc\\ballon.inc\\ontagstates.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "getgameobjectcustomnamebyhandle": {
+      "calls": 9,
+      "files": [
+        "units\\global.inc\\checkerrors.inc",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "recordcustomwritestring": {
+      "calls": 9,
+      "files": [
+        "units\\global.inc\\writeconstruct.inc",
+        "units\\global.inc\\writenew.inc",
+        "units\\global.inc\\writenewp.inc",
+        "units\\global.inc\\writepackage.inc",
+        "units\\global.inc\\writesquadnew.inc"
+      ],
+      "files_total": 6
+    },
+    "getplayerprogresssectiongohandlebyindex": {
+      "calls": 8,
+      "files": [
+        "lib\\control.script",
+        "lib\\miscext.script",
+        "units\\global.inc\\progress.inc"
+      ],
+      "files_total": 3
+    },
+    "createpoolgameobjecthandle": {
+      "calls": 8,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\weapon.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "units\\unit.inc\\onaclanimationreachedattack.inc"
+      ],
+      "files_total": 5
+    },
+    "setguielementfont": {
+      "calls": 8,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementtextalign": {
+      "calls": 8,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundsourcename": {
+      "calls": 8,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\sound.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 5
+    },
+    "vectorcross": {
+      "calls": 8,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 4
+    },
+    "gameobjectparenttochildabsolute": {
+      "calls": 8,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\scenario.script",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 6
+    },
+    "statemachineexecutestate": {
+      "calls": 8,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "lib\\res.script",
+        "lib\\scenario.script",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectintervalfactorbyhandle": {
+      "calls": 8,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 5
+    },
+    "steamwrapisdlcinstalled": {
+      "calls": 8,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "statemachinegetintvaluebyindex": {
+      "calls": 8,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "writebuffer": {
+      "calls": 8,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "freebitmap": {
+      "calls": 8,
+      "files": [
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\postprocess.inc",
+        "common.inc\\texturemap.inc"
+      ],
+      "files_total": 4
+    },
+    "pointertoaddr": {
+      "calls": 7,
+      "files": [
+        "lib\\classes.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 2
+    },
+    "isgroupbyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjecttrackpointmovementmodeintbyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\control.script",
+        "lib\\miscext.script",
+        "lib\\unit.script",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "getcameraexist": {
+      "calls": 7,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "setguielementpressstate": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementtilescales": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementlogicheight": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getsndsoundplaying": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script",
+        "lib\\sound.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 4
+    },
+    "screentoworldraycast": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 3
+    },
+    "gameobjectdelayexecutestatebyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 5
+    },
+    "getsndambientthreadhandlebyname": {
+      "calls": 7,
+      "files": [
+        "lib\\gui.script",
+        "lib\\sound.script"
+      ],
+      "files_total": 2
+    },
+    "parsergetvaluebyindexbyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\init.script",
+        "lib\\profile.script",
+        "resource.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 5
+    },
+    "getgameobjectgohandlechildbybasename": {
+      "calls": 7,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "getgameobjectscaleybyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\misc.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 5
+    },
+    "getgameobjectscalezbyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\misc.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc",
+        "env\\env.inc\\ontagstates.inc",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 5
+    },
+    "emulateguishortcut": {
+      "calls": 7,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectdoraycastterrainbyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\readsync.inc",
+        "units\\unit.inc\\deathstage2.inc"
+      ],
+      "files_total": 5
+    },
+    "setgameobjecttargetrotatingmodebyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "getgameobjectepsilonanglebyhandle": {
+      "calls": 7,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "behaviourcreate": {
+      "calls": 7,
+      "files": [
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "misc\\ballon.inc\\onaclanimationfloat.inc",
+        "units\\unit.inc\\deathstage2.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 5
+    },
+    "setbitmappixel": {
+      "calls": 7,
+      "files": [
+        "common.inc\\postprocess.inc",
+        "common.inc\\saveenvironmenttobitmap.inc"
+      ],
+      "files_total": 2
+    },
+    "gethandlegamemanagerpickedobjects": {
+      "calls": 6,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "groupaddgameobjectbyhandle": {
+      "calls": 6,
+      "files": [
+        "lib\\group.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getguielementpositionx": {
+      "calls": 6,
+      "files": [
+        "lib\\gui.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 2
+    },
+    "getguielementtext": {
+      "calls": 6,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguilistboxscrollerhandle": {
+      "calls": 6,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundvolume": {
+      "calls": 6,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 2
+    },
+    "getstatemachinefilename": {
+      "calls": 6,
+      "files": [
+        "lib\\init.script",
+        "lib\\misc.script",
+        "lib\\res.script",
+        "lib\\unit.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 5
+    },
+    "setgameobjectrollanglebyhandle": {
+      "calls": 6,
+      "files": [
+        "lib\\map.script",
+        "lib\\movie.script",
+        "lib\\pfx.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 4
+    },
+    "getgameobjecttagfloatbyhandle": {
+      "calls": 6,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 3
+    },
+    "deletefilestream": {
+      "calls": 6,
+      "files": [
+        "lib\\misc.script",
+        "resource.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 3
+    },
+    "lansendparser": {
+      "calls": 6,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "projectloaddecalmaterial": {
+      "calls": 6,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setssaoenable": {
+      "calls": 6,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 2
+    },
+    "setfxaaenable": {
+      "calls": 6,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 2
+    },
+    "lansrvsetclientscore": {
+      "calls": 6,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectracetag": {
+      "calls": 6,
+      "files": [
+        "lib\\scenario.script",
+        "units\\building.inc\\nothing.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "steamwrapsetcallbacksfunc": {
+      "calls": 6,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "setcurrentcolortableindex": {
+      "calls": 6,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmytrackpointmovementmode": {
+      "calls": 6,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 5
+    },
+    "gameobjectmyswitchtotreeanimationcyclesblend": {
+      "calls": 6,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "getcurrentmouseworldcoord": {
+      "calls": 5,
+      "files": [
+        "lib\\control.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectcollisiondetectionbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "setcamerainfosmoothingchange": {
+      "calls": 5,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "camerainfoloadtocurrentview": {
+      "calls": 5,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "groupcleargameobjectsbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\group.script",
+        "lib\\misc.script",
+        "lib\\player.script"
+      ],
+      "files_total": 3
+    },
+    "getguicursorindexbyname": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementmaterialoffset": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementscrollbuttonindex": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementallrect": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementuseusercolor": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementusercolor": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "setsndsoundradius": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script",
+        "lib\\sound.script",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 3
+    },
+    "getcameratargetposition": {
+      "calls": 5,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 3
+    },
+    "settimespeedfactor": {
+      "calls": 5,
+      "files": [
+        "lib\\init.script",
+        "lib\\movie.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "pow": {
+      "calls": 5,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectautooffsetbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\misc.script",
+        "units\\unit.inc\\deathstage2.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectcollidedstatenamebyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 2
+    },
+    "strtobool": {
+      "calls": 5,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "parsersetboolvaluebykeybyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\pfx.script",
+        "lib\\steam.script"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectanimationcyclesmodebyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectepsilondistancebyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\movie.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "getbehaviouraffinevectorproperty": {
+      "calls": 5,
+      "files": [
+        "lib\\pfx.script",
+        "misc\\projectile.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "setsoundmanagermutemode": {
+      "calls": 5,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "getisenemyplayersbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\scenario.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "deleteplayerenemyplayerbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\scenario.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "getbehaviourbyclassname": {
+      "calls": 5,
+      "files": [
+        "lib\\scenario.script",
+        "misc\\projectile.inc\\nothing.inc",
+        "units\\building.inc\\nothing.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "deleteplayerbyhandle": {
+      "calls": 5,
+      "files": [
+        "lib\\serial.script",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 2
+    },
+    "effectcreatewithkey": {
+      "calls": 5,
+      "files": [
+        "lib\\unit.script",
+        "misc\\ballon.inc\\ontagstates.inc",
+        "units\\unit.inc\\deathstage1.inc",
+        "units\\unit.inc\\deathstage2.inc",
+        "units\\unit.inc\\deathstage3.inc"
+      ],
+      "files_total": 5
+    },
+    "loadpatterns": {
+      "calls": 5,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc",
+        "common.inc\\texturemap.inc"
+      ],
+      "files_total": 3
+    },
+    "getbitmapsize": {
+      "calls": 5,
+      "files": [
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadenvironmentfrombitmap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\smoothforestborders.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectdeferredframeblendbyhandle": {
+      "calls": 5,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "misc\\ballon.inc\\initial.inc",
+        "misc\\movearrow.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 5
+    },
+    "getplayerprogresssectionmaxbyhandle": {
+      "calls": 5,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "setplayerprogresssectionmaxbyhandle": {
+      "calls": 5,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "addplayerstretchbrushgrouphandle": {
+      "calls": 4,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getplayerstretchbrushgrouptargetpositionx": {
+      "calls": 4,
+      "files": [
+        "lib\\ai.script",
+        "lib\\gui.script",
+        "lib\\player.script"
+      ],
+      "files_total": 3
+    },
+    "getplayerstretchbrushgrouptargetpositiony": {
+      "calls": 4,
+      "files": [
+        "lib\\ai.script",
+        "lib\\gui.script",
+        "lib\\player.script"
+      ],
+      "files_total": 3
+    },
+    "getplayerstretchbrushgrouptargetangle": {
+      "calls": 4,
+      "files": [
+        "lib\\ai.script",
+        "lib\\gui.script",
+        "lib\\player.script"
+      ],
+      "files_total": 3
+    },
+    "reallocmem": {
+      "calls": 4,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "addcamerainfo": {
+      "calls": 4,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "camerainfosavefromcurrentview": {
+      "calls": 4,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "getgroupgohandlebygoindexbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\group.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "setvaluebyname": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementpositiony": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementabsscaled": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementscalex": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementscaley": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementscale": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementabsscaled": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementtag": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementhint": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\ui.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementtext": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementnamebyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "gethardwareraminfo": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 3
+    },
+    "getguilistboxitemscount": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementchecked": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementposition": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementlogicrect": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementrect": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxselectedmaterialname": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxrowheight": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxvisiblerows": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxmousetrack": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxmousetrackmaterialname": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxmousetrackfontcolor": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getprojectoptionasboolean": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "setguieventstateonkeydown": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getsndsoundsourcename": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc",
+        "progress\\progress.inc\\soundcontrolcounters.inc"
+      ],
+      "files_total": 3
+    },
+    "getguigrouphudcollectionitembygameobject": {
+      "calls": 4,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "env\\env.inc\\ondestroy.inc"
+      ],
+      "files_total": 3
+    },
+    "steamwrapisloaded": {
+      "calls": 4,
+      "files": [
+        "lib\\init.script",
+        "lib\\steam.script",
+        "resource.script"
+      ],
+      "files_total": 3
+    },
+    "statemachineglobalvariablesloadfromparser": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\profile.script",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectstatemachineintervalbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getbehaviourbykey": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "createguiminimapprimitive": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 3
+    },
+    "setguiminimapprimitiveposition": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 3
+    },
+    "paintterrain": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "putdecalbyname": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "addnewdecalbylibname": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 3
+    },
+    "getdecaldatabyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "setdecaldatabyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectcustomboundingaabbbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 4
+    },
+    "setprojectoptionasstring": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 2
+    },
+    "gettileindex": {
+      "calls": 4,
+      "files": [
+        "lib\\miscext.script",
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\smoothtiles.inc"
+      ],
+      "files_total": 3
+    },
+    "effecthighlightremove": {
+      "calls": 4,
+      "files": [
+        "lib\\miscext2.script",
+        "units\\building.inc\\ontagstates.inc",
+        "units\\global.inc\\readfree.inc",
+        "units\\global.inc\\writedeath.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectcolintmaskoptionsbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "finduniqidbygameobject": {
+      "calls": 4,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectlodactornamebyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\movie.script",
+        "lib\\player.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 3
+    },
+    "getbehaviourfloatproperty": {
+      "calls": 4,
+      "files": [
+        "lib\\pfx.script",
+        "misc\\projectile.inc\\nothing.inc",
+        "units\\unit.inc\\deathstage2.inc"
+      ],
+      "files_total": 3
+    },
+    "getgameobjectgohandlechildbycustomname": {
+      "calls": 4,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 3
+    },
+    "usersaveprofileext": {
+      "calls": 4,
+      "files": [
+        "lib\\profile.script",
+        "lib\\steam.script"
+      ],
+      "files_total": 2
+    },
+    "getairegionhandlebyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getairegionnamebyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getairegionextendsbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegionextendsbyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setsndambientthreadsetplayingfade": {
+      "calls": 4,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectrollanglebyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectframeanimationnamebyhandle": {
+      "calls": 4,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectcimassbyhandle": {
+      "calls": 4,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 3
+    },
+    "setcurrentphdrindex": {
+      "calls": 4,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "addeditorforminput": {
+      "calls": 4,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "geteditorformvalue": {
+      "calls": 4,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "clearplayergameobjectsbyhandle": {
+      "calls": 4,
+      "files": [
+        "common.inc\\generatemap.inc",
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 3
+    },
+    "loadbitmap": {
+      "calls": 4,
+      "files": [
+        "common.inc\\generatemap.inc",
+        "common.inc\\loadtextureterrainfrombitmap.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmyonstateendframereached": {
+      "calls": 4,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "misc\\movearrow.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectmyonstateendpointreached": {
+      "calls": 4,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectmyonstatedirectionreached": {
+      "calls": 4,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectmyonstateendcyclesreached": {
+      "calls": 4,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 4
+    },
+    "setgameobjectmystatetargetposition": {
+      "calls": 4,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "env\\env.inc\\initialdecor.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 4
+    },
+    "gameobjectmyswitchtotreeanimationcycles": {
+      "calls": 4,
+      "files": [
+        "misc\\ballon.inc\\onaclanimationfloat.inc",
+        "misc\\ballon.inc\\ontagstates.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectmyanimationmode": {
+      "calls": 4,
+      "files": [
+        "misc\\movearrow.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "freetopoolgameobjecthandle": {
+      "calls": 4,
+      "files": [
+        "misc\\movearrow.inc\\onafterload.inc",
+        "misc\\movearrow.inc\\onendframereached.inc",
+        "misc\\projectile.inc\\freetopoolnext.inc",
+        "misc\\projectile.inc\\onafterload.inc"
+      ],
+      "files_total": 4
+    },
+    "delfowobjects": {
+      "calls": 4,
+      "files": [
+        "misc\\projectile.inc\\dodeath.inc",
+        "misc\\projectile.inc\\ondestroy.inc",
+        "misc\\projectile.inc\\onstopevent.inc",
+        "misc\\projectile.inc\\onterraincollide.inc"
+      ],
+      "files_total": 4
+    },
+    "gameobjecttrackpointaddbyhandle": {
+      "calls": 4,
+      "files": [
+        "progress\\progress.inc\\nothing.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjecttrackpointtagbyindexbyhandle": {
+      "calls": 4,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectcideltastepbyhandle": {
+      "calls": 4,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "clearplayerstretchbrushgroups": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "slogicfrmrotatesetstaticdir": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "processplayerslogicfrmrotate": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "groupgetminybyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "lib\\group.script",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 3
+    },
+    "getgameobjectraycastaabbbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "camerainforeadproperties": {
+      "calls": 3,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "vectorrotatex": {
+      "calls": 3,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "setcamerainfosmoothingtime": {
+      "calls": 3,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 3
+    },
+    "getguielementparentbyindex": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementfont": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "getobjectclassnamebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguilistboxrowheight": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "removeguielement": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "parserselectbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 3
+    },
+    "parserloadfromfile": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script",
+        "lib\\init.script",
+        "resource.script"
+      ],
+      "files_total": 3
+    },
+    "getsndambientthreadsoundhandlebyindex": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndambientthreadsoundvolume": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndambientthreadsetplaying": {
+      "calls": 3,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "strposex": {
+      "calls": 3,
+      "files": [
+        "lib\\init.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "gethighlightrendersettings": {
+      "calls": 3,
+      "files": [
+        "lib\\init.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 2
+    },
+    "sethighlightrendersettings": {
+      "calls": 3,
+      "files": [
+        "lib\\init.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 2
+    },
+    "editorprofmanagergetprofilerhandlebyname": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "extractfilepath": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script",
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 2
+    },
+    "behaviourcreatewithkey": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script",
+        "units\\building.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectprevstatestagbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script",
+        "lib\\net.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 3
+    },
+    "getpatternmaskvalue": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "lanclsetmyteam": {
+      "calls": 3,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectstatemachineintervalbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "gameobjectcanceldelayexecutestatebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\movie.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 3
+    },
+    "getgameobjecttrackpointcurrentpointindexbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "setheightdata": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 2
+    },
+    "lanpublicserversendsessionparser": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectdestroydecalbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "env\\env.inc\\ondestroy.inc",
+        "misc\\projectile.inc\\dodeath.inc"
+      ],
+      "files_total": 3
+    },
+    "extractfileext": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 2
+    },
+    "setdisplaymode": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\profile.script"
+      ],
+      "files_total": 2
+    },
+    "userprofilesavereplay": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lansetmycountry": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "units\\global.inc\\readpeacetime.inc",
+        "units\\global.inc\\writepeacetime.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectstatestagbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\global.inc\\readsync.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectstatestagforceupdatebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readsync.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectstatetargetpositionbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\global.inc\\readsync.inc"
+      ],
+      "files_total": 3
+    },
+    "gameobjecttrackpointclearbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\movie.script",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "isgameobjectbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\net.script",
+        "units\\global.inc\\checkerrors.inc"
+      ],
+      "files_total": 2
+    },
+    "gameobjectswitchtoframeanimationbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\player.script",
+        "units\\building.inc\\initial.inc",
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "statemachineglobalvariablessavetostack": {
+      "calls": 3,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "airegiondoclearobjectsbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getairegioncountofgameobjectsbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getairegiongohandlebygoindexbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getairegionhandlebyname": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "getisfriendplayersbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "deleteplayerfriendplayerbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\scenario.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "setgroupcollisionprioritybyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\serial.script",
+        "lib\\squad.script"
+      ],
+      "files_total": 2
+    },
+    "setgrouptestpriorityoptionbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\serial.script",
+        "lib\\squad.script"
+      ],
+      "files_total": 2
+    },
+    "steamwrapinitsafe": {
+      "calls": 3,
+      "files": [
+        "lib\\steam.script",
+        "resource.script"
+      ],
+      "files_total": 2
+    },
+    "steamwrapstorestats": {
+      "calls": 3,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectanimationcyclenamebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectcimovablebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\unit.script",
+        "units\\building.inc\\doprogressorders.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectintervalfactorbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\unit.script",
+        "progress\\progress.inc\\nothing.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectcollisionexecasfuncbyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectswitchtostatebyhandle": {
+      "calls": 3,
+      "files": [
+        "lib\\weapon.script",
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 2
+    },
+    "resetpatternmap": {
+      "calls": 3,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectdefscalepropsbyhandle": {
+      "calls": 3,
+      "files": [
+        "common.inc\\dogenerate.inc",
+        "common.inc\\generatemap.inc",
+        "common.inc\\texturemap.inc"
+      ],
+      "files_total": 3
+    },
+    "setrandomextkey64": {
+      "calls": 3,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "clearenemyplayersbyhandle": {
+      "calls": 3,
+      "files": [
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 3
+    },
+    "clearfriendplayersbyhandle": {
+      "calls": 3,
+      "files": [
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 3
+    },
+    "setplayercontrolmodebyhandle": {
+      "calls": 3,
+      "files": [
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 1
+    },
+    "mapgettileblockbytileindex": {
+      "calls": 3,
+      "files": [
+        "common.inc\\loadtextureterrainfrombitmap.inc",
+        "common.inc\\smoothtiles.inc"
+      ],
+      "files_total": 2
+    },
+    "setbitmapsize": {
+      "calls": 3,
+      "files": [
+        "common.inc\\postprocess.inc",
+        "common.inc\\saveenvironmenttobitmap.inc"
+      ],
+      "files_total": 2
+    },
+    "savebitmap": {
+      "calls": 3,
+      "files": [
+        "common.inc\\postprocess.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmymaterialname": {
+      "calls": 3,
+      "files": [
+        "env\\env.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyanimationcontrolerenabled": {
+      "calls": 3,
+      "files": [
+        "misc\\ballon.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 3
+    },
+    "resetgameobjectprevstatestagbyhandle": {
+      "calls": 3,
+      "files": [
+        "misc\\ballon.inc\\initial.inc",
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 3
+    },
+    "gameobjectchangeuniqidbyhandle": {
+      "calls": 3,
+      "files": [
+        "misc\\projectile.inc\\freetopoolnext.inc",
+        "units\\global.inc\\readproj.inc",
+        "units\\global.inc\\writeproj.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjectcustomboundingaabbbyhandle": {
+      "calls": 3,
+      "files": [
+        "misc\\projectile.inc\\initial.inc",
+        "misc\\projectile.inc\\initialempty.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 3
+    },
+    "setgameobjecttrackpointcurrentpointindexbyhandle": {
+      "calls": 3,
+      "files": [
+        "progress\\progress.inc\\nothing.inc",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectcimaxdistkoefbyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectcirotationspeedbyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectcistuckanglebyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectciepsilonanglebyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectciepsilonshiftbyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectciepsilonmovebyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectcidistextpointepsilonbyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectciavoidpointmaxanglebyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectcimaxcollidecounterbyhandle": {
+      "calls": 3,
+      "files": [
+        "units\\building.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "applyplayerstretchbrush": {
+      "calls": 2,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getplayerstretchbrushgroupscount": {
+      "calls": 2,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getplayerstretchbrushgrouphandlebyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\ai.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getcameraabsoluteposition": {
+      "calls": 2,
+      "files": [
+        "lib\\control.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectraycastbyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\control.script"
+      ],
+      "files_total": 1
+    },
+    "getfowlosdata": {
+      "calls": 2,
+      "files": [
+        "lib\\control.script",
+        "lib\\gui.script"
+      ],
+      "files_total": 2
+    },
+    "camerainfosavewithproperties": {
+      "calls": 2,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "setcameradepthofview": {
+      "calls": 2,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "setgroupenabledbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupgetminxbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\group.script",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 2
+    },
+    "getguielementtopindexbyname": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguivalue": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setintvaluebyname": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "addnewelementparent": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementlogicpositionrect": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementhoverenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "formatgetjusttextwithouttags": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "removeguichildren": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfadeautodestroy": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfadeinenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfadeoutenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfreezeenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfadingtimes": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementfadestart": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementpositionx": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementchildrencount": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementchildrenbyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementeditfilter": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementvscroll": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguiscrollenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguilistboxtopindex": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "guilistboxclearsilent": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "getguicomboboxlistboxhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementlogicwidth": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxitemindexsilent": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementheight": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguicursorbyname": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguiminimapvisible": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "setguielementfocusedhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundradiuses": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc"
+      ],
+      "files_total": 2
+    },
+    "getpossoundmanagerlistenerasobject": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc"
+      ],
+      "files_total": 2
+    },
+    "setpossoundmanagerlistenerasobject": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script",
+        "progress\\progress.inc\\soundcontrol.inc"
+      ],
+      "files_total": 2
+    },
+    "getguielementfadestarted": {
+      "calls": 2,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setterrainbordersenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\init.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 2
+    },
+    "newmap": {
+      "calls": 2,
+      "files": [
+        "lib\\init.script",
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 2
+    },
+    "editorprofmanagercreateprofiler": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "editorprofilerbegin": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "editorprofilerend": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getplayerracetagbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script",
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "groupsetpickedbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getpatternmaskwidth": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getpatternmaskheight": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getpatternoffsetx": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getpatternoffsetz": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getpatternmaskstand": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getpatterninvmaskstand": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "addfowobjects": {
+      "calls": 2,
+      "files": [
+        "lib\\misc.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectcountcollidedobjectsbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext.script",
+        "misc\\projectile.inc\\doexplode.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectplayerhandlebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectstatecollisionobjectbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 2
+    },
+    "gameobjectgetactornamebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\movie.script"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectabsolutepositionbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 2
+    },
+    "setplayerprogresssectiononreachedfuncbyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "guilistboxadditem": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxtopindex": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "langetclientidbyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "guigrouphudcollectiondeletegameobject": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script",
+        "env\\env.inc\\ondestroy.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectuncollidedstatenamebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectrulecollidedexecfrbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectrulecollidedexecenbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectrulecollidedexecnlbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setvsyncmode": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "evaluatefilethread": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "modlibrarygetparser": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "steamprepareworkshop": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script",
+        "resource.script"
+      ],
+      "files_total": 2
+    },
+    "steamsyncworkshopitems": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script",
+        "resource.script"
+      ],
+      "files_total": 2
+    },
+    "setprogressplayersthread": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectracenamebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script",
+        "units\\global.inc\\writesync.inc"
+      ],
+      "files_total": 2
+    },
+    "setobjectbasedvisibilityculling": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "setvisibilityculling": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "setshadowmaplightdepth": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "setshadowmapsize": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectresetandpitchturnrollbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script",
+        "lib\\weapon.script"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectframeanimationdatabyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\movie.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "gettagobjectbystatemachine": {
+      "calls": 2,
+      "files": [
+        "lib\\net.script"
+      ],
+      "files_total": 1
+    },
+    "getbehaviourintproperty": {
+      "calls": 2,
+      "files": [
+        "lib\\pfx.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectpitchanglebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\pfx.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectturnanglebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\pfx.script"
+      ],
+      "files_total": 1
+    },
+    "addfowplayers": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectraycastintersectenabledbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "gameobjectsetframeanimationbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "setplayerprogressonlanbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 2
+    },
+    "setplayerprogressoneditbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "common.inc\\initmaphistoricalbattle.inc"
+      ],
+      "files_total": 2
+    },
+    "groupsetdirectposanddirbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 2
+    },
+    "getplayercountofgroupsbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "getgrhandlebyplayerhandlebyindex": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectlodactornamebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\player.script",
+        "env\\env.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "parsergetkeyname": {
+      "calls": 2,
+      "files": [
+        "lib\\profile.script",
+        "resource.script"
+      ],
+      "files_total": 2
+    },
+    "getairegionenabledbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "airegiondoscanobjectsextbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegionenabledbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "statemachineloadfromfile": {
+      "calls": 2,
+      "files": [
+        "lib\\scenario.script",
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 2
+    },
+    "setsndsoundrandomoffset": {
+      "calls": 2,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundmaxradius": {
+      "calls": 2,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "getsndambientthreadsetplaying": {
+      "calls": 2,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "setsndambientthreadresetcurrentdelay": {
+      "calls": 2,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetachievementdisplayattribute": {
+      "calls": 2,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "setlogfileenabled": {
+      "calls": 2,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetsteamuilanguage": {
+      "calls": 2,
+      "files": [
+        "lib\\steam.script",
+        "resource.script"
+      ],
+      "files_total": 2
+    },
+    "steamwrapisloggedon": {
+      "calls": 2,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectgrhandlebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script",
+        "misc\\projectile.inc\\onafterload.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectdecalhandlebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script",
+        "misc\\projectile.inc\\dodeath.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjecttrackpointmovementmodebyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "gameobjectsetuprotatingtodirectionbyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "reloadgameobjectproperties": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script",
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectuseidentitymatrix": {
+      "calls": 2,
+      "files": [
+        "lib\\unit.script",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "getbehaviourboolproperty": {
+      "calls": 2,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectcollisionprioritybyhandle": {
+      "calls": 2,
+      "files": [
+        "lib\\weapon.script",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "fileage": {
+      "calls": 2,
+      "files": [
+        "resource.script"
+      ],
+      "files_total": 1
+    },
+    "editorformclear": {
+      "calls": 2,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "mapworldupdateterraindata": {
+      "calls": 2,
+      "files": [
+        "common.inc\\initmap.inc",
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 2
+    },
+    "parsercopyfrombyhandle": {
+      "calls": 2,
+      "files": [
+        "common.inc\\initmapgen.inc"
+      ],
+      "files_total": 1
+    },
+    "addlocaletablelist": {
+      "calls": 2,
+      "files": [
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 1
+    },
+    "setbitmapformat": {
+      "calls": 2,
+      "files": [
+        "common.inc\\postprocess.inc",
+        "common.inc\\saveenvironmenttobitmap.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmystatemachineinterval": {
+      "calls": 2,
+      "files": [
+        "env\\env.inc\\initial.inc",
+        "units\\unit.inc\\deathstage1.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmycurrentframe": {
+      "calls": 2,
+      "files": [
+        "misc\\movearrow.inc\\initial.inc",
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 2
+    },
+    "getgameobjectmycollidedgohandle": {
+      "calls": 2,
+      "files": [
+        "misc\\projectile.inc\\doexplode.inc",
+        "misc\\projectile.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "behaviourclearrequested": {
+      "calls": 2,
+      "files": [
+        "misc\\projectile.inc\\freetopool.inc",
+        "misc\\projectile.inc\\nothing.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmyvisible": {
+      "calls": 2,
+      "files": [
+        "misc\\projectile.inc\\freetopool.inc",
+        "misc\\projectile.inc\\initialempty.inc"
+      ],
+      "files_total": 2
+    },
+    "gameobjectswitchtoframeanimationblendbyhandle": {
+      "calls": 2,
+      "files": [
+        "units\\building.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectstartframebyhandle": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointskippoints": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\initial.inc",
+        "units\\unit.inc\\onendpointreached.inc"
+      ],
+      "files_total": 2
+    },
+    "setgameobjectmycollidedstatename": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyuncollidedstatename": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectmytrackpointcoordsbyindex": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\nothing.inc",
+        "units\\unit.inc\\onendpointreached.inc"
+      ],
+      "files_total": 2
+    },
+    "gameobjectmysetuprotatingtodirection": {
+      "calls": 2,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "slogicfrmrotatesetusepointformation": {
+      "calls": 1,
+      "files": [
+        "lib\\ai.script"
+      ],
+      "files_total": 1
+    },
+    "slogicfrmrotatesetuselinesformation": {
+      "calls": 1,
+      "files": [
+        "lib\\ai.script"
+      ],
+      "files_total": 1
+    },
+    "getstretchbrushdirbyangle": {
+      "calls": 1,
+      "files": [
+        "lib\\ai.script"
+      ],
+      "files_total": 1
+    },
+    "getgroupuncollidedpositionbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\ai.script"
+      ],
+      "files_total": 1
+    },
+    "getcamerafrustumquadrangle": {
+      "calls": 1,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "getguifontcharwidth": {
+      "calls": 1,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "getguifontcharoffsetx": {
+      "calls": 1,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "guiminimapprimitivesclear": {
+      "calls": 1,
+      "files": [
+        "lib\\control.script"
+      ],
+      "files_total": 1
+    },
+    "setplayerhandleinterfaceio": {
+      "calls": 1,
+      "files": [
+        "lib\\control.script"
+      ],
+      "files_total": 1
+    },
+    "getgroupmovementgameobjectscountbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupsetminxbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupsetminybyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupsetoffsetxbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupsetoffsetybyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridsetcolumnsbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "setplayerstretchbrushgroupcols": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "setminmaxgridcols": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridrebuildextdefaultbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridinitialize": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridsetgameobjecthandleposition": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "getplayerstretchbrushgrouprows": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "getplayerstretchbrushgroupcols": {
+      "calls": 1,
+      "files": [
+        "lib\\group.script"
+      ],
+      "files_total": 1
+    },
+    "addnewelementtopbyclassname": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguiintvalue": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "formathextocolor4": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "formathextocolor3": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "formatcolortohex4": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guiinvalidateparentpositions": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementalignposition": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getregisterguishortcut": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementhalign": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementvalign": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guiprepareload": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getviewerwidth": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getviewerheight": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementcursorbyindex": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguiscrollbarposition": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementwidth": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementstringtag": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setguielementmaxtextlength": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementenabled": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guiinvalidatechildrenpositions": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guiupdateelementundermouse": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guiinvokemousemove": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "parserfindchildindexbyequalchildkey": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "guistoreelementtofile": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getsndambientthreadsoundvolume": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "effecthighlightgetorcreate": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "getguielementuserblend": {
+      "calls": 1,
+      "files": [
+        "lib\\gui.script"
+      ],
+      "files_total": 1
+    },
+    "setdatetimemanagerenabled": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setterrainraycastprecison": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "parsergetvaluebyindex": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "parserfree": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequeriesclear": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setusesoundmanagerlistenerasobject": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setusesoundmanagerlistenerascamera": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setabssoundmanagerlistenerasobject": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "modlibrarygetdata": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setterraincolormode": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setgamemanagerselectionsettings": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setstretchbrushusegrid": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setrecordgroupenabled": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "lansetnodelayoption": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "lansetsenddatathreadenabled": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setmapuseuniqnullindex": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setpatternplayername": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "guiminimapincludeplayersadd": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "setusezlib": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "settrackpointaddtracedist": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "lansetcusterrhandler": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "generatemaprandkey": {
+      "calls": 1,
+      "files": [
+        "lib\\map.script"
+      ],
+      "files_total": 1
+    },
+    "gethandleeditmanagerpickedobjects": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "effectcreate": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "creategroupbyplhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "setgroupnorebuildcmdsbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectraycastcustaabbbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "removegroupbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "setterrainbordersvisible": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "setprojectoptionasboolean": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "userprofileloadmap": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "movefilestream": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getprogressingpausemode": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "userprofilesavemap": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "standpatternwithangle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "parsergetparent": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getlibmaterialtextureformat": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectlibmaterialbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectuniform4fbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getcamerarestrictinfo": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getcamerafreerotationinfo": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectisvolumeclippedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectcollidedgohandlebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectanimationmodeintbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectstarrowanglelastbytebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "gettilename": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "reloadgameobjectbasename": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "setseasontype": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectmaterialnamebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "getmapneeded": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setmapneeded": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setguiminimapprimitivetag": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setguiminimapprimitiveblink": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setguiminimapprimitivevisible": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "projectloadpfxmaterial": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "projectloadlodactorsandmaterials": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getplayerprogresssectioncount": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getguilistboxitemindex": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getguiwrappedtextformatbyfont": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "setguilistboxitemindex": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetsteamidacc": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lankillclient": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lansrvsetmapfile": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "processestoparserstruct": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "steamworkshopcallback": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getwin32videocontrollerinfo": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "getperformanceview": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "userprofileloadreplay": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lanpublicserverclientstoparser": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lanpublicserversessionstoparser": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "parsersetintvaluebyindex": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "parsergetintvaluebyindexbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "findgameobjectbyuniqid": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "lancreategame": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext3.script"
+      ],
+      "files_total": 1
+    },
+    "lanjoingame": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext3.script"
+      ],
+      "files_total": 1
+    },
+    "langetcusterrcode": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext3.script"
+      ],
+      "files_total": 1
+    },
+    "lansetcusterrcode": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext3.script"
+      ],
+      "files_total": 1
+    },
+    "setcameramarkobjectbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "setcameramovetomarkobject": {
+      "calls": 1,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "guielementbringtofront": {
+      "calls": 1,
+      "files": [
+        "lib\\movie.script"
+      ],
+      "files_total": 1
+    },
+    "setrecordenabled": {
+      "calls": 1,
+      "files": [
+        "lib\\net.script"
+      ],
+      "files_total": 1
+    },
+    "isplayerbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\net.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectgetorcreateeffectfxsourcebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\pfx.script"
+      ],
+      "files_total": 1
+    },
+    "setfowdovfunc": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setfowenable": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setplayerglobalbeforesavestatename": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setplayerglobalafterloadstatename": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setplayergroupsbeforesavestatename": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setplayergroupsafterloadstatename": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "createplayer": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getplayerracenamebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "exchangeplayerindex": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getplayercontrolmodeintbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setplayercontrolmodeintbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setgroupstatetargetpositionbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getgroupnamebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getgametime": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjecttrackpointmovestepintervalbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjecttrackpointmovestepintervalbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjecttrackpointturnstepintervalbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjecttrackpointturnstepintervalbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectvirtualturnbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "setlocaletablefilename": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "setlocaletablelistfilename": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "setguifontcollectionfilename": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetearliestpurchaseunixtime": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "setclipcursor": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "statemachineglobalvariablesloadfromstack": {
+      "calls": 1,
+      "files": [
+        "lib\\profile.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequeriescount": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequeriesdelete": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequeriesgetoraddbyid": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequerygetresults": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultscount": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsdelete": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequerysettable": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequerysetkey": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachinequeryseticon": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsgetoraddbyid": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsettable": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsetkey": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsetnextquery": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsettaginteger": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "querymachineresultsettagfloat": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "createairegion": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegionscanmodebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegiononincludebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegionondecludebyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "setairegionexecuteasfuncbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "statemachinesetintvaluebyname": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "guidelayexecutestate": {
+      "calls": 1,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "deleteairegionbyindex": {
+      "calls": 1,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "strtolowercase": {
+      "calls": 1,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "writestring": {
+      "calls": 1,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "readstring": {
+      "calls": 1,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "seekstring": {
+      "calls": 1,
+      "files": [
+        "lib\\serial.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundloop": {
+      "calls": 1,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "setsndsoundfadeplaying": {
+      "calls": 1,
+      "files": [
+        "lib\\sound.script"
+      ],
+      "files_total": 1
+    },
+    "getgroupstatetargetpositionxbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "getgroupstatetargetpositionzbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "groupfastcalccentralpositionbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "groupgetcentralpositionxbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "groupgetcentralpositionzbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridsetgridformatbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\squad.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetachievement": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapsetachievement": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapclearachievement": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapsetprogresscallbacks": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapissteamrunning": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapwarningmessagehooktolog": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetappid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetipcountry": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetsteamuser": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetsteamid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetaccountidfromsteamid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetaccountinstancefromsteamid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetaccounttypefromsteamid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetuniversefromsteamid": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapuserhaslicenseforapp": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapisbehindnat": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetplayersteamlevel": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapfriendsgetplayernickname": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetcurrentbetaname": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwraprequestcurrentstats": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetnumachievements": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetachievementname": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapsetstatint32": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetstatint32": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapsetstatfloat": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "steamwrapgetstatfloat": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "windowsregistryreadstring": {
+      "calls": 1,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "groupremovegameobjectbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectactorindexbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectcollisionmaskreflectbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectpfxclearbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectanimationcontrolerenabledbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstatestartcyclesreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstateendcyclesreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstatefbendcyclesreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstatedirectionreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstateendpointreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectonstatecollectingpointreachedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectsetuprotatingtotargetbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectrootsetupidentityrectransformationbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjecteffectbehaviourbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectusecusttransformedbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "vectorrotateaxis": {
+      "calls": 1,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "setupthrowbehaviourspeed": {
+      "calls": 1,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "gameobjectpitchbyhandle": {
+      "calls": 1,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "baseobjecteffectcreatewithkey": {
+      "calls": 1,
+      "files": [
+        "lib\\weapon.script"
+      ],
+      "files_total": 1
+    },
+    "projectloadlodactor": {
+      "calls": 1,
+      "files": [
+        "common.inc\\dogenerate.inc"
+      ],
+      "files_total": 1
+    },
+    "plateauterrain": {
+      "calls": 1,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "smoothterrain": {
+      "calls": 1,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "waterfieldadd": {
+      "calls": 1,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "indexoflocaletablelist": {
+      "calls": 1,
+      "files": [
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 1
+    },
+    "deletelocaletablelist": {
+      "calls": 1,
+      "files": [
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 1
+    },
+    "gameobjectmyswitchtoframeanimation": {
+      "calls": 1,
+      "files": [
+        "misc\\movearrow.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "effectclearrequested": {
+      "calls": 1,
+      "files": [
+        "misc\\projectile.inc\\freetopool.inc"
+      ],
+      "files_total": 1
+    },
+    "octreeraycastintersect": {
+      "calls": 1,
+      "files": [
+        "misc\\projectile.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "gameobjecttrackpointinsertbyhandle": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjecttrackpointskippointsbyhandle": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectstatetargetpositionybyhandle": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "setplayerprogresssectionmax": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "getperfrender": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectstatemachineactivebyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmystatemachineactive": {
+      "calls": 1,
+      "files": [
+        "units\\building.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridrebuildextbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridgetcolumnsbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 1
+    },
+    "groupgameobjectsgridgetrowsbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 1
+    },
+    "getgroupgameobjecthandlebygridcolrow": {
+      "calls": 1,
+      "files": [
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectminframeblendbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmaxframeblendbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectcibuildextpointsbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectcimaxprocessobjectbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointmovestep": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjecttrackpointonstatepresetswitchreached": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyonstatedistancetopoint": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointuseanimationcycles": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointanimationnames": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectendframebyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointmovestepinterval": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointturnstepinterval": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointskipquadtree": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointskipfactor": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmytrackpointskipepsilon": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectbvtestenabledbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectbvtestshpereradiusbyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmycollisionexecasfunc": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyrulecollidedexecfr": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyrulecollidedexecen": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyrulecollidedexecnl": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\initial.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmypicked": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyonstatestartcyclesreached": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyonstatefbendcyclesreached": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmyonstatecollectingpointreached": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "gameobjectmyroll": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "getgameobjectstatestagupdatestobyhandle": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "gameobjectmysetuprotatingtotarget": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    },
+    "setgameobjectmystatestagdirect": {
+      "calls": 1,
+      "files": [
+        "units\\unit.inc\\ontagstates.inc"
+      ],
+      "files_total": 1
+    }
+  },
+  "pascal_type_casts": {
+    "tobj": {
+      "calls": 2050,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\gui.script",
+        "lib\\misc.script"
+      ],
+      "files_total": 53
+    },
+    "tsquad": {
+      "calls": 615,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\control.script",
+        "lib\\group.script",
+        "lib\\gui.script"
+      ],
+      "files_total": 27
+    },
+    "tarmy": {
+      "calls": 511,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 12
+    },
+    "tobjprop": {
+      "calls": 392,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\group.script",
+        "lib\\misc.script",
+        "lib\\miscext.script"
+      ],
+      "files_total": 23
+    },
+    "tscenariotriggeraction": {
+      "calls": 286,
+      "files": [
+        "lib\\scenario.script",
+        "progress\\progress.inc\\writescenario.inc"
+      ],
+      "files_total": 2
+    },
+    "tplayerargs": {
+      "calls": 188,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 12
+    },
+    "tarmyinfo": {
+      "calls": 172,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\serial.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 5
+    },
+    "tintegerlist": {
+      "calls": 166,
+      "files": [
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 28
+    },
+    "twallcell": {
+      "calls": 138,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 8
+    },
+    "torderinfo": {
+      "calls": 133,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\building.inc\\doprogressorders.inc",
+        "units\\building.inc\\ondeath.inc"
+      ],
+      "files_total": 6
+    },
+    "tenemyinfo": {
+      "calls": 125,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\serial.script"
+      ],
+      "files_total": 7
+    },
+    "tres": {
+      "calls": 75,
+      "files": [
+        "lib\\ai.script",
+        "lib\\control.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script"
+      ],
+      "files_total": 15
+    },
+    "tscenariotriggercondition": {
+      "calls": 74,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "twallcluster": {
+      "calls": 64,
+      "files": [
+        "lib\\classes.script",
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 8
+    },
+    "tobjbase": {
+      "calls": 61,
+      "files": [
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 7
+    },
+    "tinternetshellclient": {
+      "calls": 60,
+      "files": [
+        "lib\\classes.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "tscenariotrigger": {
+      "calls": 57,
+      "files": [
+        "lib\\scenario.script",
+        "progress\\progress.inc\\scenario.inc",
+        "progress\\progress.inc\\writescenario.inc"
+      ],
+      "files_total": 3
+    },
+    "tweapon": {
+      "calls": 41,
+      "files": [
+        "lib\\weapon.script",
+        "misc\\projectile.inc\\doexplode.inc",
+        "misc\\projectile.inc\\doexplodecustom.inc"
+      ],
+      "files_total": 3
+    },
+    "topologygetzoneindex": {
+      "calls": 40,
+      "files": [
+        "lib\\ai.script",
+        "lib\\misc.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 6
+    },
+    "ttopzone": {
+      "calls": 40,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 6
+    },
+    "tproj": {
+      "calls": 38,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "lib\\weapon.script",
+        "common.inc\\onloadfull.inc"
+      ],
+      "files_total": 4
+    },
+    "torder": {
+      "calls": 37,
+      "files": [
+        "lib\\unit.script",
+        "units\\global.inc\\checkerrors.inc",
+        "units\\global.inc\\progresseconomicai.inc",
+        "units\\global.inc\\readmove.inc",
+        "units\\global.inc\\writemove.inc"
+      ],
+      "files_total": 6
+    },
+    "taiprotectedbuilding": {
+      "calls": 35,
+      "files": [
+        "lib\\classes.script",
+        "lib\\player.script",
+        "lib\\serial.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 5
+    },
+    "taidata": {
+      "calls": 30,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "tinternetshellsession": {
+      "calls": 29,
+      "files": [
+        "lib\\classes.script",
+        "lib\\miscext2.script",
+        "lib\\miscext3.script"
+      ],
+      "files_total": 3
+    },
+    "tcampaignprogress": {
+      "calls": 25,
+      "files": [
+        "lib\\misc.script",
+        "lib\\scenario.script"
+      ],
+      "files_total": 2
+    },
+    "topologysetzoneneedpathbyindex": {
+      "calls": 23,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "tinternetshellranking": {
+      "calls": 22,
+      "files": [
+        "lib\\classes.script"
+      ],
+      "files_total": 1
+    },
+    "tgridlist": {
+      "calls": 22,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "tsteamachievement": {
+      "calls": 22,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "ttower": {
+      "calls": 20,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "topologygetzonebufferbyindex": {
+      "calls": 19,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\player.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 6
+    },
+    "topologygetzonecenterbyindex": {
+      "calls": 17,
+      "files": [
+        "units\\global.inc\\progresswarai.inc",
+        "units\\unit.inc\\sailtodestroy.inc"
+      ],
+      "files_total": 2
+    },
+    "ttmp": {
+      "calls": 16,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "twritenewrequest": {
+      "calls": 16,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "tcountryupgrade": {
+      "calls": 15,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "taiidea": {
+      "calls": 14,
+      "files": [
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 1
+    },
+    "tuniqupgrade": {
+      "calls": 13,
+      "files": [
+        "lib\\ai.script",
+        "lib\\classes.script",
+        "units\\global.inc\\progresseconomicai.inc"
+      ],
+      "files_total": 3
+    },
+    "tbaseobj": {
+      "calls": 13,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext.script",
+        "lib\\miscext2.script",
+        "lib\\res.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 7
+    },
+    "topologygetzonetrackpointscountbyindex": {
+      "calls": 11,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "timelog": {
+      "calls": 10,
+      "files": [
+        "lib\\gui.script",
+        "lib\\miscext2.script",
+        "common.inc\\dogenerate.inc",
+        "common.inc\\initmap.inc",
+        "progress\\progress.inc\\soundcontrol.inc"
+      ],
+      "files_total": 6
+    },
+    "tlibeffects": {
+      "calls": 9,
+      "files": [
+        "lib\\pfx.script",
+        "units\\unit.inc\\onaclanimationreachedattack.inc"
+      ],
+      "files_total": 2
+    },
+    "taibuildingproject": {
+      "calls": 9,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetzoneconnectionscountbyindex": {
+      "calls": 8,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "topologygetzoneconnectionbyindex": {
+      "calls": 8,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "topologysetzonecheckedbyindex": {
+      "calls": 8,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script"
+      ],
+      "files_total": 2
+    },
+    "topologygetzonetrackpointcoordsbyindex": {
+      "calls": 7,
+      "files": [
+        "lib\\misc.script",
+        "lib\\player.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "topologygetpathtozone": {
+      "calls": 7,
+      "files": [
+        "lib\\misc.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "tlibeffect": {
+      "calls": 7,
+      "files": [
+        "lib\\pfx.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetzonecheckedbyindex": {
+      "calls": 6,
+      "files": [
+        "lib\\misc.script",
+        "lib\\miscext2.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "tscenarioquery": {
+      "calls": 6,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "tsoundgrid": {
+      "calls": 6,
+      "files": [
+        "lib\\sound.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "topologygetzonesgraphdist": {
+      "calls": 5,
+      "files": [
+        "lib\\ai.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "topologygetzoneneedpathbyindex": {
+      "calls": 5,
+      "files": [
+        "lib\\misc.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "tscenarioresult": {
+      "calls": 5,
+      "files": [
+        "lib\\scenario.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetzoneregionbyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\ai.script",
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 4
+    },
+    "topologygetzoneconnectiondistbyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "lib\\unit.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 3
+    },
+    "topologygetzoneneighbourscountbyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "units\\global.inc\\progresswarai.inc",
+        "units\\unit.inc\\sailtodestroy.inc"
+      ],
+      "files_total": 3
+    },
+    "topologygetzoneneighbourbyindex": {
+      "calls": 4,
+      "files": [
+        "lib\\misc.script",
+        "units\\global.inc\\progresswarai.inc",
+        "units\\unit.inc\\sailtodestroy.inc"
+      ],
+      "files_total": 3
+    },
+    "tsteamid": {
+      "calls": 4,
+      "files": [
+        "lib\\steam.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetzonespath": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "topologygetpathdistance": {
+      "calls": 3,
+      "files": [
+        "lib\\ai.script",
+        "lib\\unit.script"
+      ],
+      "files_total": 2
+    },
+    "tracelinequadtree": {
+      "calls": 2,
+      "files": [
+        "lib\\ai.script",
+        "units\\global.inc\\progresswarai.inc"
+      ],
+      "files_total": 2
+    },
+    "topologygetzoneindexbyarrayindices": {
+      "calls": 2,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "tobjweaponstatic": {
+      "calls": 2,
+      "files": [
+        "lib\\weapon.script",
+        "units\\unit.inc\\onaclanimationreachedattack.inc"
+      ],
+      "files_total": 2
+    },
+    "tptrlist": {
+      "calls": 2,
+      "files": [
+        "units\\global.inc\\writesquadlistaction.inc"
+      ],
+      "files_total": 1
+    },
+    "topologysettopologypriority": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetpathpriority": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetpossearchradius": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetbuffersize": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetconnectionradius": {
+      "calls": 1,
+      "files": [
+        "lib\\init.script"
+      ],
+      "files_total": 1
+    },
+    "topologyupdate": {
+      "calls": 1,
+      "files": [
+        "lib\\misc.script"
+      ],
+      "files_total": 1
+    },
+    "tracelinequadtreeext": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetzoneextents": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetzonesize": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetmaxzonesize": {
+      "calls": 1,
+      "files": [
+        "lib\\miscext2.script"
+      ],
+      "files_total": 1
+    },
+    "topologysetzoneweightbyindex": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetweightpathfromzone": {
+      "calls": 1,
+      "files": [
+        "lib\\player.script"
+      ],
+      "files_total": 1
+    },
+    "topologygetpositioninregion": {
+      "calls": 1,
+      "files": [
+        "lib\\unit.script"
+      ],
+      "files_total": 1
+    },
+    "terrainupdate": {
+      "calls": 1,
+      "files": [
+        "common.inc\\generatemap.inc"
+      ],
+      "files_total": 1
+    },
+    "timelogreset": {
+      "calls": 1,
+      "files": [
+        "common.inc\\initmap.inc"
+      ],
+      "files_total": 1
+    },
+    "triggermanageradd": {
+      "calls": 1,
+      "files": [
+        "common.inc\\onload.inc"
+      ],
+      "files_total": 1
+    },
+    "topologyaddpathgameobjectbyhandle": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    },
+    "topologygetpathext": {
+      "calls": 1,
+      "files": [
+        "progress\\progress.inc\\nothing.inc"
+      ],
+      "files_total": 1
+    }
+  },
+  "dws_builtins_seen": {
+    "inttostr": 858,
+    "floor": 423,
+    "sizeof": 341,
+    "min": 163,
+    "round": 152,
+    "abs": 102,
+    "floattostr": 89,
+    "max": 74,
+    "sqr": 66,
+    "clamp": 53,
+    "strtoint": 39,
+    "pointerof": 30,
+    "setrandomkey": 21,
+    "sqrt": 19,
+    "cos": 8,
+    "sin": 8,
+    "delete": 7,
+    "arctan": 4,
+    "ln": 3,
+    "assigned": 2,
+    "exp": 1
+  },
+  "unused_defs_sample": [
+    "_ai_armybitvalink",
+    "_ai_armydisband",
+    "_ai_armyordertransport",
+    "_ai_dotowers",
+    "_ai_enemyhasnoarmor",
+    "_ai_getarmycentralposition",
+    "_ai_getarmyisland",
+    "_ai_getartilleryenemyzone",
+    "_ai_getcloseminewithresid",
+    "_ai_getenemyarmyisland",
+    "_ai_getmineupgrade",
+    "_ai_getoldportpos",
+    "_ai_getportpos",
+    "_ai_gettopdanger",
+    "_ai_isteamai",
+    "_ai_iswarlandunit",
+    "_ai_iswaterbattlearmy",
+    "_ai_upgrademine",
+    "_control_createmovearrow",
+    "_control_getgamespeedmode",
+    "_control_getmovecameratopositionoffset",
+    "_control_getselectioninfo",
+    "_control_getunitundercursor",
+    "_control_isbuildingexistsinselection",
+    "_control_isnonguardexistsinselection",
+    "_control_isunitexistsinselection",
+    "_control_movecameratoselectedunits",
+    "_control_prepareunitundercursorlist",
+    "_control_selectallpeasants",
+    "_control_selectallships",
+    "_control_selectallunits",
+    "_control_selectidlemines",
+    "_control_selectidlepeasants",
+    "_country_getfixedproducebuildindexbysid",
+    "_country_getunitsidbysidmask",
+    "_country_getunitsidmaskbysid",
+    "_country_getupgradesidbysidmask",
+    "_country_initall",
+    "_country_initobjcustom",
+    "_country_initwallcustompoints",
+    "_group_addorder",
+    "_group_getshiftbydir",
+    "_group_isstand",
+    "_gui_converttcolortotextcolor",
+    "_gui_createcomboboxold",
+    "_gui_createlistbox",
+    "_gui_createlistbox_old",
+    "_gui_createmainwindow",
+    "_gui_createmetalline",
+    "_gui_createpaperwindow"
+  ]
+}

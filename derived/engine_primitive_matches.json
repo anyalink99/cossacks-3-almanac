@@ -1,0 +1,1892 @@
+{
+  "stats": {
+    "total": 970,
+    "with_pascal_match": 31,
+    "with_ascii_match": 7,
+    "with_either": 35,
+    "with_neither": 935
+  },
+  "matches_with_hits": [
+    {
+      "name": "sizeof",
+      "calls": 341,
+      "files_total": 11,
+      "exact_pascal": [],
+      "exact_ascii": [
+        {
+          "rva": "0x0051f6ec",
+          "off": 1174252
+        }
+      ]
+    },
+    {
+      "name": "log",
+      "calls": 210,
+      "files_total": 35,
+      "exact_pascal": [
+        {
+          "rva": "0x008cdb98",
+          "off": 5033880
+        },
+        {
+          "rva": "0x00969da3",
+          "off": 5615523
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "tintegerlist",
+      "calls": 166,
+      "files_total": 28,
+      "exact_pascal": [
+        {
+          "rva": "0x004a8dec",
+          "off": 688620
+        },
+        {
+          "rva": "0x004a8e01",
+          "off": 688641
+        }
+      ],
+      "exact_ascii": [
+        {
+          "rva": "0x004a8ded",
+          "off": 688621
+        },
+        {
+          "rva": "0x004a8e02",
+          "off": 688642
+        }
+      ]
+    },
+    {
+      "name": "parsergetfloatvaluebykeybyhandle",
+      "calls": 115,
+      "files_total": 10,
+      "exact_pascal": [
+        {
+          "rva": "0x006e9469",
+          "off": 3049577
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsersetfloatvaluebykeybyhandle",
+      "calls": 68,
+      "files_total": 5,
+      "exact_pascal": [
+        {
+          "rva": "0x006e90f1",
+          "off": 3048689
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "substr",
+      "calls": 56,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": [
+        {
+          "rva": "0x008cf940",
+          "off": 5041472
+        },
+        {
+          "rva": "0x008cfaf8",
+          "off": 5041912
+        },
+        {
+          "rva": "0x008cfbe4",
+          "off": 5042148
+        }
+      ]
+    },
+    {
+      "name": "executestate",
+      "calls": 46,
+      "files_total": 32,
+      "exact_pascal": [],
+      "exact_ascii": [
+        {
+          "rva": "0x00767950",
+          "off": 3566928
+        }
+      ]
+    },
+    {
+      "name": "pointerof",
+      "calls": 30,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": [
+        {
+          "rva": "0x0051f708",
+          "off": 1174280
+        }
+      ]
+    },
+    {
+      "name": "raycastwater",
+      "calls": 15,
+      "files_total": 10,
+      "exact_pascal": [
+        {
+          "rva": "0x00613093",
+          "off": 2172051
+        }
+      ],
+      "exact_ascii": [
+        {
+          "rva": "0x00613094",
+          "off": 2172052
+        },
+        {
+          "rva": "0x006233fc",
+          "off": 2238460
+        },
+        {
+          "rva": "0x00623704",
+          "off": 2239236
+        },
+        {
+          "rva": "0x00623d1c",
+          "off": 2240796
+        },
+        {
+          "rva": "0x00623f74",
+          "off": 2241396
+        }
+      ]
+    },
+    {
+      "name": "getgroupcountgameobjectsbyhandle",
+      "calls": 13,
+      "files_total": 4,
+      "exact_pascal": [
+        {
+          "rva": "0x0065935d",
+          "off": 2459485
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "setbehaviouraffinevectorproperty",
+      "calls": 13,
+      "files_total": 4,
+      "exact_pascal": [
+        {
+          "rva": "0x006da7dd",
+          "off": 2989021
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectorientationbyhandle",
+      "calls": 11,
+      "files_total": 6,
+      "exact_pascal": [
+        {
+          "rva": "0x0062ea91",
+          "off": 2285201
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectorientationbyhandle",
+      "calls": 11,
+      "files_total": 7,
+      "exact_pascal": [
+        {
+          "rva": "0x0062e9f9",
+          "off": 2285049
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologygetzoneconnectionbyindex",
+      "calls": 8,
+      "files_total": 4,
+      "exact_pascal": [
+        {
+          "rva": "0x006a7579",
+          "off": 2779513
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getbehaviouraffinevectorproperty",
+      "calls": 5,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x006daa29",
+          "off": 2989609
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "addplayerstretchbrushgrouphandle",
+      "calls": 4,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x0068e3e1",
+          "off": 2676705
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguilistboxmousetrackfontcolor",
+      "calls": 4,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x0066ec61",
+          "off": 2547809
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectcideltastepbyhandle",
+      "calls": 4,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x00631cf1",
+          "off": 2298097
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectraycastaabbbyhandle",
+      "calls": 3,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x0063153d",
+          "off": 2296125
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "lanpublicserversendsessionparser",
+      "calls": 3,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x0068041d",
+          "off": 2619421
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "deleteplayerfriendplayerbyhandle",
+      "calls": 3,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x006919c1",
+          "off": 2690497
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayerstretchbrushgroupscount",
+      "calls": 2,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x0068e67d",
+          "off": 2677373
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgrhandlebyplayerhandlebyindex",
+      "calls": 2,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x0065959d",
+          "off": 2460061
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "airegiondoscanobjectsextbyhandle",
+      "calls": 2,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x006a1175",
+          "off": 2753909
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectdecalhandlebyhandle",
+      "calls": 2,
+      "files_total": 2,
+      "exact_pascal": [
+        {
+          "rva": "0x00632235",
+          "off": 2299445
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "tptrlist",
+      "calls": 2,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x004a9144",
+          "off": 689476
+        },
+        {
+          "rva": "0x004a9155",
+          "off": 689493
+        }
+      ],
+      "exact_ascii": [
+        {
+          "rva": "0x004a9145",
+          "off": 689477
+        },
+        {
+          "rva": "0x004a9156",
+          "off": 689494
+        }
+      ]
+    },
+    {
+      "name": "setgameobjectmycollidedstatename",
+      "calls": 2,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x0063ff15",
+          "off": 2355989
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectlibmaterialbyhandle",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x00633319",
+          "off": 2303769
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "projectloadlodactorsandmaterials",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x0069fc65",
+          "off": 2748517
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetintvaluebyindexbyhandle",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x006e973d",
+          "off": 3050301
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "setairegionexecuteasfuncbyhandle",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x006a1bf1",
+          "off": 2756593
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "groupgetcentralpositionxbyhandle",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x00659e69",
+          "off": 2462313
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "groupgetcentralpositionzbyhandle",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x00659f09",
+          "off": 2462473
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "steamwrapwarningmessagehooktolog",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x006f5281",
+          "off": 3098241
+        }
+      ],
+      "exact_ascii": []
+    },
+    {
+      "name": "steamwrapgetaccountidfromsteamid",
+      "calls": 1,
+      "files_total": 1,
+      "exact_pascal": [
+        {
+          "rva": "0x006f5d1d",
+          "off": 3100957
+        }
+      ],
+      "exact_ascii": []
+    }
+  ],
+  "no_hits_top": [
+    {
+      "name": "tobj",
+      "calls": 2050,
+      "files_total": 53,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tsquad",
+      "calls": 615,
+      "files_total": 27,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tarmy",
+      "calls": 511,
+      "files_total": 12,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tobjprop",
+      "calls": 392,
+      "files_total": 23,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "errorlog",
+      "calls": 387,
+      "files_total": 56,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tscenariotriggeraction",
+      "calls": 286,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayerhandlebyindex",
+      "calls": 270,
+      "files_total": 43,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectpositionxbyhandle",
+      "calls": 263,
+      "files_total": 34,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectpositionzbyhandle",
+      "calls": 263,
+      "files_total": 34,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getlocaletablelistitembyid",
+      "calls": 197,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tplayerargs",
+      "calls": 188,
+      "files_total": 12,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tarmyinfo",
+      "calls": 172,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "switchto",
+      "calls": 146,
+      "files_total": 145,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "twallcell",
+      "calls": 138,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "vectordistance",
+      "calls": 137,
+      "files_total": 24,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "torderinfo",
+      "calls": 133,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setbehaviourboolproperty",
+      "calls": 127,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tenemyinfo",
+      "calls": 125,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayerindexbyhandle",
+      "calls": 120,
+      "files_total": 44,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustomwriteinteger",
+      "calls": 111,
+      "files_total": 32,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "readinteger",
+      "calls": 106,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectuniqueidbyhandle",
+      "calls": 95,
+      "files_total": 47,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecthandlebyuniqueid",
+      "calls": 94,
+      "files_total": 42,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayergameobjectscountbyhandle",
+      "calls": 89,
+      "files_total": 31,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "writeinteger",
+      "calls": 87,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "strexists",
+      "calls": 86,
+      "files_total": 16,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setbehaviourfloatproperty",
+      "calls": 84,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguitextureheight",
+      "calls": 83,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetcountbyhandle",
+      "calls": 78,
+      "files_total": 13,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguitexturewidth",
+      "calls": 78,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "strreplace",
+      "calls": 76,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tres",
+      "calls": 75,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tscenariotriggercondition",
+      "calls": 74,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "maxfloat",
+      "calls": 73,
+      "files_total": 12,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "vectorrotatey",
+      "calls": 72,
+      "files_total": 17,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetintvaluebykeybyhandle",
+      "calls": 70,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstatestagbyhandle",
+      "calls": 68,
+      "files_total": 19,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parserselectbyhandlebykey",
+      "calls": 68,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecthandlebyindex",
+      "calls": 64,
+      "files_total": 18,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectplayerhandlebyhandle",
+      "calls": 64,
+      "files_total": 24,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "twallcluster",
+      "calls": 64,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tobjbase",
+      "calls": 61,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tinternetshellclient",
+      "calls": 60,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "seekinteger",
+      "calls": 59,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tscenariotrigger",
+      "calls": 57,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "statemachinegetargdatabyind",
+      "calls": 56,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getmapcollisiontag",
+      "calls": 55,
+      "files_total": 16,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguielementindexbynameparent",
+      "calls": 50,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetvaluebykeybyhandle",
+      "calls": 49,
+      "files_total": 14,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parserselectbyhandlebyindex",
+      "calls": 49,
+      "files_total": 13,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "playerexecutestatebyhandle",
+      "calls": 49,
+      "files_total": 14,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstohandlebyhandle",
+      "calls": 47,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "freemem",
+      "calls": 46,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementvisibleproperties",
+      "calls": 45,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "movemem",
+      "calls": 44,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "isfileexists",
+      "calls": 44,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectvisiblebyhandle",
+      "calls": 43,
+      "files_total": 22,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "mapdrawcollision",
+      "calls": 43,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsersetintvaluebykeybyhandle",
+      "calls": 43,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "booltostr",
+      "calls": 42,
+      "files_total": 20,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectaddnewchild",
+      "calls": 42,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "createplayergameobjecthandlebyhandle",
+      "calls": 41,
+      "files_total": 18,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayerstatemachinehandle",
+      "calls": 41,
+      "files_total": 13,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tweapon",
+      "calls": 41,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologygetzoneindex",
+      "calls": 40,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguielementheight",
+      "calls": 40,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "ttopzone",
+      "calls": 40,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "fillmem",
+      "calls": 39,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "strlength",
+      "calls": 39,
+      "files_total": 12,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustomwritefloat",
+      "calls": 39,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectbasenamebyhandle",
+      "calls": 38,
+      "files_total": 13,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tproj",
+      "calls": 38,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustomwriteboolean",
+      "calls": 38,
+      "files_total": 27,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectcountchildbyhandle",
+      "calls": 37,
+      "files_total": 17,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectgohandlechildbyhandle",
+      "calls": 37,
+      "files_total": 17,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "torder",
+      "calls": 37,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "strpos",
+      "calls": 36,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementalign",
+      "calls": 36,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setbehaviourstringproperty",
+      "calls": 36,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "taiprotectedbuilding",
+      "calls": 35,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getdelimiterstringbyindex",
+      "calls": 35,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguielementwidth",
+      "calls": 35,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustombegin",
+      "calls": 35,
+      "files_total": 34,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "addrtopointer",
+      "calls": 34,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectabsolutepositionbyhandle",
+      "calls": 34,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectpositionbyhandle",
+      "calls": 33,
+      "files_total": 15,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parseraddchildbyindex",
+      "calls": 33,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "isinrangeint",
+      "calls": 32,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "vectorlength",
+      "calls": 31,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "taidata",
+      "calls": 30,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tinternetshellsession",
+      "calls": 29,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parserloadfromfilebyhandle",
+      "calls": 29,
+      "files_total": 14,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "readboolean",
+      "calls": 29,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "writeboolean",
+      "calls": 28,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectplayableobjectbyhandle",
+      "calls": 27,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguielementfonttextformatrect",
+      "calls": 27,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "seekboolean",
+      "calls": 27,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "guiexecutestate",
+      "calls": 26,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectcollisionmaskvaluebyhandle",
+      "calls": 26,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getheightdata",
+      "calls": 26,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectpickedbyhandle",
+      "calls": 25,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "standpattern",
+      "calls": 25,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setbehaviourintproperty",
+      "calls": 25,
+      "files_total": 11,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tcampaignprogress",
+      "calls": 25,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstatetargetpositionxbyhandle",
+      "calls": 25,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectvisiblebyhandle",
+      "calls": 24,
+      "files_total": 12,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustomwritebyte",
+      "calls": 24,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "vectornormalize",
+      "calls": 23,
+      "files_total": 13,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getmem",
+      "calls": 23,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementallpositionrect",
+      "calls": 23,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetfilesinroot",
+      "calls": 23,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologysetzoneneedpathbyindex",
+      "calls": 23,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayerhandlebyname",
+      "calls": 23,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectexecutestatebyhandle",
+      "calls": 22,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tinternetshellranking",
+      "calls": 22,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "vectorangle",
+      "calls": 22,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsersavetofilebyhandle",
+      "calls": 22,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tgridlist",
+      "calls": 22,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "seekbuffer",
+      "calls": 22,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tsteamachievement",
+      "calls": 22,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "raycastheight",
+      "calls": 21,
+      "files_total": 14,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementuserblend",
+      "calls": 21,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsersetvaluebykeybyhandle",
+      "calls": 21,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstatetargetpositionzbyhandle",
+      "calls": 21,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "ttower",
+      "calls": 20,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectdestroybyhandle",
+      "calls": 20,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "lerp",
+      "calls": 20,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectpositionybyhandle",
+      "calls": 20,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectscalebyhandle",
+      "calls": 20,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectrequesttodestroybyhandle",
+      "calls": 20,
+      "files_total": 16,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gettypebasebytypename",
+      "calls": 20,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsercreate",
+      "calls": 19,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "minfloat",
+      "calls": 19,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologygetzonebufferbyindex",
+      "calls": 19,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "savestreamtypebase",
+      "calls": 19,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "mergestreamtypebase",
+      "calls": 19,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getstreamsizetypebase",
+      "calls": 19,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "seekstreamtypebase",
+      "calls": 19,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectscalexbyhandle",
+      "calls": 18,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecttrackpointcountbyhandle",
+      "calls": 18,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "addplayerenemyplayerbyhandle",
+      "calls": 18,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectcollisiondetectionbyhandle",
+      "calls": 18,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "writefloat",
+      "calls": 18,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "readfloat",
+      "calls": 18,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "seekfloat",
+      "calls": 18,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectmatrixbyhandle",
+      "calls": 18,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "mathceil",
+      "calls": 17,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstatemachinehandle",
+      "calls": 17,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementvisible",
+      "calls": 17,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologygetzonecenterbyindex",
+      "calls": 17,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "sametext",
+      "calls": 16,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parsergetboolvaluebykeybyhandle",
+      "calls": 16,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementmaterial",
+      "calls": 16,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectsinradius",
+      "calls": 16,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectlistbyindex",
+      "calls": 16,
+      "files_total": 10,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getplayergrhandlebyhandle",
+      "calls": 16,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectactornamebyhandle",
+      "calls": 16,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectresetframeanimationblend",
+      "calls": 16,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "ttmp",
+      "calls": 16,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "twritenewrequest",
+      "calls": 16,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguiscrollbuttonsource",
+      "calls": 15,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstarrowanglebyhandle",
+      "calls": 15,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tcountryupgrade",
+      "calls": 15,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getdelimiterstringcount",
+      "calls": 14,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementenabled",
+      "calls": 14,
+      "files_total": 2,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectstringpropertytag",
+      "calls": 14,
+      "files_total": 11,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectciintersectradiusbyhandle",
+      "calls": 14,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parserclearbyhandle",
+      "calls": 14,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecttrackpointcoordsbyindexbyhandle",
+      "calls": 14,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "taiidea",
+      "calls": 14,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tuniqupgrade",
+      "calls": 13,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "parserselectbykey",
+      "calls": 13,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "tbaseobj",
+      "calls": 13,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectrollbyhandle",
+      "calls": 13,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecttransformedvirtualdirectionxbyhandle",
+      "calls": 13,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjecttransformedvirtualdirectionzbyhandle",
+      "calls": 13,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "settileindex",
+      "calls": 13,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setperformanceview",
+      "calls": 13,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectmyplayableobject",
+      "calls": 13,
+      "files_total": 8,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "dec",
+      "calls": 12,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "recordcustomwriteword",
+      "calls": 12,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "addnewelementbyclassnameparent",
+      "calls": 12,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "sndgetorcreatesound",
+      "calls": 12,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "isinrange",
+      "calls": 12,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getmapcollisiontaginradius",
+      "calls": 12,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "gameobjectswitchtotreeanimationcyclesblendbyhandle",
+      "calls": 12,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getbitmappixel",
+      "calls": 12,
+      "files_total": 5,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectonstatedestroybyhandle",
+      "calls": 12,
+      "files_total": 11,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectcollisioninertiabyhandle",
+      "calls": 12,
+      "files_total": 9,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjecttagfloatbyhandle",
+      "calls": 11,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "isdelimitercharexists",
+      "calls": 11,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getgameobjectpickedbyhandle",
+      "calls": 11,
+      "files_total": 6,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguiallowevents",
+      "calls": 11,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getguielementvisible",
+      "calls": 11,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setguielementcursorbyname",
+      "calls": 11,
+      "files_total": 1,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "getprojectoptionasstring",
+      "calls": 11,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "topologygetzonetrackpointscountbyindex",
+      "calls": 11,
+      "files_total": 3,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "effectclear",
+      "calls": 11,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectcimovablebyhandle",
+      "calls": 11,
+      "files_total": 7,
+      "exact_pascal": [],
+      "exact_ascii": []
+    },
+    {
+      "name": "setgameobjectanimationmodebyhandle",
+      "calls": 11,
+      "files_total": 4,
+      "exact_pascal": [],
+      "exact_ascii": []
+    }
+  ]
+}

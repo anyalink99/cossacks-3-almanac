@@ -382,7 +382,7 @@ seed = system time на запуске A), на хосте B — другие. �
 - [ticks_and_subticks.md](ticks_and_subticks.md) §6 описывает save/load
   хуки. Этот документ §3.4 объясняет почему даже эти хуки не
   достаточны.
-- [peasant_extraction.md](../world/peasant_extraction.md) — модель
+- [peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md) — модель
   добычи. **Должен быть обновлён** ссылкой на determinism_audit.md (§3)
   для учёта потерь через RNG.
 

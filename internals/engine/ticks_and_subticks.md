@@ -57,8 +57,8 @@ Game-speed presets [^1]:
 - `gc_settings_gamespeed_2 = 14` (fast)
 
 Это лобби-опция `gMap.settings.additional.gamespeed`. Таблица всех скоростей —
-[`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#gamespeed--скорость-партии);
-расшифровка поведения — [`game_settings.md`](../world/game_settings.md) §3.6.
+[`reports/map/lobby_settings.md`](../../docs/reports/map/lobby_settings.md#gamespeed--скорость-партии);
+расшифровка поведения — [`game_settings.md`](../../docs/recon/world/map/game_settings.md) §3.6.
 
 Все длительности в скриптах (анимации, `buildtime`, `attackpause`) — в
 **frames**. Перевод в game-seconds: `frames / 32`. Перевод в real-seconds:
@@ -376,7 +376,7 @@ game-sec [^7]:
 ## 9. Связь с моделью добычи
 
 **В аналитической модели** (см.
-[peasant_extraction.md](../world/peasant_extraction.md)) мы считаем **в
+[peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md)) мы считаем **в
 game-time**, не в real-time. Это правильный подход — формулы инвариантны к
 скорости игры.
 
@@ -407,10 +407,10 @@ real_time × (TimeSpeedFactor / 10) = game_time
 - [determinism_audit.md](determinism_audit.md) — RNG-сайты в добыче и бою.
   Этот документ ссылается на §6 (save / load) и §5 (адаптивная скорость) для
   объяснения механизма недетерминизма.
-- [peasant_extraction.md](../world/peasant_extraction.md) — модель добычи в
+- [peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md) — модель добычи в
   game-time. §1 этого документа дополняет переводом game-time ↔ real-time с
   учётом адаптивной скорости.
-- [building_mechanics.md](../world/building_mechanics.md) — `buildtime` в
+- [building_mechanics.md](../../docs/recon/world/economy/building_mechanics.md) — `buildtime` в
   frames, `deltatime` для строительства.
 
 ---
