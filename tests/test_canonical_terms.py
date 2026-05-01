@@ -1,7 +1,7 @@
 """Smoke tests for the canonical-terms glossary.
 
 These don't require a Cossacks 3 install — they verify that the committed
-`docs/derived/canonical_terms.json` and `parser/config.py` constants are
+`derived/canonical_terms.json` and `parser/config.py` constants are
 internally consistent.
 """
 from __future__ import annotations

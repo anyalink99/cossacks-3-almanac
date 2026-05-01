@@ -9,7 +9,7 @@ Usage:
 
 Each named target is a list of independent script invocations. When the
 target has more than one script, they run **concurrently** (default), since
-all reports / derived JSONs read from `docs/data.json` and don't write to
+all reports / derived JSONs read from `data.json` and don't write to
 each other. Pass `--serial` to disable this if you're debugging.
 
 Mirrors the Makefile targets so contributors without `make` (typical on
@@ -31,7 +31,7 @@ PY = sys.executable
 
 # Targets that MUST run sequentially (output of one feeds input of another).
 # All other targets fan out their scripts in parallel.
-SEQUENTIAL_TARGETS = {"data", "tech", "simulations"}
+SEQUENTIAL_TARGETS = {"data", "tech"}
 
 
 def run_one(args: list[str], capture: bool) -> tuple[list[str], int, float, str]:
@@ -131,10 +131,6 @@ TARGETS: dict[str, list[list[str]]] = {
         ["compute/compute_game_settings.py"],
     ],
 
-    "simulations": [
-        ["simulator/simulate_economy.py", "simulator/build_orders/bav_basic_5min.json"],
-        ["simulator/simulate_economy.py", "simulator/build_orders/bav_with_fields.json"],
-    ],
 }
 
 # Aggregate targets: order matters (data must come before reports/reference).
@@ -142,8 +138,7 @@ ALIASES: dict[str, list[str]] = {
     "reports": ["reports-combat", "reports-economy", "reports-map",
                 "reports-nations", "tech"],
     "all":     ["data", "reference", "reports-combat", "reports-economy",
-                "reports-map", "reports-nations", "tech", "derived",
-                "simulations"],
+                "reports-map", "reports-nations", "tech", "derived"],
 }
 
 
@@ -151,10 +146,10 @@ def help_text() -> str:
     lines = ["Usage: python scripts/regen.py [target]", "", "Targets:"]
     for name in ["all", "data", "reference", "reports", "reports-combat",
                  "reports-economy", "reports-map", "reports-nations",
-                 "tech", "derived", "simulations"]:
+                 "tech", "derived"]:
         descr = {
-            "all":             "full regen (data + reference + reports + tech + derived + simulations)",
-            "data":            "parser only (game scripts → docs/data.json)",
+            "all":             "full regen (data + reference + reports + tech + derived)",
+            "data":            "parser only (game scripts → data.json)",
             "reference":       "writers (data.json → docs/reference/, legacy md, xlsx)",
             "reports":         "all derived reports",
             "reports-combat":  "docs/reports/combat/",
@@ -162,8 +157,7 @@ def help_text() -> str:
             "reports-map":     "docs/reports/map/",
             "reports-nations": "docs/reports/nations/",
             "tech":            "tech_tree.md + production_rates.md + tech_tree.json",
-            "derived":         "animations, patterns, replay aggregates → docs/derived/",
-            "simulations":     "run example build orders → docs/simulations/",
+            "derived":         "animations, patterns, replay aggregates → derived/",
         }[name]
         lines.append(f"  {name:<18} {descr}")
     lines.append("")
@@ -198,7 +192,7 @@ def main() -> None:
     targets = args.targets or ["all"]
     t0 = time.time()
     for name in targets:
-        # `data`, `tech`, `simulations` chain steps that depend on each other,
+        # `data` and `tech` chain steps that depend on each other,
         # so always run them sequentially regardless of --serial.
         force_serial = name in SEQUENTIAL_TARGETS or args.serial
         # An alias (e.g. `all`) expands into a list of named targets; we run

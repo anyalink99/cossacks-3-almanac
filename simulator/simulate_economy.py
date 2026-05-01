@@ -32,7 +32,7 @@ Mechanics modeled (simplified — see assumptions in §END):
     * food/wood/stone: portion × eff / (hits × T_hit) × (1 - walk_overhead)
     * gold/iron/coal:  produce(13) × 32 / 250 × (1 - mine_overhead)
 - buildings: time = buildtime_sec × 1.13 / N_builders, clamped at the per-building
-  slot cap from docs/derived/builder_slots.json (range 19..30).
+  slot cap from derived/builder_slots.json (range 19..30).
 - units: each building instance has its own queue; with N buildings of same sid →
   N units progress in parallel. Rate per building = 1/unit_buildtime.
 - upkeep: per-unit food drain per g-sec = (consume.food + (bnohungry ? 0 : 30)) × 32 / 20000
@@ -84,7 +84,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import (OUTPUT_DIR, DATA_JSON, SIM_DIR, DERIVED_DIR,
+from config import (OUTPUT_DIR, DATA_JSON, DERIVED_DIR,
                     ANIM_FRAMES_PER_GAMESEC, PEASANT_ANIM_SEC,
                     WALK_OVERHEAD_GUESS, MINE_OVERHEAD_GUESS,
                     GC_MAX_OBJ_COUNT, MAP_SETTINGS_LIMIT,
@@ -870,8 +870,11 @@ def main():
         print("Usage: python simulate_economy.py <build_order.json> [output_prefix]")
         sys.exit(1)
     bo_path = Path(sys.argv[1])
-    SIM_DIR.mkdir(parents=True, exist_ok=True)
-    out_prefix = Path(sys.argv[2]) if len(sys.argv) > 2 else SIM_DIR / f"sim_{bo_path.stem}"
+    # Default output: current directory. The visual editor uses simulate_economy.py
+    # via Pyodide and supplies its own output path; CLI users can override too.
+    default_prefix = Path.cwd() / f"sim_{bo_path.stem}"
+    out_prefix = Path(sys.argv[2]) if len(sys.argv) > 2 else default_prefix
+    out_prefix.parent.mkdir(parents=True, exist_ok=True)
     run_simulation(bo_path, out_prefix)
 
 

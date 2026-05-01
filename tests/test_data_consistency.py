@@ -1,4 +1,4 @@
-"""Smoke tests for `docs/data.json` integrity and downstream JSON structure.
+"""Smoke tests for `data.json` integrity and downstream JSON structure.
 
 These tests assume the data.json committed to the repo is valid and self-
 consistent. After regenerating data.json, run them to catch obvious breaks
@@ -44,7 +44,7 @@ class DataJson(unittest.TestCase):
 
 
 class TechTree(unittest.TestCase):
-    """Verify `docs/derived/tech_tree.json` follows expected shape."""
+    """Verify `derived/tech_tree.json` follows expected shape."""
 
     @classmethod
     def setUpClass(cls) -> None:

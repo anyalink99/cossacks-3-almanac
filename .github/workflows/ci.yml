@@ -6,7 +6,7 @@ name: CI
 #
 # This CI does NOT run the full regen — that requires a Cossacks 3 install,
 # which CI doesn't have. Instead, we use the committed docs/data.json + the
-# committed docs/derived/canonical_terms.json as fixtures and verify they
+# committed derived/canonical_terms.json as fixtures and verify they
 # still load cleanly and downstream code paths execute.
 
 on:
@@ -30,7 +30,7 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Verify canonical_terms loads
-        run: python -c "import json; d = json.loads(open('docs/derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"
+        run: python -c "import json; d = json.loads(open('derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"
 
       - name: Verify config.py imports + canonical maps populate
         run: |

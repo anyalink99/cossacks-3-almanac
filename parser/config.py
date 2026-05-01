@@ -21,35 +21,44 @@ WEAPON_SCRIPT = LIB / "weapon.script"
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = PROJECT_ROOT / "docs"
 
-# Layout (reorganized 2026-04-29):
+# Layout (reorganized 2026-05-01):
 #
-#   docs/
-#   ├── README.md                navigation + project overview
-#   ├── data.json                master unified data (input for all downstream)
-#   ├── derived/                 machine-readable JSON datasets
-#   │   ├── animations.json, builder_slots.json, tech_tree.json,
-#   │   ├── pattern_*.json, replay_ground_truth.json
-#   ├── reference/               canonical reference chapters (generated)
+#   data.json                       master unified data (top-level, входной для всего downstream)
+#
+#   docs/                           player-facing справочник (читают игроки)
+#   ├── README.md                   навигация
+#   ├── reference/                  каноничный справочник (auto-generated)
 #   │   ├── 01_economy.md … 07_naval.md
 #   │   ├── nations/<nat>.md (×21 + README)
 #   │   └── compare/<class>.md
-#   ├── recon/                   deep-mechanics docs (handwritten)
-#   │   └── ai_behavior.md, capture_mechanics.md, …
-#   ├── reports/                 derived computational reports, grouped by topic
+#   ├── recon/                      handwritten деep-разбор механик
+#   │   ├── world/    добыча, постройка, захват, путь, выбор цели,
+#   │   │             генерация карты, опции лобби
+#   │   └── systems/  AI, наёмники, условия победы
+#   ├── reports/                    derived computational reports
 #   │   ├── combat/   combat_stats, counter_matrix, attack_rates, vision_radii
 #   │   ├── economy/  builder_slots, construction_times, efficiency_upgrades,
 #   │   │             production_rates, scaling_prices
 #   │   ├── tech/     tech_tree
 #   │   ├── map/      map_resources, map_predictions_validation, starting_layout
 #   │   └── nations/  overview
-#   └── simulations/             economy simulator outputs (sim_*.{csv,md})
 #
-DATA_JSON = DOCS_DIR / "data.json"
-DERIVED_DIR = DOCS_DIR / "derived"
+#   derived/                        machine-readable JSON датасеты (top-level)
+#   ├── animations.json, builder_slots.json, tech_tree.json,
+#   ├── pattern_*.json, replay_ground_truth.json,
+#   └── dws_native_signatures.json, exe_strings.json, engine_primitives.json
+#
+#   internals/                      техническая документация движка/скриптов
+#   ├── engine/    Delphi/DWS внутрянка: тики, RNG, sync, native API
+#   ├── scripts/   структура DMscript: load order, что в каждом файле
+#   └── data/      структура data/ директории и форматов файлов
+#
+DATA_JSON = PROJECT_ROOT / "data.json"
+DERIVED_DIR = PROJECT_ROOT / "derived"
+INTERNALS_DIR = PROJECT_ROOT / "internals"
 REFERENCE_DIR = DOCS_DIR / "reference"
 RECON_DIR = DOCS_DIR / "recon"
 REPORTS_DIR = DOCS_DIR / "reports"
-SIM_DIR = DOCS_DIR / "simulations"
 
 # Topical sub-dirs of docs/reports/.
 REPORTS_COMBAT_DIR  = REPORTS_DIR / "combat"
@@ -290,7 +299,7 @@ def usage_ru(usage_short: str | None) -> str:
 # =============================================================================
 # Russian display names — single source of truth
 # =============================================================================
-# Loaded from `docs/derived/canonical_terms.json` (generated from game locale by
+# Loaded from `derived/canonical_terms.json` (generated from game locale by
 # `parser/build_canonical_terms.py`). All writers and compute scripts that emit
 # Russian text MUST use these maps — never hard-code translations.
 

@@ -5,7 +5,7 @@
 > как заготовка, доделывается отдельной задачей. **Не использовать**, не
 > ссылаться из других документов, не считать частью справочника.
 
-Браузерный редактор билд-ордеров. Загружает игровые данные из `docs/data.json` и прогоняет симулятор экономики (`simulator/simulate_economy.py`) прямо в браузере через Pyodide.
+Браузерный редактор билд-ордеров. Загружает игровые данные из `data.json` и прогоняет симулятор экономики (`simulator/simulate_economy.py`) прямо в браузере через Pyodide.
 
 ## Что умеет
 
@@ -70,10 +70,8 @@ editor/
 
 ## Sanity-check (CLI vs editor)
 
-```bash
-# CLI:
-python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json
-# смотрим docs/simulations/sim_bav_basic_5min.csv → последняя строка
-```
-
-В редакторе: ⬆ Импорт JSON → выбрать `bav_basic_5min.json` → ▶ Прогнать. Финальные числа должны совпасть один-в-один (food=2001, wood=2870, peasants=15 для bav_basic_5min @ fast).
+Если нужно сравнить CLI-результат с редактором, передайте свой
+build order JSON в `python simulator/simulate_economy.py <bo.json>`
+— скрипт создаст `sim_<name>.csv` и `sim_<name>.md` в текущей
+директории. В редакторе те же числа должны совпадать
+один-в-один.

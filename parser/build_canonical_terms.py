@@ -2,7 +2,7 @@
 
 Reads `data/locale/{ru,en}/*.txt` from the game install (CP1251), resolves
 `%include(...)%`, `%nat%`, `%com%`, style markers, and emits
-`docs/derived/canonical_terms.json` — the single source of truth for Russian
+`derived/canonical_terms.json` — the single source of truth for Russian
 display names used by writers, compute scripts, and prose docs.
 
 Run after game patch:

@@ -1,7 +1,7 @@
 # `parser/` — извлечение данных из игры
 
 Скрипты в этой папке делают **только парсинг**: читают `.script`/`.global` файлы Cossacks 3
-и собирают единый JSON-снапшот в `docs/data.json`. Все скрипты идемпотентны: после
+и собирают единый JSON-снапшот в `data.json`. Все скрипты идемпотентны: после
 игрового патча перезапускаешь pipeline — все артефакты обновляются.
 
 Производные расчёты, writers и симулятор живут в соседних папках:
@@ -26,7 +26,7 @@
                      │
                      ▼
               ┌──────────────────┐
-              │  docs/data.json│  ← single source of truth (~4.7 MB)
+              │  data.json│  ← single source of truth (~4.7 MB)
               └────┬─────────────┘
                    │
    ┌───────────────┼─────────────────────────┐
@@ -55,7 +55,7 @@ write_md_tree   compute_scaling           simulate_economy
 
 | Файл | Что делает |
 |---|---|
-| **`build_data.py`** | Зовёт все парсеры, склеивает в единый `dict`, дописывает версионный stamp, market rates, officers, sanity_checks (112 авто-утверждений). Сохраняет в `docs/data.json`. |
+| **`build_data.py`** | Зовёт все парсеры, склеивает в единый `dict`, дописывает версионный stamp, market rates, officers, sanity_checks (112 авто-утверждений). Сохраняет в `data.json`. |
 
 ## Как запускать
 
@@ -64,14 +64,13 @@ write_md_tree   compute_scaling           simulate_economy
 Все команды — из корня проекта:
 
 ```bash
-python parser/build_data.py                   # → docs/data.json (источник правды)
+python parser/build_data.py                   # → data.json (источник правды)
 python writers/write_md_tree.py               # → docs/reference/ + output/README.md
 python compute/compute_scaling.py             # → docs/reports/economy/scaling_prices.md
 python compute/compute_map_resources.py       # → docs/reports/map/map_resources.md
-python parser/build_tech_graph.py             # → docs/derived/tech_tree.json
+python parser/build_tech_graph.py             # → derived/tech_tree.json
 python compute/compute_tech_tree.py           # → docs/reports/tech/tech_tree.md + production_rates.md
 python compute/compute_construction_times.py  # → docs/reports/economy/construction_times.md
-python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → docs/simulations/
 ```
 
 Все writer/compute-скрипты читают только из `data.json` (кроме `compute/compute_map_resources.py`,
@@ -82,10 +81,10 @@ data.json — потом writers выполняются за <30 сек сумм
 
 ```bash
 python parser/build_data.py                                       # текущий
-cp docs/data.json /tmp/data_old.json
+cp data.json /tmp/data_old.json
 # … patch the game …
 python parser/build_data.py                                       # новый
-python writers/diff_snapshots.py /tmp/data_old.json docs/data.json
+python writers/diff_snapshots.py /tmp/data_old.json data.json
 ```
 
 ## Sanity checks

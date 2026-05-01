@@ -337,15 +337,14 @@ def write_readme(data: dict) -> None:
     A("- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) "
       "— все опции лобби с каноничными русскими названиями. Поведение "
       "движка по каждой опции — в "
-      "[`../recon/game_settings.md`](../recon/game_settings.md).")
+      "[`../recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).")
     A("")
     A("**Где искать остальное:**\n")
     A("| Каталог | Что внутри |")
     A("|---|---|")
     A("| [`../reports/`](../reports/README.md) | Производные расчёты: DPS, EHP, counter matrix, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты. |")
-    A("| [`../simulations/`](../simulations/README.md) | Таймлайны экономики по конкретным build order'ам (выходы симулятора). |")
     A("| [`../recon/`](../recon/README.md) | Handwritten reverse-engineering механик: добыча, постройка, RNG, тики, server sync, генерация карт. |")
-    A("| [`../derived/`](../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |")
+    A("| [`../../derived/`](../../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |")
     A("| [`../architecture.md`](../architecture.md) | Поток данных в проекте: что из чего рождается. |")
     A("| [`../data.json`](../data.json) | Мастер-структура (~4.7 МБ). Вход для всех writer'ов и compute-скриптов. |")
     A("\n---\n")
@@ -411,7 +410,7 @@ def write_readme(data: dict) -> None:
     sanity = data.get("sanity_checks", [])
     n_pass = sum(1 for c in sanity if c["pass"])
     A("## Что в данных\n")
-    A("Источник всех чисел — `docs/data.json`, генерируется "
+    A("Источник всех чисел — `data.json`, генерируется "
       "`python parser/build_data.py`. После каждой регенерации прогоняются "
       "автоматические проверки.\n")
     A("| Что | Сколько |")
@@ -555,7 +554,7 @@ def write_economy(data: dict) -> None:
     A(f"| `gc_obj_foodperunit` | {e['food_per_unit_upkeep']} food / юнит | dmscript.global:808 |")
     A(f"| Default `eff` | {e['default_eff_percent']}% | player.script:109 |")
     A("")
-    A("Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/game_settings.md`](../recon/game_settings.md).\n")
+    A("Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).\n")
     A("## Базовые порции и hits\n")
     A("| Ресурс | Базовая порция | Hits | Источник |")
     A("|---|---:|---:|---|")
@@ -600,13 +599,6 @@ def write_economy(data: dict) -> None:
         dip_buildings_table=_dip_buildings_table(data["buildings"]),
         mercenaries_table=_mercenaries_table(data["units"]),
     ))
-    A("")
-    A("## Discrepancies (расхождения с промпт-заметками)\n")
-    A("| Факт | Заметки | В файле | Источник | Вердикт |")
-    A("|---|---|---|---|---|")
-    for d in data.get("discrepancies", []):
-        A(f"| {d['fact']} | {d['user_note']} | **{d['file_value']}** | "
-          f"{d['source']} | {d['verdict']} |")
     A("")
     A("## Sanity\n")
     A(f"Sanity checks: **{sum(1 for c in data.get('sanity_checks', []) if c['pass'])}/"

@@ -1,6 +1,6 @@
 """Orchestrator: assemble all parsers into a unified per-nation, per-sid dataset.
 
-Output structure (written to docs/data.json):
+Output structure (written to data.json):
 {
   "constants": { "gc_*": {raw, value} },
   "nations": [{"sid", "name", "members": [sids], "upgrades": [upgrade-ids]}],

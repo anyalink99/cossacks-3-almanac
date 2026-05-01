@@ -1,6 +1,6 @@
-"""Build the tech-dependency graph from `docs/data.json`.
+"""Build the tech-dependency graph from `data.json`.
 
-Output: `docs/derived/tech_tree.json` — structured graph for downstream
+Output: `derived/tech_tree.json` — structured graph for downstream
 consumers (browser editor, simulator, `compute/compute_tech_tree.py`).
 
 Graph extracted from:

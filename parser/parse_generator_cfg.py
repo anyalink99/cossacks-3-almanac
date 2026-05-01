@@ -5,7 +5,7 @@ This file is the missing link between the abstract pattern names used by
 `.pattern` files on disk. Without it, compute_map_resources had to guess
 which patterns correspond to "forests_pine_big" / "stones" / etc.
 
-Output: docs/derived/pattern_types.json
+Output: derived/pattern_types.json
   {
     "forests_pine_big": ["frt_b_p_1", "frt_b_p_2", ...],
     "forests_mixed_big": ["e_frt_big_1", ...],
