@@ -244,29 +244,33 @@ def build_settings():
 # Markdown rendering — `docs/reports/map/lobby_settings.md`
 # =============================================================================
 
-LOBBY_MD_INTRO = """\
-# Настройки лобби — справочник значений
-
-**Производный отчёт.** Считается из локали игры и `dmscript.global` скриптом
-[`compute/compute_game_settings.py`](../../../compute/compute_game_settings.py).
-Регенерация: `python compute/compute_game_settings.py`.
-
-Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,
-`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже
-«Высокогорье». Машинная версия для редакторов и инструментов —
-[`docs/derived/game_settings.json`](../../derived/game_settings.json).
-
-Поведение каждой опции в движке (что происходит после выбора) — в
-[`docs/recon/game_settings.md`](../../recon/game_settings.md).
-
-## Структура
-
-Все опции лобби живут в `gMap.settings` (`classes.script:85-88`):
-
-- `gMap.settings.gen` — параметры **генератора карты** (как карта рисуется).
-- `gMap.settings.additional` — **правила игры** (peacetime, лимит населения,
-  захват, скорость и т. д.).
-"""
+def _intro_lines(cites: Citations) -> list[str]:
+    """Top-of-document text. Uses module-level `cites` for the one citation."""
+    settings_cite = cites.cite("lib/classes.script:85-88",
+                                label="определение `TMapSettings` (`gMap.settings`)")
+    return [
+        "# Настройки лобби — справочник значений",
+        "",
+        "**Производный отчёт.** Считается из локали игры и `dmscript.global` скриптом",
+        "[`compute/compute_game_settings.py`](../../../compute/compute_game_settings.py).",
+        "Регенерация: `python compute/compute_game_settings.py`.",
+        "",
+        "Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,",
+        "`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже",
+        "«Высокогорье». Машинная версия для редакторов и инструментов —",
+        "[`docs/derived/game_settings.json`](../../derived/game_settings.json).",
+        "",
+        "Поведение каждой опции в движке (что происходит после выбора) — в",
+        "[`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md).",
+        "",
+        "## Структура",
+        "",
+        f"Все опции лобби живут в `gMap.settings` {settings_cite}:",
+        "",
+        "- `gMap.settings.gen` — параметры **генератора карты** (как карта рисуется).",
+        "- `gMap.settings.additional` — **правила игры** (peacetime, лимит населения,",
+        "  захват, скорость и т. д.).",
+    ]
 
 
 def _section(title: str, key: str, settings: dict, *, columns: list[tuple[str, str]]) -> list[str]:
@@ -299,7 +303,7 @@ def _section(title: str, key: str, settings: dict, *, columns: list[tuple[str, s
 
 
 def render_lobby_md(settings: dict) -> list[str]:
-    L = LOBBY_MD_INTRO.splitlines()
+    L = _intro_lines(cites)
     L.append("")
 
     # ─── gen ───────────────────────────────────────────────────────────────
