@@ -37,7 +37,7 @@
 | [world/combat/unit_commands.md](world/combat/unit_commands.md) | Очередь приказов, режимы (move, attack, attack-move, garrison, patrol, guard), hold-mode, hold-fire, rally point, STO/STP. |
 | [world/combat/pathfinding.md](world/combat/pathfinding.md) | Pathfinding: A\*-like через `TopologyGetPath`, двухуровневый, collision grid, формации. |
 | [world/combat/towers.md](world/combat/towers.md) | Башни: целеуказание, стоимость выстрела, апгрейды, захват только во время постройки. **Гарнизона в башне в C3 нет** — `peasantabsorber` ставится только у шахт. |
-| [world/combat/walls_and_gates.md](world/combat/walls_and_gates.md) | Стены и ворота: сегменты, мгновенная постройка, `gWallSystem`, захват. |
+| [world/combat/walls_and_gates.md](world/combat/walls_and_gates.md) | Стены и ворота: сегменты, постройка крестьянами, builder slots по `wallvariation`, ворота как апгрейд `buildgate`, снос сегмента при попытке захвата. |
 | [world/combat/artillery_specifics.md](world/combat/artillery_specifics.md) | Артиллерия: типы (`artind`), `bartprepare`, `attackpoint`, лимиты через арт-депо, AoE. |
 | [world/combat/naval_combat.md](world/combat/naval_combat.md) | Морские юниты: порт, транспорт, линейный корабль, рыболов, морские формации, бой с берега. |
 | [world/combat/vision_and_fow.md](world/combat/vision_and_fow.md) | Радиус обзора (`20 + 4 × vision`), туман войны, союзный обзор, `fogreveal`-снаряды. |

@@ -378,7 +378,7 @@ def write_readme(data: dict) -> None:
     A("                                                по не-зданиям, кроме fasthorse в движении)")
     A("```")
     A("Минимум 1 HP проходит всегда. Подробности — "
-      "[02_combat.md → Хедшот](02_combat.md#хедшот--критический-удар-главная-скрытая-механика). "
+      "[`recon/world/combat/combat_damage_pipeline.md` §3](../recon/world/combat/combat_damage_pipeline.md). "
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
 
     A("### Цены и время\n")

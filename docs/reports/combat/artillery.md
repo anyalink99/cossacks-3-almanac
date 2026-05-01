@@ -1,8 +1,8 @@
 # Артиллерия — сводный справочник
 
-**Производный** файл (расчётный, не извлечение). Считается из [`docs/data.json`](../../../data.json) скриптом [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
+**Производный** файл (расчётный, не извлечение). Считается из [`data.json`](../../data.json) скриптом [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
 
-Артиллерийский юнит в коде — это тот, у кого `objprop.bartillery = True` [^1]. Подгруппа `bartprepare` включает анимацию подготовки выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. Поведение приказа `attackpoint` для артиллерии — в [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.2.
+Артиллерийский юнит в коде — это тот, у кого `objprop.bartillery = True` [^1]. Подгруппа `bartprepare` включает анимацию подготовки выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. Поведение приказа `attackpoint` для артиллерии — в [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.2.
 
 Морская артиллерия (battleship, galley, frigate и т. п.) — отдельная категория, см. [`reference/07_naval.md`](../../reference/07_naval.md). Гренадёр стреляет осколочным `mortarball`, но в `bartillery`-группу не входит и относится к пехоте — см. [`reports/combat/combat_stats.md`](combat_stats.md).
 
@@ -26,7 +26,7 @@
 | `mortar` | Сверхмортира | все 21 | 200 | 7.81 s | 25.61 | 23.44..48.75 t | 200 px · 3.75 t | — |
 | `multicannon` | Многоствольная пушка | aus, bav, den, eng, fra … (+12) | 500 | 1.88 s | 265.96 | 0.19..13.13 t | — | — |
 
-Колонка **DPS, g-сек** — это `damage / pause`, без учёта формационных бонусов (у артиллерии своих формаций нет), AoE-капа и защиты цели. Реальный output по толпе обычно ниже из-за `AoE damage cap = floor(1 + (r/0.35)²)` ([02_combat.md → AoE damage cap](../../reference/02_combat.md#aoe-damage-cap--как-кучкование-защищает)).
+Колонка **DPS, g-сек** — это `damage / pause`, без учёта формационных бонусов (у артиллерии своих формаций нет), AoE-капа и защиты цели. Реальный output по толпе обычно ниже из-за `AoE damage cap = floor(1 + (r/0.35)²)` (см. [`recon/world/combat/combat_damage_pipeline.md` §6.5](../../recon/world/combat/combat_damage_pipeline.md)).
 
 ## §2. Стоимость одного выстрела
 
@@ -46,17 +46,17 @@
 
 ## §3. Экономика юнита и национальные различия
 
-Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту за тик. Если у нации те же значения — одна строка, нации сгруппированы.
+Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту. Если у нации те же значения — одна строка, нации сгруппированы.
 
-| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | gold/тик | score |
+| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | `consume[gold]` | gold/г-сек | score |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `cannon` | все 21 | 250 W · 400 G · 400 I | 75.0 | 9000 | 75 | 20 | 300 | 50 |
-| `howitzer` | все 21 | 250 W · 350 G · 300 I | 94.0 | 3000 | 75 | 20 | 350 | 25 |
-| `mortar` | все 21 | 100 W · 75 G · 200 I | 25.0 | 400 | 25 | 24 | 50 | 100 |
-| `multicannon` | aus, bav, den, eng, fra … (+12) | 200 W · 400 G · 250 I | 50.0 | 2000 | 50 | 16 | 300 | 25 |
-| `framegun` | sco | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 50 |
+| `cannon` | все 21 | 250 W · 400 G · 400 I | 75.0 | 9000 | 75 | 20 | 300 | 0.48 | 50 |
+| `howitzer` | все 21 | 250 W · 350 G · 300 I | 94.0 | 3000 | 75 | 20 | 350 | 0.56 | 25 |
+| `mortar` | все 21 | 100 W · 75 G · 200 I | 25.0 | 400 | 25 | 24 | 50 | 0.08 | 100 |
+| `multicannon` | aus, bav, den, eng, fra … (+12) | 200 W · 400 G · 250 I | 50.0 | 2000 | 50 | 16 | 300 | 0.48 | 25 |
+| `framegun` | sco | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
 
-`gold/тик` — это `objprop.consume[gc_resource_type_gold]`, упрощённо «золото за тик потребления». Тик апкипа = 32 g-сек (точное значение константы `gc_obj_TimeProgressUnit` × множитель — в `dmscript.global`). Артиллерия — единственный класс, у которого `consume.gold > 0` для всех юнитов: пушку нужно «содержать», даже если она не стреляет. У пехоты и кавалерии `consume.gold = 0`.
+`consume[gold]` — поле `objprop.consume[gc_resource_type_gold]`. Реальный расход считается формулой `consume × gc_time_to_frames / 20000` за каждую игровую секунду (так как процедура `_player_ProcessResourceConsume` использует `speed = 20000` в делителе). Колонка `gold/г-сек` уже учитывает эту формулу. Артиллерия — единственный класс, у которого `consume.gold > 0` для всех юнитов: пушку нужно «содержать», даже если она не стреляет. У пехоты и кавалерии `consume.gold = 0`. Подробнее — в [`../../recon/world/economy/hunger_and_rebellion.md` §2.3](../../recon/world/economy/hunger_and_rebellion.md).
 
 ## §4. Лимит парка от Артиллерийского депо
 
@@ -85,15 +85,15 @@
 
 - **Подготовка перед выстрелом.** `bartprepare = True` означает, что перед каждым выстрелом проигрывается длинная анимация. Поведение движка при отдаче ордера на стрельбу — `_unit_TryAttackPoint` [^9]. Точная длительность подготовки берётся из `.aaf`-анимации `attack0` юнита; в `data.json` она не извлечена. Для оценок используем `weapon.pause` как «холодную перезарядку» поверх любых анимационных задержек.
 
-- **Точность падает в движении.** Стрелок и артиллерия в движении (`standtime < 0.25 g-сек`) теряют до `gc_obj_maxattackradiusdisp = 3` тайлов эффективного радиуса [^10]. Дополнительное рассеивание `dispertion` остаётся прежним. Подробнее — [`02_combat.md → Штраф к дальности при движении`](../../reference/02_combat.md#штраф-к-дальности-при-движении).
+- **Точность падает в движении.** Стрелок и артиллерия в движении (`standtime < 0.25 g-сек`) теряют до `gc_obj_maxattackradiusdisp = 3` тайлов эффективного радиуса [^10]. Дополнительное рассеивание `dispertion` остаётся прежним. Подробнее — [`recon/world/combat/ranged_units_behavior.md` §4](../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
 
 - **Точность улучшается апгрейдами Академии.** `aca.20` (Research new sighting devices for artillery) — −35% к dispertion. `aca.27` (Develop mathematics) — ещё −35%, накапливается с aca.20. После обоих остаётся `0.65 × 0.65 ≈ 0.42` от исходного, то есть точность вырастает примерно в 2.4 раза. Применяется только к артиллерии; у мушкетеров и лучников прямого dispertion-апгрейда нет.
 
 - **AoE-кап ловит толпу.** При взрыве снаряда урон получают только первые `count = floor(1 + (r/0.35)²)` юнитов в радиусе [^11]. Для cannon (`r ≈ 1`) это 9 юнитов, для mortar (`r ≈ 2`) — 33. Растянутая линия страдает гораздо больше, чем плотная толпа.
 
-- **AI цели для артиллерии.** Решение, куда стрелять, идёт через `_unit_SearchEnemyLongRangeArtillery` [^12] — это отдельная ветка, не общий `_unit_SearchVictimOnProgress`. AI-юниты артиллерии целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая `bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и описана только косвенно — см. [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §7 (open question № 4).
+- **AI цели для артиллерии.** Решение, куда стрелять, идёт через `_unit_SearchEnemyLongRangeArtillery` [^12] — это отдельная ветка, не общий `_unit_SearchVictimOnProgress`. AI-юниты артиллерии целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая `bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и описана только косвенно — см. [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §7 (open question № 4).
 
-- **`bartprepare` и `attack-move`.** Артиллерия с `bartprepare = True` получает приказ `gc_obj_order_type_attackpoint` через `_player_OrderUnitsToAttackPoint` [^13] — это стрельба по координате, не по конкретной цели. Поведение для не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. Подробности — [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.
+- **`bartprepare` и `attack-move`.** Артиллерия с `bartprepare = True` получает приказ `gc_obj_order_type_attackpoint` через `_player_OrderUnitsToAttackPoint` [^13] — это стрельба по координате, не по конкретной цели. Поведение для не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. Подробности — [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.
 
 
 ## Источники

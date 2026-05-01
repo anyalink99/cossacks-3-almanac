@@ -82,35 +82,40 @@
 | Тип | Что делает |
 |---|---|
 | `spawn_unit(player, sid, x, z)` | Создать юнит. |
-| `give_resource(player, type, amount)` | Прибавить ресурс. |
-| `show_text(text_id, duration)` | Показать сообщение на экране. |
-| `play_sound(sound_id)` | Воспроизвести звук. |
-| `transition_to_state(state_name)` | Переключить FSM в другое состояние. |
-| `set_flag(name)` | Установить сценарный флаг. |
-| `set_unit_invincible(handle, true)` | Сделать юнит неуязвимым. |
-| `script(code)` | Выполнить inline DWS-код (для нестандартных эффектов). |
+| `gc_trigger_action_player_giveResources` | Прибавить ресурсы игроку. |
+| `gc_trigger_action_player_disableAI` / `enableAI` | Выключить / включить AI у игрока. |
+| `gc_trigger_action_advanced_disableTrigger` / `enableTrigger` | Выключить / включить другой триггер по индексу. |
+| `gc_trigger_action_service_flagSetActive` / `flagSetNotActive` | Установить / сбросить сценарный флаг (`gScenario.flags[id].bactive`). |
+| `gc_trigger_action_order_*` | Команды юнитам: stop, attack, move, disableSearchEnemy и т.д. |
+
+Полный список — `gc_trigger_action_*` в `dmscript.global` (около 60 типов). Inline DWS-кода в скриптах сценария нет — все эффекты идут через пред-определённые `TScenarioTriggerAction`-типы; уровень кастомизации задаётся выбором действия и его параметрами.
+
+### 2.3. Single-shot
+
+Когда условия триггера выполнились, перед выполнением действий он
+сразу деактивируется: `gScenario.triggers[i].bactive := False`
+[^TriggerOnce]. Один и тот же триггер не сработает дважды, пока
+кто-то явно не включит его обратно через
+`gc_trigger_action_advanced_enableTrigger`.
 
 ---
 
-## 3. FSM состояний
+## 3. Этапы сценария
 
-Сценарий — это **конечный автомат**, в котором каждое состояние
-имеет свой набор активных триггеров. Это позволяет разделять
-этапы:
+Сценарий не имеет отдельной FSM с переходами между «состояниями» —
+этапы реализуются комбинацией флагов (`gScenario.flags[]`) и
+`disable/enableTrigger`-действий. Типичный паттерн:
 
-| Этап | Активные триггеры |
+| Этап | Реализация |
 |---|---|
-| `intro` | Показать заставку, дождаться клика — переход. |
-| `setup` | Дать ресурсы игроку, разместить отряды. |
-| `combat_phase_1` | Триггеры для первой волны атаки противника. |
-| `combat_phase_2` | После победы в фазе 1 — спавн новой волны. |
-| `victory` | Показать концовку, начислить очки. |
-| `defeat` | Сообщение о поражении. |
+| Вступление | Активные триггеры с условиями на старт игры; их действия — текст, звук, активация следующих. |
+| Бой фаза 1 | Триггер с условием «время прошло X» → enableTrigger для волны атаки. |
+| Бой фаза 2 | Триггер с условием «отряд уничтожен» → enable триггеров второй волны и disable первой. |
+| Победа | Триггер с условием на убитых противников → действие victory. |
 
-Переход между состояниями делается через
-`transition_to_state(name)`. Скрипт выгружает старые триггеры,
-загружает новые. См. также `TFormStateMachines` в нативном API
-[^2].
+То есть «переход между состояниями» — это серия
+`disableTrigger`/`enableTrigger`/`flagSetActive` действий внутри
+триггеров, а не отдельный FSM-механизм.
 
 ---
 
@@ -207,10 +212,12 @@
 2. **Лимит на количество триггеров в одном состоянии**. Похоже,
    нет жёсткого лимита, но при большом числе (>100) частота
    проверки может проседать.
-3. **Когда применяется `transition_to_state` относительно
-   действия**. Триггер сначала исполняет все свои действия,
-   потом переключает состояние? Или новое состояние начинает
-   обрабатываться сразу после `transition`?
+3. **Inline DWS-скрипты в сценарии**. Утверждение о
+   `OnLoadScriptFileName` нуждается в проверке: в `scenario.script`
+   и обработчиках сценария явных загрузок отдельного `.script`-файла
+   при активации этапа найти не удалось. Возможно, эта возможность
+   относится к редактору сценариев / моддингу, а не базовому
+   движку.
 
 ---
 
@@ -223,4 +230,13 @@
 [^2]: В RTTI `cossacks.exe` найден класс `TFormStateMachines` (см.
       [`internals/engine/native_api.md`](../../../internals/engine/native_api.md))
       — UI редактора FSM-сценариев. Также `MachineLibrary*` —
-      сериализация state-machine'ов в `.parser`-формат.
+      сериализация state-machine'ов в `.parser`-формат. Это
+      инфраструктура для **движковых** state-machines (per-объект,
+      `nothing`/`OnDeath`/etc.), не для сценарной FSM.
+
+[^TriggerOnce]: `data/scripts/progress/progress.inc/scenario.inc:71-77`:
+      перед `_scenario_EvaluateTriggerActions(ptrigger)` идёт
+      `gScenario.triggers[i].bactive := False`. Также
+      `_scenario_EvaluateTriggerActions` — `lib/scenario.script:1739`
+      — содержит handler `gc_trigger_action_advanced_disableTrigger`
+      / `enableTrigger` (см. строки 3076-3081 того же файла).

@@ -105,7 +105,7 @@
 теряет до `3 × uniqrnd` тайлов эффективного радиуса в момент сканирования.
 Этот штраф применяется именно к выбору цели; штраф на дальность
 выстрела при `standtime < 0.25` — отдельная история, описана в
-[`02_combat.md → Штраф к дальности при движении`](../../../reference/02_combat.md#штраф-к-дальности-при-движении).
+[`ranged_units_behavior.md` §4](ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
 
 Топологическая проверка: цель валидна, если она в той же зоне топологии,
 что и атакующий, или (для дальнего боя) если дистанция в евклидовой норме
@@ -227,8 +227,8 @@ scan-grid; `rx1` — радиус в ячейках, считается на в�
 константой `gc_gameplay_meleeguardmaxsearchdist` — охранник не уходит
 далеко [^20].
 
-Бонус с возвышенности уже описан в
-[`02_combat.md → Высокая позиция`](../../../reference/02_combat.md#высокая-позиция-high-ground).
+Бонус с возвышенности подробнее — в
+[`ranged_units_behavior.md` §7](ranged_units_behavior.md#7-high-ground--бонус-с-возвышенности).
 
 ### 4.2 Выбор `scanmode`
 
@@ -297,7 +297,7 @@ Long-range обходит до 18 ячеек (`cLongRangeTryNum = 18`) и выб
    находится ли точка в радиусе, и стреляют по ней. Точка ни от кого
    не зависит — это просто координата.
 3. AoE-урон ловит всех, кто оказался в радиусе взрыва (см.
-   [`02_combat.md → AoE damage cap`](../../../reference/02_combat.md#aoe-damage-cap--как-кучкование-защищает)).
+   [`combat_damage_pipeline.md` §6.5](combat_damage_pipeline.md)).
 4. Из-за `bsearchenemy := True` артиллерия параллельно сама выбирает
    цели через `_unit_SearchVictimOnProgress`, если в её обычном радиусе
    появился противник, — но текущий `attackpoint`-ордер не сменит,
@@ -322,7 +322,7 @@ GUI шлёт пакет, который обрабатывает `units/global.i
 То есть «нашёл врага — переключился» работает **всегда**, кроме
 случаев, когда `bstandground` явно стоит и `standtime > 0`. Это поведение
 описано в
-[`02_combat.md → Standground / bartprepare`](../../../reference/02_combat.md#standground--bartprepare--режимы-атаки).
+[`ranged_units_behavior.md` §1-2](ranged_units_behavior.md#1-standground-vs-обычный-режим).
 
 ---
 

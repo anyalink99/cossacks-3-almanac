@@ -58,7 +58,7 @@ assigns правильно — handler их игнорировал.
 - **«Захват юнитов работает с 5%-шансом за тик»** — было неверно. Захват чисто
   **геометрический**, проверка раз в 1.9 игровых секунды (0.5 для
   артиллерии). См.
-  [`docs/reference/02_combat.md` → Захват зданий и юнитов](reference/02_combat.md#захват-зданий-и-юнитов).
+  [`docs/recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md).
 - **«Украинские/шотландские крестьяне иммунны к захвату»** — было неверно. Все
   8 sid'ов крестьян имеют `bcapture = True` (`unit.script:1199`); в стандартном
   Deathmatch / Historical Battle захват крестьян отключён картой через

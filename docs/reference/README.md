@@ -70,7 +70,7 @@ applied = max(1, weapon.damage
                  + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow / bullet
                                                 по не-зданиям, кроме fasthorse в движении)
 ```
-Минимум 1 HP проходит всегда. Подробности — [02_combat.md → Хедшот](02_combat.md#хедшот--критический-удар-главная-скрытая-механика). Источник: `miscext2.script:_misc_DoDamage`.
+Минимум 1 HP проходит всегда. Подробности — [`recon/world/combat/combat_damage_pipeline.md` §3](../recon/world/combat/combat_damage_pipeline.md). Источник: `miscext2.script:_misc_DoDamage`.
 
 ### Цены и время
 

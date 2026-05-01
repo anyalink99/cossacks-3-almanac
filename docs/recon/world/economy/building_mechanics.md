@@ -176,7 +176,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Engine quirk — sparse-маски складов.** У 4 складов (`russto`, `eursto`, `spasto`, `tursto`) маска не выпуклая. У `tursto` всё ещё одна большая компонента — walker даёт 8 = факт. У `spasto` — большая клякса + 1 мелкий орфан в углу; walker правильно ходит большую часть и игнорирует орфан → 7 = факт (с пустой левой стороной у строящего здания, что видно в игре). У `russto` и `eursto` маска вырождается до **двух линейных «опорных» планок** (1×2 и 1×3) с пустотой между ними — walker по одной планке даёт 3-4 слота, но в игре крестьяне обходят bbox целиком: 8 vs предсказанный walker'ом результат. Эмпирически: правило «если все компоненты линейные → используй `bbox_cols + bbox_rows` объединения» воспроизводит russto точно (8=8) и eursto с известным расхождением −1 (предсказание 9, факт 8). Реализовано как fallback `method=bbox_union` в [`compute_builder_slots.py`](../compute/compute_builder_slots.py).
 
-**Ворота не строятся крестьянами.** `*sga`, `*wga`, `*sga_14..17` и т.д. в обычной игре создаются конвертацией существующего участка стены: игрок выделяет стену → клик «превратить в ворота». Слоты для них в отчёте указаны для полноты, но непосредственно не используются.
+**Ворота — это моментальный индивидуальный апгрейд на существующем сегменте стены** (`gc_upg_type_single_buildgate`), а не отдельное здание, которое строят крестьяне. Игрок выделяет достроенный участок прямой стены минимум из трёх одинаковых сегментов и нажимает «построить ворота». На месте центрального сегмента создаётся новый объект ворот (`*sga` / `*wga`) с `individual.upglevel = 1`; ближайший вызов `_unit_ControlBuildProgress` через специальную ветку `if (bwall) and (upglevel>0) then hp := maxhp` сразу выставляет полное HP, после чего OnTagStates переводит объект в `bbuilt = True`. Никакая стройка крестьянами не происходит. Подробнее — в [`../combat/walls_and_gates.md`](../combat/walls_and_gates.md).
 
 **Сим vs in-game ±1.** Помимо описанного ±1 для eursto, симуляция предсказывает 23 для bavba2, а пользователь наблюдал 22 (это исторический замер, не перепроверенный на новой формуле — пока трактуем как pathing failure для одной точки или edge of map).
 
@@ -214,16 +214,24 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 Cap из движка: `gc_MaxWallBuilderPointsCount = 16` [^12].
 
-**Параметры стен** (после fix ×10):
+**Параметры стен** (`buildtime_g_sec = frames × 10/32`, см. конвенцию зданий):
 
-| sid | maxhp | buildtime_g | Цена | costpercent |
-|---|---:|---:|---|---:|
-| eurswa (stone wall) | 50000 | **90 g-sec** | S50 | 0 (no scale) |
-| eursga (stone gate) | 50000 | **90 g-sec** | S50 | 0 |
-| ukrwwa (palisade) | varies | varies | W~50 | 0 |
-| ukrwga (wood gate) | varies | varies | W~50 | 0 |
+| sid | maxhp | frames | buildtime g-sec | Цена | consume.stone |
+|---|---:|---:|---:|---|---:|
+| eurswa (eur-кластер, каменная стена) | 50000 | 288 | **90** | 50 stone | 250 |
+| eursga (eur-кластер, каменные ворота) | 32000 | 288 | **90** | 50 stone | 250 |
+| russwa (RUS, каменная стена) | 50000 | 640 | **200** | 60 stone | 200 |
+| russga (RUS, каменные ворота) | 32000 | 640 | **200** | 60 stone | 200 |
+| turswa (TUR/ALG, каменная стена) | 50000 | 384 | **120** | 60 stone | 150 |
+| tursga (TUR/ALG, каменные ворота) | 32000 | 384 | **120** | 60 stone | 150 |
+| ukrwwa (общий, частокол) | 1500 | 18 | **5.6** | 10 wood | 32 |
+| ukrwwa (UKR, частокол) | 2500 | 26 | **8.1** | 12 wood | 40 |
+| ukrwga (общий, дерев. ворота) | 1000 | 18 | **5.6** | 10 wood | 32 |
+| ukrwga (UKR, дерев. ворота) | 1500 | 26 | **8.1** | 12 wood | 40 |
 
-Время на 1 сегмент с 4 builders: 90 × 1.13 / 4 = **25.4 g-sec**.
+`costpercent = 0` — все сегменты по одной цене, без scaling. У стен есть `consume.stone` или `consume.wood` — постоянное потребление пока сегмент стоит (см. артиллерия в [`../combat/artillery_specifics.md`](../combat/artillery_specifics.md) о механике consume).
+
+Время постройки одного сегмента с N builders: `bt × 1.13 / N` по обычной формуле зданий — но для стен N лимитирован `gCustomBuildPointsWall[wallvariation].builderCount` (см. §4 ниже).
 
 ---
 
@@ -345,7 +353,9 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 - Если вражеская пехота находится в радиусе захвата здания и игрока-владельца **нет** в этом радиусе → здание переходит к врагу.
 - **Захват instant** (verified empirically 2026-04-29). Старая оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — относилась к другой механике или была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
 
-**Какие здания захватываются:** все шахты, центры, ratusha, и многие другие. Список — где `bcapture=True` в коде. У стен/ворот **нет** bcapture.
+**Какие здания захватываются:** все шахты, центры, ratusha, и многие другие. Список — где `bcapture=True` в коде.
+
+**Стены и ворота — отдельная ветка.** У сегментов `bcapture = False`, но в `_misc_CheckCapture` для всех `bwall` принудительно ставится `bDie := True` — пехотинец врага в радиусе 4 тайла без защитников **уничтожает** сегмент, не передавая владельцу. При HP < 1/3 от max ветка вообще пропускается (стену уже доедают оружием). Подробности — [`../combat/walls_and_gates.md` §4](../combat/walls_and_gates.md).
 
 При захвате:
 
@@ -363,7 +373,8 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 |---|---|
 | Длина одного сегмента стены | 2×2 тайла, 4-12 builder slots в зависимости от variation (§4) |
 | objcustom.cfg BuilderPoints override? | В файле только `ExitPoints/SmokePoints/Decal` — **все здания** считаются через динамический `_unit_CalcBuilderPoints` (обход периметра mask). Стены — единственное исключение, у них explicit BuilderPoints в `wallcustom.cfg`. |
-| Ветшание (decay) | **Нет.** Здания теряют HP только от damage. Ни константы `gc_decay`, ни вызовов `_hp_decay` в скриптах не существует. |
+| Ветшание (decay) HP | **Нет.** Здания теряют HP только от damage. Ни константы `gc_decay`, ни вызовов `_hp_decay` в скриптах не существует. |
+| Исчезновение обломков | **Да, через ~60 секунд** после смерти здания. Цепочка handlers: `OnTagStates.essential_death` → `GameObjectMyDelayExecuteState('DeathStage1', gc_building_deathtime_0=30)` → `DeathStage1` → `GameObjectMyDelayExecuteState('DeathStage2', gc_building_deathtime_1=30)` → `DeathStage2` → `GameObjectRequestToDestroyByHandle`. Шахты уходят в 2× медленнее (`deathtime := deathtime*2`). См. `units/building.inc/{settagstates,deathstage1,deathstage2}.inc`. |
 | Можно ли восстановить здание после HP=0 | **Нет.** `OnDeath` вызывает `_unit_DestroyObj` — здание удаляется. Мэш `<sid>_death1a/2a` — визуальные руины, не игровой объект. Только новое foundation. |
 | Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` [^22]. Per-building override не найден. |
 | Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` [^24] возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в момент заказа. То есть возвращается ровно столько, сколько было списано. **Foundation (отмена кнопкой):** GUI-обработчик `_misc_GUICancelBuilding` [^25] вызывает только `GameObjectDestroyByHandle`. Зеркального `_res_AddResToPlayerByIndex` для foundation cost в скриптах нет — обработка возврата 100% потраченных ресурсов делается, видимо, на стороне C++ (поведение в игре подтверждено). |

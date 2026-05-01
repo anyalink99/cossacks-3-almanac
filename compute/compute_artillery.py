@@ -185,8 +185,8 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
     A("Колонка **DPS, g-сек** — это `damage / pause`, без учёта формационных "
       "бонусов (у артиллерии своих формаций нет), AoE-капа и защиты цели. "
       "Реальный output по толпе обычно ниже из-за `AoE damage cap = "
-      "floor(1 + (r/0.35)²)` ([02_combat.md → AoE damage cap]"
-      "(../../reference/02_combat.md#aoe-damage-cap--как-кучкование-защищает)).")
+      "floor(1 + (r/0.35)²)` (см. [`recon/world/combat/combat_damage_pipeline.md` §6.5]"
+      "(../../recon/world/combat/combat_damage_pipeline.md)).")
     A("")
     return L
 
@@ -424,8 +424,8 @@ def render_section_5(cites: Citations) -> list[str]:
       f"(`standtime < 0.25 g-сек`) теряют до `gc_obj_maxattackradiusdisp = 3` "
       f"тайлов эффективного радиуса {move_penalty_cite}. Дополнительное "
       f"рассеивание `dispertion` остаётся прежним. Подробнее — "
-      f"[`02_combat.md → Штраф к дальности при движении`]"
-      f"(../../reference/02_combat.md#штраф-к-дальности-при-движении).")
+      f"[`recon/world/combat/ranged_units_behavior.md` §4]"
+      f"(../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).")
     A("")
 
     A("- **Точность улучшается апгрейдами Академии.** `aca.20` (Research "
