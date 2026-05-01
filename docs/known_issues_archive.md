@@ -24,7 +24,7 @@ unit.script).
 **Подтверждено:** 8 dip-sid × 21 нация = 168 строк теперь имеют правильные
 merc-статы — HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = True`,
 `costpercent` (100 / 100.5 / 102) совпадают с
-[`recon/mercenaries_diplomacy.md`](recon/mercenaries_diplomacy.md) §2.2. Стат
+[`recon/systems/mercenaries_diplomacy.md`](recon/systems/mercenaries_diplomacy.md) §2.2. Стат
 идентичен между нациями (nation-independent). 112 / 112 sanity checks PASS.
 
 ### Ценовые проценты `priceperc` апгрейдов не извлекались

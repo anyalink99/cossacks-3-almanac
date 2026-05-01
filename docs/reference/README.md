@@ -1,6 +1,6 @@
 # Справочник по Cossacks 3
 
-_Extracted **2026-05-01 03:32:36** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-01 03:41:48** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../data.json`](../data.json); этот каталог — человеко-читаемый рендер.
 
@@ -125,7 +125,7 @@ applied = max(1, weapon.damage
 | `bfamine` | Флаг голода у игрока: `food = 0` **и** есть юниты с `consume.food > 0`. Включает случайную гибель юнитов, у которых `bnohungry = False`. |
 | `brebellion` | Флаг бунта у игрока: `gold = 0` **и** `consume[gold] > income[gold]`. Включает массовое дезертирство наёмников. |
 | `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |
-| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [recon/determinism_audit.md](../recon/determinism_audit.md). |
+| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [recon/engine/determinism_audit.md](../recon/engine/determinism_audit.md). |
 | `gc_obj_weapon_kind_*` | Тип оружия: `pike` / `sword` / `bullet` / `cannister` / `arrow` / `cannonball` / `grenade` и др. От него зависит, какая колонка `protection[kind]` цели вычитается из урона. |
 
 **Время:**
@@ -133,7 +133,7 @@ applied = max(1, weapon.damage
 | Тег | Что значит |
 |---|---|
 | `gc_time_to_frames = 32` | 32 кадра в одной игровой секунде. Все длительности в скриптах (анимации, `pause`, `buildtime` юнитов) хранятся в кадрах. |
-| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/building_mechanics.md](../recon/building_mechanics.md). |
+| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/world/building_mechanics.md](../recon/world/building_mechanics.md). |
 | game speed | `slow=7 / normal=10 / fast=14` тиков/сек. На fast: `1 game-sec = 1/1.4 ≈ 0.71 real-sec`. |
 
 ---

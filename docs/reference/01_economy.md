@@ -4,8 +4,8 @@
 
 > **Глубокие исследования по этой главе:**
 >
-> - [`../recon/peasant_extraction.md`](../recon/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
-> - [`../recon/map_generation_pipeline.md`](../recon/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
+> - [`../recon/world/peasant_extraction.md`](../recon/world/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
+> - [`../recon/world/map_generation_pipeline.md`](../recon/world/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
 > - [`../reports/map/map_resources.md`](../reports/map/map_resources.md) — подсчёт ресурсов на стандартной карте Tiny + Highlands + Rich (~109 больших деревьев, ~33 камня, до 12 шахт / игрок)
 
 ## Резюме
@@ -159,7 +159,7 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 ## Дипломатический центр и наёмники
 
-Полный разбор — в [`recon/mercenaries_diplomacy.md`](../recon/mercenaries_diplomacy.md). Здесь — суть.
+Полный разбор — в [`recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md). Здесь — суть.
 
 Дипломатический центр (`<nat>dip`) — здание середины игры, требующее **Академию** (`<nat>aca`) и Городской центр. Есть у всех 21 нации, но характеристики различаются:
 

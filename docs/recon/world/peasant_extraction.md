@@ -13,12 +13,12 @@
 
 > **Связанные документы:**
 >
-> - [determinism_audit.md](determinism_audit.md) — RNG-сайты в горячем
+> - [determinism_audit.md](../engine/determinism_audit.md) — RNG-сайты в горячем
 >   пути добычи и ожидаемый разброс между запусками.
-> - [ticks_and_subticks.md](ticks_and_subticks.md) — модель времени,
+> - [ticks_and_subticks.md](../engine/ticks_and_subticks.md) — модель времени,
 >   sub-tick state-machine, адаптивная скорость. Нужен для правильной
 >   интерпретации real-time против game-time при замерах.
-> - [server_sync_architecture.md](server_sync_architecture.md) —
+> - [server_sync_architecture.md](../engine/server_sync_architecture.md) —
 >   server-authoritative архитектура C3 (важна для multiplayer-замеров).
 > - [map_generation_pipeline.md](map_generation_pipeline.md) — таймлайн
 >   `DoGenerate`, стартовые позиции, размещение лесов / камней / шахт.
@@ -26,7 +26,7 @@
 > **TL;DR.** Аналитический потолок добычи (формулы ниже) считаем в
 > **игровом времени**. Реальная in-game добыча будет ниже — из-за
 > RNG-выборов цели в `_misc_FindResourceToExtract` (см.
-> [determinism_audit.md](determinism_audit.md) §3). Разброс между
+> [determinism_audit.md](../engine/determinism_audit.md) §3). Разброс между
 > запусками одного сейва на 5-минутном окне — 5–15% для леса и камня,
 > ≈ 0% для шахт.
 

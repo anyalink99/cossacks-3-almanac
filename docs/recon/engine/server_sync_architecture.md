@@ -341,7 +341,7 @@ C3 при старте новой игры (не Load) вызывает мног
 - [determinism_audit.md](determinism_audit.md) §2 описывает что персистится в save format. Этот документ §2.5 показывает что **тот же** формат используется для on-demand network resync.
 - [ticks_and_subticks.md](ticks_and_subticks.md) §5.2 описывает adaptive speed. Этот документ §3.2 объясняет почему adaptive speed не помогает консистентности между хостами.
 - [ticks_and_subticks.md](ticks_and_subticks.md) §6 описывает save/load хуки. Этот документ §3.4 объясняет почему даже эти хуки не достаточны.
-- [peasant_extraction.md](peasant_extraction.md) — модель добычи. **Должен быть обновлён** ссылкой на determinism_audit.md (§3) для учёта потерь через RNG.
+- [peasant_extraction.md](../world/peasant_extraction.md) — модель добычи. **Должен быть обновлён** ссылкой на determinism_audit.md (§3) для учёта потерь через RNG.
 
 ---
 

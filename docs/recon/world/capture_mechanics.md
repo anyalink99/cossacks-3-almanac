@@ -327,7 +327,7 @@ procedure _misc_CheckCapture(goHnd):
 **Не найдено**. Поиски `treasure|chest|clad|gc_obj_usage_treasure|stash` не дают результатов в скриптах. В Cossacks 3 нет нейтральных кладов на карте, как в C1 (Sich Rebellion в C1 имела «клады», в C3 эту механику убрали).
 
 ### Нейтральные крестьяне на карте
-`SetupStartingResources` (см. recon/map_generation_pipeline.md) спавнит **18 пеасантов в 6×3 grid** на старт игры — **все они уже принадлежат player'у**, не нейтральны. Других нейтральных юнитов на карте нет.
+`SetupStartingResources` (см. recon/world/map_generation_pipeline.md) спавнит **18 пеасантов в 6×3 grid** на старт игры — **все они уже принадлежат player'у**, не нейтральны. Других нейтральных юнитов на карте нет.
 
 ### Нейтральные здания
 Нет. Все здания на карте — собственность игроков или mercenary-player при defect'е.

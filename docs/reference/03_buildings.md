@@ -13,7 +13,7 @@
 | **Здание** | Локализованное имя + `sid` |
 | **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |
 | **HP** | Очки здоровья достроенного здания |
-| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/building_mechanics.md](../recon/building_mechanics.md). |
+| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/world/building_mechanics.md](../recon/world/building_mechanics.md). |
 | **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |
 | **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |
 | **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |
@@ -24,7 +24,7 @@
 
 ## Жизненный цикл здания
 
-Прежде чем переходить к таблицам, зафиксируем четыре механики, общие для **всех** зданий — стройка, ремонт, отмена, разрушение. Источник: [`recon/building_mechanics.md`](../recon/building_mechanics.md).
+Прежде чем переходить к таблицам, зафиксируем четыре механики, общие для **всех** зданий — стройка, ремонт, отмена, разрушение. Источник: [`recon/world/building_mechanics.md`](../recon/world/building_mechanics.md).
 
 ### Стройка
 
@@ -43,7 +43,7 @@
 
 ### Отмена постройки и заказа
 
-- **Отмена недостроенного здания (Foundation).** GUI-обработчик `_misc_GUICancelBuilding` (`miscext2.script:3898-3953`) вызывает `GameObjectDestroyByHandle`, после чего здание идёт по обычной death-цепочке. Возвращаются 100% потраченных ресурсов (поведение в игре). Зеркального `_res_AddResToPlayerByIndex` к `_unit_ApplyCostByID` (`unit.script:5728-5762`) в скриптах не найдено — refund foundation cost, видимо, обрабатывается на стороне C++ (см. [`recon/building_mechanics.md §8`](../recon/building_mechanics.md#8-резюме-механик-быстрый-ответ-на-частые-вопросы)).
+- **Отмена недостроенного здания (Foundation).** GUI-обработчик `_misc_GUICancelBuilding` (`miscext2.script:3898-3953`) вызывает `GameObjectDestroyByHandle`, после чего здание идёт по обычной death-цепочке. Возвращаются 100% потраченных ресурсов (поведение в игре). Зеркального `_res_AddResToPlayerByIndex` к `_unit_ApplyCostByID` (`unit.script:5728-5762`) в скриптах не найдено — refund foundation cost, видимо, обрабатывается на стороне C++ (см. [`recon/world/building_mechanics.md §8`](../recon/world/building_mechanics.md#8-резюме-механик-быстрый-ответ-на-частые-вопросы)).
 - **Отмена заказа юнита в очереди.** `_unit_CancelUnitProduction` (`unit.script:5891-5977`) возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в `OrderInfo` в момент заказа (`unit.script:6017` поясняет: «restype stores amount of units, that we had at the moment of ordering produce»). На практике это 100% от того, что было реально списано в момент заказа, независимо от того, какая цена у этого юнита будет на текущий момент.
 - **Отмена апгрейда.** `_unit_CancelUpgradePerform` (`unit.script:5837-5889`) возвращает базовую стоимость апгрейда из `_country_GetUpgradeCostBySID`. Костпроцентного масштабирования у апгрейдов в этой ветке нет, поэтому возврат равен списанному.
 - **Захват.** При `_misc_ChangePlayer` все отменяемые производственные заказы прерываются и ресурсы возвращаются прежнему владельцу (см. [02_combat.md → Захват](02_combat.md#захват-зданий-и-юнитов), шаг 3).
@@ -99,7 +99,7 @@ ba2 производит: musketeer18, pikeman18, grenadier, dragoon18, особ
 
 ### Что даёт `<nat>cen.1` для апгрейдов академии
 
-После исследования `<nat>cen.1` в академии открываются дополнительные апгрейды (они видны как `<nat>aca.X` с пререквизитом на `cen.1`). Часть из них — это **`gc_ai_upg_century`** для ИИ: именно этот флаг переводит ИИ-оппонента в 18-вечную фазу производства. См. [`recon/ai_behavior.md`](../recon/ai_behavior.md) §«Build order» (фазы 7–9).
+После исследования `<nat>cen.1` в академии открываются дополнительные апгрейды (они видны как `<nat>aca.X` с пререквизитом на `cen.1`). Часть из них — это **`gc_ai_upg_century`** для ИИ: именно этот флаг переводит ИИ-оппонента в 18-вечную фазу производства. См. [`recon/systems/ai_behavior.md`](../recon/systems/ai_behavior.md) §«Build order» (фазы 7–9).
 
 ### Стоимость по нациям (вариации)
 

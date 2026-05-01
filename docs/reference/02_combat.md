@@ -544,7 +544,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 ## Захват зданий и юнитов
 
-Полный псевдокод и список всех `bcapture/bcancapture/bprotector` флагов — в [`recon/capture_mechanics.md`](../recon/capture_mechanics.md). Здесь — суть.
+Полный псевдокод и список всех `bcapture/bcancapture/bprotector` флагов — в [`recon/world/capture_mechanics.md`](../recon/world/capture_mechanics.md). Здесь — суть.
 
 Источник: `miscext.script:961-1185` (`_misc_CheckCapture`).
 
@@ -607,7 +607,7 @@ Footprint здания **не учитывается** — берётся одн
 | `capture_nocenterspeasants = 2` | Нельзя захватить ни крестьян, ни Городской центр |
 | `capture_onlyartillery = 3` | Захвату поддаётся только артиллерия |
 
-То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`. Все опции лобби (`peacetime`, `marketdip`, `century18` и др.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/game_settings.md`](../recon/game_settings.md).
+То есть в стандартном Deathmatch крестьяне **не захватываются** (только убиваются). Захват крестьянина возможен лишь в скирмише при ручной настройке `capture_default`. Все опции лобби (`peacetime`, `marketdip`, `century18` и др.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/game_settings.md`](../recon/world/game_settings.md).
 
 ### ИИ-захватчик: 75% шанс снести вместо захвата
 
@@ -667,7 +667,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Score и финальный счёт
 
-Источник: `miscext2.script:443-461`, `unit.script:3836-3950`. Полный разбор — в [`recon/victory_conditions.md`](../recon/victory_conditions.md) §5.
+Источник: `miscext2.script:443-461`, `unit.script:3836-3950`. Полный разбор — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md) §5.
 
 Каждый объект (`TObjProp.score`) имеет базовое число очков (Крестьянин = 10, Городской центр = 1000 и т.д.). Все события прибавляют или вычитают `target.score × множитель`:
 
@@ -687,7 +687,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Конец партии: победа и поражение
 
-Источник: `miscext2.script:3770` (`_misc_CheckEndGame`), `progress.inc:54-140` (defeat). Полная картина — в [`recon/victory_conditions.md`](../recon/victory_conditions.md).
+Источник: `miscext2.script:3770` (`_misc_CheckEndGame`), `progress.inc:54-140` (defeat). Полная картина — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md).
 
 ### Условие победы (по умолчанию)
 
@@ -711,7 +711,7 @@ target.hp = min(target.hp, target.maxhp)
 
 - **Wonder of the World.** В отличие от AoE2, здания-таймера победы в C3 нет (поиск `wonder|monument` по скриптам ничего не находит).
 - **Победа по очкам.** Score копится исключительно для статистики и в условие победы не входит.
-- **Time-limit.** Партия не заканчивается по таймеру. Есть только время мира (запрет атаки в первые N минут — таблица в [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#peacetime--время-мира), механика в [`recon/game_settings.md`](../recon/game_settings.md#peacetime--как-устроен-мир)) и pause-limit (4 × 120 секунд).
+- **Time-limit.** Партия не заканчивается по таймеру. Есть только время мира (запрет атаки в первые N минут — таблица в [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#peacetime--время-мира), механика в [`recon/world/game_settings.md`](../recon/world/game_settings.md#peacetime--как-устроен-мир)) и pause-limit (4 × 120 секунд).
 - **Дипломатическая победа.** Команды статично заданы лобби, в рантайме не меняются.
 
 ### Game modes
@@ -726,7 +726,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## ИИ-оппонент: difficulty, build order, агрессия
 
-Источник: `lib/ai.script` + `progresseconomicai.inc` + `progresswarai.inc`. Полный разбор — в [`recon/ai_behavior.md`](../recon/ai_behavior.md).
+Источник: `lib/ai.script` + `progresseconomicai.inc` + `progresswarai.inc`. Полный разбор — в [`recon/systems/ai_behavior.md`](../recon/systems/ai_behavior.md).
 
 ИИ работает как обычный игрок (никаких просмотров сквозь туман войны, никакой подкормки ресурсами). Тикает каждые **2.4 g-сек**, чередуя экономику и войну.
 

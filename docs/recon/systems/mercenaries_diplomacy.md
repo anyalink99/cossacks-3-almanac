@@ -5,14 +5,14 @@
 
 **Связанные документы:**
 
-- [peasant_extraction.md](peasant_extraction.md) — семантика флага
+- [peasant_extraction.md](../world/peasant_extraction.md) — семантика флага
   `bnohungry`; у наёмников он `True` — пищу они не едят.
-- [building_mechanics.md](building_mechanics.md) — footprint и модель
+- [building_mechanics.md](../world/building_mechanics.md) — footprint и модель
   постройки дипломатического центра.
-- [server_sync_architecture.md](server_sync_architecture.md) —
+- [server_sync_architecture.md](../engine/server_sync_architecture.md) —
   переназначение наёмников при бунте идёт через `_misc_ChangePlayer`,
   это server-authoritative событие.
-- [determinism_audit.md](determinism_audit.md) — переход при бунте
+- [determinism_audit.md](../engine/determinism_audit.md) — переход при бунте
   использует `_misc_RandomInt` (seeded RNG).
 
 ## TL;DR
@@ -359,7 +359,7 @@ AI снижает приоритет защиты собственных наё�
 
 ## 5. Map-настройка `marketdip` — отключить / удорожить
 
-`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров в партии. Все 5 значений с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр); поведение движка — [`game_settings.md`](game_settings.md) §3.5.
+`gMap.settings.additional.marketdip` (`dmscript.global:1077-1081`) контролирует доступность рынков и дипцентров в партии. Все 5 значений с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр); поведение движка — [`game_settings.md`](../world/game_settings.md) §3.5.
 
 ```
 gc_mapsettings_marketdip_default        = 0   // оба включены
@@ -473,7 +473,7 @@ end;
    неправильное.
 3. **Частота тиков бунта.** Nothing-handler срабатывает раз в один
    `progresstick`. Чтобы посчитать реальную скорость в реальном времени,
-   нужна сверка с [ticks_and_subticks.md](ticks_and_subticks.md) §3.
+   нужна сверка с [ticks_and_subticks.md](../engine/ticks_and_subticks.md) §3.
    Ориентир: при Nothing-tick ≈ 135 мс наёмники на hard переходят меньше
    чем за 1 секунду; при ≈ 100 мс — за ~0.5 секунды.
 4. **`bmercenary = True` у линейного корабля в `data.json`.** 20 строк

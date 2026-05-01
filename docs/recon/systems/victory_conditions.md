@@ -224,7 +224,7 @@ if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // штраф ливе
 * **Game time-limit: отсутствует.** Никакой `gametimelimit` в скриптах нет.
 * **Pause-time-limit:** `gc_pause_timelimit = 120` сек, `gc_pause_countlimit = 4` (`dmscript.global:1662-1663`) — паузу можно ставить максимум 4 раза по 120 сек, дальше движок отказывается ставить.
 * **Score-history grace:** В rated-комнатах счётчик результата отправляется только если `gMap.brating OR gt > 60*10` (`miscext2.script:3712`) — т. е. в нерейтинговых играх, длившихся <10 мин, итог в публичный лог не идёт (анти-фермерство ачивок).
-* **Peacetime:** `gc_mapsettings_peacetime_*` (`dmscript.global:1055-1066`) — 0 / 10 / 15 / 20 / 30 / 45 / 60 / 90 / 120 / 180 / 240 минут. Это запрет атаки в первые N минут, а не таймер конца игры. Полная таблица — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#peacetime--время-мира); механика — [`game_settings.md`](game_settings.md#peacetime--как-устроен-мир).
+* **Peacetime:** `gc_mapsettings_peacetime_*` (`dmscript.global:1055-1066`) — 0 / 10 / 15 / 20 / 30 / 45 / 60 / 90 / 120 / 180 / 240 минут. Это запрет атаки в первые N минут, а не таймер конца игры. Полная таблица — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#peacetime--время-мира); механика — [`game_settings.md`](../world/game_settings.md#peacetime--как-устроен-мир).
 
 ## 8. Multiplayer-specific отличия
 

@@ -224,7 +224,7 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137
 ## 5. Garrison / Inside Units (объекты внутри зданий)
 
 ### 5.1 peasantabsorber — для шахт
-Шахты `eurgol/euriro/eurcoa`: `peasantabsorber=5` (база), до 95 с апгрейдами. Рассмотрено в `recon/peasant_extraction.md` §5.
+Шахты `eurgol/euriro/eurcoa`: `peasantabsorber=5` (база), до 95 с апгрейдами. Рассмотрено в `recon/world/peasant_extraction.md` §5.
 
 ### 5.2 transport — для транспорта
 Грузоподъёмность для транспортных юнитов:

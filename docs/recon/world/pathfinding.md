@@ -8,9 +8,9 @@ pathfinding'а живёт в нативном движке (C++); скрипты
 
 **Связанные документы:**
 
-- [ticks_and_subticks.md](ticks_and_subticks.md) — главный progress-loop
+- [ticks_and_subticks.md](../engine/ticks_and_subticks.md) — главный progress-loop
   (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
-- [server_sync_architecture.md](server_sync_architecture.md) —
+- [server_sync_architecture.md](../engine/server_sync_architecture.md) —
   `WriteMove` / `ReadMove`, server-authoritative модель, сериализация
   очереди в save.
 - [building_mechanics.md](building_mechanics.md) — footprint и `CIMass`

@@ -62,7 +62,7 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 ## Дипломатический центр и наёмники
 
-Полный разбор — в [`recon/mercenaries_diplomacy.md`](../recon/mercenaries_diplomacy.md). Здесь — суть.
+Полный разбор — в [`recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md). Здесь — суть.
 
 Дипломатический центр (`<nat>dip`) — здание середины игры, требующее **Академию** (`<nat>aca`) и Городской центр. Есть у всех 21 нации, но характеристики различаются:
 

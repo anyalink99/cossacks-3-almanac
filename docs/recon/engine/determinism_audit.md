@@ -201,7 +201,7 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 
 ## 6. Почему шахты воспроизводимы
 
-Проверяем гипотезу из эмпирики игрока. Шахта — это unit.script:2311+ с `produce[gc_resource_type_*]`. Доход реализован в `player.script:_player_ProcessResourceIncome` (см. [reference_code_map.md](../recon/peasant_extraction.md)). 
+Проверяем гипотезу из эмпирики игрока. Шахта — это unit.script:2311+ с `produce[gc_resource_type_*]`. Доход реализован в `player.script:_player_ProcessResourceIncome` (см. [reference_code_map.md](../recon/world/peasant_extraction.md)). 
 
 В hot-path шахты **нет вызовов `random`**:
 - Крестьянин входит в шахту → `_unit_AddInside` → state «inside»
@@ -280,7 +280,7 @@ AI сильно зависит от `random` и `RandomExt`. Это объясн
 
 Из этого аудита вытекают конкретные допущения для модели:
 
-1. **Аналитический потолок** (best-case rate с идеальным распределением) — считаем строго детерминированно по формулам из [`peasant_extraction.md`](peasant_extraction.md). RNG не учитываем. Время — в **game-time**, не real-time (см. [ticks_and_subticks.md](ticks_and_subticks.md) §1, 9).
+1. **Аналитический потолок** (best-case rate с идеальным распределением) — считаем строго детерминированно по формулам из [`peasant_extraction.md`](../world/peasant_extraction.md). RNG не учитываем. Время — в **game-time**, не real-time (см. [ticks_and_subticks.md](ticks_and_subticks.md) §1, 9).
 
 2. **Реальная добыча в игре** = `theoretical × (1 - loss_factor)`, где `loss_factor` — эмпирически калибруемый коэффициент потерь от:
    - Конкуренции за дерево (несколько крестьян на одно дерево).

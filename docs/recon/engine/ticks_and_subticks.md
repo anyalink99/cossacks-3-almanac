@@ -56,7 +56,7 @@ Game speed presets (dmscript.global:1027-1029):
 - `gc_settings_gamespeed_1 = 10` (normal)
 - `gc_settings_gamespeed_2 = 14` (fast)
 
-Это лобби-опция `gMap.settings.additional.gamespeed`. Таблица всех скоростей — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#gamespeed--скорость-партии); расшифровка поведения — [`game_settings.md`](game_settings.md) §3.6.
+Это лобби-опция `gMap.settings.additional.gamespeed`. Таблица всех скоростей — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#gamespeed--скорость-партии); расшифровка поведения — [`game_settings.md`](../world/game_settings.md) §3.6.
 
 Все длительности в скриптах (анимации, buildtime, attackpause) — в **frames**. Перевод в game-seconds: `frames / 32`. Перевод в real-seconds: дополнительно делить на `TimeSpeedFactor/10`.
 
@@ -373,7 +373,7 @@ progress.inc/onbeforesave.inc, progress.inc/onafterload.inc, units/unit.inc/onbe
 
 ## 9. Связь с моделью добычи
 
-**В аналитической модели** (см. [peasant_extraction.md](peasant_extraction.md)) мы считаем **в game-time**, не в real-time. Это правильный подход — формулы инвариантны к game speed.
+**В аналитической модели** (см. [peasant_extraction.md](../world/peasant_extraction.md)) мы считаем **в game-time**, не в real-time. Это правильный подход — формулы инвариантны к game speed.
 
 **Но** реальный игрок сравнивает добычу **за real-time окно** (например, «5 real-min»). Связь:
 
@@ -394,8 +394,8 @@ real_time × (TimeSpeedFactor / 10) = game_time
 ## 10. Cross-references
 
 - [determinism_audit.md](determinism_audit.md) — RNG-сайты в добыче и бою. Этот документ ссылается на §6 (save/load) и §5 (adaptive speed) для объяснения механизма недетерминизма.
-- [peasant_extraction.md](peasant_extraction.md) — модель добычи в game-time. §1 этого документа дополняет переводом game-time ↔ real-time с учётом adaptive speed.
-- [building_mechanics.md](building_mechanics.md) — buildtime в frames, deltatime для строительства.
+- [peasant_extraction.md](../world/peasant_extraction.md) — модель добычи в game-time. §1 этого документа дополняет переводом game-time ↔ real-time с учётом adaptive speed.
+- [building_mechanics.md](../world/building_mechanics.md) — buildtime в frames, deltatime для строительства.
 
 ---
 

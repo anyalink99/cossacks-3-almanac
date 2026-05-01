@@ -1,6 +1,6 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-05-01 03:32:36** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-01 03:41:48** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 
@@ -63,9 +63,9 @@ docs/
 
 [**recon/**](recon/README.md) — Reverse-engineering ключевых механик. Каждый документ автономен и ссылается на конкретные строки игровых скриптов.
 
-- **Логика мира:** [peasant_extraction](recon/peasant_extraction.md), [building_mechanics](recon/building_mechanics.md), [capture_mechanics](recon/capture_mechanics.md), [pathfinding](recon/pathfinding.md), [map_generation_pipeline](recon/map_generation_pipeline.md)
-- **Игровые системы:** [ai_behavior](recon/ai_behavior.md), [mercenaries_diplomacy](recon/mercenaries_diplomacy.md), [victory_conditions](recon/victory_conditions.md)
-- **Engine internals:** [ticks_and_subticks](recon/ticks_and_subticks.md), [determinism_audit](recon/determinism_audit.md), [server_sync_architecture](recon/server_sync_architecture.md)
+- **Логика мира:** [peasant_extraction](recon/world/peasant_extraction.md), [building_mechanics](recon/world/building_mechanics.md), [capture_mechanics](recon/world/capture_mechanics.md), [pathfinding](recon/world/pathfinding.md), [map_generation_pipeline](recon/world/map_generation_pipeline.md)
+- **Игровые системы:** [ai_behavior](recon/systems/ai_behavior.md), [mercenaries_diplomacy](recon/systems/mercenaries_diplomacy.md), [victory_conditions](recon/systems/victory_conditions.md)
+- **Engine internals:** [ticks_and_subticks](recon/engine/ticks_and_subticks.md), [determinism_audit](recon/engine/determinism_audit.md), [server_sync_architecture](recon/engine/server_sync_architecture.md)
 
 ## Reports — производные расчёты
 
