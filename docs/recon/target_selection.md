@@ -2,7 +2,8 @@
 
 Реверс-инжиниринг функций поиска цели и того, как ордер «атакуй до точки»
 расходится по разным веткам обработки в зависимости от типа юнита. Все
-ссылки на код собраны в разделе [Источники](#источники) в конце документа.
+ссылки на код и сами Pascal-блоки собраны в разделе [Источники](#источники)
+в конце документа.
 
 ## TL;DR
 
@@ -22,7 +23,7 @@
 - Для **стрелковых юнитов** балансировки нет — выбирается просто ближайший
   в радиусе.
 - Стрелок в движении (когда `standtime ≤ 0.25` игровой секунды) теряет до
-  трёх тайлов эффективного радиуса обнаружения — формула
+  трёх тайлов эффективного радиуса обнаружения по формуле
   `maxRad -= 3 × uniqrnd`. На стоянии полный радиус возвращается [^4].
 - **Attack-move** для пехоты и кавалерии — это ордер `gc_obj_order_type_move`
   с подрежимом `move_mode_attack`. Юнит идёт к точке и каждые 100 мс
@@ -66,33 +67,18 @@
 
 ### 2.1 Какие игроки рассматриваются
 
-```pascal
-for plind := 0 to gc_MaxPlayerCount-1 do
-   if scanmode <> 1 then
-      if (gScanGrid[cellx, celly].fplmask AND enemyplmask AND (1 shl plind)) = 0 then continue
-   else  // scanmode = 1 (priest healing)
-      if (gScanGrid[cellx, celly].fplmask AND myplmask AND (1 shl plind)) = 0 then continue
-```
-
-В обычном режиме обходятся только вражеские игроки. У священника
-(`scanmode = 1`) — наоборот, только свои.
+Цикл по всем `gc_MaxPlayerCount` игрокам, фильтр по битовой маске
+присутствия в ячейке и по принадлежности (свой / враг). В обычном режиме
+обходятся только вражеские игроки. У священника (`scanmode = 1`) —
+наоборот, только свои [^11].
 
 ### 2.2 Случайный стартовый индекс и циклический проход
 
-```pascal
-var count : Integer = gScanGrid[cellx, celly].fPlCount[plind];
-rndind := floor(random * count);
-for i := 0 to count - 1 do
-begin
-   newind := (rndind + i) mod count;
-   trgHnd := gScanGridUnits[plind, cellx, celly].Get(newind);
-   ...
-end;
-```
-
-Стартовый индекс — равномерно случайный, далее идёт циклический проход
-по всем `count` юнитам игрока в ячейке. Первый прошедший все проверки
-объявляется выбранным — соответствующая ветка делает `break(MAIN)`.
+Стартовый индекс задаётся как `floor(random × count)`, где `count` —
+число юнитов игрока в ячейке. Далее идёт циклический проход по всем
+`count` элементам, начиная с этого случайного индекса (по модулю
+`count`). Первый кандидат, прошедший все проверки, объявляется
+выбранным — соответствующая ветка делает `break(MAIN)` [^2].
 
 Это значит: **внутри одной ячейки выбор статистически равномерен**
 среди подходящих кандидатов. Если в ячейке четыре вражеских мушкетёра,
@@ -108,39 +94,31 @@ end;
 - essential-state включает `gc_statetag_essential_none` (юнит не в смерти
   и не в рождении).
 
-Радиус — вычисляется по разному для ближнего и дальнего боя:
-
-```pascal
-var maxRad : Float = _unit_GetMaxAttackRadius(goHnd);
-var bmelee : Boolean = maxRad <= gc_unit_meleeattackradius;
-if not bmelee then
-   maxRad := maxRad - gc_obj_maxattackradiusdisp * TObj(pobj).uniqRnd;
-```
+Радиус — вычисляется по разному для ближнего и дальнего боя. Сначала
+определяется тип юнита по флагу `bmelee` (он истинен, если максимальный
+радиус атаки не превышает `gc_unit_meleeattackradius`). Для стрелков из
+радиуса вычитается случайный штраф `gc_obj_maxattackradiusdisp × uniqrnd`,
+для рукопашников — нет [^12].
 
 Константы: `gc_unit_meleeattackradius = 0.5` тайла,
-`gc_obj_maxattackradiusdisp = 3` тайла [^11]. Стрелковый юнит
+`gc_obj_maxattackradiusdisp = 3` тайла [^13]. Стрелковый юнит
 теряет до `3 × uniqrnd` тайлов эффективного радиуса в момент сканирования.
 Этот штраф применяется именно к выбору цели; штраф на дальность
-выстрела при `standtime < 0.25` — отдельная история, описана
-в [`02_combat.md → Штраф к дальности при движении`](../reference/02_combat.md#штраф-к-дальности-при-движении).
+выстрела при `standtime < 0.25` — отдельная история, описана в
+[`02_combat.md → Штраф к дальности при движении`](../reference/02_combat.md#штраф-к-дальности-при-движении).
 
-Топология:
-
-```pascal
-if (_unit_GetRegion(trgHnd) = myRegion) or bFlag then ...
-```
-
-`bFlag` определён только для дальнего боя — это евклидово расстояние до
-цели, не превышающее `maxRad + max((goY - trgY) × 2, 0)` (с бонусом за
-возвышенность). То есть рукопашник требует общей зоны топологии
-(одна суша, один остров), а стрелок может пробить либо общую зону,
-либо просто прямую видимость в радиусе.
+Топологическая проверка: цель валидна, если она в той же зоне топологии,
+что и атакующий, или (для дальнего боя) если дистанция в евклидовой норме
+не превышает `maxRad + max((goY - trgY) × 2, 0)` (с бонусом за
+возвышенность) [^14]. То есть рукопашник требует общей зоны (одна суша,
+один остров), а стрелок может пробить либо общую зону, либо просто
+прямую видимость в радиусе.
 
 ### 2.4 Диспетчер по `scanmode`
 
 Этот блок определяет, какой именно валидный кандидат выбирается.
 Все ветки используют ранний выход `break(MAIN)` после нахождения первой
-совместимой цели:
+совместимой цели [^15]:
 
 | `scanmode` | Где включается | Кого выбирает |
 |---:|---|---|
@@ -162,45 +140,21 @@ if (_unit_GetRegion(trgHnd) = myRegion) or bFlag then ...
 
 ### 3.1 Прямоугольник ячеек
 
-```pascal
-_misc_CalcScanCellsMinMax(x1, y1, rx1, cellx, celly, cellxmax, cellymax);
-for i := cellx to cellxmax do
-for j := celly to cellymax do
-   ...
-```
-
-`x1`, `y1` — индекс собственной ячейки искателя в scan-grid; `rx1` —
-радиус в ячейках, считается на верхнем уровне как
-`floor(maxsearchdist / gc_scangrid_size) + 1`. То есть охватывается
-квадрат `(2 × rx1 + 1)²` ячеек — обычно 3×3 или 5×5.
+Через `_misc_CalcScanCellsMinMax` вычисляются индексы границ ячеек
+вокруг позиции искателя; затем двойной цикл `i × j` по этому
+прямоугольнику. `x1`, `y1` — индекс собственной ячейки искателя в
+scan-grid; `rx1` — радиус в ячейках, считается на верхнем уровне
+как `floor(maxsearchdist / gc_scangrid_size) + 1`. То есть охватывается
+квадрат `(2 × rx1 + 1)²` ячеек — обычно 3×3 или 5×5 [^16].
 
 ### 3.2 Цикл и две метрики
 
-Внутри цикла:
-
-```pascal
-trgHnd := _unit_SearchEnemyInCell(goHnd, i, j, scanmode);
-if trgHnd <> 0 then
-begin
-   distSqr := Sqr(pX - ...) + Sqr(pZ - ...);
-   if (distSqr > minsearchdistSqr) and (distSqr < maxsearchdistSqr) then
-   begin
-      if distSqr < mindist then mindist := distSqr; minTrgHnd := trgHnd;
-
-      if bmelee then
-         relativeDist := distSqr * (1 + TIntegerList(pstolist).GetCount * 0.125)
-      else
-         relativeDist := distSqr;
-
-      if relativeDist < minRelativeDist then
-      begin
-         minRelativeDist := relativeDist;
-         minRelativeTrgHnd := trgHnd;
-         if bmelee and (mindist < cOkDist) then break(MAIN);  // см. §3.4
-      end;
-   end;
-end;
-```
+Для каждой ячейки `_unit_SearchEnemyInCell` возвращает одного кандидата.
+Дальше его проверяют на принадлежность кольцу радиусов
+(`minsearchdistSqr < distSqr < maxsearchdistSqr`) и обновляют сразу
+**две метрики**: абсолютную минимальную дистанцию `minTrgHnd` и
+относительную минимальную `minRelativeTrgHnd` (с учётом нагрузки на
+цель). Возвращается именно `minRelativeTrgHnd` [^17].
 
 Заметные моменты:
 
@@ -208,7 +162,7 @@ end;
   у стрелков, в неё попадает противник вплотную) и `maxsearchdist`
   (внешний радиус прицельного выстрела). Стрелок в движении считает
   по `Sqr(maxsearchdist - 3 × uniqrnd)`. Стоящий стрелок и любой
-  рукопашник — по `maxsearchdist²` [^12].
+  рукопашник — по `maxsearchdist²` [^4].
 - **Две параллельные метрики.** `minTrgHnd` — просто абсолютно
   ближайшая цель. `minRelativeTrgHnd` — ближайшая с поправкой на
   «нагруженность» (см. §3.3).
@@ -216,18 +170,15 @@ end;
   с балансировкой; абсолютная `minTrgHnd` рассчитывается, но в
   результате не используется. Авторский комментарий это прямо
   оговаривает: *no help from relative dist cause we choose 1 unit
-  from each cell* [^13].
+  from each cell* [^18].
 
 ### 3.3 Балансировка нагрузки для рукопашников
 
-```pascal
-var pstolist : Pointer = _misc_GetObjectArgData(trgHnd, gc_argunit_stolist);
-relativeDist := distSqr * (1 + TIntegerList(pstolist).GetCount * 0.125);
-```
-
 `stolist` — список юнитов, у которых state-target указывает на эту цель.
 То есть это не «текущие в радиусе атаки», а **сколько в принципе идут
-или собираются бить** конкретно этого противника.
+или собираются бить** конкретно этого противника. Для рукопашников
+относительная дистанция считается как `distSqr × (1 + stolist.GetCount × 0.125)`,
+то есть «загруженная» цель эффективно отодвигается [^3].
 
 Эффект для рукопашника при выборе:
 
@@ -250,15 +201,11 @@ relativeDist := distSqr * (1 + TIntegerList(pstolist).GetCount * 0.125);
 
 ### 3.4 Ранний выход для рукопашников
 
-```pascal
-const cOkDist = (gc_scangrid_size / 2) * (gc_scangrid_size / 2);
-if bmelee and (mindist < cOkDist) then break(MAIN);
-```
-
 Если рукопашник нашёл цель **внутри половины scan-cell** (~4 тайла)
 и улучшил `relativeDist`, цикл по ячейкам обрывается. Дальше искать
 «более балансировочно подходящего» противника не имеет смысла —
-текущий и так совсем рядом.
+текущий и так совсем рядом. Константа `cOkDist = (gc_scangrid_size / 2)²`
+вычисляется внутри функции [^19].
 
 Для стрелков такого выхода нет — они всегда обходят весь прямоугольник.
 
@@ -272,63 +219,38 @@ if bmelee and (mindist < cOkDist) then break(MAIN);
 
 ### 4.1 Радиусы
 
-```pascal
-searchdist := objprop.searchradius;
-minsearchdist := objprop.minattackradius;
+Базовые значения берутся из `objprop`: `searchdist = objprop.searchradius`,
+`minsearchdist = objprop.minattackradius`. К стрелку (когда
+`minsearchdist > gc_unit_meleeattackradius`) добавляется бонус с
+возвышенности — `searchdist += goHeight × 2`, если `goHeight > 0`.
+Для рукопашника в режиме Guard `searchdist` ограничен сверху
+константой `gc_gameplay_meleeguardmaxsearchdist` — охранник не уходит
+далеко [^20].
 
-if (minsearchdist > gc_unit_meleeattackradius) then
-begin
-   var goHeight := GetGameObjectPositionYByHandle(goHnd);
-   if goHeight < 0 then goHeight := 0;
-   searchdist := searchdist + goHeight * 2;     // high-ground bonus
-end
-else
-begin
-   if (orders[0].itype = gc_obj_order_type_guard) then
-      searchdist := MinFloat(searchdist, gc_gameplay_meleeguardmaxsearchdist);
-end;
-```
-
-- Стрелок на возвышенности получает `searchdist += goHeight × 2`. Это
-  уже описано в [`02_combat.md → Высокая позиция`](../reference/02_combat.md#высокая-позиция-high-ground).
-- Рукопашник в режиме Guard: `searchdist` ограничен сверху константой
-  `gc_gameplay_meleeguardmaxsearchdist` — охранник не уходит далеко.
+Бонус с возвышенности уже описан в
+[`02_combat.md → Высокая позиция`](../reference/02_combat.md#высокая-позиция-high-ground).
 
 ### 4.2 Выбор `scanmode`
 
-```pascal
-if objprop.bpriest then
-   scanmode := 1
-else if not (objprop.bcapture or objprop.media = water or objprop.bbuilding) then
-   scanmode := 2;
-```
-
-Все юниты, которые сами захватываются (`bcapture` — например,
-артиллерия), а также водные и здания — идут в `scanmode = 0` (только
-убивать). Все обычные не-захватываемые наземные юниты (пехота,
-кавалерия) — в `scanmode = 2`: приоритет убить, при провале — захватить.
+Священник идёт в `scanmode = 1`. Все юниты, которые сами захватываются
+(`bcapture` — например, артиллерия), а также водные и здания — в
+`scanmode = 0` (только убивать). Все остальные не-захватываемые
+наземные юниты (пехота, кавалерия) — в `scanmode = 2`: приоритет убить,
+при провале — захватить [^21].
 
 То есть пехотный юнит **по умолчанию пытается захватить** беззащитную
 пушку или склад, если ничего убиваемого рядом нет.
 
 ### 4.3 Диспетчер обхода
 
-```pascal
-if media = water then
-   trgHnd := _unit_SearchEnemyScanCellsShips(...)
-else if (_misc_GetShotPointsCount(goHnd) > 0) then
-   trgHnd := _unit_SearchEnemyScanCellsLongRange(...)
-else if (rx1 <= 5) and (scanmode <> 1) then
-   trgHnd := _unit_SearchEnemyScanCells(...)
-else
-   trgHnd := _unit_SearchEnemyScanCellsLongRange(...);
-```
+В зависимости от среды и числа ячеек выбирается одна из трёх процедур
+обхода: для водных юнитов — `_unit_SearchEnemyScanCellsShips`, для
+дальнобойных (`_misc_GetShotPointsCount > 0`, артиллерия и башни) или
+большого радиуса — `_unit_SearchEnemyScanCellsLongRange`, для
+обычных — `_unit_SearchEnemyScanCells` [^22].
 
-Три варианта обхода: для водных юнитов, обычный (5×5 ячеек или меньше)
-и Long-range с дополнительными попытками (`cLongRangeTryNum = 18`)
-для дальнобойных юнитов с `_misc_GetShotPointsCount > 0` (артиллерия,
-башни) либо когда радиус сканирования большой. Long-range обходит 18
-ячеек и выбирает первую попавшуюся валидную цель — он не ищет минимум.
+Long-range обходит до 18 ячеек (`cLongRangeTryNum = 18`) и выбирает
+**первую попавшуюся** валидную цель — он не ищет минимум.
 
 ---
 
@@ -340,7 +262,7 @@ else
 
 ### 5.1 Для пехоты и кавалерии — `gc_obj_order_type_move` с подрежимами
 
-`progress` ордера хранит подрежим [^14]:
+`progress` ордера хранит подрежим [^5]:
 
 | Подрежим | Константа | Поведение |
 |---|---|---|
@@ -348,22 +270,11 @@ else
 | `move_mode_attack` | 1 | aggressive move: каждый прогресс-тик зовёт `_unit_SearchVictimOnProgress` и при наличии цели берёт её в текущий ордер `_unit_OrderAttack` |
 
 Дополнительно есть глобальный флаг профиля
-`gProfile.bsearchenemyinfront` (по умолчанию `True` [^15]). Он добавляет
-**умный поиск** для `move_mode_default` [^16]:
-
-```pascal
-var bSmartSearch : Boolean = bsearchenemyinfront
-                         and (orders[0].itype = move_mode_default)
-                         and (movement order is in progress);
-
-if bSmartSearch and trgHnd <> 0 then
-begin
-   ...
-   var angle := VectorAngle(direction_of_travel, direction_to_target);
-   if angle < cMinAngle (= 30°) then
-      _unit_OrderAttack(...)
-end;
-```
+`gProfile.bsearchenemyinfront` (по умолчанию `True` [^23]). Он добавляет
+**умный поиск** для `move_mode_default`: если найдена потенциальная
+цель и угол между направлением движения и направлением на неё не
+превышает `cMinAngle = 30°`, юнит автоматически разворачивается в
+атаку [^24].
 
 То есть при включённом умном поиске обычное движение (правый клик)
 тоже ловит врагов, но **только тех, кто в 30°-конусе впереди**. Враги
@@ -374,23 +285,15 @@ end;
 ### 5.2 Для артиллерии — `gc_obj_order_type_attackpoint`
 
 `_player_OrderUnitsToAttackPoint` обрабатывает только юниты с
-`objprop.bartprepare = True` [^6]:
-
-```pascal
-if (gObjProp[cid][id].bartprepare) then
-begin
-   TObj(pobj).bstandground := False;
-   TObj(pobj).bsearchenemy := True;
-   if bClearOrders then _unit_ClearOrders(goHnd);
-   _unit_OrderAttackPoint(goHnd, trgx, trgz, False, bClearOrders);
-end;
-```
+`objprop.bartprepare = True`. Для каждого такого юнита снимается
+`bstandground`, выставляется `bsearchenemy`, опционально очищаются
+прежние ордера и выдаётся `_unit_OrderAttackPoint` с координатами [^6].
 
 `bartprepare = True` стоит у `cannon`, `howitzer`, `framegun` (точные
-ветки в скрипте — см. [^17]). Эти юниты:
+ветки в скрипте — см. [^25]). Эти юниты:
 
 1. Получают `gc_obj_order_type_attackpoint` с координатами точки.
-2. На каждом прогресс-тике в `_unit_TryAttackPoint` [^18] проверяют,
+2. На каждом прогресс-тике в `_unit_TryAttackPoint` [^26] проверяют,
    находится ли точка в радиусе, и стреляют по ней. Точка ни от кого
    не зависит — это просто координата.
 3. AoE-урон ловит всех, кто оказался в радиусе взрыва (см.
@@ -408,7 +311,7 @@ attack-point молотит по пустому месту до новой ко�
 ### 5.3 Через GUI
 
 GUI шлёт пакет, который обрабатывает `units/global.inc/readorder.inc`.
-В нём есть три точки, которые ставят `bsearchenemy := True` [^19],
+В нём есть три точки, которые ставят `bsearchenemy := True` [^27],
 и все они соответствуют ордерам, после которых юнит должен сам искать
 противника:
 
@@ -418,7 +321,8 @@ GUI шлёт пакет, который обрабатывает `units/global.i
 
 То есть «нашёл врага — переключился» работает **всегда**, кроме
 случаев, когда `bstandground` явно стоит и `standtime > 0`. Это поведение
-описано в [`02_combat.md → Standground / bartprepare`](../reference/02_combat.md#standground--bartprepare--режимы-атаки).
+описано в
+[`02_combat.md → Standground / bartprepare`](../reference/02_combat.md#standground--bartprepare--режимы-атаки).
 
 ---
 
@@ -475,15 +379,49 @@ GUI шлёт пакет, который обрабатывает `units/global.i
 
 [^1]: `_unit_SearchEnemyScanCells` — `lib/unit.script:5142-5212`.
 
-[^2]: Случайный стартовый индекс и циклический проход по списку юнитов в ячейке — `lib/unit.script:4872-4877`.
+[^2]: Случайный стартовый индекс и циклический проход по списку юнитов в ячейке — `lib/unit.script:4872-4877`:
 
-[^3]: STO-балансировка для рукопашников — `lib/unit.script:5188-5198`.
+    ```pascal
+    var count : Integer = gScanGrid[cellx, celly].fPlCount[plind];
+    rndind := floor(random * count);
+    for i := 0 to count - 1 do
+    begin
+       newind := (rndind + i) mod count;
+       trgHnd := gScanGridUnits[plind, cellx, celly].Get(newind);
+       ...
+    end;
+    ```
 
-[^4]: Штраф к радиусу для движущегося стрелка — `lib/unit.script:5151-5156`.
+[^3]: STO-балансировка для рукопашников — `lib/unit.script:5188-5198`:
 
-[^5]: Подрежимы движения `move_mode_default` / `move_mode_attack` — `dmscript.global:715-718`.
+    ```pascal
+    var pstolist : Pointer = _misc_GetObjectArgData(trgHnd, gc_argunit_stolist);
+    relativeDist := distSqr * (1 + TIntegerList(pstolist).GetCount * 0.125);
+    ```
 
-[^6]: `_player_OrderUnitsToAttackPoint` — `lib/player.script:2447-2481`.
+[^4]: Расчёт `maxsearchdistSqr` (штраф к радиусу для движущегося стрелка) — `lib/unit.script:5151-5156`:
+
+    ```pascal
+    var bmelee : Boolean = ...;
+    if bmelee or (TObj(pobj).standtime > 0.25) then
+       maxsearchdistSqr := maxsearchdist * maxsearchdist
+    else
+       maxsearchdistSqr := Sqr(maxsearchdist - gc_obj_maxattackradiusdisp * TObj(pObj).uniqrnd);
+    ```
+
+[^5]: Константы подрежимов движения — `dmscript.global:715-718`.
+
+[^6]: `_player_OrderUnitsToAttackPoint` — `lib/player.script:2447-2481`:
+
+    ```pascal
+    if (gObjProp[TObj(pobj).cid][TObj(pobj).id].bartprepare) then
+    begin
+       TObj(pobj).bstandground := False;
+       TObj(pobj).bsearchenemy := True;
+       if (bClearOrders) then _unit_ClearOrders(goHnd);
+       _unit_OrderAttackPoint(goHnd, trgx, trgz, False, bClearOrders);
+    end;
+    ```
 
 [^7]: `_unit_SearchVictim` — `lib/unit.script:5214-5262`.
 
@@ -491,22 +429,179 @@ GUI шлёт пакет, который обрабатывает `units/global.i
 
 [^9]: `_unit_SearchEnemyInCell` — `lib/unit.script:4832-4961`.
 
-[^10]: Битовые маски игроков на ячейке (`fplmask`, `myplmask`, `enemyplmask`) — `lib/unit.script:4842-4852`.
+[^10]: Битовые маски игроков на ячейке (`fplmask`, `myplmask`, `enemyplmask`) — `lib/unit.script:4842-4852`:
 
-[^11]: Константы радиуса — `dmscript.global:113-116` (`gc_unit_meleeattackradius = 0.5 t`, `gc_obj_maxattackradiusdisp = 3 t`).
+    ```pascal
+    for plind := 0 to gc_MaxPlayerCount-1 do
+    begin
+       var enemyplmask : Integer = gPlayer[TObj(pObj).pl].enemyplmask;
+       if scanmode <> 1 then
+       begin
+          if (gScanGrid[cellx, celly].fplmask and enemyplmask and (1 shl plind)) = 0 then
+             continue;
+       end
+       else
+       begin
+          if (gScanGrid[cellx, celly].fplmask and gPlayer[TObj(pObj).pl].myplmask and (1 shl plind)) = 0 then
+             continue;
+       end;
+       ...
+    end;
+    ```
 
-[^12]: Расчёт `maxsearchdistSqr` — `lib/unit.script:5151-5156`.
+[^11]: Та же ветка, см. [^10].
 
-[^13]: Возврат `minRelativeTrgHnd` и комментарий автора — `lib/unit.script:5210`.
+[^12]: Расчёт радиуса с учётом ближнего/дальнего боя — `lib/unit.script:4867-4870`:
 
-[^14]: Константы подрежимов движения — `dmscript.global:715-718`.
+    ```pascal
+    var maxRad : Float = _unit_GetMaxAttackRadius(goHnd);
+    var bmelee : Boolean = maxRad <= gc_unit_meleeattackradius;
+    if not bmelee then
+       maxRad := maxRad - gc_obj_maxattackradiusdisp * TObj(pobj).uniqRnd;
+    ```
 
-[^15]: Дефолт флага `bsearchenemyinfront = True` — `lib/profile.script:30`.
+[^13]: Константы радиуса — `dmscript.global:113-116` (`gc_unit_meleeattackradius = 0.5 t`, `gc_obj_maxattackradiusdisp = 3 t`).
 
-[^16]: Умный поиск (фронтальный конус 30°) — `lib/unit.script:7334-7359`.
+[^14]: Топологическая проверка цели — `lib/unit.script:4882-4889`:
 
-[^17]: `objprop.bartprepare := True` — `lib/unit.script:1724, 1756, 1846, 2240` (cannon, howitzer-проектив, framegun, tower built-in cannon).
+    ```pascal
+    if not bmelee then
+    begin
+       var trgX, trgY, trgZ : Float;
+       GetGameObjectAbsolutePositionByHandle(trgHnd, trgX, trgY, trgZ);
+       bFlag := (VectorDistance(goX, 0, goZ, trgx, 0, trgZ)) <= (maxRad + MaxFloat((goY - trgY) * 2, 0));
+    end;
 
-[^18]: `_unit_TryAttackPoint` — `lib/unit.script:7512` и далее.
+    if (_unit_GetRegion(trgHnd) = myRegion) or (bFlag) then ...
+    ```
 
-[^19]: Обработчик ордеров с `bsearchenemy := True` — `units/global.inc/readorder.inc:63, 88, 97`.
+[^15]: Диспетчер по `scanmode` (выбор первой совместимой цели) — `lib/unit.script:4894-4961`. Все ветки 0/1/2/3 используют ранний выход `break(MAIN)`; ветка 4 (`AI sabotage`) обновляет `Result` по максимуму `weapon[0].damage` и не обрывается.
+
+[^16]: Подсчёт прямоугольника ячеек — `lib/unit.script:5164-5170`:
+
+    ```pascal
+    var cellx, celly, cellxmax, cellymax : Integer;
+    _misc_CalcScanCellsMinMax(x1, y1, rx1, cellx, celly, cellxmax, cellymax);
+    var i, j : Integer;
+    for [MAIN]i := cellx to (cellxmax) do
+    for j := celly to (cellymax) do
+       ...
+    ```
+
+[^17]: Главный цикл `_unit_SearchEnemyScanCells` — `lib/unit.script:5167-5210`:
+
+    ```pascal
+    for [MAIN]i := cellx to cellxmax do
+    for j := celly to cellymax do
+    begin
+       trgHnd := _unit_SearchEnemyInCell(goHnd, i, j, scanmode);
+       _misc_ScanGridCellDataUpdateResult(gScanGrid[i,j], trgHnd <> 0);
+       if (trgHnd <> 0) then
+       begin
+          distSqr := Sqr(pX - GetGameObjectPositionXByHandle(trgHnd))
+                   + Sqr(pZ - GetGameObjectPositionZByHandle(trgHnd));
+          if (distSqr > minsearchdistSqr) and (distSqr < maxsearchdistSqr) then
+          begin
+             if (distSqr < mindist) then begin
+                mindist := distSqr;
+                minTrgHnd := trgHnd;
+             end;
+             if bmelee then
+                relativeDist := distSqr * (1 + TIntegerList(pstolist).GetCount * 0.125)
+             else
+                relativeDist := distSqr;
+             if (relativeDist < minRelativeDist) then
+             begin
+                minRelativeDist := relativeDist;
+                minRelativeTrgHnd := trgHnd;
+                if bmelee and (mindist < cOkDist) then break(MAIN);
+             end;
+          end;
+       end;
+    end;
+    Result := minRelativeTrgHnd;
+    ```
+
+[^18]: Возврат `minRelativeTrgHnd` и комментарий автора — `lib/unit.script:5210`.
+
+[^19]: Ранний выход для рукопашников — `lib/unit.script:5200-5202`:
+
+    ```pascal
+    const cOkDist = (gc_scangrid_size / 2) * (gc_scangrid_size / 2);
+    if bmelee and (mindist < cOkDist) then
+       break(MAIN);
+    ```
+
+[^20]: Расчёт радиусов в `_unit_SearchVictimOnProgress` — `lib/unit.script:5456-5475`:
+
+    ```pascal
+    var pobjprop : Pointer = gObjProp[TObj(pobj).cid][TObj(pobj).id];
+    var searchdist : Float = TObjProp(pobjprop).searchradius;
+    var minsearchdist : Float = TObjProp(pobjprop).minattackradius;
+
+    if (minsearchdist > gc_unit_meleeattackradius) then
+    begin
+       var goHeight : Float = GetGameObjectPositionYByHandle(goHnd);
+       if (goHeight < 0) then goHeight := 0;
+       searchdist := searchdist + goHeight * 2;     // high-ground bonus
+    end
+    else
+    begin
+       if (TObj(pobj).orders[0].itype = gc_obj_order_type_guard) then
+          searchdist := MinFloat(searchdist, gc_gameplay_meleeguardmaxsearchdist);
+    end;
+    ```
+
+[^21]: Выбор `scanmode` в `_unit_SearchVictimOnProgress` — `lib/unit.script:5487-5492`:
+
+    ```pascal
+    var scanmode : Integer;
+    if (TObjProp(pobjprop).bpriest) then
+       scanmode := 1
+    else if (not ((TObjProp(pobjprop).bcapture) or (TObjProp(pobjprop).media = gc_obj_media_water) or (TObjProp(pobjprop).bbuilding))) then
+       scanmode := 2;
+    ```
+
+[^22]: Диспетчер обхода (water / long-range / regular) — `lib/unit.script:5494-5503`:
+
+    ```pascal
+    if (TObjProp(pobjprop).media = gc_obj_media_water) then
+       trgHnd := _unit_SearchEnemyScanCellsShips(goHnd, posX, posZ, minsearchdist, scangridx, scangridy, rx1, scanmode)
+    else
+    begin
+       if (_misc_GetShotPointsCount(goHnd) > 0) then
+          trgHnd := _unit_SearchEnemyScanCellsLongRange(goHnd, posX, posZ, minsearchdist, scangridx, scangridy, rx1, cLongRangeTryNum, scanmode)
+       else
+       if (rx1 <= 5) and (scanmode <> 1) then
+          trgHnd := _unit_SearchEnemyScanCells(goHnd, posX, posZ, minsearchdist, searchdist, scangridx, scangridy, rx1, scanmode)
+       ...
+    end;
+    ```
+
+[^23]: Дефолт флага `bsearchenemyinfront = True` — `lib/profile.script:30`.
+
+[^24]: Умный поиск (фронтальный конус 30°) — `lib/unit.script:7334-7359`:
+
+    ```pascal
+    var bSmartSearch : Boolean = (gProfile.bsearchenemyinfront)
+                              and (TObj(pobj).orders[0].itype = gc_obj_order_type_move)
+                              and (TObj(pobj).orders[0].info.progress = gc_obj_order_move_mode_default);
+    if bSmartSearch and (trgHnd <> 0) and (TObj(pobj).orders[0].bexecute) then
+    begin
+       ...
+       const cMinAngle = 30;
+       var dirx : Float = tpx - GetGameObjectPositionXByHandle(goHnd);
+       var dirz : Float = tpz - GetGameObjectPositionZByHandle(goHnd);
+       var dirx2 : Float = GetGameObjectPositionXByHandle(trgHnd) - GetGameObjectPositionXByHandle(goHnd);
+       var dirz2 : Float = GetGameObjectPositionZByHandle(trgHnd) - GetGameObjectPositionZByHandle(goHnd);
+       var angle : Float = VectorAngle(dirx, 0, dirz, dirx2, 0, dirz2);
+       if (angle < cMinAngle) then
+          _unit_OrderAttack(goHnd, trgHnd, True, False, False);
+    end;
+    ```
+
+[^25]: `objprop.bartprepare := True` — `lib/unit.script:1724, 1756, 1846, 2240` (cannon, howitzer-проектив, framegun, tower built-in cannon).
+
+[^26]: `_unit_TryAttackPoint` — `lib/unit.script:7512` и далее.
+
+[^27]: Обработчик ордеров с `bsearchenemy := True` — `units/global.inc/readorder.inc:63, 88, 97`.
