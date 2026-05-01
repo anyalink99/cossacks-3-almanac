@@ -53,7 +53,7 @@
 
 ## uniqrnd — индивидуальное случайное число юнита
 
-При спавне каждый юнит получает `uniqrnd ∈ [0..1]` (`unit.script:2726`). Это **зафиксированное** число, остаётся неизменным до смерти. Используется в **4 механиках одновременно**:
+При спавне каждый юнит получает `uniqrnd ∈ [0..1]` [^1]. Это **зафиксированное** число, остаётся неизменным до смерти. Используется в **4 механиках одновременно**:
 
 | # | Где применяется | Эффект |
 |---:|---|---|
@@ -64,11 +64,11 @@
 
 Эффекты — это **компромисс**, встроенный в каждого юнита: высокий uniqrnd → большие криты, но меньшая дальность. Низкий → дальше стреляет, но слабее криты.
 
-В C3 разработчики **специально расширили base range на +100 px** для лучников (`unit.script:999` комментарий: `// c3 added range +100 cause of uniqrnd range dispertion`) — компенсировать uniqrnd usage #2.
+В C3 разработчики **специально расширили base range на +100 px** для лучников — компенсировать uniqrnd usage #2 [^2].
 
 ## Формула урона
 
-Источник: `miscext2.script:_misc_DoDamage` (строки 274-510). Шесть последовательных шагов:
+Источник: `_misc_DoDamage` [^3]. Шесть последовательных шагов:
 
 ```mermaid
 flowchart TD
@@ -149,7 +149,7 @@ target.hp -= damage
 
 ## Формационные бонусы
 
-Источник: `data/game/var/formations.cfg`
+Источник: файл `formations.cfg` [^4].
 
 Юниты в строю получают **+урон / +shield** к каждому выстрелу/попаданию. В **hold-mode** (приказ «Стоять») бонусы значительно больше:
 
@@ -169,56 +169,40 @@ target.hp -= damage
 
 ## Офицер и бонусы строя
 
-Источники: `player.script:809-812, 914`, `squad.script:7-13, 98-107`, `units/global.inc/progress.inc:5-35, 156-172`, `miscext2.script:343-355, 421-431`, `dmscript.global:156, 174, 180`, `classes.script:3747-3768`.
+Бонусы строя (`fAddDamage`, `fAddShield`, `fAddDamageHold`, `fAddShieldHold`) — поля объекта `TSquad`. Единственная точка их записи в скриптах — `_player_SetSquadFormation` [^5].
 
-Бонусы строя (`fAddDamage`, `fAddShield`, `fAddDamageHold`, `fAddShieldHold`) — поля объекта `TSquad`. Единственная точка их записи в скриптах — `_player_SetSquadFormation` (player.script:809-812):
+Формула урона на каждом ударе берёт значения из того же `TSquad`:
 
-```pascal
-TSquad(pSquad).fAddDamage     := gFormation[formInd].bonusdamage;
-TSquad(pSquad).fAddShield     := gFormation[formInd].bonusshield;
-TSquad(pSquad).fAddDamageHold := gFormation[formInd].bonusdamagehold;
-TSquad(pSquad).fAddShieldHold := gFormation[formInd].bonusshieldhold;
-```
+- щит цели — `pSquad2.fAddShield(Hold)` [^6];
+- бонус атакующего — `pSquad.fAddDamage(Hold)` [^7].
 
-Формула урона (`miscext2.script`) на каждом ударе берёт значения из того же `TSquad`:
-
-- щит цели — `pSquad2.fAddShield(Hold)` (строки 351-353);
-- бонус атакующего — `pSquad.fAddDamage(Hold)` (строки 428-430).
-
-Обе ветки заходят только при `pSquad <> nil` (строки 347, 421). Пока объект `TSquad` существует и поля установлены, бонус применяется к каждому выстрелу и к каждому входящему попаданию.
+Обе ветки заходят только при `pSquad <> nil`. Пока объект `TSquad` существует и поля установлены, бонус применяется к каждому выстрелу и к каждому входящему попаданию.
 
 ### Когда `TSquad` создаётся
 
-`_player_CreateSquad` (player.script:914) собирает строй только если `_unit_IsOfficer(officerHnd) = True`. Точка входа в сборку — `_unit_MakeSquadList` (unit.script:6280-6315): функция принимает `officerHnd`, ищет вокруг него барабанщика и подходящих рядовых, затем `_player_SetSquadFormation` ставит юнитов в сетку и записывает `fAddDamage / fAddShield` из `gFormation[formInd]`. Поэтому новые `TSquad` с записанными бонусами появляются только под живого офицера.
+`_player_CreateSquad` собирает строй только если `_unit_IsOfficer(officerHnd) = True` [^8]. Точка входа в сборку — `_unit_MakeSquadList` [^9]: функция принимает `officerHnd`, ищет вокруг него барабанщика и подходящих рядовых, затем `_player_SetSquadFormation` ставит юнитов в сетку и записывает `fAddDamage / fAddShield` из `gFormation[formInd]`. Поэтому новые `TSquad` с записанными бонусами появляются только под живого офицера.
 
-После сборки `_player_SetSquadFormation` (player.script:814-858) сажает офицера и барабанщика в клетки `maskOfficers`; рядовых — в клетки `mask`. Если в момент перерасстановки сетки офицера в `TSquad` уже нет, его клетка остаётся `0`, но поля `fAddDamage / fAddShield` записаны раньше, на строках 809-812, и от состава сетки не зависят.
+После сборки `_player_SetSquadFormation` сажает офицера и барабанщика в клетки `maskOfficers`; рядовых — в клетки `mask` [^10]. Если в момент перерасстановки сетки офицера в `TSquad` уже нет, его клетка остаётся `0`, но поля `fAddDamage / fAddShield` записаны раньше и от состава сетки не зависят.
 
 ### Когда `TSquad` удаляется
 
-В каждом тике `Progress` (units/global.inc/progress.inc:174-175) для каждого живого игрока вызывается `CheckSquadsDisband` (там же, строки 5-35):
+В каждом тике `Progress` для каждого живого игрока вызывается `CheckSquadsDisband` [^11].
 
-```pascal
-basecount := TSquad(pSquad).fBaseCount;
-count     := _squad_GetBaseUnitCount(pSquad);
-if count < basecount * gc_player_SquadDismissPercent then
-    _misc_DisbandSquad(plHnd, i, true);
-```
+- `gc_player_SquadDismissPercent = 0.25` [^12].
+- `_squad_GetBaseUnitCount(pSquad)` равен `TSquad.GetCount` − 1 (если `Get(0)` — офицер) − 1 (если есть барабанщик) [^13]. В порог идут только рядовые.
 
-- `gc_player_SquadDismissPercent = 0.25` (dmscript.global:156).
-- `_squad_GetBaseUnitCount(pSquad)` (squad.script:98-107) равен `TSquad.GetCount` − 1 (если `Get(0)` — офицер) − 1 (если есть барабанщик). В порог идут только рядовые.
-
-Когда условие срабатывает, `_misc_DisbandSquad` (misc.script:2893-2935) → `gPlayer[plInd].DisbandSquad(sqInd)` (classes.script:3747-3768) удаляет `TSquad` из `gPlayer[plInd].squads`. После этого ветка `if (pSquad2 <> nil)` в формуле урона пропускается, и для оставшихся юнитов бонус не применяется.
+Когда условие срабатывает, `_misc_DisbandSquad` [^14] → `gPlayer[plInd].DisbandSquad(sqInd)` [^15] удаляет `TSquad` из `gPlayer[plInd].squads`. После этого ветка `if (pSquad2 <> nil)` в формуле урона пропускается, и для оставшихся юнитов бонус не применяется.
 
 Соответственно, бонусы строя пропадают не от смерти конкретного юнита, а от перехода `TSquad` в распущенное состояние, и пороговое условие — на численности рядовых.
 
 ### Hold-mode
 
-Множитель Hold (для LINE / SQUARE / KARE: `+7 dmg / +7 shield` на размерах 15-196 и `+3/+3 → +7/+7` на 400) активен, пока `TSquad.fHoldMode = True`. Машина состояний (units/global.inc/progress.inc:160-172):
+Множитель Hold (для LINE / SQUARE / KARE: `+7 dmg / +7 shield` на размерах 15-196 и `+3/+3 → +7/+7` на 400) активен, пока `TSquad.fHoldMode = True`. Машина состояний [^16]:
 
 - `fHoldMode := True` — когда `fStandGround = True`, `fHoldMode = False`, `fAgressive = False`, `fMoveCount = 0`, и `fHoldModeProgress` (накапливается со скоростью `deltatime / gc_squad_holdmode_time` за тик) дошёл до 1.0.
-- `fHoldMode := False` — когда отряд получает приказ движения (writemove.inc:42-44, player.script:1453-1455).
+- `fHoldMode := False` — когда отряд получает приказ движения [^17].
 
-Параметры: `gc_squad_holdmode_time = 150 × 8 × gc_frames_to_time = 37.5` g-сек простоя в Stand Ground (dmscript.global:174, 180); `gc_frames_to_time = 0.03125`.
+Параметры: `gc_squad_holdmode_time = 150 × 8 × gc_frames_to_time = 37.5` g-сек простоя в Stand Ground [^18]; `gc_frames_to_time = 0.03125`.
 
 ### Сводка по `fAddDamage / fAddShield`
 
@@ -233,9 +217,7 @@ if count < basecount * gc_player_SquadDismissPercent then
 
 ## Высокая позиция (high ground)
 
-Источник: `unit.script:5469, 7272`
-
-Если стрелковый юнит стоит на возвышенности (Y > 0), его **search distance** увеличивается:
+Если стрелковый юнит стоит на возвышенности (Y > 0), его **search distance** увеличивается [^19]:
 
 ```
 searchdist += goHeight × 2  (только для ranged юнитов: minsearchdist > melee_radius)
@@ -248,9 +230,7 @@ searchdist += goHeight × 2  (только для ranged юнитов: minsearch
 
 ## AoE damage cap — как кучкование защищает
 
-Источник: `miscext2.script:_misc_DoRoundDamage:576`
-
-Взрывы (cannon, mortar, gun, grenade) попадают по всем юнитам в радиусе `r`, **но только первые N получают урон**:
+Взрывы (cannon, mortar, gun, grenade) попадают по всем юнитам в радиусе `r`, **но только первые N получают урон** [^20]:
 
 ```
 count = floor(1 + (r / 0.35)²)
@@ -264,13 +244,11 @@ count = floor(1 + (r / 0.35)²)
 
 **Стратегический вывод:** **плотная толпа защищена** — 50 юнитов в одной точке теряют максимум 9 от ядра, остальные нетронуты. Растянутая линия страдает гораздо больше.
 
-Огненные стрелы (`barrow`, `miscext2.script:589`) работают по другой ветке условия — `(listcount > 300) or (dist < r)`. Если в собранном по площади списке **больше 300** юнитов — попадание идёт по всему списку без проверки дистанции (то есть фактический радиус «расширяется» до радиуса сборки списка). Если **300 или меньше** — нужен `dist < r`, то есть только юниты строго внутри радиуса попадания. Капа `count` в этой ветке не применяется.
+Огненные стрелы (`barrow`) работают по другой ветке условия — `(listcount > 300) or (dist < r)` [^21]. Если в собранном по площади списке **больше 300** юнитов — попадание идёт по всему списку без проверки дистанции (то есть фактический радиус «расширяется» до радиуса сборки списка). Если **300 или меньше** — нужен `dist < r`, то есть только юниты строго внутри радиуса попадания. Капа `count` в этой ветке не применяется.
 
 ## Shield /3 при недостроенном здании
 
-Источник: `miscext2.script:339-342`
-
-При расчёте урона: если здание **ещё строится** (`bbuilt=False`), его shield делится на 3:
+При расчёте урона: если здание **ещё строится** (`bbuilt=False`), его shield делится на 3 [^22]:
 
 ```
 if (target.bbuilt):  damage -= shield        # достроено: полный shield
@@ -282,18 +260,16 @@ else:                 damage -= shield // 3   # стройка: 1/3 shield
 
 ## Рассеяние — почему выстрелы промахиваются
 
-Источник: `weapon.script:_weapon_CalcShotDispertion:625`
-
-При каждом выстреле снаряд **рассеивается** относительно цели:
+При каждом выстреле снаряд **рассеивается** относительно цели [^23]:
 
 ```
 maxdisp = dist × disp × 0.0267   # в тайлах
 shot_x = target_x + (1 - random*2) × maxdisp
 shot_z = target_z + (1 - random*2) × maxdisp
 ```
-Где `dist` — дистанция до цели (тайлы), `disp` — `weapon.dispertion` (тайлы, после _misc_PixelsToTiles). **Чем дальше — тем больше рассеяние** (линейно).
+Где `dist` — дистанция до цели (тайлы), `disp` — `weapon.dispertion` (тайлы, после `_misc_PixelsToTiles`). **Чем дальше — тем больше рассеяние** (линейно).
 
-**Базовые значения dispertion** (из unit.script):
+**Базовые значения dispertion:**
 | Оружие | dispertion (px / tiles) | На 15 t отклонение |
 |---|---:|---:|
 | Strelet (SHOTMUSKET, base) | 200 / 3.75 | **±1.50 t** |
@@ -314,11 +290,11 @@ shot_z = target_z + (1 - random*2) × maxdisp
 **Апгрейды dispertion** — только для **артиллерии**:
 - `aca.20` (Research new sighting devices for artillery): **-35% dispersion**
 - `aca.27` (Develop mathematics): **-35% dispersion** (накапливается с aca.20)
-- ⚠ Для **мушкетеров и лучников** прямого dispersion-апгрейда нет.
+- Внимание: для **мушкетеров и лучников** прямого dispersion-апгрейда нет.
 
 ## Видимость и обзор (vision, FOW)
 
-Источник: `unit.script:11565-11620` (`_unit_GetVision`), `player.script:475` (`SetFOWDovFunc`).
+Источники: `_unit_GetVision` [^24], `SetFOWDovFunc` [^25].
 
 В Cossacks 3 у каждого юнита есть **два разных** радиуса «осведомлённости», и их легко спутать:
 
@@ -363,9 +339,7 @@ real_vision_radius_tiles = 20 + 4 × vision
 
 ## Standground / bartprepare — режимы атаки
 
-Источник: `unit.script:7259-7286`, `player.script:2456-2463`
-
-**Ключевой механизм:** дальность авто-обнаружения врага (`maxsearchdist`) **радикально различается** в режимах standground и обычном:
+**Ключевой механизм:** дальность авто-обнаружения врага (`maxsearchdist`) **радикально различается** в режимах standground и обычном [^26]:
 
 ```
 if (bstandground AND order != move):
@@ -378,9 +352,9 @@ else:
 - **Без standground** мушкетер (radiusmax≈9 t) обнаруживает врага только когда тот входит в **0.375 t от minsearchdist** — то есть подходит вплотную. Получается **1-2 выстрела** и сразу ближний бой. Это объясняет почему стрелковые юниты «стоят и не стреляют» по дальним целям.
 - **С standground** обнаружение работает на полную `searchradius` (1500-2400 px ≈ 28-45 t). Мушкетер стреляет по любому врагу в радиусе обзора — успевает 5-10 выстрелов до ближнего боя.
 - **Standground также отключает RunAway** (см. ниже): юнит держит позицию, не пытается отступать.
-- **Приказ движения стирает standground**: если юниту приказали идти куда-то, он не стреляет даже если bstandground=True (см. условие `order != move` в коде).
+- **Приказ движения стирает standground**: если юниту приказали идти куда-то, он не стреляет даже если bstandground=True (см. условие `order != move`).
 
-**bartprepare** (artillery preparation) — флаг для **артиллерии, башен и портов**. Установлен на `cannon`, `howitzer`, `framegun`, `multicannon`, `tow` (towers), `port` (shipyards). При получении `attackpoint`-приказа (по площади) такие юниты:
+`bartprepare` (artillery preparation) — флаг для **артиллерии, башен и портов** [^27]. Установлен на `cannon`, `howitzer`, `framegun`, `multicannon`, `tow` (towers), `port` (shipyards). При получении `attackpoint`-приказа (по площади) такие юниты:
 
 - Принудительно выключают `bstandground` → переходят в обычный режим обнаружения
 - Принудительно включают `bsearchenemy` → активно сканируют цели вокруг точки
@@ -394,9 +368,7 @@ else:
 
 ## RunAway — автоматический отход стрелков
 
-Источник: `unit.script:7363-7369`
-
-Если у стрелкового юнита (`minsearchdist > 0`, т.е. min range > 0) враг входит в **мёртвую зону** (между 0 и `minsearchdist`), юнит автоматически отступает:
+Если у стрелкового юнита (`minsearchdist > 0`, т.е. min range > 0) враг входит в **мёртвую зону** (между 0 и `minsearchdist`), юнит автоматически отступает [^28]:
 
 ```
 if (cell_search_found_no_target AND враг_в_minsearchdist):
@@ -423,14 +395,12 @@ if (cell_search_found_no_target AND враг_в_minsearchdist):
 **Стратегические выводы:**
 
 - Для отступательной тактики (отход с обстрелом) — **сними standground** и работай по уязвимой кавалерии/пехоте.
-- Для удержания позиции (например, на холме) — **standground обязателен**, иначе при сближении врага на дистанцию ближнего боя мушкетёры разбегутся.
+- Для удержания позиции (например, на холме) — **standground обязателен**, иначе при сближении врага на дистанцию ближнего боя стрелки разбегутся.
 - Лёгкая кавалерия может **догнать отходящих мушкетеров** (fasthorse=96 против default=32 → ~3× быстрее).
 
 ## Штраф к дальности при движении
 
-Источник: `unit.script:8011-8023`, константа `gc_obj_maxattackradiusdisp = 3` (`dmscript.global:116`)
-
-Юнит, который только что двигался (`standtime < 0.25 sec`), теряет в дальности:
+Юнит, который только что двигался (`standtime < 0.25 sec`), теряет в дальности [^29]:
 
 ```
 if (standtime < 0.25) AND (weapon.kind != cannister):
@@ -439,7 +409,7 @@ if (standtime < 0.25) AND (weapon.kind != cannister):
     else:
         radiusmax -= 3 × uniqrnd × 0.5    # артиллерия: до -1.5 тайла
 ```
-**uniqrnd** — индивидуальный коэффициент юнита (см. секцию [uniqrnd](#uniqrnd--индивидуальное-случайное-число-юнита)) ∈ [0..1]. Так что у разных стрелков в отряде штраф разный: «снайперы» (низкий uniqrnd) теряют меньше, «мазилы» (высокий uniqrnd) — почти весь штраф.
+Константа `gc_obj_maxattackradiusdisp = 3` [^30]. **uniqrnd** — индивидуальный коэффициент юнита (см. секцию [uniqrnd](#uniqrnd--индивидуальное-случайное-число-юнита)) ∈ [0..1]. Так что у разных стрелков в отряде штраф разный: «снайперы» (низкий uniqrnd) теряют меньше, «мазилы» (высокий uniqrnd) — почти весь штраф.
 
 **Стратегические выводы:**
 
@@ -450,9 +420,7 @@ if (standtime < 0.25) AND (weapon.kind != cannister):
 
 ## Бонус к дальности в покое
 
-Источник: `unit.script:8026-8028`
-
-Если юнит в состоянии **idle** (флаг `gc_statetag_move_idle`), он получает бонус к дальности:
+Если юнит в состоянии **idle** (флаг `gc_statetag_move_idle`), он получает бонус к дальности [^31]:
 
 ```
 rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 тайла
@@ -463,9 +431,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 ## Переключение оружия по дистанции
 
-Источник: `unit.script:_unit_GetWeaponToAttackIndex:6376-6451`
-
-Многие юниты имеют **несколько слотов оружия** (`weapon[0]`, `weapon[1]`, ...). Игра автоматически выбирает нужный слот по дистанции до цели — каждое оружие имеет `radiusmin..radiusmax`. Если враг вошёл в близкий диапазон — выбирается оружие с маленьким `radiusmin`, иначе — дальнее.
+Многие юниты имеют **несколько слотов оружия** (`weapon[0]`, `weapon[1]`, ...). Игра автоматически выбирает нужный слот по дистанции до цели — каждое оружие имеет `radiusmin..radiusmax` [^32]. Если враг вошёл в близкий диапазон — выбирается оружие с маленьким `radiusmin`, иначе — дальнее.
 
 Дополнительно учитывается `attmask`: если у цели `mmask` совпадает с `weapon[i].attmask` (материал брони), это оружие приоритетнее. Поэтому fire arrows выбираются для построек (их attmask содержит `gc_obj_material_building`).
 
@@ -491,7 +457,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 **Прокачки штыка** идут отдельно от прокачек пули — `bla.musketeer18.1.X` качает урон bullet, штык остаётся базовый.
 
-**3. Archer — обычная стрела против огненной (firearrow):**
+**3. Archer — обычная стрела против огненной (`firearrow`):**
 
 | Слот | Тип | dmg | Pause | Range (px) | Dispertion | Особенности |
 |---|---|---:|---:|---|---:|---|
@@ -511,9 +477,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 ## Дружественный огонь
 
-Источник: `miscext2.script:_misc_DoDamage:274`, `weapon.script:482-492`, `unit.script:7686-7714`
-
-**Дружественный огонь ВКЛЮЧЁН для большинства снарядов.** В функции `_misc_DoDamage` **нет проверки на сторону/владельца** — урон применяется к любому объекту, попавшему под траекторию.
+**Дружественный огонь ВКЛЮЧЁН для большинства снарядов.** В функции `_misc_DoDamage` **нет проверки на сторону/владельца** — урон применяется к любому объекту, попавшему под траекторию [^33].
 
 **Что попадает по своим:**
 
@@ -525,8 +489,8 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 **Что НЕ ранит союзников:**
 
-- **Корабли** — есть отдельная защита `// prevent ships from friendly fire` в weapon.script. Торговцы и боевые корабли одного игрока не топят друг друга.
-- Башни и пушки с `bcheckfriendonline=True` (по умолчанию ON) — **не выстрелят, если на линии огня стоит дружественное здание** (см. `_misc_IsBuildingInRay`). Но это про блокировку выстрела, а не про урон при пролёте.
+- **Корабли** — есть отдельная защита `// prevent ships from friendly fire` [^34]. Торговцы и боевые корабли одного игрока не топят друг друга.
+- Башни и пушки с `bcheckfriendonline=True` (по умолчанию ON) — **не выстрелят, если на линии огня стоит дружественное здание** (см. `_misc_IsBuildingInRay` [^35]). Но это про блокировку выстрела, а не про урон при пролёте.
 
 **Список оружия с явно ОТКЛЮЧЁННОЙ проверкой `bcheckfriendonline`** (стреляют сквозь свои здания, не блокируются):
 
@@ -542,7 +506,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 Полный псевдокод и список всех `bcapture/bcancapture/bprotector` флагов — в [`recon/world/capture_mechanics.md`](../recon/world/capture_mechanics.md). Здесь — суть.
 
-Источник: `miscext.script:961-1185` (`_misc_CheckCapture`).
+Источник: `_misc_CheckCapture` [^36].
 
 ### Геометрический триггер, а не «5% шанс»
 
@@ -562,7 +526,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 
 **Юниты:**
 
-- **Все крестьяне** всех 8 sid'ов (`peaaus`/`peatur`/`pearus`/`peapol`/`peaspa`/`peaeng`/`peaukr`/`peasco`) — `bcapture=True` (unit.script:1199). _Раньше в этом справочнике говорилось, что украинский и шотландский Крестьянин не захватываются — это **ошибка**, флаг у них тоже True._
+- **Все крестьяне** всех 8 sid'ов (`peaaus`/`peatur`/`pearus`/`peapol`/`peaspa`/`peaeng`/`peaukr`/`peasco`) — `bcapture=True` [^37]. _Раньше в этом справочнике говорилось, что украинский и шотландский Крестьянин не захватываются — это **ошибка**, флаг у них тоже True._
 - **Артиллерия** — `cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`. Проверяется в **4× чаще** (0.5 g-сек), поэтому теряется почти мгновенно при подходе кавалерии.
 
 **Здания (захватываются — меняют владельца):** Городской центр, Казарма (17/18 в.), Кузница, Склад, Мельница, Шахты (золото/железо/уголь).
@@ -578,7 +542,7 @@ rbonus += weapon[i].addradius   # обычно _misc_PixelsToTiles(32) = ~0.6 т
 | Академия, Конюшня, Дипломатический центр, Порт | Только снос. |
 | Пехота, кавалерия, корабли | Только убийство. |
 
-⚠️ **Недостроенное здание** проверяется на захват **всегда**, даже Башня. Если враг подойдёт к стройке, здание сменит хозяина. Как только постройка завершена — `bcapture=False` отключает проверку.
+Внимание: **недостроенное здание** проверяется на захват **всегда**, даже Башня. Если враг подойдёт к стройке, здание сменит хозяина. Как только постройка завершена — `bcapture=False` отключает проверку.
 
 ### Кто может захватывать (`bcancapture=True`)
 
@@ -622,9 +586,7 @@ Footprint здания **не учитывается** — берётся одн
 
 ## Лечение священниками
 
-Источник: `unit.script:1151-1188`, формула в `miscext2.script:371-398`
-
-Священники (`priest`, `pope`, `mullah`, `padre`) лечат союзных юнитов. Используют псевдо-оружие `gc_obj_weapon_kind_heal`. Формула:
+Священники (`priest`, `pope`, `mullah`, `padre`) лечат союзных юнитов [^38]. Используют псевдо-оружие `gc_obj_weapon_kind_heal`. Формула [^39]:
 
 ```
 target.hp += weapon.damage      # БЕЗ shield, БЕЗ protection!
@@ -649,9 +611,7 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Реакция ИИ — отряд переходит в атаку от одного удара
 
-Источник: `miscext2.script:406-417`
-
-Любой не-артиллерийский юнит ИИ, **получивший урон**, переключает свой отряд (`squad`) в `fAgressive=True` и обновляет `fLastBattleTime`.
+Любой не-артиллерийский юнит ИИ, **получивший урон**, переключает свой отряд (`squad`) в `fAgressive=True` и обновляет `fLastBattleTime` [^40].
 
 **Эффект:** один поражающий выстрел/удар по отряду ИИ переводит его в боевой режим. ИИ начинает контратаковать, преследовать, искать врага активно.
 
@@ -663,27 +623,27 @@ target.hp = min(target.hp, target.maxhp)
 
 ## Score и финальный счёт
 
-Источник: `miscext2.script:443-461`, `unit.script:3836-3950`. Полный разбор — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md) §5.
+Полный разбор — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md) §5. Источники в коде — `miscext2.script` и `unit.script` [^41].
 
 Каждый объект (`TObjProp.score`) имеет базовое число очков (Крестьянин = 10, Городской центр = 1000 и т.д.). Все события прибавляют или вычитают `target.score × множитель`:
 
-| Событие | Множитель | Источник |
-|---|---:|---|
-| Произведён свой юнит / построено здание | **+1×** | unit.script:3836 |
-| Убит враг | **+2×** | miscext2.script:447 |
-| Убит вражеский юнит в гарнизоне здания | **+3×** | miscext2.script:451 |
-| Захвачен чужой объект | **+5×** | unit.script:3837 |
-| Свой юнит / здание погибли | **−2×** | unit.script:3947 |
-| Погиб юнит-наёмник, ушедший в Rebellion | **−3×** | unit.script:3948 |
-| Свой юнит / здание были захвачены врагом | **−5×** | unit.script:3946 |
+| Событие | Множитель |
+|---|---:|
+| Произведён свой юнит / построено здание | **+1×** |
+| Убит враг | **+2×** |
+| Убит вражеский юнит в гарнизоне здания | **+3×** |
+| Захвачен чужой объект | **+5×** |
+| Свой юнит / здание погибли | **−2×** |
+| Погиб юнит-наёмник, ушедший в Rebellion | **−3×** |
+| Свой юнит / здание были захвачены врагом | **−5×** |
 
-**Score не уходит в минус** (clamp `≥0`, `unit.script:3950`). Снимок счёта пишется каждые 5 g-сек в `gPlayer[i].stat.scores.Add(...)` для итогового графика.
+**Score не уходит в минус** (clamp `≥0`). Снимок счёта пишется каждые 5 g-сек в `gPlayer[i].stat.scores.Add(...)` для итогового графика.
 
-⚠️ **Score не определяет победу.** `_misc_CheckEndGame` смотрит только на «кто остался в живых», а Score нужен для статистики и достижений. Подробнее — в секции ниже.
+Внимание: **Score не определяет победу.** `_misc_CheckEndGame` смотрит только на «кто остался в живых», а Score нужен для статистики и достижений. Подробнее — в секции ниже.
 
 ## Конец партии: победа и поражение
 
-Источник: `miscext2.script:3770` (`_misc_CheckEndGame`), `progress.inc:54-140` (defeat). Полная картина — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md).
+Источники: `_misc_CheckEndGame` [^42] и обработчик поражения в `progress.inc` [^43]. Полная картина — в [`recon/systems/victory_conditions.md`](../recon/systems/victory_conditions.md).
 
 ### Условие победы (по умолчанию)
 
@@ -738,7 +698,7 @@ target.hp = min(target.hp, target.maxhp)
 | Very hard | **1.00** | паритет с игроком |
 | Impossible | **1.25** | на 25% быстрее (доступен только в Historical Battle) |
 
-⚠️ **Стартовые ресурсы у ИИ совпадают с игроком** на любом уровне (1000/4000/5000/1М, в зависимости от `resourcestart`). Чита по ресурсам, обзору или скорости движения в скриптах не найдено.
+Внимание: **стартовые ресурсы у ИИ совпадают с игроком** на любом уровне (1000/4000/5000/1М, в зависимости от `resourcestart`). Чита по ресурсам, обзору или скорости движения в скриптах не найдено.
 
 Прочие различия по уровням (мелкие):
 
@@ -810,3 +770,118 @@ Build-order сильно зависит от нации: для каждого `
 
 **Что из этого следует:** формация — единственный способ умножить урон. Никаких скрытых бонусов от позиции, кроме high-ground и standground. Апгрейды + формация + соответствие «тип оружия ↔ тип брони» — это вся боевая математика.
 
+---
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: Назначение `uniqrnd` юниту при спавне — `lib/unit.script:2726`.
+
+[^2]: Расширение base range на +100 px для лучников — комментарий в `lib/unit.script:999`: `// c3 added range +100 cause of uniqrnd range dispertion`.
+
+[^3]: Формула урона `_misc_DoDamage` — `lib/miscext2.script:274-510`.
+
+[^4]: Файл формаций — `data/game/var/formations.cfg`.
+
+[^5]: Запись бонусов в `TSquad` через `_player_SetSquadFormation` — `lib/player.script:809-812`:
+
+    ```pascal
+    TSquad(pSquad).fAddDamage     := gFormation[formInd].bonusdamage;
+    TSquad(pSquad).fAddShield     := gFormation[formInd].bonusshield;
+    TSquad(pSquad).fAddDamageHold := gFormation[formInd].bonusdamagehold;
+    TSquad(pSquad).fAddShieldHold := gFormation[formInd].bonusshieldhold;
+    ```
+
+[^6]: Применение `pSquad2.fAddShield(Hold)` в формуле урона — `lib/miscext2.script:347, 351-353`.
+
+[^7]: Применение `pSquad.fAddDamage(Hold)` в формуле урона — `lib/miscext2.script:421, 428-430`.
+
+[^8]: Сборка строя только под живого офицера — `lib/player.script:914`.
+
+[^9]: `_unit_MakeSquadList` — `lib/unit.script:6280-6315`.
+
+[^10]: Расстановка офицера/барабанщика/рядовых по сетке — `lib/player.script:814-858`.
+
+[^11]: `CheckSquadsDisband` в каждом тике `Progress` — `units/global.inc/progress.inc:5-35, 174-175`:
+
+    ```pascal
+    basecount := TSquad(pSquad).fBaseCount;
+    count     := _squad_GetBaseUnitCount(pSquad);
+    if count < basecount * gc_player_SquadDismissPercent then
+        _misc_DisbandSquad(plHnd, i, true);
+    ```
+
+[^12]: `gc_player_SquadDismissPercent = 0.25` — `dmscript.global:156`.
+
+[^13]: `_squad_GetBaseUnitCount` — `lib/squad.script:98-107`.
+
+[^14]: `_misc_DisbandSquad` — `lib/misc.script:2893-2935`.
+
+[^15]: `gPlayer[plInd].DisbandSquad(sqInd)` — `lib/classes.script:3747-3768`.
+
+[^16]: Машина состояний Hold-mode — `units/global.inc/progress.inc:160-172`.
+
+[^17]: Сброс `fHoldMode` при приказе движения — `units/global.inc/writemove.inc:42-44`, `lib/player.script:1453-1455`.
+
+[^18]: Параметры Hold-mode — `dmscript.global:174, 180`.
+
+[^19]: Бонус search distance с возвышенности — `lib/unit.script:5469, 7272`.
+
+[^20]: AoE damage cap в `_misc_DoRoundDamage` — `lib/miscext2.script:576`.
+
+[^21]: Огненные стрелы (`barrow`) в AoE — `lib/miscext2.script:589`.
+
+[^22]: Shield /3 для недостроенного здания — `lib/miscext2.script:339-342`.
+
+[^23]: Рассеяние выстрелов `_weapon_CalcShotDispertion` — `lib/weapon.script:625`.
+
+[^24]: `_unit_GetVision` — `lib/unit.script:11565-11620`.
+
+[^25]: `SetFOWDovFunc` — `lib/player.script:475`.
+
+[^26]: Standground/обычный режим в `_unit_SearchTarget` — `lib/unit.script:7259-7286`.
+
+[^27]: `bartprepare` обработчик — `lib/player.script:2456-2463`.
+
+[^28]: RunAway-механика — `lib/unit.script:7363-7369`.
+
+[^29]: Штраф к дальности при `standtime < 0.25` — `lib/unit.script:8011-8023`.
+
+[^30]: `gc_obj_maxattackradiusdisp = 3` — `dmscript.global:116`.
+
+[^31]: Бонус к дальности в покое — `lib/unit.script:8026-8028`.
+
+[^32]: Переключение оружия по дистанции `_unit_GetWeaponToAttackIndex` — `lib/unit.script:6376-6451`.
+
+[^33]: Отсутствие проверки на сторону в `_misc_DoDamage` — `lib/miscext2.script:274`.
+
+[^34]: Защита кораблей от friendly fire — `lib/weapon.script:482-492`: комментарий `// prevent ships from friendly fire`.
+
+[^35]: `_misc_IsBuildingInRay` — `lib/unit.script:7686-7714`.
+
+[^36]: `_misc_CheckCapture` — `lib/miscext.script:961-1185`.
+
+[^37]: `bcapture=True` для всех 8 sid'ов крестьян — `lib/unit.script:1199`.
+
+[^38]: Описание священников — `lib/unit.script:1151-1188`.
+
+[^39]: Формула лечения через `gc_obj_weapon_kind_heal` — `lib/miscext2.script:371-398`.
+
+[^40]: Реакция отряда на урон — `lib/miscext2.script:406-417`.
+
+[^41]: Score-механика — `lib/miscext2.script:443-461` и `lib/unit.script:3836-3950` (clamp на `≥0` — `lib/unit.script:3950`):
+
+    ```pascal
+    // miscext2.script:447  убит враг                       +2x
+    // miscext2.script:451  убит враг в гарнизоне           +3x
+    // unit.script:3836     произведён свой юнит/здание     +1x
+    // unit.script:3837     захвачен чужой объект           +5x
+    // unit.script:3946     свой юнит/здание захвачены      -5x
+    // unit.script:3947     свой юнит/здание погибли        -2x
+    // unit.script:3948     наёмник в Rebellion погиб       -3x
+    ```
+
+[^42]: `_misc_CheckEndGame` — `lib/miscext2.script:3770`.
+
+[^43]: Обработчик поражения — `units/global.inc/progress.inc:54-140`.
