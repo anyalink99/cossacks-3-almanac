@@ -1,8 +1,8 @@
 # Recon: pipeline генерации карты
 
-Полный таймлайн `DoGenerate`. Источник: `data/scripts/common.inc/dogenerate.inc`
-(2103 строки), вызывается через `ExecuteState('DoGenerate')` из
-`initmapgen.inc:232`.
+Полный таймлайн `DoGenerate`. Точка входа — `ExecuteState('DoGenerate')` [^1].
+Все ссылки на код и Pascal-блоки собраны в разделе [Источники](#источники)
+в конце документа.
 
 **Связанные документы:**
 
@@ -22,28 +22,36 @@
   гарантированный stoneforest + камни + леса, внешний (22 × 18) —
   ещё один лес.
 - На Land-картах `foreststype` всегда = 0 (engine жёстко перезаписывает
-  выбор лобби в `dogenerate.inc:5-6`). На non-Land действует значение
-  из лобби.
+  выбор лобби [^2]). На non-Land действует значение из лобби.
 - В фазе 4 всегда вызывается `CreateStartPointPeasants` — **18
   крестьян** в сетке 6 × 3, независимо от опции `startingunits` в лобби.
 
 ## 1. Глобальные константы (объявлены до процедур)
 
-Из dogenerate.inc:407-416:
+Объявления глобальных констант [^3]:
 
-```
-cCircle1MaskX = 5    cCircle1MaskY = 7    // forbidden zone — здесь только Phase-1 mines
-cCircle2MaskX = 12   cCircle2MaskY = 15   // 1× stoneforest + 1× stones + 2× forests
-cCircle3MaskX = 22   cCircle3MaskY = 18   // 1× stones + 1× forest
-cBorderObjDist = 1                        // peacetime wall spacing (tiles)
-```
+- `cCircle1MaskX = 5`, `cCircle1MaskY = 7` — `forbidden zone`, здесь только Phase-1 mines.
+- `cCircle2MaskX = 12`, `cCircle2MaskY = 15` — 1× stoneforest + 1× stones + 2× forests.
+- `cCircle3MaskX = 22`, `cCircle3MaskY = 18` — 1× stones + 1× forest.
+- `cBorderObjDist = 1` — peacetime wall spacing (тайлы).
 
-Это **полу-оси эллипсов** в `gPatternMask`, центрированные на каждой стартовой точке. Внутри эллипса `gPatternMask[x,y] := True` → ничего больше нельзя ставить (ни лес, ни камни, ни здания env-плеера). Эллипсы заполняются через `_misc_FillPatternMaskElipse(pointx, pointy+2, rx, ry)` — **с +2 смещением по Y** (стартовый поинт сдвинут вверх относительно центра масок).
+Это **полу-оси эллипсов** в `gPatternMask`, центрированные на каждой стартовой
+точке. Внутри эллипса `gPatternMask[x,y] := True` → ничего больше нельзя ставить
+(ни лес, ни камни, ни здания env-плеера). Эллипсы заполняются через
+`_misc_FillPatternMaskElipse(pointx, pointy+2, rx, ry)` — **с +2 смещением по Y**
+(стартовый поинт сдвинут вверх относительно центра масок).
 
 Также:
-- `var foreststype : Integer = floor(RandomExt*3); foreststype := 0;` (dogenerate.inc:5-6) — **foreststype всегда = 0**. Случайная инициализация немедленно перезаписана. Следствие: на Land **никогда** не бывает leaf-only (`foreststype=1`) или mixed-only (`foreststype=2`) карт. Только foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
-- `var bDesert : Boolean = (gMap.settings.gen.season=3);` — season=3 переключает все pattern types на `desert_*`. Для Land+любая-другая-сезон bDesert=False.
-- `var maphW : Integer = mapW div 2;` — половина ширины карты (используется для tiny-corner-snapping в SetupMines round 2).
+
+- `foreststype` инициализируется как `floor(RandomExt*3)`, но немедленно
+  перезаписывается на `0` [^2]. Следствие: на Land **никогда** не бывает
+  leaf-only (`foreststype=1`) или mixed-only (`foreststype=2`) карт. Только
+  `foreststype=0` mix: `pinefir/spruce/pine/pine_big_2` (big),
+  `pinefir/spruce/pine` (mid), `pinefir/pine` (small).
+- `bDesert := (gMap.settings.gen.season=3)` — `season=3` переключает все
+  pattern types на `desert_*`. Для Land + любая-другая-сезон `bDesert=False`.
+- `maphW := mapW div 2` — половина ширины карты (используется для tiny-corner
+  snapping в `SetupMines` round 2).
 
 ---
 
@@ -86,82 +94,89 @@ flowchart TB
 Детали по фазам ниже.
 
 ### Phase 0 — подготовка
-1. [Lines 1-78] Helper-procedures для масок (FillPatternMaskElipse/Circle/Rectangle/MapBorder).
-2. [Lines 80-419] Helper-procedures для юнитов и UniqueStartingUnits (нация-специфичные офицеры/барабанщики при `startingunits>default`).
-3. [Lines 444-497] `ClearMapMaskAndObjects` — очистка `gPatternMask` (640×640), `arrStartPos[0..7]`, `arrStartPosBusy[i] := -1`.
-4. [Lines 1284-1289] `_gui_ProcessProgressBar('progressbar.loadingenvironment')` → `LoadPatterns(True, False)` + `LoadPatterns(True, True)` — загружает все `.pattern` файлы из `data/gen/patterns/*`.
+
+1. Helper-procedures для масок (`FillPatternMaskElipse/Circle/Rectangle/MapBorder`) [^4].
+2. Helper-procedures для юнитов и `UniqueStartingUnits` (нация-специфичные офицеры/барабанщики при `startingunits>default`) [^5].
+3. `ClearMapMaskAndObjects` — очистка `gPatternMask` (640×640), `arrStartPos[0..7]`, `arrStartPosBusy[i] := -1` [^6].
+4. `_gui_ProcessProgressBar('progressbar.loadingenvironment')` → `LoadPatterns(True, False)` + `LoadPatterns(True, True)` — загружает все `.pattern` файлы из `data/gen/patterns/*` [^7].
 
 ### Phase 1 — terrain
-5. [Lines 1291-1296] Подсчёт `plcount` = существующие non-spectator игроки.
-6. [Line 1535] `SetupTiledPatterns('tiles')` (или `desert_tiles` если bDesert) — кладёт фоновые decoration-tiles (например, грязь, трещины) на 25×25-tile сетку: `wcount = mapW div 25`, `hcount = mapH div 25`, центр каждого блока `realx = (x*25) + 12 - mapW/2 - 1`. Для 256×256 это ~10×10 ≈ **100 размещений**.
-7. [Line 1538] `SetRandomKey(randkey1)` — все последующие `RandomExt` детерминированы этим seed.
-8. [Lines 1542-1565] `relieftype`, `terraintype`, `minesdensity` resolved (random если выходит за валидный диапазон). Выбирается `pTerrainTypes` (DLC5 или нет в зависимости от gRecordGeneratorVersion). `ExecuteState('GenerateMap')` — engine-builtin строит heightmap из выбранного `inputbitmap.tga`, заполняет тайлы.
-9. [Lines 1568-1581] Маркер water shore: для каждой клетки если height < -0.1 → `gPatternMask[x,y] := True`.
-10. [Lines 1585-1587] Если `minesdensity > 2` (random) → `floor(RandomExt*3)`.
-11. [Line 1590] `_misc_SetDesert(False, False)` если bDesert.
+
+5. Подсчёт `plcount` = существующие non-spectator игроки [^8].
+6. `SetupTiledPatterns('tiles')` (или `desert_tiles` если `bDesert`) — кладёт фоновые decoration-tiles (например, грязь, трещины) на 25×25-tile сетке: `wcount = mapW div 25`, `hcount = mapH div 25`, центр каждого блока `realx = (x*25) + 12 - mapW/2 - 1`. Для 256×256 это ~10×10 ≈ **100 размещений** [^9].
+7. `SetRandomKey(randkey1)` — все последующие `RandomExt` детерминированы этим seed [^10].
+8. `relieftype`, `terraintype`, `minesdensity` resolved (random если выходит за валидный диапазон). Выбирается `pTerrainTypes` (DLC5 или нет в зависимости от `gRecordGeneratorVersion`). `ExecuteState('GenerateMap')` — engine-builtin строит heightmap из выбранного `inputbitmap.tga`, заполняет тайлы [^11].
+9. Маркер water shore: для каждой клетки если `height < -0.1` → `gPatternMask[x,y] := True` [^12].
+10. Если `minesdensity > 2` (random) → `floor(RandomExt*3)` [^13].
+11. `_misc_SetDesert(False, False)` если `bDesert` [^14].
 
 ### Phase 2 — старт-поинты
-12. [Lines 1596-1611] Цикл по игрокам: для каждого с валидным `startx/y` (`>= -mapW/2`) → `arrStartPos[i] := startx, starty`. **Сами координаты `gMap.players[i].startx/y` приходят из C++ engine** — он их вычисляет при загрузке `inputbitmap.tga` (по специальным маркерам в маске). `spcount` = количество игроков с валидным стартом.
-13. [Line 1613] `_misc_FillPatternMaskMapBorder(3)` — внешняя рамка 3 тайла шириной заблокирована.
-14. [Line 1615] **`RandomStartingPoints(spcount, minesdensity)`** — назначает игроков на arrStartPos с учётом team option (см. §3 ниже). Внутри для каждого игрока вызывается `CreateStartPoint(plInd, pointx, pointy, minesdensity, plcount)` → который делает:
+
+12. Цикл по игрокам: для каждого с валидным `startx/y` (`>= -mapW/2`) → `arrStartPos[i] := startx, starty`. **Сами координаты `gMap.players[i].startx/y` приходят из C++ engine** — он их вычисляет при загрузке `inputbitmap.tga` (по специальным маркерам в маске). `spcount` = количество игроков с валидным стартом [^15].
+13. `_misc_FillPatternMaskMapBorder(3)` — внешняя рамка 3 тайла шириной заблокирована [^16].
+14. **`RandomStartingPoints(spcount, minesdensity)`** [^17] — назначает игроков на `arrStartPos` с учётом team option (см. §3 ниже). Внутри для каждого игрока вызывается `CreateStartPoint(plInd, pointx, pointy, minesdensity, plcount)`, который делает:
     - `_misc_FillPatternMaskElipse(pointx, pointy+2, cCircle1MaskX=5, cCircle1MaskY=7)` — закрывает innermost зону.
     - `SetupMines(pointx, pointy, minround=0, maxround=1, minesdensity, spcount)` — **только round 0** (близкие mines).
-    - `SetupStartingResources(pointx, pointy)` — кладёт ~5-6 кластеров вокруг (см. §4).
-15. [Line 1616] `SetRandomKey(randkey1)` — re-seed (детали placement не должны влиять на следующие фазы).
+    - `SetupStartingResources(pointx, pointy)` — кладёт ~5–6 кластеров вокруг (см. §4).
+15. `SetRandomKey(randkey1)` — re-seed (детали placement не должны влиять на следующие фазы) [^18].
 
 ### Phase 3 — relief densities + Phase-2 mines
-16. [Lines 1621-1650] `relieftype` cases: plt/mnt/hil выбираются. Highlands (=3): plt=0.000055, mnt=0.000120, hil=0.000050.
-17. [Lines 1688-1693] `frs_big=0.0009`, `frs_mid=0.0009`, `frs_small=0.00054`, `dcr=0.0005`, `stn1=0.00016`, `stn2=0.00012`.
-18. [Lines 1715-1725] `_misc_GetFreePatternMaskModifier(probsmall, probmid, problarge, probhuge)` — Monte-Carlo на свободных клетках; затем умножается на map-size modifier `640/((mapW+mapH)/2)`. Для tiny это ×2.5.
-19. [Lines 1727-1739] Финальные densities: `pln_small/_mid/_large/_huge`, `swamp_*`, `lake_*`, mnt/plt/hil умножены на `problarge`.
-20. [Lines 1745-1766] `_misc_SetupPatternsByType(...)` для mountains/plateau (×3 части)/ravine/hills.
-21. [Lines 1768-1771] **Phase-2 mines:** `for i:=0 to spcount-1 do SetupMines(arrStartPos[i].x, .y, minround=1, maxround=0, minesdensity, spcount)` — раунды 1..rounds-1 (внешние кольца). `maxround=0` означает «не override», т.к. условие `if (maxround>0)` false.
-22. [Line 1772] `SetRandomKey(randkey1)` — re-seed снова.
-23. [Lines 1774-1908] `_misc_SetupPatternsByType` для forests/stones/plain/swamp/lake — здесь `foreststype` диктует ветку (но всегда =0, так что только pine/spruce/pinefir и mixed pine_big_2).
+
+16. `relieftype` cases: `plt/mnt/hil` выбираются. Highlands (=3): `plt=0.000055`, `mnt=0.000120`, `hil=0.000050` [^19].
+17. `frs_big=0.0009`, `frs_mid=0.0009`, `frs_small=0.00054`, `dcr=0.0005`, `stn1=0.00016`, `stn2=0.00012` [^20].
+18. `_misc_GetFreePatternMaskModifier(probsmall, probmid, problarge, probhuge)` — Monte-Carlo на свободных клетках; затем умножается на map-size modifier `640/((mapW+mapH)/2)`. Для tiny это ×2.5 [^21].
+19. Финальные densities: `pln_small/_mid/_large/_huge`, `swamp_*`, `lake_*`, `mnt/plt/hil` умножены на `problarge` [^22].
+20. `_misc_SetupPatternsByType(...)` для mountains/plateau (×3 части)/ravine/hills [^23].
+21. **Phase-2 mines:** `for i:=0 to spcount-1 do SetupMines(arrStartPos[i].x, .y, minround=1, maxround=0, minesdensity, spcount)` — раунды 1..rounds-1 (внешние кольца). `maxround=0` означает «не override», т.к. условие `if (maxround>0)` false [^24].
+22. `SetRandomKey(randkey1)` — re-seed снова [^25].
+23. `_misc_SetupPatternsByType` для forests/stones/plain/swamp/lake — здесь `foreststype` диктует ветку (но всегда =0, так что только `pine/spruce/pinefir` и mixed `pine_big_2`) [^26].
 
 ### Phase 4 — старт-юниты + финализация
-24. [Lines 1914-1923] **`for i:=0 to gc_MaxPlayerCount-1 do CreateStartPointPeasants(i, startx, starty)`** (или `CreateUniqueStartingUnits` если `startingunits>default`).
-25. [Line 1925] `_misc_PreloadTextures(True, True, True)`.
-26. [Line 1939] `gbool_gui_mapgenerationfinished := True`.
-27. [Lines 1971-2027] Сезонная нормализация env-objects: зимой удаляются `leaftree*`; нерандомные scale clamping в `[scaleMin, scaleMax]`.
-28. [Lines 2031-2050] AI setup: `gPlayer[i].progressTick := (cProgressAITick=16 div count)*ind`.
-29. [Line 2052] `_player_SetupTeams(true)`.
-30. [Line 2059] `gfloat_peacetime := _misc_GetPeaceTime(...)`; `gbool_peacemode := (peacetime <> default)`.
-31. [Line 2062] **`FillOwnerMap(spcount)`** (см. §5).
-32. [Lines 2064-2065] `if gbool_peacemode then SetupBorderObjects` (см. §6).
-33. [Line 2068] `_misc_SetShoresCollision`.
-34. [Lines 2075-2084] Color table per season (winter=6, desert=7, default=0; PHDR=1 для winter, 0 иначе).
-35. [Line 2100] `TimeLog('Generation finished. relieftype=... minesdensity=...')`.
+
+24. **`for i:=0 to gc_MaxPlayerCount-1 do CreateStartPointPeasants(i, startx, starty)`** (или `CreateUniqueStartingUnits` если `startingunits>default`) [^27].
+25. `_misc_PreloadTextures(True, True, True)` [^28].
+26. `gbool_gui_mapgenerationfinished := True` [^29].
+27. Сезонная нормализация env-objects: зимой удаляются `leaftree*`; нерандомные scale clamping в `[scaleMin, scaleMax]` [^30].
+28. AI setup: `gPlayer[i].progressTick := (cProgressAITick=16 div count)*ind` [^31].
+29. `_player_SetupTeams(true)` [^32].
+30. `gfloat_peacetime := _misc_GetPeaceTime(...)`; `gbool_peacemode := (peacetime <> default)` [^33].
+31. **`FillOwnerMap(spcount)`** (см. §5) [^34].
+32. `if gbool_peacemode then SetupBorderObjects` (см. §6) [^35].
+33. `_misc_SetShoresCollision` [^36].
+34. Color table per season (winter=6, desert=7, default=0; PHDR=1 для winter, 0 иначе) [^37].
+35. `TimeLog('Generation finished. relieftype=... minesdensity=...')` [^38].
 
 ---
 
 ## 3. `RandomStartingPoints(plcount, minesdensity)` — раздача игроков
 
-dogenerate.inc:1090-1229. Две ветки в зависимости от `gMap.settings.additional.teams`:
+Две ветки в зависимости от `gMap.settings.additional.teams` [^17].
 
 ### 3.1 `teams = nearby` (союзники рядом)
+
 1. Группируем игроков по `team` (5 команд: 0 = соло-плеера, 1..4 = командные).
-2. Если в команде только 1 человек — переносим его в team[0] (соло).
+2. Если в команде только 1 человек — переносим его в `team[0]` (соло).
 3. Сортируем `teamlist` (команды с >1 игроком) — для каждой:
    - `SetRandomKey(randkey1)` + advance i раз.
    - Случайно выбираем стартовую команду из `teamlist`.
-   - Вызываем `GenerateTeamStartingPoints(teamcount, pointsbusy, points)` (lines 999-1088): жадный greedy-алгоритм:
+   - Вызываем `GenerateTeamStartingPoints(teamcount, pointsbusy, points)` [^39]: жадный greedy-алгоритм:
      - Берём random первую точку.
      - Каждую следующую выбираем как «точку, к которой ближе всего БОЛЬШИНСТВО уже выбранных» (если ничья по count → меньшая total distance).
    - В случайном порядке (через `SetRandomKey + RandomExt`) распределяем `points` между членами команды.
 
 ### 3.2 `teams = default` (по разным углам)
-- Все игроки в team[0]. Для каждого: `SetRandomKey(randkey1) + advance(i+8)` → случайный `pointindex` из оставшихся.
+
+- Все игроки в `team[0]`. Для каждого: `SetRandomKey(randkey1) + advance(i+8)` → случайный `pointindex` из оставшихся.
 
 В обоих случаях итогом является вызов `CreateStartPoint(player, x, y, minesdensity, plcount)` для каждого, который и запускает Phase-1 mines + StartingResources.
 
-**Источник arrStartPos[].x/y:** **C++ engine читает inputbitmap.tga и находит спец-цвета (пиксели-маркеры старт-поинтов)**. Скрипт получает их готовыми через `gMap.players[i].startx/starty`. Скрипт умеет только переставить players между готовыми точками.
+**Источник `arrStartPos[].x/y`:** **C++ engine читает `inputbitmap.tga` и находит спец-цвета (пиксели-маркеры старт-поинтов)**. Скрипт получает их готовыми через `gMap.players[i].startx/starty`. Скрипт умеет только переставить players между готовыми точками.
 
 ---
 
 ## 4. `SetupStartingResources(pointx, pointy)` — что спавнится возле города
 
-dogenerate.inc:720-978. Шесть последовательных placement-фаз, каждая пытается до 128×3 = 384 разных позиций (vary angle + distance). Вызывается из CreateStartPoint **после** того как cCircle1 уже заполнен.
+Шесть последовательных placement-фаз, каждая пытается до 128×3 = 384 разных позиций (vary angle + distance). Вызывается из `CreateStartPoint` **после** того как `cCircle1` уже заполнен [^40].
 
 | # | Pattern type | mindst (tiles) | dst формула | После: маска |
 |--:|---|---:|---|---|
@@ -174,6 +189,7 @@ dogenerate.inc:720-978. Шесть последовательных placement-ф
 | 7 | _FillPatternMaskElipse(cCircle3=22,18) | — | — | блокирует внеш. зону |
 
 **Что это значит для базы игрока:** в радиусе **5..22 тайла** от центра города ВСЕГДА есть гарантировано:
+
 - 1× `stoneforests` (mixed wood+stone в одном паттерне, mask~152)
 - 2× `stones` (mask~138 каждый)
 - 3× `forests_*_big/medium` (mask 148..1631 в зависимости от типа)
@@ -186,11 +202,11 @@ dogenerate.inc:720-978. Шесть последовательных placement-ф
 
 ## 5. `FillOwnerMap(spCount)` — кому какая клетка принадлежит
 
-dogenerate.inc:1370-1428. Простой BFS:
+Простой BFS [^41]:
 
-1. Init `gScanGrid[i,j]` (размер `gc_scangrid_countx × gc_scangrid_county`): `owner=-1, dist=-1, fChecked=False`.
+1. Init `gScanGrid[i,j]` (размер `gc_scangrid_countx × gc_scangrid_county`): `owner=-1`, `dist=-1`, `fChecked=False`.
 2. Для каждой стартовой позиции: `_misc_PosToScanGridIndices(arrStartPos[i].x, .y, gridX, gridY)` → `gScanGrid[gridX,gridY].owner := arrStartPosBusy[i]` (player id), `dist := 0`.
-3. BFS: пока есть необработанные клетки на текущем dist → раздаём 4 соседям (i±1, j±1) тот же owner с `dist+1`.
+3. BFS: пока есть необработанные клетки на текущем `dist` → раздаём 4 соседям (i±1, j±1) тот же owner с `dist+1`.
 
 Результат: каждая ячейка scan-grid'а помечена ID ближайшего игрока (по Manhattan distance в grid units).
 
@@ -198,9 +214,10 @@ dogenerate.inc:1370-1428. Простой BFS:
 
 ## 6. `SetupBorderObjects` — peacetime walls
 
-dogenerate.inc:1430-1527. Запускается **только если `gbool_peacemode`** (т. е. `peacetime` ≠ 0). Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.2.
+Запускается **только если `gbool_peacemode`** (т. е. `peacetime` ≠ 0) [^42]. Полное описание peacetime-механики — [`game_settings.md`](game_settings.md) §3.2.
 
 Идея: для каждой пары соседних клеток `gScanGrid[i,j]` и `gScanGrid[i+1,j]` (а также `[i, j+1]`):
+
 - Если `owner` различается → провести цепочку border-объектов между центрами этих клеток.
 - Шаг: `cBorderObjDist = 1` тайл.
 - На воде: `gc_basename_ptborderwater`, на суше: `gc_basename_ptborder`.
@@ -212,17 +229,14 @@ dogenerate.inc:1430-1527. Запускается **только если `gbool_
 
 ## 7. `CreateStartPointPeasants(plInd, pointx, pointy)` — стартовые крестьяне
 
-dogenerate.inc:1231-1281.
+Алгоритм [^43]:
 
-```
-count = 18         # ВСЕГДА 18 крестьян
-cUnitR = 0.75      # шаг сетки
-for i = 0 to 17:
-    px = pointx + (i div 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (6 * 0.75)/2
-    pz = pointy + (i mod 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (0 * 0.75)/2
-    spawn peasant(px, py, pz)
-    SetGameObjectRollAngleByHandle(goHnd, 180)  # лицом вниз
-```
+- `count = 18` — ВСЕГДА 18 крестьян.
+- `cUnitR = 0.75` — шаг сетки.
+- Для `i` от 0 до 17:
+  - `px = pointx + (i div 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (6 * 0.75)/2`
+  - `pz = pointy + (i mod 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (0 * 0.75)/2`
+  - спавн крестьянина в `(px, py, pz)`, лицом вниз (`SetGameObjectRollAngleByHandle = 180`).
 
 **Сетка:** 6 колонок × 3 ряда. Шаг 0.75 тайла. Random jitter ±0.125. **Quirk:** `count mod 3 = 18 mod 3 = 0`, поэтому Y-центрирующее смещение = 0. Z-координаты идут от `pointy + 0` до `pointy + 1.5` (т.е. сетка смещена ВНИЗ относительно центра, не центрирована). X-координаты центрированы корректно: от `pointx - 2.25` до `pointx + 1.5`.
 
@@ -238,24 +252,26 @@ for i = 0 to 17:
 
 | Вызов | minround | maxround | rounds итог | Где |
 |---|---:|---:|---|---|
-| Phase 1 (внутри CreateStartPoint) | 0 | 1 | i:=0..0 (только round 0) | line 985 |
-| Phase 2 (после relief) | 1 | 0 | i:=1..rounds-1 (round 0 пропущен) | line 1770 |
+| Phase 1 (внутри `CreateStartPoint`) | 0 | 1 | i:=0..0 (только round 0) | [^44] |
+| Phase 2 (после relief) | 1 | 0 | i:=1..rounds-1 (round 0 пропущен) | [^24] |
 
-`if (maxround>0) and (rounds>maxround) then rounds := maxround;` ⇒ Phase 1 ограничивает rounds=1; Phase 2 maxround=0 → no override, использует полный rounds=case minesdensity.
+`if (maxround>0) and (rounds>maxround) then rounds := maxround;` ⇒ Phase 1 ограничивает rounds=1; Phase 2 `maxround=0` → no override, использует полный rounds=case minesdensity.
 
-Для **Rich (minesdensity=2) на Tiny (mapsize>2)** [version ≥80]:
+Для **Rich (`minesdensity=2`) на Tiny (`mapsize>2`)** [version ≥80]:
+
 - Phase 1: 1× round 0 × 3 ресурса = 3 close deposits (1g+1i+1c) на расстоянии 14..22 тайлов.
 - Phase 2: rounds 1..4, но round 4 = `continue` на tiny ⇒ 3 outer rounds × 3 ресурса = 9 outer deposits.
 - **Итого 12 deposits per player** при условии успеха всех 256-try попыток.
 
-Особый случай: round 2 на tiny + spcount ≤ 4 (`line 658-696`, `version ≥ 90`) — `newpointx/y` снапается к углу карты (`±maphW ∓ 24, ±maphH ∓ 24`) для самых дальних депозитов. Это «ничейные» шахты в углах, до которых нужно идти вдоль края карты.
+Особый случай: round 2 на tiny + spcount ≤ 4 (`version ≥ 90`) — `newpointx/y` снапается к углу карты (`±maphW ∓ 24, ±maphH ∓ 24`) для самых дальних депозитов [^45]. Это «ничейные» шахты в углах, до которых нужно идти вдоль края карты.
 
 ---
 
-## 9. Версионные различия (gRecordGeneratorVersion)
+## 9. Версионные различия (`gRecordGeneratorVersion`)
 
 В коде много `if (gRecordGeneratorVersion < N) then …`. Текущий ванильный игровой клиент (DLC5 era) имеет version ≥ 90+, что включает:
-- DLC5 terrain types (line 1555).
+
+- DLC5 terrain types [^46].
 - Distance table v90+ (mines round 2 = 70..82 на tiny, snap to corner).
 - `gRecordGeneratorVersion < 53` → удаляются player handle 8.
 - `< 89` → удаляются 9, 10, 11.
@@ -266,7 +282,7 @@ for i = 0 to 17:
 
 ## 10. Что наша симуляция в `parser/` и `compute/` модулирует / упрощает
 
-Проверочный список того, что код dogenerate.inc делает, но мы либо игнорируем, либо приближаем:
+Проверочный список того, что код `dogenerate.inc` делает, но мы либо игнорируем, либо приближаем:
 
 | Реальность | Наша симуляция | Статус |
 |---|---|---|
@@ -303,6 +319,7 @@ for i = 0 to 17:
 ### 14.2 Формат OSWMap13 (карты)
 
 `.rep`/`.map` файлы — это binary contained dump:
+
 - Header: length-prefixed strings (`"OSWMap13.Map.Ver[0.0]Build.Ver[X.Y.Z.NNNN]Core.Ver[1]"`, `"UID..."`, `"GameMapSnapShotBegin"`, BMP, `"GameMapSnapShotEnd"`, `"GameMapRecordBegin"`)
 - Body: `(u32 keylen, ASCII key, u32 vallen, ASCII value)` pairs. Числа сериализованы как ASCII-строки.
 - Pattern placements: имена `.pattern` файлов появляются verbatim как printable strings (`mng_3`, `forests_pine_big_1`, …). **Каждое occurrence = один cluster, размещённый движком** = ground truth.
@@ -316,6 +333,7 @@ for i = 0 to 17:
 ### 14.4 Player-count inference (Land only)
 
 Для Land terrain, total mines per type encode P:
+
 ```
 mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
               = P + spcount × n_after
@@ -325,7 +343,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 Где `n_after = len(rounds 1..rounds-1, минус i=4 если Tiny)`. Для Tiny+Rich/Medium+4pl: 14→2P, 15→3P, 16→4P. Валидировано на sample replay (mng=14 при reportedly 2-player game → формула верна).
 
-Для **non-Land** (terraintype != 0) формула не работает (engine logic другая — `CreateStartPoint`'s round 0 likely не fire для non-Land). См. §13 Q6.
+Для **non-Land** (`terraintype != 0`) формула не работает (engine logic другая — `CreateStartPoint`'s round 0 likely не fire для non-Land). См. §13 Q6.
 
 ### 14.5 Calibrated placement rates (Tiny+Land+Highlands+4pl_nowater bucket, n=10)
 
@@ -346,6 +364,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 | mng/mni/mnc | (formula) | 1.00 |
 
 **Wide variance объясняется размером pattern footprint:**
+
 - pine_big mask = 148 cells → fits almost anywhere → ~80% placement.
 - pinefir_big mask = ~920 cells → 6× больше → редко влезает → ~7%.
 - spruce_big между ними → ~20%.
@@ -372,8 +391,8 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 При фиксированных параметрах (terrain + mapsize + relief + mines + players) карта однозначно задаётся парой `(inputbitmap, randkey0/randkey1)`:
 
-- `inputbitmap` — файл из `data/gen/terrainmasks/<terrain>/<N>pl_*.tga`. Выбирается случайно по индексу `floor(RandomExt*count)` (generatemap.inc:179-191). Engine читает .tga и извлекает стартовые позиции по спец-маркерам в маске → `gMap.players[i].startx/y`.
-- `randkey0, randkey1` — 64-битная пара RNG-сидов (`SetRandomExtKey64`, generatemap.inc:216). Все последующие `RandomExt`-вызовы (placement лесов/камней/шахт, выбор bitmap из списка) детерминированы этой парой.
+- `inputbitmap` — файл из `data/gen/terrainmasks/<terrain>/<N>pl_*.tga`. Выбирается случайно по индексу `floor(RandomExt*count)` [^47]. Engine читает .tga и извлекает стартовые позиции по спец-маркерам в маске → `gMap.players[i].startx/y`.
+- `randkey0, randkey1` — 64-битная пара RNG-сидов (`SetRandomExtKey64`) [^48]. Все последующие `RandomExt`-вызовы (placement лесов/камней/шахт, выбор bitmap из списка) детерминированы этой парой.
 
 **Сколько базовых масок есть.** Для 4 игроков:
 
@@ -394,11 +413,11 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 1. **Bounded enumeration.** Для (Land, Tiny, 4pl, Highlands, Rich) общее число уникальных карт = 230 базовых форм × K randkey-вариаций. K не известно, но в 4-байтном UI seed-поле едва ли > 10⁹; реально пользовательские seed'ы лежат в гораздо меньшем диапазоне.
 
-2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](../engine/determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` (miscext2.script:15).
+2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](../engine/determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` [^49].
 
 3. **Точная калибровка trees-per-pattern.** 5-10 запусков map gen с фиксированными параметрами, парсинг env-объектов из save → empirical mapping `bitmap → tree count`. Это даст точную замену текущей константы `0.30 × mask_cells`.
 
-**Ограничения.** `GenerateMapRandKey` (map.script:322) — engine-builtin, тело недоступно. Точный диапазон randkey0/1 не подтверждён.
+**Ограничения.** `GenerateMapRandKey` — engine-builtin, тело недоступно [^50]. Точный диапазон `randkey0/1` не подтверждён.
 
 ---
 
@@ -414,8 +433,136 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 5. **gRecordGeneratorVersion live value** — нужно вытащить runtime значение чтобы знать какая ветка mines distance таблицы реально применяется. Скорее всего ≥90 (Phase-2 round-2 corner-snap consistent с sample replays), но точно не подтверждено. Можно проверить через extracted replay header `Build.Ver[X.Y.Z.NNNN]`.
 
-6. **Non-Land mine placement formula.** Для terraintype != 0 (continent / mediterranean / coastal / peninsulas / lakes) inferred player count из mng count даёт нонсенс (P=0 или negative — см. §14.4). Гипотеза: `CreateStartPoint`'s round-0 SetupMines не fire на non-Land (engine использует другой код для генерации стартовых позиций без player-side rounds), либо n_after отличается. Нужно прочитать non-Land branches в `dogenerate.inc` или ExecuteState code.
+6. **Non-Land mine placement formula.** Для `terraintype != 0` (continent / mediterranean / coastal / peninsulas / lakes) inferred player count из mng count даёт нонсенс (P=0 или negative — см. §14.4). Гипотеза: `CreateStartPoint`'s round-0 `SetupMines` не fire на non-Land (engine использует другой код для генерации стартовых позиций без player-side rounds), либо `n_after` отличается. Нужно прочитать non-Land branches в `dogenerate.inc` или ExecuteState code.
 
-7. **Plain / mountains / swamps / hills / plateaus / stoneforests / desert_* — добавить в `compute_counts`.** Эти pattern types вызываются *вне* foreststype-блока ([dogenerate.inc:1745-1766] для mountains/plateau/ravine/hills, остальные где-то рядом) и составляют ~50% всех cluster occurrences по replay-данным. Нужно прочитать соответствующие секции и расширить модель.
+7. **Plain / mountains / swamps / hills / plateaus / stoneforests / desert_* — добавить в `compute_counts`.** Эти pattern types вызываются *вне* foreststype-блока (для mountains/plateau/ravine/hills [^23], остальные где-то рядом) и составляют ~50% всех cluster occurrences по replay-данным. Нужно прочитать соответствующие секции и расширить модель.
 
 8. **Десятки значений `randkey0` / `randkey1` на Land + Tiny + Highlands** — нужно собрать 50+ реплеев на одинаковых настройках и варьировать только `randkey`, чтобы либо подтвердить детерминированность (тот же `randkey` → тот же cluster count), либо измерить variance. На 10 имеющихся реплеях variance не оценена.
+
+---
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: Точка входа `DoGenerate` — `common.inc/initmapgen.inc:232`, основной скрипт — `common.inc/dogenerate.inc:1-2103` (2103 строки).
+
+[^2]: `foreststype` инициализация и принудительный override — `common.inc/dogenerate.inc:5-6`:
+
+    ```pascal
+    var foreststype : Integer = floor(RandomExt*3);
+    foreststype := 0;
+    ```
+
+[^3]: Глобальные константы `cCircle*`, `cBorderObjDist` — `common.inc/dogenerate.inc:407-416`.
+
+[^4]: Helper-procedures для масок (`FillPatternMaskElipse/Circle/Rectangle/MapBorder`) — `common.inc/dogenerate.inc:1-78`.
+
+[^5]: Helper-procedures для юнитов и `UniqueStartingUnits` — `common.inc/dogenerate.inc:80-419`.
+
+[^6]: `ClearMapMaskAndObjects` — `common.inc/dogenerate.inc:444-497`.
+
+[^7]: `LoadPatterns` после прогресс-бара — `common.inc/dogenerate.inc:1284-1289`.
+
+[^8]: Подсчёт `plcount` non-spectator — `common.inc/dogenerate.inc:1291-1296`.
+
+[^9]: `SetupTiledPatterns('tiles')` — `common.inc/dogenerate.inc:1535`.
+
+[^10]: `SetRandomKey(randkey1)` (первый seed) — `common.inc/dogenerate.inc:1538`.
+
+[^11]: Resolve `relieftype/terraintype/minesdensity` + `ExecuteState('GenerateMap')` — `common.inc/dogenerate.inc:1542-1565`.
+
+[^12]: Water shore mask (`height < -0.1`) — `common.inc/dogenerate.inc:1568-1581`.
+
+[^13]: Random `minesdensity` если > 2 — `common.inc/dogenerate.inc:1585-1587`.
+
+[^14]: `_misc_SetDesert(False, False)` — `common.inc/dogenerate.inc:1590`.
+
+[^15]: Заполнение `arrStartPos` из `gMap.players[i].startx/y` — `common.inc/dogenerate.inc:1596-1611`.
+
+[^16]: `_misc_FillPatternMaskMapBorder(3)` — `common.inc/dogenerate.inc:1613`.
+
+[^17]: `RandomStartingPoints` — `common.inc/dogenerate.inc:1090-1229` (вызов на `1615`).
+
+[^18]: Re-seed после `RandomStartingPoints` — `common.inc/dogenerate.inc:1616`.
+
+[^19]: `relieftype` densities (`plt/mnt/hil`) — `common.inc/dogenerate.inc:1621-1650`.
+
+[^20]: Базовые density-константы (`frs_big`, `dcr`, `stn1`, …) — `common.inc/dogenerate.inc:1688-1693`.
+
+[^21]: `_misc_GetFreePatternMaskModifier(...)` + map-size modifier — `common.inc/dogenerate.inc:1715-1725`.
+
+[^22]: Финальные densities (`pln_*`, `swamp_*`, `lake_*`) — `common.inc/dogenerate.inc:1727-1739`.
+
+[^23]: `_misc_SetupPatternsByType` для mountains/plateau/ravine/hills — `common.inc/dogenerate.inc:1745-1766`.
+
+[^24]: Phase-2 mines цикл — `common.inc/dogenerate.inc:1768-1771`:
+
+    ```pascal
+    for i := 0 to spcount-1 do
+       SetupMines(arrStartPos[i].x, arrStartPos[i].y, 1, 0, minesdensity, spcount);
+    ```
+
+[^25]: Re-seed после Phase-2 mines — `common.inc/dogenerate.inc:1772`.
+
+[^26]: `_misc_SetupPatternsByType` для forests/stones/plain/swamp/lake — `common.inc/dogenerate.inc:1774-1908`.
+
+[^27]: Цикл `CreateStartPointPeasants` / `CreateUniqueStartingUnits` — `common.inc/dogenerate.inc:1914-1923`.
+
+[^28]: `_misc_PreloadTextures(True, True, True)` — `common.inc/dogenerate.inc:1925`.
+
+[^29]: `gbool_gui_mapgenerationfinished := True` — `common.inc/dogenerate.inc:1939`.
+
+[^30]: Сезонная нормализация env-objects — `common.inc/dogenerate.inc:1971-2027`.
+
+[^31]: AI `progressTick` setup — `common.inc/dogenerate.inc:2031-2050`.
+
+[^32]: `_player_SetupTeams(true)` — `common.inc/dogenerate.inc:2052`.
+
+[^33]: `gfloat_peacetime` / `gbool_peacemode` — `common.inc/dogenerate.inc:2059`.
+
+[^34]: `FillOwnerMap(spcount)` — `common.inc/dogenerate.inc:2062`.
+
+[^35]: `SetupBorderObjects` (под `gbool_peacemode`) — `common.inc/dogenerate.inc:2064-2065`.
+
+[^36]: `_misc_SetShoresCollision` — `common.inc/dogenerate.inc:2068`.
+
+[^37]: Color table per season (winter=6, desert=7, default=0; PHDR=1 для winter) — `common.inc/dogenerate.inc:2075-2084`.
+
+[^38]: Финальный `TimeLog('Generation finished. ...')` — `common.inc/dogenerate.inc:2100`.
+
+[^39]: `GenerateTeamStartingPoints(teamcount, pointsbusy, points)` — `common.inc/dogenerate.inc:999-1088`.
+
+[^40]: `SetupStartingResources(pointx, pointy)` — `common.inc/dogenerate.inc:720-978`.
+
+[^41]: `FillOwnerMap(spCount)` — `common.inc/dogenerate.inc:1370-1428`.
+
+[^42]: `SetupBorderObjects` — `common.inc/dogenerate.inc:1430-1527`.
+
+[^43]: `CreateStartPointPeasants(plInd, pointx, pointy)` — `common.inc/dogenerate.inc:1231-1281`:
+
+    ```pascal
+    count := 18;
+    cUnitR := 0.75;
+    for i := 0 to count-1 do
+    begin
+       px := pointx + (i div 3) * cUnitR + (0.5 - RandomExt) * 0.25 - (6 * cUnitR)/2;
+       pz := pointy + (i mod 3) * cUnitR + (0.5 - RandomExt) * 0.25 - (0 * cUnitR)/2;
+       ...
+       SetGameObjectRollAngleByHandle(goHnd, 180);
+    end;
+    ```
+
+[^44]: Phase-1 mines внутри `CreateStartPoint` — `common.inc/dogenerate.inc:985`.
+
+[^45]: Tiny corner-snap для round 2 — `common.inc/dogenerate.inc:658-696` (version ≥ 90).
+
+[^46]: DLC5 terrain types — `common.inc/dogenerate.inc:1555`.
+
+[^47]: Выбор `inputbitmap` через `floor(RandomExt*count)` — `common.inc/generatemap.inc:179-191`.
+
+[^48]: `SetRandomExtKey64(randkey0, randkey1)` — `common.inc/generatemap.inc:216`.
+
+[^49]: Имя save-файла с `randkey1` — `lib/miscext2.script:15` (`'game_v'+gSerialVersion+'k'+randkey1+'.map'`).
+
+[^50]: `GenerateMapRandKey` — `lib/map.script:322` (engine-builtin, тело недоступно).

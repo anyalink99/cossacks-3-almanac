@@ -30,7 +30,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from citations import Citations
 from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR
+
+# Module-level citations registry — populated by header_block(), drained by write_md().
+cites = Citations()
 
 DATA_PATH = DATA_JSON
 MD_PATH = REPORTS_ECONOMY_DIR / "scaling_prices.md"
@@ -127,16 +131,22 @@ def header_block() -> list[str]:
     L.append("")
     L.append("## Формула")
     L.append("")
-    L.append("Источник: `unit.script:5650-5689` — функция `_unit_GetCostByID`.")
+    formula_cite = cites.cite("lib/unit.script:5650-5689",
+                              label="`_unit_GetCostByID` — расчёт цены N-го экземпляра")
+    L.append(f"Расчёт цены — в `_unit_GetCostByID` {formula_cite}:")
     L.append("")
     L.append("```")
     L.append("costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока")
     L.append("final_price[r] = floor(base_price[r] * costmodifier)   // отдельно для F/W/S/G/I/C")
     L.append("```")
     L.append("")
-    L.append("Где `count` — это `gPlayer[plInd].counter.all[cid][unitID]`. "
-             "Счётчик инкрементируется при создании ([`unit.script:3847`]) и **декрементируется** "
-             "при разрушении ([`unit.script:3969`]) — снесли центр, следующий снова дешевле.")
+    inc_cite = cites.cite("lib/unit.script:3847",
+                          label="инкремент `counter.all[cid][unitID]` при создании")
+    dec_cite = cites.cite("lib/unit.script:3969",
+                          label="декремент `counter.all[cid][unitID]` при разрушении")
+    L.append(f"Где `count` — это `gPlayer[plInd].counter.all[cid][unitID]`. "
+             f"Счётчик инкрементируется при создании {inc_cite} и **декрементируется** "
+             f"при разрушении {dec_cite} — снесли центр, следующий снова дешевле.")
     L.append("")
     L.append("## Особые случаи")
     L.append("")
@@ -261,6 +271,7 @@ def write_md(data: dict):
             rows = sorted(by_suffix_com[suf].items())
             section_md(f"`{suf}` — (прочее)", rows, show_nation=False, lines=out)
 
+    out.extend(cites.render())
     # Footer with derivation note
     A("---")
     A("")

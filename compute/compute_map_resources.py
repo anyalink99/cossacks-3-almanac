@@ -75,7 +75,11 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 import json
 import re
+from citations import Citations
 from config import DERIVED_DIR, REPORTS_DIR, REPORTS_MAP_DIR
+
+# Module-level citations registry — populated during write_report().
+cites = Citations()
 MD_PATH = REPORTS_MAP_DIR / "map_resources.md"
 PATTERN_INVENTORY_JSON = DERIVED_DIR / "pattern_inventory.json"
 PATTERN_TYPE_STATS_JSON = DERIVED_DIR / "pattern_type_stats.json"
@@ -551,8 +555,11 @@ def write_report(r: dict, settings: dict) -> str:
 
     L.append("## 6. Запасы древесины и камня")
     L.append("")
-    L.append("**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок "
-             "(`onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`):")
+    stump_cite = cites.cite(
+        "units/unit.inc/onaclanimationreachedwork.inc:30-39 + units/env.inc/ontagstates.inc:50-78",
+        label="превращение дерева в пенёк при `hp = 0`",
+    )
+    L.append(f"**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок {stump_cite}:")
     L.append("- меняет mesh на `pinestump<N>` (визуально пень)")
     L.append("- **НЕ меняет** `brised=True` → пенек остаётся валидной целью для поиска")
     L.append("- продолжает принимать удары: `hp -= 1, peasant.resamount += 1` (даже при HP < 0)")
@@ -580,7 +587,11 @@ def write_report(r: dict, settings: dict) -> str:
              "basenames `minegold`/`mineiron`/`minecoal`). *Шахта* — здание `eurgol`/`euriro`/`eurcoa`, "
              "которое игрок строит на месторождении крестьянином (peasantabsorber=5, апгрейды до 95).")
     L.append("")
-    L.append("Параметры из `dogenerate.inc:522-717`:")
+    rounds_cite = cites.cite(
+        "common.inc/dogenerate.inc:522-717",
+        label="фаза расстановки месторождений: `mines rounds` и пропуск раунда 4 на tiny",
+    )
+    L.append(f"Параметры из {rounds_cite}:")
     L.append(f"- minesdensity={settings['mines']} → **{MINE_ROUNDS_BY_DENSITY[settings['mines']]} раундов** на стартовую точку.")
     L.append(f"- На {r['map_name'].lower()} раунд 4 пропускается через `continue` → **{r['effective_rounds']} эффективных раундов**.")
     L.append(f"- В каждом раунде ставится по **1 месторождению каждого типа** (gold/iron/coal).")
@@ -598,9 +609,21 @@ def write_report(r: dict, settings: dict) -> str:
     L.append("")
     L.append("**Что точно (из кода):**")
     L.append("- Формула `count = floor(W*H*freq)` — прямо из `_misc_SetupPatternsByType`.")
-    L.append("- Densities `frs_big/mid/small/stn1/stn2` — из dogenerate.inc:1688-1693.")
-    L.append("- Modifier ×2.5 для tiny — из dogenerate.inc:1718-1725.")
-    L.append("- Mine rounds — из dogenerate.inc:528-602.")
+    densities_cite = cites.cite(
+        "common.inc/dogenerate.inc:1688-1693",
+        label="базовые плотности `frs_big/mid/small/stn1/stn2`",
+    )
+    tiny_cite = cites.cite(
+        "common.inc/dogenerate.inc:1718-1725",
+        label="модификатор ×2.5 для tiny",
+    )
+    mine_rounds_cite = cites.cite(
+        "common.inc/dogenerate.inc:528-602",
+        label="число и геометрия раундов размещения месторождений",
+    )
+    L.append(f"- Densities `frs_big/mid/small/stn1/stn2` — {densities_cite}.")
+    L.append(f"- Modifier ×2.5 для tiny — {tiny_cite}.")
+    L.append(f"- Mine rounds — {mine_rounds_cite}.")
     L.append("- Per-position mine count formula `P × (1 + n_after) + (spcount - P) × n_after`.")
     L.append("")
     L.append("**Что эмпирически валидировано (replay-based, 2026-04-29):**")
@@ -622,12 +645,14 @@ def write_report(r: dict, settings: dict) -> str:
     L.append("**Открытые пробелы:**")
     L.append("- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, "
              "`plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences "
-             "в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.")
+             "в replay-data). Нужно расширить модель — см. "
+             "[`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) §13 Q7.")
     L.append("- `desert_*` (season=3) не реализовано — 1/20 replays.")
     L.append("- Non-Land mine formula отличается — open question §13 Q6.")
     L.append("")
     L.append("**Предел точности (Tiny+Land+Highlands):** ±5% по predicted cluster counts для "
              "covered types. По total wood pool / stones — ±30-50% (TREE_CHOPABLE_RATIO не валидирован).")
+    L.extend(cites.render())
     return "\n".join(L)
 
 

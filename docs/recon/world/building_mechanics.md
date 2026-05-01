@@ -1,7 +1,8 @@
 # Recon: механика зданий
 
 Глубокий разбор: footprint, постройка и ремонт крестьянами, стены, гарнизон
-башен, захват, разрушение. Все пути ниже — относительно `data/` в
+башен, захват, разрушение. Все ссылки на код и Pascal-блоки собраны в разделе
+[Источники](#источники) в конце документа. Все пути там относительно `data/` в
 установке Cossacks 3.
 
 **Контекст:** скорость партии — fast (×1.4). Все длительности — в игровых
@@ -10,10 +11,9 @@
 ## TL;DR
 
 - **Buildtime** для зданий хранится с дополнительным множителем
-  `gc_buildtime_modifier = 10` (`misc.script:478-482`). У юнитов
-  множитель = 1. Реальное время постройки = `frames × 10 / 32`, а не
-  `frames / 32`. В `docs/data.json` поле `building.buildtime_sec` уже
-  учитывает ×10.
+  `gc_buildtime_modifier = 10` [^1]. У юнитов множитель = 1. Реальное время
+  постройки = `frames × 10 / 32`, а не `frames / 32`. В `docs/data.json` поле
+  `building.buildtime_sec` уже учитывает ×10.
 - **Footprint = collision mask** в файле `<sid>.prop`. Размер ячейки —
   0.5 тайла (`gc_collision_size = 0.5`).
 - **Ремонт бесплатен**, +20 HP за один удар крестьянина (`gc_gameplay_repairhp`).
@@ -27,11 +27,12 @@
 
 ## 1. Building footprint (форма и размер)
 
-**Источник:** `data/objects/buildings/<sid>.prop` → `collisionmaskproperty.Mask`.
+**Источник:** `collisionmaskproperty.Mask` в `.prop`-файле здания [^2].
 
-**Единица:** 1 mask cell = **0.5 тайла** (`unit.script:8712` `cellSize := 0.5`).
+**Единица:** 1 mask cell = **0.5 тайла** (`cellSize := 0.5` [^3]).
 
 **Mask = 2D ASCII grid of 0/1**, где 1 = занятая клетка. Пример bavcen:
+
 ```
 000110000000          12 cols × 11 rows = 6×5.5 тайлов
 001111000000          ↓ заполненный диамант
@@ -45,11 +46,12 @@
 000000110000
 000000000000
 ```
+
 Занято ≈ 57 cells × 0.5² = 14.25 тайл². Визуально — диагональный квадрат.
 
 **CustomBoundingAABB** (для отрисовки/clicking) — отдельный от collision mask, обычно меньше, в тайлах: для bavcen X=4.45, Z=2.70.
 
-**ScaleFactor для mask:** 1 (из `refbuilding.prop:45`) — mask cells не масштабируются. `DefaultScale=0.662` (визуальный) ≠ collision.
+**ScaleFactor для mask:** 1 [^4] — mask cells не масштабируются. `DefaultScale=0.662` (визуальный) ≠ collision.
 
 **Где хранится у нас:** пока нигде, нужно извлечь footprint mask из .prop файлов в JSON.
 
@@ -57,16 +59,14 @@
 
 ## 2. Repair (починка) — БЕСПЛАТНО
 
-**Источник:** `units/unit.inc/onaclanimationreachedconstruct.inc:40-41`:
-```pascal
-if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
-   TObj(pobj).hp := Min(TObj(pobj).hp + gc_gameplay_repairhp, TObjBase(pobjbase).maxhp);
-```
+**Источник:** обработчик окончания construct-анимации проверяет тип ордера и
+прибавляет фиксированное количество HP, ограниченное `maxhp` [^5].
 
-**Constant:** `gc_gameplay_repairhp = 20` (`dmscript.global:211`).
+**Constant:** `gc_gameplay_repairhp = 20` [^6].
 
 **Mechanic:**
-- Каждый завершённый "construct" анимационный цикл крестьянина → +20 HP к зданию.
+
+- Каждый завершённый «construct» анимационный цикл крестьянина → +20 HP к зданию.
 - **Никаких ресурсов не тратится.** Ремонт абсолютно бесплатен.
 - Capped at maxhp.
 - Несколько крестьян чинят параллельно (см. §3 builder slots).
@@ -74,6 +74,7 @@ if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
 **Construct animation:** 13 frames (186..198 в AAF). При допущении 32 fps = 0.406 g-sec на цикл.
 
 **Расчёт скорости ремонта:**
+
 - 1 крестьянин: 20 HP / 0.406 g-sec = **49.3 HP/g-sec**
 - N крестьянин: 49.3 × N (до cap builder slots)
 - Bavcen с HP=4000, починка с 0 до full: 4000 / 49.3 = **81 g-sec** одним крестьянином (~58 real-sec @ fast).
@@ -85,15 +86,14 @@ if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
 
 ## 3. Construction (постройка крестьянами)
 
-### 3.1 Прогресс за один "удар молотком"
+### 3.1 Прогресс за один «удар молотком»
 
-Из onaclanimationreachedconstruct.inc:25-37:
-```pascal
-delta := (gc_buildtime_progressperhit / TObjBase(pobjbase).buildtime)
-buildprogress += delta
-deltahp := round(maxhp * delta)
-hp += deltahp   // capped at maxhp
-```
+Расчёт `delta`, `buildprogress` и прибавки HP — на каждом завершении
+construct-анимации [^7]:
+
+- `delta := gc_buildtime_progressperhit / buildtime`
+- `buildprogress += delta`
+- `hp += round(maxhp × delta)` (capped at `maxhp`)
 
 Где `gc_buildtime_progressperhit = 10 × 1/32 × 1.15 = 0.359375`.
 
@@ -102,9 +102,10 @@ hp += deltahp   // capped at maxhp
 **Каждый крестьянин-строитель** независимо играет construct анимацию (13 frames @ 32 fps = 0.406 g-sec за цикл) и в конце цикла даёт +1 hit. С N строителями параллельно — N hits / 0.406 g-sec.
 
 **Формула для N строителей:**
+
 ```
 hits_total = buildtime_real_sec / 0.359375
-T_with_N(g-sec) = hits_total / (N / 0.406) 
+T_with_N(g-sec) = hits_total / (N / 0.406)
                 = buildtime_real_sec × (0.406 / 0.359)/ N
                 = buildtime_real_sec × 1.13 / N
 ```
@@ -129,17 +130,18 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Что в нашей JSON:** поле `building.buildtime_sec` = `frames × 10/32` — это **нормированный buildtime** из formula (`objbase.buildtime`). Время-с-1-builder ≈ `buildtime_sec × 1.13`. То есть **поле НЕ равно реальному времени постройки — оно всегда требует деления на N**.
 
-Чтобы избежать путаницы: можно интерпретировать `buildtime_sec` как "секунд работы для 1 builder, для накопления полного прогресса" — в момент когда N builders, делите на N.
+Чтобы избежать путаницы: можно интерпретировать `buildtime_sec` как «секунд работы для 1 builder, для накопления полного прогресса» — в момент когда N builders, делите на N.
 
-### 3.2 Builder slots (сколько крестьян могут одновременно строить)
+### 3.3 Builder slots (сколько крестьян могут одновременно строить)
 
-**Cap:** `gc_MaxBuilderCount = 30` (`dmscript.global:159`).
-**Min spacing:** `gc_BuilderDist = 1.0` тайл (`dmscript.global:160`).
+**Cap:** `gc_MaxBuilderCount = 30` [^8].
+**Min spacing:** `gc_BuilderDist = 1.0` тайл [^9].
 
 **Builder points** — конкретные позиции вокруг здания, где крестьянин стоит и работает.
 
 **Источник позиций:**
-1. Для большинства зданий — **динамически вычисляются** из collision mask через `_unit_CalcBuilderPoints` (unit.script:8702-9006). Алгоритм: обходит периметр маски с шагом 0.5 тайла (1 cell), ставит точку каждые `dist=1.0` тайл, после цикла добавляет ещё одну если `dLen > dist/2`.
+
+1. Для большинства зданий — **динамически вычисляются** из collision mask через `_unit_CalcBuilderPoints` [^10]. Алгоритм: обходит периметр маски с шагом 0.5 тайла (1 cell), ставит точку каждые `dist=1.0` тайл, после цикла добавляет ещё одну если `dLen > dist/2`.
 2. Для стен — из `data/game/var/wallcustom.cfg` (BuilderPoints per wall variation, до 16).
 3. (Опционально) Override per-building в `data/game/var/objcustom.cfg` — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
@@ -150,6 +152,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 **Non-convex здания** — есть, но мало (5 из ~350): `scocen` (две «ноги» сверху, walker=28 vs bbox 24), `swecen` (арка с двумя ногами внизу, walker=27 vs bbox 24), `portem` (выступ справа-внизу, +2), `bavhou` (две ножки, +1), `ukrtem` (крестообразный, +1). Walker корректно обходит внутренние вмятины и считает дополнительные слоты — **подтверждено эмпирически на swecen=27** (engine действительно ставит крестьян внутри арки).
 
 **Полная таблица эмпирических точек** (9 из 10 матчат предсказание):
+
 - Convex: polcen=18, ruscen=24, eurmil=10, rusmil=7, polbla=18, polba2=25 ✓
 - Non-convex: swecen=27 ✓
 - Sparse storehouses: tursto=8 (walker по большой компоненте), spasto=7 (walker по большой, орфан игнорируется), russto=8 (bbox_union для линейных опор) ✓
@@ -177,9 +180,10 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Сим vs in-game ±1.** Помимо описанного ±1 для eursto, симуляция предсказывает 23 для bavba2, а пользователь наблюдал 22 (это исторический замер, не перепроверенный на новой формуле — пока трактуем как pathing failure для одной точки или edge of map).
 
-### 3.3 Алгоритм назначения крестьянина на стройку
+### 3.4 Алгоритм назначения крестьянина на стройку
 
-`_unit_OrderBuild` (unit.script:9285-9378):
+`_unit_OrderBuild` [^11]:
+
 1. Получает builder slots для цели.
 2. Для каждого слота проверяет: занят (на нём кто-то уже строит/ремонтирует)? Если да — пропуск.
 3. Из свободных выбирает **ближайший по евклидову расстоянию** к крестьянину.
@@ -198,6 +202,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 **Wall segment**: **2×2 тайла** на сегмент. Подтверждено по координатам в `wallcustom.cfg` — все builder points в диапазоне [-1, +1] относительно центра сегмента.
 
 **Builder slots per wall variation:**
+
 | Variation | Геометрия | Slots |
 |---:|---|---:|
 | 1 | вертикальная стена | 4 (2 точки слева + 2 справа) |
@@ -207,9 +212,10 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 | 5 | пересечение или ворота | **12** (12 точек по периметру 2×2) |
 | 6+ | прочие | 4-8 |
 
-Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137`).
+Cap из движка: `gc_MaxWallBuilderPointsCount = 16` [^12].
 
 **Параметры стен** (после fix ×10):
+
 | sid | maxhp | buildtime_g | Цена | costpercent |
 |---|---:|---:|---|---:|
 | eurswa (stone wall) | 50000 | **90 g-sec** | S50 | 0 (no scale) |
@@ -224,16 +230,19 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137
 ## 5. Garrison / Inside Units (объекты внутри зданий)
 
 ### 5.1 peasantabsorber — для шахт
+
 Шахты `eurgol/euriro/eurcoa`: `peasantabsorber=5` (база), до 95 с апгрейдами. Рассмотрено в `recon/world/peasant_extraction.md` §5.
 
 ### 5.2 transport — для транспорта
+
 Грузоподъёмность для транспортных юнитов:
-- Ferry: `transport = 80+40 = 120` слотов (`unit.script:2043`)
+
+- Ferry: `transport = 80+40 = 120` слотов [^13].
 - Другие транспортные суда (`transport`)/корабли — TBD
 
 ### 5.3 Tower — built-in cannon
 
-Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием. Базовые параметры (европейский вариант, `unit.script:2223-2240`, вызов `SetObjBaseWeapon(objprop, objbase, 0, 1000, 400, 550, 1500, 550, 50000, gc_obj_weapon_kind_cannonball, True)` с сигнатурой `SetObjBaseWeapon(... index, damage, pause, radiusmin, radiusmax, detectradiusmin, detectradiusmax, kind, bSearchMin)` из `unit.script:520`):
+Башня НЕ имеет garrison (peasantabsorber=0, transport=0). Это статичная пушка-здание со встроенным оружием. Базовые параметры (европейский вариант [^14], сигнатура `SetObjBaseWeapon(... index, damage, pause, radiusmin, radiusmax, detectradiusmin, detectradiusmax, kind, bSearchMin)` [^15]):
 
 | параметр | значение |
 |---|---|
@@ -246,15 +255,15 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137
 | weapon[0].cost / shot | iron=10, coal=30 |
 | weapon[0].dispertion | 100 px |
 | searchradius | 1400 px ≈ 26.25 tiles |
-| consume.gold | **500/tick = 0.8 gold/g-сек** ([`unit.script:2235`](.)) |
+| consume.gold | **500/tick = 0.8 gold/g-сек** [^16] |
 | HP | 20000 |
 | buildtime | 3937 frames ≈ 123 g-сек |
 | costpercent | 120 |
 | `bturnoff=True` | можно отключить — снижает gold-drain |
 
-**Russian вариант** (`unit.script:2241-2247`, `commonrus` ветка): HP=21000, buildtime=4725, costpercent=125, shield=5, dispertion=125 px. Перезаписывается только `pause` (300 frames = 9.375 g-сек); `damage`, `radiusmin/max`, `kind` остаются как у EUR (передан литерал `default = -1`, который `SetObjBaseWeapon` пропускает, см. условия `if (damage<>-1)` в `unit.script:523-538`).
+**Russian вариант** [^17]: HP=21000, buildtime=4725, costpercent=125, shield=5, dispertion=125 px. Перезаписывается только `pause` (300 frames = 9.375 g-сек); `damage`, `radiusmin/max`, `kind` остаются как у EUR (передан литерал `default = -1`, который `SetObjBaseWeapon` пропускает по условиям `if (damage<>-1)` [^18]).
 
-**Turkish вариант** (`unit.script:2248-2256`, `commontur` ветка): HP=22500, buildtime=3150, costpercent=125, цена 150 stone/90 wood/100 gold. weapon: damage=1200, pause=500 frames = 15.625 g-сек, radiusmax=1600 px, searchradius=1500 px, weapon.cost — coal=40, iron=15.
+**Turkish вариант** [^19]: HP=22500, buildtime=3150, costpercent=125, цена 150 stone/90 wood/100 gold. weapon: damage=1200, pause=500 frames = 15.625 g-сек, radiusmax=1600 px, searchradius=1500 px, weapon.cost — coal=40, iron=15.
 
 **Апгрейды:** `gc_ach_upgrade_towerattspeed` (achievement-related, attack speed).
 
@@ -263,24 +272,29 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` (`dmscript.global:137
 **Парсер gap:** weapons для зданий пока не извлекаются в `data.json` целиком — есть только скалярные поля (`weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`); если у здания два оружия, попадает только первое. Подробнее — [`docs/known_issues.md`](../known_issues.md).
 
 ### 5.4 Other inside-units checks
+
 - `bcapture=True` отмечает, что объект **может быть захвачен** врагом (см. §7).
-- `gc_obj_usage_tower` — особенный case: захватывается даже без bcapture (`unit.script:178`).
+- `gc_obj_usage_tower` — особенный case: захватывается даже без bcapture [^20].
 
 ---
 
 ## 6. Building destruction & decay
 
 ### 6.1 Decay (ветшание)
+
 **Не найдено** в коде. Здания **не теряют HP** со временем сами по себе. HP меняется только от:
+
 - Урон врагом
 - Захват (?) — нужно проверить
 
 ### 6.2 Destruction (разрушение)
+
 HP=0 → state-machine переход через `gc_statetag_essential_death`. У зданий есть `bavcen_death1a/death2a` меши (visualis) — ruins после смерти.
 
 **Возможно ли отстроить?** — нужно проверить специально (предположительно: нет, только новое здание ставить).
 
 ### 6.3 Производство при низком HP
+
 `doprogressorders.inc`: нет проверки на HP. Здание производит юниты пока живо. **Неполное здание (bbuilt=False) — не производит.**
 
 ---
@@ -289,8 +303,9 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 
 **Trigger:** `objprop.bcapture = True` в коде или `gc_obj_usage_tower`.
 
-**Mechanic:** `miscext.script:1018-1030`:
-- Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` (`dmscript.global:208`).
+**Mechanic** [^21]:
+
+- Радиус: `gc_gameplay_captureradius = 214/53.33 = 4.0 тайла` [^22].
 - Block radius: `gc_gameplay_captureblockshotradius = 3.0 тайла`.
 - Если вражеская пехота находится в радиусе захвата здания и игрока-владельца **нет** в этом радиусе → здание переходит к врагу.
 - **Захват instant** (verified empirically 2026-04-29). Старая оценка про «5%/tick → ~25-30% за 5-7 sec» была неверной — относилась к другой механике или была неаккуратной интерпретацией. Реально: один тик с условием `enemy_in_radius && owner_not_in_radius` → ownership flip.
@@ -298,9 +313,10 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 **Какие здания захватываются:** все шахты, центры, ratusha, и многие другие. Список — где `bcapture=True` в коде. У стен/ворот **нет** bcapture.
 
 При захвате:
+
 - HP сохраняется
 - Player ownership → новый
-- Score "захватчику" с множителем 5 (`unit.script:3837-3841`)
+- Score «захватчику» с множителем 5 [^23]
 
 ⚠ Тонкости: при захвате `counter.all` инкрементируется, но `counter.built` нет. Это влияет на масштабирование цен (если захватили центр, следующий ваш центр будет ×3 как обычно — но захваченный учитывается в счётчике).
 
@@ -314,8 +330,8 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 | objcustom.cfg BuilderPoints override? | В файле только `ExitPoints/SmokePoints/Decal` — **все здания** считаются через динамический `_unit_CalcBuilderPoints` (обход периметра mask). Стены — единственное исключение, у них explicit BuilderPoints в `wallcustom.cfg`. |
 | Ветшание (decay) | **Нет.** Здания теряют HP только от damage. Ни константы `gc_decay`, ни вызовов `_hp_decay` в скриптах не существует. |
 | Можно ли восстановить здание после HP=0 | **Нет.** `OnDeath` вызывает `_unit_DestroyObj` — здание удаляется. Мэш `<sid>_death1a/2a` — визуальные руины, не игровой объект. Только новое foundation. |
-| Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` (`miscext.script:1018`). Per-building override не найден. |
-| Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` (`unit.script:5891-5977`) возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в момент заказа. То есть возвращается ровно столько, сколько было списано. **Foundation (отмена кнопкой):** GUI-обработчик `_misc_GUICancelBuilding` (`miscext2.script:3898-3953`) вызывает только `GameObjectDestroyByHandle`. Зеркального `_res_AddResToPlayerByIndex` для foundation cost в скриптах нет — обработка возврата 100% потраченных ресурсов делается, видимо, на стороне C++ (поведение в игре подтверждено). |
+| Capture radius универсальный? | Да. `gc_gameplay_captureradius = 4.0 тайла` [^22]. Per-building override не найден. |
+| Refund при отмене постройки | **Юнит-очередь:** `_unit_CancelUnitProduction` [^24] возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в момент заказа. То есть возвращается ровно столько, сколько было списано. **Foundation (отмена кнопкой):** GUI-обработчик `_misc_GUICancelBuilding` [^25] вызывает только `GameObjectDestroyByHandle`. Зеркального `_res_AddResToPlayerByIndex` для foundation cost в скриптах нет — обработка возврата 100% потраченных ресурсов делается, видимо, на стороне C++ (поведение в игре подтверждено). |
 
 ## 9. Открытые вопросы
 
@@ -323,3 +339,79 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 |---:|---|---|
 | 1 | FPS construct-анимации (= 32 или другой?) | Empirical: засечь время одного цикла молотка на строящемся здании |
 | 2 | Точная стоимость одного сегмента стены (50 stone — за сегмент или за весь чертёж?) | Empirical: в редакторе поставить 1 сегмент, посмотреть списанные ресурсы |
+
+---
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `gc_buildtime_modifier = 10` для зданий — `lib/misc.script:478-482`.
+
+[^2]: Маска коллизий хранится в `collisionmaskproperty.Mask` каждого `data/objects/buildings/<sid>.prop`.
+
+[^3]: Размер ячейки маски — `lib/unit.script:8712`:
+
+    ```pascal
+    cellSize := 0.5;
+    ```
+
+[^4]: ScaleFactor маски = 1 — `data/objects/buildings/refbuilding.prop:45`.
+
+[^5]: Прибавка HP при ремонте — `units/unit.inc/onaclanimationreachedconstruct.inc:40-41`:
+
+    ```pascal
+    if (arg_obj.orders[0].itype = gc_obj_order_type_repair) then
+       TObj(pobj).hp := Min(TObj(pobj).hp + gc_gameplay_repairhp, TObjBase(pobjbase).maxhp);
+    ```
+
+[^6]: `gc_gameplay_repairhp = 20` — `dmscript.global:211`.
+
+[^7]: Прогресс за один удар при постройке — `units/unit.inc/onaclanimationreachedconstruct.inc:25-37`:
+
+    ```pascal
+    delta := (gc_buildtime_progressperhit / TObjBase(pobjbase).buildtime)
+    buildprogress += delta
+    deltahp := round(maxhp * delta)
+    hp += deltahp   // capped at maxhp
+    ```
+
+[^8]: `gc_MaxBuilderCount = 30` — `dmscript.global:159`.
+
+[^9]: `gc_BuilderDist = 1.0` — `dmscript.global:160`.
+
+[^10]: `_unit_CalcBuilderPoints` — `lib/unit.script:8702-9006`.
+
+[^11]: `_unit_OrderBuild` — `lib/unit.script:9285-9378`.
+
+[^12]: `gc_MaxWallBuilderPointsCount = 16` — `dmscript.global:137`.
+
+[^13]: Грузоподъёмность ferry — `lib/unit.script:2043` (`transport = 80 + 40 = 120`).
+
+[^14]: Базовая европейская башня — `lib/unit.script:2223-2240`:
+
+    ```pascal
+    SetObjBaseWeapon(objprop, objbase, 0, 1000, 400, 550, 1500, 550, 50000, gc_obj_weapon_kind_cannonball, True);
+    ```
+
+[^15]: Сигнатура `SetObjBaseWeapon` — `lib/unit.script:520`.
+
+[^16]: `consume.gold = 500/tick` для башни — `lib/unit.script:2235`.
+
+[^17]: Russian-вариант башни — `lib/unit.script:2241-2247` (ветка `commonrus`).
+
+[^18]: Условия пропуска `default = -1` в `SetObjBaseWeapon` — `lib/unit.script:523-538` (`if (damage<>-1)` и т.д.).
+
+[^19]: Turkish-вариант башни — `lib/unit.script:2248-2256` (ветка `commontur`).
+
+[^20]: Спецслучай для `gc_obj_usage_tower` — `lib/unit.script:178`.
+
+[^21]: Механика захвата — `lib/miscext.script:1018-1030`.
+
+[^22]: `gc_gameplay_captureradius = 214/53.33 = 4.0` — `dmscript.global:208` (см. также `lib/miscext.script:1018`).
+
+[^23]: Множитель score за захват — `lib/unit.script:3837-3841`.
+
+[^24]: `_unit_CancelUnitProduction` — `lib/unit.script:5891-5977`.
+
+[^25]: `_misc_GUICancelBuilding` — `lib/miscext2.script:3898-3953`.

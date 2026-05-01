@@ -26,6 +26,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from citations import Citations
 from config import (DATA_JSON, REPORTS_COMBAT_DIR, MELEE_SWING_FALLBACK_SEC,
                     MELEE_SWING_FALLBACK_FRAMES, melee_swing_sec)
 
@@ -232,7 +233,7 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
     return L
 
 
-def render_notes() -> list[str]:
+def render_notes(cites: Citations) -> list[str]:
     L = []
     A = L.append
     A("## Оговорки")
@@ -254,10 +255,11 @@ def render_notes() -> list[str]:
     A("- **Оружие по нескольким целям** (cannon, mortar) считает урон по одному "
       "юниту. В реальности cannonball пробивает линию — в плотном строю ×3-5 "
       "эффективнее.")
-    A("- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` "
-      "(`miscext2.script:380, 434`). Минимум 1 даже если protection > damage — то "
-      "есть **никакая броня не делает юнита бессмертным** против пик-копий, но "
-      "TTK взрывается до сотен секунд.")
+    A(f"- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` "
+      f"{cites.cite('lib/miscext2.script:380, 434', label='`_misc_DoDamage` — нанесение урона')}. "
+      f"Минимум 1 даже если protection > damage — то есть **никакая броня "
+      f"не делает юнита бессмертным** против пик-копий, но TTK взрывается "
+      f"до сотен секунд.")
     A("- **Юниты 18 в. (musketeer18, pikeman18, grenadier 18)** требуют исследования "
       "century18 + соответствующего здания. Включены для сравнения, но появляются "
       "только после длительного развития экономики.")
@@ -280,6 +282,7 @@ def main():
         print("WARNING: missing roster units:", missing)
 
     MD_PATH.parent.mkdir(parents=True, exist_ok=True)
+    cites = Citations()
     L = []
     A = L.append
     A("# Cossacks 3 — Counter-unit matrix")
@@ -297,12 +300,14 @@ def main():
     A("ttk_real_fast    = defender.hp / real_dps_fast")
     A("```")
     A("")
-    A("Источник формулы — `miscext2.script:380, 434` (damage application). "
-      "FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.")
+    A(f"Источник формулы — `_misc_DoDamage` "
+      f"{cites.cite('lib/miscext2.script:380, 434', label='`_misc_DoDamage` — нанесение урона')}. "
+      f"FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.")
     A("")
     L.extend(render_matrix(roster))
     L.extend(render_dps_against(roster))
-    L.extend(render_notes())
+    L.extend(render_notes(cites))
+    L.extend(cites.render())
     A("---")
     A("")
     A("Сгенерировано из `docs/data.json`. Для перегенерации:")

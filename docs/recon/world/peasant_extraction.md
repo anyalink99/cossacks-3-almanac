@@ -3,13 +3,15 @@
 Полная модель скорости добычи всех ресурсов: формулы, шахты, поля,
 апгрейды эффективности, влияние карты. На этих числах строятся симулятор
 экономики и расчёты в [`docs/reference/01_economy.md`](../reference/01_economy.md).
+Все ссылки на код и сами Pascal-блоки собраны в разделе
+[Источники](#источники) в конце документа.
 
 **Контекст по умолчанию (если в тексте не указано иное):**
 
 - Скорость партии — **fast** (`gamespeed = 2`, множитель ×1.4 к нормальной; см. §1).
 - Карта — `terraintype = 0` (Суша), `relieftype = 3` (Высокогорье),
   `resourcemines = 2` (Много), `mapsize = 3` (Маленькая, 256 × 256).
-- Все пути к скриптам ниже — относительно `data/` в установке Cossacks 3.
+- Все пути к скриптам в [Источниках](#источники) — относительно `data/` в установке Cossacks 3.
 
 > **Связанные документы:**
 >
@@ -34,51 +36,65 @@
 
 ## 1. Игровая скорость и время
 
-**Базовый тик:** `gc_time_to_frames = 32` (dmscript.global) — 32 кадра в одной игровой секунде. Все длительности в скриптах в "frames" нужно делить на 32 для перевода в **игровые секунды (game-time)**.
+**Базовый тик:** `gc_time_to_frames = 32` — 32 кадра в одной игровой
+секунде [^1]. Все длительности в скриптах в "frames" нужно делить на 32 для
+перевода в **игровые секунды (game-time)**.
 
-**Скорости игры** (`gc_settings_gamespeed_*`, dmscript.global:1027-1029):
+**Скорости игры** (`gc_settings_gamespeed_*`) [^2]:
+
 | Mode | Tag | speedfactor | game-time : real-time |
 |---|---:|---:|---|
 | 0 (slow)   | 7  | 0.7× | 1 game-sec = 1.43 real-sec |
 | 1 (normal) | 10 | 1.0× | 1 game-sec = 1.00 real-sec |
 | **2 (fast)** | **14** | **1.4×** | **1 game-sec = 0.714 real-sec** |
 
-**Вывод для расчётов:** все формулы ниже даны в **игровых секундах**. Для game speed 2 умножайте rate на 1.4 чтобы получить real-time rate, или делите длительности на 1.4.
+**Вывод для расчётов:** все формулы ниже даны в **игровых секундах**. Для
+game speed 2 умножайте rate на 1.4 чтобы получить real-time rate, или
+делите длительности на 1.4.
 
 ## 2. Цикл добычи (поведение)
 
 Пайплайн одного крестьянина:
 
-1. **Удар (work tick).** При работе анимация `workfood`/`workwood`/`workstone` цикл = N кадров. По достижении конца цикла:
-    - срабатывает `OnAclAnimationReachedWork` (units/unit.inc/onaclanimationreachedwork.inc).
+1. **Удар (work tick).** При работе анимация `workfood`/`workwood`/`workstone`
+   цикл = N кадров. По достижении конца цикла:
+    - срабатывает `OnAclAnimationReachedWork` [^3].
     - `arg_obj.resamount += 1` — увеличивается счётчик "ударов" в инвентаре.
     - HP ресурса уменьшается:
       - food: `-= Max(1, floor(100/(1+fieldlife/100)))`. Default fieldlife=0 → 100 HP/удар.
       - wood: `-= 1`. При HP=0 → дерево становится пнём (см. §4.2).
       - stone: `-= 1`. Stone HP = 10 000 000, фактически бесконечно.
 
-2. **Возврат к складу.** Когда `resamount >= hitsneeded` (res.script:346-358):
+2. **Возврат к складу.** Когда `resamount >= hitsneeded` [^4]:
     - food: 22, wood: 14, stone: 20 ударов.
-    - Запускается `_unit_GetNearestStorehouse` (unit.script:9572-9604) — поиск по списку `gPlayer[pl].lists.storehouses`. Учитываются здания с `usage=storage/mill/center` и `resourcebase[restype]=True`.
-    - Цель — `resourcePoint` склада (точка сдачи на конкретном tile-offset от позиции здания).
+    - Запускается `_unit_GetNearestStorehouse` — поиск по списку
+      `gPlayer[pl].lists.storehouses` [^5]. Учитываются здания с
+      `usage=storage/mill/center` и `resourcebase[restype]=True`.
+    - Цель — `resourcePoint` склада (точка сдачи на конкретном tile-offset
+      от позиции здания).
 
 3. **Сдача.** При попадании в радиус `gc_gameplay_resourceDropRadiusSqr = 0.5` (≈0.707 тайла):
-    - `_unit_PeasantAddResToPlayerByIndex` → `delivered = (portion × eff) / 100` (unit.script:9544-9569).
-    - Базовые порции (`gc_obj_resource_portion_*`, dmscript.global:803-806): food=**45**, wood=**28**, stone=**40**, прочее=**20**.
-    - `eff` — `gPlayer[pl].resefficiency[cid][restype]`, стартует со 100, апгрейды добавляют (см. §7).
+    - `_unit_PeasantAddResToPlayerByIndex` → `delivered = (portion × eff) / 100` [^6].
+    - Базовые порции (`gc_obj_resource_portion_*`): food=**45**, wood=**28**,
+      stone=**40**, прочее=**20** [^7].
+    - `eff` — `gPlayer[pl].resefficiency[cid][restype]`, стартует со 100,
+      апгрейды добавляют (см. §7).
     - `restype := none`, `resamount := 0`, поиск нового ресурса.
 
-4. **Re-acquire.** `_unit_SearchResourceInRadius` (unit.script:4041-4181) около **исходной точки задачи** (`TOrderInfo.x/y`):
+4. **Re-acquire.** `_unit_SearchResourceInRadius` около **исходной точки задачи**
+   (`TOrderInfo.x/y`) [^8]:
     - Стандартный радиус: `gc_obj_res_searchradius = 6` тайлов.
-    - Если `standtime>9` или `random>0.9` → расширение до `2× = 12` тайлов.
-    - Скоринг кандидатов: `score = (1+myDst/5) × (1+resDst/4) × (1+stoFactor) × (1+attFactor)`. attFactor/stoFactor штрафуют ресурс, к которому уже идут другие.
-    - Только `brised=True`. Лимит конкурентных добытчиков на ресурс: food=**3**, wood=**2**, stone=**3**.
+    - Если `standtime>9` или `random>0.9` → расширение до `2× = 12` тайлов [^9].
+    - Скоринг кандидатов: `score = (1+myDst/5) × (1+resDst/4) × (1+stoFactor) × (1+attFactor)`.
+      `attFactor`/`stoFactor` штрафуют ресурс, к которому уже идут другие.
+    - Только `brised=True`. Лимит конкурентных добытчиков на ресурс:
+      food=**3**, wood=**2**, stone=**3**.
 
 ## 3. Константы (extracted)
 
 ### Анимация — кадры одного work-цикла
 
-Из data/animations/aaf/peaaus.aaf (одинаково для всех наций кроме pearus):
+Из `data/animations/aaf/peaaus.aaf` (одинаково для всех наций кроме `pearus`):
 
 | Cycle | Frames | game-sec @ 32fps | real-sec @ fast |
 |---|---:|---:|---:|
@@ -91,28 +107,29 @@
 | walkwood | 20 | 0.625 | 0.446 |
 | walkstone | 20 | 0.625 | 0.446 |
 
-⚠ Ключевое допущение: animation frame rate совпадает с `gc_time_to_frames=32`. Это не гарантировано — нужен empirical check (см. §9).
+⚠ Ключевое допущение: animation frame rate совпадает с
+`gc_time_to_frames=32`. Это не гарантировано — нужен empirical check (см. §9).
 
 ### Базовые числа добычи
 
 | Параметр | Значение | Источник |
 |---|---:|---|
-| `gc_obj_resource_portion_food` | 45 | dmscript.global:804 |
-| `gc_obj_resource_portion_wood` | 28 | dmscript.global:805 |
-| `gc_obj_resource_portion_stone` | 40 | dmscript.global:806 |
-| `gc_obj_resource_portion_others` | 20 | unit.script:9551 |
-| `gc_resource_hitsneeded_food` | 22 | dmscript.global:799 |
-| `gc_resource_hitsneeded_wood` | 14 | dmscript.global:800 |
-| `gc_resource_hitsneeded_stone` | 20 | dmscript.global:801 |
-| Default `eff` | 100 | player.script:109 |
-| `gc_FieldMaxHP` | 25 000 | dmscript.global:128 |
+| `gc_obj_resource_portion_food` | 45 | [^7] |
+| `gc_obj_resource_portion_wood` | 28 | [^7] |
+| `gc_obj_resource_portion_stone` | 40 | [^7] |
+| `gc_obj_resource_portion_others` | 20 | [^6] |
+| `gc_resource_hitsneeded_food` | 22 | [^4] |
+| `gc_resource_hitsneeded_wood` | 14 | [^4] |
+| `gc_resource_hitsneeded_stone` | 20 | [^4] |
+| Default `eff` | 100 | [^10] |
+| `gc_FieldMaxHP` | 25 000 | [^11] |
 
 ### Радиусы и расстояния
 
 | Параметр | Значение (тайлы) | Назначение |
 |---|---:|---|
 | `gc_obj_res_searchradius` | 6 | base search radius после сдачи |
-| (расширение при standtime) | до 12 (2×) | unit.script:9824-9826 |
+| (расширение при standtime) | до 12 (2×) | [^9] |
 | `gc_obj_extract_food_radiusmax` | 1.5 (=80×0.01875) | дальность "удара" поля |
 | `gc_obj_extract_wood_radiusmax` | 0.75 (=40×0.01875) | дальность "удара" дерева |
 | `gc_obj_extract_stone_radiusmax` | 0.9375 (=50×0.01875) | дальность "удара" камня |
@@ -120,23 +137,29 @@
 
 ### Скорости (абстрактные ед., не тайлы/сек)
 
-`gc_obj_speed_*` (dmscript.global:603-620):
+`gc_obj_speed_*` [^12]:
+
 - default = 32
 - **peasant = 40**
 - hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24
 
-⚠ В скриптах строки `objbase.speed := gc_obj_speed_peasant` закомментированы (unit.script:1192). Глобально `objbase.speed := 1` (unit.script:618). Скорость, видимо, читается из actor/mesh файлов или применяется через анимационный walkInterval. Для конверсии в тайлы/сек **нужен empirical test**: переместить крестьянина из (0,0) в (40,0) на normal speed и засечь время в секундах.
+⚠ В скриптах строки `objbase.speed := gc_obj_speed_peasant` закомментированы,
+глобально `objbase.speed := 1` [^13]. Скорость, видимо, читается из
+`actor`/`mesh` файлов или применяется через анимационный `walkInterval`.
+Для конверсии в тайлы/сек **нужен empirical test**: переместить крестьянина
+из (0,0) в (40,0) на normal speed и засечь время в секундах.
 
 ### Конкурентные добытчики на одном ресурсе
 
 `gc_gameplay_resource_maxattackers_*`:
+
 - food = 3, wood = **2**, stone = 3, none = 4
 
 ## 4. Per-resource математика
 
 ### 4.1 Идеальный rate (без хождения)
 
-Для одного крестьянина, без учёта дороги к складу, при eff=100, fieldlife=0:
+Для одного крестьянина, без учёта дороги к складу, при `eff=100`, `fieldlife=0`:
 
 ```
 rate_per_trip = portion × eff / 100             # ресурс за поход
@@ -154,7 +177,7 @@ rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_с
 
 ### 4.2 Wood — большие/средние/мелкие деревья
 
-При спавне случайно (env/env.inc/initial.inc:79-89):
+При спавне случайно [^14]:
 
 | Шанс | HP | Тип | Ударов до пенька | Дерева на дереве (round/floor) |
 |---:|---|---|---:|---:|
@@ -164,14 +187,20 @@ rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_с
 | 20% | 10 | "пенёк" | 10 | <1 рейс = ~20 wood |
 
 **Среднее ожидание HP** (грубо):
+
 - 0.2 × 12000 + 0.15 × 375 + 0.45 × 35 + 0.2 × 10 ≈ **2474 HP** на дерево
 - При 14 hits/trip = ~177 рейсов на одно "среднее" дерево, или ~4956 wood/дерево.
 
-**Переход дерево→пень** (env/env.inc/ontagstates.inc:50-78):
-- При HP=0 → `gc_statetag_essential_death` → меш меняется на `pinestump1..4` (распределение 70/20/5/5%), `collisioninertia=False`.
-- `brised` для wood **никогда не выставляется в False** в коде (в отличие от food, где flag используется для замедления роста). Пень остаётся валидным ресурсом в `gResGrid`, search его видит, итип=wood сохраняется.
+**Переход дерево→пень** [^15]:
 
-**Предпочтение целых деревьев — emergent через penalty queueing.** В скоринге кандидата (unit.script:4141-4145):
+- При HP=0 → `gc_statetag_essential_death` → меш меняется на `pinestump1..4`
+  (распределение 70/20/5/5%), `collisioninertia=False`.
+- `brised` для wood **никогда не выставляется в False** в коде (в отличие
+  от food, где flag используется для замедления роста). Пень остаётся
+  валидным ресурсом в `gResGrid`, search его видит, итип=wood сохраняется.
+
+**Предпочтение целых деревьев — emergent через penalty queueing.** В
+скоринге кандидата [^16]:
 
 ```
 score = (1 + dstMy/5) × (1 + dstRes/4) × (1 + stoFactor) × (1 + attFactor)
@@ -179,23 +208,36 @@ attFactor = 1 + attcount × 1.5    if attcount ≥ 1, else 0
 stoFactor = 1 + stocount × 1.5    if stocount ≥ 1, else 0
 ```
 
-`attcount` = сейчас рубят, `stocount` = сейчас идут к нему. `dstMy` — расстояние от крестьянина, `dstRes` — расстояние от исходной точки задания. **Минимальный score побеждает.**
+`attcount` = сейчас рубят, `stocount` = сейчас идут к нему. `dstMy` —
+расстояние от крестьянина, `dstRes` — расстояние от исходной точки
+задания. **Минимальный score побеждает.**
 
-Эффект: ресурс с 1 активным рубщиком получает множитель ×(1+2.5) = **×3.5** к скору. Целое дерево без рубщиков рядом всегда побеждает пень с рубщиком в 2-3 тайлах. Так возникает наблюдаемое предпочтение — **не из-за того, что это пень, а из-за того, что на пне уже работают**.
+Эффект: ресурс с 1 активным рубщиком получает множитель ×(1+2.5) = **×3.5**
+к скору. Целое дерево без рубщиков рядом всегда побеждает пень с рубщиком
+в 2-3 тайлах. Так возникает наблюдаемое предпочтение — **не из-за того,
+что это пень, а из-за того, что на пне уже работают**.
 
-**Пустой пень vs целое дерево, оба без рубщиков** — побеждает ближний по дистанции, без штрафа. Когда лес вырублен (все стали пнями), крестьяне работают по ним равномерно, без избегания.
+**Пустой пень vs целое дерево, оба без рубщиков** — побеждает ближний по
+дистанции, без штрафа. Когда лес вырублен (все стали пнями), крестьяне
+работают по ним равномерно, без избегания.
 
-**Крест-овер дистанций** (примерно): пень с 1 рубщиком на 2 тайлах проигрывает целому дереву на ≤8 тайлах. Но search radius = 6 тайлов, так что эффективная зона — ~3-5 тайлов "форы" целому дереву над занятым пнём.
+**Крест-овер дистанций** (примерно): пень с 1 рубщиком на 2 тайлах
+проигрывает целому дереву на ≤8 тайлах. Но search radius = 6 тайлов, так
+что эффективная зона — ~3-5 тайлов "форы" целому дереву над занятым пнём.
 
-**Hard cap:** при `attcount ≥ maxattackers=2` для wood ресурс полностью фильтруется (75% времени, 25% шанс обхода через `bskipcheck = random>0.75`).
+**Hard cap:** при `attcount ≥ maxattackers=2` для wood ресурс полностью
+фильтруется (75% времени, 25% шанс обхода через `bskipcheck = random>0.75`).
 
 ### 4.3 Stone — фактически бесконечный
 
-HP = 10 000 000 (initial.inc:96). Один камень держит 10M ударов = 500k рейсов = 20M камня. Бесконечно для практических целей. Все расчёты для stone — без учёта истощения.
+HP = 10 000 000 [^17]. Один камень держит 10M ударов = 500k рейсов = 20M
+камня. Бесконечно для практических целей. Все расчёты для stone — без
+учёта истощения.
 
 ### 4.4 Food — поле с регенерацией
 
-**HP поля:** старт = 0, при `essential_birth → essential_none` устанавливается = `gc_FieldMaxHP = 25000` (ontagstates.inc:119).
+**HP поля:** старт = 0, при `essential_birth → essential_none`
+устанавливается = `gc_FieldMaxHP = 25000` [^18].
 
 **Урон полю за удар:** `resdec = Max(1, floor(100/(1+fieldlife/100)))`.
 
@@ -209,18 +251,24 @@ HP = 10 000 000 (initial.inc:96). Один камень держит 10M уда�
 
 (Каждые 22 удара — 1 рейс с 45 еды; формула: hits × portion / hitsneeded.)
 
-**Регенерация поля** (env/env.inc/nothing.inc:78-87):
-- При HP < FieldMaxHP **И** visualstage=0 (HP ≥ 13000): каждые `cFieldRestartTime = 31.25` игровых секунд → `HP += floor(25000 × random × 0.1)` (то есть 0..2500 случайно).
+**Регенерация поля** [^19]:
+
+- При HP < FieldMaxHP **И** `visualstage=0` (HP ≥ 13000): каждые
+  `cFieldRestartTime = 31.25` игровых секунд → `HP += floor(25000 × random × 0.1)`
+  (то есть 0..2500 случайно).
 - На стадиях <stage_0 (HP<13000) — НЕ регенерирует.
 
-**Перезапуск поля** (nothing.inc:31-34):
+**Перезапуск поля** [^20]:
+
 - HP=0 → `essential_death` → 21.875 игровых секунд → `essential_birth+visual_stage_0`.
-- Затем `cFieldGrowTime = 4×21.875 = 87.5` игровых секунд роста (4 visual stages: 0→1→2→3). В это время `brised=False`, добывать нельзя.
+- Затем `cFieldGrowTime = 4×21.875 = 87.5` игровых секунд роста (4 visual
+  stages: 0→1→2→3). В это время `brised=False`, добывать нельзя.
 - Полный простой: 21.875 + 87.5 = **109.375 игровых секунд** = 78.1 real sec @ fast.
 
 ## 5. Шахты (gold/iron/coal)
 
-**Здание:** `eurgol`, `euriro`, `eurcoa` (общий cluster `eur` для большинства; `rusgol`/etc для rus/ukr; `turgol`/etc для tur/alg). Параметры (unit.script:2311-2323):
+**Здание:** `eurgol`, `euriro`, `eurcoa` (общий cluster `eur` для большинства;
+`rusgol`/etc для `rus`/`ukr`; `turgol`/etc для `tur`/`alg`). Параметры [^21]:
 
 | Параметр | Значение |
 |---|---:|
@@ -230,14 +278,16 @@ HP = 10 000 000 (initial.inc:96). Один камень держит 10M уда�
 | `peasantabsorber` | **5** (макс 5 крестьян внутри) |
 | `produce[gold/iron/coal]` | **13** |
 
-**Механика:** крестьянин входит → `_unit_AddInside` (unit.script:3016-3032):
+**Механика:** крестьянин входит → `_unit_AddInside` [^22]:
+
 ```
 gPlayer[pl].counter.resincome[i] += produce[i]   # +13 на каждого вошедшего
 ```
 
 При выходе/смерти — соответствующее уменьшение.
 
-**Income tick** (player.script:240-266):
+**Income tick** [^23]:
+
 ```
 const mult  = 100
 const speed = 256/1.024 = 250
@@ -248,19 +298,22 @@ delivered    = floor(realbank)                        # к плательщик�
 ```
 
 **Скорость на 1 крестьянина в шахте:**
+
 - За 1 игровую секунду: bank gain = 13 × 32 × 1.0 = 416. realbank = 416/250 = **1.664** ресурса/game-sec
 - ≈ 99.84 ресурса/game-min
 - @ game speed 2 (fast): **2.330 ресурса/real-sec на крестьянина** ≈ **139.7/real-min**
 
 **Полная шахта (5 крестьян, без апгрейдов):**
+
 - 5 × 1.664 = **8.32 ресурса/game-sec**
 - @ fast: **11.65 ресурса/real-sec** ≈ **699/real-min**
 
 ### 5.1 Mine upgrades — расширение вместимости
 
-Каждая шахта имеет 6 индивидуальных апгрейдов (`<commonName><res>.1`..`.6`, `bindividual=True` — нужно исследовать на каждой шахте отдельно). Type: `gc_upg_type_single_inside_mine`. Эффект: `addpeasantabsorber += value`.
-
-Источник: country.script:3871-3897. Время: 300 frames = 9.375 game-sec каждый.
+Каждая шахта имеет 6 индивидуальных апгрейдов (`<commonName><res>.1`..`.6`,
+`bindividual=True` — нужно исследовать на каждой шахте отдельно). Type:
+`gc_upg_type_single_inside_mine`. Эффект: `addpeasantabsorber += value`.
+Время: 300 frames = 9.375 game-sec каждый [^24].
 
 | Upgrade | +absorber | абсорбер после | Цена | Требование |
 |---|---:|---:|---|---|
@@ -272,6 +325,7 @@ delivered    = floor(realbank)                        # к плательщик�
 | `.6` | +40 | **95** | F50200, G25950 | 18 century |
 
 **Полностью прокаченная одна шахта (95 peasants):**
+
 - resincome += 95 × 13 = 1235
 - per game-sec: 1235 × 32 / 250 = **158.08 ресурса/game-sec**
 - @ fast: **221.3 ресурса/real-sec** ≈ **13 278/real-min**
@@ -282,21 +336,25 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 ## 6. Поля и fieldlife — апгрейды
 
-**Type:** `gc_upg_type_fieldlifeperc` (ID 23). Эффект (player.script:1830-1832): `gPlayer.fieldlife += value` (additive).
+**Type:** `gc_upg_type_fieldlifeperc` (ID 23). Эффект:
+`gPlayer.fieldlife += value` (additive) [^25].
 
 Найдены два апгрейда (стандартная eur-нация):
+
 | Sid | upgplace | value | Цена | Источник |
 |---|---|---:|---|---|
-| `<csid>aca.4` | academy | +200 | F0 W1000 S0 G475 | country.script:3490 |
-| `<csid>bla.1` | blacksmith | +100 | F0 W400 S0 G90 | country.script:3714 |
+| `<csid>aca.4` | academy | +200 | F0 W1000 S0 G475 | [^26] |
+| `<csid>bla.1` | blacksmith | +100 | F0 W400 S0 G90 | [^27] |
 
 Суммарно при обоих: fieldlife = **300** → resdec=25 → 1000 hits/field → 2045 food/field.
 
-⚠ Для нелатинских наций (rus, ukr, tur, alg, etc.) могут быть нюансы, нужно перепроверять (но базовая формула общая).
+⚠ Для нелатинских наций (`rus`, `ukr`, `tur`, `alg`, etc.) могут быть
+нюансы, нужно перепроверять (но базовая формула общая).
 
 ## 7. Апгрейды efficiency (resefficiency)
 
-Все апгрейды efficiency аддитивно добавляются к `gPlayer.resefficiency[cid][restype]` (default 100):
+Все апгрейды efficiency аддитивно добавляются к
+`gPlayer.resefficiency[cid][restype]` (default 100):
 
 | Type | restype |
 |---|---|
@@ -305,18 +363,23 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 | `gc_upg_type_effectwood`/perc | wood |
 | `gc_upg_type_effectstone`/perc | stone |
 
-Наблюдаемые в country.script (mill upgrades — `<csid>mil.X` или `<commonName>mil.X`):
+Наблюдаемые в `country.script` (mill upgrades — `<csid>mil.X` или `<commonName>mil.X`):
+
 - mill `.1`: +40% food
 - mill `.2`: +50% food
 - mill `.3`: +50% food (требует уровень 2)
 - aca `.8`: +100% wood (mill+blacksmith цепочка)
 - aca `.23`: +100% stone, `.24`: +200% stone
 
-⚠ Полный список на 21 нацию нужно достать через уже существующий `parser/simulate_upgrades.py`. См. §9.
+⚠ Полный список на 21 нацию нужно достать через уже существующий
+`parser/simulate_upgrades.py`. См. §9.
 
 ## 8. Карта как вход для модели
 
-Полная процедура `DoGenerate` (cCircle1/2/3, SetupStartingResources, фазы mines, FillOwnerMap, peacetime borders) — в [map_generation_pipeline.md](map_generation_pipeline.md). Ниже только то, что нужно для extraction-формул.
+Полная процедура `DoGenerate` (cCircle1/2/3, SetupStartingResources, фазы
+mines, FillOwnerMap, peacetime borders) — в
+[map_generation_pipeline.md](map_generation_pipeline.md). Ниже только то,
+что нужно для extraction-формул.
 
 ### 8.1 Игровые параметры (наш контекст)
 
@@ -327,38 +390,62 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 | Minerals | `resourcemines` | 2 | Rich |
 | Map Size | `mapsize` | 3 | Tiny (256×256) |
 
-Источники: data/gui/menu.inc/showcustomgame.inc, labels в `data/locale/{en,ru}/{gui,new}.txt`.
+Источники: `data/gui/menu.inc/showcustomgame.inc`, labels в
+`data/locale/{en,ru}/{gui,new}.txt`.
 
-**Важная деталь Highlands**: density гор (`mnt = 0.000120`) — максимальная среди всех рельефов (dogenerate.inc:1640-1644). Меньше ровных площадей под фермы/склады, больше попыток placement фейлятся.
+**Важная деталь Highlands**: density гор (`mnt = 0.000120`) — максимальная
+среди всех рельефов [^28]. Меньше ровных площадей под фермы/склады, больше
+попыток placement фейлятся.
 
 ### 8.2 Терминология: месторождение vs шахта
 
-*Месторождение* — геологическая залежь, помещаемая генератором (паттерны `mng`/`mni`/`mnc`, basenames `minegold`/`mineiron`/`minecoal`).
-*Шахта* — здание `eurgol`/`euriro`/`eurcoa`, строится крестьянином на месторождении (peasantabsorber=5, до 95 с апгрейдами).
+*Месторождение* — геологическая залежь, помещаемая генератором (паттерны
+`mng`/`mni`/`mnc`, basenames `minegold`/`mineiron`/`minecoal`).
+*Шахта* — здание `eurgol`/`euriro`/`eurcoa`, строится крестьянином на
+месторождении (`peasantabsorber=5`, до 95 с апгрейдами).
 
 ### 8.3 Сколько ресурсов на старте
 
-**Месторождения.** На Tiny + Rich → 4 раунда × 3 типа = **12 месторождений на игрока** (round 4 пропущен на tiny). Расстояния от старта: round 0 = 14-22 tiles (Phase 1, в `CreateStartPoint`), 1 = 32-42, 2 = 70-82, 3 = 22-38 (всё Phase 2). Подробности — [map_generation_pipeline.md §8](map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
+**Месторождения.** На Tiny + Rich → 4 раунда × 3 типа = **12 месторождений
+на игрока** (round 4 пропущен на tiny). Расстояния от старта: round 0 =
+14-22 tiles (Phase 1, в `CreateStartPoint`), 1 = 32-42, 2 = 70-82, 3 =
+22-38 (всё Phase 2). Подробности —
+[map_generation_pipeline.md §8](map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
 
-**Стартовые ресурсы вне mines.** В радиусе 5-22 тайла от центра города всегда есть: **1× stoneforest, 2× stones, 3× forests** (medium/big, foreststype=0 mix) через `SetupStartingResources` ([map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)). Это объясняет, почему в начале игры всегда хватает дерева на ratuse + первый mill ещё ДО общего forest spawn'а.
+**Стартовые ресурсы вне mines.** В радиусе 5-22 тайла от центра города
+всегда есть: **1× stoneforest, 2× stones, 3× forests** (medium/big,
+foreststype=0 mix) через `SetupStartingResources`
+([map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)).
+Это объясняет, почему в начале игры всегда хватает дерева на ratuse +
+первый mill ещё ДО общего forest spawn'а.
 
 ### 8.4 Леса и камни — densities + калибровка trees-per-pattern
 
-> **`foreststype` всегда = 0 для Land.** Случайная инициализация `floor(RandomExt*3)` немедленно перезаписана нулём (dogenerate.inc:5-6). foreststype=1 (leaf-only) и =2 (mixed-only) на Land **не активируются**. Используется foreststype=0 mix: pinefir/spruce/pine/pine_big_2 (big), pinefir/spruce/pine (mid), pinefir/pine (small).
+> **`foreststype` всегда = 0 для Land.** Случайная инициализация
+> `floor(RandomExt*3)` немедленно перезаписана нулём [^29]. `foreststype=1`
+> (leaf-only) и =2 (mixed-only) на Land **не активируются**. Используется
+> `foreststype=0` mix: pinefir/spruce/pine/pine_big_2 (big),
+> pinefir/spruce/pine (mid), pinefir/pine (small).
 
-Densities (dogenerate.inc:1688-1693):
+Densities [^30]:
 
 - `frs_big = 0.0009`, `frs_mid = 0.0009`, `frs_small = 0.00054`
 - `stn1 = 0.00016`, `stn2 = 0.00012`
 - `dcr = 0.0005` (декор)
 
-Финальная density применяется через `_misc_SetupPatternsByType` (misc.script:3681-3737) с тремя множителями:
+Финальная density применяется через `_misc_SetupPatternsByType` [^31] с
+тремя множителями:
 
-1. `prob*` modifiers (misc.script:3929-3941) — Monte Carlo на 32000×4 пробах в 12/16/24/29-tile квадратах. Показывает «сколько свободного места» осталось после terrain placement.
+1. `prob*` modifiers [^32] — Monte Carlo на 32000×4 пробах в 12/16/24/29-tile
+   квадратах. Показывает «сколько свободного места» осталось после terrain
+   placement.
 2. Tiny modifier ×2.5 (`640/256`) на все `prob*`.
-3. Per-call splits: `frs_big/8` на 4 типа леса, `frs_mid/6` на 3 типа, `frs_small/4` на 2 типа.
+3. Per-call splits: `frs_big/8` на 4 типа леса, `frs_mid/6` на 3 типа,
+   `frs_small/4` на 2 типа.
 
-**Числа для Tiny + Highlands + Land** (источник: [`compute/compute_map_resources.py`](../compute/compute_map_resources.py), отчёт в [`docs/reports/map/map_resources.md`](../docs/reports/map/map_resources.md)):
+**Числа для Tiny + Highlands + Land** (источник:
+[`compute/compute_map_resources.py`](../compute/compute_map_resources.py),
+отчёт в [`docs/reports/map/map_resources.md`](../docs/reports/map/map_resources.md)):
 
 | Параметр | Значение |
 |---|---:|
@@ -377,9 +464,14 @@ Densities (dogenerate.inc:1688-1693):
 
 ### Per-pattern-type tree counts (real data)
 
-После расшифровки `data/game/var/generator.cfg` секции `PatternList` сопоставляют тип паттерна (например, `forests_pine_big`) со списком конкретных `.pattern` файлов. Парсер — [`parser/parse_generator_cfg.py`](../../parser/parse_generator_cfg.py) → `docs/derived/pattern_types.json`.
+После расшифровки `data/game/var/generator.cfg` секции `PatternList`
+сопоставляют тип паттерна (например, `forests_pine_big`) со списком
+конкретных `.pattern` файлов. Парсер —
+[`parser/parse_generator_cfg.py`](../../parser/parse_generator_cfg.py) →
+`docs/derived/pattern_types.json`.
 
-Кросс-tabulating с `pattern_inventory.json` (mask cell counts) → `docs/derived/pattern_type_stats.json`:
+Кросс-tabulating с `pattern_inventory.json` (mask cell counts) →
+`docs/derived/pattern_type_stats.json`:
 
 | pattern type | n_files | min | **median** | max | example |
 |---|---:|---:|---:|---:|---|
@@ -405,47 +497,80 @@ Densities (dogenerate.inc:1688-1693):
 
 ### Что значит mask=1: РЕШЕНИЕ через empirical calibration
 
-`mask=1` cells = **placement slots для env-объектов**, спавнятся C++ функцией `StandPatternWithAngle` (code недоступен).
+`mask=1` cells = **placement slots для env-объектов**, спавнятся C++
+функцией `StandPatternWithAngle` (code недоступен).
 
-**Mask cells содержат:** chopable trees (oak/pine/leaftree/...) + ground decoration (drytree, decortree*, fallen logs, grass tufts, stumps). Engine назначает variant_id → конкретный env-object class — но мы не видим этого мэппинга.
+**Mask cells содержат:** chopable trees (oak/pine/leaftree/...) + ground
+decoration (drytree, decortree*, fallen logs, grass tufts, stumps). Engine
+назначает variant_id → конкретный env-object class — но мы не видим этого
+мэппинга.
 
 **Empirical calibration (источник — пользователь, 2026-04-29):**
+
 - Маленький лес (`forests_pine_small`, mask median 44): visible chopable trees ≈ **10** → ratio = 0.23
 - Большой лес (`forests_pine_big`, mask median 148): visible chopable trees ≈ **50** → ratio = 0.34
 - Average: **TREE_CHOPABLE_RATIO ≈ 0.30**
 
 **Counter-examples (mask ≠ objects):**
-- 🪨 `mng/mni/mnc` (mines): все 18 файлов имеют ровно 32 mask клетки, но это **1 deposit per pattern** (mask = collision footprint). Не 32 шахты.
-- 🌿 `brush_plt_1x1` (4×4, 8 mask=1): = **8 видимых кустов** в игре — здесь 1:1 (брыши плотные).
 
-**Заключение:** для шахт `mask = footprint`, для брышей `mask = 1:1`, для лесов `mask × 0.30 ≈ chopable trees`. Этот ratio зашит в [`compute/compute_map_resources.py`](../compute/compute_map_resources.py) как `TREE_CHOPABLE_RATIO`. Refine when more empirical data доступна.
+- `mng/mni/mnc` (mines): все 18 файлов имеют ровно 32 mask клетки, но это
+  **1 deposit per pattern** (mask = collision footprint). Не 32 шахты.
+- `brush_plt_1x1` (4×4, 8 mask=1): = **8 видимых кустов** в игре — здесь
+  1:1 (брыши плотные).
+
+**Заключение:** для шахт `mask = footprint`, для брышей `mask = 1:1`, для
+лесов `mask × 0.30 ≈ chopable trees`. Этот ratio зашит в
+[`compute/compute_map_resources.py`](../compute/compute_map_resources.py)
+как `TREE_CHOPABLE_RATIO`. Refine when more empirical data доступна.
 
 ### Pattern type → file mapping
 
-При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` (`misc.script:3655`) движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается разместить через `_misc_CheckStandPatternExt`. После успеха вызывается C++ `StandPatternWithAngle` — она и спавнит env-объекты (тело недоступно).
+При вызове `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` [^33]
+движок ищет в `gPatternList`, выбирает один файл по `Freq` весу и пытается
+разместить через `_misc_CheckStandPatternExt`. После успеха вызывается
+C++ `StandPatternWithAngle` — она и спавнит env-объекты (тело недоступно).
 
-Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа (pinefir/spruce/pine/pine_big_2), 3 mid-типа, 2 small-типа. Каждый имеет свой median tree count → итоговая выборка взвешена по freq и mask-density.
+Для `foreststype=0` (default mix) карта вызывает 4 разных big-типа
+(pinefir/spruce/pine/pine_big_2), 3 mid-типа, 2 small-типа. Каждый имеет
+свой median tree count → итоговая выборка взвешена по freq и mask-density.
 
 ### 8.5 Пеньки — бесконечный wood pool (критично для симуляции)
 
-**Источник:** `onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`.
+Источник поведения — `OnAclAnimationReachedWork` плюс ontagstates
+wood-death-handler [^3] [^15].
 
 Жизненный цикл дерева:
-1. **Spawn** (`initial.inc:75-93`): `brised := True`, HP назначается случайно по distribution (giant 8000-16000 / medium 125-624 / small 10-60 / stub 10).
+
+1. **Spawn** [^14]: `brised := True`, HP назначается случайно по distribution
+   (giant 8000-16000 / medium 125-624 / small 10-60 / stub 10).
 2. **Каждый удар** крестьянина: `hp -= 1, peasant.resamount += 1`.
-3. **При hp = 0**: `_unit_SetTagStates(trgHnd, gc_statetag_essential_death)`. Это триггерит ontagstates wood-death-handler:
+3. **При hp = 0**: `_unit_SetTagStates(trgHnd, gc_statetag_essential_death)`.
+   Это триггерит ontagstates wood-death-handler:
    - mesh меняется на `pinestump<1..4>` (random)
    - `SetGameObjectCollisionInertiaByHandle(myHnd, False)`
    - **`brised` остаётся True** (никто его не сбрасывает на death)
-4. **Пенек продолжает жить как валидная цель** для `_unit_SearchResourceInRadius` (`unit.script:4148`: `if brised then ...` — проверки HP нет).
-5. Удары продолжаются: `hp -= 1` уходит в отрицательные значения (-1, -2, -3, ...). Условие `if hp = 0` срабатывает только один раз (при ровно 0), потому повторного перехода в death нет.
+4. **Пенек продолжает жить как валидная цель** для
+   `_unit_SearchResourceInRadius` [^34] — только проверка `brised`, проверки
+   HP нет.
+5. Удары продолжаются: `hp -= 1` уходит в отрицательные значения (-1, -2, -3, ...).
+   Условие `if hp = 0` срабатывает только один раз (при ровно 0), потому
+   повторного перехода в death нет.
 6. `peasant.resamount` инкрементится каждый удар → **дерево даёт wood до бесконечности**.
 
-**Поведенческое следствие:** wood «end-game» нет. Wood всегда доступен; единственное ограничение — пропускная способность peasants (1 hit/0.5625 g-sec = 3.56 wood/g-sec/peasant) и capacity (2 attackers/tree через `gc_gameplay_resource_maxattackers_wood`).
+**Поведенческое следствие:** wood «end-game» нет. Wood всегда доступен;
+единственное ограничение — пропускная способность peasants (1 hit/0.5625
+g-sec = 3.56 wood/g-sec/peasant) и capacity (2 attackers/tree через
+`gc_gameplay_resource_maxattackers_wood`).
 
-**Почему peasants всё-таки предпочитают целые деревья?** Не из-за HP-фильтра — из-за `attFactor` в score: `tmpRDist = (1+dst/5)*(1+resdst/4)*(1+stoFactor)*(1+attFactor)`, где `attFactor = 1+attcount*1.5` если ≥1 уже рубит. Поэтому свежее не-рубленное дерево всегда ближе по «scoring distance», чем популярный пень. Но если все деревья заняты, peasants идут на пеньки.
+**Почему peasants всё-таки предпочитают целые деревья?** Не из-за
+HP-фильтра — из-за `attFactor` в score:
+`tmpRDist = (1+dst/5)*(1+resdst/4)*(1+stoFactor)*(1+attFactor)`, где
+`attFactor = 1+attcount*1.5` если ≥1 уже рубит. Поэтому свежее
+не-рубленное дерево всегда ближе по «scoring distance», чем популярный
+пень. Но если все деревья заняты, peasants идут на пеньки.
 
-**Для симуляции:** wood pool = effectively infinite. Считаем только rate (peasants × 3.56 wood/g-sec × eff/100) минус walk_overhead до склада.
+**Для симуляции:** wood pool = effectively infinite. Считаем только rate
+(peasants × 3.56 wood/g-sec × eff/100) минус walk_overhead до склада.
 
 ## 9. Открытые вопросы
 
@@ -457,6 +582,83 @@ Densities (dogenerate.inc:1688-1693):
 | 4 | Учёт `ferry` (доставка с изолированных островов леса) | Не критично для tiny+land, отложить. |
 | 5 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Отложить. |
 
-**Что нужно для уровня B (формулы):** §3-§7 покрывают всё необходимое. Главный стоп-фактор — точная скорость крестьянина (вопрос 1). Без неё формула содержит параметр `peasant_tiles_per_game_sec` и предположения 1/2/3 tile/g-sec.
+**Что нужно для уровня B (формулы):** §3-§7 покрывают всё необходимое.
+Главный стоп-фактор — точная скорость крестьянина (вопрос 1). Без неё
+формула содержит параметр `peasant_tiles_per_game_sec` и предположения
+1/2/3 tile/g-sec.
 
 **Что нужно для уровня C (симулятор):** дополнительно решить пп. 1-3.
+
+---
+
+## Источники
+
+Все ссылки относительно `data/` в установке Cossacks 3.
+
+[^1]: `gc_time_to_frames = 32` — `scripts/dmscript.global`.
+
+[^2]: `gc_settings_gamespeed_*` — `scripts/dmscript.global:1027-1029`.
+
+[^3]: `OnAclAnimationReachedWork` — `scripts/units/unit.inc/onaclanimationreachedwork.inc`.
+
+[^4]: `gc_resource_hitsneeded_*` (food=22, wood=14, stone=20) и проверка `resamount >= hitsneeded` — `scripts/dmscript.global:799-801` и `scripts/lib/res.script:346-358`.
+
+[^5]: `_unit_GetNearestStorehouse` — `scripts/lib/unit.script:9572-9604`.
+
+[^6]: `_unit_PeasantAddResToPlayerByIndex` — `scripts/lib/unit.script:9544-9569`.
+
+[^7]: Базовые порции `gc_obj_resource_portion_*` — `scripts/dmscript.global:803-806`.
+
+[^8]: `_unit_SearchResourceInRadius` — `scripts/lib/unit.script:4041-4181`.
+
+[^9]: Расширение search radius при `standtime>9` или `random>0.9` — `scripts/lib/unit.script:9824-9826`.
+
+[^10]: Default `eff = 100` — `scripts/lib/player.script:109`.
+
+[^11]: `gc_FieldMaxHP = 25000` — `scripts/dmscript.global:128`.
+
+[^12]: `gc_obj_speed_*` — `scripts/dmscript.global:603-620`.
+
+[^13]: `objbase.speed := gc_obj_speed_peasant` закомментировано в `scripts/lib/unit.script:1192`; глобальный `objbase.speed := 1` — `scripts/lib/unit.script:618`.
+
+[^14]: HP distribution деревьев при спавне — `scripts/env/env.inc/initial.inc:79-89`.
+
+[^15]: Переход дерево→пень — `scripts/env/env.inc/ontagstates.inc:50-78`.
+
+[^16]: Скоринг кандидата ресурса — `scripts/lib/unit.script:4141-4145`.
+
+[^17]: HP камня `10 000 000` — `scripts/env/env.inc/initial.inc:96`.
+
+[^18]: HP поля устанавливается = `gc_FieldMaxHP` при `essential_birth → essential_none` — `scripts/env/env.inc/ontagstates.inc:119`.
+
+[^19]: Регенерация поля (`cFieldRestartTime = 31.25`) — `scripts/env/env.inc/nothing.inc:78-87`.
+
+[^20]: Перезапуск поля и `cFieldGrowTime = 87.5` — `scripts/env/env.inc/nothing.inc:31-34`.
+
+[^21]: Параметры зданий `eurgol`/`euriro`/`eurcoa` — `scripts/lib/unit.script:2311-2323`.
+
+[^22]: `_unit_AddInside` — `scripts/lib/unit.script:3016-3032`.
+
+[^23]: Income tick — `scripts/lib/player.script:240-266`.
+
+[^24]: Mine upgrades (`gc_upg_type_single_inside_mine`, addpeasantabsorber) — `scripts/lib/country.script:3871-3897`.
+
+[^25]: `gc_upg_type_fieldlifeperc` (ID 23), `gPlayer.fieldlife += value` — `scripts/lib/player.script:1830-1832`.
+
+[^26]: Upgrade `<csid>aca.4` (academy, +200 fieldlife) — `scripts/lib/country.script:3490`.
+
+[^27]: Upgrade `<csid>bla.1` (blacksmith, +100 fieldlife) — `scripts/lib/country.script:3714`.
+
+[^28]: Density гор Highlands `mnt = 0.000120` — `scripts/lib/dogenerate.inc:1640-1644`.
+
+[^29]: `foreststype` всегда = 0 на Land — `scripts/lib/dogenerate.inc:5-6`.
+
+[^30]: Densities (frs_big/mid/small, stn1/2, dcr) — `scripts/lib/dogenerate.inc:1688-1693`.
+
+[^31]: `_misc_SetupPatternsByType` — `scripts/lib/misc.script:3681-3737`.
+
+[^32]: `prob*` Monte Carlo modifiers — `scripts/lib/misc.script:3929-3941`.
+
+[^33]: `_misc_PlacePatternByType` — `scripts/lib/misc.script:3655`.
+
+[^34]: Поиск ресурса проверяет только `brised` (без проверки HP) — `scripts/lib/unit.script:4148`.

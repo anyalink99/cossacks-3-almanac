@@ -33,6 +33,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR, REPORTS_ECONOMY_DIR
+from citations import Citations
 
 BUILDINGS_DIR = GAME_ROOT / "data" / "objects" / "buildings"
 
@@ -370,6 +371,7 @@ def main():
                   f"comps={info['n_components']} linear={info['all_linear']} "
                   f"method={info['method']} → slots={info['slots']}")
 
+    cites = Citations()
     L = []
     L.append("# Cossacks 3 — Слоты строителей у зданий")
     L.append("")
@@ -377,13 +379,14 @@ def main():
              "`collisionmaskproperty.Mask` каждого `.prop` файла в "
              "`data/objects/buildings/` по правилу, эмпирически согласованному с игрой.")
     L.append("")
-    L.append("**Формула** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md), "
+    L.append("**Формула** (см. [`recon/world/building_mechanics.md`](../../recon/world/building_mechanics.md), "
              "раздел про слоты):")
     L.append("")
-    L.append("- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "
-             "(`unit.script:8702-9006`) по верхне-левой компоненте collision mask. "
-             "Для выпуклых форм результат равен `bbox_cols + bbox_rows` "
-             "(Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.")
+    L.append(f"- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "
+             f"{cites.cite('lib/unit.script:8702-9006', label='`_unit_CalcBuilderPoints`')} "
+             f"по верхне-левой компоненте collision mask. Для выпуклых форм результат "
+             f"равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex "
+             f"(арки, кресты) walker даёт больше.")
     L.append("- Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — "
              "движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. "
              "Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).")
@@ -489,6 +492,7 @@ def main():
         )))
         L.append("")
 
+    L.extend(cites.render())
     out_md = REPORTS_ECONOMY_DIR / "builder_slots.md"
     out_md.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {out_md}")

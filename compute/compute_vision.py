@@ -24,6 +24,7 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from config import DATA_JSON, REPORTS_DIR, PLAYABLE_NATIONS, REPORTS_COMBAT_DIR
+from citations import Citations
 
 MD_PATH = REPORTS_COMBAT_DIR / "vision_radii.md"
 
@@ -37,14 +38,15 @@ def vision_tiles(vision_field: int) -> int:
     return VISION_BASE + VISION_MOD * (vision_field or 0)
 
 
-def render_legend() -> list[str]:
+def render_legend(cites: Citations) -> list[str]:
     L = []
     A = L.append
     A("## Формула")
     A("")
-    A("Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — "
-      "поле в `objprop`, ЦЕЛОЕ число (обычно 0..8). Источник — "
-      "`_unit_GetVision` в `unit.script:11565`.")
+    cite = cites.cite("lib/unit.script:11565", label="`_unit_GetVision`")
+    A(f"Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — "
+      f"поле в `objprop`, ЦЕЛОЕ число (обычно 0..8); вычисление — "
+      f"в `_unit_GetVision` {cite}.")
     A("")
     A("| `vision` | tiles | Кто типичный носитель |")
     A("| ---: | ---: | --- |")
@@ -157,6 +159,7 @@ def main() -> None:
     buildings = data["buildings"]
     MD_PATH.parent.mkdir(parents=True, exist_ok=True)
 
+    cites = Citations()
     L = []
     A = L.append
     A("# Cossacks 3 — Vision и searchradius")
@@ -172,10 +175,11 @@ def main() -> None:
       "Используется в `bartprepare` / `_unit_SearchTarget`. Пехота "
       "**не атакует** врага вне этого круга, даже если он виден через FOW.")
     A("")
-    L.extend(render_legend())
+    L.extend(render_legend(cites))
     L.extend(render_unit_table(units))
     L.extend(render_building_table(buildings))
     L.extend(render_notes())
+    L.extend(cites.render())
     A("---")
     A("")
     A("Перегенерация: `python compute/compute_vision.py`")

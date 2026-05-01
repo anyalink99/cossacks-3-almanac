@@ -28,6 +28,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from config import (PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_COMBAT_DIR,
                     USAGE_RU, WEAPON_KIND_RU, nation_ru)
+from citations import Citations
 
 
 MD_PATH = REPORTS_COMBAT_DIR / "combat_stats.md"
@@ -243,7 +244,7 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
     return L
 
 
-def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
+def render_ehp_table(groups: list[tuple[dict, list[str]]], cites: Citations) -> list[str]:
     L = []
     A = L.append
     A(f"## §3. Effective HP — против эталонной атаки {REF_DAMAGE} единиц урона по типу")
@@ -252,8 +253,9 @@ def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
       f"если по нему бьёт оружие типа X с базовым уроном {REF_DAMAGE}. Для атак с "
       f"бо́льшим/меньшим уроном делите/умножайте пропорционально (формула линейна "
       f"если урон > prot). Если `damage <= prot`, движок гарантирует минимум 1 "
-      f"урон/удар (`miscext2.script:381`) — поэтому EHP не бесконечный против пик у "
-      f"пикинёра с prot_pike=3, а ровно `HP / max(1, dmg-prot)`.")
+      f"урон/удар {cites.cite('lib/miscext2.script:381', label='правило min damage = 1')} — "
+      f"поэтому EHP не бесконечный против пик у пикинёра с prot_pike=3, "
+      f"а ровно `HP / max(1, dmg-prot)`.")
     A("")
     A("Включены только юниты, у которых хоть одно значение protection ≠ 0 (фильтр "
       "исключает типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).")
@@ -278,7 +280,7 @@ def render_ehp_table(groups: list[tuple[dict, list[str]]]) -> list[str]:
     return L
 
 
-def render_notes() -> list[str]:
+def render_notes(cites: Citations) -> list[str]:
     L = []
     A = L.append
     A("## §4. Замечания и оговорки")
@@ -296,11 +298,13 @@ def render_notes() -> list[str]:
       "показаны (защиты нет).")
     A("- **Оружие `heal`** у священника исключено из всех расчётов — это "
       "неагрессивная способность.")
-    A("- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость "
-      "крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** в "
-      "`unit.script:1192`, по умолчанию применяется `objbase.speed:=1`. Числа "
-      "в столбце speed — таблица из `dmscript.global:603-620`, то есть "
-      "_декларированные_ значения, не верифицированные эмпирически.")
+    A(f"- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость "
+      f"крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** "
+      f"{cites.cite('lib/unit.script:1192', label='закомментированное `objbase.speed := gc_obj_speed_peasant`')}, "
+      f"по умолчанию применяется `objbase.speed:=1`. Числа в столбце speed — "
+      f"таблица констант "
+      f"{cites.cite('dmscript.global:603-620', label='таблица `gc_obj_speed_*`')}, "
+      f"то есть _декларированные_ значения, не верифицированные эмпирически.")
     A("- **Реальное время.** Если играете на скорости fast (×1.4) — умножьте все "
       "DPS из колонки g-sec на 1.4. На default (×1.0) — не умножайте.")
     A("")
@@ -312,6 +316,7 @@ def main():
     units = data["units"]
     MD_PATH.parent.mkdir(parents=True, exist_ok=True)
 
+    cites = Citations()
     L = []
     A = L.append
     A("# Cossacks 3 — DPS / EHP / armor metrics")
@@ -322,8 +327,11 @@ def main():
     A("")
     A("## Формула урона")
     A("")
-    A("Источник: `miscext2.script:380, 434` — `_misc_DoDamage`, "
-      "вычитание защиты + headshot trigger.")
+    formula_cite = cites.cite(
+        "lib/miscext2.script:380, 434",
+        label="`_misc_DoDamage` — вычитание защиты и срабатывание хедшота",
+    )
+    A(f"Расчёт урона делается в `_misc_DoDamage` {formula_cite}. Кратко:")
     A("")
     A("```")
     A("applied_damage = max(1, base_damage + squad_bonus - target.protection[weapon_kind])")
@@ -331,13 +339,13 @@ def main():
     A("```")
     A("")
     A(f"`gc_settings_gamespeed_2 = 14` (fast). Game-time → real-time: `×{FAST_SPEED_MULT}`. ")
-    A(f"Реальный DPS = game-DPS × game_speed.")
+    A("Реальный DPS = game-DPS × game_speed.")
     A("")
     groups = group_by_fingerprint(units)
     L.extend(render_unit_sheet(groups))
     L.extend(render_dps_ranking(groups))
-    L.extend(render_ehp_table(groups))
-    L.extend(render_notes())
+    L.extend(render_ehp_table(groups, cites))
+    L.extend(render_notes(cites))
     A("---")
     A("")
     A("Сгенерировано из `docs/data.json`. Для перегенерации:")
@@ -345,6 +353,7 @@ def main():
     A("```")
     A("python compute/compute_combat_stats.py")
     A("```")
+    L.extend(cites.render())
     MD_PATH.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")
 

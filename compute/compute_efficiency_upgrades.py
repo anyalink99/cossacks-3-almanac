@@ -20,6 +20,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from citations import Citations
 from config import (PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR,
                     nation_label, nation_ru)
 
@@ -98,6 +99,7 @@ def summarize_peaks(by_bucket: dict) -> dict:
 
 
 def render_md(by_nation: dict) -> str:
+    cites = Citations()
     L: list[str] = []
     A = L.append
     A("# Cossacks 3 — Efficiency upgrades per nation")
@@ -108,10 +110,15 @@ def render_md(by_nation: dict) -> str:
     A("")
     A("## Что это")
     A("")
-    A("Каждый апгрейд `gc_upg_type_effect{food,wood,stone}[perc]` **аддитивно** "
-      "прибавляет `value` к `resefficiency[res]` (`player.script:1812+`).")
-    A("База = 100. Формула добычи на удар: `delivered = floor(portion × eff / 100)`, "
-      "где `portion` = 45/28/40 для food/wood/stone (`unit.script:9551-9555`).")
+    apply_cite = cites.cite("lib/player.script:1812+",
+                            label="применение `gc_upg_type_effect*perc` к `resefficiency[res]`")
+    formula_cite = cites.cite("lib/unit.script:9551-9555",
+                              label="формула `delivered = floor(portion × eff / 100)`")
+    A(f"Каждый апгрейд `gc_upg_type_effect{{food,wood,stone}}[perc]` **аддитивно** "
+      f"прибавляет `value` к `resefficiency[res]` {apply_cite}. "
+      f"База = 100. Формула добычи на удар: "
+      f"`delivered = floor(portion × eff / 100)`, где `portion` = 45/28/40 "
+      f"для food/wood/stone {formula_cite}.")
     A("")
     A("`gc_upg_type_fieldlifeperc` аддитивно прибавляет к `objbase.fieldlife` поля. "
       "Снижает урон/удар по полю на `100 / (1 + fieldlife/100)` — повышает выход "
@@ -191,6 +198,7 @@ def render_md(by_nation: dict) -> str:
             A(f"_Кумулятивный пик: +{running}_")
             A("")
         A("")
+    L.extend(cites.render())
     A("---")
     A("")
     A("Сгенерировано из `docs/data.json`. Для перегенерации:")

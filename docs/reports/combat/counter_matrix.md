@@ -11,7 +11,7 @@ real_dps_fast    = game_dps × 1.4
 ttk_real_fast    = defender.hp / real_dps_fast
 ```
 
-Источник формулы — `miscext2.script:380, 434` (damage application). FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.
+Источник формулы — `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.
 
 ## Time-to-kill matrix (real-sec @ fast)
 
@@ -109,8 +109,15 @@ ttk_real_fast    = defender.hp / real_dps_fast
 - **Перемещение.** Для танковых «шкафов» (cuirassier 300hp) дешёвый раш мушкетёров может убить за 4 сек/шт., но времени перезарядки мушкетёра достаточно, чтобы cuirassier подъехал и зарубил в ближнем бою. Этого симулятор не учитывает.
 - **Melee swing rate** — длительность `attack0` из `data/animations/aaf/<sid>.aaf` (per-unit, разброс 11-33 кадров). Если файл отсутствует, fallback = 15 кадров = 0.4688 g-sec (медиана 84 melee-юнитов). Все melee TTK помечены `m̃`.
 - **Оружие по нескольким целям** (cannon, mortar) считает урон по одному юниту. В реальности cannonball пробивает линию — в плотном строю ×3-5 эффективнее.
-- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` (`miscext2.script:380, 434`). Минимум 1 даже если protection > damage — то есть **никакая броня не делает юнита бессмертным** против пик-копий, но TTK взрывается до сотен секунд.
+- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` [^1]. Минимум 1 даже если protection > damage — то есть **никакая броня не делает юнита бессмертным** против пик-копий, но TTK взрывается до сотен секунд.
 - **Юниты 18 в. (musketeer18, pikeman18, grenadier 18)** требуют исследования century18 + соответствующего здания. Включены для сравнения, но появляются только после длительного развития экономики.
+
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `_misc_DoDamage` — нанесение урона — `lib/miscext2.script:380, 434`.
 
 ---
 

@@ -82,7 +82,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 
 ## 6. Запасы древесины и камня
 
-**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок (`onaclanimationreachedwork.inc:30-39` + `ontagstates.inc:50-78`):
+**Дерево — фактически бесконечно.** Когда HP дерева достигает 0, движок [^1]:
 - меняет mesh на `pinestump<N>` (визуально пень)
 - **НЕ меняет** `brised=True` → пенек остаётся валидной целью для поиска
 - продолжает принимать удары: `hp -= 1, peasant.resamount += 1` (даже при HP < 0)
@@ -99,7 +99,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 
 **Терминология:** *месторождение* — геологическая залежь на местности (placed by `SetupMines`, basenames `minegold`/`mineiron`/`minecoal`). *Шахта* — здание `eurgol`/`euriro`/`eurcoa`, которое игрок строит на месторождении крестьянином (peasantabsorber=5, апгрейды до 95).
 
-Параметры из `dogenerate.inc:522-717`:
+Параметры из [^2]:
 - minesdensity=2 → **5 раундов** на стартовую точку.
 - На tiny раунд 4 пропускается через `continue` → **4 эффективных раундов**.
 - В каждом раунде ставится по **1 месторождению каждого типа** (gold/iron/coal).
@@ -116,9 +116,9 @@ Per-type placement rates **эмпирически откалиброваны** �
 
 **Что точно (из кода):**
 - Формула `count = floor(W*H*freq)` — прямо из `_misc_SetupPatternsByType`.
-- Densities `frs_big/mid/small/stn1/stn2` — из dogenerate.inc:1688-1693.
-- Modifier ×2.5 для tiny — из dogenerate.inc:1718-1725.
-- Mine rounds — из dogenerate.inc:528-602.
+- Densities `frs_big/mid/small/stn1/stn2` — [^3].
+- Modifier ×2.5 для tiny — [^4].
+- Mine rounds — [^5].
 - Per-position mine count formula `P × (1 + n_after) + (spcount - P) × n_after`.
 
 **Что эмпирически валидировано (replay-based, 2026-04-29):**
@@ -132,8 +132,22 @@ Per-type placement rates **эмпирически откалиброваны** �
 - На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.
 
 **Открытые пробелы:**
-- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. recon/map_generation_pipeline.md §13 Q7.
+- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. [`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) §13 Q7.
 - `desert_*` (season=3) не реализовано — 1/20 replays.
 - Non-Land mine formula отличается — open question §13 Q6.
 
 **Предел точности (Tiny+Land+Highlands):** ±5% по predicted cluster counts для covered types. По total wood pool / stones — ±30-50% (TREE_CHOPABLE_RATIO не валидирован).
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: превращение дерева в пенёк при `hp = 0` — `units/unit.inc/onaclanimationreachedwork.inc:30-39 + units/env.inc/ontagstates.inc:50-78`.
+
+[^2]: фаза расстановки месторождений: `mines rounds` и пропуск раунда 4 на tiny — `common.inc/dogenerate.inc:522-717`.
+
+[^3]: базовые плотности `frs_big/mid/small/stn1/stn2` — `common.inc/dogenerate.inc:1688-1693`.
+
+[^4]: модификатор ×2.5 для tiny — `common.inc/dogenerate.inc:1718-1725`.
+
+[^5]: число и геометрия раундов размещения месторождений — `common.inc/dogenerate.inc:528-602`.

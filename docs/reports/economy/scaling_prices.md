@@ -4,14 +4,14 @@
 
 ## Формула
 
-Источник: `unit.script:5650-5689` — функция `_unit_GetCostByID`.
+Расчёт цены — в `_unit_GetCostByID` [^1]:
 
 ```
 costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока
 final_price[r] = floor(base_price[r] * costmodifier)   // отдельно для F/W/S/G/I/C
 ```
 
-Где `count` — это `gPlayer[plInd].counter.all[cid][unitID]`. Счётчик инкрементируется при создании ([`unit.script:3847`]) и **декрементируется** при разрушении ([`unit.script:3969`]) — снесли центр, следующий снова дешевле.
+Где `count` — это `gPlayer[plInd].counter.all[cid][unitID]`. Счётчик инкрементируется при создании [^2] и **декрементируется** при разрушении [^3] — снесли центр, следующий снова дешевле.
 
 ## Особые случаи
 
@@ -366,6 +366,17 @@ sid формируется как `<cluster><suffix>` — общий для гр
 | `eursga` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | Каменные ворота | 0 | S50 | S50 | S50 | S50 | S50 | S50 | не масштабируется (`costpercent` = 0/100) |
 | `russga` | rus | Каменные ворота | 0 | S60 | S60 | S60 | S60 | S60 | S60 | не масштабируется (`costpercent` = 0/100) |
 | `tursga` | alg, tur | Каменные ворота | 0 | S60 | S60 | S60 | S60 | S60 | S60 | не масштабируется (`costpercent` = 0/100) |
+
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `_unit_GetCostByID` — расчёт цены N-го экземпляра — `lib/unit.script:5650-5689`.
+
+[^2]: инкремент `counter.all[cid][unitID]` при создании — `lib/unit.script:3847`.
+
+[^3]: декремент `counter.all[cid][unitID]` при разрушении — `lib/unit.script:3969`.
 
 ---
 

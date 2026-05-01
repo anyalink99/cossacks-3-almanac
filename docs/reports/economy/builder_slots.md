@@ -2,9 +2,9 @@
 
 Сколько крестьян могут одновременно строить здание. Считается из `collisionmaskproperty.Mask` каждого `.prop` файла в `data/objects/buildings/` по правилу, эмпирически согласованному с игрой.
 
-**Формула** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md), раздел про слоты):
+**Формула** (см. [`recon/world/building_mechanics.md`](../../recon/world/building_mechanics.md), раздел про слоты):
 
-- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` (`unit.script:8702-9006`) по верхне-левой компоненте collision mask. Для выпуклых форм результат равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.
+- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` [^1] по верхне-левой компоненте collision mask. Для выпуклых форм результат равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.
 - Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).
 - Жёсткий лимит движка: `gc_MaxBuilderCount = 30`.
 
@@ -484,3 +484,10 @@
 | `ukrwwa_turnmirror` | 2×2 | 4 | 1 | walker | **4** |
 | `ukrwwa_v1` | 2×2 | 4 | 1 | walker | **4** |
 | `ukrwwa_v2` | 2×2 | 4 | 1 | walker | **4** |
+
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `_unit_CalcBuilderPoints` — `lib/unit.script:8702-9006`.

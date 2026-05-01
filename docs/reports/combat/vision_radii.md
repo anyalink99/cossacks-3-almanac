@@ -9,7 +9,7 @@ Cossacks 3 имеет два концентрических радиуса «о�
 
 ## Формула
 
-Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — поле в `objprop`, ЦЕЛОЕ число (обычно 0..8). Источник — `_unit_GetVision` в `unit.script:11565`.
+Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — поле в `objprop`, ЦЕЛОЕ число (обычно 0..8); вычисление — в `_unit_GetVision` [^1].
 
 | `vision` | tiles | Кто типичный носитель |
 | ---: | ---: | --- |
@@ -169,6 +169,13 @@ Cossacks 3 имеет два концентрических радиуса «о�
 - **Корабли** (Battleship/Frigate) `vision=8` — нужен для морских патрулей, далеко за пределы artillery range.
 - **Hetman** (Ukraine) `vision=7` — самый зоркий конный юнит на берегу.
 - **Vision не апгрейдится.** В `efficiency_upgrades.md` нет записи на `visionperc` или `+vision`.
+
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `_unit_GetVision` — `lib/unit.script:11565`.
 
 ---
 
