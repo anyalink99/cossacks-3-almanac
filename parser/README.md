@@ -6,7 +6,11 @@
 
 Производные расчёты, writers и симулятор живут в соседних папках:
 [`../compute/`](../compute/), [`../writers/`](../writers/), [`../simulator/`](../simulator/).
-Внутри парсера: [`debug/`](debug/) — dev-скрипты для отладки шагов парсинга.
+
+Внутри парсера:
+- [`engine_recon/`](engine_recon/) — экстракторы из `cossacks.exe` (DWS native API,
+  primitives, exe-strings); пишут в `../derived/` напрямую и питают [`../internals/`](../internals/).
+- [`debug/`](debug/) — dev-скрипты для отладки шагов парсинга.
 
 ## Pipeline
 
@@ -26,7 +30,7 @@
                      │
                      ▼
               ┌──────────────────┐
-              │  data.json│  ← single source of truth (~4.7 MB)
+              │  data.json       │  ← single source of truth (~4.7 MB, top-level)
               └────┬─────────────┘
                    │
    ┌───────────────┼─────────────────────────┐
@@ -36,6 +40,9 @@ write_md_tree   compute_scaling           simulate_economy
                 compute_map_resources
                 compute_tech_tree
                 compute_construction_times
+
+  parser/engine_recon/ → ../derived/{dws_native_signatures, engine_primitives, exe_strings}.json
+                       (питает internals/engine/*; не зависит от data.json)
 ```
 
 ## Файлы (`parser/`)
@@ -65,13 +72,16 @@ write_md_tree   compute_scaling           simulate_economy
 
 ```bash
 python parser/build_data.py                   # → data.json (источник правды)
-python writers/write_md_tree.py               # → docs/reference/ + output/README.md
+python writers/write_md_tree.py               # → docs/reference/ + docs/README.md
 python compute/compute_scaling.py             # → docs/reports/economy/scaling_prices.md
 python compute/compute_map_resources.py       # → docs/reports/map/map_resources.md
 python parser/build_tech_graph.py             # → derived/tech_tree.json
 python compute/compute_tech_tree.py           # → docs/reports/tech/tech_tree.md + production_rates.md
 python compute/compute_construction_times.py  # → docs/reports/economy/construction_times.md
 ```
+
+Удобнее — один runner: `python scripts/regen.py all` (полный круг ~4 мин)
+или точечно `python scripts/regen.py reports-economy` / `reference` / `derived`.
 
 Все writer/compute-скрипты читают только из `data.json` (кроме `compute/compute_map_resources.py`,
 который ходит ещё в game files за map gen densities). Поэтому достаточно один раз обновить
@@ -129,7 +139,11 @@ Pascal-скрипты игры — **исполняемый код**, не да�
 5. **Last-write-wins dedup**: соответствует поведению игры (`_country_AddUpgrade`
    с тем же sid перезаписывает предыдущий).
 
-## Каталог output
+## Каталоги выходов
 
-См. [`../output/README.md`](../output/README.md) — полный список генерированных
-файлов с их назначением.
+- [`../docs/README.md`](../docs/README.md) — индекс справочника для игрока
+  (reference, recon, reports).
+- [`../derived/README.md`](../derived/README.md) — каталог JSON-датасетов
+  (включая engine-RE дампы из `parser/engine_recon/`).
+- [`../internals/README.md`](../internals/README.md) — техническая
+  документация движка / скриптов / `data/`-каталога.

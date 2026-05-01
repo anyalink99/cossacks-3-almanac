@@ -46,15 +46,21 @@ CI на каждый PR прогоняет smoke-тесты, проверяет 
 4. **Не редактируй auto-generated md.** Список auto-gen файлов:
    - `data.json`
    - `derived/*.json`
-   - `docs/reference/*.md`
-   - `docs/reports/*.md`
+   - `docs/reference/**/*.md`
+   - `docs/reports/**/*.md`
    - `docs/README.md` (генерируется из `writers/templates/output_readme.md`)
+   - `internals/engine/native_primitives.md` (генерируется из `parser/engine_recon/extract_dws_signatures.py`)
 
    Handwritten — значит править вручную:
-   - `docs/architecture.md`, `derived/README.md`,
-     `docs/known_issues*.md`, `docs/reports/README.md`,
-     `docs/recon/**.md` (включая README), `docs/reference/README.md`
-     (этот и nations/README + compare/README пишет writer, но кратенький).
+   - `README.md`, `CONTRIBUTING.md` (top-level).
+   - `docs/architecture.md`, `docs/known_issues*.md`,
+     `docs/reports/README.md`, `docs/reference/README.md` (writer пишет
+     краткую шапку, остальное руками).
+   - `docs/recon/**/*.md` (включая README) — handwritten reverse-engineering.
+   - `internals/**/*.md` (кроме `native_primitives.md`) — handwritten техническая
+     документация движка / скриптов / `data/`-каталога.
+   - `derived/README.md` — handwritten.
+   - `mods/**/README.md` — handwritten.
 5. **Sanity checks.** `parser/build_data.py` гоняет 112 проверок. Если упало
    — сначала разберись, ПОТОМ правь. Просто отключать проверку нельзя.
 6. **Без эмодзи** в коде / документах, если не просили. С 🚫 за поведение

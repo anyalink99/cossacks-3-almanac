@@ -35,12 +35,12 @@
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ docs/data.json + derived/*.json                            │
+│ data.json (top-level) + derived/*.json (top-level)              │
 │                                                                 │
 │   data.json              мастер-структура (~4.7 МБ):            │
 │     - 21 нация, 414 зданий, 714 юнитов, 4429 апгрейдов          │
 │   derived/*.json         специализированные датасеты            │
-│     (см. derived/README.md)                                │
+│     (см. ../derived/README.md)                                  │
 └─────────────────────────────────────────────────────────────────┘
                             │
             ┌───────────────┴───────────────┐
@@ -49,14 +49,15 @@
 │ writers/ — рендер MD     │   │ compute/ — производные расчёты   │
 │                          │   │                                   │
 │ write_md_tree.py         │   │ Бой:                              │
-│   → docs/reference/      │   │   compute_combat_stats           │
+│   → docs/reference/      │   │   compute_combat_stats            │
 │      01_economy.md       │   │   compute_counter_matrix          │
 │      02_combat.md        │   │   compute_attack_rates            │
 │      …                   │   │   compute_vision                  │
-│      nations/×21         │   │ Экономика:                        │
-│      compare/×16         │   │   compute_scaling                 │
-│   + templates/*.md       │   │   compute_efficiency_upgrades     │
-│   + docs/data.json       │   │   compute_construction_times      │
+│      nations/×21         │   │   compute_artillery               │
+│      compare/×16         │   │ Экономика:                        │
+│   + templates/*.md       │   │   compute_scaling                 │
+│   + docs/README.md       │   │   compute_efficiency_upgrades     │
+│                          │   │   compute_construction_times      │
 │                          │   │   compute_builder_slots           │
 │ diff_snapshots.py        │   │ Тех-дерево:                       │
 │   → diff.md              │   │   compute_tech_tree              │
@@ -91,8 +92,22 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │ editor/ — браузерный редактор билдов                            │
 │                                                                 │
-│   index.html + js/* загружают docs/{data, derived/*}.json,      │
+│   index.html + js/* загружают data.json + derived/*.json,       │
 │   запускают simulator через Pyodide                              │
+└─────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ internals/ + parser/engine_recon/                                │
+│                                                                  │
+│   parser/engine_recon/{dump_exe_strings, extract_primitives,     │
+│   extract_dws_signatures}.py                                     │
+│     ← читают `cossacks.exe` (top-level <game>/cossacks.exe)      │
+│     → derived/{exe_strings, engine_primitives,                   │
+│         engine_primitive_matches, dws_native_signatures}.json    │
+│     → internals/engine/native_primitives.md (auto-gen)           │
+│   internals/engine/*.md — техническое handwritten описание       │
+│     движка (RNG, sync, тики, animation system, RTTI).            │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -100,20 +115,24 @@
 
 1. **Один источник правды на каждом уровне:**
    - Игровые файлы — read-only.
-   - `docs/data.json` — единственный «общий» датасет, его читают все генераторы
-     (writers + compute + simulator + editor).
-   - `derived/*.json` — узкоспециализированные срезы для конкретных
-     потребителей.
+   - `data.json` (top-level) — единственный «общий» датасет, его читают все
+     генераторы (writers + compute + simulator + editor).
+   - `derived/*.json` (top-level) — узкоспециализированные срезы для конкретных
+     потребителей. Часть — игровые (canonical_terms, tech_tree, builder_slots,
+     animations, …), часть — engine-RE дампы (dws_native_signatures,
+     engine_primitives, exe_strings).
 2. **Идемпотентность.** `python scripts/regen.py all` перегенерирует всё с
    нуля, без побочных эффектов. После патча игры — один запуск.
 3. **Никаких ручных правок в auto-generated md.** Всё, что генерится,
    перезаписывается. Если нужно поменять формулировку — правь шаблон в
    `writers/templates/` либо текст в `compute/<скрипт>.py`. Списки исключений:
-   - `docs/recon/*.md` — handwritten reverse-engineering, правится руками.
+   - `docs/recon/**/*.md` — handwritten reverse-engineering, правится руками.
+   - `internals/**/*.md` — handwritten техническая документация (кроме
+     `internals/engine/native_primitives.md` — auto-gen).
    - `docs/known_issues*.md` — handwritten списки.
    - `docs/architecture.md` (этот файл) — handwritten.
    - `derived/README.md` — handwritten.
-   - `docs/README.md` — handwritten + блок-копия из шаблона.
+   - `docs/README.md` — handwritten шапка + блок-копия из шаблона.
 4. **Канонические русские термины — из локали игры.** Никогда не выдумывай
    перевод. Если в игре написано «Высокогорье» — пиши «Высокогорье». Канон
    живёт в `derived/canonical_terms.json` (генерится из
@@ -129,7 +148,8 @@
 
 | Папка | Назначение |
 |---|---|
-| `parser/` | Чтение файлов игры → JSON (`../data.json`, `derived/*.json`). |
+| `parser/` | Чтение файлов игры → JSON (`data.json`, `derived/*.json`). |
+| `parser/engine_recon/` | Экстракторы из `cossacks.exe` (DWS API, primitives, exe-strings). |
 | `compute/` | Производные расчёты на основе JSON → markdown-отчёты в `docs/reports/`. |
 | `writers/` | Рендер канонической справки `docs/reference/` + diff между снапшотами. |
 | `simulator/` | Runtime симулятор экономики (build orders → таймлайны). |
@@ -143,8 +163,11 @@
 |---|---|---|
 | `docs/reference/` | Каноническая справка: 7 глав, 21 нация, 16 сравнений. | Auto-gen (`writers/write_md_tree.py` + `templates/`). |
 | `docs/reports/` | Производные расчёты по темам: combat / economy / tech / map / nations. | Auto-gen (`compute/*.py`). |
-| `docs/recon/` | Глубокое RE механик движка (скриптов нет, всё руками). | **Handwritten.** |
-| `derived/` | Машинно-читаемые JSON для editor / тулзы. | Auto-gen (`parser/*.py`, `compute/compute_game_settings.py`). |
+| `docs/recon/world/{economy,combat,map}/` + `docs/recon/systems/` | Глубокое RE игровой механики, разбито по темам. | **Handwritten.** |
+| `internals/engine/` | Устройство движка (Delphi/DWS, RNG, sync, тики, animation). | **Handwritten** (плюс `native_primitives.md` — auto-gen). |
+| `internals/scripts/` | Структура `data/scripts/*` (load order, точки входа). | **Handwritten.** |
+| `internals/data/` | `data/`-каталог игры: подпапки и форматы файлов. | **Handwritten.** |
+| `derived/` | Машинно-читаемые JSON для editor / тулзы / документации. | Auto-gen (`parser/*.py`, `parser/engine_recon/*.py`, `compute/compute_game_settings.py`). |
 | `docs/known_issues*.md` | Парсерные пробелы, расхождения, открытые вопросы. | **Handwritten.** Архив — `known_issues_archive.md`. |
 | `docs/architecture.md` | Этот файл. | **Handwritten.** |
 

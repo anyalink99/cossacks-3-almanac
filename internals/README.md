@@ -56,7 +56,7 @@ Ghidra/IDA, только через парсинг бинарника на Pytho
 | Файл | Что внутри |
 |---|---|
 | [data/layout.md](data/layout.md) | Полный обзор `data/`: 26 подпапок и что в каждой. |
-| [data/file_formats.md](data/file_formats.md) *(планируется)* | Форматы файлов: `.parser` (текстовые конфиги), `.pattern` (карты-кисти), `.aaf` (анимации), `.tga`/`.dds` (текстуры). |
+| [data/file_formats.md](data/file_formats.md) | Форматы файлов: `.parser` (текстовые конфиги), `.pattern` (карты-кисти), `.aaf` (анимации), `.tga`/`.dds` (текстуры). |
 
 ## Чем это отличается от `docs/recon/`
 

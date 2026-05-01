@@ -21,51 +21,49 @@ templates/
 ├── README.md                  ← этот файл
 ├── output_readme.md           ← для docs/README.md (каталог артефактов)
 │
-├── reference/                 ← все блоки для docs/reference/*
-│   ├── readme/                ← главный README справочника
-│   │   ├── glossary.md        ← глоссарий игровых тегов (sid, eff, bnohungry, …)
-│   │   (principles.md убран — принципы переехали в CONTRIBUTING.md и docs/architecture.md)
-│   │
-│   ├── 01_economy/            ← блоки для 01_economy.md
-│   │   ├── recon_refs.md      ← блок «Глубокие исследования по этой главе»
-│   │   ├── summary.md         ← Резюме
-│   │   ├── extraction_formula.md
-│   │   ├── mines_intro.md     ← интро + расчёт + заголовок таблицы прокачки
-│   │   ├── fields_intro.md    ← заголовок секции «Поле»
-│   │   ├── fishing.md         ← Корабли — fishing
-│   │   └── famine_rebellion.md ← Famine + Rebellion (~80 строк)
-│   │
-│   ├── 02_combat/
-│   │   └── main.md            ← гигантский блок: TOC + формула урона + headshot +
-│   │                              формации + AoE + high ground + score + standground +
-│   │                              runaway + friendly fire + weapon switching +
-│   │                              standtime + addradius + capture + healing + shield/3 +
-│   │                              AI reaction + officers myth + упрощения боевой формулы +
-│   │                              dispertion + uniqrnd + типы оружия (~700 строк)
-│   │
-│   ├── 03_buildings/
-│   │   └── legend.md          ← расшифровка колонок таблиц зданий
-│   │
-│   ├── 04_units/
-│   │   └── legend.md          ← расшифровка колонок таблиц юнитов
-│   │
-│   ├── 05_upgrades/
-│   │   ├── legend.md          ← структура sid + расшифровка колонок таблиц апгрейдов
-│   │   └── order_math.md      ← как _player_ApplyUpgrade аккумулирует апгрейды (порядок безразличен)
-│   │
-│   ├── 06_market/
-│   │   ├── intro.md           ← заголовок + TL;DR
-│   │   ├── mechanics.md       ← глобальные курсы, формулы пересчёта
-│   │   └── strategy.md        ← практические выводы + источники
-│   │
-│   ├── compare/
-│   │   └── readme.md          ← compare/README.md (индекс side-by-side таблиц)
-│   │
-│   └── nations/
-│       └── readme_intro.md    ← заголовок nations/README.md
-│
-└── (папка `legacy/` удалена вместе с writers/write_md.py + write_xlsx.py
-    и docs/cossacks3_reference.{md,xlsx})
+└── reference/                 ← все блоки для docs/reference/*
+    ├── readme/                ← главный README справочника
+    │   └── glossary.md        ← глоссарий игровых тегов (sid, eff, bnohungry, …)
+    │
+    ├── 01_economy/            ← блоки для 01_economy.md
+    │   ├── recon_refs.md      ← блок «Глубокие исследования по этой главе»
+    │   ├── summary.md         ← Резюме
+    │   ├── extraction_formula.md
+    │   ├── mines_intro.md     ← интро + заголовок таблицы прокачки
+    │   ├── fields_intro.md    ← заголовок секции «Поле»
+    │   ├── fishing.md         ← Корабли — fishing
+    │   └── famine_rebellion.md ← Famine + Rebellion
+    │
+    ├── 02_combat/
+    │   └── main.md            ← вступление главы + типы оружия + ссылки на recon
+    │                             (бóльшая часть прозы вынесена в docs/recon/world/combat/)
+    │
+    ├── 03_buildings/
+    │   ├── legend.md          ← расшифровка колонок таблиц зданий
+    │   ├── era_progression.md ← переход эпох (ссылка на recon)
+    │   ├── lifecycle.md       ← lifecycle: postroika / repair / destruction (ссылка на recon)
+    │   └── tow_combat.md      ← пушки на стенах: numeric-параметры башни (ссылка на recon)
+    │
+    ├── 04_units/
+    │   └── legend.md          ← расшифровка колонок таблиц юнитов
+    │
+    ├── 05_upgrades/
+    │   ├── legend.md          ← структура sid + расшифровка колонок таблиц апгрейдов
+    │   └── order_math.md      ← вступление + ссылка на recon (упрощённая версия)
+    │
+    ├── 06_market/
+    │   ├── intro.md           ← заголовок + TL;DR
+    │   ├── mechanics.md       ← глобальные курсы, формулы пересчёта
+    │   └── strategy.md        ← практические выводы + источники
+    │
+    ├── 07_naval/
+    │   └── main.md            ← вступление главы по флоту (числа — auto-gen из data.json)
+    │
+    ├── compare/
+    │   └── readme.md          ← compare/README.md (индекс side-by-side таблиц)
+    │
+    └── nations/
+        └── readme_intro.md    ← заголовок nations/README.md
 ```
 
 ## Когда что добавлять / править
@@ -83,9 +81,10 @@ templates/
 | `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md` |
 | `docs/reference/01_economy.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
 | `docs/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
-| `docs/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/legend.md` |
+| `docs/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/{legend,era_progression,lifecycle,tow_combat}.md` |
 | `docs/reference/04_units.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
 | `docs/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
 | `docs/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
+| `docs/reference/07_naval.md` | `write_md_tree.py:write_naval` | `reference/07_naval/main.md` |
 | `docs/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
 | `docs/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |

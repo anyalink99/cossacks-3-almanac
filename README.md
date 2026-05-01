@@ -6,22 +6,35 @@
 
 ## Что внутри
 
-**Готовый справочник** — открывай прямо на GitHub, ничего запускать не надо. Всё лежит в [`docs/`](docs/):
+**Готовый справочник для игроков** — открывай прямо на GitHub, ничего запускать не надо. Всё лежит в [`docs/`](docs/):
 
 - [`docs/reference/`](docs/reference/) — каноническая справка: 7 глав по темам, 21 нация, 15 side-by-side сравнений
-- [`docs/recon/`](docs/recon/) — глубокие исследования механик (захват, путь, ИИ, наёмники, сетевая модель, RNG, генерация карт)
+- [`docs/recon/`](docs/recon/) — handwritten reverse-engineering механик игры, разбито по темам:
+  `world/economy/` (добыча, постройка, захват, голод, очередь, апгрейды), `world/combat/` (урон, формации, выбор цели, башни, стены, артиллерия, флот, обзор), `world/map/` (генерация карты, опции лобби), `systems/` (AI, наёмники, условия победы, сценарии, UI/ввод)
 - [`docs/reports/`](docs/reports/) — производные расчёты, сгруппированные по теме:
-  `combat/` (DPS, контр-матрица, скорость атаки, vision), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (ресурсы, стартовая раскладка, валидация по реплеям), `nations/` (overview)
+  `combat/` (DPS, контр-матрица, скорость атаки, vision, артиллерия), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (ресурсы, стартовая раскладка, валидация по реплеям), `nations/` (overview, deviations)
 
-**Pipeline** — для регенерации после патча игры:
+**Техническая документация (для разработчиков / моддеров)** — отдельно от `docs/` в [`internals/`](internals/):
 
-- [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением)
-- [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times, и т. д.)
+- [`internals/engine/`](internals/engine/) — устройство движка (Delphi + DWS): native API (4856 функций), RTTI, RNG, animation system, сетевые пакеты, тики
+- [`internals/scripts/`](internals/scripts/) — структура `data/scripts/*` (load order, точки входа)
+- [`internals/data/`](internals/data/) — `data/`-каталог игры: подпапки и форматы файлов (`.parser`, `.pattern`, `.aaf`)
+
+**Машинно-читаемые JSON-датасеты** — для редактора билдов, симулятора, внешних анализаторов:
+
+- [`data.json`](data.json) — мастер-структура (~4.7 МБ): 21 нация, 414 зданий, 714 юнитов, 4429 апгрейдов
+- [`derived/`](derived/) — специализированные срезы: `tech_tree.json`, `builder_slots.json`, `animations.json`, `game_settings.json`, `canonical_terms.json`, `pattern_*.json`, `replay_ground_truth.json`, плюс engine-RE дампы (`dws_native_signatures.json`, `engine_primitives.json`, `exe_strings.json`)
+
+**Pipeline — для регенерации после патча игры:**
+
+- [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением); подпапка [`engine_recon/`](parser/engine_recon/) — экстракторы из бинаря `cossacks.exe`
+- [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times и т. д.)
 - [`writers/`](writers/) — генерация markdown-справочника + diff между снапшотами
 - [`simulator/`](simulator/) — timeline-симулятор экономики (backend для browser-редактора через Pyodide)
+- [`editor/`](editor/) — браузерный редактор билдов (HTML + JS + Pyodide), запускает симулятор прямо в браузере
 - [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
-**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список парсерных пробелов, расхождений с внешними гайдами, open empirical questions. Самый известный кейс: для 168 dip-юнитов в `data.json` лежат не наёмничьи статы; правильные числа — в `docs/recon/mercenaries_diplomacy.md`.
+**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список парсерных пробелов, расхождений с внешними гайдами, open empirical questions. Самый известный кейс: для 168 dip-юнитов в `data.json` лежат не наёмничьи статы; правильные числа — в [`docs/recon/systems/mercenaries_diplomacy.md`](docs/recon/systems/mercenaries_diplomacy.md).
 
 **Моды** — изменения игровой логики через C3 mod-loader:
 
@@ -31,22 +44,33 @@
 
 ```
 .
+├── data.json                мастер-данные (~4.7 МБ, источник правды для всего downstream)
+├── derived/                 машинно-читаемые JSON (tech_tree, builder_slots, animations, game_settings, engine RE-дампы)
 ├── parser/                  парсеры игровых .script-файлов → data.json
+│   └── engine_recon/        экстракторы из cossacks.exe (DWS native API, RTTI, primitives)
 ├── compute/                 производные расчёты от data.json → docs/reports/<topic>/
-├── writers/                 рендер data.json в markdown/xlsx + шаблоны прозы
-├── simulator/               timeline-симулятор экономики (backend для editor)
+├── writers/                 рендер data.json в markdown + шаблоны прозы
+├── simulator/               timeline-симулятор экономики (backend редактора через Pyodide)
+├── editor/                  браузерный редактор билд-ордеров
 ├── mods/                    моды (каждый — build.py + src/ + build/)
-└── docs/                    единая база человеко-читаемых артефактов
-    ├── data.json            мастер-данные (~4.7 МБ, источник правды)
-    ├── derived/             машинно-читаемые JSON (animations, tech_tree, builder_slots, …)
-    ├── reference/           каноническая справка (01_economy.md … 07_naval.md, nations/, compare/)
-    ├── recon/               глубокие исследования механик (handwritten)
-    ├── reports/             производные отчёты, по темам:
-    │   ├── combat/          DPS / EHP / counter matrix / attack rates / vision
-    │   ├── economy/         scaling / builder_slots / construction / production / efficiency
-    │   ├── tech/            tech tree
-    │   ├── map/             map resources / starting layout / replay validation
-    │   └── nations/         cross-nation overview
+├── scripts/                 pipeline-runner (regen.py)
+│
+├── docs/                    справочник для игрока
+│   ├── reference/           каноническая справка (01_economy.md … 07_naval.md, nations/, compare/)
+│   ├── recon/               глубокие исследования механик (handwritten)
+│   │   ├── world/{economy,combat,map}/   логика мира
+│   │   └── systems/         правила, AI, наёмники, сценарии, UI
+│   └── reports/             производные отчёты, по темам:
+│       ├── combat/          DPS / EHP / counter matrix / attack rates / vision / artillery
+│       ├── economy/         scaling / builder_slots / construction / production / efficiency
+│       ├── tech/            tech tree
+│       ├── map/             map resources / starting layout / replay validation
+│       └── nations/         cross-nation overview / deviations
+│
+└── internals/               техническое устройство движка и скриптов
+    ├── engine/              cossacks.exe, DWS, RNG, sync, тики, animation system
+    ├── scripts/             структура data/scripts/* (load order, точки входа)
+    └── data/                структура data/-каталога и форматы файлов
 ```
 
 ## Быстрый старт

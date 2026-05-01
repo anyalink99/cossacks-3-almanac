@@ -8,10 +8,11 @@
 
 ## Структура `docs/`
 
+Сам каталог `docs/` содержит только человеко-читаемые материалы для игрока. Машинные дампы и техническая документация лежат на верхнем уровне репозитория ([`../data.json`](../data.json), [`../derived/`](../derived/), [`../internals/`](../internals/)).
+
 ```
 docs/
 ├── README.md              ← этот файл (каталог)
-├── data.json              ← мастер-данные (~4.7 МБ, источник правды)
 │
 ├── reference/             ← каноническая справка по игре (генерируется)
 │   ├── README.md          ← TL;DR + index + glossary
@@ -21,27 +22,21 @@ docs/
 │
 ├── recon/                 ← глубокие исследования механик (handwritten)
 │   ├── README.md          ← индекс + «когда что читать»
-│   ├── peasant_extraction.md, building_mechanics.md, capture_mechanics.md,
-│   ├── ai_behavior.md, mercenaries_diplomacy.md, pathfinding.md,
-│   ├── victory_conditions.md, map_generation_pipeline.md,
-│   ├── determinism_audit.md, ticks_and_subticks.md, server_sync_architecture.md
+│   ├── world/
+│   │   ├── economy/       добыча, постройка, захват, голод, очередь, апгрейды
+│   │   ├── combat/        урон, формации, target_selection, башни, стены,
+│   │   │                  артиллерия, флот, обзор, поведение стрелков
+│   │   └── map/           map_generation_pipeline, game_settings
+│   └── systems/           ai_behavior, mercenaries_diplomacy, victory_conditions,
+│                          scenarios_and_triggers, ui_input_and_feedback
 │
-├── reports/               ← производные расчёты, сгруппированы по теме
-│   ├── README.md
-│   ├── combat/            DPS, counter matrix, attack rates, vision
-│   ├── economy/           scaling, builder_slots, construction, production, efficiency
-│   ├── tech/              tech tree
-│   ├── map/               map resources, starting layout, replay validation
-│   └── nations/           cross-nation overview
-│
-│   ├── README.md
-│   └── sim_*.{csv,md}
-│
-└── derived/               ← машинно-читаемые JSON-датасеты
-    ├── README.md          ← каталог всех JSON
-    ├── animations.json, builder_slots.json, tech_tree.json,
-    ├── canonical_terms.json, game_settings.json,
-    ├── pattern_*.json, replay_ground_truth.json
+└── reports/               ← производные расчёты, сгруппированы по теме
+    ├── README.md
+    ├── combat/            DPS, counter matrix, attack rates, vision, artillery
+    ├── economy/           scaling, builder_slots, construction, production, efficiency
+    ├── tech/              tech tree
+    ├── map/               map resources, starting layout, replay validation
+    └── nations/           overview, deviations
 ```
 
 ## Reference — каноническая справка
@@ -56,40 +51,36 @@ docs/
 
 [**recon/**](recon/README.md) — Reverse-engineering ключевых механик. Каждый документ автономен и ссылается на конкретные строки игровых скриптов.
 
-- **Логика мира:** [peasant_extraction](recon/world/economy/peasant_extraction.md), [building_mechanics](recon/world/economy/building_mechanics.md), [capture_mechanics](recon/world/economy/capture_mechanics.md), [pathfinding](recon/world/combat/pathfinding.md), [map_generation_pipeline](recon/world/map/map_generation_pipeline.md)
-- **Игровые системы:** [ai_behavior](recon/systems/ai_behavior.md), [mercenaries_diplomacy](recon/systems/mercenaries_diplomacy.md), [victory_conditions](recon/systems/victory_conditions.md)
-- **Engine internals:** [ticks_and_subticks](../internals/engine/ticks_and_subticks.md), [determinism_audit](../internals/engine/determinism_audit.md), [server_sync_architecture](../internals/engine/server_sync_architecture.md)
+- **Логика мира — экономика:** [peasant_extraction](recon/world/economy/peasant_extraction.md), [building_mechanics](recon/world/economy/building_mechanics.md), [capture_mechanics](recon/world/economy/capture_mechanics.md), [hunger_and_rebellion](recon/world/economy/hunger_and_rebellion.md), [production_queue](recon/world/economy/production_queue.md), [upgrades_application](recon/world/economy/upgrades_application.md)
+- **Логика мира — бой:** [combat_damage_pipeline](recon/world/combat/combat_damage_pipeline.md), [target_selection](recon/world/combat/target_selection.md), [formations](recon/world/combat/formations.md), [pathfinding](recon/world/combat/pathfinding.md), [unit_commands](recon/world/combat/unit_commands.md), [ranged_units_behavior](recon/world/combat/ranged_units_behavior.md), [vision_and_fow](recon/world/combat/vision_and_fow.md), [towers](recon/world/combat/towers.md), [walls_and_gates](recon/world/combat/walls_and_gates.md), [artillery_specifics](recon/world/combat/artillery_specifics.md), [naval_combat](recon/world/combat/naval_combat.md)
+- **Логика мира — карта:** [map_generation_pipeline](recon/world/map/map_generation_pipeline.md), [game_settings](recon/world/map/game_settings.md)
+- **Игровые системы:** [ai_behavior](recon/systems/ai_behavior.md), [mercenaries_diplomacy](recon/systems/mercenaries_diplomacy.md), [victory_conditions](recon/systems/victory_conditions.md), [scenarios_and_triggers](recon/systems/scenarios_and_triggers.md), [ui_input_and_feedback](recon/systems/ui_input_and_feedback.md)
+- **Engine internals (выделены в [`../internals/`](../internals/)):** [ticks_and_subticks](../internals/engine/ticks_and_subticks.md), [determinism_audit](../internals/engine/determinism_audit.md), [server_sync_architecture](../internals/engine/server_sync_architecture.md), [native_api](../internals/engine/native_api.md), [rng_implementation](../internals/engine/rng_implementation.md), [animation_system](../internals/engine/animation_system.md), [rtti_class_map](../internals/engine/rtti_class_map.md)
 
 ## Reports — производные расчёты
 
 Всё, что считается из `data.json`: бой, экономика, тех-дерево, карта, нации. Индекс — [reports/README.md](reports/README.md).
 
-- **Бой:** [combat_stats](reports/combat/combat_stats.md), [counter_matrix](reports/combat/counter_matrix.md), [attack_rates](reports/combat/attack_rates.md), [vision_radii](reports/combat/vision_radii.md)
+- **Бой:** [combat_stats](reports/combat/combat_stats.md), [counter_matrix](reports/combat/counter_matrix.md), [attack_rates](reports/combat/attack_rates.md), [vision_radii](reports/combat/vision_radii.md), [artillery](reports/combat/artillery.md)
 - **Экономика:** [scaling_prices](reports/economy/scaling_prices.md), [efficiency_upgrades](reports/economy/efficiency_upgrades.md), [production_rates](reports/economy/production_rates.md), [construction_times](reports/economy/construction_times.md), [builder_slots](reports/economy/builder_slots.md)
 - **Тех-дерево:** [tech_tree](reports/tech/tech_tree.md)
 - **Карта:** [lobby_settings](reports/map/lobby_settings.md), [map_resources](reports/map/map_resources.md), [starting_layout](reports/map/starting_layout.md), [map_predictions_validation](reports/map/map_predictions_validation.md)
-- **Нации:** [overview](reports/nations/overview.md) — side-by-side сравнение всех 21
+- **Нации:** [overview](reports/nations/overview.md), [deviations](reports/nations/deviations.md) — side-by-side сравнения всех 21
 
-## Simulations — выходы симулятора
+## Сырой JSON и engine-дампы
 
-
-## Сырой JSON
-
-[`data.json`](data.json) — мастер-данные, выход `parser/build_data.py`. Все writer-скрипты читают отсюда. После патча игры регенерируется.
+- [`../data.json`](../data.json) — мастер-данные (~4.7 МБ), выход `parser/build_data.py`. Все writer-скрипты читают отсюда.
+- [`../derived/`](../derived/) — специализированные JSON-датасеты ([README](../derived/README.md)): tech_tree, builder_slots, animations, game_settings, canonical_terms, pattern_*, replay_ground_truth, плюс engine-RE дампы (4856 native сигнатур, exe_strings, primitives).
 
 ## Регенерация
 
-После патча игры или изменений в скриптах:
+После патча игры или изменений в скриптах — `python scripts/regen.py all` (полный круг, ~4 мин). Точечно:
 
 ```
-python parser/build_data.py                 # → data.json (источник правды)
-python parser/build_canonical_terms.py      # → derived/canonical_terms.json
-python writers/write_md_tree.py             # → docs/reference/ + docs/README.md
-python compute/compute_scaling.py           # → docs/reports/economy/scaling_prices.md
-python compute/compute_game_settings.py     # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
-python compute/compute_map_resources.py     # → docs/reports/map/map_resources.md
-python parser/build_tech_graph.py           # → derived/tech_tree.json
-python compute/compute_tech_tree.py         # → docs/reports/tech/tech_tree.md + reports/economy/production_rates.md
+python scripts/regen.py reference        # только writers/
+python scripts/regen.py reports-economy  # только economy-отчёты
+python scripts/regen.py sanity           # parser + 112 авто-проверок
+python scripts/regen.py help             # все targets
 ```
 
 Полный список команд для регенерации — в `README.md` корня репо.
