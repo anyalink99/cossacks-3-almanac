@@ -19,6 +19,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from citations import Citations
 from config import (DATA_JSON, DERIVED_DIR, REPORTS_ECONOMY_DIR,
                     REPORTS_TECH_DIR, nation_label)
 
@@ -197,13 +198,18 @@ def write_production_rates_md(data: dict) -> None:
     """Per-nation: for each building that produces units, list (unit, buildtime,
     rate per g-min, rate per real-min @ fast)."""
     units_idx = {(u["sid"], u["nation"]): u for u in data["units"]}
+    cites = Citations()
     L: list[str] = []
     L.append("# Cossacks 3 — Темпы производства")
     L.append("")
     L.append("Сколько юнитов в минуту даёт **одно здание**, при бесперебойной "
              "очереди и без farm/resource ограничений.")
     L.append("")
-    L.append("**Механика** (`units/building.inc/doprogressorders.inc:120-373`):")
+    progress_cite = cites.cite(
+        "units/building.inc/doprogressorders.inc:120-373",
+        label="`DoProgressOrders` для зданий — обработка очереди производства",
+    )
+    L.append(f"**Механика** {progress_cite}:")
     L.append("- Здание имеет ОДНУ очередь (`orders[0]`). Параллельной постройки **нет**.")
     L.append("- Прогресс: `progress += deltatime / unit.buildtime`. При `progress ≥ 1` "
              "юнит спавнится, прогресс сбрасывается.")
@@ -278,6 +284,7 @@ def write_production_rates_md(data: dict) -> None:
              "списать ресурс, но юнит не выйдет, прогресс заморожен.")
     L.append("4. **N зданий = N × rate.** 5 пехотных казарм = 5 × ~13 мушкетёр/мин @ fast "
              "= ~65 мушкетёров/мин.")
+    L.extend(cites.render())
     RATES_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {RATES_MD} ({RATES_MD.stat().st_size:,} bytes)")
 

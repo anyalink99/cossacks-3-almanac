@@ -4,7 +4,7 @@
 
 ## §1. Расстановка крестьян (режим default)
 
-Источник: `dogenerate.inc:1231-1281` (`CreateStartPointPeasants`).
+Расстановка делается в `CreateStartPointPeasants` [^1].
 
 - **18 крестьян** спавнятся в сетке **6×3** (`i div 3`, `i mod 3`)
 - Шаг между крестьянами: `cUnitR = 0.75` тайла
@@ -16,7 +16,7 @@
 
 ## §2. Кольца спавна ресурсов вокруг старт-точки
 
-Источник: `dogenerate.inc:407-414, 720-978` (`SetupStartingResources` + `cCircle*Mask` константы).
+Расстановку колец делает `SetupStartingResources` [^2].
 
 Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, тайлы):
 
@@ -37,11 +37,11 @@
 
 Тип леса определяется параметром `foreststype` в настройках генерации карты: 0 = pinefir/spruce/pine (хвойные, 7 вариантов), 1 = leaf (лиственные), 2 = mixed (смешанные). В desert-картах вместо forests используются паттерны `desert_forests_*`.
 
-Шахты (gold / iron / coal) — отдельная функция `SetupMines` (`dogenerate.inc:985`). Спавн шахт идёт по другой логике (раундами по дистанции, см. [recon/peasant_extraction.md](../../recon/peasant_extraction.md) §8.3 + [recon/map_generation_pipeline.md](../../recon/map_generation_pipeline.md) §8).
+Шахты (gold / iron / coal) — отдельная функция `SetupMines` [^3]. Спавн шахт идёт по другой логике (раундами по дистанции, см. [recon/world/peasant_extraction.md](../../recon/world/peasant_extraction.md) §8.3 + [recon/world/map_generation_pipeline.md](../../recon/world/map_generation_pipeline.md) §8).
 
 ## §3. Пресеты стартовых юнитов
 
-Источник: `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` (`dmscript.global:1032-1045`). Все 14 пресетов с каноничными русскими названиями — [`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются юниты и ресурсы) — [`recon/game_settings.md`](../../recon/game_settings.md) §3.1.
+Источник пресетов — `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` [^4]. Все 14 пресетов с каноничными русскими названиями — [`lobby_settings.md`](lobby_settings.md). Поведение движка (как добавляются юниты и ресурсы) — [`recon/world/game_settings.md`](../../recon/world/game_settings.md) §3.1.
 
 Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или юнитов). Остальные режимы добавляют ресурсы и/или дополнительные юниты + здания (через сложные ASCII-маски в cfg-файле).
 
@@ -82,3 +82,15 @@
 ```
 python compute/compute_starting_layout.py
 ```
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: `CreateStartPointPeasants` — расстановка 18 крестьян 6×3 — `common.inc/dogenerate.inc:1231-1281`.
+
+[^2]: `SetupStartingResources` + `cCircle*Mask` константы — `common.inc/dogenerate.inc:407-414, 720-978`.
+
+[^3]: `SetupMines` — расстановка месторождений — `common.inc/dogenerate.inc:985`.
+
+[^4]: enum `gc_mapsettings_startingunits_*` — `dmscript.global:1032-1045`.
