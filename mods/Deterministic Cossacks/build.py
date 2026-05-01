@@ -1,18 +1,26 @@
 """
-Builds the "Deterministic Extraction" Cossacks 3 mod.
+Builds the "Deterministic Cossacks" Cossacks 3 mod.
 
-Reads stock lib/misc.script and lib/unit.script from the Cossacks 3 install (path
-from $COSSACKS3_PATH or default Steam location), applies 5 line-precise patches,
-and emits a ready-to-install mod folder in mod/build/.
+Reads stock lib/{misc,unit,miscext2}.script from the Cossacks 3 install (path from
+$COSSACKS3_PATH or default Steam location), applies line-precise patches to
+extraction- and combat-RNG hot paths, and emits a ready-to-install mod folder
+in mod/build/.
 
-Each `random` in the resource-search hot path is replaced with a SetRandomKey +
-RandomExt pair seeded from state that persists across save/load (goHnd or
-position+plInd, combined with gProgress.progresstick). The resulting symbol is
-deterministic from save state alone, so reload of the same save yields identical
-peasant decisions.
+Each `random` call in the patched hot paths is preceded by `SetRandomKey(...)`
+seeded from state that persists across save/load (goHnd / position / plInd /
+attacker uniqrnd, combined with gProgress.progresstick). The result is a
+deterministic decision from save state alone — same save reload, or same
+join-in-progress for clients, yields the same RNG outcome.
 
-See mod/README.md for the rationale and recon/determinism_audit.md §3 for the
-RNG-site catalogue this addresses.
+CANONICAL RNG-PATCH PATTERN: `SetRandomKey(seed)` followed by `random` (NOT
+`RandomExt`). SetRandomKey seeds only the 32-bit `Random` LCG stream;
+`RandomExt` has its own independent 64-bit seed (set via `SetRandomExtKey64`)
+and is unaffected. The stock engine uses this exact pattern in
+unit.script:5301, 11453, 11528 and weapon.script:1051.
+
+See internals/engine/rng_implementation.md §3 for the SetRandomKey / RandomExt
+independence fact, and docs/recon/world/economy/peasant_extraction.md for the
+extraction RNG-site catalogue.
 """
 
 import argparse
@@ -25,13 +33,14 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from parser.config import GAME_ROOT, LIB  # reuse the canonical install path
 
-MOD_NAME = "Deterministic Extraction"
+MOD_NAME = "Deterministic Cossacks"
 SRC_DIR = Path(__file__).resolve().parent / "src"
 BUILD_DIR = Path(__file__).resolve().parent / "build" / MOD_NAME
 
 # Each patch: (file relative to LIB, expected line, original line text, replacement lines).
 # `expected_line` is 1-indexed and used only for sanity (we still verify by exact text match).
 PATCHES = [
+    # ---------- Extraction RNG sites (peasant resource search) ----------
     {
         "file": "misc.script",
         "name": "FindResourceToExtract: rndind (start index in resgrid cell)",
@@ -39,7 +48,7 @@ PATCHES = [
         "original": "         rndind := floor(random*count);",
         "replacement": [
             "         SetRandomKey(floor((px+10000)*97) + floor((py+10000)*101) + plInd*13 + (gProgress.progresstick mod 30000));",
-            "         rndind := floor(RandomExt*count);",
+            "         rndind := floor(random*count);",
         ],
     },
     {
@@ -49,7 +58,7 @@ PATCHES = [
         "original": "                  if (random<(testW/(testW+testS))) then",
         "replacement": [
             "                  SetRandomKey(floor((px+10000)*53) + floor((py+10000)*59) + plInd*17 + (gProgress.progresstick mod 30000) + 7919);",
-            "                  if (RandomExt<(testW/(testW+testS))) then",
+            "                  if (random<(testW/(testW+testS))) then",
         ],
     },
     {
@@ -59,7 +68,7 @@ PATCHES = [
         "original": "            if (random<waitrnd) then",
         "replacement": [
             "            SetRandomKey(goHnd*31 + (gProgress.progresstick mod 30000));",
-            "            if (RandomExt<waitrnd) then",
+            "            if (random<waitrnd) then",
         ],
     },
     {
@@ -69,7 +78,7 @@ PATCHES = [
         "original": "   var bskipcheck : Boolean = (random>0.75);",
         "replacement": [
             "   SetRandomKey(goHnd*37 + (gProgress.progresstick mod 30000) + 1009);",
-            "   var bskipcheck : Boolean = (RandomExt>0.75);",
+            "   var bskipcheck : Boolean = (random>0.75);",
         ],
     },
     {
@@ -79,7 +88,59 @@ PATCHES = [
         "original": "      rndind := floor(random*count);",
         "replacement": [
             "      SetRandomKey(goHnd*41 + (gProgress.progresstick mod 30000) + 2027);",
-            "      rndind := floor(RandomExt*count);",
+            "      rndind := floor(random*count);",
+        ],
+    },
+
+    # ---------- Combat RNG sites (target selection / headshot) ----------
+    {
+        "file": "miscext2.script",
+        "name": "DoDamage: bHeadShot (random<0.05)",
+        "expected_line": 420,
+        "original": "                        var bHeadShot : Boolean = bCanHeadShot and (random<0.05) and (not bFastHorseBullet); // in C1 there is 4 percent chance to kill any unit with bullet, no matter how much hp. in c3 after shooters rebalance. changed change to 2 percent",
+        "replacement": [
+            "                        SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt) + floor(TObj(pobj2).uniqrnd*gc_MaxInt) + (gProgress.progresstick mod 30000) + 8191);",
+            "                        var bHeadShot : Boolean = bCanHeadShot and (random<0.05) and (not bFastHorseBullet); // headshot RNG: deterministic seed from attacker+target uniqrnd + progresstick (mod by Deterministic Cossacks)",
+        ],
+    },
+    {
+        "file": "unit.script",
+        "name": "SearchEnemyInCellShips: rndind (start index in cell)",
+        "expected_line": 4796,
+        "original": "         rndind := floor(random*count);",
+        "replacement": [
+            "         SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt) + cellx*73 + celly*131 + (gProgress.progresstick mod 30000) + 5077);",
+            "         rndind := floor(random*count);",
+        ],
+    },
+    {
+        "file": "unit.script",
+        "name": "SearchEnemyInCell: rndind (start index in cell)",
+        "expected_line": 4872,
+        "original": "            rndind := floor(random*count);",
+        "replacement": [
+            "            SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt) + cellx*79 + celly*139 + plind*17 + (gProgress.progresstick mod 30000) + 1543);",
+            "            rndind := floor(random*count);",
+        ],
+    },
+    {
+        "file": "unit.script",
+        "name": "SearchEnemyScanCellsLongRange: dx random pick",
+        "expected_line": 4992,
+        "original": "      var dx : Integer = cellx+floor(1+random*(cellxmax-cellx));",
+        "replacement": [
+            "      SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt) + i*101 + cellx*89 + (gProgress.progresstick mod 30000) + 3001);",
+            "      var dx : Integer = cellx+floor(1+random*(cellxmax-cellx));",
+        ],
+    },
+    {
+        "file": "unit.script",
+        "name": "SearchEnemyScanCellsLongRange: dy random pick",
+        "expected_line": 4993,
+        "original": "      var dy : Integer = celly+floor(1+random*(cellymax-celly));",
+        "replacement": [
+            "      SetRandomKey(floor(TObj(pobj).uniqrnd*gc_MaxInt) + i*103 + celly*97 + (gProgress.progresstick mod 30000) + 4421);",
+            "      var dy : Integer = celly+floor(1+random*(cellymax-celly));",
         ],
     },
 ]
