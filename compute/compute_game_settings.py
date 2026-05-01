@@ -22,7 +22,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
+from citations import Citations
 from config import DM_GLOBAL, LOCALE, DERIVED_DIR, REPORTS_MAP_DIR
+
+# Module-level citations registry — populated during render_lobby_md().
+cites = Citations()
 from parse_locale import parse_locale_file
 
 
@@ -306,9 +310,11 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"), ("Размер, тайлы", "tiles"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    mapsize_cite = cites.cite("lib/miscext2.script:19-26",
+                              label="хардкод размеров `mapsize` в тайлах")
     L += [
-        "Размер карты — квадрат `tiles × tiles`. UI игры лейблов не показывает "
-        "(значения зашиты в `miscext2.script:19-26`).",
+        f"Размер карты — квадрат `tiles × tiles`. UI игры лейблов не "
+        f"показывает (значения зашиты {mapsize_cite}).",
         "",
     ]
     L += _section(
@@ -317,11 +323,13 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    maritime_cite = cites.cite("lib/misc.script:5466",
+                               label="`_misc_HasMaritime` — проверка terrain-морских опций")
     L += [
-        "Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` "
-        "(`Полуострова` / `Острова` / `Континенты`) проверяются движком "
-        "(`_misc_HasMaritime`, `misc.script:5466`) — на этих картах есть «морские» "
-        "воды, доступ к ним требует порта.",
+        f"Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` "
+        f"(`Полуострова` / `Острова` / `Континенты`) проверяются движком "
+        f"в `_misc_HasMaritime` {maritime_cite} — на этих картах есть "
+        f"«морские» воды, доступ к ним требует порта.",
         "",
     ]
     L += _section(
@@ -330,8 +338,10 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    initmap29_cite = cites.cite("common.inc/initmap.inc:29",
+                                 label="дефолт `relieftype = 3` (Highlands)")
     L += [
-        "По умолчанию `relieftype = 3` («Высокогорье») — `initmap.inc:29`.",
+        f"По умолчанию `relieftype = 3` («Высокогорье») {initmap29_cite}.",
         "",
     ]
     L += _section(
@@ -340,10 +350,12 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"), ("На каждый ресурс", "amount"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    initmap30_cite = cites.cite("common.inc/initmap.inc:30",
+                                 label="дефолт `resourcestart = 2` (Thousands)")
     L += [
-        "Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают "
-        "одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 "
-        "каждого) — `initmap.inc:30`.",
+        f"Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают "
+        f"одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 "
+        f"каждого) {initmap30_cite}.",
         "",
     ]
     L += _section(
@@ -352,11 +364,13 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    initmap31_cite = cites.cite("common.inc/initmap.inc:31",
+                                 label="дефолт `resourcemines = 1` (Medium)")
     L += [
-        "По умолчанию `resourcemines = 1` («Средне») — `initmap.inc:31`. "
-        "Конкретные числа шахт за уровень — в "
-        "[`map_resources.md`](map_resources.md) и в "
-        "[`recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md).",
+        f"По умолчанию `resourcemines = 1` («Средне») {initmap31_cite}. "
+        f"Конкретные числа шахт за уровень — в "
+        f"[`map_resources.md`](map_resources.md) и в "
+        f"[`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md).",
         "",
     ]
     L += _section(
@@ -365,11 +379,13 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    desert_cite = cites.cite("common.inc/dogenerate.inc:4",
+                              label="форсирование `bDesert := True` при `season = 3`")
     L += [
-        "Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический "
-        "эффект — `season = 3` («Пустыня») форсит `bDesert = True` "
-        "(`dogenerate.inc:4`); engine использует другой набор pattern-типов "
-        "(`desert_*` вместо обычных лесов и камней).",
+        f"Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический "
+        f"эффект — `season = 3` («Пустыня») форсит `bDesert = True` "
+        f"{desert_cite}; engine использует другой набор pattern-типов "
+        f"(`desert_*` вместо обычных лесов и камней).",
         "",
     ]
 
@@ -382,14 +398,16 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
     )
+    csp_cite = cites.cite("common.inc/dogenerate.inc:1231-1281",
+                           label="`CreateStartPointPeasants` — расстановка 18 крестьян 6×3")
     L += [
-        "Конкретный набор юнитов на каждый вариант — в "
-        "`data/game/var/startingsettings.cfg` (`addresources`, `countries`).",
+        f"Конкретный набор юнитов на каждый вариант — в "
+        f"`data/game/var/startingsettings.cfg` (`addresources`, `countries`).",
         "",
-        "> Независимо от выбора движок всегда вызывает `CreateStartPointPeasants` "
-        "(`dogenerate.inc:1231-1281`) и размещает **18 крестьян** в сетке 6×3 "
-        "вокруг стартовой точки. Даже на `startingunits = 0` («По умолчанию») у "
-        "игрока сразу 18 крестьян.",
+        f"> Независимо от выбора движок всегда вызывает "
+        f"`CreateStartPointPeasants` {csp_cite} и размещает **18 крестьян** "
+        f"в сетке 6×3 вокруг стартовой точки. Даже на `startingunits = 0` "
+        f"(«По умолчанию») у игрока сразу 18 крестьян.",
         "",
     ]
 
@@ -542,11 +560,13 @@ def render_lobby_md(settings: dict) -> list[str]:
     # ─── defaults ──────────────────────────────────────────────────────────
     defaults = settings.get("defaults") or {}
     if defaults:
+        defaults_cite = cites.cite("common.inc/initmap.inc:29-31",
+                                    label="дефолты блока `gen` (relieftype, resourcestart, resourcemines)")
         L += [
             "## Значения по умолчанию",
             "",
-            "Из `initmap.inc:29-31` (для `gen`) и общего поведения движка (для "
-            "`additional`):",
+            f"Из {defaults_cite} (для `gen`) и общего поведения движка (для "
+            f"`additional`):",
             "",
             "| Поле | Значение по умолчанию |",
             "| --- | --- |",
@@ -562,14 +582,15 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "**См. также:**",
         "",
-        "- [`docs/recon/game_settings.md`](../../recon/game_settings.md) — поведение "
+        "- [`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md) — поведение "
         "движка по каждой опции (peacetime, peace mode, captureradius, …).",
         "- [`docs/derived/game_settings.json`](../../derived/game_settings.json) — "
         "то же самое в машинно-читаемом виде.",
-        "- [`docs/recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md) — "
+        "- [`docs/recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) — "
         "что именно делает генератор карты с этими значениями.",
         "",
     ]
+    L += cites.render()
     return L
 
 

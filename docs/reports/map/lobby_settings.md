@@ -31,7 +31,7 @@
 | 2 | 640 | Huge | Огромная |
 | 3 | 256 | Tiny | Маленькая |
 
-Размер карты — квадрат `tiles × tiles`. UI игры лейблов не показывает (значения зашиты в `miscext2.script:19-26`).
+Размер карты — квадрат `tiles × tiles`. UI игры лейблов не показывает (значения зашиты [^1]).
 
 ### `terraintype` — тип ландшафта и воды
 
@@ -48,7 +48,7 @@
 | 8 | Rivers | Реки |
 | 9 | Without water | Без воды |
 
-Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` (`Полуострова` / `Острова` / `Континенты`) проверяются движком (`_misc_HasMaritime`, `misc.script:5466`) — на этих картах есть «морские» воды, доступ к ним требует порта.
+Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` (`Полуострова` / `Острова` / `Континенты`) проверяются движком в `_misc_HasMaritime` [^2] — на этих картах есть «морские» воды, доступ к ним требует порта.
 
 ### `relieftype` — рельеф
 
@@ -61,7 +61,7 @@
 | 4 | Plateaus | Плато |
 | 5 | Desert | Пустыня |
 
-По умолчанию `relieftype = 3` («Высокогорье») — `initmap.inc:29`.
+По умолчанию `relieftype = 3` («Высокогорье») [^3].
 
 ### `resourcestart` — стартовые ресурсы у игроков
 
@@ -72,7 +72,7 @@
 | 2 | 5000 | Thousands | Тысячи |
 | 3 | 1000000 | Millions | Миллионы |
 
-Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 каждого) — `initmap.inc:30`.
+Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 каждого) [^4].
 
 ### `resourcemines` — плотность месторождений
 
@@ -82,7 +82,7 @@
 | 1 | Medium | Средне |
 | 2 | Rich | Много |
 
-По умолчанию `resourcemines = 1` («Средне») — `initmap.inc:31`. Конкретные числа шахт за уровень — в [`map_resources.md`](map_resources.md) и в [`recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md).
+По умолчанию `resourcemines = 1` («Средне») [^5]. Конкретные числа шахт за уровень — в [`map_resources.md`](map_resources.md) и в [`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md).
 
 ### `season` — сезон
 
@@ -93,7 +93,7 @@
 | 2 | Winter | Зима |
 | 3 | Desert | Пустыня |
 
-Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический эффект — `season = 3` («Пустыня») форсит `bDesert = True` (`dogenerate.inc:4`); engine использует другой набор pattern-типов (`desert_*` вместо обычных лесов и камней).
+Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический эффект — `season = 3` («Пустыня») форсит `bDesert = True` [^6]; engine использует другой набор pattern-типов (`desert_*` вместо обычных лесов и камней).
 
 ## Правила игры — `gMap.settings.additional`
 
@@ -118,7 +118,7 @@
 
 Конкретный набор юнитов на каждый вариант — в `data/game/var/startingsettings.cfg` (`addresources`, `countries`).
 
-> Независимо от выбора движок всегда вызывает `CreateStartPointPeasants` (`dogenerate.inc:1231-1281`) и размещает **18 крестьян** в сетке 6×3 вокруг стартовой точки. Даже на `startingunits = 0` («По умолчанию») у игрока сразу 18 крестьян.
+> Независимо от выбора движок всегда вызывает `CreateStartPointPeasants` [^7] и размещает **18 крестьян** в сетке 6×3 вокруг стартовой точки. Даже на `startingunits = 0` («По умолчанию») у игрока сразу 18 крестьян.
 
 ### `balloon` — монгольфьеры
 
@@ -253,7 +253,7 @@
 
 ## Значения по умолчанию
 
-Из `initmap.inc:29-31` (для `gen`) и общего поведения движка (для `additional`):
+Из [^8] (для `gen`) и общего поведения движка (для `additional`):
 
 | Поле | Значение по умолчанию |
 | --- | --- |
@@ -279,6 +279,27 @@
 
 **См. также:**
 
-- [`docs/recon/game_settings.md`](../../recon/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
+- [`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
 - [`docs/derived/game_settings.json`](../../derived/game_settings.json) — то же самое в машинно-читаемом виде.
-- [`docs/recon/map_generation_pipeline.md`](../../recon/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
+- [`docs/recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
+
+
+## Источники
+
+Все ссылки относительно `data/scripts/` в установке Cossacks 3.
+
+[^1]: хардкод размеров `mapsize` в тайлах — `lib/miscext2.script:19-26`.
+
+[^2]: `_misc_HasMaritime` — проверка terrain-морских опций — `lib/misc.script:5466`.
+
+[^3]: дефолт `relieftype = 3` (Highlands) — `common.inc/initmap.inc:29`.
+
+[^4]: дефолт `resourcestart = 2` (Thousands) — `common.inc/initmap.inc:30`.
+
+[^5]: дефолт `resourcemines = 1` (Medium) — `common.inc/initmap.inc:31`.
+
+[^6]: форсирование `bDesert := True` при `season = 3` — `common.inc/dogenerate.inc:4`.
+
+[^7]: `CreateStartPointPeasants` — расстановка 18 крестьян 6×3 — `common.inc/dogenerate.inc:1231-1281`.
+
+[^8]: дефолты блока `gen` (relieftype, resourcestart, resourcemines) — `common.inc/initmap.inc:29-31`.

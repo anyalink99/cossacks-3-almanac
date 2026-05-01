@@ -1,8 +1,9 @@
 ## Famine (голод) и Rebellion (восстание)
 
-Источник: `unit.inc/nothing.inc:445-505`, `player.script:280-322`
+Механика голода и побега наёмников реализована в обработчиках `Nothing` и
+расхода ресурсов [^f1].
 
-**Расход food (upkeep).** Каждый юнит без `bnohungry = True` накапливает у игрока `gPlayer.counter.resconsume[food]` (`unit.script:3810,3821`):
+**Расход food (upkeep).** Каждый юнит без `bnohungry = True` накапливает у игрока `gPlayer.counter.resconsume[food]` через инкременты при создании юнита [^f2]:
 
 ```
 per_unit_resconsume_food = consume.food          # из case-ветки в unit.script
@@ -45,7 +46,7 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 
 **Кто иммунен к голоду** (`bnohungry = True` в `unit.script`):
 
-- Все здания — флаг ставится в `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` (`unit.script:471`).
+- Все здания — флаг `bnohungry = True` ставится в helper'ах `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` [^f3].
 - Наёмники (`bmercenary = True`). У них свой триггер — Rebellion (см. ниже). Едят gold, не food.
 
 **Кто НЕ иммунен** (вопреки распространённому заблуждению):
@@ -145,3 +146,11 @@ drain_per_g_sec = Σ(consume.gold) × 32 / 20000
 ---
 
 **Расход gold юнитами** (`consume[gold]`): в основном у башен (`consume[gold] = 500`), у некоторых стрелковых юнитов (выстрел тратит `weapon.cost[gold]`) и у **всех наёмников через `consume.gold`**. Обычные pikeman и musketeer gold **не потребляют** в простое — только при выстреле, через `weapon.cost[gold]`.
+
+## Источники
+
+[^f1]: Главный обработчик голода и Rebellion — `units/unit.inc/nothing.inc:445-505`. Списание food/gold за тик — `lib/player.script:280-322`.
+
+[^f2]: Инкременты `gPlayer.counter.resconsume[food]` при создании юнита — `lib/unit.script:3810, 3821`.
+
+[^f3]: Установка `bnohungry = True` для зданий — `lib/unit.script:471` (внутри `SetObjBuildingBaseSettings`).
