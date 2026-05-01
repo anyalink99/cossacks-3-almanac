@@ -595,14 +595,23 @@ def apply_assignment(stats: dict, lhs: str, rhs: str):
         if val is not None: stats["bdrummer"] = val
     elif lhs == "objprop.bpriest":
         if val is not None: stats["bpriest"] = val
+    elif lhs == "objprop.bartillery":
+        if val is not None: stats["bartillery"] = val
+    elif lhs == "objprop.bartprepare":
+        if val is not None: stats["bartprepare"] = val
     elif lhs.startswith("objprop.resourcebase[gc_resource_type_"):
         m = re.match(r"objprop\.resourcebase\[gc_resource_type_(\w+)\]", lhs)
         if m and val:
             stats.setdefault("resourcebase", set()).add(m.group(1))
     elif lhs.startswith("objbase.weapon[") and ".dispertion" in lhs:
         m = re.match(r"objbase\.weapon\[(\d+)\]\.dispertion", lhs)
-        if m and val is not None:
-            stats.setdefault("weapons", {}).setdefault(int(m.group(1)), {})["dispertion"] = val
+        if m:
+            # RHS is typically `_misc_PixelsToTiles(NNN)`; surface NNN (pixels)
+            # as an integer so downstream can convert via the standard helper.
+            mp = re.search(r"_misc_PixelsToTiles\(\s*(-?\d+)\s*\)", rhs)
+            stored = int(mp.group(1)) if mp else val
+            if stored is not None:
+                stats.setdefault("weapons", {}).setdefault(int(m.group(1)), {})["dispertion"] = stored
     elif lhs.startswith("objprop.weapon[") and ".weaponsid" in lhs:
         m = re.match(r"objprop\.weapon\[(\d+)\]\.weaponsid", lhs)
         if m and val is not None:

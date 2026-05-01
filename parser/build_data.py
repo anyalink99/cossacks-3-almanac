@@ -468,6 +468,8 @@ def _format_unit_row(sid: str, nation: str, stats: dict, loc_en, loc_ru) -> dict
             "radiusmin_tiles": px_to_tiles(w.get("radiusmin")),
             "radiusmax_px": w.get("radiusmax"),
             "radiusmax_tiles": px_to_tiles(w.get("radiusmax")),
+            "dispertion_px": w.get("dispertion"),
+            "dispertion_tiles": px_to_tiles(w.get("dispertion")),
             "kind": w.get("kind"),
             "weaponsid": w.get("weaponsid"),
             "cost": w.get("cost"),
@@ -514,6 +516,8 @@ def _format_unit_row(sid: str, nation: str, stats: dict, loc_en, loc_ru) -> dict
         "bofficer": stats.get("bofficer", False),
         "bdrummer": stats.get("bdrummer", False),
         "bpriest": stats.get("bpriest", False),
+        "bartillery": stats.get("bartillery", False),
+        "bartprepare": stats.get("bartprepare", False),
     }
 
 

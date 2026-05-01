@@ -10,6 +10,7 @@
 | [combat/counter_matrix.md](combat/counter_matrix.md) | Приближённый TTK (time-to-kill) между классами юнитов с учётом защиты и попадания. | `compute/compute_counter_matrix.py` |
 | [combat/attack_rates.md](combat/attack_rates.md) | Скорость атаки на юнита: длительность цикла (pause или анимация attack0), атак/g-сек, атак/real @ fast. | `compute/compute_attack_rates.py` |
 | [combat/vision_radii.md](combat/vision_radii.md) | Vision (FOW) и searchradius по всем юнитам. Формула `floor(20 + 4×vision)` тайлов. Лучшие скауты (Барабанщик, Гетьман, корабли). | `compute/compute_vision.py` |
+| [combat/artillery.md](combat/artillery.md) | Сводка по сухопутной артиллерии (`bartillery = True`): damage, pause, dispertion, цена выстрела, лимит парка от Артиллерийского депо, экономика юнита и национальные различия. | `compute/compute_artillery.py` |
 
 ## Экономика ([`economy/`](economy/))
 
@@ -41,6 +42,7 @@
 | Файл | Что внутри | Генератор |
 |---|---|---|
 | [nations/overview.md](nations/overview.md) | Side-by-side сравнение всех 21 нации: размер ростера, доступ к 18 в., уникальные юниты, стат-аномалии, наёмники, рыночный кластер. | `compute/compute_nations_overview.py` |
+| [nations/deviations.md](nations/deviations.md) | Полные стат-отпечатки общих зданий (`<nat>cen`, `<nat>aca`, `<nat>art` и т. д.) и общих юнитов: какие нации отклоняются от базового варианта и в чём именно. Дополняет overview.md по детализации. | `compute/compute_nation_deviations.py` |
 
 ## Связанные данные
 
@@ -58,6 +60,7 @@ python compute/compute_combat_stats.py        # → reports/combat/combat_stats.
 python compute/compute_counter_matrix.py      # → reports/combat/counter_matrix.md
 python compute/compute_attack_rates.py        # → reports/combat/attack_rates.md
 python compute/compute_vision.py              # → reports/combat/vision_radii.md
+python compute/compute_artillery.py           # → reports/combat/artillery.md
 python compute/compute_scaling.py             # → reports/economy/scaling_prices.md
 python compute/compute_efficiency_upgrades.py # → reports/economy/efficiency_upgrades.md
 python compute/compute_builder_slots.py       # → reports/economy/builder_slots.md (+derived/builder_slots.json)
@@ -69,4 +72,5 @@ python compute/compute_map_resources.py        # → reports/map/map_resources.m
 python compute/compute_starting_layout.py     # → reports/map/starting_layout.md
 python compute/validate_map_predictions.py     # → reports/map/map_predictions_validation.md
 python compute/compute_nations_overview.py     # → reports/nations/overview.md
+python compute/compute_nation_deviations.py    # → reports/nations/deviations.md
 ```

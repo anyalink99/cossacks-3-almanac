@@ -25,13 +25,14 @@
 
 ## Игровые системы (правила, AI, наёмники)
 
-Три документа про оверарх-механики: ИИ-противник, наёмничество, как заканчивается партия.
+Четыре документа про оверарх-механики: ИИ-противник, наёмничество, как заканчивается партия, и как юниты выбирают, в кого стрелять.
 
 | Файл | Что внутри |
 |---|---|
 | [ai_behavior.md](ai_behavior.md) | AI: тик каждые 2.4 g-сек. Difficulty cheat = скорость постройки и найма (easy 30%, normal 50%, hard 75%, veryhard 100%, impossible 125%). **Стартовых ресурсов не получает**. Build order rule-based, нация-зависимый. Aggressor wave = 5 отрядов. Diplomacy: команды статически из лобби, без альянсов в процессе партии. |
 | [mercenaries_diplomacy.md](mercenaries_diplomacy.md) | Дипломатический центр (`<nat>dip`): 21 нация × 1 здание, 4500–6500 HP, пререквизит — академия. Каталог из 8 наёмников (одинаковый у всех наций). Стоимость — только золото; `consume.gold` upkeep; `bnohungry = True`. Лимит масштабирования = 2× (против 20 000× у обычных юнитов). Pair-counter `archerdip ↔ archerturdip`. Rebellion = 18.31% за тик на hard+. С 2026-04-30 `data.json` учитывает блок `if (bmercenary)` — все 168 dip-строк правильные. |
 | [victory_conditions.md](victory_conditions.md) | Условия победы и поражения: last-team-standing (`farmused = 0` ⇒ defeat). Wonder отсутствует. Score копится только для статистики (kill +2×, capture +5×, build +1×). Surrender (`bleave = True`), first-leaver penalty −w ELO. Time-limit отсутствует. Игровые режимы: skirmish, Historical Battle, Campaign, Scenario, Rated MP. |
+| [target_selection.md](target_selection.md) | Алгоритм выбора цели через scan-grid: `_unit_SearchEnemyInCell` (random offset по списку в ячейке) + `_unit_SearchEnemyScanCells` (минимум по relativeDist с STO-балансировкой `×(1 + STO_count × 0.125)` для милишников). 5 режимов `scanmode` (default / priest / capture / capture-fallback / AI sabotage). Семантика attack-move: `move_mode_attack` для пехоты-кавалерии, `attackpoint` для артиллерии с `bartprepare`. Smart-search ловит врагов только в 30°-конусе впереди. |
 
 ## Engine internals (тики, RNG, сетевая модель)
 
@@ -58,6 +59,8 @@
 - **«Как выиграть партию?»** → [victory_conditions.md](victory_conditions.md) §3.
 - **«Как работают наёмники / Rebellion?»** → [mercenaries_diplomacy.md](mercenaries_diplomacy.md) §§3-4.
 - **«Как ходят юниты в формации?»** → [pathfinding.md](pathfinding.md) §6.
+- **«В кого выстрелит мой мушкетёр, если в радиусе три врага?»** → [target_selection.md](target_selection.md) §3.
+- **«Чем `attack-move` отличается от обычного движения?»** → [target_selection.md](target_selection.md) §5.
 - **«Какие опции есть в лобби и что они дают?»** → таблицы в [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [game_settings.md](game_settings.md). Машинный JSON для редакторов — [`../derived/game_settings.json`](../derived/game_settings.json).
 
 ## Что НЕ в этой папке

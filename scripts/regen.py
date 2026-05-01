@@ -98,6 +98,7 @@ TARGETS: dict[str, list[list[str]]] = {
         ["compute/compute_counter_matrix.py"],
         ["compute/compute_attack_rates.py"],
         ["compute/compute_vision.py"],
+        ["compute/compute_artillery.py"],
     ],
 
     "reports-economy": [
@@ -116,6 +117,7 @@ TARGETS: dict[str, list[list[str]]] = {
 
     "reports-nations": [
         ["compute/compute_nations_overview.py"],
+        ["compute/compute_nation_deviations.py"],
     ],
 
     "tech": [
