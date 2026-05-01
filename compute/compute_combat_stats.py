@@ -322,7 +322,7 @@ def main():
     A("# Cossacks 3 — DPS / EHP / armor metrics")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`docs/data.json` скриптом "
+      "`data.json` скриптом "
       "[`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).")
     A("")
     A("## Формула урона")
@@ -348,7 +348,7 @@ def main():
     L.extend(render_notes(cites))
     A("---")
     A("")
-    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
+    A("Сгенерировано из `data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_combat_stats.py")

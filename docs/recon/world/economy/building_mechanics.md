@@ -5,8 +5,8 @@
 [Источники](#источники) в конце документа. Все пути там относительно `data/` в
 установке Cossacks 3.
 
-**Контекст:** скорость партии — fast (×1.4). Все длительности — в игровых
-секундах; real-seconds = g-sec / 1.4.
+> **Технические детали анимации `construct` и frame-точные тайминги** —
+> в [`internals/engine/animation_system.md`](../../../../internals/engine/animation_system.md).
 
 ## TL;DR
 
@@ -77,8 +77,8 @@
 
 - 1 крестьянин: 20 HP / 0.406 g-sec = **49.3 HP/g-sec**
 - N крестьянин: 49.3 × N (до cap builder slots)
-- Bavcen с HP=4000, починка с 0 до full: 4000 / 49.3 = **81 g-sec** одним крестьянином (~58 real-sec @ fast).
-- С 12 builders (типичный лимит для центра): 81/12 = **6.75 g-sec** (~4.8 real-sec).
+- Bavcen с HP=4000, починка с 0 до full: 4000 / 49.3 = **81 g-sec** одним крестьянином (~58).
+- С 12 builders (типичный лимит для центра): 81/12 = **6.75 g-sec**.
 
 ⚠ Ремонт работает только когда здание **уже достроено** (`bbuilt = True`). До завершения постройки действует другой механизм (см. §3).
 
@@ -104,29 +104,29 @@ construct-анимации [^7]:
 **Формула для N строителей:**
 
 ```
-hits_total = buildtime_real_sec / 0.359375
+hits_total = buildtime_g_sec / 0.359375
 T_with_N(g-sec) = hits_total / (N / 0.406)
-                = buildtime_real_sec × (0.406 / 0.359)/ N
-                = buildtime_real_sec × 1.13 / N
+                = buildtime_g_sec × (0.406 / 0.359)/ N
+                = buildtime_g_sec × 1.13 / N
 ```
 
 **Practical rule:** `time = buildtime × 1.13 / N`. Удваиваешь крестьян → пополам время.
 
 **Cap:** N ограничен числом builder slots (см. §3.3). Hard cap движка: 30.
 
-**Пример bavba2 (Barracks 18 century, buildtime_real = 5625 g-sec)** — это объясняет «75 минут за 18-вечный барак»:
+**Пример bavba2 (Barracks 18 century, `buildtime = 5625 g-сек`)**:
 
-| N builders | g-sec | real-sec @ fast | минуты real |
-|---:|---:|---:|---:|
-| 1 | 6 356 | 4 540 | **76 min** ← вот эта страшная цифра |
-| 2 | 3 178 | 2 270 | 38 min |
-| 5 | 1 271 | 908 | 15 min |
-| 10 | 636 | 454 | 7.6 min |
+| N builders | g-сек | мин г-сек |
+|---:|---:|---:|
+| 1 | 6 356 | 105.9 |
+| 2 | 3 178 | 53.0 |
+| 5 | 1 271 | 21.2 |
+| 10 | 636 | 10.6 |
 | 16 (slot cap для большого здания) | 397 | 284 | **4.7 min** ← реалистично |
 
 **Никто не строит здание ОДНИМ крестьянином в реальной игре.** При размещении foundation сразу прибегают все idle крестьяне в окрестности, заполняя все builder slots.
 
-Полная таблица «время с N крестьян» по всем зданиям всех наций — в [`docs/reports/economy/construction_times.md`](../docs/reports/economy/construction_times.md) (генератор: [`compute/compute_construction_times.py`](../compute/compute_construction_times.py)).
+Полная таблица «время с N крестьян» по всем зданиям всех наций — в [`docs/reports/economy/construction_times.md`](../../../reports/economy/construction_times.md) (генератор: [`compute/compute_construction_times.py`](../compute/compute_construction_times.py)).
 
 **Что в нашей JSON:** поле `building.buildtime_sec` = `frames × 10/32` — это **нормированный buildtime** из formula (`objbase.buildtime`). Время-с-1-builder ≈ `buildtime_sec × 1.13`. То есть **поле НЕ равно реальному времени постройки — оно всегда требует деления на N**.
 
@@ -145,7 +145,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 2. Для стен — из `data/game/var/wallcustom.cfg` (BuilderPoints per wall variation, до 16).
 3. (Опционально) Override per-building в `data/game/var/objcustom.cfg` — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
-**Точные значения для каждого здания:** [`docs/reports/economy/builder_slots.md`](../docs/reports/economy/builder_slots.md) и [`docs/derived/builder_slots.json`](../docs/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py).
+**Точные значения для каждого здания:** [`docs/reports/economy/builder_slots.md`](../../../reports/economy/builder_slots.md) и [`docs/derived/builder_slots.json`](../docs/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py).
 
 **Геометрический инсайт.** Для любой выпуклой формы (диск, ромб, скруглённый прямоугольник, диагональный slab — то есть для подавляющего большинства зданий) Manhattan-периметр = `bbox_cols + bbox_rows`. Walker и `bbox_cols+bbox_rows` дают одинаковый результат для convex.
 
@@ -223,7 +223,7 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` [^12].
 | ukrwwa (palisade) | varies | varies | W~50 | 0 |
 | ukrwga (wood gate) | varies | varies | W~50 | 0 |
 
-Время на 1 сегмент с 4 builders: 90 × 1.13 / 4 = **25.4 g-sec** ≈ 18 real-sec @ fast.
+Время на 1 сегмент с 4 builders: 90 × 1.13 / 4 = **25.4 g-sec**.
 
 ---
 
@@ -231,7 +231,7 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` [^12].
 
 ### 5.1 peasantabsorber — для шахт
 
-Шахты `eurgol/euriro/eurcoa`: `peasantabsorber=5` (база), до 95 с апгрейдами. Рассмотрено в `recon/world/peasant_extraction.md` §5.
+Шахты `eurgol/euriro/eurcoa`: `peasantabsorber=5` (база), до 95 с апгрейдами. Рассмотрено в `recon/world/economy/peasant_extraction.md` §5.
 
 ### 5.2 transport — для транспорта
 
@@ -269,7 +269,7 @@ Cap из движка: `gc_MaxWallBuilderPointsCount = 16` [^12].
 
 ⚠ Гарнизон-ить пехоту в башню **нельзя** — это другие RTS. В C3 башня сама стреляет.
 
-**Парсер gap:** weapons для зданий пока не извлекаются в `data.json` целиком — есть только скалярные поля (`weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`); если у здания два оружия, попадает только первое. Подробнее — [`docs/known_issues.md`](../known_issues.md).
+**Парсер gap:** weapons для зданий пока не извлекаются в `data.json` целиком — есть только скалярные поля (`weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`); если у здания два оружия, попадает только первое. Подробнее — [`docs/known_issues.md`](../../../known_issues.md).
 
 ### 5.4 Other inside-units checks
 
@@ -293,7 +293,42 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 
 **Возможно ли отстроить?** — нужно проверить специально (предположительно: нет, только новое здание ставить).
 
-### 6.3 Производство при низком HP
+#### Timeline разрушения
+
+При `hp ≤ 0` или `bDie := True` здание получает `essential_death`. State-машина [^27] ставит первый таймер `DelayExecuteState`:
+
+- если здание было `essential_birth` (отмена недостроенного) — сразу `DeathStage2` через `gc_building_deathtime_1 = 30` g-сек;
+- иначе — `DeathStage1` через `gc_building_deathtime_0 = 30` g-сек, затем `DeathStage1` [^28] меняет mesh на `<sid>_death1` и ставит `DeathStage2` ещё через 30 g-сек. Для `usage = mine` обе паузы удваиваются (60 g-сек каждая).
+
+**Корпус** в этом промежутке остаётся на карте: визуально — mesh `<sid>_death1.mesh`, в состоянии `essential_death`, материал `'debris'` [^29], коллизия — прежняя. Постройка нового здания на этих клетках невозможна, пока корпус не исчезнет.
+
+**Сброс клетки.** В `DeathStage2` [^30] для не-стен с `gc_collisiontag_terrain` вызывается `_unit_SetTerrainCollision(myHnd, gc_collisiontag_none)` + `_misc_UnitTopologyUpdate`, затем `GameObjectRequestToDestroyByHandle`. После этого клетка освобождается, и на ней можно ставить новое здание.
+
+**Гарнизон внутри** (если у здания `peasantabsorber > 0` или `transport > 0`). `_unit_DestroyObj` [^31] собирает `gc_argunit_inside` и вызывает `_unit_DoUnitsGoOutside(list, bDead=True, ...)`. Эта процедура [^32] ставит каждому юниту в списке `essential_death`, то есть содержимое умирает вместе со зданием.
+
+#### OnDeath: возврат ресурсов из очереди
+
+Перед самым удалением `OnDeath`-хук [^33] прокручивает очередь заказов здания:
+
+- `produce`-заказы прогоняются через `_unit_ProduceUnit(... bState=False, ...)` [^34] — внутри ведёт к `_unit_CancelUnitProduction` и возврату ресурсов.
+- `performupgrade`-заказы — через `_unit_CancelUpgradePerform`, возврат базовой стоимости апгрейда.
+
+То есть при сносе работающей казармы или академии ресурсы за уже оплаченные юниты и апгрейды **возвращаются** игроку, а не сгорают.
+
+#### Score-штраф
+
+При разрушении владельцу: `−2 × building.score` (или `−5×`, если здание ранее уже было захвачено — см. [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)).
+
+### 6.3 Refund при отмене заказов
+
+| Действие | Возврат | Источник |
+|---|---|---|
+| Отмена недостроенного здания (Foundation, кнопка GUI) | **100 %** потраченных ресурсов | GUI-handler `_misc_GUICancelBuilding` [^25] вызывает `GameObjectDestroyByHandle`; зеркального `_res_AddResToPlayerByIndex` для foundation cost в скриптах нет — refund 100 %, видимо, обрабатывается на стороне C++ (поведение в игре подтверждено). |
+| Отмена заказа юнита в очереди | **100 %** от того, что было списано в момент заказа | `_unit_CancelUnitProduction` [^24] возвращает `price[k] × costmodifier`, где `costmodifier = pow(costpercent/100, restype)` и `restype` — счётчик built-копий, сохранённый в `OrderInfo` в момент заказа. Тек. цена не учитывается. |
+| Отмена апгрейда | **100 %** базовой стоимости | `_unit_CancelUpgradePerform` [^35] возвращает базу из `_country_GetUpgradeCostBySID`. Costpercent-масштабирования у апгрейдов нет. |
+| Захват | Все отменяемые заказы прерываются и ресурсы возвращаются **прежнему** владельцу. | См. `_misc_ChangePlayer` ветку очистки в [`capture_mechanics.md`](capture_mechanics.md). |
+
+### 6.4 Производство при низком HP
 
 `doprogressorders.inc`: нет проверки на HP. Здание производит юниты пока живо. **Неполное здание (bbuilt=False) — не производит.**
 
@@ -415,3 +450,21 @@ HP=0 → state-machine переход через `gc_statetag_essential_death`. 
 [^24]: `_unit_CancelUnitProduction` — `lib/unit.script:5891-5977`.
 
 [^25]: `_misc_GUICancelBuilding` — `lib/miscext2.script:3898-3953`.
+
+[^27]: State-машина смерти здания — `data/scripts/units/building.inc/settagstates.inc:32-53`.
+
+[^28]: `DeathStage1` — `data/scripts/units/building.inc/deathstage1.inc:5-11`. `DeathStage2` определён в `deathstage2.inc`.
+
+[^29]: Установка материала `'debris'` для трупа здания — `data/scripts/units/building.inc/ontagstates.inc:286`.
+
+[^30]: `DeathStage2` — освобождение клетки и финальное удаление — `data/scripts/units/building.inc/deathstage2.inc:8-15`.
+
+[^31]: `_unit_DestroyObj` — `lib/miscext2.script:4232-4242`.
+
+[^32]: `_unit_DoUnitsGoOutside` — `lib/unit.script:4559-4564`.
+
+[^33]: OnDeath-хук здания — `data/scripts/units/building.inc/ondeath.inc:11-25`.
+
+[^34]: `_unit_ProduceUnit` — `lib/unit.script:10351`.
+
+[^35]: `_unit_CancelUpgradePerform` — `lib/unit.script:5837-5889`.

@@ -31,16 +31,15 @@ _Extracted **2026-05-01 04:53:43** (local) from game files (unit.script mtime: 2
 
 - [`nations/`](nations/README.md) — по одной справке на каждую из 21 наций (что у неё уникального).
 - [`compare/`](compare/README.md) — сравнения юнитов одного класса бок о бок (все мушкетёры 17 в., все драгуны и т. д.).
-- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) — все опции лобби с каноничными русскими названиями. Поведение движка по каждой опции — в [`../recon/game_settings.md`](../recon/game_settings.md).
+- [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md) — все опции лобби с каноничными русскими названиями. Поведение движка по каждой опции — в [`../recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).
 
 **Где искать остальное:**
 
 | Каталог | Что внутри |
 |---|---|
 | [`../reports/`](../reports/README.md) | Производные расчёты: DPS, EHP, counter matrix, scaling, tech tree, production rates, builder slots, construction times, ресурсы карты. |
-| [`../simulations/`](../simulations/README.md) | Таймлайны экономики по конкретным build order'ам (выходы симулятора). |
 | [`../recon/`](../recon/README.md) | Handwritten reverse-engineering механик: добыча, постройка, RNG, тики, server sync, генерация карт. |
-| [`../derived/`](../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |
+| [`../../derived/`](../../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |
 | [`../architecture.md`](../architecture.md) | Поток данных в проекте: что из чего рождается. |
 | [`../data.json`](../data.json) | Мастер-структура (~4.7 МБ). Вход для всех writer'ов и compute-скриптов. |
 
@@ -125,7 +124,7 @@ applied = max(1, weapon.damage
 | `bfamine` | Флаг голода у игрока: `food = 0` **и** есть юниты с `consume.food > 0`. Включает случайную гибель юнитов, у которых `bnohungry = False`. |
 | `brebellion` | Флаг бунта у игрока: `gold = 0` **и** `consume[gold] > income[gold]`. Включает массовое дезертирство наёмников. |
 | `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |
-| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [recon/engine/determinism_audit.md](../recon/engine/determinism_audit.md). |
+| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [internals/engine/determinism_audit.md](../../internals/engine/determinism_audit.md). |
 | `gc_obj_weapon_kind_*` | Тип оружия: `pike` / `sword` / `bullet` / `cannister` / `arrow` / `cannonball` / `grenade` и др. От него зависит, какая колонка `protection[kind]` цели вычитается из урона. |
 
 **Время:**
@@ -133,14 +132,14 @@ applied = max(1, weapon.damage
 | Тег | Что значит |
 |---|---|
 | `gc_time_to_frames = 32` | 32 кадра в одной игровой секунде. Все длительности в скриптах (анимации, `pause`, `buildtime` юнитов) хранятся в кадрах. |
-| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/world/building_mechanics.md](../recon/world/building_mechanics.md). |
+| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/world/economy/building_mechanics.md](../recon/world/economy/building_mechanics.md). |
 | game speed | `slow=7 / normal=10 / fast=14` тиков/сек. На fast: `1 game-sec = 1/1.4 ≈ 0.71 real-sec`. |
 
 ---
 
 ## Что в данных
 
-Источник всех чисел — `docs/data.json`, генерируется `python parser/build_data.py`. После каждой регенерации прогоняются автоматические проверки.
+Источник всех чисел — `data.json`, генерируется `python parser/build_data.py`. После каждой регенерации прогоняются автоматические проверки.
 
 | Что | Сколько |
 |---|---:|

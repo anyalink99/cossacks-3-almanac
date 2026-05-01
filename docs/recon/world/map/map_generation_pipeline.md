@@ -6,9 +6,9 @@
 
 **Связанные документы:**
 
-- [peasant_extraction.md §8](peasant_extraction.md) — плотности
+- [peasant_extraction.md §8](../economy/peasant_extraction.md) — плотности
   (`frs_big`, `mnt`, …) и расстояния от центра для шахт.
-- [peasant_extraction.md §8.4](peasant_extraction.md) — что такое
+- [peasant_extraction.md §8.4](../economy/peasant_extraction.md) — что такое
   `.pattern` файл и как `mask`-клетки превращаются в env-объекты.
 
 ## TL;DR
@@ -240,9 +240,9 @@ flowchart TB
 
 **Сетка:** 6 колонок × 3 ряда. Шаг 0.75 тайла. Random jitter ±0.125. **Quirk:** `count mod 3 = 18 mod 3 = 0`, поэтому Y-центрирующее смещение = 0. Z-координаты идут от `pointy + 0` до `pointy + 1.5` (т.е. сетка смещена ВНИЗ относительно центра, не центрирована). X-координаты центрированы корректно: от `pointx - 2.25` до `pointx + 1.5`.
 
-Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy.md`](../docs/reference/01_economy.md) §Famine).
+Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy.md`](../../../reference/01_economy.md) §Famine).
 
-Если `gMap.settings.additional.startingunits > 0` (не «По умолчанию») → вместо 18 крестьян вызывается `CreateUniqueStartingUnits` (нация-специфичный отряд: офицер + барабанщик + несколько пехотинцев). Все 14 пресетов с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#startingunits--стартовая-армия); поведение — [`game_settings.md`](game_settings.md) §3.1.
+Если `gMap.settings.additional.startingunits > 0` (не «По умолчанию») → вместо 18 крестьян вызывается `CreateUniqueStartingUnits` (нация-специфичный отряд: офицер + барабанщик + несколько пехотинцев). Все 14 пресетов с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#startingunits--стартовая-армия); поведение — [`game_settings.md`](game_settings.md) §3.1.
 
 ---
 
@@ -413,7 +413,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 1. **Bounded enumeration.** Для (Land, Tiny, 4pl, Highlands, Rich) общее число уникальных карт = 230 базовых форм × K randkey-вариаций. K не известно, но в 4-байтном UI seed-поле едва ли > 10⁹; реально пользовательские seed'ы лежат в гораздо меньшем диапазоне.
 
-2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](../engine/determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` [^49].
+2. **Deterministic replay.** Зная тройку `(inputbitmap, randkey0, randkey1)`, можно воспроизвести карту bit-for-bit (с поправкой на детерминизм engine RNG, см. [determinism_audit.md](../../../../internals/engine/determinism_audit.md)). Save-файлы хранят `randkey1` в имени: `'game_v'+gSerialVersion+'k'+randkey1+'.map'` [^49].
 
 3. **Точная калибровка trees-per-pattern.** 5-10 запусков map gen с фиксированными параметрами, парсинг env-объектов из save → empirical mapping `bitmap → tree count`. Это даст точную замену текущей константы `0.30 × mask_cells`.
 

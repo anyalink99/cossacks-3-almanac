@@ -1,8 +1,8 @@
 # Артиллерия — сводный справочник
 
-**Производный** файл (расчётный, не извлечение). Считается из [`docs/data.json`](../../data.json) скриптом [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
+**Производный** файл (расчётный, не извлечение). Считается из [`docs/data.json`](../../../data.json) скриптом [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
 
-Артиллерийский юнит в коде — это тот, у кого `objprop.bartillery = True` [^1]. Подгруппа `bartprepare` включает анимацию подготовки выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. Поведение приказа `attackpoint` для артиллерии — в [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.2.
+Артиллерийский юнит в коде — это тот, у кого `objprop.bartillery = True` [^1]. Подгруппа `bartprepare` включает анимацию подготовки выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. Поведение приказа `attackpoint` для артиллерии — в [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.2.
 
 Морская артиллерия (battleship, galley, frigate и т. п.) — отдельная категория, см. [`reference/07_naval.md`](../../reference/07_naval.md). Гренадёр стреляет осколочным `mortarball`, но в `bartillery`-группу не входит и относится к пехоте — см. [`reports/combat/combat_stats.md`](combat_stats.md).
 
@@ -91,9 +91,9 @@
 
 - **AoE-кап ловит толпу.** При взрыве снаряда урон получают только первые `count = floor(1 + (r/0.35)²)` юнитов в радиусе [^11]. Для cannon (`r ≈ 1`) это 9 юнитов, для mortar (`r ≈ 2`) — 33. Растянутая линия страдает гораздо больше, чем плотная толпа.
 
-- **AI цели для артиллерии.** Решение, куда стрелять, идёт через `_unit_SearchEnemyLongRangeArtillery` [^12] — это отдельная ветка, не общий `_unit_SearchVictimOnProgress`. AI-юниты артиллерии целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая `bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и описана только косвенно — см. [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §7 (open question № 4).
+- **AI цели для артиллерии.** Решение, куда стрелять, идёт через `_unit_SearchEnemyLongRangeArtillery` [^12] — это отдельная ветка, не общий `_unit_SearchVictimOnProgress`. AI-юниты артиллерии целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая `bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и описана только косвенно — см. [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §7 (open question № 4).
 
-- **`bartprepare` и `attack-move`.** Артиллерия с `bartprepare = True` получает приказ `gc_obj_order_type_attackpoint` через `_player_OrderUnitsToAttackPoint` [^13] — это стрельба по координате, не по конкретной цели. Поведение для не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. Подробности — [`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.
+- **`bartprepare` и `attack-move`.** Артиллерия с `bartprepare = True` получает приказ `gc_obj_order_type_attackpoint` через `_player_OrderUnitsToAttackPoint` [^13] — это стрельба по координате, не по конкретной цели. Поведение для не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. Подробности — [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.
 
 
 ## Источники

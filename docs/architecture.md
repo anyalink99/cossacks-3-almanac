@@ -35,12 +35,12 @@
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ docs/data.json + docs/derived/*.json                            │
+│ docs/data.json + derived/*.json                            │
 │                                                                 │
 │   data.json              мастер-структура (~4.7 МБ):            │
 │     - 21 нация, 414 зданий, 714 юнитов, 4429 апгрейдов          │
 │   derived/*.json         специализированные датасеты            │
-│     (см. docs/derived/README.md)                                │
+│     (см. derived/README.md)                                │
 └─────────────────────────────────────────────────────────────────┘
                             │
             ┌───────────────┴───────────────┐
@@ -82,8 +82,9 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │ simulator/ — runtime симулятор экономики                        │
 │                                                                 │
-│   simulate_economy.py reads docs/data.json + tech_tree.json +   │
-│   build_orders/<name>.json → docs/simulations/sim_<name>.{csv,md}│
+│   simulate_economy.py читает data.json + derived/tech_tree.json,│
+│   принимает build order (JSON) и возвращает таймлайн состояния. │
+│   Используется браузерным editor через Pyodide.                  │
 └─────────────────────────────────────────────────────────────────┘
                             │
                             ▼
@@ -101,7 +102,7 @@
    - Игровые файлы — read-only.
    - `docs/data.json` — единственный «общий» датасет, его читают все генераторы
      (writers + compute + simulator + editor).
-   - `docs/derived/*.json` — узкоспециализированные срезы для конкретных
+   - `derived/*.json` — узкоспециализированные срезы для конкретных
      потребителей.
 2. **Идемпотентность.** `python scripts/regen.py all` перегенерирует всё с
    нуля, без побочных эффектов. После патча игры — один запуск.
@@ -111,11 +112,11 @@
    - `docs/recon/*.md` — handwritten reverse-engineering, правится руками.
    - `docs/known_issues*.md` — handwritten списки.
    - `docs/architecture.md` (этот файл) — handwritten.
-   - `docs/derived/README.md` — handwritten.
+   - `derived/README.md` — handwritten.
    - `docs/README.md` — handwritten + блок-копия из шаблона.
 4. **Канонические русские термины — из локали игры.** Никогда не выдумывай
    перевод. Если в игре написано «Высокогорье» — пиши «Высокогорье». Канон
-   живёт в `docs/derived/canonical_terms.json` (генерится из
+   живёт в `derived/canonical_terms.json` (генерится из
    `data/locale/{ru,en}/`); writers и compute импортируют его через
    `parser/config.py` (`NATION_NAMES_RU`, `USAGE_RU`, `BUILDING_NAMES_RU`,
    `WEAPON_KIND_RU`, `decode_usage(s, lang='ru')`, `nation_label(sid)`).
@@ -128,7 +129,7 @@
 
 | Папка | Назначение |
 |---|---|
-| `parser/` | Чтение файлов игры → JSON (`data.json`, `derived/*.json`). |
+| `parser/` | Чтение файлов игры → JSON (`../data.json`, `derived/*.json`). |
 | `compute/` | Производные расчёты на основе JSON → markdown-отчёты в `docs/reports/`. |
 | `writers/` | Рендер канонической справки `docs/reference/` + diff между снапшотами. |
 | `simulator/` | Runtime симулятор экономики (build orders → таймлайны). |
@@ -143,8 +144,7 @@
 | `docs/reference/` | Каноническая справка: 7 глав, 21 нация, 16 сравнений. | Auto-gen (`writers/write_md_tree.py` + `templates/`). |
 | `docs/reports/` | Производные расчёты по темам: combat / economy / tech / map / nations. | Auto-gen (`compute/*.py`). |
 | `docs/recon/` | Глубокое RE механик движка (скриптов нет, всё руками). | **Handwritten.** |
-| `docs/simulations/` | Таймлайны экономики по конкретным build order'ам. | Auto-gen (`simulator/simulate_economy.py`). |
-| `docs/derived/` | Машинно-читаемые JSON для editor / тулзы. | Auto-gen (`parser/*.py`, `compute/compute_game_settings.py`). |
+| `derived/` | Машинно-читаемые JSON для editor / тулзы. | Auto-gen (`parser/*.py`, `compute/compute_game_settings.py`). |
 | `docs/known_issues*.md` | Парсерные пробелы, расхождения, открытые вопросы. | **Handwritten.** Архив — `known_issues_archive.md`. |
 | `docs/architecture.md` | Этот файл. | **Handwritten.** |
 
@@ -164,9 +164,9 @@
 ### Добавить новый JSON-датасет
 
 1. Создай парсер в `parser/parse_<X>.py` или extractor в
-   `compute/compute_<X>.py` (если зависит только от `data.json`).
-2. Эмить в `docs/derived/<имя>.json`.
-3. Опиши датасет в `docs/derived/README.md`.
+   `compute/compute_<X>.py` (если зависит только от `../data.json`).
+2. Эмить в `derived/<имя>.json`.
+3. Опиши датасет в `derived/README.md`.
 4. Добавь в `scripts/regen.py` (target `derived` или соответствующий
    `reports-*`).
 

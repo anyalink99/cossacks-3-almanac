@@ -9,7 +9,7 @@
 
 ## 2026-04-30
 
-### `bmercenary` override не разрешался — 168 dip-юнитов в `data.json` имели не-наёмничьи статы
+### `bmercenary` override не разрешался — 168 dip-юнитов в `../data.json` имели не-наёмничьи статы
 
 **Было:** `parser/parse_units.py` не учитывал `if (bmercenary)` ветку в
 `unit.script` для юнитов с суффиксом `dip` (8 sid × 21 нация = 168 строк).
@@ -29,7 +29,7 @@ merc-статы — HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = 
 
 ### Ценовые проценты `priceperc` апгрейдов не извлекались
 
-**Было:** 291 priceperc-апгрейд в `data.json` имел корректную базовую цену
+**Было:** 291 priceperc-апгрейд в `../data.json` имел корректную базовую цену
 исследования (food / wood / stone / gold / iron / coal), но **не имел**
 `resource_pcts` — процентного снижения стоимости целевых юнитов и зданий. Эти
 проценты выставляются в `country.script` через

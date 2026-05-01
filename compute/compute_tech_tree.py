@@ -1,7 +1,7 @@
 """Render the tech-tree graph as Markdown reports.
 
-Reads `docs/derived/tech_tree.json` (built by `parser/build_tech_graph.py`)
-and `docs/data.json` (for production rates), emits two markdown files:
+Reads `derived/tech_tree.json` (built by `parser/build_tech_graph.py`)
+and `data.json` (for production rates), emits two markdown files:
 
 - `docs/reports/tech/tech_tree.md` — per-nation prerequisite tables +
   a Mermaid building dependency graph for one representative nation.
@@ -110,7 +110,7 @@ def write_tree_md(tree: dict) -> None:
     L.append("Граф зависимостей: что нужно построить или исследовать перед чем. "
              "Извлечено из `_country_AddFixedProduceWithAccessControl` и "
              "`_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). "
-             "Источник истины — [`docs/derived/tech_tree.json`](../../derived/tech_tree.json).")
+             "Источник истины — [`derived/tech_tree.json`](../../derived/tech_tree.json).")
     L.append("")
     L.append("**Условные обозначения:**")
     L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")

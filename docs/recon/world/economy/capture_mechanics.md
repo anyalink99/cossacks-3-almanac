@@ -53,7 +53,7 @@ one-cell anchor.
 3 capture_onlyartillery      — только артиллерию можно захватывать
 ```
 
-Все 4 значения опции `capture` с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#capture--правила-захвата). Поведение движка (как `capture` взаимодействует с `peacetime` и владением территорией) — [`game_settings.md`](game_settings.md) §3.4.
+Все 4 значения опции `capture` с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#capture--правила-захвата). Поведение движка (как `capture` взаимодействует с `peacetime` и владением территорией) — [`game_settings.md`](../map/game_settings.md) §3.4.
 
 ---
 
@@ -280,7 +280,7 @@ flowchart TD
 убрали).
 
 ### Нейтральные крестьяне на карте
-`SetupStartingResources` (см. recon/world/map_generation_pipeline.md)
+`SetupStartingResources` (см. recon/world/map/map_generation_pipeline.md)
 спавнит **18 пеасантов в 6×3 grid** на старт игры — **все они уже
 принадлежат player'у**, не нейтральны. Других нейтральных юнитов на
 карте нет.

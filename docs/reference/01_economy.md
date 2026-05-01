@@ -4,8 +4,8 @@
 
 > **Глубокие исследования по этой главе:**
 >
-> - [`../recon/world/peasant_extraction.md`](../recon/world/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
-> - [`../recon/world/map_generation_pipeline.md`](../recon/world/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
+> - [`../recon/world/economy/peasant_extraction.md`](../recon/world/economy/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
+> - [`../recon/world/map/map_generation_pipeline.md`](../recon/world/map/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
 > - [`../reports/map/map_resources.md`](../reports/map/map_resources.md) — подсчёт ресурсов на стандартной карте Tiny + Highlands + Rich (~109 больших деревьев, ~33 камня, до 12 шахт / игрок)
 
 ## Резюме
@@ -27,7 +27,7 @@
 | `gc_obj_foodperunit` | 30 food / юнит | dmscript.global:808 |
 | Default `eff` | 100% | player.script:109 |
 
-Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/game_settings.md`](../recon/game_settings.md).
+Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).
 
 ## Базовые порции и hits
 
@@ -99,74 +99,31 @@ HP поля = `gc_FieldMaxHP = 25000`. Урон полю за удар: `resdec 
 
 Полный список кораблей — в [compare/ships.md](compare/ships.md).
 
-## Famine (голод) и Rebellion (восстание)
+## Голод и бунт — таблицы upkeep
 
-Механика голода и побега наёмников реализована в обработчиках `Nothing` и
-расхода ресурсов [^f1].
+> **Полный разбор механики:** [`../recon/world/economy/hunger_and_rebellion.md`](../recon/world/economy/hunger_and_rebellion.md) (RNG-пороги по сложности, виртуальный игрок-наёмник, защитные стратегии). Дипломатический центр и наёмники как **система** — [`../recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md).
 
-**Расход food (upkeep).** Каждый юнит без `bnohungry = True` накапливает у игрока `gPlayer.counter.resconsume[food]` через инкременты при создании юнита [^f2]:
+### Расход food / g-сек на одного юнита
 
-```
-per_unit_resconsume_food = consume.food          # из case-ветки в unit.script
-                         + gc_obj_foodperunit    # = 30, если !bnohungry и !bbuilding
-```
+Формула: `food_per_g_sec = (consume.food + 30) × 32 / 20000`, если
+`bnohungry = False`. Константа `gc_obj_foodperunit = 30` —
+дополнительная порция к каждому едящему юниту.
 
-Расход food за игровую секунду (`player.script:_player_ProcessResourceConsume`):
-
-```
-food_per_g_sec = sum_of_resconsume_food × gc_time_to_frames / 20000
-               = sum × 32 / 20000  =  sum × 0.0016
-```
-
-**Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян (`consume.food = 32`, `bnohungry = False`) простаивают 2 игровые минуты:
-
-```
-sum = 18 × (32 + 30) = 1116
-food / g-sec = 1116 × 32 / 20000 ≈ 1.786
-за 120 g-сек ≈ 214 food   ✓
-```
-
-Расход food / g-сек на одного юнита (для `bnohungry = False`):
-
-| Юнит | `consume.food` | + `gc_obj_foodperunit` | итого | food / g-сек |
+| Юнит | `consume.food` | + 30 | итого | food / g-сек |
 |---|---:|---:|---:|---:|
 | peasant (aus / pol / spa / eng / ukr / sco) | 32 | +30 | 62 | 0.0992 |
 | peasant `peatur` / `peaalg` | 28 | +30 | 58 | 0.0928 |
 | peasant `pearus` | 26 | +30 | 56 | 0.0896 |
 | infantry без явного `consume.food` | 0 | +30 | 30 | 0.0480 |
 
-**Famine flag** (`bfamine = True`): срабатывает когда `food = 0` И есть `consume > 0`.
+**Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян простаивают 2 игровые минуты:
+`sum = 18 × 62 = 1116` → `1116 × 32 / 20000 = 1.786 food/g-сек` → **за 120 g-сек ≈ 214 food** ✓
 
-При famine **юниты без `bnohungry` начинают умирать рандомно**. Шанс смерти за тик зависит от **сложности игрока** (`gPlayer.difficulty`):
+Точное значение `bnohungry` для каждого юнита — в [`../data.json`](../../data.json), поле `bnohungry`. Кратко: здания и наёмники (`bmercenary = True`) — `True`; крестьяне, обычная пехота / кавалерия, офицеры / барабанщики / священники — `False`.
 
-| Difficulty | Шанс смерти за тик | Ожидаемое время до смерти 1 юнита |
-|---|---:|---|
-| 0 (easy) | `RandomInt < 5` ≈ 0.0076% | очень медленно (часы) |
-| 1 (normal) | `RandomInt < 12` ≈ 0.018% | ~часы |
-| 2+ (hard / very hard / impossible) | **`RandomInt < 50` ≈ 0.076%** | **минуты** (4-10× быстрее normal) |
+### Дипломатический центр
 
-**Кто иммунен к голоду** (`bnohungry = True` в `unit.script`):
-
-- Все здания — флаг `bnohungry = True` ставится в helper'ах `SetObjBuildingBaseSettings` / `SetObjBuildingExtProperties` [^f3].
-- Наёмники (`bmercenary = True`). У них свой триггер — Rebellion (см. ниже). Едят gold, не food.
-
-**Кто НЕ иммунен** (вопреки распространённому заблуждению):
-
-- **Крестьяне** — у всех `bnohungry = False`. У `peaaus` / `peapol` / `peaspa` / `peaeng` / `peaukr` / `peasco` `consume.food = 32`, у `pearus` = 26, у `peatur` / `peaalg` = 28. Плюс +30 от `gc_obj_foodperunit`. Простаивающие крестьяне расходуют food.
-- **Officers / drummers / priests** — едят food (+30) поверх своего `consume[gold]`.
-- **Регулярная пехота / кавалерия** — `bnohungry = False`, `food upkeep = consume.food + 30`.
-
-Точное значение `bnohungry` для каждого юнита — в [`docs/data.json`](../data.json), поле `bnohungry`.
-
-**Голод также отключается**, если в профиле игрока `gProfile.bFamine = False`.
-
----
-
-## Дипломатический центр и наёмники
-
-Полный разбор — в [`recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md). Здесь — суть.
-
-Дипломатический центр (`<nat>dip`) — здание середины игры, требующее **Академию** (`<nat>aca`) и Городской центр. Есть у всех 21 нации, но характеристики различаются. Имена и цифры — из локали и `data.json`:
+Здание середины игры, требует **Академию** + Городской центр.
 
 | Дип-центр | Нации | HP | Wood | Stone | Gold |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -175,13 +132,11 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 | **Дипломатический центр** `ukrdip` (ukr) | ukr | 5000 | 3900 | 2700 | 0 |
 | **Дипломатический центр** `turdip` (tur / alg) | tur, alg | 5500 | 4600 | 2020 | 0 |
 
-Для всех: `buildtime = 1000` кадров = **312.5 g-сек**, `costpercent = 100` (цена каждого следующего здания не растёт), `bcapture = False` (захвату не подлежит, только разрушение). По локализации — **«можно построить только один Дипломатический центр на игрока»**; это ограничение GUI, а не `costpercent`.
+Для всех: `buildtime = 1000` кадров = **312.5 g-сек**, `costpercent = 100`, `bcapture = False`. По локализации — «можно построить только один Дипломатический центр на игрока» (ограничение GUI, не `costpercent`).
 
-### Каталог наёмников (8 sid)
+### Каталог наёмников
 
-Ростер одинаков для **всех 21 нации**. Цена в gold, upkeep тоже в gold (`consume.gold`), `bnohungry = True` (food не потребляют).
-
-С 2026-04-30 `docs/data.json` корректно учитывает `if (bmercenary)`-override; все 168 dip-юнитов несут merc-статы. Таблица ниже строится прямо из `data.json` — не пересохраняется отдельно от него.
+8 sid, ростер одинаков для **всех 21 нации**. Цена и upkeep в gold; `bnohungry = True` (food не потребляют).
 
 | Наёмник | HP | bt, g-сек | gold (цена) | gold/тик upkeep | costpercent | Оружие |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -194,75 +149,22 @@ food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 | **Драгун 18в. (наемник)** `dragoon18dip` | 100 | 2.0 | **120** | 120 | 102 | bullet 18 (range 15.0 t) |
 | **Легкий кавалерист (наемник)** `lightcavalrydip` | 100 | 2.0 | **120** | 120 | 102 | bullet 18 (range 15.0 t) |
 
-### Масштабирование цены
+Формула gold-upkeep — та же, что у food: `Σ(consume.gold) × 32 / 20000`. Например, 50 `dragoon18dip` → `50 × 120 × 0.0016 = 9.6 gold/g-сек ≈ 576 gold/g-мин`.
 
-Действует общее правило `cost(N) = floor(base × (costpercent/100)^N)`, **но потолок для наёмников = 2×** (вместо 20000× у обычных юнитов). При `costpercent = 100.5` потолок достигается примерно на 139-м экземпляре, дальше цена не растёт.
-
-**Парные счётчики:**
-
-- `archerdip` ↔ `archerturdip` — общий счётчик в расчёте цены. Наняв 100 turdip-лучников, игрок получает обычных `archerdip` уже **вдвое дороже**.
+**Масштабирование цены:** общее правило `cost(N) = floor(base × (costpercent/100)^(N−1))`, но потолок для наёмников — **2×** (вместо 20000× у обычных юнитов). Парные счётчики:
+- `archerdip` ↔ `archerturdip` — общий счётчик в расчёте цены.
 - `dragoon18dip` ↔ `lightcavalrydip` — аналогично.
 
-### Формула gold-upkeep
+**Карточный режим `marketdip = expensivemercs`** включает `gc_gameplay_expensivemercskoef = 3` — наёмники втрое дороже в gold.
 
-```
-drain_per_g_sec = Σ(consume.gold) × 32 / 20000
-                = Σ × 0.0016
-```
+### Расход gold юнитами
 
-Та же формула, что и для food-upkeep (см. выше). Например, 50 `dragoon18dip` → 50 × 120 × 0.0016 = **9.6 gold/g-сек ≈ 576 gold за игровую минуту**. Потребуется доход gold уровня середины игры (1–2 шахты + рынок).
+`consume[gold]` встречается у:
+- **Башен** (`consume[gold] = 500` → 0.8 gold / г-сек ≈ 48 за г-минуту) — постоянный налог независимо от боя. См. [`../recon/world/combat/towers.md` §2](../recon/world/combat/towers.md).
+- **Наёмников** через `consume.gold` — постоянный upkeep всех 8 sid.
+- **Стрелковых юнитов** — только за выстрел через `weapon.cost[gold]`, не в простое.
 
-### Rebellion (восстание): механика
-
-**`brebellion = True`** срабатывает, когда выполнены оба условия:
-
-1. `gPlayer.res[gold] = 0` (gold исчерпан);
-2. **и** `gPlayer.counter.resconsume[gold] > resincome[gold]` (структурный дефицит, а не кратковременный пик расхода).
-
-Если доход gold покрывает upkeep, **бунт не возникает даже при кратком обнулении gold**. Если игрок продаёт всех наёмников — `resconsume[gold] = 0`, и бунт автоматически снимается.
-
-При активном `brebellion` каждый наёмник на каждом Nothing-тике (периодически, ~0.625 g-сек) делает бросок `_misc_RandomInt < threshold`, где `_misc_RandomInt = floor(random × 32768)`:
-
-| Difficulty | Threshold | Шанс перехода за тик |
-|---|---:|---:|
-| 0 (easy) | 100 | 100/32768 ≈ **0.305%** |
-| 1 (normal) | 200 | 200/32768 ≈ **0.610%** |
-| ≥ 2 (hard / veryhard / impossible) | **6000** | 6000/32768 ≈ **18.31%** |
-
-На hard ожидаемое время до перехода одного наёмника составляет `0.625 / 0.1831 × 0.5 ≈ 1.7 g-сек`. **Армия из 50 наёмников разбегается почти полностью за 5–10 g-сек.** На easy и normal бунт практически декоративен.
-
-При переходе наёмник попадает в **виртуального игрока-наёмника** (`gc_player_mercenaryind = MaxPlayerCount - 1`), автоматически враждебного всем настоящим игрокам. То есть бывший союзник становится агрессивным NPC-юнитом, а не нейтралом.
-
-### Стратегические выводы
-
-- **Наёмники наиболее эффективны на средне-длинной дистанции:** food не потребляют (`bnohungry = True`), но требуют постоянного дохода gold. В долгих играх с большой армией наёмники могут оказаться дешевле обычных юнитов (нет затрат food и крестьян на её добычу).
-- **Один тип наёмников быстрее «прогревает» цену.** Нужно много `dragoon18dip` — чередуй с `lightcavalrydip`: парный счётчик удорожает обоих одинаково, но всё равно не выше потолка 2×.
-- **Не держи большую наёмную армию при нулевом gold.** На hard это **мгновенная катастрофа** (18% за тик × 50 юнитов — почти вся армия за пару секунд).
-- **`cossacksichdip` HP = 150 за 60 gold и 150 gold upkeep** — самый дешёвый и живучий gold-юнит, доступный всем нациям. Но melee-урон 8 — это «деньги в HP», а не в DPS.
-
-### Карточный режим `marketdip = expensivemercs`
-
-Включает множитель `gc_gameplay_expensivemercskoef = 3` — наёмники стоят **втрое дороже** в gold. Используется в ряде исторических битв для ослабления dip-стратегии.
-
----
-
-**Расход gold юнитами** (`consume[gold]`): в основном у башен (`consume[gold] = 500`), у некоторых стрелковых юнитов (выстрел тратит `weapon.cost[gold]`) и у **всех наёмников через `consume.gold`**. Обычные pikeman и musketeer gold **не потребляют** в простое — только при выстреле, через `weapon.cost[gold]`.
-
-## Источники
-
-[^f1]: Главный обработчик голода и Rebellion — `units/unit.inc/nothing.inc:445-505`. Списание food/gold за тик — `lib/player.script:280-322`.
-
-[^f2]: Инкременты `gPlayer.counter.resconsume[food]` при создании юнита — `lib/unit.script:3810, 3821`.
-
-[^f3]: Установка `bnohungry = True` для зданий — `lib/unit.script:471` (внутри `SetObjBuildingBaseSettings`).
-
-## Discrepancies (расхождения с промпт-заметками)
-
-| Факт | Заметки | В файле | Источник | Вердикт |
-|---|---|---|---|---|
-| hits_needed for food | 30 | **22** | dmscript.global:799 gc_resource_hitsneeded_food | Файл: 22, не 30. Доверяем файлу — крестьянин делает 22 удара мотыгой до возврата к складу, не 30. Это укорачивает рейс и повышает фактический rate. |
-| Field melioration (academy aca.4) cost | W1400 / G522 | **W1000 / G475 (any nation)** | country.script:3490 _country_AddUpgrade('aca.4', ..., wood=1000, gold=475) | Файл: W1000/G475. Расхождение с промпт-заметками — возможно, цифры из старой версии игры. Все 21 нация имеют одинаковую стоимость. |
-| 'Manufacture agricultural equipment' (blacksmith) cost | W400 / G100 | **не найден в blacksmith — этот апгрейд может быть из старого названия** | country.script — нет blacksmith-апгрейда с такими параметрами | Текущий blacksmith содержит per-unit damage/protection апгрейды. Возможно, в C1 был отдельный agricultural-equipment апгрейд, который в C3 переименован в `aca.X` (academy). См. лист Upgrades с place=aca. |
+Обычные пикинёры и мушкетёры gold в простое **не потребляют**.
 
 ## Sanity
 

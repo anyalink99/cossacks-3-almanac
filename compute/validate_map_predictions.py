@@ -1,6 +1,6 @@
 """Validate compute_map_resources predictions against replay ground truth.
 
-For each replay in `docs/derived/replay_ground_truth.json`:
+For each replay in `derived/replay_ground_truth.json`:
   1. Reconstruct game settings (mapsize, relieftype, resourcemines, foreststype, ...)
   2. Run `compute_counts(...)` from compute_map_resources to get the model prediction
   3. Compare predicted clusters/type to actual clusters/type from replay
@@ -267,7 +267,7 @@ def main():
     A("")
     A("Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
       "cluster counts из replay / save файлов "
-      "(`docs/derived/replay_ground_truth.json`). Расшифровка значений "
+      "(`derived/replay_ground_truth.json`). Расшифровка значений "
       "`mapsize` / `relieftype` / `terraintype` / `season` — "
       "[`lobby_settings.md`](lobby_settings.md).")
     A("")

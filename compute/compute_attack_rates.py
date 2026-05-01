@@ -193,8 +193,8 @@ def main() -> None:
     A = L.append
     A("# Cossacks 3 — Скорость атаки (per-unit)")
     A("")
-    A("**Производный** отчёт. Считается из `docs/data.json` + "
-      "`docs/derived/animations.json` скриптом "
+    A("**Производный** отчёт. Считается из `data.json` + "
+      "`derived/animations.json` скриптом "
       "[`compute/compute_attack_rates.py`](../../compute/compute_attack_rates.py).")
     A("")
     A("## Модель")
@@ -210,7 +210,7 @@ def main() -> None:
     A("")
     A("Для melee длительность `attack0` варьируется 11..33 кадра между юнитами "
       f"(median {MELEE_SWING_FALLBACK_FRAMES}). Источник: "
-      "`data/animations/aaf/<sid>.aaf` → `docs/derived/animations.json`.")
+      "`data/animations/aaf/<sid>.aaf` → `derived/animations.json`.")
     A("")
     groups = group_by_fingerprint(units)
     L.extend(render_unit_rows(groups))

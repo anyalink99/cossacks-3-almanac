@@ -98,7 +98,7 @@ def render_header(cites: Citations) -> list[str]:
     A("# Артиллерия — сводный справочник")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "[`docs/data.json`](../../data.json) скриптом "
+      "[`data.json`](../../data.json) скриптом "
       "[`compute/compute_artillery.py`](../../../compute/compute_artillery.py).")
     A("")
     bartillery_cite = cites.cite(
@@ -275,10 +275,10 @@ def render_section_3(art_units: list[dict], cites: Citations) -> list[str]:
     A = L.append
     A("## §3. Экономика юнита и национальные различия")
     A("")
-    A("Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту "
-      "за тик. Если у нации те же значения — одна строка, нации сгруппированы.")
+    A("Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту. "
+      "Если у нации те же значения — одна строка, нации сгруппированы.")
     A("")
-    A("| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | gold/тик | score |")
+    A("| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | `consume[gold]` | gold/г-сек | score |")
     A("| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
 
     by_sid = group_by_sid(art_units)
@@ -303,15 +303,23 @@ def render_section_3(art_units: list[dict], cites: Citations) -> list[str]:
             sp = rep.get("speed")
             gpt = (rep.get("consume") or {}).get("gold") or "—"
             sc = rep.get("score") or "—"
+            # Расход в gold/г-сек: consume × 32 / 20000
+            try:
+                gpg = round(int(gpt) * 32 / 20000, 3) if gpt not in ("—", None) else "—"
+            except (ValueError, TypeError):
+                gpg = "—"
             A(f"| `{sid}` | {fmt_nations(nats)} | {cost} | {bt} | {hp} | "
-              f"{sh} | {sp} | {gpt} | {sc} |")
+              f"{sh} | {sp} | {gpt} | {gpg} | {sc} |")
     A("")
-    A("`gold/тик` — это `objprop.consume[gc_resource_type_gold]`, упрощённо "
-      "«золото за тик потребления». Тик апкипа = 32 g-сек (точное значение "
-      "константы `gc_obj_TimeProgressUnit` × множитель — в `dmscript.global`). "
-      "Артиллерия — единственный класс, у которого `consume.gold > 0` для всех "
-      "юнитов: пушку нужно «содержать», даже если она не стреляет. У пехоты "
-      "и кавалерии `consume.gold = 0`.")
+    A("`consume[gold]` — поле `objprop.consume[gc_resource_type_gold]`. "
+      "Реальный расход считается формулой `consume × gc_time_to_frames / 20000` "
+      "за каждую игровую секунду (так как процедура `_player_ProcessResourceConsume` "
+      "использует `speed = 20000` в делителе). Колонка `gold/г-сек` уже учитывает "
+      "эту формулу. Артиллерия — единственный класс, у которого `consume.gold > 0` "
+      "для всех юнитов: пушку нужно «содержать», даже если она не стреляет. "
+      "У пехоты и кавалерии `consume.gold = 0`. Подробнее — в "
+      "[`../../recon/world/economy/hunger_and_rebellion.md` §2.3]"
+      "(../../recon/world/economy/hunger_and_rebellion.md).")
     A("")
     return L
 

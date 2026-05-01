@@ -126,7 +126,7 @@ def header_block() -> list[str]:
     L.append("# Cossacks 3 — Цены зданий по N-му экземпляру")
     L.append("")
     L.append("**Производный** файл (расчётный, не извлечение). Считается из "
-             "`docs/data.json` скриптом "
+             "`data.json` скриптом "
              "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).")
     L.append("")
     L.append("## Формула")
@@ -275,7 +275,7 @@ def write_md(data: dict):
     # Footer with derivation note
     A("---")
     A("")
-    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
+    A("Сгенерировано из `data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_scaling.py")

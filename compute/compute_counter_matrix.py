@@ -288,7 +288,7 @@ def main():
     A("# Cossacks 3 — Counter-unit matrix")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`docs/data.json` скриптом "
+      "`data.json` скриптом "
       "[`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).")
     A("")
     A("## Метод")
@@ -310,7 +310,7 @@ def main():
     L.extend(cites.render())
     A("---")
     A("")
-    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
+    A("Сгенерировано из `data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_counter_matrix.py")

@@ -20,7 +20,7 @@ to convert it. Their slot counts are reported but unused in practice.
 
 Reads each `.prop` in `<game>/data/objects/buildings/`, parses
 `collisionmaskproperty.Mask`, runs the chosen formula, and writes:
-  - docs/derived/builder_slots.json  — {sid: {cols, rows, cells, slots, method, ...}}
+  - derived/builder_slots.json  — {sid: {cols, rows, cells, slots, method, ...}}
   - docs/reports/economy/builder_slots.md    — per-category table (Russian)
 """
 from __future__ import annotations

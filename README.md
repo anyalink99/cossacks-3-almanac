@@ -12,14 +12,13 @@
 - [`docs/recon/`](docs/recon/) — глубокие исследования механик (захват, путь, ИИ, наёмники, сетевая модель, RNG, генерация карт)
 - [`docs/reports/`](docs/reports/) — производные расчёты, сгруппированные по теме:
   `combat/` (DPS, контр-матрица, скорость атаки, vision), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (ресурсы, стартовая раскладка, валидация по реплеям), `nations/` (overview)
-- [`docs/simulations/`](docs/simulations/) — выходы симулятора экономики (build orders → таймлайн)
 
 **Pipeline** — для регенерации после патча игры:
 
 - [`parser/`](parser/) — извлечение данных из `.script` (Pascal-парсер с символьным исполнением)
 - [`compute/`](compute/) — производные расчёты (scaling, map gen, tech tree, construction times, и т. д.)
 - [`writers/`](writers/) — генерация markdown-справочника + diff между снапшотами
-- [`simulator/`](simulator/) — timeline-симулятор экономики + примеры build orders
+- [`simulator/`](simulator/) — timeline-симулятор экономики (backend для browser-редактора через Pyodide)
 - [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
 **Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список парсерных пробелов, расхождений с внешними гайдами, open empirical questions. Самый известный кейс: для 168 dip-юнитов в `data.json` лежат не наёмничьи статы; правильные числа — в `docs/recon/mercenaries_diplomacy.md`.
@@ -32,10 +31,10 @@
 
 ```
 .
-├── parser/                  парсеры игровых .script-файлов → docs/data.json
+├── parser/                  парсеры игровых .script-файлов → data.json
 ├── compute/                 производные расчёты от data.json → docs/reports/<topic>/
 ├── writers/                 рендер data.json в markdown/xlsx + шаблоны прозы
-├── simulator/               timeline-симулятор экономики → docs/simulations/
+├── simulator/               timeline-симулятор экономики (backend для editor)
 ├── mods/                    моды (каждый — build.py + src/ + build/)
 └── docs/                    единая база человеко-читаемых артефактов
     ├── data.json            мастер-данные (~4.7 МБ, источник правды)
@@ -48,7 +47,6 @@
     │   ├── tech/            tech tree
     │   ├── map/             map resources / starting layout / replay validation
     │   └── nations/         cross-nation overview
-    └── simulations/         выходы симулятора экономики
 ```
 
 ## Быстрый старт
@@ -60,7 +58,6 @@ GitHub рендерит markdown — открывай нужный файл. Т�
 - [`docs/reference/README.md`](docs/reference/README.md) — оглавление справочника + краткая выжимка
 - [`docs/recon/README.md`](docs/recon/README.md) — индекс глубоких исследований
 - [`docs/reports/README.md`](docs/reports/README.md) — индекс производных отчётов
-- [`docs/simulations/README.md`](docs/simulations/README.md) — как запустить симулятор и формат build order
 
 ### Регенерировать после патча игры
 
@@ -94,8 +91,8 @@ make help
 Что внутри (для пошагового вызова без runner'а):
 
 ```bash
-python parser/build_data.py                     # → docs/data.json (мастер-данные)
-python parser/build_canonical_terms.py          # → docs/derived/canonical_terms.json
+python parser/build_data.py                     # → data.json (мастер-данные)
+python parser/build_canonical_terms.py          # → derived/canonical_terms.json
 python writers/write_md_tree.py                 # → docs/reference/ + docs/README.md
 python compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md
 python compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md
@@ -105,37 +102,36 @@ python compute/compute_scaling.py               # → docs/reports/economy/scali
 python compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md
 python compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md
 python compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)
-python parser/build_tech_graph.py               # → docs/derived/tech_tree.json
+python parser/build_tech_graph.py               # → derived/tech_tree.json
 python compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md
 python compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
 python compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md
 python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
 python compute/compute_nations_overview.py      # → docs/reports/nations/overview.md
-python parser/parse_animations.py               # → docs/derived/animations.json
-python parser/parse_generator_cfg.py            # → docs/derived/pattern_types.json
-python parser/parse_pattern_inventory.py        # → docs/derived/pattern_{inventory,type_stats}.json
-python simulator/simulate_economy.py simulator/build_orders/bav_basic_5min.json   # → docs/simulations/
+python parser/parse_animations.py               # → derived/animations.json
+python parser/parse_generator_cfg.py            # → derived/pattern_types.json
+python parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json
 ```
 
-`parser/build_data.py` — единственный скрипт, который читает игровые файлы. Все остальные потребляют `docs/data.json` и работают за <30 сек суммарно.
+`parser/build_data.py` — единственный скрипт, который читает игровые файлы. Все остальные потребляют `data.json` и работают за <30 сек суммарно.
 
 ### Diff снапшотов после патча
 
 Один шаг через make (или ручной — три команды ниже):
 
 ```bash
-make diff   # снапшотит docs/data.json, regen, diff в diff.md
+make diff   # снапшотит data.json, regen, diff в diff.md
 ```
 
 Или вручную:
 
 ```bash
 python parser/build_data.py
-cp docs/data.json /tmp/data_old.json
+cp data.json /tmp/data_old.json
 # … обновляешь игру …
 python parser/build_data.py
-python writers/diff_snapshots.py /tmp/data_old.json docs/data.json --out diff.md
+python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 ```
 
 После регенерации в `diff.md` видны все изменения статов между версиями игры.

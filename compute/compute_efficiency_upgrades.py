@@ -105,7 +105,7 @@ def render_md(by_nation: dict) -> str:
     A("# Cossacks 3 — Efficiency upgrades per nation")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`docs/data.json` скриптом "
+      "`data.json` скриптом "
       "[`compute/compute_efficiency_upgrades.py`](../../compute/compute_efficiency_upgrades.py).")
     A("")
     A("## Что это")
@@ -201,7 +201,7 @@ def render_md(by_nation: dict) -> str:
     L.extend(cites.render())
     A("---")
     A("")
-    A("Сгенерировано из `docs/data.json`. Для перегенерации:")
+    A("Сгенерировано из `data.json`. Для перегенерации:")
     A("")
     A("```")
     A("python compute/compute_efficiency_upgrades.py")

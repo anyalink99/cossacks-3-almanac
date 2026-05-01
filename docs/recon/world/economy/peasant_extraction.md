@@ -2,7 +2,7 @@
 
 Полная модель скорости добычи всех ресурсов: формулы, шахты, поля,
 апгрейды эффективности, влияние карты. На этих числах строятся симулятор
-экономики и расчёты в [`docs/reference/01_economy.md`](../reference/01_economy.md).
+экономики и расчёты в [`docs/reference/01_economy.md`](../../../reference/01_economy.md).
 Все ссылки на код и сами Pascal-блоки собраны в разделе
 [Источники](#источники) в конце документа.
 
@@ -15,20 +15,20 @@
 
 > **Связанные документы:**
 >
-> - [determinism_audit.md](../engine/determinism_audit.md) — RNG-сайты в горячем
+> - [determinism_audit.md](../../../../internals/engine/determinism_audit.md) — RNG-сайты в горячем
 >   пути добычи и ожидаемый разброс между запусками.
-> - [ticks_and_subticks.md](../engine/ticks_and_subticks.md) — модель времени,
+> - [ticks_and_subticks.md](../../../../internals/engine/ticks_and_subticks.md) — модель времени,
 >   sub-tick state-machine, адаптивная скорость. Нужен для правильной
 >   интерпретации real-time против game-time при замерах.
-> - [server_sync_architecture.md](../engine/server_sync_architecture.md) —
+> - [server_sync_architecture.md](../../../../internals/engine/server_sync_architecture.md) —
 >   server-authoritative архитектура C3 (важна для multiplayer-замеров).
-> - [map_generation_pipeline.md](map_generation_pipeline.md) — таймлайн
+> - [map_generation_pipeline.md](../map/map_generation_pipeline.md) — таймлайн
 >   `DoGenerate`, стартовые позиции, размещение лесов / камней / шахт.
 
 > **TL;DR.** Аналитический потолок добычи (формулы ниже) считаем в
 > **игровом времени**. Реальная in-game добыча будет ниже — из-за
 > RNG-выборов цели в `_misc_FindResourceToExtract` (см.
-> [determinism_audit.md](../engine/determinism_audit.md) §3). Разброс между
+> [determinism_audit.md](../../../../internals/engine/determinism_audit.md) §3). Разброс между
 > запусками одного сейва на 5-минутном окне — 5–15% для леса и камня,
 > ≈ 0% для шахт.
 
@@ -107,8 +107,10 @@ game speed 2 умножайте rate на 1.4 чтобы получить real-t
 | walkwood | 20 | 0.625 | 0.446 |
 | walkstone | 20 | 0.625 | 0.446 |
 
-⚠ Ключевое допущение: animation frame rate совпадает с
-`gc_time_to_frames=32`. Это не гарантировано — нужен empirical check (см. §9).
+Animation frame rate совпадает с `gc_time_to_frames = 32` (32
+кадра / г-сек) — подтверждено через `parser/parse_animations.py`
+и согласовано с `refspeed.acl`-таблицей `TrackPointMoveStep`. См.
+[`internals/engine/animation_system.md`](../../../../internals/engine/animation_system.md).
 
 ### Базовые числа добычи
 
@@ -135,19 +137,26 @@ game speed 2 умножайте rate на 1.4 чтобы получить real-t
 | `gc_obj_extract_stone_radiusmax` | 0.9375 (=50×0.01875) | дальность "удара" камня |
 | `gc_gameplay_resourceDropRadiusSqr` | 0.5 (sqrt≈0.707) | радиус сдачи у склада |
 
-### Скорости (абстрактные ед., не тайлы/сек)
+### Скорости движения
 
-`gc_obj_speed_*` [^12]:
+Реальная скорость задаётся в `data/animations/ref/refspeed.acl`
+через параметр `TrackPointMoveStep` (тайлов за один кадр walk-анимации).
+Скорость в тайлах за игровую секунду = `TrackPointMoveStep × 32`:
 
-- default = 32
-- **peasant = 40**
-- hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24
+| Класс | `TrackPointMoveStep` | Тайлов / г-сек |
+|---|---:|---:|
+| infantry | 0.03 | **0.96** |
+| **peasant** | **0.0375** | **1.20** |
+| hardhorse | 0.0525 | 1.68 |
+| fasthorse | 0.09 | 2.88 |
+| cannon | 0.020625 | 0.66 |
 
-⚠ В скриптах строки `objbase.speed := gc_obj_speed_peasant` закомментированы,
-глобально `objbase.speed := 1` [^13]. Скорость, видимо, читается из
-`actor`/`mesh` файлов или применяется через анимационный `walkInterval`.
-Для конверсии в тайлы/сек **нужен empirical test**: переместить крестьянина
-из (0,0) в (40,0) на normal speed и засечь время в секундах.
+Абстрактная шкала `gc_obj_speed_*` (default = 32, peasant = 40,
+hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24) [^12]
+**пропорциональна** `TrackPointMoveStep`, но используется
+скриптами для AI-расчётов и упрощённого relative-сравнения. Для
+точных реальных скоростей в тайлах берут отсюда (`refspeed.acl`).
+Подробности — в [`internals/engine/animation_system.md` §2.4](../../../../internals/engine/animation_system.md).
 
 ### Конкурентные добытчики на одном ресурсе
 
@@ -263,7 +272,7 @@ HP = 10 000 000 [^17]. Один камень держит 10M ударов = 500
 - HP=0 → `essential_death` → 21.875 игровых секунд → `essential_birth+visual_stage_0`.
 - Затем `cFieldGrowTime = 4×21.875 = 87.5` игровых секунд роста (4 visual
   stages: 0→1→2→3). В это время `brised=False`, добывать нельзя.
-- Полный простой: 21.875 + 87.5 = **109.375 игровых секунд** = 78.1 real sec @ fast.
+- Полный простой: 21.875 + 87.5 = **109.375 игровых секунд**.
 
 ## 5. Шахты (gold/iron/coal)
 
@@ -301,12 +310,12 @@ delivered    = floor(realbank)                        # к плательщик�
 
 - За 1 игровую секунду: bank gain = 13 × 32 × 1.0 = 416. realbank = 416/250 = **1.664** ресурса/game-sec
 - ≈ 99.84 ресурса/game-min
-- @ game speed 2 (fast): **2.330 ресурса/real-sec на крестьянина** ≈ **139.7/real-min**
+- @ game speed 2 (fast): **2.330 ресурса/г-сек на крестьянина** ≈ **139.7/г-мин**
 
 **Полная шахта (5 крестьян, без апгрейдов):**
 
 - 5 × 1.664 = **8.32 ресурса/game-sec**
-- @ fast: **11.65 ресурса/real-sec** ≈ **699/real-min**
+- @ fast: **11.65 ресурса/г-сек** ≈ **699/г-мин**
 
 ### 5.1 Mine upgrades — расширение вместимости
 
@@ -328,7 +337,7 @@ delivered    = floor(realbank)                        # к плательщик�
 
 - resincome += 95 × 13 = 1235
 - per game-sec: 1235 × 32 / 250 = **158.08 ресурса/game-sec**
-- @ fast: **221.3 ресурса/real-sec** ≈ **13 278/real-min**
+- @ fast: **221.3 ресурса/г-сек** ≈ **13 278/г-мин**
 
 Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6 × 9.375 = **56.25 game-sec** = 40.2 real-sec @ fast пока крестьяне не работают).
 
@@ -378,7 +387,7 @@ Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6
 
 Полная процедура `DoGenerate` (cCircle1/2/3, SetupStartingResources, фазы
 mines, FillOwnerMap, peacetime borders) — в
-[map_generation_pipeline.md](map_generation_pipeline.md). Ниже только то,
+[map_generation_pipeline.md](../map/map_generation_pipeline.md). Ниже только то,
 что нужно для extraction-формул.
 
 ### 8.1 Игровые параметры (наш контекст)
@@ -410,12 +419,12 @@ mines, FillOwnerMap, peacetime borders) — в
 на игрока** (round 4 пропущен на tiny). Расстояния от старта: round 0 =
 14-22 tiles (Phase 1, в `CreateStartPoint`), 1 = 32-42, 2 = 70-82, 3 =
 22-38 (всё Phase 2). Подробности —
-[map_generation_pipeline.md §8](map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
+[map_generation_pipeline.md §8](../map/map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
 
 **Стартовые ресурсы вне mines.** В радиусе 5-22 тайла от центра города
 всегда есть: **1× stoneforest, 2× stones, 3× forests** (medium/big,
 foreststype=0 mix) через `SetupStartingResources`
-([map_generation_pipeline.md §4](map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)).
+([map_generation_pipeline.md §4](../map/map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)).
 Это объясняет, почему в начале игры всегда хватает дерева на ratuse +
 первый mill ещё ДО общего forest spawn'а.
 
@@ -445,7 +454,7 @@ Densities [^30]:
 
 **Числа для Tiny + Highlands + Land** (источник:
 [`compute/compute_map_resources.py`](../compute/compute_map_resources.py),
-отчёт в [`docs/reports/map/map_resources.md`](../docs/reports/map/map_resources.md)):
+отчёт в [`docs/reports/map/map_resources.md`](../../../reports/map/map_resources.md)):
 
 | Параметр | Значение |
 |---|---:|
@@ -576,18 +585,18 @@ HP-фильтра — из-за `attFactor` в score:
 
 | # | Вопрос | Как решить |
 |---:|---|---|
-| 1 | Точная скорость крестьянина в тайлах за g-сек | Замерить эмпирически: два склада на расстоянии X, переместить крестьянина, засечь время. Либо распарсить actor mesh / `walkInterval` в анимации. |
+| 1 | ~~Точная скорость крестьянина~~ | ✅ **Закрыто:** `TrackPointMoveStep = 0.0375` × 32 кадра / г-сек = **1.20 тайла / г-сек** (см. §3 «Скорости движения» и [`internals/engine/animation_system.md` §2.4](../../../../internals/engine/animation_system.md)). |
 | 2 | Полный список efficiency-апгрейдов по 21 нации | Использовать `parser/simulate_upgrades.py` (уже инлайнит SetUpgStruct и перебирает `case cid`). |
-| 3 | Реальная стоимость хода к складу | Зависит от пункта 1 + расстояние. Симулятор с picked map state. |
+| 3 | Реальная стоимость хода к складу | Скорость теперь известна (см. вопрос 1) → дистанция × 1/1.20 г-сек/тайл. |
 | 4 | Учёт `ferry` (доставка с изолированных островов леса) | Не критично для tiny+land, отложить. |
-| 5 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Отложить. |
+| 5 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Отложить (см. также [`internals/engine/animation_system.md` §9](../../../../internals/engine/animation_system.md)). |
 
-**Что нужно для уровня B (формулы):** §3-§7 покрывают всё необходимое.
-Главный стоп-фактор — точная скорость крестьянина (вопрос 1). Без неё
-формула содержит параметр `peasant_tiles_per_game_sec` и предположения
-1/2/3 tile/g-sec.
+**Что нужно для уровня B (формулы):** §3-§7 покрывают всё.
+Главный параметр — скорость крестьянина — закрыт через
+`TrackPointMoveStep`.
 
-**Что нужно для уровня C (симулятор):** дополнительно решить пп. 1-3.
+**Что нужно для уровня C (симулятор):** дополнительно п. 2 (полный
+список efficiency-апгрейдов).
 
 ---
 

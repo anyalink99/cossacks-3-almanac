@@ -34,7 +34,6 @@ docs/
 │   ├── map/               map resources, starting layout, replay validation
 │   └── nations/           cross-nation overview
 │
-├── simulations/           ← выходы симулятора экономики
 │   ├── README.md
 │   └── sim_*.{csv,md}
 │
@@ -57,9 +56,9 @@ docs/
 
 [**recon/**](recon/README.md) — Reverse-engineering ключевых механик. Каждый документ автономен и ссылается на конкретные строки игровых скриптов.
 
-- **Логика мира:** [peasant_extraction](recon/world/peasant_extraction.md), [building_mechanics](recon/world/building_mechanics.md), [capture_mechanics](recon/world/capture_mechanics.md), [pathfinding](recon/world/pathfinding.md), [map_generation_pipeline](recon/world/map_generation_pipeline.md)
+- **Логика мира:** [peasant_extraction](recon/world/economy/peasant_extraction.md), [building_mechanics](recon/world/economy/building_mechanics.md), [capture_mechanics](recon/world/economy/capture_mechanics.md), [pathfinding](recon/world/combat/pathfinding.md), [map_generation_pipeline](recon/world/map/map_generation_pipeline.md)
 - **Игровые системы:** [ai_behavior](recon/systems/ai_behavior.md), [mercenaries_diplomacy](recon/systems/mercenaries_diplomacy.md), [victory_conditions](recon/systems/victory_conditions.md)
-- **Engine internals:** [ticks_and_subticks](recon/engine/ticks_and_subticks.md), [determinism_audit](recon/engine/determinism_audit.md), [server_sync_architecture](recon/engine/server_sync_architecture.md)
+- **Engine internals:** [ticks_and_subticks](../internals/engine/ticks_and_subticks.md), [determinism_audit](../internals/engine/determinism_audit.md), [server_sync_architecture](../internals/engine/server_sync_architecture.md)
 
 ## Reports — производные расчёты
 
@@ -73,7 +72,6 @@ docs/
 
 ## Simulations — выходы симулятора
 
-[**simulations/**](simulations/README.md) — таймлайны экономики по конкретным build order'ам (скрипт `simulator/simulate_economy.py`). Build orders (вход) — в [`../simulator/build_orders/`](../simulator/build_orders/).
 
 ## Сырой JSON
 
@@ -84,15 +82,14 @@ docs/
 После патча игры или изменений в скриптах:
 
 ```
-python parser/build_data.py                 # → docs/data.json (источник правды)
-python parser/build_canonical_terms.py      # → docs/derived/canonical_terms.json
+python parser/build_data.py                 # → data.json (источник правды)
+python parser/build_canonical_terms.py      # → derived/canonical_terms.json
 python writers/write_md_tree.py             # → docs/reference/ + docs/README.md
 python compute/compute_scaling.py           # → docs/reports/economy/scaling_prices.md
 python compute/compute_game_settings.py     # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py     # → docs/reports/map/map_resources.md
-python parser/build_tech_graph.py           # → docs/derived/tech_tree.json
+python parser/build_tech_graph.py           # → derived/tech_tree.json
 python compute/compute_tech_tree.py         # → docs/reports/tech/tech_tree.md + reports/economy/production_rates.md
-python simulator/simulate_economy.py <build_order.json>  # → docs/simulations/sim_<name>.{csv,md}
 ```
 
 Полный список команд для регенерации — в `README.md` корня репо.

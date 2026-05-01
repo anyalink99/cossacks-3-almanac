@@ -297,7 +297,7 @@ def main() -> None:
     A = L.append
     A("# Сравнение наций — общий обзор")
     A("")
-    A("**Производный отчёт.** Считается из [`docs/data.json`](../../data.json) "
+    A("**Производный отчёт.** Считается из [`data.json`](../../data.json) "
       "скриптом [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). "
       "Регенерация: `python compute/compute_nations_overview.py`.")
     A("")

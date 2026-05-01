@@ -186,7 +186,7 @@ Min / median / max длительности цикла для каждого `ki
 - **Multi-weapon юниты.** Musketeer18 (bayonet + musket), архер с горящими стрелами и т.п. — у них в таблице по строке на оружие, колонка `weapon` показывает `#index`.
 - **`heal` исключён.** Священник = неагрессивный, не входит в боевой DPS-расчёт.
 - **Real vs game.** Вся игровая логика (анимации, pause) — в **игровых** секундах. Чтобы получить реальное время на скорости fast, делите g-sec на 1.4 (или умножайте rate на 1.4).
-- **Cooldown апгрейды.** `attpauseperc` (см. [`../reference/05_upgrades.md`](../reference/05_upgrades.md)) уменьшает только pause у ranged. Melee swing не апгрейдится — он привязан к анимации.
+- **Cooldown апгрейды.** `attpauseperc` (см. [`../reference/05_upgrades.md`](../../reference/05_upgrades.md)) уменьшает только pause у ranged. Melee swing не апгрейдится — он привязан к анимации.
 
 ---
 

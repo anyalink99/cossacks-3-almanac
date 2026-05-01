@@ -7,14 +7,14 @@
 
 **Связанные документы:**
 
-- [peasant_extraction.md](../world/peasant_extraction.md) — семантика флага
+- [peasant_extraction.md](../world/economy/peasant_extraction.md) — семантика флага
   `bnohungry`; у наёмников он `True` — пищу они не едят.
-- [building_mechanics.md](../world/building_mechanics.md) — footprint и модель
+- [building_mechanics.md](../world/economy/building_mechanics.md) — footprint и модель
   постройки дипломатического центра.
-- [server_sync_architecture.md](../engine/server_sync_architecture.md) —
+- [server_sync_architecture.md](../../../internals/engine/server_sync_architecture.md) —
   переназначение наёмников при бунте идёт через `_misc_ChangePlayer`,
   это server-authoritative событие.
-- [determinism_audit.md](../engine/determinism_audit.md) — переход при бунте
+- [determinism_audit.md](../../../internals/engine/determinism_audit.md) — переход при бунте
   использует `_misc_RandomInt` (seeded RNG).
 
 ## TL;DR
@@ -256,8 +256,8 @@ Nothing-обработчик запускается на каждом progress-�
 
 `gMap.settings.additional.marketdip` контролирует доступность рынков и
 дипцентров в партии. Все 5 значений с каноническими русскими названиями —
-[`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр);
-поведение движка — [`game_settings.md`](../world/game_settings.md) §3.5.
+[`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр);
+поведение движка — [`game_settings.md`](../world/map/game_settings.md) §3.5.
 
 Константы [^19]:
 
@@ -383,7 +383,7 @@ iron + coal (плюс пища на upkeep). Например, для тяжёл
 |---:|---|---|
 | 1 | Ограничение «один дипцентр на игрока» — локализация утверждает «you can only build one diplomatic center», но в скриптах нет явной проверки вида `if count(dip) >= 1 then bproduceenabled := False`. У `<nat>dip` `costpercent = 100` тоже не блокирует. | `gui.script`, либо квота `_ai_TryUnit`. AI-логика проверяет `_ai_GetUnitCount(plind, cid, gc_ai_unit_dipcenter) > 0`, но это не enforcement для игрока-человека. |
 | 2 | `bnoreputation` — не встречается ни в одном скрипте установки. Возможно, это поле относилось к Cossacks 1 / 2, либо имя у нас неправильное. | grep по всем .script + .global. |
-| 3 | Частота тиков бунта в реальном времени — Nothing-handler срабатывает раз в один progress-tick. | Сверка с [`ticks_and_subticks.md`](../engine/ticks_and_subticks.md) §3. Ориентир: при Nothing-tick ≈ 135 мс наёмники на hard переходят меньше чем за 1 секунду; при ≈ 100 мс — за ~0.5 секунды. |
+| 3 | Частота тиков бунта в реальном времени — Nothing-handler срабатывает раз в один progress-tick. | Сверка с [`ticks_and_subticks.md`](../../../internals/engine/ticks_and_subticks.md) §3. Ориентир: при Nothing-tick ≈ 135 мс наёмники на hard переходят меньше чем за 1 секунду; при ≈ 100 мс — за ~0.5 секунды. |
 | 4 | `bmercenary = True` у линейного корабля в `data.json` — 20 строк battleship помечены `bmercenary = True`, но в `case 'battleship'` внутри `unit.script` этот флаг явно не выставляется. | Возможно, это отдельная ветка (порты?) или артефакт парсера. 5 минут проверки. |
 
 ---

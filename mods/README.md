@@ -6,7 +6,7 @@
 
 | Мод | Что делает | Status |
 |---|---|---|
-| [Deterministic Extraction](Deterministic%20Extraction/) | Заменяет 5 `random` в hot-path поиска ресурса на детерминированные `SetRandomKey + RandomExt` для воспроизводимой добычи при Save/Load | работает, ждёт эмпирической валидации |
+| [Deterministic Cossacks](Deterministic%20Cossacks/) | Заменяет 10 `random` в hot-path добычи и боя на детерминированные `SetRandomKey + random` для воспроизводимой добычи и одинаковых боевых исходов при Save/Load и в multiplayer | работает, ждёт эмпирической валидации |
 
 ## Конвенция структуры мода
 
@@ -29,7 +29,7 @@ mods/<Mod Name>/
 
 ## Как добавить новый мод
 
-1. Скопировать `Deterministic Extraction/` как шаблон, переименовать.
+1. Скопировать `Deterministic Cossacks/` как шаблон, переименовать.
 2. В `build.py` обновить `MOD_NAME` и список `PATCHES` (каждый patch — `file`, `name`, `expected_line`, `original`, `replacement`).
 3. В `src/mod.ini` обновить `title`, `description`, `contentfolder`.
 4. В `README.md` описать что патчится и зачем, со ссылками на recon-документы которые обосновывают изменения.

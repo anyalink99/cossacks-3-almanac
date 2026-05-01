@@ -9,12 +9,12 @@
 
 **Связанные документы:**
 
-- [ticks_and_subticks.md](../engine/ticks_and_subticks.md) — главный progress-loop
+- [ticks_and_subticks.md](../../../../internals/engine/ticks_and_subticks.md) — главный progress-loop
   (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
-- [server_sync_architecture.md](../engine/server_sync_architecture.md) —
+- [server_sync_architecture.md](../../../../internals/engine/server_sync_architecture.md) —
   `WriteMove` / `ReadMove`, server-authoritative модель, сериализация
   очереди в save.
-- [building_mechanics.md](building_mechanics.md) — footprint и `CIMass`
+- [building_mechanics.md](../economy/building_mechanics.md) — footprint и `CIMass`
   у зданий (массивные «якоря» для коллизий).
 
 ## TL;DR
@@ -223,7 +223,7 @@ base-collision-cell **в тайлах** (то есть 1 «collision cell» =
 
 **Вывод:** здания — это массивные неподвижные блокеры с радиусом 0.35
 (плюс отдельный footprint-mask на cell-grid; см.
-[building_mechanics.md](building_mechanics.md)). Глобальный путь вокруг
+[building_mechanics.md](../economy/building_mechanics.md)). Глобальный путь вокруг
 здания строит `pathfinding`; локальная коллизия (CI) лишь страхует, чтобы
 юнит не упёрся в стену вплотную.
 

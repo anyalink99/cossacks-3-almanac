@@ -12,63 +12,85 @@
 
 ## Мир и карта (что видит игрок) — [`world/`](world/)
 
-Семь документов про то, что происходит в активной партии: добыча,
-постройка, захват, передвижение, выбор цели, генерация карты, опции
-лобби.
+Подробные разборы того, что происходит в активной партии: добыча,
+бой, движение, формации, захват, генерация карты, опции лобби.
+
+### Экономика
 
 | Файл | Что внутри |
 |---|---|
-| [world/peasant_extraction.md](world/peasant_extraction.md) | Добыча ресурсов: цикл крестьянина, формулы, шахты (включая апгрейды до 95 absorber), поля (HP / regen / restart), efficiency-апгрейды, карта как вход (densities, гарантированные стартовые ресурсы), пеньки = бесконечный wood pool. |
-| [world/building_mechanics.md](world/building_mechanics.md) | Здания: footprint mask (1 cell = 0.5 тайла), ремонт (бесплатно, +20 HP за удар), постройка (delta = 0.359 / buildtime за удар), builder slots, стены (2×2 на сегмент, 4–12 slots), гарнизон / башни, captureradius = 4 тайла. |
-| [world/capture_mechanics.md](world/capture_mechanics.md) | Захват: чистая геометрия, не конвертер. Радиусы (`captureradius = 4.013t` Eucl², `protectionradius ≈ 8t`). Кто захватывается (крестьянин + 5 типов артиллерии + почти все экономические здания). Кто НЕТ (башни, стены, академия, конюшня, верфь). Башни — только во время постройки. Священник = healer, не конвертер. |
-| [world/pathfinding.md](world/pathfinding.md) | Pathfinding: алгоритм в нативном движке (A\*-like через `TopologyGetPath`). Двухуровневый: high-level batched раз в 20 мс + per-frame `CollisionInertia` (mass + radius). Collision grid = 0.5 t. Дружественный push беззвучен; враг в 90° спереди → авто-атака. Formation = jittered per-unit, не squad-leader. |
-| [world/target_selection.md](world/target_selection.md) | Алгоритм выбора цели через scan-grid: `_unit_SearchEnemyInCell` (случайный стартовый индекс по списку в ячейке) + `_unit_SearchEnemyScanCells` (минимум по relativeDist с балансировкой нагрузки `×(1 + STO_count × 0.125)` для рукопашников). 5 режимов `scanmode` (default / priest / capture / capture-fallback / AI sabotage). Семантика attack-move: `move_mode_attack` для пехоты и кавалерии, `attackpoint` для артиллерии с `bartprepare`. Умный поиск ловит врагов только в 30°-конусе впереди. |
-| [world/map_generation_pipeline.md](world/map_generation_pipeline.md) | Полный таймлайн `DoGenerate`: forbidden zones cCircle1/2/3, `SetupStartingResources` (1× stoneforest + 2× stones + 3× forests в радиусе 5–22), Phase-1 / Phase-2 mines, `FillOwnerMap`, peacetime-границы. Плюс seed space: что определяет уникальную карту (`(inputbitmap, randkey0, randkey1)`, ~230 базовых масок для 4pl Land). |
-| [world/game_settings.md](world/game_settings.md) | Поведение движка по каждой опции лобби: `gen` (`mapsize`, `terraintype`, `relieftype`, `resourcestart`, `resourcemines`, `season`, `randkey0/1`) и `additional` (`startingunits`, `balloon`, `cannons`, `peacetime`, `century18`, `capture`, `marketdip`, `teams`, `limit`, `gamespeed`, `adviserassistant`). Глубокий разбор peacetime-механики (`gbool_peacemode`, ничейные ячейки, блок в `_unit_SearchEnemy`). Сами таблицы значений и каноничные русские названия — в [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), машинный JSON — в [`../derived/game_settings.json`](../derived/game_settings.json). |
+| [world/economy/peasant_extraction.md](world/economy/peasant_extraction.md) | Добыча ресурсов: цикл крестьянина, формулы, шахты (до 95 absorber), поля, efficiency-апгрейды, гарантированные стартовые ресурсы, пеньки = бесконечный wood pool. |
+| [world/economy/building_mechanics.md](world/economy/building_mechanics.md) | Здания: footprint mask, ремонт, постройка, builder slots, стены, гарнизон, captureradius. |
+| [world/economy/capture_mechanics.md](world/economy/capture_mechanics.md) | Захват зданий и юнитов — чистая геометрия. Кто захватывается, кто нет. |
+| [world/economy/upgrades_application.md](world/economy/upgrades_application.md) | Как применяется апгрейд: к существующим юнитам и будущим, аддитивная композиция `eff`, `priceperc` / `buildtimeperc`, прерывание исследования. |
+| [world/economy/hunger_and_rebellion.md](world/economy/hunger_and_rebellion.md) | Голод (`bfamine`) и бунт (`brebellion`): когда поднимаются флаги, кто и в каком порядке умирает, защита. |
+| [world/economy/production_queue.md](world/economy/production_queue.md) | Очередь производства: 12 слотов, infinite-режим, слитие ордеров через `costpercent`, refund при отмене и захвате, прерывание захватчиками. |
+| (Рынок) | Подробный разбор механики и формулы обмена — пока только в [`../reference/06_market.md`](../reference/06_market.md). |
 
-## Игровые системы (правила, AI, наёмники) — [`systems/`](systems/)
-
-Три документа про оверарх-механики: ИИ-противник, наёмничество, как
-заканчивается партия.
+### Бой и команды
 
 | Файл | Что внутри |
 |---|---|
-| [systems/ai_behavior.md](systems/ai_behavior.md) | AI: тик каждые 2.4 g-сек. Difficulty cheat = скорость постройки и найма (easy 30%, normal 50%, hard 75%, veryhard 100%, impossible 125%). **Стартовых ресурсов не получает**. Build order rule-based, нация-зависимый. Aggressor wave = 5 отрядов. Diplomacy: команды статически из лобби, без альянсов в процессе партии. |
-| [systems/mercenaries_diplomacy.md](systems/mercenaries_diplomacy.md) | Дипломатический центр (`<nat>dip`): 21 нация × 1 здание, 4500–6500 HP, пререквизит — академия. Каталог из 8 наёмников (одинаковый у всех наций). Стоимость — только золото; `consume.gold` upkeep; `bnohungry = True`. Лимит масштабирования = 2× (против 20 000× у обычных юнитов). Pair-counter `archerdip ↔ archerturdip`. Rebellion = 18.31% за тик на hard+. С 2026-04-30 `data.json` учитывает блок `if (bmercenary)` — все 168 dip-строк правильные. |
-| [systems/victory_conditions.md](systems/victory_conditions.md) | Условия победы и поражения: last-team-standing (`farmused = 0` ⇒ defeat). Wonder отсутствует. Score копится только для статистики (kill +2×, capture +5×, build +1×). Surrender (`bleave = True`), first-leaver penalty −w ELO. Time-limit отсутствует. Игровые режимы: skirmish, Historical Battle, Campaign, Scenario, Rated MP. |
+| [world/combat/combat_damage_pipeline.md](world/combat/combat_damage_pipeline.md) | Конвейер урона: 6 шагов формулы, хедшот, AoE, дружественный огонь, peace-mode, сценарная неуязвимость. |
+| [world/combat/formations.md](world/combat/formations.md) | LINE / SQUARE / KARE: 149 формаций, бонусы строя, hold-mode, mask и symmetry. |
+| [world/combat/target_selection.md](world/combat/target_selection.md) | Алгоритм выбора цели через scan-grid: 5 режимов, attack-move, конус 30°. |
+| [world/combat/unit_commands.md](world/combat/unit_commands.md) | Очередь приказов, режимы (move, attack, attack-move, garrison, patrol, guard), hold-mode, hold-fire, rally point, STO/STP. |
+| [world/combat/pathfinding.md](world/combat/pathfinding.md) | Pathfinding: A\*-like через `TopologyGetPath`, двухуровневый, collision grid, формации. |
+| [world/combat/towers.md](world/combat/towers.md) | Башни: целеуказание, стоимость выстрела, апгрейды, захват только во время постройки. **Гарнизона в башне в C3 нет** — `peasantabsorber` ставится только у шахт. |
+| [world/combat/walls_and_gates.md](world/combat/walls_and_gates.md) | Стены и ворота: сегменты, мгновенная постройка, `gWallSystem`, захват. |
+| [world/combat/artillery_specifics.md](world/combat/artillery_specifics.md) | Артиллерия: типы (`artind`), `bartprepare`, `attackpoint`, лимиты через арт-депо, AoE. |
+| [world/combat/naval_combat.md](world/combat/naval_combat.md) | Морские юниты: порт, транспорт, линейный корабль, рыболов, морские формации, бой с берега. |
+| [world/combat/vision_and_fow.md](world/combat/vision_and_fow.md) | Радиус обзора (`20 + 4 × vision`), туман войны, союзный обзор, `fogreveal`-снаряды. |
+| [world/combat/ranged_units_behavior.md](world/combat/ranged_units_behavior.md) | Поведение стрелков: standground, bartprepare, RunAway, штраф к дальности, мульти-оружие, high ground. |
 
-## Engine internals (тики, RNG, сетевая модель) — [`engine/`](engine/)
-
-Тройка документов про устройство движка. Идут в комплекте — каждый
-ссылается на остальные. Без них нельзя объяснить, почему симуляция
-не воспроизводится даже на одном хосте.
+### Карта и генерация
 
 | Файл | Что внутри |
 |---|---|
-| [engine/ticks_and_subticks.md](engine/ticks_and_subticks.md) | Модель времени: real / game / frames. Главный progress-loop. Sub-tick state-machine intervals (135 мс у крестьян, 100 мс у юнитов). Variable timestep + adaptive game speed. Что нормализуется на Save / Load. |
-| [engine/determinism_audit.md](engine/determinism_audit.md) | RNG audit: `random` vs `RandomExt` vs `SetRandomKey`. 7 RNG-сайтов в hot-path добычи. RNG в бою (5% триггер хедшота). Почему шахты воспроизводимы. Импликации для симулятора и план мод-фикса. |
-| [engine/server_sync_architecture.md](engine/server_sync_architecture.md) | Сетевая модель: C3 — server-authoritative, **не** lockstep. Net modes, паттерн `bProcess`, sync-пакеты (per-event + periodic в **real-time**, mod-53 unit params, on-demand full sync). |
+| [world/map/map_generation_pipeline.md](world/map/map_generation_pipeline.md) | Таймлайн `DoGenerate`: forbidden zones, `SetupStartingResources`, mines phase-1/2, `FillOwnerMap`, peacetime границы, seed space. |
+| [world/map/game_settings.md](world/map/game_settings.md) | Опции лобби: `gen.*` и `additional.*`, peace-time, century18, balloon. |
+
+## Игровые системы (правила, AI, наёмники, сценарии) — [`systems/`](systems/)
+
+| Файл | Что внутри |
+|---|---|
+| [systems/ai_behavior.md](systems/ai_behavior.md) | AI: тик 2.4 g-сек, difficulty (от 30 % до 125 %), build order rule-based, агрессивные волны по 5 отрядов. |
+| [systems/mercenaries_diplomacy.md](systems/mercenaries_diplomacy.md) | Дипцентр и наёмники: 21 нация, 8 типов наёмников, gold-upkeep, Rebellion 18.31 % на hard+. |
+| [systems/victory_conditions.md](systems/victory_conditions.md) | Победа и поражение: last-team-standing, defeat по `farmused = 0`, score-табло для статистики. |
+| [systems/scenarios_and_triggers.md](systems/scenarios_and_triggers.md) | Сценарии (`TScenarioTrigger` / `Condition` / `Action` / FSM) — кампания, Historical Battles, peace-mode для героя. |
+| [systems/ui_input_and_feedback.md](systems/ui_input_and_feedback.md) | Интерфейс и ввод: селекция, mouse / keyboard / scroll, курсор, камера, listener для звука. **Звуки и FOW — независимые системы** (юнит во вражеском FOW слышен). Alarm-уведомления (`_misc_DoAlarm`) срабатывают только вне frustum камеры. |
+
+## Engine internals — переехало
+
+Документы про устройство движка (модель времени, RNG, сетевая
+модель, нативный API DWS) — теперь в отдельной top-level папке
+[`../../internals/engine/`](../../internals/engine/). Они слишком
+технические для обычного читателя справочника. Если нужны:
+
+- [`internals/engine/ticks_and_subticks.md`](../../internals/engine/ticks_and_subticks.md) — модель времени.
+- [`internals/engine/determinism_audit.md`](../../internals/engine/determinism_audit.md) — RNG-аудит.
+- [`internals/engine/server_sync_architecture.md`](../../internals/engine/server_sync_architecture.md) — server-authoritative.
+- [`internals/engine/native_api.md`](../../internals/engine/native_api.md) — 4 856 native DWS-функций.
 
 ## Когда что читать
 
-- **«Почему этот юнит добывает столько-то wood?»** → [world/peasant_extraction.md](world/peasant_extraction.md).
-- **«Сколько крестьян могут одновременно строить здание X?»** → [world/building_mechanics.md](world/building_mechanics.md) §3.
-- **«Сколько шахт у меня будет на старте?»** → [world/peasant_extraction.md §8.3](world/peasant_extraction.md) или [world/map_generation_pipeline.md §8](world/map_generation_pipeline.md).
-- **«Почему один и тот же сейв даёт разную добычу при перезагрузке?»** → [engine/determinism_audit.md](engine/determinism_audit.md) §7.
-- **«Почему `random` использован в одном месте и `RandomExt` в другом?»** → [engine/server_sync_architecture.md](engine/server_sync_architecture.md) §1.3 + [engine/determinism_audit.md](engine/determinism_audit.md) §1.
-- **«Карта одна и та же — что это значит формально?»** → [world/map_generation_pipeline.md §12](world/map_generation_pipeline.md) (seed space).
+- **«Почему этот юнит добывает столько-то wood?»** → [world/economy/peasant_extraction.md](world/economy/peasant_extraction.md).
+- **«Сколько крестьян могут одновременно строить здание X?»** → [world/economy/building_mechanics.md](world/economy/building_mechanics.md) §3.
+- **«Сколько шахт у меня будет на старте?»** → [world/economy/peasant_extraction.md §8.3](world/economy/peasant_extraction.md) или [world/map/map_generation_pipeline.md §8](world/map/map_generation_pipeline.md).
+- **«Почему один и тот же сейв даёт разную добычу при перезагрузке?»** → [internals/engine/determinism_audit.md](../../internals/engine/determinism_audit.md) §7.
+- **«Почему `random` использован в одном месте и `RandomExt` в другом?»** → [internals/engine/server_sync_architecture.md](../../internals/engine/server_sync_architecture.md) §1.3 + [internals/engine/determinism_audit.md](../../internals/engine/determinism_audit.md) §1.
+- **«Карта одна и та же — что это значит формально?»** → [world/map/map_generation_pipeline.md §12](world/map/map_generation_pipeline.md) (seed space).
 - **«Когда AI меня атакует?»** → [systems/ai_behavior.md](systems/ai_behavior.md) §«Aggression / attack triggers».
-- **«Можно ли захватить башню?»** → [world/capture_mechanics.md](world/capture_mechanics.md) §6.
+- **«Можно ли захватить башню?»** → [world/economy/capture_mechanics.md](world/economy/capture_mechanics.md) §6.
 - **«Как выиграть партию?»** → [systems/victory_conditions.md](systems/victory_conditions.md) §3.
 - **«Как работают наёмники / Rebellion?»** → [systems/mercenaries_diplomacy.md](systems/mercenaries_diplomacy.md) §§3-4.
-- **«Как ходят юниты в формации?»** → [world/pathfinding.md](world/pathfinding.md) §6.
-- **«В кого выстрелит мой мушкетёр, если в радиусе три врага?»** → [world/target_selection.md](world/target_selection.md) §3.
-- **«Чем `attack-move` отличается от обычного движения?»** → [world/target_selection.md](world/target_selection.md) §5.
-- **«Какие опции есть в лобби и что они дают?»** → таблицы в [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [world/game_settings.md](world/game_settings.md). Машинный JSON для редакторов — [`../derived/game_settings.json`](../derived/game_settings.json).
+- **«Как ходят юниты в формации?»** → [world/combat/pathfinding.md](world/combat/pathfinding.md) §6.
+- **«В кого выстрелит мой мушкетёр, если в радиусе три врага?»** → [world/combat/target_selection.md](world/combat/target_selection.md) §3.
+- **«Чем `attack-move` отличается от обычного движения?»** → [world/combat/target_selection.md](world/combat/target_selection.md) §5.
+- **«Какие опции есть в лобби и что они дают?»** → таблицы в [`../reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [world/map/game_settings.md](world/map/game_settings.md). Машинный JSON для редакторов — [`../../derived/game_settings.json`](../../derived/game_settings.json).
 
 ## Что НЕ в этой папке
 
 - Готовые таблицы цен / HP / урона — в [`../reference/`](../reference/).
 - Производные расчёты (DPS, EHP, scaling, tech tree, vision и т. п.) — в [`../reports/`](../reports/README.md).
-- Выходы симулятора экономики — в [`../simulations/`](../simulations/README.md).
 - Open empirical questions для in-game замеров — встроены в §9 каждого профильного документа.

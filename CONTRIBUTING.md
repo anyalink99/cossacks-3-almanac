@@ -27,7 +27,7 @@ CI на каждый PR прогоняет smoke-тесты, проверяет 
 | **Поправить формулу / число в справочнике** | Найди источник: парсер (если из `data.json`), compute-скрипт (если расчётное), шаблон (если ручная проза в reference/). Никогда не редактируй сгенерированный md в `docs/reference/` или `docs/reports/` — он будет переписан. |
 | **Добавить новый раздел в reference** | Шаблон — в [`writers/templates/reference/<chapter>/`](writers/templates/reference/). Логика рендера — в [`writers/write_md_tree.py`](writers/write_md_tree.py). |
 | **Добавить новый отчёт** | Создай `compute/compute_<тема>.py` по образцу соседних. Эмить в `docs/reports/<раздел>/<имя>.md`. Зарегистрируй в `scripts/regen.py` (`reports-*` target). Если новый раздел — добавь папку в `docs/reports/` и упомяни в `docs/reports/README.md`. |
-| **Добавить новый JSON-датасет** | Парсер — в `parser/parse_<X>.py` (если читает игровые файлы) или `compute/compute_<X>.py` (если считает из `data.json`). Эмить в `docs/derived/<имя>.json`. Опиши в [`docs/derived/README.md`](docs/derived/README.md). |
+| **Добавить новый JSON-датасет** | Парсер — в `parser/parse_<X>.py` (если читает игровые файлы) или `compute/compute_<X>.py` (если считает из `data.json`). Эмить в `derived/<имя>.json`. Опиши в [`derived/README.md`](derived/README.md). |
 | **Поправить прозу в recon** | Прямо в файлах `docs/recon/*.md` — они handwritten. |
 | **Поправить прозу в reference** | Шаблоны в `writers/templates/reference/<chapter>/*.md`. Перегенерируй: `python writers/write_md_tree.py`. |
 | **Добавить тест** | Новый файл в `tests/test_<тема>.py`. Стандартный `unittest`, без зависимостей. |
@@ -44,19 +44,17 @@ CI на каждый PR прогоняет smoke-тесты, проверяет 
    Если нужного маппинга там нет — добавь в config + canonical_terms.json,
    а не в свой скрипт.
 4. **Не редактируй auto-generated md.** Список auto-gen файлов:
-   - `docs/data.json`
-   - `docs/derived/*.json`
+   - `data.json`
+   - `derived/*.json`
    - `docs/reference/*.md`
    - `docs/reports/*.md`
-   - `docs/simulations/*.md`
    - `docs/README.md` (генерируется из `writers/templates/output_readme.md`)
 
    Handwritten — значит править вручную:
-   - `docs/architecture.md`, `docs/derived/README.md`,
+   - `docs/architecture.md`, `derived/README.md`,
      `docs/known_issues*.md`, `docs/reports/README.md`,
      `docs/recon/**.md` (включая README), `docs/reference/README.md`
-     (этот и nations/README + compare/README пишет writer, но кратенький),
-     `docs/simulations/README.md`.
+     (этот и nations/README + compare/README пишет writer, но кратенький).
 5. **Sanity checks.** `parser/build_data.py` гоняет 112 проверок. Если упало
    — сначала разберись, ПОТОМ правь. Просто отключать проверку нельзя.
 6. **Без эмодзи** в коде / документах, если не просили. С 🚫 за поведение
@@ -98,8 +96,8 @@ Body коммита — что и почему изменилось. Если м
 ## Когда сомневаешься
 
 - Архитектура и потоки данных — [`docs/architecture.md`](docs/architecture.md).
-- Канонические термины — [`docs/derived/canonical_terms.json`](docs/derived/canonical_terms.json) +
+- Канонические термины — [`derived/canonical_terms.json`](derived/canonical_terms.json) +
   [`parser/config.py`](parser/config.py).
 - Известные пробелы — [`docs/known_issues.md`](docs/known_issues.md).
-- Что куда генерится — [`docs/derived/README.md`](docs/derived/README.md) +
+- Что куда генерится — [`derived/README.md`](derived/README.md) +
   [`docs/reports/README.md`](docs/reports/README.md) + [`scripts/regen.py`](scripts/regen.py).

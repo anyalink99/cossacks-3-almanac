@@ -1,7 +1,7 @@
 """Extract all lobby/game settings from dmscript.global + locale.
 
 Two outputs:
-  1. `docs/derived/game_settings.json` — machine-readable, consumed by the editor.
+  1. `derived/game_settings.json` — machine-readable, consumed by the editor.
   2. `docs/reports/map/lobby_settings.md` — human-readable reference table set.
 
 Source-of-truth for the *behavior* of each option: `docs/recon/game_settings.md`
@@ -258,7 +258,7 @@ def _intro_lines(cites: Citations) -> list[str]:
         "Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,",
         "`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже",
         "«Высокогорье». Машинная версия для редакторов и инструментов —",
-        "[`docs/derived/game_settings.json`](../../derived/game_settings.json).",
+        "[`derived/game_settings.json`](../../derived/game_settings.json).",
         "",
         "Поведение каждой опции в движке (что происходит после выбора) — в",
         "[`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md).",
@@ -588,7 +588,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "- [`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md) — поведение "
         "движка по каждой опции (peacetime, peace mode, captureradius, …).",
-        "- [`docs/derived/game_settings.json`](../../derived/game_settings.json) — "
+        "- [`derived/game_settings.json`](../../derived/game_settings.json) — "
         "то же самое в машинно-читаемом виде.",
         "- [`docs/recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) — "
         "что именно делает генератор карты с этими значениями.",

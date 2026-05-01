@@ -3,7 +3,7 @@
 Что нужно держать в голове при использовании этого справочника. Сюда
 сходятся:
 
-- **Парсерные пробелы** — места, где `docs/data.json` не отражает игровые
+- **Парсерные пробелы** — места, где `../data.json` не отражает игровые
   файлы точно.
 - **Расхождения с внешними источниками** — где наши числа отличаются от
   популярных гайдов и калькуляторов (источник правды — игровые скрипты).
@@ -18,11 +18,11 @@
 
 ---
 
-## Парсерные пробелы (`data.json`)
+## Парсерные пробелы (`../data.json`)
 
 ### Weapons у зданий пока не извлекаются полностью
 
-**Что:** для зданий в `data.json` есть скалярные `weapon_damage`,
+**Что:** для зданий в `../data.json` есть скалярные `weapon_damage`,
 `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`. Если
 у здания два оружия (теоретически возможно для будущих модов), извлечётся
 только первое.
@@ -101,7 +101,7 @@ scenario-action'ы извлечены вручную.
 замера в игре. Перечислены по recon-документам — каждый раздел указывает, где
 именно можно копать.
 
-### Добыча и экономика — [`recon/world/peasant_extraction.md`](recon/world/peasant_extraction.md) §9
+### Добыча и экономика — [`recon/world/economy/peasant_extraction.md`](recon/world/economy/peasant_extraction.md) §9
 
 - Точный `loss_factor` (доля времени, теряемая на ходьбу к складу) на разных
   раскладках карты.
@@ -124,7 +124,7 @@ scenario-action'ы извлечены вручную.
   одинаковые константы; отличается только скорость постройки. Стоит
   верифицировать в игре.
 
-### Захват — [`recon/world/capture_mechanics.md`](recon/world/capture_mechanics.md) §9
+### Захват — [`recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md) §9
 
 - Точная позиция `(px, py)` у здания при проверке: центр модели, центр bbox
   или anchor-point? Эмпирически измеряется: построить казарму, подвести
@@ -135,7 +135,7 @@ scenario-action'ы извлечены вручную.
   крестьяне и арт могут «ломать» стену через capture-механизм. Проверить
   эмпирически.
 
-### Pathfinding — [`recon/world/pathfinding.md`](recon/world/pathfinding.md) §9
+### Pathfinding — [`recon/world/combat/pathfinding.md`](recon/world/combat/pathfinding.md) §9
 
 - Алгоритм самого pathfinding'а живёт в нативном движке (C++): A*? Flow
   field? Wave propagation? Скриптам не виден.
@@ -144,14 +144,14 @@ scenario-action'ы извлечены вручную.
 - Поведение при появлении нового препятствия на маршруте: не нашлось вызова
   repath. Юнит молча останавливается?
 
-### RNG / детерминизм — [`recon/engine/determinism_audit.md`](recon/engine/determinism_audit.md)
+### RNG / детерминизм — [`../internals/engine/determinism_audit.md`](../internals/engine/determinism_audit.md)
 
 - Глобальное состояние PRNG (`random`-курсор) — сохраняется ли в save? Скорее
   всего, нет.
 - Pathfinding tie-breaking (engine, недоступно скрипту).
 - Variable timestep (engine).
 
-### Map generation — [`recon/world/map_generation_pipeline.md`](recon/world/map_generation_pipeline.md) §13
+### Map generation — [`recon/world/map/map_generation_pipeline.md`](recon/world/map/map_generation_pipeline.md) §13
 
 - Bounded enumeration уникальных карт: 230 базовых форм × K randkey-вариаций.
   K неизвестно (вероятно ≤ 10⁹, но реальный диапазон пользовательских seed'ов

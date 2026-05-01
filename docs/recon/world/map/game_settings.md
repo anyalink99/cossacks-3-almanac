@@ -4,7 +4,7 @@
 реагирует на выбор игрока в лобби. Сюда не выносятся значения и лейблы — для
 этого есть две точки правды:
 
-- **[`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md)** —
+- **[`docs/reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md)** —
   готовый справочник всех опций (названия из локали, числовые значения,
   значения по умолчанию).
 - **[`docs/derived/game_settings.json`](../derived/game_settings.json)** — то же
@@ -31,7 +31,7 @@
 `autosave`, `limit`, `gamespeed`, `adviserassistant` [^4].
 
 Числовые значения и человеческие названия — в
-[`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md). Здесь — что
+[`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md). Здесь — что
 именно читает движок.
 
 ## 2. Что движок делает с `gen`-параметрами
@@ -119,12 +119,12 @@ single-player). В реплеях и у клиентов состояние пр
 
 У наций без 18 в. (`ukr` Украина, `tur` Турция, `alg` Алжир) опция «Сразу»
 бесполезна — у них нет апгрейда `cen.1` в `country.script`. См.
-[`reference/05_upgrades.md`](../reference/05_upgrades.md).
+[`reference/05_upgrades.md`](../../../reference/05_upgrades.md).
 
 ### 3.4 `capture` — правила захвата
 
 Геометрия захвата (радиусы, кто захватывается, кто нет, башни, стены) — в
-[`recon/world/capture_mechanics.md`](capture_mechanics.md).
+[`recon/world/economy/capture_mechanics.md`](../economy/capture_mechanics.md).
 
 Опция `capture` в лобби только включает / отключает классы целей: `1` запрещает
 захват крестьян, `2` ещё и Городских центров, `3` оставляет только захват
@@ -134,7 +134,7 @@ single-player). В реплеях и у клиентов состояние пр
 
 `value = 4` («Дорогие наёмники») умножает цену найма на
 `gc_gameplay_expensivemercskoef = 3`. Подробности про экономику дипцентра — в
-[`recon/systems/mercenaries_diplomacy.md`](../systems/mercenaries_diplomacy.md).
+[`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_diplomacy.md).
 
 ### 3.6 `gamespeed` — скорость партии
 
@@ -182,9 +182,9 @@ UI пишет значение через `randommap.settings.limit.custom = "%v
 
 Множитель применяется через `_player_GetDifficultyKoef` к скорости
 постройки/найма у AI. **Стартовых ресурсов AI не получает** ни на какой
-сложности. Подробнее — [`recon/systems/ai_behavior.md`](../systems/ai_behavior.md).
+сложности. Подробнее — [`recon/systems/ai_behavior.md`](../../systems/ai_behavior.md).
 
-См. также [`recon/systems/mercenaries_diplomacy.md`](../systems/mercenaries_diplomacy.md) §3 — на
+См. также [`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_diplomacy.md) §3 — на
 hard+ при `brebellion = True` шанс перехода наёмников ≈ 18.31% за тик
 (значительно).
 
@@ -205,11 +205,11 @@ hard+ при `brebellion = True` шанс перехода наёмников �
 | `gc_obj_resource_portion_food` | 45 | Еды за рейс при `eff = 100`. |
 | `gc_obj_resource_portion_wood` | 28 | Дерева за рейс при `eff = 100`. |
 | `gc_obj_resource_portion_stone` | 40 | Камня за рейс при `eff = 100`. |
-| `gc_obj_speed_peasant` | 40 | Заявленная скорость крестьянина — но в скрипте присвоение закомментировано [^23] (см. [`recon/world/peasant_extraction.md`](peasant_extraction.md) §9). |
+| `gc_obj_speed_peasant` | 40 | Заявленная скорость крестьянина — но в скрипте присвоение закомментировано [^23] (см. [`recon/world/economy/peasant_extraction.md`](../economy/peasant_extraction.md) §9). |
 
 ## 6. Победа и поражение
 
-См. отдельный документ — [`recon/systems/victory_conditions.md`](../systems/victory_conditions.md).
+См. отдельный документ — [`recon/systems/victory_conditions.md`](../../systems/victory_conditions.md).
 Кратко: победа = «осталась только одна команда»; `farmused = 0` ⇒ поражение,
 но `farmused` не падает в 0 пока есть хоть один крестьянин **или** Городской
 центр. Wonder-побед в C3 нет, score копится только для статистики.

@@ -13,7 +13,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 
 Источник формулы — `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.
 
-## Time-to-kill matrix (real-sec @ fast)
+## Time-to-kill matrix (g-сек)
 
 **Cell (row=attacker, col=defender)** = сколько секунд **одному** атакующему нужно чтобы убить **одного** защитника, считая игровое время × 1.4 (fast). Учитывает protection, **не** учитывает shield/бонусы отряда/перемещение/дальность. Для артиллерии (cannon/mortar): один снаряд может зацепить нескольких — здесь считаем урон только по одной цели.
 
@@ -71,7 +71,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 | 21 | Cannon (eur) | `cannon` · aus | 9000 | 0/0/0/0/0/0 |
 | 22 | Mortar (eur) | `mortar` · aus | 400 | 0/0/0/0/0/0 |
 
-## Матрица эффективного DPS (real-sec @ fast)
+## Матрица эффективного DPS (g-сек)
 
 Сколько урона **в секунду реального времени** атакующий наносит защитнику после вычета protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. Ближний бой — деление на длительность `attack0` из .aaf (per-unit; fallback ≈ 0.4688 g-sec).
 

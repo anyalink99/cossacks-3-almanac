@@ -135,7 +135,7 @@ def render_header() -> list[str]:
     A("# Национальные отклонения — здания и юниты")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "[`docs/data.json`](../../data.json) скриптом "
+      "[`data.json`](../../data.json) скриптом "
       "[`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).")
     A("")
     A("Цель — собрать в одном месте ВСЕ места, где у конкретной нации значение "

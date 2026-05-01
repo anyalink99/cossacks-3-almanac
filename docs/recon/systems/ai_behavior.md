@@ -51,8 +51,8 @@ UI показывает четыре уровня (easy / normal / hard / veryha
 Сложность хранится в `gMap.players[i].aidifficulty` [^7], копируется
 в `gPlayer[i].difficulty` при старте партии [^8]. Значение по умолчанию
 в лобби — `easy` [^9]. Полная таблица из 5 уровней с множителями —
-[`reports/map/lobby_settings.md`](../reports/map/lobby_settings.md#difficulty--сложность);
-поведение движка — [`game_settings.md`](../world/game_settings.md) §4.
+[`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#difficulty--сложность);
+поведение движка — [`game_settings.md`](../world/map/game_settings.md) §4.
 
 ### Что меняется между уровнями
 
