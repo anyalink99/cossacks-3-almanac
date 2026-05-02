@@ -79,7 +79,7 @@ retarget gate убивает его в ближайшем retarget window. По 
 
 После каждого убийства, совершённого **пехотой или лошадью**:
 
-- **Retarget delay:** `attackdelay := max(attackdelay, 1.5 г-сек)` — юнит не ищет
+- **Retarget delay:** `attackdelay := max(attackdelay, 1.5 g-sec)` — юнит не ищет
   новую цель, пока delay не истечёт.
 - **Fatigue:** применяется только при убийстве юнита **той же боевой категории**.
   Рукопашники (`lightinfantry`, `grenadier`, `fasthorse`, `hardhorse`) устают

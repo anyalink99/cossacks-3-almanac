@@ -116,7 +116,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Пример bavba2 (Barracks 18 century, `buildtime = 5625 g-сек`)**:
 
-| N builders | g-сек | мин г-сек |
+| N builders | g-сек | мин g-sec |
 |---:|---:|---:|
 | 1 | 6 356 | 105.9 |
 | 2 | 3 178 | 53.0 |

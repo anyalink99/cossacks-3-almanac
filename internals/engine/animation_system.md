@@ -90,17 +90,17 @@ AAF
 
 **Формат включения:** `start` и `end` — оба inclusive.
 Длительность = `end − start + 1` кадров = `(end − start + 1) / 32`
-г-сек.
+g-sec.
 
 Примеры из `peaaus.aaf`:
 
 | Трек | start–end | Длительность |
 |---|---:|---:|
-| `walk` | 1–20 | 20 кадров = 0.625 г-сек |
-| `attack0` | 237–254 | 18 кадров = 0.5625 г-сек |
-| `construct` | 186–198 | **13 кадров = 0.4063 г-сек** |
-| `workfood` | 278–299 | 22 кадра = 0.6875 г-сек |
-| `workstone` | 217–234 | 18 кадров = 0.5625 г-сек |
+| `walk` | 1–20 | 20 кадров = 0.625 g-sec |
+| `attack0` | 237–254 | 18 кадров = 0.5625 g-sec |
+| `construct` | 186–198 | **13 кадров = 0.4063 g-sec** |
+| `workfood` | 278–299 | 22 кадра = 0.6875 g-sec |
+| `workstone` | 217–234 | 18 кадров = 0.5625 g-sec |
 
 **Ключевые имена треков:**
 
@@ -117,7 +117,7 @@ AAF
 
 **Сводка по нашему парсеру:** `parser/parse_animations.py` извлекает
 все треки в [`derived/animations.json`](../../derived/animations.json).
-Среднее `attack0` по всем рукопашным юнитам — **15 кадров (0.469 г-сек)**.
+Среднее `attack0` по всем рукопашным юнитам — **15 кадров (0.469 g-sec)**.
 Это и зашито в `parser/config.py` как `MELEE_SWING_FALLBACK_FRAMES = 15`
 для случаев, когда у юнита нет своего `.aaf`.
 
@@ -216,7 +216,7 @@ ref\refspeed.acl; refkey=.cannonidle` означает «вставь сюда
 | ferry | (см. файл) | (см. файл) |
 
 `TrackPointMoveStep` — сколько тайлов сдвигается юнит на **один
-кадр анимации walk** (то есть за `1/32` г-сек). `TrackPointTurnStep`
+кадр анимации walk** (то есть за `1/32` g-sec). `TrackPointTurnStep`
 — угол поворота за один кадр (в градусах).
 
 Скорость в тайлах за секунду:
@@ -225,7 +225,7 @@ ref\refspeed.acl; refkey=.cannonidle` означает «вставь сюда
 tiles_per_g_sec = TrackPointMoveStep × 32
 ```
 
-| Класс | Скорость (тайлов / г-сек) |
+| Класс | Скорость (тайлов / g-sec) |
 |---|---:|
 | infantry | 0.96 |
 | peasant | 1.20 |
@@ -392,8 +392,8 @@ if individual.benabled and attpause > 0:
 ```
 
 Конкретное число `pause` хранится в данных юнита. Для мушкетёра
-17 в. — `pause ≈ 150` кадров = 4.69 г-сек. С апгрейдами
-`aca.31`+`aca.33` (60 % cumulative reduction) — `≈ 1.88 г-сек`.
+17 в. — `pause ≈ 150` кадров = 4.69 g-sec. С апгрейдами
+`aca.31`+`aca.33` (60 % cumulative reduction) — `≈ 1.88 g-sec`.
 
 В коде есть **закомментированная** ветка проверки «достаточна ли
 пауза для длины анимации»: если `attpause - frames/30 < 1/60`,
@@ -433,7 +433,7 @@ for i := 0 to gc_ResCount-1:
 
 Из 1 382 треков в `derived/animations.json`:
 
-| Класс | `attack0` (кадры) | `attack0` (г-сек) | `walk` (кадры) | Real-DPS @ fast (если known) |
+| Класс | `attack0` (кадры) | `attack0` (g-sec) | `walk` (кадры) | Real-DPS @ fast (если known) |
 |---|---:|---:|---:|---:|
 | Крестьянин (peaaus) | 18 | 0.563 | 20 | — |
 | Пикинёр 17 в. | 14 | 0.438 | 20 | ~7-8 |
@@ -451,7 +451,7 @@ for i := 0 to gc_ResCount-1:
 См. функцию `melee_swing_sec(sid)` в
 [`parser/config.py`](../../parser/config.py) — берёт реальный
 `attack0` из `derived/animations.json` или fallback на медиану 15
-кадров (0.469 г-сек).
+кадров (0.469 g-sec).
 
 ---
 

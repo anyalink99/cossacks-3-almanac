@@ -94,7 +94,7 @@
 
 Из `data/animations/aaf/peaaus.aaf` (одинаково для всех наций кроме `pearus`):
 
-| Cycle | Frames | г-сек |
+| Cycle | Frames | g-sec |
 |---|---:|---:|
 | workfood (aus,fra,eng,...) | 22 | 0.6875 |
 | workfood (rus) | 23 | 0.7188 |
@@ -106,7 +106,7 @@
 | walkstone | 20 | 0.625 |
 
 Animation frame rate совпадает с `gc_time_to_frames = 32` (32
-кадра / г-сек) — подтверждено через `parser/parse_animations.py`
+кадра / g-sec) — подтверждено через `parser/parse_animations.py`
 и согласовано с `refspeed.acl`-таблицей `TrackPointMoveStep`. См.
 [`internals/engine/animation_system.md`](../../../../internals/engine/animation_system.md).
 
@@ -197,7 +197,7 @@ Animation frame rate совпадает с `gc_time_to_frames = 32` (32
 через параметр `TrackPointMoveStep` (тайлов за один кадр walk-анимации).
 Скорость в тайлах за игровую секунду = `TrackPointMoveStep × 32`:
 
-| Класс | `TrackPointMoveStep` | Тайлов / г-сек |
+| Класс | `TrackPointMoveStep` | Тайлов / g-sec |
 |---|---:|---:|
 | infantry | 0.03 | **0.96** |
 | **peasant** | **0.0375** | **1.20** |
@@ -230,7 +230,7 @@ time_per_trip_game = hitsneeded × t_hit_game    # игровых секунд
 rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_сек
 ```
 
-| Ресурс | portion | hitsneeded | t_hit_game | rate (units/г-сек) | units/г-мин |
+| Ресурс | portion | hitsneeded | t_hit_game | rate (units/g-sec) | units/g-min |
 |---|---:|---:|---:|---:|---:|
 | food (default eff) | 45 | 22 | 0.6875 | **2.975** | **178** |
 | wood | 28 | 14 | 0.5625 | **3.556** | **213** |
@@ -338,7 +338,7 @@ HP = 10 000 000 [^17]. Один камень держит 10M ударов = 500
 | Параметр | Значение |
 |---|---:|
 | HP | 2500 |
-| buildtime | 300 frames = 9.375 г-сек |
+| buildtime | 300 frames = 9.375 g-sec |
 | Цена | W100 S100 (`costpercent=0` — не масштабируется) |
 | `peasantabsorber` | **5** (макс 5 крестьян внутри) |
 | `produce[gold/iron/coal]` | **13** |
@@ -364,11 +364,11 @@ delivered    = floor(realbank)                        # к плательщик�
 
 **Скорость на 1 крестьянина в шахте:**
 
-- За 1 г-сек: bank gain = 13 × 32 × 1.0 = 416. realbank = 416/250 = **1.664** ресурса/г-сек ≈ **99.8/г-мин**
+- За 1 g-sec: bank gain = 13 × 32 × 1.0 = 416. realbank = 416/250 = **1.664** ресурса/g-sec ≈ **99.8/g-min**
 
 **Полная шахта (5 крестьян, без апгрейдов):**
 
-- 5 × 1.664 = **8.32 ресурса/г-сек** ≈ **499/г-мин**
+- 5 × 1.664 = **8.32 ресурса/g-sec** ≈ **499/g-min**
 
 ### 5.1 Mine upgrades — расширение вместимости
 
@@ -389,9 +389,9 @@ delivered    = floor(realbank)                        # к плательщик�
 **Полностью прокаченная одна шахта (95 peasants):**
 
 - resincome += 95 × 13 = 1235
-- 1235 × 32 / 250 = **158.08 ресурса/г-сек** ≈ **9 485/г-мин**
+- 1235 × 32 / 250 = **158.08 ресурса/g-sec** ≈ **9 485/g-min**
 
-Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6 × 9.375 = **56.25 г-сек** пока крестьяне не работают).
+Total cost full upgrade одной шахты: **F104 550, G80 950** (плюс 6 × 9.375 = **56.25 g-sec** пока крестьяне не работают).
 
 ⚠ Апгрейды per-mine, не глобальные. Если у вас 12 шахт, каждую качать отдельно.
 
@@ -637,9 +637,9 @@ HP-фильтра — из-за `attFactor` в score:
 
 | # | Вопрос | Как решить |
 |---:|---|---|
-| 1 | ~~Точная скорость крестьянина~~ | ✅ **Закрыто:** `TrackPointMoveStep = 0.0375` × 32 кадра / г-сек = **1.20 тайла / г-сек** (см. §3 «Скорости движения» и [`internals/engine/animation_system.md` §2.4](../../../../internals/engine/animation_system.md)). |
+| 1 | ~~Точная скорость крестьянина~~ | ✅ **Закрыто:** `TrackPointMoveStep = 0.0375` × 32 кадра / g-sec = **1.20 тайла / g-sec** (см. §3 «Скорости движения» и [`internals/engine/animation_system.md` §2.4](../../../../internals/engine/animation_system.md)). |
 | 2 | Полный список efficiency-апгрейдов по 21 нации | Использовать `parser/simulate_upgrades.py` (уже инлайнит SetUpgStruct и перебирает `case cid`). |
-| 3 | Реальная стоимость хода к складу | Скорость теперь известна (см. вопрос 1) → дистанция × 1/1.20 г-сек/тайл. |
+| 3 | Реальная стоимость хода к складу | Скорость теперь известна (см. вопрос 1) → дистанция × 1/1.20 g-sec/тайл. |
 | 4 | Учёт `ferry` (доставка с изолированных островов леса) | Не критично для tiny+land, отложить. |
 | 5 | `walkintervalfactor` — как влияет на анимацию ходьбы | Похоже скейлит animation speed относительно физической скорости. Отложить (см. также [`internals/engine/animation_system.md` §9](../../../../internals/engine/animation_system.md)). |
 

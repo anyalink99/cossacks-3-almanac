@@ -63,7 +63,7 @@
 | # | Где применяется | Эффект |
 |---:|---|---|
 | 1 | Бонус хедшота | `+floor(uniqrnd × 500)` дополнительного урона при крите |
-| 2 | Эффективная max-range | `radiusmax −= uniqrnd × 3` тайла во время `standtime < 0.25` г-сек |
+| 2 | Эффективная max-range | `radiusmax −= uniqrnd × 3` тайла во время `standtime < 0.25` g-sec |
 | 3 | Search timing | `nextSearch = now + uniqrnd × 0.15 + 0.3` сек — юниты не сканируют синхронно |
 | 4 | Multiplayer sync seed | `SetRandomKey(floor(uniqrnd × MaxInt))` для синхронизации решений между клиентами |
 

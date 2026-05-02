@@ -45,7 +45,7 @@
 ### Расход gold юнитами
 
 `consume[gold]` встречается у:
-- **Башен** (`consume[gold] = 500` → 0.8 gold / г-сек ≈ 48 за г-минуту) — постоянный налог независимо от боя. См. [`../recon/world/combat/towers.md` §2](../recon/world/combat/towers.md).
+- **Башен** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 за g-minуту) — постоянный налог независимо от боя. См. [`../recon/world/combat/towers.md` §2](../recon/world/combat/towers.md).
 - **Наёмников** через `consume.gold` — постоянный upkeep всех 8 sid.
 - **Стрелковых юнитов** — только за выстрел через `weapon.cost[gold]`, не в простое.
 
