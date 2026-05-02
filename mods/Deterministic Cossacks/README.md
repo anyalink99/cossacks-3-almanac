@@ -1,56 +1,141 @@
 # Deterministic Cossacks — Cossacks 3 mod
 
-> Раньше мод назывался **Deterministic Extraction** и патчил только добычу. После добавления combat-сайтов (headshot, выбор цели) переименован — добыча больше не одна.
+Два направления изменений: **детерминизм RNG** и **anti-snowball механики боя**.
 
-Заменяет 10 вызовов `random` в hot-path добычи и боя на `SetRandomKey + random` с seed'ом из персистящегося game-state. Цель: один и тот же сейв при повторных загрузках, и одно и то же состояние симуляции на разных хостах, дают одинаковую добычу леса/камня и одинаковые боевые исходы (в пределах движкового tie-breaking pathfinder'а, который скриптом не починить).
+---
 
-См.:
-- [internals/engine/rng_implementation.md](../../internals/engine/rng_implementation.md) §3 — почему `SetRandomKey` ловит **только** Random-стрим, и почему `RandomExt` патчить нельзя без `SetRandomExtKey64`.
-- [docs/recon/world/economy/peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md) — каталог extraction RNG-сайтов.
-- [internals/engine/rtti_class_map.md](../../internals/engine/rtti_class_map.md) §4 — `TPathData` / `TOSWPathNode` (остаточный non-determinism в pathfinding'е).
+## На каких юнитов распространяется
 
-## История
+**Все боевые изменения (п. 2.1–2.5) действуют только на пехоту и лошадей:**
 
-**v1 (2026-04, broken):** патчи использовали `SetRandomKey(...) + RandomExt`. Это **не работает**: `SetRandomKey` сидит только 32-битный LCG `Random`, а `RandomExt` живёт на отдельном 64-битном seed'е (`SetRandomExtKey64`) и не реагирует на `SetRandomKey`. Реальные значения `RandomExt` оставались произвольными.
+| Тип | usage-константы |
+|---|---|
+| Пехота | `lightinfantry`, `grenadier`, `shooter`, `archer` |
+| Лошади | `fasthorse`, `hardhorse`, `horseshooter` |
 
-**v2 (2026-05, this version):** все патчи переведены на канонический stock-движковый паттерн `SetRandomKey(seed); ... random`. Этот же паттерн используется самим C3 для синхронизации в multiplayer — см. [unit.script:5301, 11453, 11528](C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Cossacks%203/data/scripts/lib/unit.script) и [weapon.script:1051](C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script). Дополнительно добавлены 5 combat RNG-сайтов (выбор цели, headshot).
+Пушки, здания, корабли, священники и все прочие юниты получают стоковое поведение во всём, что касается урона, выбора цели и пост-kill эффектов.
 
-## Что патчится
+**Headshot +12** — дополнительно ограничен мушкетёрами и лучниками (`bCanHeadShot`, weapkind = bullet/arrow). Лошади неуязвимы как в стоке.
 
-### Extraction (peasant resource search) — 5 сайтов
+**Крестьяне** — только RNG-детерминизм добычи.
 
-| File | Line | Что | Seed inputs |
-|---|---|---|---|
-| lib/misc.script | 2790 | `_misc_FindResourceToExtract`: стартовый индекс в `gResGrid` cell | px, py, plInd, progresstick |
-| lib/misc.script | 2801 | `_misc_FindResourceToExtract`: wood vs stone | px, py, plInd, progresstick |
-| lib/unit.script | 4055 | `_unit_SearchResourceInRadius`: standtime gate | goHnd, progresstick |
-| lib/unit.script | 4114 | `_unit_SearchResourceInRadius`: bskipcheck | goHnd, progresstick |
-| lib/unit.script | 4120 | `_unit_SearchResourceInRadius`: стартовый индекс кандидатов | goHnd, progresstick |
+---
 
-### Combat (target selection / headshot) — 5 сайтов
+## 1. Детерминизм RNG
 
-| File | Line | Что | Seed inputs |
-|---|---|---|---|
-| lib/miscext2.script | 420 | `_misc_DoDamage`: bHeadShot (`random<0.05`) | attacker uniqrnd, target uniqrnd, progresstick |
-| lib/unit.script | 4796 | `_unit_SearchEnemyInCellShips`: rndind (стартовый индекс в cell) | attacker uniqrnd, cellx, celly, progresstick |
-| lib/unit.script | 4872 | `_unit_SearchEnemyInCell`: rndind | attacker uniqrnd, cellx, celly, plind, progresstick |
-| lib/unit.script | 4992 | `_unit_SearchEnemyScanCellsLongRange`: dx random pick | attacker uniqrnd, loop i, cellx, progresstick |
-| lib/unit.script | 4993 | `_unit_SearchEnemyScanCellsLongRange`: dy random pick | attacker uniqrnd, loop i, celly, progresstick |
+10 вызовов `random` в hot-path добычи и выбора цели заменены на
+`SetRandomKey(seed) + random` с seed'ом из персистящегося game-state.
+Один и тот же сейв при повторных загрузках → одинаковые исходы.
 
-Все seed-входы персистятся через save/load и идентичны на всех клиентах в multiplayer:
-- `goHnd` — handle юнита; стабилен в пределах session, при Save/Load uid сохраняется.
-- `TObj(pobj).uniqrnd` — per-unit Float ∈ [0, 1), фиксируется при спауне юнита через `RandomExt` и сохраняется в save (`pSync` packet, `WriteX/ReadX`).
-- `cellx, celly, plind, plInd, i` — детерминированные локальные переменные функции.
-- `px, py` — позиция юнита (Float), сохраняется в save format.
-- `gProgress.progresstick` — глобальный счётчик тиков, сохраняется в save ([classes.script:6011](C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Cossacks%203/data/scripts/lib/classes.script)).
+### Extraction (5 сайтов)
 
-## Что НЕ патчится (и почему)
+| Файл | Строка | Что |
+|---|---|---|
+| misc.script | 2790 | `FindResourceToExtract`: стартовый индекс в resgrid cell |
+| misc.script | 2801 | `FindResourceToExtract`: wood vs stone |
+| unit.script | 4055 | `SearchResourceInRadius`: standtime gate |
+| unit.script | 4114 | `SearchResourceInRadius`: bskipcheck |
+| unit.script | 4120 | `SearchResourceInRadius`: стартовый индекс кандидатов |
 
-- **Init random** (`obj.uniqrnd := RandomExt`, `gProgress.last*time := random*X`) — вызывается один раз при создании юнита/старте игры и потом сохраняется как обычное состояние. Не нужно патчить.
-- **`_weapon_CalcShotDispertion`** — использует `RandomExt`, но уже обёрнут в `SetRandomKey(floor(newuniqrnd*gc_MaxInt))` upstream'ом ([weapon.script:1051](C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Cossacks%203/data/scripts/lib/weapon.script)). Это движковый bug stock-кода (SetRandomKey не ловит RandomExt), но скриптом починить нельзя — нужен `SetRandomExtKey64`, а его параметры не выставляются из скрипта без знания внутреннего state.
-- **AI random** (`RandomExt < _misc_RandToRandom(N)` в ai.script, `random<0.05` в `_unit_SearchVictim` для fake-friendly) — это AI-логика, не критична для воспроизводимости боя на стороне игрока.
-- **Visual random** (анимации смерти, debris discard angle) — намеренный десинк визуала разработчиками, не влияет на состояние симуляции.
-- **Pathfinding tie-breaking** — async поток (`PathDataThread*`, см. [internals/engine/rtti_class_map.md](../../internals/engine/rtti_class_map.md) §4), недоступно скрипту. Это остаточный источник дисперсии после нашего фикса.
+### Combat (4 сайта)
+
+| Файл | Строка | Что |
+|---|---|---|
+| unit.script | 4796 | `SearchEnemyInCellShips`: rndind |
+| unit.script | 4872 | `SearchEnemyInCell`: rndind |
+| unit.script | 4992 | `SearchEnemyScanCellsLongRange`: dx |
+| unit.script | 4993 | `SearchEnemyScanCellsLongRange`: dy |
+
+---
+
+## 2. Anti-snowball механики
+
+### 2.1 Headshot (miscext2.script:420, 437)
+
+**Stock:** 5% шанс → `+floor(uniqrnd×500)` урона (avg ~12.5, огромная дисперсия).
+
+**Мод:** всегда срабатывает для `bCanHeadShot` → фиксированный **+12** урона.
+Среднее DPS не меняется, дисперсия устранена.
+
+**Suicidal shot (только мушкетёры, weapkind=bullet):** дополнительно 5% шанс
+выстрела, который наносит **250 урона** и уничтожает самого стрелка — `hp := 1`
+в момент выстрела, retarget gate убивает его в ближайшем retarget window.
+Суицидальный выстрел обходит все прочие модификаторы урона.
+
+### 2.2 Модификаторы урона (miscext2.script:437)
+
+Применяются к каждому удару **пехоты и лошадей**, в следующем порядке:
+
+| Условие | Эффект | Логика |
+|---|---|---|
+| У цели уже есть атакующие | 2-й: ×0.75 / 3-й: ×0.50 / 4-й+: ×0.30 | pile-on теряет эффективность |
+| Атакующий `hp > 80% maxhp` | ×0.80 (−20%) | свежий юнит бьёт слабее |
+| Атакующий `hp < 50% maxhp` | ×1.20 (+20%) | раненый юнит бьёт сильнее |
+| На атакующего нападает N врагов (cap 5) | ×(1 + N×0.50), max ×3.50 | окружённый юнит бьёт сильнее |
+| Атакующий `hp < 3` | урон ÷3, затем 80% шанс = 0 | умирающий наносит минимальный урон |
+
+### 2.3 Пост-kill эффекты (miscext2.script:463)
+
+После каждого убийства, совершённого **пехотой или лошадью**:
+
+- **Retarget delay:** `attackdelay := max(attackdelay, 1.5 г-сек)` — юнит не ищет
+  новую цель, пока delay не истечёт.
+- **Fatigue:** применяется **только если убита огнестрельная единица**
+  (`shooter` или `horseshooter`). Размер: пехота (`lightinfantry`, `grenadier`,
+  `shooter`, `archer`) — `-15% maxhp`; лошади (`fasthorse`, `hardhorse`,
+  `horseshooter`) — `-5% maxhp`. Minimum 1 hp — усталость не убивает напрямую.
+- **Near-death kill:** если `hp < 3` — смерть в retarget window (см. п. 2.5).
+
+Цепочка усталости: пехотинец (maxhp ~80) теряет 12 hp за убийство мушкетёра.
+После ~6 таких убийств hp опускается до 1. При следующем убийстве
+hp=1 < 3 → смерть в retarget gate.
+
+### 2.4 Выбор цели — anti-clumping (unit.script:5127, 5191, 5194)
+
+Применяется только когда цель ищёт **пехота или лошадь**.
+
+Stock C3: `relativeDist := distSqr × (1 + pstolist.count × K)`, K=0.1/0.125.
+
+**Мод:** K поднят до **0.5** для всех трёх сканов (long-range, melee, ranged).
+
+| Атакующих на цели | Множитель видимой дистанции |
+|---|---|
+| 0 | ×1.0 |
+| 1 | ×1.5 |
+| 2 | ×2.0 |
+| 3 | ×2.5 |
+
+Дополнительно: цели с `50% > hp ≥ 3` получают ещё ×2.5 к дистанции —
+юниты обходят раненых и переключаются на свежих. Умирающие (`hp < 3`)
+из этого множителя исключены и остаются приоритетными.
+
+### 2.5 Retarget gate (unit.script:8400)
+
+Применяется только к **пехоте и лошадям**.
+
+Пока `attackdelay > 0` — юнит не ищет новую цель (принудительный idle).
+Если при этом `hp < 3` — смерть (`hp := 0` + `gc_statetag_essential_death`).
+
+---
+
+## Как работает anti-snowball в совокупности
+
+Проблема stock C3: в симметричном бою первые несколько смертей создают
+численный перевес → победитель получает «бесплатные» атаки по оставшимся
+→ каскад. 100v100 → 0 vs 40.
+
+Мод атакует каскад с нескольких сторон:
+
+1. **Pile-on penalty** снижает эффективность численного перевеса при атаке.
+2. **Fresh penalty** уменьшает урон от «победителей» с полным HP.
+3. **Outnumbered bonus** усиливает окружённых, повышая цену окружения.
+4. **Fatigue** делает «победителей» хрупкими после убийства огнестрельных.
+5. **Near-death kill** выводит из строя юнитов, которые накопили усталость.
+6. **Retarget delay** разрывает цепочки немедленного переключения на следующую цель.
+7. **Suicidal shot** добавляет риск для мушкетёров при мощном выстреле.
+8. **Anti-clumping K=0.5** мягко снижает вероятность pile-on при выборе цели.
+
+---
 
 ## Как собрать
 
@@ -59,103 +144,67 @@ cd c:/projects/other/cossacks
 python "mods/Deterministic Cossacks/build.py"
 ```
 
-Скрипт читает оригинальные `lib/{misc,miscext2,unit}.script` из `$COSSACKS3_PATH` (default `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3`), применяет 10 патчей и пишет результат в `mods/Deterministic Cossacks/build/Deterministic Cossacks/`.
-
-Если игра обновилась и оригинальные строки сместились — патчер выдаст warning «drift > 5» или ошибку «original line not found». В этом случае нужно перепроверить sites через [docs/recon/world/economy/peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md) и [internals/engine/rng_implementation.md](../../internals/engine/rng_implementation.md), и обновить `expected_line` в `build.py`.
-
-## Как установить
-
-### Вариант 1: автоматически (нужны права записи в Program Files)
+Читает оригинальные `lib/{misc,miscext2,unit}.script` из `$COSSACKS3_PATH`
+(default `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3`),
+применяет патчи, пишет результат в `mods/Deterministic Cossacks/build/`.
 
 ```bash
 python "mods/Deterministic Cossacks/build.py" --install
 ```
 
-Скопирует `mods/Deterministic Cossacks/build/Deterministic Cossacks/` в `<game>/mods/Deterministic Cossacks/` и пропишет mod в `<game>/mods/mods.ini`.
+Дополнительно копирует в `<game>/mods/` и прописывает в `mods.ini`.
 
-### Вариант 2: вручную
+### Если патч не находит строку
 
-1. Скопируй папку `mods/Deterministic Cossacks/build/Deterministic Cossacks/` в `<game>/mods/`.
-2. Открой `<game>/mods/mods.ini` и добавь внутри `mods : struct.begin` блок:
-   ```
-   [*] : struct.begin
-      dir = ..\Deterministic Cossacks
-      dis = False
-   struct.end
-   ```
-3. Перезапусти Cossacks 3 (или запусти `modman.exe`).
+Если игра обновилась и строки сместились — `build.py` выдаст
+`RuntimeError: original line not found` или warning `drift > 5`.
+Обновить `expected_line` и `original` в `PATCHES` в `build.py`.
 
-## Тест-протокол
-
-Карта Land+Highlands+Rich+Tiny на game speed fast.
-
-### A. Тест добычи
-
-Сейв с фиксированной расстановкой крестьян (например, 10 на лесу + 10 на камне).
-
-**Без мода** (baseline):
-1. Загрузить сейв.
-2. Подождать 5 g-минут.
-3. Записать накопленный wood/stone.
-4. Повторить 5 раз.
-5. Посчитать σ/μ.
-
-**С модом**: то же самое.
-
-**Ожидаемый результат:**
-- Без мода: σ/μ ≈ 5–15% по wood/stone, ≈0% по mines.
-- С модом: σ/μ <2% по wood/stone (остаточная дисперсия от pathfinding), 0% по mines.
-
-### B. Тест боя
-
-Сейв с фиксированной встречей (например, 20 mush vs 20 mush на симметричной позиции, без построений, без формаций).
-
-**Без мода**:
-1. Загрузить сейв.
-2. Запустить бой, дождаться окончания.
-3. Записать: время боя в g-сек, число выживших с каждой стороны, число headshot'ов (по логу), HP-остатки выживших.
-4. Повторить 5 раз.
-
-**С модом**: то же самое.
-
-**Ожидаемый результат:**
-- Без мода: разные исходы между загрузками (variance в победителе/выживших).
-- С модом: бит-в-бит идентичный исход на каждой загрузке (если pathfinding не вмешался — а в открытом поле без obstacles он практически детерминирован).
-
-Если σ/μ с модом не упал значительно — доминирует движковый источник дисперсии (pathfinding async thread, или stock `_weapon_CalcShotDispertion` с непатченным RandomExt) и без DLL injection это уже не починить.
+---
 
 ## Ограничения
 
-- **Не лечит async pathfinding.** Если два дерева/таргета на одинаковой дистанции, движковый pathfinder в `PathDataThread*` выбирает по своему внутреннему обходу графа, и порядок зависит от тайминга потока.
-- **Не лечит `_weapon_CalcShotDispertion`.** Stock-код использует `RandomExt` после `SetRandomKey` — это bug движка, починить нельзя без `SetRandomExtKey64`.
-- **Не лечит adaptive game speed** ([internals/engine/ticks_and_subticks.md](../../internals/engine/ticks_and_subticks.md) §5.2). На разных компах за равное real-time проходит разное game-time. Для сравнения исходов берите g-time, не real-time.
-- При обновлении игры файлы `misc.script` / `miscext2.script` / `unit.script` в моде могут разойтись с оригиналом → нужен ребилд. Drift-warning сработает автоматически.
+- **Async pathfinding** (`PathDataThread*`) — недоступен скрипту, остаточный
+  источник дисперсии.
+- **`_weapon_CalcShotDispertion`** — использует `RandomExt`, stock-bug движка;
+  без `SetRandomExtKey64` не патчится.
+- **Adaptive game speed** — на разных компах за равное real-time проходит
+  разное game-time; сравнивать исходы по g-time.
+
+---
+
+## Откат
+
+- В `<game>/mods/mods.ini` поставить `dis = True`, или
+- Удалить `<game>/mods/Deterministic Cossacks/`.
+
+Оригинальные скрипты в `<game>/data/scripts/` не трогаются.
+
+---
 
 ## Структура
 
 ```
 mods/Deterministic Cossacks/
-├── README.md                  ← этот файл
-├── build.py                   ← патчер (читает оригиналы, генерит мод)
-├── .gitignore
+├── README.md
+├── build.py           ← патчер
 ├── src/
-│   └── mod.ini                ← metadata template
-└── build/                     ← результат сборки (.gitignore'нут)
+│   └── mod.ini        ← metadata
+└── build/             ← результат сборки (.gitignored)
     └── Deterministic Cossacks/
         ├── mod.ini
         └── data/scripts/lib/
-            ├── misc.script        ← пропатченный
-            ├── miscext2.script    ← пропатченный
-            └── unit.script        ← пропатченный
+            ├── misc.script
+            ├── miscext2.script
+            └── unit.script
 ```
 
-`build/` создаётся при каждом запуске `build.py` (с `shutil.rmtree` сначала). Не редактировать вручную — изменения перезатрутся.
+## Дополнительно
 
-## Откат
-
-Если что-то сломалось:
-1. В `mods/mods.ini` поставь `dis = True` для нашего mod entry, либо
-2. Удали `<game>/mods/Deterministic Cossacks/`, либо
-3. Удали entry из mods.ini.
-
-Никаких следов мод не оставляет — оригинальные скрипты в `<game>/data/scripts/` не трогаются.
+- [internals/engine/script_modding_constraints.md](../../internals/engine/script_modding_constraints.md) —
+  ограничения DWS-скриптинга: почему нельзя убивать атакующего изнутри
+  DoDamage, двойной essential_death баг, безопасный retarget gate паттерн.
+- [internals/engine/rng_implementation.md](../../internals/engine/rng_implementation.md) §3 —
+  SetRandomKey vs SetRandomExtKey64.
+- [docs/recon/world/economy/peasant_extraction.md](../../docs/recon/world/economy/peasant_extraction.md) —
+  каталог extraction RNG-сайтов.
