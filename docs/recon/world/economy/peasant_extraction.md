@@ -70,8 +70,8 @@ game speed 2 умножайте rate на 1.4 чтобы получить real-t
     - Запускается `_unit_GetNearestStorehouse` — поиск по списку
       `gPlayer[pl].lists.storehouses` [^5]. Учитываются здания с
       `usage=storage/mill/center` и `resourcebase[restype]=True`.
-    - Цель — `resourcePoint` склада (точка сдачи на конкретном tile-offset
-      от позиции здания).
+    - Цель — `resourcePoint` склада (точка сдачи в тайловых координатах
+      от позиции здания; таблицы по всем типам — в §3 «Точки сдачи ресурсов»).
 
 3. **Сдача.** При попадании в радиус `gc_gameplay_resourceDropRadiusSqr = 0.5` (≈0.707 тайла):
     - `_unit_PeasantAddResToPlayerByIndex` → `delivered = (portion × eff) / 100` [^6].
@@ -137,6 +137,62 @@ Animation frame rate совпадает с `gc_time_to_frames = 32` (32
 | `gc_obj_extract_stone_radiusmax` | 0.9375 (=50×0.01875) | дальность "удара" камня |
 | `gc_gameplay_resourceDropRadiusSqr` | 0.5 (sqrt≈0.707) | радиус сдачи у склада |
 
+### Точки сдачи ресурсов (resourcePoint)
+
+Каждое здание-приёмник ресурсов имеет в `data/game/var/objcustom.cfg` фиксированную точку
+`ResourcePoint {x, z}` — смещение в **тайловых координатах** от мировой позиции здания.
+Именно к ней идёт крестьянин; она же используется в `_unit_GetNearestStorehouse`
+для ранжирования ближайшего склада. Здания с `usage = storage / mill / center` и
+`resourcebase[restype] = True` попадают в список кандидатов [^5].
+
+В C3 отрицательный z = север = верхняя часть экрана. Все значения с большим отрицательным z
+находятся на **северной (верхней) стороне** здания.
+
+**Склады** (`gc_obj_usage_storage`):
+
+| sid | Нации | x | z | Позиция |
+|---|---|---:|---:|---|
+| eursto | aus, bav, den, eng, fra, hun, net, pie, pru, sax, sco, swe, swi, ven | +0.20 | −1.69 | северный угол |
+| russto | pol, rus, ukr | +0.19 | −1.50 | северный угол |
+| tursto | alg, tur | +0.17 | −1.67 | северный угол |
+| spasto | por, spa | — | — | центр здания (0, 0) — не задан |
+
+**Мельницы** (`gc_obj_usage_mill`):
+
+| sid | x | z | Позиция |
+|---|---:|---:|---|
+| eurmil | −0.02 | −1.61 | северная сторона |
+| rusmil | +0.04 | −1.09 | северная сторона |
+| turmil | −0.44 | −2.56 | северная сторона |
+
+**Городские центры** (`gc_obj_usage_center`):
+
+| sid | x | z |
+|---|---:|---:|
+| vencen | +0.07 | −3.86 |
+| swecen | +0.02 | −3.68 |
+| engcen | −0.50 | −3.67 |
+| turcen | +0.49 | −3.41 |
+| auscen | −0.11 | −3.34 |
+| spacen | +0.10 | −3.35 |
+| saxcen | +0.24 | −3.25 |
+| porcen | +0.30 | −3.17 |
+| ukrcen | −1.30 | −3.16 |
+| algcen | +0.80 | −3.20 |
+| ruscen | −0.28 | −3.22 |
+| fracen | +0.01 | −3.12 |
+| prucen | −0.06 | −3.07 |
+| bavcen | −1.45 | −3.07 |
+| polcen | −0.06 | −2.63 |
+| swicen | −1.82 | −2.51 |
+| huncen | +1.39 | −2.25 |
+| piecen | −0.25 | −2.42 |
+| dencen | −0.10 | −2.20 |
+| netcen | +0.43 | −2.23 |
+| scocen | 0 | **−0.72** ⚠ аномалия — фактически центр здания |
+
+Источник: `data/game/var/objcustom.cfg` (парсится `_country_initobjcustom` при старте).
+
 ### Скорости движения
 
 Реальная скорость задаётся в `data/animations/ref/refspeed.acl`
@@ -176,11 +232,11 @@ time_per_trip_game = hitsneeded × t_hit_game    # игровых секунд
 rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_сек
 ```
 
-| Ресурс | portion | hitsneeded | t_hit_game | rate (units/game-sec) | rate @ fast (units/real-sec) |
-|---|---:|---:|---:|---:|---:|
-| food (default eff) | 45 | 22 | 0.6875 | 45/(22×0.6875) = **2.975** | 4.165 |
-| wood | 28 | 14 | 0.5625 | 28/(14×0.5625) = **3.556** | 4.978 |
-| stone | 40 | 20 | 0.5625 | 40/(20×0.5625) = **3.556** | 4.978 |
+| Ресурс | portion | hitsneeded | t_hit_game | rate (units/г-сек) | units/г-мин | rate @ fast (units/r-sec) |
+|---|---:|---:|---:|---:|---:|---:|
+| food (default eff) | 45 | 22 | 0.6875 | **2.975** | **178** | 4.165 |
+| wood | 28 | 14 | 0.5625 | **3.556** | **213** | 4.978 |
+| stone | 40 | 20 | 0.5625 | **3.556** | **213** | 4.978 |
 
 ⚠ Это **верхняя граница** — реальный rate ниже из-за дороги к складу.
 
