@@ -135,12 +135,28 @@ PATCHES = [
     },
     {
         "file": "miscext2.script",
-        "name": "DoDamage: headshot flat +12 + musketeer suicide shot + damage modifiers",
+        "name": "DoDamage: bHeadShot block - convert to begin/end so dynamic-bonus body fits",
+        "expected_line": 436,
+        "original": "                        if (bHeadShot) then",
+        "replacement": [
+            "                        if (bHeadShot) then begin",
+        ],
+    },
+    {
+        "file": "miscext2.script",
+        "name": "DoDamage: dynamic headshot bonus + musketeer suicide shot + damage modifiers",
         "expected_line": 437,
         "original": "                        damage := damage+floor(TObj(pobj).uniqrnd*500);",
         "replacement": [
-            # headshot: flat +12 (avg-neutral vs 5%*250=12.5, zero variance)
-            "                        damage := damage+12; // headshot flat +12 (mod by Deterministic Cossacks)",
+            # headshot: dynamic effective bonus.
+            # Stock: 5% × uniform[0,500). Effective avg = 0.05 × E[min(B, maxhp)].
+            # For maxhp ≤ 500: E[min(B, H)] = H − H²/1000 → flat bonus = floor((H − H²/1000) × 0.05).
+            # Examples: H=50 → 2, H=80 → 3, H=100 → 4, H=200 → 8, H=500 → 12.
+            "                        var trgMaxHpHS : Integer = TObjBase(pobjbase2).maxhp;",
+            "                        if (trgMaxHpHS > 500) then trgMaxHpHS := 500;",
+            "                        if (trgMaxHpHS < 0) then trgMaxHpHS := 0;",
+            "                        damage := damage + floor((trgMaxHpHS - trgMaxHpHS*trgMaxHpHS/1000.0) * 0.05); // headshot dynamic bonus (mod by Deterministic Cossacks)",
+            "                        end; // bHeadShot",
             # all combat modifiers restricted to infantry and horses only
             "                        var attUsageDmg : Integer = _unit_GetUsage(goHnd);",
             "                        var bDmgInfHorse : Boolean = (attUsageDmg = gc_obj_usage_lightinfantry) or (attUsageDmg = gc_obj_usage_grenadier) or (attUsageDmg = gc_obj_usage_shooter) or (attUsageDmg = gc_obj_usage_archer) or (attUsageDmg = gc_obj_usage_fasthorse) or (attUsageDmg = gc_obj_usage_hardhorse) or (attUsageDmg = gc_obj_usage_horseshooter);",
