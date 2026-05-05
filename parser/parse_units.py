@@ -24,6 +24,29 @@ from typing import Iterator
 from parse_country import extract_proc_body, _is_word_boundary
 
 
+# Lazy cache of gc_* constants keyed to numeric values (loaded on first use).
+# Used by parse_int / parse_value to evaluate expressions like `5.5*gc_time_to_frames`.
+_GC_CONSTANTS: dict[str, int | float] | None = None
+
+
+def _gc_constants() -> dict[str, int | float]:
+    global _GC_CONSTANTS
+    if _GC_CONSTANTS is not None:
+        return _GC_CONSTANTS
+    try:
+        from config import DM_GLOBAL
+        from extract_constants import parse_constants
+        raw = parse_constants(DM_GLOBAL)
+        _GC_CONSTANTS = {k: v["value"] for k, v in raw.items()
+                         if v["value"] is not None and isinstance(v["value"], (int, float))}
+    except Exception:
+        _GC_CONSTANTS = {}
+    # Hardcoded fallbacks for the few constants we know unit.script depends on.
+    _GC_CONSTANTS.setdefault("gc_time_to_frames", 32)
+    _GC_CONSTANTS.setdefault("gc_frames_to_time", 1 / 32)
+    return _GC_CONSTANTS
+
+
 # ---------- Block splitter ----------
 
 def find_case_end(body: str, of_end: int) -> int:
@@ -385,9 +408,9 @@ def parse_int(s: str) -> int | None:
     m = re.match(r"gc_obj_weapon_kind_(\w+)", s)
     if m:
         return None  # encoded as string elsewhere
-    # arithmetic
+    # arithmetic — substitute gc_* constants before eval
     try:
-        return int(eval(s, {"__builtins__": {}}, {}))
+        return int(eval(s, {"__builtins__": {}}, _gc_constants()))
     except Exception:
         return None
 
@@ -417,7 +440,7 @@ def parse_value(s: str):
     py = re.sub(r"\bdiv\b", "//", s)
     py = re.sub(r"\bmod\b", "%", py)
     try:
-        return eval(py, {"__builtins__": {}}, {})
+        return eval(py, {"__builtins__": {}}, _gc_constants())
     except Exception:
         return s
 

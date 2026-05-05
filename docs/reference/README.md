@@ -1,6 +1,6 @@
 # Справочник по Cossacks 3
 
-_Extracted **2026-05-05 16:16:24** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-05 16:33:56** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../data.json`](../data.json); этот каталог — человеко-читаемый рендер.
 
