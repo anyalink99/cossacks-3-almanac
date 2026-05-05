@@ -1,6 +1,6 @@
 # Ратуши (Town Halls)
 
-[← compare/](README.md) · [← Index](../README.md)
+[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
 
 Главные здания всех 21 нации. Австрийская строится за 4.69 секунды (исключение). Украинская даёт +200 farm (макс), Российская — +75 (мин).
 

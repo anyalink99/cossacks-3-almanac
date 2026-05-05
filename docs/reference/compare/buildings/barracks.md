@@ -1,6 +1,6 @@
 # Казармы (17 в. и 18 в.)
 
-[← compare/](README.md) · [← Index](../README.md)
+[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
 
 Казармы тренируют пехоту. У России — Стрелецкая казарма; у Украины — Казацкий дом.
 

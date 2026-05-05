@@ -1,7 +1,7 @@
 {
   "version": {
-    "extracted_at_utc": "2026-05-01 01:53:43",
-    "extracted_at_local": "2026-05-01 04:53:43",
+    "extracted_at_utc": "2026-05-05 13:16:24",
+    "extracted_at_local": "2026-05-05 16:16:24",
     "game_files_mtime": {
       "unit.script": "2026-04-28 03:32:28",
       "country.script": "2026-04-28 03:32:28",
@@ -7285,6 +7285,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ausbar"
       ]
@@ -7330,6 +7332,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ausaca"
       ]
@@ -7399,6 +7403,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ausbla"
       ]
@@ -7463,6 +7469,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "auscen.1"
       ]
@@ -7502,6 +7510,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "auscen"
       ]
@@ -7554,6 +7564,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -7600,6 +7612,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ausaca"
       ]
@@ -7639,6 +7653,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "auscen"
       ]
@@ -7709,6 +7725,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ausbla"
       ]
@@ -7753,6 +7771,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "auscen"
       ]
@@ -7794,6 +7814,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -7833,6 +7855,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -7872,6 +7896,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -7909,6 +7935,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -7953,6 +7981,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -7993,6 +8023,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "auscen"
       ]
@@ -8042,6 +8074,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -8053,7 +8087,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -8083,6 +8117,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -8122,6 +8158,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -8166,6 +8204,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "aus",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "aus",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -8205,6 +8329,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "frabar"
       ]
@@ -8250,6 +8376,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fraaca"
       ]
@@ -8319,6 +8447,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "frabla"
       ]
@@ -8383,6 +8513,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fracen.1"
       ]
@@ -8422,6 +8554,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fracen"
       ]
@@ -8474,6 +8608,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -8520,6 +8656,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fraaca"
       ]
@@ -8559,6 +8697,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fracen"
       ]
@@ -8629,6 +8769,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "frabla"
       ]
@@ -8673,6 +8815,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fracen"
       ]
@@ -8714,6 +8858,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -8753,6 +8899,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -8792,6 +8940,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -8829,6 +8979,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -8873,6 +9025,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -8913,6 +9067,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "fracen"
       ]
@@ -8962,6 +9118,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -8973,7 +9131,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -9003,6 +9161,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -9042,6 +9202,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -9086,6 +9248,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "fra",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "fra",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -9125,6 +9373,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engbar"
       ]
@@ -9170,6 +9420,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engaca"
       ]
@@ -9239,6 +9491,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engbla"
       ]
@@ -9303,6 +9557,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engcen.1"
       ]
@@ -9342,6 +9598,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engcen"
       ]
@@ -9394,6 +9652,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -9440,6 +9700,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engaca"
       ]
@@ -9479,6 +9741,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engcen"
       ]
@@ -9549,6 +9813,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engbla"
       ]
@@ -9593,6 +9859,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engcen"
       ]
@@ -9634,6 +9902,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -9673,6 +9943,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -9712,6 +9984,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -9749,6 +10023,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -9793,6 +10069,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -9833,6 +10111,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "engcen"
       ]
@@ -9882,6 +10162,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -9893,7 +10175,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -9923,6 +10205,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -9962,6 +10246,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -10006,6 +10292,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "eng",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "eng",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -10045,6 +10417,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spabar"
       ]
@@ -10090,6 +10464,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spaaca"
       ]
@@ -10159,6 +10535,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spabla"
       ]
@@ -10223,6 +10601,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spacen.1"
       ]
@@ -10262,6 +10642,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spacen"
       ]
@@ -10314,6 +10696,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -10360,6 +10744,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spaaca"
       ]
@@ -10399,6 +10785,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spacen"
       ]
@@ -10469,6 +10857,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spabla"
       ]
@@ -10513,6 +10903,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spacen"
       ]
@@ -10554,6 +10946,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -10593,6 +10987,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -10632,6 +11028,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -10669,6 +11067,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "spasto"
@@ -10713,6 +11113,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -10753,6 +11155,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spacen"
       ]
@@ -10802,6 +11206,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spamar"
       ]
@@ -10813,7 +11219,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -10843,6 +11249,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -10882,6 +11290,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "spasto"
       ]
@@ -10926,6 +11336,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "spasto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "spa",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "spa",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "spasto"
       ]
@@ -10965,6 +11461,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusbar"
       ]
@@ -11010,6 +11508,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusaca"
       ]
@@ -11079,6 +11579,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusbla"
       ]
@@ -11143,6 +11645,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ruscen.1"
       ]
@@ -11182,6 +11686,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ruscen"
       ]
@@ -11234,6 +11740,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -11280,6 +11788,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusaca"
       ]
@@ -11319,6 +11829,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ruscen"
       ]
@@ -11389,6 +11901,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusbla"
       ]
@@ -11433,6 +11947,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ruscen"
       ]
@@ -11474,6 +11990,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -11513,6 +12031,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -11552,6 +12072,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -11589,6 +12111,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusmil",
         "russto"
@@ -11633,6 +12157,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -11673,6 +12199,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ruscen"
       ]
@@ -11722,6 +12250,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusmar"
       ]
@@ -11733,7 +12263,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "rus",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 640,
       "buildtime_sec": 200.0,
       "costpercent": 0,
@@ -11763,6 +12293,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -11802,6 +12334,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "russto"
       ]
@@ -11846,6 +12380,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "russto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "rus",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "rus",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "russto"
       ]
@@ -11885,6 +12505,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrbar"
       ]
@@ -11930,6 +12552,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukraca"
       ]
@@ -11999,6 +12623,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrbla"
       ]
@@ -12038,6 +12664,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrcen"
       ]
@@ -12090,6 +12718,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12136,6 +12766,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukraca"
       ]
@@ -12175,6 +12807,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrcen"
       ]
@@ -12245,6 +12879,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrbla"
       ]
@@ -12289,6 +12925,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrcen"
       ]
@@ -12330,6 +12968,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12369,6 +13009,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12408,6 +13050,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12445,6 +13089,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusmil",
         "russto"
@@ -12489,6 +13135,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12529,6 +13177,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "ukrcen"
       ]
@@ -12578,8 +13228,94 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "rusmar"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "ukr",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 2500,
+      "buildtime_frames": 26,
+      "buildtime_sec": 8.12,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 12,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 40
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "ukr",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 2500,
+      "buildtime_frames": 26,
+      "buildtime_sec": 8.12,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 12,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 40
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
+      "prereqs": [
+        "russto"
       ]
     },
     {
@@ -12617,6 +13353,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polbar"
       ]
@@ -12662,6 +13400,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polaca"
       ]
@@ -12731,6 +13471,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polbla"
       ]
@@ -12795,6 +13537,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polcen.1"
       ]
@@ -12834,6 +13578,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polcen"
       ]
@@ -12886,6 +13632,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -12932,6 +13680,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polaca"
       ]
@@ -12971,6 +13721,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polcen"
       ]
@@ -13041,6 +13793,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polbla"
       ]
@@ -13085,6 +13839,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polcen"
       ]
@@ -13126,6 +13882,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -13165,6 +13923,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -13204,6 +13964,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -13241,6 +14003,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "russto"
@@ -13285,6 +14049,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -13325,6 +14091,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "polcen"
       ]
@@ -13374,6 +14142,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -13385,7 +14155,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -13415,6 +14185,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -13454,6 +14226,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "russto"
       ]
@@ -13498,6 +14272,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "russto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "pol",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "pol",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "russto"
       ]
@@ -13537,6 +14397,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swebar"
       ]
@@ -13582,6 +14444,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "sweaca"
       ]
@@ -13651,6 +14515,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swebla"
       ]
@@ -13715,6 +14581,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swecen.1"
       ]
@@ -13754,6 +14622,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swecen"
       ]
@@ -13806,6 +14676,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -13852,6 +14724,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "sweaca"
       ]
@@ -13891,6 +14765,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swecen"
       ]
@@ -13961,6 +14837,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swebla"
       ]
@@ -14005,6 +14883,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swecen"
       ]
@@ -14046,6 +14926,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -14085,6 +14967,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -14124,6 +15008,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -14161,6 +15047,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -14205,6 +15093,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -14245,6 +15135,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swecen"
       ]
@@ -14294,6 +15186,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -14305,7 +15199,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -14335,6 +15229,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -14374,6 +15270,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -14418,6 +15316,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "swe",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "swe",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -14457,6 +15441,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prubar"
       ]
@@ -14502,6 +15488,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "pruaca"
       ]
@@ -14571,6 +15559,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prubla"
       ]
@@ -14635,6 +15625,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prucen.1"
       ]
@@ -14674,6 +15666,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prucen"
       ]
@@ -14726,6 +15720,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -14772,6 +15768,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "pruaca"
       ]
@@ -14811,6 +15809,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prucen"
       ]
@@ -14881,6 +15881,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prubla"
       ]
@@ -14925,6 +15927,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prucen"
       ]
@@ -14966,6 +15970,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15005,6 +16011,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15044,6 +16052,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15081,6 +16091,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -15125,6 +16137,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15165,6 +16179,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "prucen"
       ]
@@ -15214,6 +16230,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -15225,7 +16243,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -15255,6 +16273,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -15294,6 +16314,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -15338,6 +16360,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "pru",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "pru",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -15377,6 +16485,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "venbar"
       ]
@@ -15422,6 +16532,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "venaca"
       ]
@@ -15491,6 +16603,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "venbla"
       ]
@@ -15555,6 +16669,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "vencen.1"
       ]
@@ -15594,6 +16710,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "vencen"
       ]
@@ -15646,6 +16764,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15692,6 +16812,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "venaca"
       ]
@@ -15731,6 +16853,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "vencen"
       ]
@@ -15801,6 +16925,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "venbla"
       ]
@@ -15845,6 +16971,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "vencen"
       ]
@@ -15886,6 +17014,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15925,6 +17055,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -15964,6 +17096,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16001,6 +17135,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -16045,6 +17181,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16085,6 +17223,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "vencen"
       ]
@@ -16134,6 +17274,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -16145,7 +17287,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -16175,6 +17317,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -16214,6 +17358,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -16258,6 +17404,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "ven",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "ven",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -16297,6 +17529,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turbar"
       ]
@@ -16342,6 +17576,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turaca"
       ]
@@ -16411,6 +17647,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turbla"
       ]
@@ -16450,6 +17688,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turcen"
       ]
@@ -16502,6 +17742,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16548,6 +17790,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turaca"
       ]
@@ -16587,6 +17831,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turcen"
       ]
@@ -16657,6 +17903,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turbla"
       ]
@@ -16701,6 +17949,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turcen"
       ]
@@ -16742,6 +17992,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16781,6 +18033,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16820,6 +18074,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16857,6 +18113,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turmil",
         "tursto"
@@ -16901,6 +18159,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -16941,6 +18201,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turcen"
       ]
@@ -16990,6 +18252,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turmar"
       ]
@@ -17001,7 +18265,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "tur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 384,
       "buildtime_sec": 120.0,
       "costpercent": 0,
@@ -17031,6 +18295,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -17070,6 +18336,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "tursto"
       ]
@@ -17114,6 +18382,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "tursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "tur",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "tur",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "tursto"
       ]
@@ -17153,6 +18507,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algbar"
       ]
@@ -17198,6 +18554,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algaca"
       ]
@@ -17267,6 +18625,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algbla"
       ]
@@ -17306,6 +18666,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algcen"
       ]
@@ -17358,6 +18720,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -17404,6 +18768,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algaca"
       ]
@@ -17443,6 +18809,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algcen"
       ]
@@ -17513,6 +18881,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algbla"
       ]
@@ -17557,6 +18927,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algcen"
       ]
@@ -17598,6 +18970,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -17637,6 +19011,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -17676,6 +19052,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -17713,6 +19091,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turmil",
         "tursto"
@@ -17757,6 +19137,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -17797,6 +19179,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "algcen"
       ]
@@ -17846,6 +19230,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "turmar"
       ]
@@ -17857,7 +19243,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "tur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 384,
       "buildtime_sec": 120.0,
       "costpercent": 0,
@@ -17887,6 +19273,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -17926,6 +19314,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "tursto"
       ]
@@ -17970,6 +19360,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "tursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "alg",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "alg",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "tursto"
       ]
@@ -18009,6 +19485,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netbar"
       ]
@@ -18054,6 +19532,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netaca"
       ]
@@ -18123,6 +19603,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netbla"
       ]
@@ -18187,6 +19669,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netcen.1"
       ]
@@ -18226,6 +19710,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netcen"
       ]
@@ -18278,6 +19764,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -18324,6 +19812,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netaca"
       ]
@@ -18363,6 +19853,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netcen"
       ]
@@ -18433,6 +19925,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netbla"
       ]
@@ -18477,6 +19971,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netcen"
       ]
@@ -18518,6 +20014,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -18557,6 +20055,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -18596,6 +20096,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -18633,6 +20135,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -18677,6 +20181,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -18717,6 +20223,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "netcen"
       ]
@@ -18766,6 +20274,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -18777,7 +20287,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -18807,6 +20317,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -18846,6 +20358,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -18890,6 +20404,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "net",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "net",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -18929,6 +20529,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "denbar"
       ]
@@ -18974,6 +20576,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "denaca"
       ]
@@ -19043,6 +20647,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "denbla"
       ]
@@ -19107,6 +20713,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "dencen.1"
       ]
@@ -19146,6 +20754,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "dencen"
       ]
@@ -19198,6 +20808,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -19244,6 +20856,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "denaca"
       ]
@@ -19283,6 +20897,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "dencen"
       ]
@@ -19353,6 +20969,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "denbla"
       ]
@@ -19397,6 +21015,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "dencen"
       ]
@@ -19438,6 +21058,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -19477,6 +21099,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -19516,6 +21140,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -19553,6 +21179,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -19597,6 +21225,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -19637,6 +21267,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "dencen"
       ]
@@ -19686,6 +21318,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -19697,7 +21331,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -19727,6 +21361,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -19766,6 +21402,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -19810,6 +21448,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "den",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "den",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -19849,6 +21573,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porbar"
       ]
@@ -19894,6 +21620,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "poraca"
       ]
@@ -19963,6 +21691,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porbla"
       ]
@@ -20027,6 +21757,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porcen.1"
       ]
@@ -20066,6 +21798,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porcen"
       ]
@@ -20118,6 +21852,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -20164,6 +21900,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "poraca"
       ]
@@ -20203,6 +21941,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porcen"
       ]
@@ -20273,6 +22013,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porbla"
       ]
@@ -20317,6 +22059,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porcen"
       ]
@@ -20358,6 +22102,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -20397,6 +22143,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -20436,6 +22184,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -20473,6 +22223,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "spasto"
@@ -20517,6 +22269,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -20557,6 +22311,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "porcen"
       ]
@@ -20611,6 +22367,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "spamar"
       ]
@@ -20622,7 +22380,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -20652,6 +22410,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -20691,6 +22451,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "spasto"
       ]
@@ -20735,6 +22497,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "spasto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "por",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "por",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "spasto"
       ]
@@ -20774,6 +22622,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piebar"
       ]
@@ -20819,6 +22669,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "pieaca"
       ]
@@ -20888,6 +22740,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piebla"
       ]
@@ -20952,6 +22806,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piecen.1"
       ]
@@ -20991,6 +22847,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piecen"
       ]
@@ -21043,6 +22901,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -21089,6 +22949,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "pieaca"
       ]
@@ -21128,6 +22990,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piecen"
       ]
@@ -21198,6 +23062,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piebla"
       ]
@@ -21242,6 +23108,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piecen"
       ]
@@ -21283,6 +23151,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -21322,6 +23192,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -21361,6 +23233,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -21398,6 +23272,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -21442,6 +23318,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -21482,6 +23360,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "piecen"
       ]
@@ -21531,6 +23411,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -21542,7 +23424,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -21572,6 +23454,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -21611,6 +23495,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -21655,6 +23541,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "pie",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "pie",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -21694,6 +23666,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxbar"
       ]
@@ -21739,6 +23713,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxaca"
       ]
@@ -21808,6 +23784,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxbla"
       ]
@@ -21872,6 +23850,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxcen.1"
       ]
@@ -21911,6 +23891,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxcen"
       ]
@@ -21963,6 +23945,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22009,6 +23993,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxaca"
       ]
@@ -22048,6 +24034,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxcen"
       ]
@@ -22118,6 +24106,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxbla"
       ]
@@ -22162,6 +24152,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxcen"
       ]
@@ -22203,6 +24195,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22242,6 +24236,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22281,6 +24277,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22318,6 +24316,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -22362,6 +24362,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22402,6 +24404,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "saxcen"
       ]
@@ -22451,6 +24455,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -22462,7 +24468,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -22492,6 +24498,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -22531,6 +24539,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -22575,6 +24585,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "sax",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "sax",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -22614,6 +24710,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavbar"
       ]
@@ -22659,6 +24757,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavaca"
       ]
@@ -22728,6 +24828,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavbla"
       ]
@@ -22792,6 +24894,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavcen.1"
       ]
@@ -22831,6 +24935,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavcen"
       ]
@@ -22883,6 +24989,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -22929,6 +25037,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavaca"
       ]
@@ -22968,6 +25078,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavcen"
       ]
@@ -23038,6 +25150,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavbla"
       ]
@@ -23082,6 +25196,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavcen"
       ]
@@ -23123,6 +25239,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -23162,6 +25280,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -23201,6 +25321,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -23238,6 +25360,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -23282,6 +25406,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -23322,6 +25448,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "bavcen"
       ]
@@ -23371,6 +25499,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -23382,7 +25512,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -23412,6 +25542,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -23451,6 +25583,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -23495,6 +25629,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "bav",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "bav",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -23534,6 +25754,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "hunbar"
       ]
@@ -23579,6 +25801,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "hunaca"
       ]
@@ -23648,6 +25872,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "hunbla"
       ]
@@ -23712,6 +25938,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "huncen.1"
       ]
@@ -23751,6 +25979,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "huncen"
       ]
@@ -23803,6 +26033,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -23849,6 +26081,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "hunaca"
       ]
@@ -23888,6 +26122,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "huncen"
       ]
@@ -23959,6 +26195,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "hunbla"
       ]
@@ -24003,6 +26241,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "huncen"
       ]
@@ -24044,6 +26284,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -24083,6 +26325,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -24122,6 +26366,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -24159,6 +26405,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -24203,6 +26451,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -24243,6 +26493,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "huncen"
       ]
@@ -24292,6 +26544,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -24303,7 +26557,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -24333,6 +26587,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -24372,6 +26628,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -24416,6 +26674,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "hun",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "hun",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -24455,6 +26799,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swibar"
       ]
@@ -24500,6 +26846,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swiaca"
       ]
@@ -24569,6 +26917,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swibla"
       ]
@@ -24633,6 +26983,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swicen.1"
       ]
@@ -24672,6 +27024,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swicen"
       ]
@@ -24724,6 +27078,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -24770,6 +27126,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swiaca"
       ]
@@ -24809,6 +27167,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swicen"
       ]
@@ -24879,6 +27239,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swibla"
       ]
@@ -24923,6 +27285,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swicen"
       ]
@@ -24964,6 +27328,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25003,6 +27369,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25042,6 +27410,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25079,6 +27449,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -25123,6 +27495,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25163,6 +27537,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "swicen"
       ]
@@ -25212,6 +27588,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -25223,7 +27601,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -25253,6 +27631,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -25292,6 +27672,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -25336,6 +27718,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "swi",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "swi",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -25375,6 +27843,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scobar"
       ]
@@ -25420,6 +27890,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scoaca"
       ]
@@ -25490,6 +27962,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scobla"
       ]
@@ -25553,6 +28027,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scobla"
       ]
@@ -25592,6 +28068,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scocen"
       ]
@@ -25644,6 +28122,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25690,6 +28170,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scoaca"
       ]
@@ -25729,6 +28211,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scocen"
       ]
@@ -25799,6 +28283,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scobla"
       ]
@@ -25843,6 +28329,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scocen"
       ]
@@ -25884,6 +28372,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25923,6 +28413,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25962,6 +28454,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -25999,6 +28493,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmil",
         "eursto"
@@ -26043,6 +28539,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": []
     },
     {
@@ -26083,6 +28581,8 @@
       ],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "scocen"
       ]
@@ -26132,6 +28632,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
       "prereqs": [
         "eurmar"
       ]
@@ -26143,7 +28645,7 @@
       "name_ru": "Каменные ворота",
       "kind": "common",
       "cluster": "eur",
-      "hp": 50000,
+      "hp": 32000,
       "buildtime_frames": 288,
       "buildtime_sec": 90.0,
       "costpercent": 0,
@@ -26173,6 +28675,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
       "prereqs": []
     },
     {
@@ -26212,6 +28716,8 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -26256,6 +28762,92 @@
       "resourcebase": [],
       "bnohungry": true,
       "bbuilding": true,
+      "bgate": false,
+      "bwall": false,
+      "prereqs": [
+        "eursto"
+      ]
+    },
+    {
+      "sid": "ukrwga",
+      "nation": "sco",
+      "name_en": "Gate",
+      "name_ru": "Деревянные ворота",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": true,
+      "bwall": true,
+      "prereqs": []
+    },
+    {
+      "sid": "ukrwwa",
+      "nation": "sco",
+      "name_en": "Palisade",
+      "name_ru": "Частокол",
+      "kind": "common",
+      "cluster": "ukr",
+      "hp": 1500,
+      "buildtime_frames": 18,
+      "buildtime_sec": 5.62,
+      "costpercent": 0,
+      "food": 0,
+      "wood": 10,
+      "stone": 0,
+      "gold": 0,
+      "iron": 0,
+      "coal": 0,
+      "farm": 0,
+      "score": 1,
+      "usage": "gc_obj_usage_weakwall",
+      "usage_short": "Wood Wall/Gate",
+      "produces": [],
+      "capturable": false,
+      "vision": null,
+      "weapon_damage": null,
+      "weapon_pause_frames": null,
+      "weapon_radiusmax": null,
+      "weapon_kind": null,
+      "weapon_cost": null,
+      "consume": {
+        "wood": 32
+      },
+      "produce": null,
+      "peasantabsorber": null,
+      "resourcebase": [],
+      "bnohungry": true,
+      "bbuilding": true,
+      "bgate": false,
+      "bwall": true,
       "prereqs": [
         "eursto"
       ]
@@ -27059,19 +29651,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -27111,7 +29703,7 @@
       "nation": "aus",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -28667,12 +31259,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -28680,8 +31272,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -28698,13 +31290,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -28713,7 +31305,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -29863,19 +32455,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -29915,7 +32507,7 @@
       "nation": "fra",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -31474,12 +34066,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -31487,8 +34079,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -31505,13 +34097,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -31520,7 +34112,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -31990,20 +34582,20 @@
       "nation": "eng",
       "name_en": "Bagpiper",
       "name_ru": "Волынщик",
-      "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "hp": 150,
+      "buildtime_frames": 224,
+      "buildtime_sec": 7.0,
+      "food": 120,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 5,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -32582,19 +35174,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -34139,12 +36731,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -34152,8 +36744,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -34170,13 +36762,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -34185,7 +36777,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -35194,19 +37786,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -35246,7 +37838,7 @@
       "nation": "spa",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -36799,12 +39391,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -36812,8 +39404,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -36830,13 +39422,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -36845,7 +39437,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -39312,13 +41904,13 @@
       "nation": "rus",
       "name_en": "Pope",
       "name_ru": "Поп",
-      "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "hp": 75,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 40,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -39344,13 +41936,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 25,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 350,
+          "radiusmax_tiles": 6.56,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -39359,7 +41951,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -41093,13 +43685,13 @@
       "nation": "ukr",
       "name_en": "Pope",
       "name_ru": "Поп",
-      "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "hp": 75,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 40,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -41125,13 +43717,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 25,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 350,
+          "radiusmax_tiles": 6.56,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -41140,7 +43732,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -42148,19 +44740,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -42200,7 +44792,7 @@
       "nation": "pol",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -43684,12 +46276,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -43697,8 +46289,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -43715,13 +46307,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -43730,7 +46322,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -44810,19 +47402,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -44862,7 +47454,7 @@
       "nation": "swe",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -46417,12 +49009,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -46430,8 +49022,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -46448,13 +49040,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -46463,7 +49055,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -47472,19 +50064,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -47524,7 +50116,7 @@
       "nation": "pru",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -49112,12 +51704,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -49125,8 +51717,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -49143,13 +51735,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -49158,7 +51750,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -50167,19 +52759,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -50219,7 +52811,7 @@
       "nation": "ven",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -51703,12 +54295,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -51716,8 +54308,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -51734,13 +54326,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -51749,7 +54341,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -53413,7 +56005,7 @@
       "nation": "tur",
       "name_en": "Mullah",
       "name_ru": "Мулла",
-      "hp": 100,
+      "hp": 75,
       "buildtime_frames": 480,
       "buildtime_sec": 15.0,
       "food": 30,
@@ -54113,7 +56705,7 @@
       "nation": "tur",
       "name_en": "Yacht",
       "name_ru": "Турецкая яхта",
-      "hp": 31000,
+      "hp": 35000,
       "buildtime_frames": 1536,
       "buildtime_sec": 48.0,
       "food": 0,
@@ -54123,7 +56715,7 @@
       "iron": 150,
       "coal": 200,
       "costpercent": 105,
-      "score": 100,
+      "score": 200,
       "usage": "gc_obj_usage_yacht",
       "usage_short": "Yacht",
       "vision": 3,
@@ -54134,8 +56726,8 @@
       "fishingspeed": null,
       "aiforce": null,
       "walkintervalfactor": null,
-      "shield": null,
-      "speed": 40,
+      "shield": 100,
+      "speed": 70,
       "prot_pike": null,
       "prot_sword": null,
       "prot_bullet": null,
@@ -54145,25 +56737,43 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 1000,
-          "pause_frames": 350,
-          "pause_sec": 10.94,
+          "damage": 30,
+          "pause_frames": 400,
+          "pause_sec": 12.5,
           "radiusmin_px": 300,
           "radiusmin_tiles": 5.63,
-          "radiusmax_px": 1100,
-          "radiusmax_tiles": 20.63,
-          "dispertion_px": 250,
-          "dispertion_tiles": 4.69,
+          "radiusmax_px": 1000,
+          "radiusmax_tiles": 18.75,
+          "dispertion_px": 25,
+          "dispertion_tiles": 0.47,
           "kind": "cannonball",
           "weaponsid": "PPOINTTKOR",
           "cost": {
-            "iron": 4,
-            "coal": 9
+            "iron": 5,
+            "coal": 15
+          }
+        },
+        {
+          "index": 1,
+          "damage": 0,
+          "pause_frames": 700,
+          "pause_sec": 21.88,
+          "radiusmin_px": 1000,
+          "radiusmin_tiles": 18.75,
+          "radiusmax_px": 1650,
+          "radiusmax_tiles": 30.94,
+          "dispertion_px": 25,
+          "dispertion_tiles": 0.47,
+          "kind": null,
+          "weaponsid": "PPOINTTKOR",
+          "cost": {
+            "iron": 5,
+            "coal": 15
           }
         }
       ],
       "consume": {
-        "gold": 50
+        "gold": 1500
       },
       "peasantabsorber": null,
       "bnohungry": true,
@@ -55558,7 +58168,7 @@
       "nation": "alg",
       "name_en": "Mullah",
       "name_ru": "Мулла",
-      "hp": 100,
+      "hp": 75,
       "buildtime_frames": 480,
       "buildtime_sec": 15.0,
       "food": 30,
@@ -56753,19 +59363,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -56805,7 +59415,7 @@
       "nation": "net",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -58289,12 +60899,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -58302,8 +60912,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -58320,13 +60930,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -58335,7 +60945,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -59344,19 +61954,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -59396,7 +62006,7 @@
       "nation": "den",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -60880,12 +63490,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -60893,8 +63503,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -60911,13 +63521,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -60926,7 +63536,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -61935,19 +64545,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -61987,7 +64597,7 @@
       "nation": "por",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -63543,12 +66153,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -63556,8 +66166,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -63574,13 +66184,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -63589,7 +66199,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -64598,19 +67208,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -64650,7 +67260,7 @@
       "nation": "pie",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -65928,13 +68538,13 @@
       "nation": "pie",
       "name_en": "Padre",
       "name_ru": "Падре",
-      "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "hp": 90,
+      "buildtime_frames": 800,
+      "buildtime_sec": 25.0,
+      "food": 50,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 40,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -65942,8 +68552,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -65960,13 +68570,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 30,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -65975,7 +68585,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 40
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -67189,19 +69799,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -67241,7 +69851,7 @@
       "nation": "sax",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -68797,12 +71407,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -68810,8 +71420,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -68828,13 +71438,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -68843,7 +71453,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -69852,19 +72462,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -69904,7 +72514,7 @@
       "nation": "bav",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -71388,12 +73998,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -71401,8 +74011,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -71419,13 +74029,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -71434,7 +74044,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -72367,19 +74977,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -72419,7 +75029,7 @@
       "nation": "hun",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -74050,12 +76660,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -74063,8 +76673,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -74081,13 +76691,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -74096,7 +76706,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -75105,19 +77715,19 @@
       "name_en": "Drummer, 17th century",
       "name_ru": "Барабанщик 17в.",
       "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "buildtime_frames": 160,
+      "buildtime_sec": 5.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 6,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -75157,7 +77767,7 @@
       "nation": "swi",
       "name_en": "Drummer, 18th century",
       "name_ru": "Барабанщик 18в.",
-      "hp": 75,
+      "hp": 100,
       "buildtime_frames": 192,
       "buildtime_sec": 6.0,
       "food": 50,
@@ -76713,12 +79323,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -76726,8 +79336,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -76744,13 +79354,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -76759,7 +79369,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -77321,20 +79931,20 @@
       "nation": "sco",
       "name_en": "Bagpiper",
       "name_ru": "Волынщик",
-      "hp": 75,
-      "buildtime_frames": 192,
-      "buildtime_sec": 6.0,
-      "food": 50,
+      "hp": 150,
+      "buildtime_frames": 224,
+      "buildtime_sec": 7.0,
+      "food": 120,
       "wood": 0,
       "stone": 0,
-      "gold": 30,
+      "gold": 20,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
       "score": 10,
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
-      "vision": 8,
+      "vision": 5,
       "searchradius_px": 0,
       "searchradius_tiles": 0.0,
       "transport": null,
@@ -78698,12 +81308,12 @@
       "name_en": "Priest",
       "name_ru": "Капеллан",
       "hp": 100,
-      "buildtime_frames": 480,
-      "buildtime_sec": 15.0,
-      "food": 30,
+      "buildtime_frames": 640,
+      "buildtime_sec": 20.0,
+      "food": 60,
       "wood": 0,
       "stone": 0,
-      "gold": 10,
+      "gold": 25,
       "iron": 0,
       "coal": 0,
       "costpercent": null,
@@ -78711,8 +81321,8 @@
       "usage": "gc_obj_usage_lightinfantry",
       "usage_short": "Light Infantry",
       "vision": 1,
-      "searchradius_px": 500,
-      "searchradius_tiles": 9.38,
+      "searchradius_px": 400,
+      "searchradius_tiles": 7.5,
       "transport": null,
       "fishingmax": null,
       "fishingspeed": null,
@@ -78729,13 +81339,13 @@
       "weapons": [
         {
           "index": 0,
-          "damage": 15,
+          "damage": 20,
           "pause_frames": 0,
           "pause_sec": 0.0,
           "radiusmin_px": 0,
           "radiusmin_tiles": 0.0,
-          "radiusmax_px": 500,
-          "radiusmax_tiles": 9.38,
+          "radiusmax_px": 400,
+          "radiusmax_tiles": 7.5,
           "dispertion_px": null,
           "dispertion_tiles": null,
           "kind": "heal",
@@ -78744,7 +81354,7 @@
         }
       ],
       "consume": {
-        "gold": 15
+        "gold": 20
       },
       "peasantabsorber": null,
       "bnohungry": false,
@@ -214103,7 +216713,7 @@
       "category": "counts",
       "name": "Building rows (sid×nation)",
       "expected": ">= 410",
-      "actual": 414,
+      "actual": 456,
       "pass": true
     },
     {
@@ -214131,147 +216741,147 @@
       "category": "nations",
       "name": "aus building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "fra building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "eng building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "spa building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "rus building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "ukr building count",
       "expected": ">= 15",
-      "actual": 16,
+      "actual": 18,
       "pass": true
     },
     {
       "category": "nations",
       "name": "pol building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "swe building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "pru building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "ven building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "tur building count",
       "expected": ">= 15",
-      "actual": 19,
+      "actual": 21,
       "pass": true
     },
     {
       "category": "nations",
       "name": "alg building count",
       "expected": ">= 15",
-      "actual": 19,
+      "actual": 21,
       "pass": true
     },
     {
       "category": "nations",
       "name": "net building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "den building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "por building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "pie building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "sax building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "bav building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "hun building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "swi building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {
       "category": "nations",
       "name": "sco building count",
       "expected": ">= 15",
-      "actual": 20,
+      "actual": 22,
       "pass": true
     },
     {

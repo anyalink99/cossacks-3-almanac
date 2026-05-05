@@ -1,6 +1,6 @@
 # Справочник по Cossacks 3
 
-_Extracted **2026-05-01 04:53:43** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-05 16:16:24** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../data.json`](../data.json); этот каталог — человеко-читаемый рендер.
 
@@ -145,7 +145,7 @@ applied = max(1, weapon.damage
 |---|---:|
 | Sanity checks (PASS / всего) | **112 / 112** |
 | Играбельных наций | 21 |
-| Зданий (`sid` × нация) | 414 |
+| Зданий (`sid` × нация) | 456 |
 | Юнитов | 714 |
 | Апгрейдов с полностью разрешёнными `cost / value / itype / prereqs` | 4429 |
 | Групп офицеров и формаций | 231 |

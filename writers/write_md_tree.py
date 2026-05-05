@@ -1751,23 +1751,52 @@ def write_nations(data: dict) -> None:
 # ---------- compare/ ----------
 
 def write_compare(data: dict) -> None:
+    import shutil
     cmp_dir = TREE_ROOT / "compare"
+    # Wipe & recreate to drop any stale at-root files from the old flat layout.
+    if cmp_dir.exists():
+        shutil.rmtree(cmp_dir)
     cmp_dir.mkdir(parents=True, exist_ok=True)
+    cmp_units = cmp_dir / "units"
+    cmp_units.mkdir(parents=True, exist_ok=True)
+    cmp_buildings = cmp_dir / "buildings"
+    cmp_buildings.mkdir(parents=True, exist_ok=True)
+    cmp_weapons = cmp_dir / "weapons"
+    cmp_weapons.mkdir(parents=True, exist_ok=True)
 
     by_class = defaultdict(list)
     for u in data["units"]:
         cls = classify_unit(u["sid"], u.get("usage_short", ""))
         by_class[cls].append(u)
 
-    # Index
+    # Top-level index dispatches into units/ and buildings/.
     out = render_template("reference/compare/readme.md")
     write_md(cmp_dir / "README.md", out)
+
+    # Per-subfolder README's so back-links from individual files resolve cleanly.
+    write_md(cmp_units / "README.md", [
+        "# Сравнения юнитов\n",
+        "[← compare/](../README.md) · [← Index](../../README.md)\n",
+        "См. [списком в compare/README.md](../README.md#unitsreadmemd--сравнения-юнитов).",
+    ])
+    write_md(cmp_buildings / "README.md", [
+        "# Сравнения зданий\n",
+        "[← compare/](../README.md) · [← Index](../../README.md)\n",
+        "См. [списком в compare/README.md](../README.md#buildingsreadmemd--сравнения-зданий).",
+    ])
+    write_md(cmp_weapons / "README.md", [
+        "# Каталог оружия\n",
+        "[← compare/](../README.md) · [← Index](../../README.md)\n",
+        "Не «сравнение по нациям», а **каталог типов оружия и снарядов** "
+        "(`weaponsid` из `weapon.script`) с характеристиками и списком носителей. "
+        "Здесь только проектильные параметры; стрелковые статы юнитов смотри в [units/](../units/README.md).",
+    ])
 
     def write_unit_compare(filename: str, classes: list[str], title: str, intro: str) -> None:
         out = []
         A = out.append
         A(f"# {title}\n")
-        A("[← compare/](README.md) · [← Index](../README.md)\n")
+        A("[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
         A(intro + "\n")
         # Collect rows
         rows = []
@@ -1783,6 +1812,7 @@ def write_compare(data: dict) -> None:
                 continue
             seen.add(key)
             w0 = primary_weapon(u)
+            consume = u.get("consume") or {}
             flat = {
                 "sid": u["sid"], "nation": u["nation"],
                 "name_en": u.get("name_en") or "",
@@ -1790,6 +1820,9 @@ def write_compare(data: dict) -> None:
                 "hp": u.get("hp"), "buildtime_sec": u.get("buildtime_sec"),
                 "food": u.get("food"), "gold": u.get("gold"), "iron": u.get("iron"),
                 "wood": u.get("wood"), "stone": u.get("stone"), "coal": u.get("coal"),
+                "consume_food": consume.get("food"),
+                "consume_gold": consume.get("gold"),
+                "speed": u.get("speed"),
                 "damage": w0.get("damage"),
                 "radiusmax_tiles": w0.get("radiusmax_tiles"),
                 "pause_sec": w0.get("pause_sec"),
@@ -1805,6 +1838,7 @@ def write_compare(data: dict) -> None:
 
         # Compute baselines (mode) for each numeric column
         baseline_cols = ["hp", "buildtime_sec", "food", "gold", "iron",
+                          "consume_food", "consume_gold", "speed",
                           "damage", "radiusmax_tiles", "pause_sec",
                           "prot_pike", "prot_sword", "prot_bullet",
                           "prot_cannister", "prot_arrow", "prot_cannonball"]
@@ -1814,6 +1848,9 @@ def write_compare(data: dict) -> None:
         BASELINE_LABELS = {
             "hp": "HP", "buildtime_sec": "Время (g-сек)",
             "food": "F", "gold": "G", "iron": "I",
+            "consume_food": "апкип F (raw)",
+            "consume_gold": "апкип G (raw)",
+            "speed": "speed",
             "damage": "урон", "radiusmax_tiles": "дальность (тайл.)",
             "pause_sec": "перезарядка (с)",
             "prot_pike": "пика", "prot_sword": "меч", "prot_bullet": "пуля",
@@ -1826,9 +1863,17 @@ def write_compare(data: dict) -> None:
                        for k, v in baselines.items() if v is not None) + ".")
         A("> **Жирным** в таблице ниже — отклонения от этих базовых значений. "
           "Так сразу видно, какой юнит «особенный» в каждой колонке.\n")
+        A("> **Апкип**: `consume × 32 / 20000` за игр-секунду (raw consume — в скобках). "
+          "**Speed**: единицы движка `t/g-сек × 50/1.5` (peasant=32, infantry=24, "
+          "fasthorse=96, cannon≈22).\n")
 
-        A("| Юнит | Нация | HP | Время (g-сек) | F | G | I | урон | дальн. (тайл.) | перезарядка (с) | пика | меч | пуля | картечь | стрела | ядро | уникальность |")
-        A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
+        A("| Юнит | Нация | HP | Время (g-сек) | F | G | I | апкип F | апкип G | speed | урон | дальн. (тайл.) | перезарядка (с) | пика | меч | пуля | картечь | стрела | ядро | уникальность |")
+        A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
+        def _upkeep_cell(raw):
+            if raw is None or raw == 0:
+                return "—"
+            per_sec = raw * 32 / 20000
+            return f"{per_sec:.4f} ({raw})"
         for r in flat_rows:
             A(f"| {name_cell_short(r)} | {r['nation']} "
               f"| {bold_if(r['hp'], baselines['hp'])} "
@@ -1836,6 +1881,9 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(r['food'], baselines['food'])} "
               f"| {bold_if(r['gold'], baselines['gold'])} "
               f"| {bold_if(r['iron'], baselines['iron'])} "
+              f"| {_upkeep_cell(r['consume_food'])} "
+              f"| {_upkeep_cell(r['consume_gold'])} "
+              f"| {bold_if(r['speed'], baselines['speed'])} "
               f"| {bold_if(r['damage'], baselines['damage'])} "
               f"| {bold_if(r['radiusmax_tiles'], baselines['radiusmax_tiles'])} "
               f"| {bold_if(r['pause_sec'], baselines['pause_sec'])} "
@@ -1846,7 +1894,7 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(r['prot_arrow'], baselines['prot_arrow'])} "
               f"| {bold_if(r['prot_cannonball'], baselines['prot_cannonball'])} "
               f"| {r['uniqueness'] or '—'} |")
-        write_md(cmp_dir / filename, out)
+        write_md(cmp_units / filename, out)
 
     write_unit_compare("pikemen.md", ["Pikemen 17c"], "Пикинёры (17 в.)",
                         "Базовая пехота ближнего боя с пиками. Эффективна против кавалерии — высокая защита от картечи.")
@@ -1858,6 +1906,11 @@ def write_compare(data: dict) -> None:
                         "Стрелки с пулевым оружием. У каждой нации свой вариант: Стрелец (rus), Янычар (tur), Сердюк (ukr).")
     write_unit_compare("musketeers18.md", ["Musketeers 18c"], "Мушкетёры (18 в.)",
                         "Поздние мушкетёры — выше урон, лучше броня.")
+    write_unit_compare("special_infantry_18c.md", ["18c special infantry"], "Особая пехота (18 в.)",
+                        "Уникальные национальные стрелки 18 в., строящиеся в той же казарме 18 в., "
+                        "что и `musketeer18` — Хайлендер (sco), Пандур (aus), Секей (hun), Шассёр (fra), "
+                        "Йегер (por/swi). Альтернатива базовому мушкетёру: чаще быстрее или с особым уроном, "
+                        "но в среднем дешевле и слабее по HP.")
     write_unit_compare("grenadiers.md", ["Grenadiers"], "Гренадёры",
                         "Гранаты плюс мушкет. Эффективны против зданий и башен.")
     write_unit_compare("archers.md", ["Archers"], "Лучники",
@@ -1875,12 +1928,66 @@ def write_compare(data: dict) -> None:
     write_unit_compare("peasants.md", ["Peasant"], "Крестьяне",
                         "8 типов крестьян (`peaaus` / `peaeng` / `peapol` / `pearus` / `peaspa` / "
                         "`peatur` / `peaukr` / `peasco`) — отличаются внешним видом и стартовыми HP.")
+    write_unit_compare("officers.md", ["Officer"], "Офицеры",
+                        "Офицер — командир отряда (squad leader), нанимается в казармах. "
+                        "Пять национальных вариантов (`officer` / `officer18` / `officerrus` / `officersco` / `officertur`); "
+                        "статы заметно расходятся по стоимости, времени найма и урону.")
+    write_unit_compare("drummers.md", ["Drummer / Bagpiper"], "Барабанщики и волынщик",
+                        "Музыкант — второй обязательный «якорь» отряда после офицера (`drummer` / `drummer18` / "
+                        "`drummerrus` / `drummertur` / `bagpiper`). Без атаки. У `rus` и `tur` варианты ощутимо "
+                        "отличаются по HP/стоимости от базового шаблона.")
+
+    # Priests need a heal-specific table (different columns than the generic
+    # damage/range/protection layout): heal radius/amount + gold upkeep matter.
+    out = []
+    A = out.append
+    A("# Жрецы\n")
+    A("[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
+    A("Жрец — единственный юнит с лечебной способностью (`weapon.kind = heal`). "
+      "Четыре национальных sid'а — `priest` (католический шаблон), `pope` (Россия/Украина), "
+      "`mullah` (Турция/Алжир), `padre` (Пьемонт). У всех `pause = 0` (heal-«выстрел» инициируется "
+      "целью без перезарядки), но **дальность** и **сила хила за такт** различаются. Также различен "
+      "потребляемый золотой апкип (`consume.gold` за игр-секунду по правилу `consume × 32 / 20000`).\n")
+    rows = []
+    seen = set()
+    for u in sorted(data["units"], key=lambda x: (x["sid"], x["nation"])):
+        if u["sid"] not in ("priest", "pope", "mullah", "padre"):
+            continue
+        key = u["sid"]
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append(u)
+    A("| Юнит | Sid | HP | Время (g-сек) | F | G | Хил/такт | Радиус хила (тайл.) | Золото-апкип (за такт = 1 игр-сек) | Используют нации |")
+    A("|---|---|---:|---:|---:|---:|---:|---:|---:|---|")
+    for u in rows:
+        w0 = primary_weapon(u)
+        nations_with = sorted({r["nation"] for r in data["units"] if r["sid"] == u["sid"]})
+        consume_gold = (u.get("consume") or {}).get("gold")
+        upkeep_per_sec = (consume_gold * 32 / 20000) if consume_gold else None
+        A(f"| **{u.get('name_ru') or u['sid']}** | `{u['sid']}` "
+          f"| {u.get('hp')} "
+          f"| {u.get('buildtime_sec')} "
+          f"| {u.get('food')} "
+          f"| {u.get('gold')} "
+          f"| {w0.get('damage')} "
+          f"| {w0.get('radiusmax_tiles')} "
+          f"| {consume_gold} (≈ {upkeep_per_sec:.4f}/г-сек) "
+          f"| {', '.join(nations_with)} |")
+    A("")
+    A("> **Pause = 0**: жрец начинает «качать» здоровье цели сразу после выбора, без cooldown'а "
+      "между тактами. Реальный темп лечения = `Хил/такт × тики_в_секунду` (см. "
+      "[ticks_and_subticks.md](../../../../internals/engine/ticks_and_subticks.md) — heal-такт "
+      "управляется тем же `gc_time_to_frames` циклом).\n")
+    A("> **Источник статов**: `unit.script:1151-1188` — общий блок `'priest','pope','mullah','padre'` "
+      "плюс `if (objprop.sid='X') then begin … end` цепочка для пер-sid override'ов.")
+    write_md(cmp_units / "priests.md", out)
 
     # Weapons catalog (projectile-level data)
     out = []
     A = out.append
     A("# Каталог оружия (projectile-level)\n")
-    A("[← compare/](README.md) · [← Index](../README.md)\n")
+    A("[← weapons/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
     A("Все уникальные `weaponsid` (типы снарядов и метательного оружия) с их параметрами и "
       "юнитами-носителями. Один `weaponsid` может использоваться разными юнитами с разными "
       "статами (damage/pause варьируются), но **kind, dispersion, projectile-id универсальны** — "
@@ -1958,16 +2065,17 @@ def write_compare(data: dict) -> None:
     A("\nИсточник определений: `data/scripts/lib/weapon.script` (функция `_weapon_AddWeapon`). "
       "Дополнительные параметры (gravity, propagation, fxshot) есть в скрипте, но в этот лист "
       "не выгружены — см. исходный файл при необходимости.")
-    write_md(cmp_dir / "weapons.md", out)
+    write_md(cmp_weapons / "projectiles.md", out)
 
-    def write_building_compare(filename: str, sid_suffix: str, title: str, intro: str) -> None:
+    def write_building_compare(filename: str, sid_suffix: str, title: str, intro: str,
+                                kind: str = "per-nation") -> None:
         out = []
         A = out.append
         A(f"# {title}\n")
-        A("[← compare/](README.md) · [← Index](../README.md)\n")
+        A("[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
         A(intro + "\n")
         rows = sorted([b for b in data["buildings"]
-                       if b["sid"].endswith(sid_suffix) and b["kind"] == "per-nation"],
+                       if b["sid"].endswith(sid_suffix) and b["kind"] == kind],
                       key=lambda x: x["nation"])
         baseline_cols = ["hp", "buildtime_sec", "costpercent", "wood", "stone", "gold", "farm"]
         baselines = compute_baselines(rows, baseline_cols)
@@ -1994,7 +2102,7 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(b['gold'], baselines['gold'])} "
               f"| {bold_if(b['farm'], baselines['farm'])} "
               f"| {prod_str or '—'} |")
-        write_md(cmp_dir / filename, out)
+        write_md(cmp_buildings / filename, out)
 
     write_building_compare("town_halls.md", "cen", "Ратуши (Town Halls)",
                             "Главные здания всех 21 нации. Австрийская строится за 4.69 секунды "
@@ -2004,7 +2112,7 @@ def write_compare(data: dict) -> None:
     out = []
     A = out.append
     A("# Казармы (17 в. и 18 в.)\n")
-    A("[← compare/](README.md) · [← Index](../README.md)\n")
+    A("[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
     A("Казармы тренируют пехоту. У России — Стрелецкая казарма; у Украины — Казацкий дом.\n")
     A("> **Жирным** — отклонения от базовых значений.\n")
     for sid_suffix, title, note in [
@@ -2034,7 +2142,80 @@ def write_compare(data: dict) -> None:
               f"| {bold_if(b['farm'], baselines['farm'])} "
               f"| {prod_str or '—'} |")
         A("")
-    write_md(cmp_dir / "barracks.md", out)
+    write_md(cmp_buildings / "barracks.md", out)
+
+    # New per-nation building compares (gap fill: aca/art/bla/dip/hou/sta/tem).
+    # All seven are unique per-nation buildings in the same vein as town_halls/barracks.
+    write_building_compare("academies.md", "aca", "Академии",
+                            "Академия — здание апгрейдов общего профиля. Один вариант на нацию.")
+    write_building_compare("artillery_depots.md", "art", "Артиллерийские депо",
+                            "Тренируют пушки/мортиры. Производственный список варьируется (например, "
+                            "у Алжира нет multicannon).")
+    write_building_compare("blacksmiths.md", "bla", "Кузницы",
+                            "Кузница — апгрейды защиты пехоты и оружия. Стоимость и время заметно "
+                            "различаются по нациям.")
+    write_building_compare("diplomatic_centers.md", "dip", "Дипломатические центры",
+                            "Тренируют наёмников. Производственный список общий (наёмники-юниты), но "
+                            "стоимость постройки сильно варьирует.")
+    write_building_compare("houses.md", "hou", "Дома",
+                            "Дом увеличивает лимит population (`farm`). Базовая farm одинакова (25), "
+                            "цена и HP различаются.")
+    write_building_compare("stables.md", "sta", "Конюшни",
+                            "Тренируют кавалерию. У большинства наций — общий пул юнитов, у `rus`/`ukr` "
+                            "уникальные тяжёлые всадники.")
+    write_building_compare("temples.md", "tem", "Соборы / Церкви / Мечети",
+                            "Тренируют жреца (`priest`/`pope`/`mullah`/`padre`). Разная стоимость и "
+                            "время постройки. См. также [units/priests.md](../units/priests.md) — "
+                            "сравнение самих жрецов.")
+
+    # Common-cluster buildings (mill/market/storehouse/port/towers/mines/walls) live in
+    # 4-5 cluster variants (eur/rus/tur/ukr/sco). Useful to compare cluster-vs-cluster.
+    write_building_compare("mills.md", "mil", "Мельницы",
+                            "Поле-фабрика: где можно строить поля. Один вариант на cluster (eur/rus/tur/ukr/sco).",
+                            kind="common")
+    write_building_compare("markets.md", "mar", "Рынки",
+                            "Точка обмена ресурсов и закупа. Один вариант на cluster.",
+                            kind="common")
+    write_building_compare("storehouses.md", "sto", "Склады",
+                            "Точка сдачи дерева/камня. Один вариант на cluster.",
+                            kind="common")
+    write_building_compare("ports.md", "por", "Порты",
+                            "Корабельная верфь и точка сдачи рыбы. Один вариант на cluster.",
+                            kind="common")
+    write_building_compare("towers.md", "tow", "Башни",
+                            "Оборонительная башня с пушкой. Один вариант на cluster.",
+                            kind="common")
+
+    # Mines: 3 resource types (coa/gol/iro) × cluster — group all into one page.
+    out = []
+    A = out.append
+    A("# Шахты\n")
+    A("[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)\n")
+    A("Шахты добывают `coal` / `gold` / `iron`. Скрипт случайно использует `commonsid+'X'` "
+      "для всех cluster'ов (eur/rus/tur/ukr/sco), но статы — общие: парсер surface'ит только "
+      "`eur*` версию, потому что все cluster'ы наследуют одинаковые HP/цену/rate. "
+      "Cluster-специфичных шахт **нет** — это единая модель для всех наций.\n")
+    rows = sorted([b for b in data["buildings"]
+                   if b["sid"].endswith(("coa","gol","iro")) and b["kind"] == "common"],
+                  key=lambda x: (x["sid"], x["nation"]))
+    seen = set()
+    rows = [b for b in rows if not (b["sid"] in seen or seen.add(b["sid"]))]
+    baseline_cols = ["hp", "buildtime_sec", "wood", "stone", "gold"]
+    baselines = compute_baselines(rows, baseline_cols)
+    A("| Здание | Cluster | Ресурс | HP | Время (g-сек) | W | S | G | rate (за такт) | Доп. рабочих |")
+    A("|---|---|---|---:|---:|---:|---:|---:|---:|---:|")
+    for b in rows:
+        produce = b.get("produce") or {}
+        res, rate = next(iter(produce.items()), ("—", "—"))
+        A(f"| {name_cell_short(b)} | {b['sid'][:3]} | {res} "
+          f"| {bold_if(b['hp'], baselines['hp'])} "
+          f"| {bold_if(b['buildtime_sec'], baselines['buildtime_sec'])} "
+          f"| {bold_if(b['wood'], baselines['wood'])} "
+          f"| {bold_if(b['stone'], baselines['stone'])} "
+          f"| {bold_if(b['gold'], baselines['gold'])} "
+          f"| {rate} "
+          f"| {b.get('peasantabsorber') or '—'} |")
+    write_md(cmp_buildings / "mines.md", out)
 
 
 # ---------- main ----------

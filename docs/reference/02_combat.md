@@ -348,4 +348,5 @@ real_TTK = ideal_TTK / hit_chance
 | **Башня** `turtow` | alg, tur | `cannonball` | 1200 | 15.62 | 3.8 | 15 | 40 | — |
 | **Шебека** `xebec` | alg, tur | `PPOINTTKOR` | 1800 | 1.56 | 38.5 | 25 | 35 | — |
 | **Яхта** `yacht` | all | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
-| **Турецкая яхта** `yachttur` | tur | `PPOINTTKOR` | 1000 | 10.94 | 5.5 | 4 | 9 | — |
+| **Турецкая яхта** `yachttur` | tur | `PPOINTTKOR` | 30 | 12.5 | 4.8 | 5 | 15 | — |
+| **Турецкая яхта** `yachttur` | tur | `PPOINTTKOR` | 0 | 21.88 | 2.7 | 5 | 15 | — |

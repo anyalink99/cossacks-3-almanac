@@ -246,7 +246,17 @@ def assemble() -> dict:
             b_data = parsed_units["common_buildings"].get(suf)
             if not b_data:
                 continue
-            stats = _compute_effective_common_building(b_data, cluster)
+            # Sid prefix and override-cluster diverge for ukrwga/ukrwwa: every nation
+            # builds the same `ukrwga` / `ukrwwa` sid, but the in-script `if (cluster)`
+            # blocks key on the literal nation flag — `if (ukr)` is the only override
+            # for these branches. So nation 'ukr' picks override 'ukr', everyone else
+            # uses the base.
+            override_cluster: str
+            if suf in ("wga", "wwa"):
+                override_cluster = "ukr" if nat == "ukr" else "__none__"
+            else:
+                override_cluster = cluster
+            stats = _compute_effective_common_building(b_data, override_cluster)
             produces_list = list(building_produces.get((sid, nat), set()))
             row = _format_building_row(sid, nat, "common", stats,
                                        loc_en, loc_ru, cluster=cluster,
@@ -412,6 +422,8 @@ def _format_building_row(sid: str, nation: str, kind: str, stats: dict,
         "resourcebase": sorted(list(stats.get("resourcebase", set()))),
         "bnohungry": stats.get("bnohungry", False),
         "bbuilding": stats.get("bbuilding", True),
+        "bgate": stats.get("bgate", False),
+        "bwall": stats.get("bwall", False),
     }
 
 

@@ -585,6 +585,10 @@ def apply_assignment(stats: dict, lhs: str, rhs: str):
         if val is not None: stats["bnohungry"] = val
     elif lhs == "objprop.bbuilding":
         if val is not None: stats["bbuilding"] = val
+    elif lhs == "objprop.bgate":
+        if val is not None: stats["bgate"] = val
+    elif lhs == "objprop.bwall":
+        if val is not None: stats["bwall"] = val
     elif lhs == "objprop.bmercenary":
         if val is not None: stats["bmercenary"] = val
     elif lhs.startswith("objprop.costpercent"):
@@ -708,35 +712,46 @@ def remove_top_level_ifs(body: str) -> str:
             continue
         # detect 'if' at depth 0
         if body[i:i+2] == "if" and _is_word_boundary(body, i, 2) and block_depth == 0:
-            # skip parens of condition
-            j = i + 2
-            # skip whitespace
-            while j < n and body[j] in " \t\r\n":
-                j += 1
-            if j < n and body[j] == "(":
-                paren = 1
-                j += 1
-                while j < n and paren > 0:
-                    if body[j] == "(":
-                        paren += 1
-                    elif body[j] == ")":
-                        paren -= 1
+            # Walk an `if A then S1 [else if B then S2 …] [else SN]` chain as one unit.
+            cur = i
+            while True:
+                # `if`
+                j = cur + 2
+                while j < n and body[j] in " \t\r\n":
                     j += 1
-            # skip 'then'
-            while j < n and body[j] in " \t\r\n":
-                j += 1
-            if body[j:j+4] == "then" and _is_word_boundary(body, j, 4):
-                j += 4
-            # consume body of if
-            body_if, new_j = consume_statement(body, j)
-            # check if followed by 'else'
-            k = new_j
-            while k < n and body[k] in " \t\r\n":
-                k += 1
-            if body[k:k+4] == "else" and _is_word_boundary(body, k, 4):
-                k += 4
-                _, new_j = consume_statement(body, k)
-            i = new_j
+                # condition `( ... )`
+                if j < n and body[j] == "(":
+                    paren = 1
+                    j += 1
+                    while j < n and paren > 0:
+                        if body[j] == "(":
+                            paren += 1
+                        elif body[j] == ")":
+                            paren -= 1
+                        j += 1
+                # `then`
+                while j < n and body[j] in " \t\r\n":
+                    j += 1
+                if body[j:j+4] == "then" and _is_word_boundary(body, j, 4):
+                    j += 4
+                # body of this if-arm
+                _, new_j = consume_statement(body, j)
+                # check for `else` continuation
+                k = new_j
+                while k < n and body[k] in " \t\r\n":
+                    k += 1
+                if body[k:k+4] == "else" and _is_word_boundary(body, k, 4):
+                    k += 4
+                    while k < n and body[k] in " \t\r\n":
+                        k += 1
+                    if body[k:k+2] == "if" and _is_word_boundary(body, k, 2):
+                        # `else if` — continue chain
+                        cur = k
+                        continue
+                    # plain `else <stmt>` — consume the else-arm and stop
+                    _, new_j = consume_statement(body, k)
+                i = new_j
+                break
             out.append(" /*top-level-if*/ ")
             continue
         # track block depth
@@ -1023,24 +1038,65 @@ def parse_unit_init_base(text: str) -> dict:
             if label == "else":
                 continue
             suffixes = parse_label_commonsid_suffixes(label)
-            if not suffixes:
+            # Some labels in this case are literal sids (e.g., 'ukrwwa', 'ukrwga') —
+            # they sit alongside commonsid+'X' labels and produce per-cluster suffix
+            # entries the same way (suffix = last 3 chars of literal sid).
+            literal_sids = parse_label_sids(label)
+            if not suffixes and not literal_sids:
                 continue
             base = parse_branch_body(body_text)  # excludes if-blocks
             # Cluster overrides: `if (commonrus) then begin ... end;`, `if (commontur) ... end;`
+            # Branches may have multiple `if (cluster)` statements scattered through the body
+            # — merge them all into the same cluster_overrides[cluster] entry rather than
+            # last-write-wins.
             cluster_overrides: dict[str, dict] = {}
             for cond, if_body in parse_top_level_ifs(body_text):
                 cluster = _commoncond_to_cluster(cond)
                 if cluster:
-                    cluster_overrides[cluster] = parse_branch_body(if_body, base, exclude_if_blocks=False)
+                    prev = cluster_overrides.get(cluster, base)
+                    cluster_overrides[cluster] = parse_branch_body(if_body, prev, exclude_if_blocks=False)
             sub_overrides = parse_commonsid_subcase(body_text)
+            # Per-sid `if (sid='X')`/`if (sid=commonsid+'X')` overrides inside this branch.
+            if_sid_lit, if_sid_suf = _scan_if_sid_overrides(body_text)
+            def _apply_per_sid_suffix(stats: dict, suf: str) -> dict:
+                if suf in if_sid_suf:
+                    return _merge_unit_stats(stats,
+                        parse_branch_body(if_sid_suf[suf], exclude_if_blocks=True))
+                return stats
+            def _apply_per_sid_literal(stats: dict, full_sid: str) -> dict:
+                if full_sid in if_sid_lit:
+                    return _merge_unit_stats(stats,
+                        parse_branch_body(if_sid_lit[full_sid], exclude_if_blocks=True))
+                return stats
             for suf in suffixes:
                 merged_base = dict(base)
                 if suf in sub_overrides:
                     merged_base.update(sub_overrides[suf])
+                merged_base = _apply_per_sid_suffix(merged_base, suf)
+                # Cluster overrides also need the per-sid override re-applied: cluster
+                # inherited the un-overridden base, so the cluster's HP would otherwise
+                # mask a more-specific per-sid HP (e.g., gates: per-sid 'sga' sets
+                # maxhp=32000 but cluster 'rus' would re-assert 50000 from base).
+                cluster_overrides_for_suf = {
+                    k: _apply_per_sid_suffix(v, suf) for k, v in cluster_overrides.items()
+                }
                 result["common_buildings"][suf] = {
                     "base": merged_base,
-                    "overrides_cluster": cluster_overrides,
+                    "overrides_cluster": cluster_overrides_for_suf,
                 }
+            for full_sid in literal_sids:
+                # Cluster-prefixed literals like 'ukrwga' / 'ukrwwa': suffix is the tail.
+                suf = full_sid[-3:]
+                merged_base = _apply_per_sid_literal(dict(base), full_sid)
+                cluster_overrides_for_suf = {
+                    k: _apply_per_sid_literal(v, full_sid) for k, v in cluster_overrides.items()
+                }
+                # Don't clobber a real commonsid+suffix entry (e.g., 'swa') if it
+                # somehow shares the suffix; only fill if not already populated.
+                result["common_buildings"].setdefault(suf, {
+                    "base": merged_base,
+                    "overrides_cluster": cluster_overrides_for_suf,
+                })
     if nation_case:
         nb_text = body[nation_case[0]:nation_case[1]]
         for label, body_text in split_case_branches(nb_text):
@@ -1139,16 +1195,91 @@ def find_bmercenary_block_body(body: str) -> str | None:
     return body_text
 
 
+def _scan_if_sid_overrides(body: str) -> tuple[dict[str, str], dict[str, str]]:
+    """Find `if (objprop.sid=…) then begin … end` blocks (incl. else-if chains) and
+    return ({literal_sid: body_text}, {commonsid_suffix: body_text}).
+
+    Two RHS forms are recognized in the wild:
+      `if (objprop.sid='X')`             → literal sid → first dict.
+      `if (objprop.sid=commonsid+'X')`   → suffix-of-cluster → second dict, used inside
+                                            common-buildings branches like
+                                            `commonsid+'swa', commonsid+'sga' : begin … end`.
+    """
+    out_lit: dict[str, str] = {}
+    out_suf: dict[str, str] = {}
+    pat = re.compile(
+        r"\bif\s*\(\s*objprop\.sid\s*=\s*"
+        r"(?:'(?P<lit>\w+)'|commonsid\s*\+\s*'(?P<suf>\w+)')"
+        r"\s*\)\s*then\s+begin\b"
+    )
+    for m in pat.finditer(body):
+        is_lit = m.group("lit") is not None
+        key = m.group("lit") if is_lit else m.group("suf")
+        i = m.end()
+        depth = 1
+        n = len(body)
+        in_str = False
+        while i < n and depth > 0:
+            if in_str:
+                if body[i] == "'":
+                    in_str = False
+                i += 1
+                continue
+            if body[i] == "'":
+                in_str = True
+                i += 1
+                continue
+            if body[i:i+2] == "//":
+                nl = body.find("\n", i)
+                i = nl if nl != -1 else n
+                continue
+            if body[i] == "{":
+                cl = body.find("}", i)
+                i = cl + 1 if cl != -1 else n
+                continue
+            opened = False
+            for kw, kl in (("begin", 5), ("case", 4), ("record", 6), ("try", 3)):
+                if body[i:i+kl] == kw and _is_word_boundary(body, i, kl):
+                    depth += 1
+                    i += kl
+                    opened = True
+                    break
+            if opened:
+                continue
+            if body[i:i+3] == "end" and _is_word_boundary(body, i, 3):
+                depth -= 1
+                i += 3
+                continue
+            i += 1
+        sub_body = body[m.end():i - 3]
+        if is_lit:
+            out_lit[key] = sub_body
+        else:
+            out_suf[key] = sub_body
+    return out_lit, out_suf
+
+
 def parse_sid_overrides(body: str) -> tuple[dict, dict]:
-    """Find a nested `case objprop.sid of 'sidA':…; 'sidB':…; end;` block in body and
-    return ({sid: stats}, {sid: merc_override_stats}) for each branch. Used for unit
-    families where the outer branch label lists multiple sids and an inner
-    `case objprop.sid` carves per-sid overrides on top of the shared base
-    (e.g., the musketeer-line: musketeerpol/musketeernet/pandur/chasseur/highlander/etc).
+    """Find per-sid override blocks inside an outer-branch body and return
+    ({sid: stats}, {sid: merc_override_stats}). Two idioms are recognized:
+
+    1. `case objprop.sid of 'sidA':…; 'sidB':…; end;` — used by the musketeer-line
+       (musketeerpol/musketeernet/pandur/chasseur/highlander/etc).
+    2. `if (objprop.sid='X') then begin … end [else if …]` chains — used by
+       priests (pope/mullah/padre), drummers (bagpiper/drummer18), and yachttur.
+
     The second dict carries merc-only overrides extracted from `if (bmercenary)` blocks
     nested inside per-sid sub-branches (e.g., 'cossacksich','cossacksichdip')."""
     out: dict[str, dict] = {}
     out_merc: dict[str, dict] = {}
+    # Idiom 2: if (objprop.sid='X') then begin … end chains. Per-sid bodies may contain
+    # their own `if (cluster) then …` overrides — keep `exclude_if_blocks=True` so those
+    # nested cluster-conditional assignments don't leak (last-write-wins would yield
+    # the else-branch's value regardless of cluster). The cluster split is handled
+    # separately by the outer-branch's parse_top_level_ifs.
+    lit_overrides, _suf_overrides = _scan_if_sid_overrides(body)
+    for sid, sub_body in lit_overrides.items():
+        out[sid] = parse_branch_body(sub_body, exclude_if_blocks=True)
     for m in re.finditer(r"\bcase\s+objprop\.sid\s+of\b", body):
         start = m.end()
         depth = 1
