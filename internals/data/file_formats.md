@@ -203,6 +203,13 @@ end;
 скирмиш-карты генерируются процедурно, поэтому формат `.map` нам не
 нужен.
 
+## `.rep` / `.map` (skirmish saves) — OSWMap13
+
+См. отдельный документ [`replay_format.md`](replay_format.md) — там
+полное описание header'а, BMP-превью, kv-настроек, потока entry'ев
+(time-stamped net-пакетов) и каталог `Read*`-handler'ов с
+декодированными форматами.
+
 ## `.cfg` — текстовые конфиги
 
 Простой `key = value` формат. В `data/game/*.cfg`,
