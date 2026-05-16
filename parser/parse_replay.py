@@ -227,9 +227,13 @@ def extract_players(data: bytes) -> list[dict]:
             slots.append(current)
         elif current is not None and k in slot_keys:
             current[k] = v
+    # The engine's runtime `pid` in event packets is the SLOT INDEX of
+    # existing slots (filtered by bexists), not the explicit `id` field
+    # inside TMapPlayer — the id field is something else (probably session
+    # id or join order). We confirmed this empirically: known abusers in
+    # ex1.rep land on slot-order pid, not id-order pid.
     out: list[dict] = []
     for idx, s in enumerate(slots):
-        # bexists is a string "true"/"false"
         if str(s.get("bexists", "false")).lower() != "true":
             continue
         try:
@@ -244,8 +248,12 @@ def extract_players(data: bytes) -> list[dict]:
             cid_int = int(s.get("cid", "-1"))
         except (ValueError, TypeError):
             cid_int = -1
+        try:
+            tmpid = int(s.get("id", "-1"))
+        except (ValueError, TypeError):
+            tmpid = -1
         out.append({
-            "pid": len(out),  # engine renumbers existing slots from 0
+            "pid": len(out),  # engine pid = position in bexists-filtered list
             "name": s.get("name", ""),
             "lanid": s.get("lanid", ""),
             "team": team_int,
@@ -253,6 +261,7 @@ def extract_players(data: bytes) -> list[dict]:
             "csid": s.get("csid", ""),
             "cid": cid_int,
             "slot_idx": idx,
+            "map_player_id": tmpid,
         })
     return out
 
