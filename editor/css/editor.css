@@ -442,3 +442,13 @@ input[type="number"]::-webkit-outer-spin-button {
                  color: var(--gold-bright); letter-spacing: 0.08em; text-transform: uppercase; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
 .modal-body .field span { font-size: 11px; }
+.host-ok {
+  padding: 8px 12px; border-radius: 4px;
+  background: rgba(135, 179, 105, 0.12); border: 1px solid rgba(135, 179, 105, 0.30);
+  color: #b3d489;
+}
+.host-warn {
+  padding: 8px 12px; border-radius: 4px;
+  background: rgba(217, 119, 102, 0.10); border: 1px solid rgba(217, 119, 102, 0.30);
+  color: #e2a085;
+}

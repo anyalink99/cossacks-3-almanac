@@ -96,8 +96,10 @@ json.dumps(bo, ensure_ascii=False)
 }
 
 /**
- * List players in a replay so the user can pick one.
- * @returns {Array<{pid: number, name: string, nation: string, n_builds: number}>}
+ * List players in a replay so the user can pick one. Includes `is_host`
+ * (player issued ReadOrder events) and `n_orders` so the UI can flag
+ * client players where assigns won't be extracted.
+ * @returns {Array<{pid, name, nation, n_builds, n_orders, is_host}>}
  */
 export async function listReplayPlayers(bytes) {
   if (!ready) throw new Error("Pyodide ещё грузится");
@@ -108,13 +110,16 @@ from parse_replay_events import parse_replay_from_bytes
 with open("/c3/_current.rep", "rb") as f:
     data = f.read()
 result = parse_replay_from_bytes(data)
+orders_total = {p: sum(v.values()) for p, v in result.get("orders_per_pid", {}).items()}
 players = []
 for p in result.get("players", []):
     pid = p.get("pid")
     builds = result.get("builds_per_pid", {}).get(pid, [])
     nation = builds[0]["sid"][:3] if builds else "?"
+    n_orders = orders_total.get(pid, 0)
     players.append({"pid": pid, "name": p.get("name", ""),
-                    "nation": nation, "n_builds": len(builds)})
+                    "nation": nation, "n_builds": len(builds),
+                    "n_orders": n_orders, "is_host": n_orders > 0})
 json.dumps(players)
 `);
   return JSON.parse(json_str);

@@ -1010,6 +1010,11 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     units_built_per_pid: dict = defaultdict(Counter)
     spawns_per_pid: dict = defaultdict(Counter)
     orders_per_pid: dict = defaultdict(Counter)
+    # Timestamped subset of player-issued ReadOrder events, useful for
+    # extracting peasant assignments. Only `gainres` (3), `gotomine` (13),
+    # `fishing` (9), `build` (17), `repair` (19) are recorded — the rest
+    # (move/attack/etc.) aren't economy-relevant.
+    orders_timed_per_pid: dict = defaultdict(list)
     trades_per_pid: dict = defaultdict(list)
     upgrades_per_pid: dict = defaultdict(list)
     produces_per_pid: dict = defaultdict(list)
@@ -1074,6 +1079,14 @@ def parse_replay_from_bytes(data: bytes) -> dict:
                 })
             elif h == "ReadOrder" and pid is not None:
                 orders_per_pid[pid][rec["ordtyp_name"]] += 1
+                if rec.get("ordtyp") in (3, 13, 9, 17, 19):
+                    orders_timed_per_pid[pid].append({
+                        "ts_g_sec": rec["ts_g_sec"],
+                        "ordtyp": rec["ordtyp"],
+                        "ordtyp_name": rec["ordtyp_name"],
+                        "target_uid": rec.get("target_uid"),
+                        "n_units": len(rec.get("units") or []),
+                    })
             elif h == "ReadTrade" and pid is not None:
                 trades_per_pid[pid].append({
                     "ts_g_sec": rec["ts_g_sec"],
@@ -1111,6 +1124,7 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         "units_built_per_pid": {p: dict(v) for p, v in units_built_per_pid.items()},
         "spawns_per_pid": {p: dict(v) for p, v in spawns_per_pid.items()},
         "orders_per_pid": {p: dict(v) for p, v in orders_per_pid.items()},
+        "orders_timed_per_pid": {p: v for p, v in orders_timed_per_pid.items()},
         "trades_per_pid": {p: v for p, v in trades_per_pid.items()},
         "upgrades_per_pid": {p: v for p, v in upgrades_per_pid.items()},
         "produces_per_pid": {p: v for p, v in produces_per_pid.items()},

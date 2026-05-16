@@ -387,6 +387,20 @@ async function init() {
   // — Import from replay (.rep) —
   let pendingReplayBytes = null;
   let pendingReplayFilename = "";
+  function updateHostHint() {
+    const sel = $("#replay_pid_select");
+    const opt = sel?.options[sel.selectedIndex];
+    const isHost = opt?.dataset.host === "true";
+    const hint = $("#replay_host_hint");
+    if (!hint) return;
+    if (isHost) {
+      hint.innerHTML = "<b>Хост.</b> Извлекутся все действия + assigns эвристически (gainres→дерево/еда/камень по фазе игры, gotomine→ближайшая по времени шахта).";
+      hint.className = "muted small host-ok";
+    } else {
+      hint.innerHTML = "<b>Клиент.</b> В реплее нет ReadOrder-эвентов этого игрока — assigns придётся раскидать вручную в редакторе. Build/train/research/trade всё равно извлечутся.";
+      hint.className = "muted small host-warn";
+    }
+  }
   $("#import_replay_btn").addEventListener("click", () => $("#import_replay_file").click());
   $("#import_replay_file").addEventListener("change", async (e) => {
     const f = e.target.files[0];
@@ -396,13 +410,17 @@ async function init() {
       pendingReplayBytes = new Uint8Array(await f.arrayBuffer());
       pendingReplayFilename = f.name;
       const players = await listReplayPlayers(pendingReplayBytes);
-      // Sort by build count desc — most-active player likely the one user cares about.
-      players.sort((a, b) => b.n_builds - a.n_builds);
+      // Sort hosts first (have ReadOrder events → assigns can be extracted),
+      // then by build-count desc so the most-active player surfaces on top.
+      players.sort((a, b) => (b.is_host - a.is_host) || (b.n_builds - a.n_builds));
       const sel = $("#replay_pid_select");
-      sel.innerHTML = players.map(p =>
-        `<option value="${p.pid}">${p.name || ("pid=" + p.pid)} · ${p.nation} · ${p.n_builds} построек</option>`
-      ).join("");
+      sel.innerHTML = players.map(p => {
+        const role = p.is_host ? "хост" : "клиент";
+        return `<option value="${p.pid}" data-host="${p.is_host}">${p.name || ("pid=" + p.pid)} · ${p.nation} · ${p.n_builds} построек · ${role}</option>`;
+      }).join("");
       $("#replay_modal_file").textContent = f.name;
+      updateHostHint();
+      sel.addEventListener("change", updateHostHint);
       $("#replay_modal").classList.remove("hidden");
       setStatus("Выбери игрока", "ready");
     } catch (err) {
