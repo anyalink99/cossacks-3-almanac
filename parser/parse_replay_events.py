@@ -1049,8 +1049,9 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     by_pid: Counter = Counter()
 
     # Player nations come from the .rep header (TMapPlayer.cid) — this is
-    # the canonical source. Fall back to ReadConstruct cid/sid only if a
-    # player slot has cid<0 (e.g. "random nation" before resolution).
+    # the canonical source. cid=-2 means "random nation, picked at game
+    # start"; for those we fall back to the cid field carried in each
+    # ReadConstruct event below.
     player_nations: dict[int, str] = {}
     for p in players:
         cid_val = p.get("cid", -1)

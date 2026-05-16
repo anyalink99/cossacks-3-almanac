@@ -1044,6 +1044,32 @@ def make_env(nat: str) -> dict:
 def _simulate_proc(country_text: str, proc_name: str, nat: str, sink: list, env: dict | None = None):
     """Run the simulator on a single procedure and append emissions to sink."""
     body = extract_proc_body(country_text, proc_name)
+    # `_country_Init` internally calls `_country_InitUnitsUpgrades(country, ind, linkind);`
+    # — inline its body at the call site so the resulting upgrade-list order
+    # matches what the engine builds in gCountry[cid].upgrade[].
+    if proc_name == "_country_Init":
+        try:
+            sub_body = extract_proc_body(country_text, "_country_InitUnitsUpgrades")
+        except Exception:
+            sub_body = None
+        if sub_body:
+            # Strip the leading `begin` and trailing `end` if present so the
+            # inlined fragment slots into a statement-context cleanly.
+            sub = sub_body.strip()
+            if sub.startswith("begin"):
+                sub = sub[len("begin"):].lstrip()
+            if sub.endswith("end"):
+                sub = sub[: -len("end")].rstrip()
+            # Replace any whitespace variant of the call line. Patterns we may
+            # see: `_country_InitUnitsUpgrades(country, ind, linkind);` (single
+            # line) or with line breaks before the closing `;`.
+            import re
+            body = re.sub(
+                r"_country_InitUnitsUpgrades\s*\(\s*country\s*,\s*ind\s*,\s*linkind\s*\)\s*;",
+                sub,
+                body,
+                count=1,
+            )
     body = _presubstitute(body, nat)
     tokens = tokenize(body)
     if tokens and tokens[0] == ("KW", "begin"):
@@ -1165,9 +1191,13 @@ def _attach_resource_pcts(country_text: str, nat: str, sink: list) -> None:
 def simulate(country_text: str, nat: str, *, dedup: bool = True) -> list[dict]:
     sink: list[dict] = []
     env = make_env(nat)
-    # Process _country_InitUnitsUpgrades first (per-unit blacksmith/stable upgrades)
-    _simulate_proc(country_text, "_country_InitUnitsUpgrades", nat, sink, env=env)
-    # Then _country_Init (academy/mill/etc. upgrades + nation roster)
+    # Engine ORDER is just `_country_Init` — that proc internally invokes
+    # `_country_InitUnitsUpgrades` at line ~3975 (between academy/mill/etc.
+    # upgrades and the port-repair section). To replicate the real
+    # gCountry[cid].upgrade[] indexing seen in replay payloads, we walk
+    # _country_Init only and let it inline the nested call (see
+    # `walk_sim` call handler for the dispatch on
+    # `_country_InitUnitsUpgrades`).
     _simulate_proc(country_text, "_country_Init", nat, sink, env=env)
     # Augment priceperc upgrades with resource percentages from direct assignments
     # of the form: `country.upgrade[ind-1].sarrparam2[...gc_resource_type_X-1] := 'NN'`
