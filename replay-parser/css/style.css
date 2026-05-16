@@ -1,0 +1,397 @@
+/* Cossacks 3 Replay Parser — styling */
+
+:root {
+  --bg: #0e1320;
+  --bg-soft: #161e30;
+  --bg-card: #1a2336;
+  --bg-card-soft: #212c44;
+  --border: #2b3753;
+  --text: #e4e8f3;
+  --text-dim: #8a93ad;
+  --accent: #6b7dff;
+  --accent-strong: #8c9bff;
+  --danger: #ff5c70;
+  --warn: #ffb348;
+  --ok: #5cd6a9;
+  --shadow: 0 2px 20px rgba(0,0,0,0.4);
+
+  --color-0:  #d04848;
+  --color-1:  #4e7adb;
+  --color-2:  #4cc7c5;
+  --color-3:  #c1ce4a;
+  --color-4:  #e08a3a;
+  --color-5:  #9a55c8;
+  --color-6:  #4ac572;
+  --color-7:  #d864b0;
+  --color-8:  #6c7382;
+  --color-9:  #84a2c4;
+  --color-10: #a16f50;
+  --color-11: #5db5a8;
+  --color-12: #b3b3b3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(ellipse at top, #1a2436 0%, var(--bg) 60%);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+a { color: var(--accent-strong); }
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: rgba(14, 19, 32, 0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #5466e8, #8e3ff0);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 9px;
+  box-shadow: 0 4px 14px rgba(110, 100, 240, 0.4);
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ver {
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Pills / buttons */
+.pill {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.07);
+}
+.pill.loading { background: rgba(255, 179, 72, 0.15); color: var(--warn); }
+.pill.ready   { background: rgba(92, 214, 169, 0.15); color: var(--ok); }
+.pill.error   { background: rgba(255, 92, 112, 0.15); color: var(--danger); }
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.05s;
+}
+.btn:hover { filter: brightness(1.1); }
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: linear-gradient(135deg, #5466e8, #7a5ce8);
+  color: white;
+}
+.btn-secondary {
+  background: rgba(255, 92, 112, 0.85);
+  color: white;
+}
+
+/* Layout */
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 32px 80px;
+}
+
+.intro {
+  color: var(--text-dim);
+  margin: 16px 0 24px;
+  font-size: 14px;
+}
+
+code {
+  background: rgba(255,255,255,0.07);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  font-size: 0.9em;
+}
+
+/* Drop zone */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  text-align: center;
+  color: var(--text-dim);
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 32px;
+}
+.drop-zone.dragging {
+  border-color: var(--accent);
+  background: rgba(107, 125, 255, 0.08);
+}
+.drop-hint code { font-size: 13px; }
+
+/* Replay card */
+.replay-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.card-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.card-body {
+  padding: 20px 24px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section:last-child { margin-bottom: 0; }
+
+.section h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Player rows */
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-card-soft);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+.player-nick {
+  font-weight: 600;
+  color: var(--text);
+  margin-right: auto;
+}
+
+.player-nation {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.lanid {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+
+.team-label {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Settings grid */
+.setting-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  font-size: 13px;
+}
+.setting-item {
+  background: var(--bg-card-soft);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.setting-item .k { color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+.setting-item .v { color: var(--text); font-weight: 500; margin-top: 2px; }
+
+/* Tables */
+table.compact {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.compact th,
+table.compact td {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+table.compact th {
+  font-weight: 600;
+  color: var(--text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+table.compact tr:last-child td { border-bottom: none; }
+table.compact td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Per-player breakdown */
+.player-breakdown {
+  background: var(--bg-card-soft);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.player-breakdown-head {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.player-breakdown-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 4px 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.player-breakdown-stats b { color: var(--text); font-weight: 600; }
+
+/* Abuse findings */
+.abuses-found {
+  background: rgba(255, 92, 112, 0.08);
+  border: 1px solid rgba(255, 92, 112, 0.3);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.abuses-found h3 {
+  color: var(--danger);
+  margin-top: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+.abuse-item {
+  font-size: 13px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(255, 92, 112, 0.15);
+}
+.abuse-item:first-of-type { border-top: none; }
+.abuse-kind {
+  display: inline-block;
+  background: var(--danger);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.abuses-clean {
+  background: rgba(92, 214, 169, 0.06);
+  border: 1px solid rgba(92, 214, 169, 0.25);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--ok);
+}
+
+/* Progress + errors */
+.progress-row {
+  padding: 14px 18px;
+  background: rgba(255, 179, 72, 0.08);
+  border: 1px solid rgba(255, 179, 72, 0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--warn);
+}
+
+.error-row {
+  padding: 14px 18px;
+  background: rgba(255, 92, 112, 0.08);
+  border: 1px solid rgba(255, 92, 112, 0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.footnote {
+  margin-top: 60px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+.footnote a { color: var(--text-dim); }

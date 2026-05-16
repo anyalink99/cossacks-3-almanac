@@ -741,64 +741,204 @@ def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
     return entries
 
 
-def parse_replay_events(path: Path) -> dict:
-    data = path.read_bytes()
+def detect_abuses(decoded: list[dict]) -> list[dict]:
+    """Scan decoded sub-package list for known multiplayer-abuse patterns.
+
+    Currently detects:
+
+    - **double-upgrade-start**: two `ReadUpgrade` events with `start=True`
+      for the same `(pid, building_uid, upgrade_id)` within
+      `DOUBLE_UPGRADE_WINDOW_TICKS` ticks. This is the canonical
+      race-condition exploit where a non-host client spams the upgrade
+      button as it nears completion and forces the host to queue the
+      research more than once.
+    - **double-apply**: two `ReadApply` events for the same
+      `(target_uid, upgrade_cid, upgrade_ind)`. Each `ReadApply` invokes
+      `_player_ApplyUpgrade`, which has no idempotency check and
+      compounds the effect on every call.
+
+    Returns a list of findings; each finding is a dict with:
+        kind, pid, ts_g_sec_first, ts_g_sec_second, gap_ticks, details
+    """
+    DOUBLE_UPGRADE_WINDOW_TICKS = 30  # 3 g-sec
+    findings: list[dict] = []
+
+    # Index ReadUpgrade(start=True) events
+    upgrade_starts: dict[tuple, list[dict]] = {}
+    for rec in decoded:
+        if rec.get("handler") != "ReadUpgrade":
+            continue
+        if not rec.get("start"):
+            continue
+        for bld in rec.get("buildings", []):
+            key = (rec["pid"], bld, rec["upgrade_id"])
+            upgrade_starts.setdefault(key, []).append(rec)
+
+    for key, events in upgrade_starts.items():
+        if len(events) < 2:
+            continue
+        events_sorted = sorted(events, key=lambda r: r["ts_tick"])
+        for a, b in zip(events_sorted, events_sorted[1:]):
+            gap = b["ts_tick"] - a["ts_tick"]
+            if gap > DOUBLE_UPGRADE_WINDOW_TICKS:
+                continue
+            pid, bld_uid, upg_id = key
+            findings.append({
+                "kind": "double-upgrade-start",
+                "pid": pid,
+                "ts_g_sec_first": round(a["ts_g_sec"], 2),
+                "ts_g_sec_second": round(b["ts_g_sec"], 2),
+                "gap_ticks": round(gap, 2),
+                "details": {"building_uid": bld_uid, "upgrade_id": upg_id},
+            })
+
+    # Index ReadApply by (target_uid, cid, ind)
+    apply_seen: dict[tuple, list[dict]] = {}
+    for rec in decoded:
+        if rec.get("handler") != "ReadApply":
+            continue
+        key = (rec["target_uid"], rec["upgrade_cid"], rec["upgrade_ind"])
+        apply_seen.setdefault(key, []).append(rec)
+
+    for key, events in apply_seen.items():
+        if len(events) < 2:
+            continue
+        events_sorted = sorted(events, key=lambda r: r["ts_tick"])
+        # Compare to the first apply only — second+ are the abuse signal
+        a = events_sorted[0]
+        for b in events_sorted[1:]:
+            gap = b["ts_tick"] - a["ts_tick"]
+            tgt_uid, cid, ind = key
+            findings.append({
+                "kind": "double-apply",
+                "pid": b["pid"],
+                "ts_g_sec_first": round(a["ts_g_sec"], 2),
+                "ts_g_sec_second": round(b["ts_g_sec"], 2),
+                "gap_ticks": round(gap, 2),
+                "details": {"target_uid": tgt_uid, "cid": cid, "ind": ind,
+                            "first_pid": a["pid"]},
+            })
+
+    return findings
+
+
+def parse_replay_from_bytes(data: bytes) -> dict:
+    """Comprehensive replay parse from raw bytes.
+
+    Returns a JSON-friendly dict with header settings, player roster,
+    event timelines, summaries and abuse findings — everything a web
+    UI needs in one round-trip.
+    """
+    # Import lazily so this module remains importable on its own
+    from parse_replay import extract_settings, extract_players
+
+    settings = extract_settings(data)
+    players = extract_players(data)
     entries = walk_entries(data)
     body_entries = entries[1:] if entries and entries[0][0] == 0.0 else entries
 
     decoded: list[dict] = []
     by_handler: Counter = Counter()
-    by_state_id: Counter = Counter()
     by_pid: Counter = Counter()
-    by_state_id_per_pid: defaultdict = defaultdict(Counter)
-
-    for ts, size, payload in body_entries:
-        recs = decode_subpackages(payload, ts)
-        for rec in recs:
+    for ts, _size, payload in body_entries:
+        for rec in decode_subpackages(payload, ts):
             decoded.append(rec)
             by_handler[rec.get("handler", "?")] += 1
             if "pid" in rec:
                 by_pid[rec["pid_name"]] += 1
-        # Track entry's first state_id (a proxy)
-        if len(payload) >= 4 and payload[0] == 0x00:
-            by_state_id[payload[3]] += 1
-            by_state_id_per_pid[payload[2]][payload[3]] += 1
 
-    # Aggregated timelines
-    build_timeline = sorted(
-        (r for r in decoded if r.get("handler") == "ReadConstruct"),
-        key=lambda r: r["ts_g_sec"])
-    new_timeline = sorted(
-        (r for r in decoded if r.get("handler") == "ReadNew"),
-        key=lambda r: r["ts_g_sec"])
-    order_timeline = sorted(
-        (r for r in decoded if r.get("handler") == "ReadOrder"),
-        key=lambda r: r["ts_g_sec"])
-    rally_timeline = sorted(
-        (r for r in decoded if r.get("handler") == "ReadRally"),
-        key=lambda r: r["ts_g_sec"])
+    # Per-player aggregations
+    builds_per_pid: dict = defaultdict(list)
+    units_built_per_pid: dict = defaultdict(Counter)
+    spawns_per_pid: dict = defaultdict(Counter)
+    orders_per_pid: dict = defaultdict(Counter)
+    trades_per_pid: dict = defaultdict(list)
+    upgrades_per_pid: dict = defaultdict(list)
+    deaths_per_pid: Counter = Counter()
+    proj_per_pid: Counter = Counter()
+    rally_per_pid: dict = defaultdict(int)
+
+    for rec in decoded:
+        h = rec.get("handler")
+        pid = rec.get("pid")
+        if h == "ReadConstruct" and pid is not None:
+            builds_per_pid[pid].append({
+                "ts_g_sec": rec["ts_g_sec"], "sid": rec["sid"],
+                "pos": rec["pos"], "builders": len(rec["builders"]),
+            })
+            units_built_per_pid[pid][rec["sid"]] += 1
+        elif h == "ReadNew" and pid is not None:
+            spawns_per_pid[pid][rec["sid"]] += 1
+        elif h == "ReadOrder" and pid is not None:
+            orders_per_pid[pid][rec["ordtyp_name"]] += 1
+        elif h == "ReadTrade" and pid is not None:
+            trades_per_pid[pid].append({
+                "ts_g_sec": rec["ts_g_sec"],
+                "sell": rec["sell_res"], "buy": rec["buy_res"],
+                "amount": rec["amount"],
+            })
+        elif h == "ReadUpgrade" and pid is not None:
+            upgrades_per_pid[pid].append({
+                "ts_g_sec": rec["ts_g_sec"],
+                "upgrade_id": rec["upgrade_id"], "start": rec["start"],
+                "buildings": rec["buildings"],
+            })
+        elif h == "ReadDeath" and pid is not None:
+            deaths_per_pid[pid] += len(rec.get("dead_uids", []))
+        elif h == "ReadProj" and pid is not None:
+            proj_per_pid[pid] += 1
+        elif h == "ReadRally" and pid is not None:
+            rally_per_pid[pid] += 1
+
+    abuses = detect_abuses(decoded)
+    duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
     return {
-        "file": str(path),
+        "settings": settings,
+        "players": players,
+        "duration_g_sec": duration_g_sec,
         "n_entries": len(entries),
         "n_sub_packages": len(decoded),
-        "duration_g_sec": round(entries[-1][0] / 10.0, 2) if entries else 0,
         "by_handler": dict(by_handler.most_common()),
-        "by_state_id_hex": {f"0x{k:02x}": v for k, v in by_state_id.most_common()},
         "by_pid": dict(by_pid.most_common()),
-        "state_id_breakdown_per_pid": {
-            (f"player_{p}" if p < 12 else PSEUDO_PLAYERS.get(p, f"unknown_{p}")):
-                {f"0x{sid:02x}": c for sid, c in cnt.most_common()}
-            for p, cnt in sorted(by_state_id_per_pid.items())
-        },
-        "build_timeline": build_timeline,
-        "new_timeline_sample": new_timeline[:30],
-        "n_new_total": len(new_timeline),
-        "order_timeline_sample": order_timeline[:30],
-        "n_order_total": len(order_timeline),
-        "rally_timeline": rally_timeline,
-        "all_events": decoded if len(decoded) < 8000 else "[truncated — too many events]",
+        "builds_per_pid": {p: v for p, v in builds_per_pid.items()},
+        "units_built_per_pid": {p: dict(v) for p, v in units_built_per_pid.items()},
+        "spawns_per_pid": {p: dict(v) for p, v in spawns_per_pid.items()},
+        "orders_per_pid": {p: dict(v) for p, v in orders_per_pid.items()},
+        "trades_per_pid": {p: v for p, v in trades_per_pid.items()},
+        "upgrades_per_pid": {p: v for p, v in upgrades_per_pid.items()},
+        "deaths_per_pid": dict(deaths_per_pid),
+        "proj_per_pid": dict(proj_per_pid),
+        "rally_per_pid": dict(rally_per_pid),
+        "abuses": abuses,
     }
+
+
+def parse_replay_events(path: Path) -> dict:
+    """Legacy file-path-based wrapper, used by CLI/aggregate scripts."""
+    data = path.read_bytes()
+    result = parse_replay_from_bytes(data)
+    result["file"] = str(path)
+    # Keep the older timeline-list shape too for CLI summary printing
+    decoded: list[dict] = []
+    for ts, _size, payload in walk_entries(data)[1:]:
+        for rec in decode_subpackages(payload, ts):
+            decoded.append(rec)
+    result["build_timeline"] = sorted(
+        (r for r in decoded if r.get("handler") == "ReadConstruct"),
+        key=lambda r: r["ts_g_sec"])
+    result["new_timeline_sample"] = sorted(
+        (r for r in decoded if r.get("handler") == "ReadNew"),
+        key=lambda r: r["ts_g_sec"])[:30]
+    result["n_new_total"] = sum(1 for r in decoded if r.get("handler") == "ReadNew")
+    result["order_timeline_sample"] = sorted(
+        (r for r in decoded if r.get("handler") == "ReadOrder"),
+        key=lambda r: r["ts_g_sec"])[:30]
+    result["n_order_total"] = sum(1 for r in decoded if r.get("handler") == "ReadOrder")
+    result["rally_timeline"] = sorted(
+        (r for r in decoded if r.get("handler") == "ReadRally"),
+        key=lambda r: r["ts_g_sec"])
+    return result
 
 
 def print_summary(result: dict, path: Path) -> None:

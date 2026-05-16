@@ -172,7 +172,7 @@ def extract_settings(data: bytes) -> dict:
     keys_to_extract = {
         "randkey0", "randkey1", "maskname", "maskpath",
         "mapsize", "relieftype", "resourcemines", "terraintype", "season",
-        "limit", "gamespeed", "playerscount", "startid",
+        "limit", "gamespeed", "playerscount", "startid", "teams",
     }
     seen = set()
     for off, k, v in pairs:
@@ -183,7 +183,7 @@ def extract_settings(data: bytes) -> dict:
     for k in (
         "randkey0", "randkey1", "mapsize", "relieftype",
         "resourcemines", "terraintype", "season", "limit",
-        "gamespeed", "playerscount", "startid",
+        "gamespeed", "playerscount", "startid", "teams",
     ):
         if k in settings:
             try:
@@ -191,6 +191,56 @@ def extract_settings(data: bytes) -> dict:
             except (ValueError, TypeError):
                 pass
     return settings
+
+
+def extract_players(data: bytes) -> list[dict]:
+    """Extract per-player metadata from kv pairs.
+
+    The replay header carries one set of per-player kv blocks identified by
+    repeated keys `name`, `lanid`, `team`, `color`, `csid`. Each player is
+    encoded as a contiguous group of these keys; the first `name` value is
+    the overall game name (e.g. "game_v92k…") and is skipped.
+    """
+    pairs = extract_kv_pairs(data)
+    # Collect ordered values for relevant keys
+    name_values = [v for _, k, v in pairs if k == "name"]
+    lanid_values = [v for _, k, v in pairs if k == "lanid"]
+    team_values = [v for _, k, v in pairs if k == "team"]
+    color_values = [v for _, k, v in pairs if k == "color"]
+    csid_values = [v for _, k, v in pairs if k == "csid"]
+
+    # Skip the first "name" — it's the lobby/game name, not a player nick
+    if name_values and name_values[0].startswith("game_"):
+        name_values = name_values[1:]
+
+    n = min(len(name_values), len(lanid_values))
+    out: list[dict] = []
+    for i in range(n):
+        name = name_values[i]
+        lanid = lanid_values[i]
+        # Skip empty/closed slots (no nick + zero lanid)
+        if not name and (not lanid or lanid == "0"):
+            continue
+        team = team_values[i] if i < len(team_values) else ""
+        color = color_values[i] if i < len(color_values) else ""
+        csid = csid_values[i] if i < len(csid_values) else ""
+        try:
+            team_int = int(team)
+        except (ValueError, TypeError):
+            team_int = -1
+        try:
+            color_int = int(color)
+        except (ValueError, TypeError):
+            color_int = -1
+        out.append({
+            "pid": i,
+            "name": name,
+            "lanid": lanid,
+            "team": team_int,
+            "color": color_int,
+            "csid": csid,
+        })
+    return out
 
 
 def count_patterns(data: bytes, pattern_set: set[str]) -> dict:

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cossacks 3 Replay Parser</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo-mark">C3</span>
+    <h1>Replay Parser <span class="ver">v0.1</span></h1>
+  </div>
+  <div class="topbar-actions">
+    <span id="status" class="pill loading">Загрузка движка…</span>
+    <label class="btn btn-primary" id="upload_btn">
+      <input type="file" id="file_input" accept=".rep,.map" multiple hidden />
+      Загрузить .rep
+    </label>
+    <button class="btn btn-secondary" id="clear_btn">Очистить</button>
+  </div>
+</header>
+
+<main class="layout">
+  <p class="intro">
+    Браузерный разбор реплеев Cossacks 3. Перетащите файлы <code>.rep</code> сюда
+    или нажмите «Загрузить». Парсинг идёт локально — файлы никуда не отправляются.
+  </p>
+
+  <div id="drop_zone" class="drop-zone">
+    <div class="drop-hint">Перетащите файлы <code>.rep</code> сюда</div>
+  </div>
+
+  <div id="results"></div>
+
+  <footer class="footnote">
+    Парсер построен на <a href="https://github.com/anyalink99/cossacks-3-almanac">cossacks-3-almanac</a>
+    — формат описан в
+    <a href="../internals/data/replay_format.md"><code>internals/data/replay_format.md</code></a>.
+  </footer>
+</main>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
