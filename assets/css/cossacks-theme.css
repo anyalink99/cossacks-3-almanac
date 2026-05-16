@@ -1,0 +1,413 @@
+/* ─────────────────────────────────────────────────────────────────
+ * Cossacks 3 Almanac — общая тема для веб-инструментов.
+ * Палитра под главное меню игры: уголь + бронза + охра + золото.
+ * Используется в editor/, replay-parser/, и landing-странице.
+ * ───────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  /* ── Глубинная шкала фонов ── */
+  --bg-deep:    #0c0805;
+  --bg-base:    #15100a;
+  --bg-surface: #1f1810;
+  --bg-panel:   #281f15;
+  --bg-elev:    #322618;
+
+  /* ── Бронза, золото, тлеющий уголь ── */
+  --border-dim:    #3a2c1a;
+  --border:        #4e3b1f;
+  --border-strong: #6a5128;
+  --brass:         #9a7836;
+  --gold:          #c8a050;
+  --gold-bright:   #e8c878;
+  --ember:         #d4823a;
+  --ember-deep:    #a8511f;
+  --ember-glow:    rgba(212, 130, 58, 0.18);
+
+  /* ── Текст ── */
+  --text:        #e6d4a8;
+  --text-bright: #f6e6bc;
+  --text-dim:    #a59470;
+  --text-mute:   #7a6a4a;
+
+  /* ── Сигнальные ── */
+  --danger:      #d05038;
+  --danger-soft: rgba(208, 80, 56, 0.12);
+  --warn:        #d49040;
+  --warn-soft:   rgba(212, 144, 64, 0.10);
+  --ok:          #87a548;
+  --ok-soft:     rgba(135, 165, 72, 0.10);
+
+  /* ── Полностью покрашенные шкалы C3 (по индексам игроков) ── */
+  --color-0:  #c84840;
+  --color-1:  #4e7adb;
+  --color-2:  #4cc7c5;
+  --color-3:  #c1ce4a;
+  --color-4:  #e08a3a;
+  --color-5:  #9a55c8;
+  --color-6:  #4ac572;
+  --color-7:  #d864b0;
+  --color-8:  #6c7382;
+  --color-9:  #84a2c4;
+  --color-10: #a16f50;
+  --color-11: #5db5a8;
+  --color-12: #b3b3b3;
+
+  /* ── Тени ── */
+  --shadow-card:   0 6px 24px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-dim);
+  --shadow-button: 0 2px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 150, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 1100px 700px at 50% -20%, var(--ember-glow), transparent 60%),
+    radial-gradient(ellipse 600px 400px at 15% 110%, rgba(168, 81, 31, 0.08), transparent 70%),
+    var(--bg-base);
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--gold-bright);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(232, 200, 120, 0.4);
+}
+a:hover {
+  color: var(--text-bright);
+  border-bottom-color: var(--text-bright);
+}
+
+code, pre {
+  font-family: "JetBrains Mono", "Consolas", "Menlo", monospace;
+  font-size: 0.88em;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--text-bright);
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border-dim);
+}
+
+/* ── Заголовки ── */
+h1, h2, h3, h4 { margin: 0; font-family: "Cinzel", "Georgia", serif; }
+
+.title-serif {
+  font-family: "Cinzel", "Georgia", serif;
+  letter-spacing: 0.04em;
+}
+
+/* ── Топбар ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  background: linear-gradient(180deg, rgba(40, 31, 21, 0.95), rgba(21, 16, 10, 0.95));
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(232, 200, 120, 0.08), 0 8px 20px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--bg-deep);
+  background: linear-gradient(150deg, var(--gold-bright) 0%, var(--brass) 60%, var(--ember-deep) 100%);
+  border: 1px solid var(--ember-deep);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 200, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.brand h1 {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.brand .ver {
+  margin-left: 10px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  border: 1px solid var(--border-dim);
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Pill / status ── */
+.pill {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-dim);
+}
+.pill.loading {
+  color: var(--ember);
+  border-color: rgba(212, 130, 58, 0.4);
+  background: rgba(212, 130, 58, 0.08);
+}
+.pill.ready {
+  color: var(--ok);
+  border-color: rgba(135, 165, 72, 0.45);
+  background: rgba(135, 165, 72, 0.08);
+}
+.pill.error {
+  color: var(--danger);
+  border-color: rgba(208, 80, 56, 0.5);
+  background: rgba(208, 80, 56, 0.1);
+}
+
+/* ── Кнопки в стилистике резных деревянных табличек ── */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Cinzel", serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  cursor: pointer;
+  padding: 8px 18px;
+  color: var(--text-bright);
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.06) 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(180deg, #4a3520 0%, #2a1d10 100%);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.06s, filter 0.1s, border-color 0.1s;
+}
+.btn:hover {
+  filter: brightness(1.18) saturate(1.05);
+  border-color: var(--brass);
+}
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.btn-primary {
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.18) 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(180deg, #6a4a22 0%, #3e2a15 100%);
+  border-color: var(--brass);
+  color: var(--gold-bright);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+}
+.btn-primary:hover { border-color: var(--gold-bright); }
+
+.btn-secondary {
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.05), transparent 50%, rgba(0, 0, 0, 0.5)),
+    linear-gradient(180deg, #3a2a18 0%, #1f150c 100%);
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+.btn-secondary:hover { color: var(--text); border-color: var(--border-strong); }
+
+.btn-danger {
+  background:
+    linear-gradient(180deg, rgba(255, 180, 160, 0.12), transparent 50%, rgba(0, 0, 0, 0.45)),
+    linear-gradient(180deg, #6e2a18 0%, #3c150a 100%);
+  border-color: var(--danger);
+  color: #f9d4c0;
+}
+
+/* ── Layout ── */
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 32px 80px;
+}
+
+.intro {
+  color: var(--text-dim);
+  margin: 18px 0 22px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── Карточка / панель ── */
+.card,
+.panel {
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.025), transparent 30%),
+    var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-header,
+.panel-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-dim);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent);
+}
+
+.card-title,
+.panel-title {
+  font-family: "Cinzel", serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--gold-bright);
+  margin: 0;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.card-meta,
+.panel-meta {
+  margin-top: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: var(--text-mute);
+  letter-spacing: 0.02em;
+}
+
+.card-body,
+.panel-body { padding: 18px 22px; }
+
+/* ── Секции ── */
+.section { margin-bottom: 26px; }
+.section:last-child { margin-bottom: 0; }
+.section h3 {
+  margin: 0 0 12px;
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.section h3::before {
+  content: "◆";
+  margin-right: 8px;
+  color: var(--ember);
+  font-size: 10px;
+}
+
+/* ── Декоративный сепаратор-уголёк ── */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: var(--border-strong);
+  font-size: 10px;
+}
+.ornament::before,
+.ornament::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Таблицы ── */
+table.compact {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.compact th,
+table.compact td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-dim);
+}
+table.compact th {
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  color: var(--brass);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+table.compact tr:last-child td { border-bottom: none; }
+table.compact td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-bright);
+}
+
+/* ── Свотчи цветов игроков ── */
+.color-swatch {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ── Footer ── */
+.footnote {
+  margin-top: 72px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-mute);
+}
+.footnote a {
+  color: var(--text-dim);
+  border-bottom-color: var(--border-dim);
+}
+.footnote::before {
+  content: "◇ ◇ ◇";
+  display: block;
+  letter-spacing: 0.8em;
+  margin-bottom: 14px;
+  color: var(--border-strong);
+}

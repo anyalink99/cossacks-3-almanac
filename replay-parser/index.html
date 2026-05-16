@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cossacks 3 Replay Parser</title>
+  <title>Cossacks 3 — Разбор реплеев</title>
+  <link rel="stylesheet" href="../assets/css/cossacks-theme.css" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 </head>
@@ -12,7 +13,7 @@
 <header class="topbar">
   <div class="brand">
     <span class="logo-mark">C3</span>
-    <h1>Replay Parser <span class="ver">v0.1</span></h1>
+    <h1>Разбор реплеев <span class="ver">v0.2</span></h1>
   </div>
   <div class="topbar-actions">
     <span id="status" class="pill loading">Загрузка движка…</span>
@@ -26,19 +27,21 @@
 
 <main class="layout">
   <p class="intro">
-    Браузерный разбор реплеев Cossacks 3. Перетащите файлы <code>.rep</code> сюда
-    или нажмите «Загрузить». Парсинг идёт локально — файлы никуда не отправляются.
+    Локальный разбор файлов <code>.rep</code> в браузере: настройки лобби,
+    игроки и нации, постройки и торговля, детектор повторных прокачек
+    (race-condition абуз). Файлы не покидают вашу машину.
   </p>
 
   <div id="drop_zone" class="drop-zone">
-    <div class="drop-hint">Перетащите файлы <code>.rep</code> сюда</div>
+    <div class="drop-hint">Перетащите <code>.rep</code> сюда — или жмите «Загрузить»</div>
   </div>
 
   <div id="results"></div>
 
   <footer class="footnote">
-    Парсер построен на <a href="https://github.com/anyalink99/cossacks-3-almanac">cossacks-3-almanac</a>
-    — формат описан в
+    Часть проекта
+    <a href="https://github.com/anyalink99/cossacks-3-almanac">Cossacks 3 Almanac</a>.
+    Формат разобран в
     <a href="../internals/data/replay_format.md"><code>internals/data/replay_format.md</code></a>.
   </footer>
 </main>

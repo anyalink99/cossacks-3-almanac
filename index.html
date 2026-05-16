@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cossacks 3 Almanac</title>
+  <link rel="stylesheet" href="assets/css/cossacks-theme.css" />
+  <style>
+    .hero {
+      max-width: 880px;
+      margin: 60px auto 40px;
+      padding: 0 32px;
+      text-align: center;
+    }
+    .hero-logo {
+      font-family: "Cinzel", serif;
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      background: linear-gradient(180deg, var(--gold-bright) 0%, var(--brass) 70%, var(--ember-deep) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0;
+      text-shadow: 0 2px 24px rgba(212, 130, 58, 0.25);
+    }
+    .hero-sub {
+      font-family: "Cinzel", serif;
+      font-size: 13px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin: 8px 0 22px;
+    }
+    .hero-tag {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    .hero-divider {
+      display: flex; justify-content: center; align-items: center;
+      gap: 14px; margin: 40px auto 36px;
+      color: var(--border-strong);
+    }
+    .hero-divider::before,
+    .hero-divider::after {
+      content: "";
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    }
+    .hero-divider span { font-size: 18px; color: var(--ember); }
+
+    .tools {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .tool {
+      display: block;
+      padding: 26px 26px 24px;
+      background: linear-gradient(180deg, rgba(255, 220, 160, 0.025), transparent 30%),
+                  var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      border-bottom: none;
+      color: inherit;
+    }
+    .tool:hover {
+      transform: translateY(-2px);
+      border-color: var(--brass);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--brass);
+      color: inherit;
+    }
+    .tool-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px; height: 42px;
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      color: var(--bg-deep);
+      background: linear-gradient(150deg, var(--gold-bright), var(--brass), var(--ember-deep));
+      border-radius: 4px;
+      margin-bottom: 14px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 240, 200, 0.4),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .tool h2 {
+      font-family: "Cinzel", serif;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      color: var(--gold-bright);
+      margin: 0 0 6px;
+    }
+    .tool-desc {
+      color: var(--text-dim);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0 0 12px;
+    }
+    .tool-status {
+      display: inline-block;
+      font-family: "Cinzel", serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+    .tool-status.ready  { color: var(--ok);     border-color: rgba(135, 165, 72, 0.45); background: rgba(135, 165, 72, 0.08); }
+    .tool-status.wip    { color: var(--warn);   border-color: rgba(212, 144, 64, 0.45); background: rgba(212, 144, 64, 0.08); }
+
+    .links {
+      max-width: 880px;
+      margin: 60px auto 30px;
+      padding: 0 32px;
+      text-align: center;
+      color: var(--text-mute);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+    .links a { margin: 0 12px; }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <h1 class="hero-logo">COSSACKS · 3</h1>
+  <div class="hero-sub">Almanac</div>
+  <p class="hero-tag">
+    Справочник по экономике, бою, картам и сетевому формату Cossacks 3.
+    Расшифрованы скрипты, exe и replay-формат — данные доступны как
+    публичные веб-инструменты ниже.
+  </p>
+</section>
+
+<div class="hero-divider"><span>◆</span></div>
+
+<section class="tools">
+
+  <a class="tool" href="replay-parser/">
+    <span class="tool-mark">R</span>
+    <h2>Разбор реплеев</h2>
+    <p class="tool-desc">
+      Локальный парсер <code>.rep</code>-файлов: игроки, нации, постройки,
+      торговля, детектор повторных прокачек (race-condition абуз).
+    </p>
+    <span class="tool-status ready">Готов</span>
+  </a>
+
+  <a class="tool" href="editor/">
+    <span class="tool-mark">E</span>
+    <h2>Тренажёр стратегий</h2>
+    <p class="tool-desc">
+      Билд-ордер-эдитор с симулятором экономики в браузере. Здания, юниты,
+      апгрейды и крестьяне на ресурсах в одной шкале времени.
+    </p>
+    <span class="tool-status wip">В разработке</span>
+  </a>
+
+  <a class="tool" href="docs/">
+    <span class="tool-mark">D</span>
+    <h2>Документация</h2>
+    <p class="tool-desc">
+      Reference по юнитам, зданиям, апгрейдам, картам и нациям;
+      reconnaissance-отчёты по механикам движка и сетевому формату.
+    </p>
+    <span class="tool-status ready">Готова</span>
+  </a>
+
+</section>
+
+<div class="hero-divider"><span>◆</span></div>
+
+<div class="links">
+  <a href="https://github.com/anyalink99/cossacks-3-almanac">GitHub</a>
+  ·
+  <a href="internals/">Internals (engine recon)</a>
+  ·
+  <a href="derived/">Derived data</a>
+</div>
+
+</body>
+</html>

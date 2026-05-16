@@ -1,75 +1,25 @@
-/* ─── Reset / typography ─────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; }
-body {
-  font-family: ui-sans-serif, system-ui, "Segoe UI", "SF Pro Text", Inter, sans-serif;
-  font-size: 13px;
-  line-height: 1.45;
-  background:
-    radial-gradient(1200px 800px at 20% -10%, rgba(212, 168, 87, 0.04), transparent),
-    radial-gradient(800px 600px at 100% 100%, rgba(80, 130, 180, 0.04), transparent),
-    #15110b;
-  color: #e5dcc6;
-  min-height: 100vh;
+/* ─── Editor: page-specific styles. ────────────────────────────────
+ * Базовые токены, типографика, топбар, кнопки и пилюли приходят из
+ * ../../assets/css/cossacks-theme.css. Здесь остаются только
+ * editor-специфичные элементы (карточки билд-ордера, формы, графики).
+ * ────────────────────────────────────────────────────────────────── */
+
+html, body { height: 100%; }
+body { font-size: 13px; }
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-mute);
+  box-shadow: none;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--bg-panel);
+  color: var(--text-bright);
+  border-color: var(--border-dim);
 }
 
-h1, h2, h3 { margin: 0; }
-button { font: inherit; cursor: pointer; }
-input, select, textarea { font: inherit; }
-
-/* ─── Top bar ─────────────────────────────────────────────────────── */
-.topbar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 20px;
-  background: linear-gradient(180deg, #1f1a12 0%, #181410 100%);
-  border-bottom: 1px solid #3a2e1f;
-  position: sticky; top: 0; z-index: 10;
-  box-shadow: 0 1px 0 rgba(212, 168, 87, 0.07);
-}
-.brand { display: flex; align-items: center; gap: 12px; }
-.logo-mark {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; border-radius: 6px;
-  background: linear-gradient(180deg, #d4a857 0%, #b88f3d 100%);
-  color: #1a1410; font-weight: 700; font-size: 12px; letter-spacing: 0.5px;
-}
-.brand h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.2px; }
-.version {
-  margin-left: 10px; padding: 2px 8px; border-radius: 4px;
-  background: #2a2218; color: #9b8a6a; font-weight: 500; font-size: 11px;
-}
-.topbar-actions { display: flex; gap: 10px; align-items: center; }
-
-/* ─── Pills (status) ──────────────────────────────────────────────── */
-.pill {
-  padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500;
-  background: #2a2218; color: #9b8a6a;
-}
-.pill.loading { background: #2a2218; color: #d4a857; }
-.pill.busy { background: rgba(212, 168, 87, 0.15); color: #d4a857; }
-.pill.ready { background: rgba(135, 179, 105, 0.15); color: #87b369; }
-.pill.error { background: rgba(217, 119, 102, 0.15); color: #d97766; }
-
-/* ─── Buttons ─────────────────────────────────────────────────────── */
-.btn {
-  padding: 7px 14px; border-radius: 6px;
-  background: #2a2218; color: #e5dcc6;
-  border: 1px solid #3a2e1f;
-  transition: background 0.12s, border-color 0.12s, transform 0.05s;
-}
-.btn:hover:not(:disabled) { background: #342a1d; border-color: #4a3b27; }
-.btn:active:not(:disabled) { transform: translateY(1px); }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-primary {
-  background: linear-gradient(180deg, #d4a857 0%, #b88f3d 100%);
-  color: #1a1410; border: 1px solid #b88f3d; font-weight: 600;
-}
-.btn-primary:hover:not(:disabled) {
-  background: linear-gradient(180deg, #e0b667 0%, #c89c46 100%);
-  border-color: #c89c46;
-}
-.btn-ghost { background: transparent; border-color: transparent; color: #8a7d62; }
-.btn-ghost:hover:not(:disabled) { background: #2a2218; color: #e5dcc6; }
+.pill.busy { color: var(--ember); border-color: rgba(212, 130, 58, 0.45); background: rgba(212, 130, 58, 0.1); }
 
 /* ─── Layout ──────────────────────────────────────────────────────── */
 .layout {
@@ -83,23 +33,26 @@ input, select, textarea { font: inherit; }
 .panel { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .panel-left { position: sticky; top: 60px; align-self: start; max-height: calc(100vh - 76px); overflow-y: auto; padding-right: 4px; }
 
-/* ─── Cards ───────────────────────────────────────────────────────── */
+/* ─── Editor cards (override theme defaults for inline-padded style) ── */
 .card {
-  background: linear-gradient(180deg, #221c14 0%, #1d180f 100%);
-  border: 1px solid #2e2618;
-  border-radius: 10px;
   padding: 14px 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 .card h2 {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
-  color: #9b8a6a; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 .card-header h2 { margin-bottom: 0; }
 .card-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-.card-summary h2 { color: #d4a857; }
+.card-summary h2 { color: var(--gold-bright); }
 
 .badge {
   display: inline-flex; min-width: 22px; padding: 1px 7px;

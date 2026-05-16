@@ -250,66 +250,6 @@ function renderTrades(tradesPerPid, players) {
   ]);
 }
 
-function renderCombat(result, players) {
-  const deaths = result.deaths_per_pid || {};
-  const proj = result.proj_per_pid || {};
-  const totalDeaths = Object.values(deaths).reduce((a, b) => a + b, 0);
-  const totalProj = Object.values(proj).reduce((a, b) => a + b, 0);
-  if (!totalDeaths && !totalProj) return null;
-  const rows = players.map((p) => {
-    const d = deaths[p.pid] || 0;
-    const sh = proj[p.pid] || 0;
-    return el("tr", {}, [
-      el("td", {}, [
-        el("span", { class: "color-swatch",
-                     style: `background:${COLOR_VAR(p.color)};vertical-align:middle;margin-right:8px;` }),
-        el("span", {}, p.name),
-      ]),
-      el("td", { class: "num" }, String(d)),
-      el("td", { class: "num" }, String(sh)),
-    ]);
-  });
-  return el("section", { class: "section" }, [
-    el("h3", {}, "Боевая активность"),
-    el("table", { class: "compact" }, [
-      el("thead", {}, [el("tr", {}, [
-        el("th", {}, "Игрок"), el("th", {}, "Потери"), el("th", {}, "Выстрелов"),
-      ])]),
-      el("tbody", {}, rows),
-    ]),
-  ]);
-}
-
-function renderOrdersSummary(ordersPerPid, players) {
-  const rows = players.map((p) => {
-    const orders = ordersPerPid[p.pid] || {};
-    const total = Object.values(orders).reduce((a, b) => a + b, 0);
-    if (!total) return null;
-    const breakdown = Object.entries(orders)
-      .sort((a, b) => b[1] - a[1])
-      .map(([k, v]) => `${k}=${v}`)
-      .join(" · ");
-    return el("tr", {}, [
-      el("td", {}, [
-        el("span", { class: "color-swatch",
-                     style: `background:${COLOR_VAR(p.color)};vertical-align:middle;margin-right:8px;` }),
-        el("span", {}, p.name),
-      ]),
-      el("td", { class: "num" }, String(total)),
-      el("td", {}, breakdown),
-    ]);
-  }).filter((x) => x);
-  if (!rows.length) return null;
-  return el("section", { class: "section" }, [
-    el("h3", {}, "Приказы"),
-    el("table", { class: "compact" }, [
-      el("thead", {}, [el("tr", {}, [
-        el("th", {}, "Игрок"), el("th", {}, "Всего"), el("th", {}, "Разбивка"),
-      ])]),
-      el("tbody", {}, rows),
-    ]),
-  ]);
-}
 
 export function renderCard(filename, result, parseMs) {
   const settings = result.settings || {};
@@ -333,8 +273,6 @@ export function renderCard(filename, result, parseMs) {
       renderSettings(settings),
       renderBuildSummary(result.builds_per_pid || {}, players),
       renderProductionSummary(result.spawns_per_pid || {}, players),
-      renderOrdersSummary(result.orders_per_pid || {}, players),
-      renderCombat(result, players),
       renderTrades(result.trades_per_pid || {}, players),
     ]),
   ]);
