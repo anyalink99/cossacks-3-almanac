@@ -40,6 +40,38 @@ SUBPKG_END = 0x01
 # gc_playerind_* from dmscript.global
 PSEUDO_PLAYERS = {12: "env", 13: "misc", 14: "progress", 15: "pool"}
 
+# State name table extracted from data/scripts/units/global.aix (section order).
+# State_id = index of `Name = X` line in that file (including separators).
+# Cross-verified: ReadConstruct(0x21=33), ReadNew(0x0d=13), ReadOrder(0x17=23),
+# ReadMove(0x0b=11), ReadProj(0x29=41) — all match observed payloads exactly.
+STATE_NAMES = {
+    0x00: "Initial",        0x01: "OnBeforeSave",         0x02: "OnAfterLoad",
+    0x03: "Progress",       0x04: "_SEPARATOR_",          0x05: "WriteSquadNew",
+    0x06: "ReadSquadNew",   0x07: "WriteSquadListAction", 0x08: "ReadSquadListAction",
+    0x09: "_SEPARATOR_",    0x0a: "WriteMove",            0x0b: "ReadMove",
+    0x0c: "WriteNew",       0x0d: "ReadNew",              0x0e: "WriteFree",
+    0x0f: "ReadFree",       0x10: "WriteDeath",           0x11: "ReadDeath",
+    0x12: "WritePlayer",    0x13: "ReadPlayer",           0x14: "WriteRally",
+    0x15: "ReadRally",      0x16: "WriteOrder",           0x17: "ReadOrder",
+    0x18: "WriteUpgrade",   0x19: "ReadUpgrade",          0x1a: "WriteProduce",
+    0x1b: "ReadProduce",    0x1c: "WriteSearch",          0x1d: "ReadSearch",
+    0x1e: "WriteStand",     0x1f: "ReadStand",            0x20: "WriteConstruct",
+    0x21: "ReadConstruct",  0x22: "WriteApply",           0x23: "ReadApply",
+    0x24: "WriteLeaveOrder",0x25: "ReadLeaveOrder",       0x26: "WriteLeave",
+    0x27: "ReadLeave",      0x28: "WriteProj",            0x29: "ReadProj",
+    0x2a: "WriteProjFree",  0x2b: "ReadProjFree",         0x2c: "WriteNewP",
+    0x2d: "ReadNewP",       0x2e: "WriteStop",            0x2f: "ReadStop",
+    0x30: "WriteTrade",     0x31: "ReadTrade",            0x32: "WriteWall",
+    0x33: "ReadWall",       0x34: "WriteGate",            0x35: "ReadGate",
+    0x36: "WriteFreeList",  0x37: "ReadFreeList",         0x38: "WritePeaceTime",
+    0x39: "ReadPeaceTime",  0x3a: "WriteSync",            0x3b: "ReadSync",
+    0x3c: "WriteSyncUnitsParams", 0x3d: "ReadSyncUnitsParams",
+    0x3e: "_SEPARATOR_",    0x3f: "WritePackage",         0x40: "ReadPackage",
+    0x41: "_SEPARATOR_",    0x42: "ProgressAI",           0x43: "ProgressEconomicAI",
+    0x44: "ProgressWarAI",  0x45: "CheckErrors",          0x46: "ReadTradeResources",
+    0x47: "WriteTradeResources",
+}
+
 # gc_obj_order_type_* from dmscript.global:630-650
 ORDER_TYPES = {
     0: "none", 1: "move", 2: "attackobj", 3: "gainres", 4: "produce",
@@ -353,6 +385,98 @@ def decode_newp(r: Reader, ts: float, hdr: dict) -> dict:
             "from_server": bFromServer}
 
 
+def decode_search(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x1d — ReadSearch (toggle search-enemy mode)."""
+    state = r.boolean()
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadSearch",
+            "search_on": state, "units": uids}
+
+
+def decode_stand(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x1f — ReadStand (toggle stand-ground)."""
+    state = r.boolean()
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadStand",
+            "stand_on": state, "units": uids}
+
+
+def decode_stop(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x2f — ReadStop."""
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadStop", "units": uids}
+
+
+def decode_gate(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x35 — ReadGate (open/close gates)."""
+    state = r.boolean()
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadGate",
+            "open": state, "gates": uids}
+
+
+def decode_leaveorder(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x25 — ReadLeaveOrder (list of units leaving building)."""
+    dead = r.boolean()
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadLeaveOrder",
+            "dead": dead, "uids": uids}
+
+
+def decode_free(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x0f — ReadFree (destroy game object).
+
+    NB: pid=14 (engine progress) events with state_id=0x0f have a much
+    larger payload that DOESN'T follow this signature. Those are
+    engine-internal state-machine transitions, not actual ReadFree calls.
+    """
+    uid = r.i32()
+    num = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadFree",
+            "uid": uid, "num_total": num}
+
+
+def decode_projfree(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x2b — ReadProjFree (projectile destroyed)."""
+    uid = r.i32()
+    num = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadProjFree",
+            "proj_uid": uid, "num_total": num}
+
+
+def decode_peacetime(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x39 — ReadPeaceTime (peace mode toggle)."""
+    state = r.boolean()
+    return {**_ctx_from(ts, hdr), "handler": "ReadPeaceTime",
+            "peacemode_on": state}
+
+
+def decode_package(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x40 — ReadPackage (generic text net-message)."""
+    bFromServer = r.boolean()
+    msg = r.string()
+    return {**_ctx_from(ts, hdr), "handler": "ReadPackage",
+            "from_server": bFromServer, "message": msg}
+
+
+def decode_traderesources(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x46 — ReadTradeResources (transfer resources to ally)."""
+    bFromServer = r.boolean()
+    plind = r.u8()
+    targetplayer = r.u8()
+    resource = r.u8()
+    amount = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadTradeResources",
+            "from_pl": plind, "to_pl": targetplayer,
+            "resource": resource, "amount": amount,
+            "from_server": bFromServer}
+
+
 def decode_proj(r: Reader, ts: float, hdr: dict) -> dict:
     """state_id=0x29 — ReadProj (projectile fired).
 
@@ -465,6 +589,16 @@ DECODERS: dict[int, callable] = {
     0x37: decode_freelist,          # ✓ ReadFreeList (mass-delete; see end-game cleanup)
     0x29: decode_proj,              # ✓ ReadProj (projectile fired — every musket shot)
     0x0b: decode_move,              # ✓ ReadMove (per-unit destination)
+    0x0f: decode_free,              # ✓ ReadFree (single object destroy)
+    0x1d: decode_search,            # ✓ ReadSearch (search-enemy toggle)
+    0x1f: decode_stand,             # ✓ ReadStand (stand-ground toggle)
+    0x25: decode_leaveorder,        # ✓ ReadLeaveOrder
+    0x2b: decode_projfree,          # ✓ ReadProjFree
+    0x2f: decode_stop,              # ✓ ReadStop
+    0x35: decode_gate,              # ✓ ReadGate
+    0x39: decode_peacetime,         # ✓ ReadPeaceTime (peace mode end)
+    0x40: decode_package,           # ✓ ReadPackage (text net-message)
+    0x46: decode_traderesources,    # ✓ ReadTradeResources (ally transfer)
 }
 
 
@@ -538,19 +672,26 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
 
         hdr = {"class": cls, "pid": pid, "state_id": state_id}
         body_start = r.pos
+        state_name = STATE_NAMES.get(state_id, f"unknown_0x{state_id:02x}")
         decoder = DECODERS.get(state_id)
-        if decoder is None:
-            # Unknown handler — record stub. Find next sub-pkg by scanning for
-            # `00 03 XX XX 00` pattern, else dump rest.
-            # Heuristic: look for `01 00 03` (end-marker + start of next pkg).
+
+        # pid=14 (progress) events use state_ids as labels for engine-internal
+        # state-machine transitions; payload format DOES NOT match the script
+        # handler signature. We skip decoding for these and just label them.
+        engine_internal = pid == 14
+
+        if decoder is None or engine_internal:
+            # Find next sub-pkg by scanning for `01 00 03` (end + next start)
             tail = r.data[body_start:]
             next_start = tail.find(b"\x01\x00\x03")
             if next_start >= 0:
-                consumed = next_start + 1  # include the 0x01 end-marker
+                consumed = next_start + 1
             else:
                 consumed = len(tail)
+            label = (f"engine_{state_name}" if engine_internal
+                     else (state_name if decoder is None else f"undecoded_{state_name}"))
             results.append({**_ctx_from(ts, hdr),
-                            "handler": f"unknown_state_0x{state_id:02x}",
+                            "handler": label,
                             "size": consumed,
                             "raw_first_24": tail[:24].hex()})
             r.pos += consumed

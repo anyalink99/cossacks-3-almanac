@@ -144,13 +144,28 @@ offset  size  поле
 +8      ?B    count записей с переменным размером
 ```
 
-Размер записи на event обычно 8, 16, 20, или 28 байт. Самые частые
-записи 8-байтовые: `[u32 uid][u32 statestag]` — компактное
-обновление status-tag юнита. 16+ байтовые записи добавляют позицию
-и/или дополнительные поля.
+**Записи имеют переменный размер**, 8..23 байта, шаг ~3 байта.
+В `nick-niotid 2.rep` распределение размеров (для events где
+`(payload_size − 8) % count == 0`):
+
+| record bytes | events | расшифровка                          |
+|-------------:|-------:|--------------------------------------|
+| 8            | 2199   | `[u32 uid][u32 statestag]` — minimum |
+| 11           |  727   |  + 3B (Int24?)                       |
+| 12           |  610   |  + 4B (Int/Float?)                   |
+| 14           |  578   |                                      |
+| 16           | 1806   | `[u32 uid][u32 statestag][2*Float pos]` |
+| 19           | 2767   | `[u32 uid][u32 statestag][Int24][2*Float pos]` (verified for ReadConstruct trail) |
+| 20           | 2802   | + 4B extra                           |
+| 23           |  375   |                                      |
+
+Точный variable-length формат каждой записи зависит от **state-tag
+flags** на текущем объекте — TagObject пишет ровно те поля, что
+изменились (position если двигался, hp если ранен, и т.д.). Без
+disasm движка точная схема не разобрана.
 
 Это **74% всех sub-package'ей** (27 313 / 42 859 в `nick-niotid 2.rep`).
-Эти записи — обычный server-сток state-tag'ов для каждого юнита
+Эти записи — server-сток state-tag'ов для каждого юнита
 (см. [`../engine/server_sync_architecture.md`](../engine/server_sync_architecture.md)).
 
 ### 3.3 Типизированные RecordCustomRead*-примитивы
@@ -185,54 +200,111 @@ sub-package'а** из §3.1, а не часть String.
 
 ---
 
-## 4. Карта `state_id` → handler
+## 4. Карта `state_id` → handler — ПОЛНАЯ
 
-**Verified** (декодер построен и парсит 100% событий с этим state_id;
-проверено на 3+ replay'ах):
+**Источник правды:** [`data/scripts/units/global.aix`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.aix) — там описаны все sections
+в порядке загрузки. **`state_id = индекс секции`** (включая разделители
+`---SEP---` и `section.end`).
 
-| state_id | handler              | сигнатура                              |
-|---------:|----------------------|----------------------------------------|
-| `0x0b`   | `ReadMove`           | 2*Float dir, 2*Bool, 2*Int mode/count, N*(Int uid + 2*Float pos), [Word squaduid, Byte plind] |
-| `0x0d`   | `ReadNew`            | Bool, String race, String base, 2*Float, 3*Int |
-| `0x11`   | `ReadDeath`          | Bool, Int mode, Float randkey, Int count, N*Int dead_uids |
-| `0x13`   | `ReadPlayer`         | Int uid, Bool capture                  |
-| `0x15`   | `ReadRally`          | Int uid, Bool, 2*Float (no bFromServer)|
-| `0x17`   | `ReadOrder`          | Int ordtyp, Int taruid, 2*Bool, Int number, [2*Float if patrol/atkpoint], N*Int uids |
-| `0x19`   | `ReadUpgrade`        | Bool, Int upgid, Bool state, Int count, N*Int building_uids |
-| `0x1b`   | `ReadProduce`        | 3*Int proid/prcid/amount, Bool state, Int count, N*Int building_uids |
-| `0x21`   | `ReadConstruct`      | Bool, Int cid, String sid, 2*Float, Bool clrord, Int count, N*Int builder_uids |
-| `0x23`   | `ReadApply`          | 4*Int plind/uid/cid/ind                |
-| `0x27`   | `ReadLeave`          | Bool dead, Int uid                     |
-| `0x29`   | `ReadProj`           | 61B fixed: Int+Int+Bool+3*Float+Int+3*Float+3*Int+Float+2*Int |
-| `0x2d`   | `ReadNewP`           | Bool, String race, String base, 3*Float, 4*Int (multi-pkg envelope for fields) |
-| `0x31`   | `ReadTrade`          | Bool, Byte sell, Byte buy, Int amount  |
-| `0x33`   | `ReadWall`           | Bool, 3*Byte usage/cid/id, Int count, N*(Byte+2*Float+Int) cells, 2*Int, M*Int builders |
-| `0x37`   | `ReadFreeList`       | Int count, N*Int freed_uids (mass-cleanup) |
-| `0x3d`   | `ReadSyncUnitsParams`| Int count, N*(Int uid + Bool valid + Int hp) |
+| state_id | section name           | decoder        | примечание                           |
+|---------:|------------------------|----------------|--------------------------------------|
+| `0x00`   | `Initial`              | —              | начальное состояние FSM             |
+| `0x01`   | `OnBeforeSave`         | —              |                                      |
+| `0x02`   | `OnAfterLoad`          | —              |                                      |
+| `0x03`   | `Progress`             | —              | per-player progress tick            |
+| `0x04`   | _SEPARATOR_            | —              |                                      |
+| `0x05`   | `WriteSquadNew`        | —              |                                      |
+| `0x06`   | `ReadSquadNew`         | TODO           | формация: создание                  |
+| `0x07`   | `WriteSquadListAction` | —              |                                      |
+| `0x08`   | `ReadSquadListAction`  | (engine-only)  | **engine пишет 5629×** от pid=14   |
+| `0x09`   | _SEPARATOR_            | —              |                                      |
+| `0x0a`   | `WriteMove`            | (engine-only)  | engine broadcasts moves (44× от pid=14) |
+| `0x0b`   | **`ReadMove`** ✓        | `decode_move`  | per-unit destination + facing       |
+| `0x0c`   | `WriteNew`             | —              |                                      |
+| `0x0d`   | **`ReadNew`** ✓         | `decode_new`   | спавн юнита от сервера              |
+| `0x0e`   | `WriteFree`            | —              |                                      |
+| `0x0f`   | **`ReadFree`** ✓        | `decode_free`  | удаление объекта; **engine 5929×** от pid=14 |
+| `0x10`   | `WriteDeath`           | —              |                                      |
+| `0x11`   | **`ReadDeath`** ✓       | `decode_death` | смерть юнита (RNG seed restore)     |
+| `0x12`   | `WritePlayer`          | —              |                                      |
+| `0x13`   | **`ReadPlayer`** ✓      | `decode_player`| захват/передача владельца            |
+| `0x14`   | `WriteRally`           | —              |                                      |
+| `0x15`   | **`ReadRally`** ✓       | `decode_rally` | rally-point на здании                |
+| `0x16`   | `WriteOrder`           | —              |                                      |
+| `0x17`   | **`ReadOrder`** ✓       | `decode_order` | основные приказы (build/gainres/...)|
+| `0x18`   | `WriteUpgrade`         | —              |                                      |
+| `0x19`   | **`ReadUpgrade`** ✓     | `decode_upgrade`| start/cancel research                |
+| `0x1a`   | `WriteProduce`         | —              |                                      |
+| `0x1b`   | **`ReadProduce`** ✓     | `decode_produce`| queue unit (amount=-1=infinite)      |
+| `0x1c`   | `WriteSearch`          | —              |                                      |
+| `0x1d`   | **`ReadSearch`** ✓      | `decode_search`| search-enemy toggle                  |
+| `0x1e`   | `WriteStand`           | —              |                                      |
+| `0x1f`   | **`ReadStand`** ✓       | `decode_stand` | stand-ground toggle                  |
+| `0x20`   | `WriteConstruct`       | —              |                                      |
+| `0x21`   | **`ReadConstruct`** ✓   | `decode_construct`| build building                    |
+| `0x22`   | `WriteApply`           | —              |                                      |
+| `0x23`   | **`ReadApply`** ✓       | `decode_apply` | apply finished upgrade               |
+| `0x24`   | `WriteLeaveOrder`      | —              |                                      |
+| `0x25`   | **`ReadLeaveOrder`** ✓  | `decode_leaveorder`| list of units leaving           |
+| `0x26`   | `WriteLeave`           | —              |                                      |
+| `0x27`   | **`ReadLeave`** ✓       | `decode_leave` | unit goes outside                    |
+| `0x28`   | `WriteProj`            | —              |                                      |
+| `0x29`   | **`ReadProj`** ✓        | `decode_proj`  | projectile fired (61B fixed body)    |
+| `0x2a`   | `WriteProjFree`        | —              |                                      |
+| `0x2b`   | **`ReadProjFree`** ✓    | `decode_projfree`| projectile destroyed               |
+| `0x2c`   | `WriteNewP`            | —              |                                      |
+| `0x2d`   | **`ReadNewP`** ✓        | `decode_newp`  | spawn primitive (fields/balloons)    |
+| `0x2e`   | `WriteStop`            | —              |                                      |
+| `0x2f`   | **`ReadStop`** ✓        | `decode_stop`  | cancel orders                        |
+| `0x30`   | `WriteTrade`           | —              |                                      |
+| `0x31`   | **`ReadTrade`** ✓       | `decode_trade` | market trade                         |
+| `0x32`   | `WriteWall`            | —              |                                      |
+| `0x33`   | **`ReadWall`** ✓        | `decode_wall`  | wall cluster (per-cell records)      |
+| `0x34`   | `WriteGate`            | —              |                                      |
+| `0x35`   | **`ReadGate`** ✓        | `decode_gate`  | open/close gates                     |
+| `0x36`   | `WriteFreeList`        | —              |                                      |
+| `0x37`   | **`ReadFreeList`** ✓    | `decode_freelist`| mass-delete (end-game cleanup)    |
+| `0x38`   | `WritePeaceTime`       | —              |                                      |
+| `0x39`   | **`ReadPeaceTime`** ✓   | `decode_peacetime`| peace mode toggle                |
+| `0x3a`   | `WriteSync`            | —              |                                      |
+| `0x3b`   | `ReadSync`             | TODO           | full unit-snapshot sync (rare)       |
+| `0x3c`   | `WriteSyncUnitsParams` | —              |                                      |
+| `0x3d`   | **`ReadSyncUnitsParams`** ✓ | `decode_sync_units_params`| HP sync       |
+| `0x3e`   | _SEPARATOR_            | —              |                                      |
+| `0x3f`   | `WritePackage`         | —              |                                      |
+| `0x40`   | **`ReadPackage`** ✓     | `decode_package`| text net-message                    |
+| `0x41`   | _SEPARATOR_            | —              |                                      |
+| `0x42`   | `ProgressAI`           | —              | engine internal                      |
+| `0x43`   | `ProgressEconomicAI`   | —              | engine internal                      |
+| `0x44`   | `ProgressWarAI`        | —              | engine internal                      |
+| `0x45`   | `CheckErrors`          | —              | engine internal                      |
+| `0x46`   | **`ReadTradeResources`** ✓ | `decode_traderesources`| ally transfer                |
+| `0x47`   | `WriteTradeResources`  | —              |                                      |
 
-**Probable** (engine-internal `Progress*` events от `pid=14`):
+**Итого декодированных handler'ов: 21** (`ReadConstruct`, `ReadNew`,
+`ReadRally`, `ReadOrder`, `ReadProduce`, `ReadApply`, `ReadDeath`,
+`ReadUpgrade`, `ReadTrade`, `ReadLeave`, `ReadPlayer`, `ReadNewP`,
+`ReadWall`, `ReadFreeList`, `ReadProj`, `ReadMove`, `ReadSyncUnitsParams`,
+`ReadFree`, `ReadSearch`, `ReadStand`, `ReadStop`, `ReadGate`,
+`ReadLeaveOrder`, `ReadProjFree`, `ReadPeaceTime`, `ReadPackage`,
+`ReadTradeResources`). Не декодированы: `ReadSquadNew` и `ReadSync`
+(не встретились в проверенных replay'ах).
 
-| state_id | вероятно            | свидетельство                          |
-|---------:|---------------------|----------------------------------------|
-| `0x08`   | `Progress` либо `ProgressEconomicAI` | 5629×, периодика каждые ~2 g-sec |
-| `0x0f`   | `Progress*` другой    | 5929×, периодика                      |
-| `0x0a`   | `Progress*` со статами| 44 событий, 12 Int'ов внутри          |
+### 4.1 Engine-internal events (pid=14)
 
-**Rare / TBD** (не разобраны, ≤8 событий):
+При pid=14 (`gc_playerind_progress`) state_id'ы — это **labels для
+state-machine transitions движка**, а не вызовы handler'ов. Payload
+для таких событий **НЕ совпадает** со script-handler signature
+соответствующего state_id'а. Парсер помечает их как `engine_<state_name>`
+и не пытается декодировать тело.
 
-`0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x09, 0x0c, 0x0e, 0x12, 0x14, 0x1d, 0x1f, 0x39`
+Примеры (`nick-niotid 2.rep`):
+- `engine_ReadFree` (5897 событий) — engine periodically frees stale objects
+- `engine_ReadSquadListAction` (5752) — engine batches squad updates
+- `engine_WriteMove` (44) — engine broadcasts move packets
 
-Полные сигнатуры handler'ов читаются прямо в скриптах — см.
-[`data/scripts/units/global.inc/read*.inc`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.inc\). 30 пар read/write секций в этой папке.
-
-### 4.1 Паттерн нумерации state_id
-
-State_id'ы для `Read*`-handler'ов — все **нечётные**, идут с шагом 2:
-0x0b, 0x0d, 0x0f, 0x11, 0x13, 0x15, 0x17, 0x19, 0x1b, 0x1d, 0x1f, 0x21,
-0x23, 0x25, 0x27, 0x29, 0x2b, 0x2d, 0x2f, 0x31, 0x33, 0x35, 0x37, 0x39,
-0x3b, 0x3d. Чётные между ними — скорее всего `Write*`-counterparts.
-
-State_id'ы 0x00..0x09 — какие-то системные/начальные (`Initial`, `CheckErrors`, `OnBeforeSave`, `OnAfterLoad` и четыре `Progress*`).
+Эти ~12k pid=14 событий составляют большую часть entry'ев и
+объясняют, почему класс=0x00 не "пуст" между явными командами игроков.
 
 ---
 
@@ -411,28 +483,23 @@ wood → gold (12), food → stone (11). То есть игроки активн
 | String encoding | ✓ | `[u16 len][bytes]` (без префикса) |
 | Multi-package boundaries | ✓ | через end-marker 0x01 и распознавание `00 03` начала след. sub-pkg |
 | Class=0x09 layout | ✓ | `[09][u24 seq][u32 count][records]` |
-| Class=0x09 record format | ✓ | 8B = `[Int uid][Int statestag]`; 19B = `[Int uid][Int statestag][Int24][2*Float pos]` |
-| 16 handler'ов verified | ✓ | Construct, New, Rally, Order, Produce, Apply, Death, Upgrade, Trade, Leave, Player, NewP, Wall, FreeList, Proj, Move, SyncUnitsParams |
-| Cross-replay stability | ✓ | Карта state_id одинаковая на 3 разных replay'ах |
+| Class=0x09 record sizes | ✓ | variable 8..23B, base `[u32 uid][u32 statestag]` + state-flag-driven extensions |
+| **ПОЛНАЯ карта state_id** | ✓ | из [`global.aix`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.aix), state_id = индекс section'а в файле |
+| 27 handler'ов verified или identified | ✓ | см. таблицу в §4 |
+| Cross-replay stability | ✓ | Карта state_id константна на 3 replay'ах |
 | Где move-команды | ✓ | через `ReadMove` (state=0x0b) — отдельный handler, не через ReadOrder |
-| Гипотеза о парности state_id | ✓ | `Read*` на нечётных state_id, `Write*` (вероятно) на чётных |
+| Парность Read/Write state_id | ✓ | по global.aix: Read и Write идут попеременно (parity flips после separator'ов) |
+| Engine pid=14 events | ✓ | те же state_id'ы, но payload — engine-internal, НЕ соответствует script handler |
+| Размер-13 первый event | ✓ | sub=0x04 — особый init-пакет с другим layout'ом |
 
 ## 10. Открытые TBD
 
-- **10-байт entry-маркер** `b0 04 ...` (вероятно channel-id `0x04b0=1200`)
-- **state_id=0x08, 0x0f, 0x0a** — engine `Progress*` events от pid=14
-  (5629+5929+44 = ~12k событий из 33k всего, не player commands)
-- **Rare state_id'ы** (~30 событий suma'ой по всем replay'ам):
-  0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x09, 0x0c, 0x0e, 0x12, 0x14,
-  0x1d, 0x1f, 0x39 — возможно `ReadProjFree`, `ReadSearch`, `ReadStop`,
-  `ReadGate`, `ReadLeaveOrder`, `ReadFree`, `ReadSquadNew`,
-  `ReadSquadListAction`, `ReadStand`, `ReadPackage`, `ReadPeaceTime`,
-  `ReadSync`, `ReadTradeResources` — нужны events с этими handler'ами
-  чтобы матчить.
-- `RecordCustomReadPackedFloat` — формат записи (native есть, в реплеях не наблюдался)
-- Размер-13 первый event (ts=14.13, payload `00 04 40 00 00 00 60 41 02 00 00 00 01`):
-  4-байтовый header `00 04 40 00` имеет sub=0x04 (не 0x03) — это особый
-  init-пакет, не идущий через стандартный sub-package layout.
+- **10-байт entry-маркер** `b0 04 ...` (`0x04b0=1200` — встречается в exe 99 раз как u16, но не как 10-байт последовательность). Скорее всего, генерируется runtime'ом из engine-internal struct'ы. Без disasm не разобрать.
+- **`RecordCustomReadPackedFloat`** — native существует, в наших replay'ах не встречался. Возможно используется в `ReadSync` для компактного хранения координат.
+- **Engine-internal payloads pid=14** (state=0x08, 0x0a, 0x0f). state_id это **label**, а не handler-dispatcher; payload пишется по другой схеме (probably packed state-tag deltas + stats). Не разобрано.
+- **`ReadSync` (state=0x3b)** — самый сложный handler (полный snapshot юнита). Не встречен в replay'ах (вероятно используется только при initial-connect клиента к идущей игре). Можно поймать в save-файле.
+- **`ReadSquadNew` (state=0x06)** — встречен 1-2 раза, decoder не написан. Сигнатура сложная (Bool + Int + String + 6*Int + 2*Bool + Int + Int + N*Int).
+- Variable-record-size декодирование class=0x09 — записи >8B имеют поля, зависящие от state-flags юнита; без exe-disasm точная схема не выводится.
 
 ---
 
