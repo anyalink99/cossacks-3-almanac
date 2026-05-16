@@ -644,13 +644,28 @@ class SimState:
 
     def advance_construction(self):
         finished = []
-        for i, (sid, finish_time, _) in enumerate(self.construction):
+        for i, (sid, finish_time, builders) in enumerate(self.construction):
             if self.t_g >= finish_time:
                 finished.append(i)
         for i in reversed(finished):
-            sid, finish_time, _ = self.construction.pop(i)
+            sid, finish_time, builders = self.construction.pop(i)
             self.buildings[sid] += 1
-            self.events.append(f"t={finish_time:6.1f}g: BUILT {sid} (count={self.buildings[sid]})")
+            # Mine auto-occupy: the peasants who built a mine walk straight in
+            # as miners (engine behaviour — `peasantabsorber` slot on the
+            # mine building). Capped by mine capacity × instance count.
+            if any(sid.endswith(s) for s in ("gol", "iro", "coa")):
+                cap_per_mine = self.mine_capacity(sid)
+                total_cap = cap_per_mine * self.buildings[sid]
+                already_in = self.mine_assignments.get(sid, 0)
+                absorbed = max(0, min(builders, total_cap - already_in))
+                if absorbed > 0:
+                    self.mine_assignments[sid] = already_in + absorbed
+                self.events.append(
+                    f"t={finish_time:6.1f}g: BUILT {sid} (count={self.buildings[sid]}); "
+                    f"{absorbed}/{builders} строителей вошли в шахту"
+                )
+            else:
+                self.events.append(f"t={finish_time:6.1f}g: BUILT {sid} (count={self.buildings[sid]})")
 
     def advance_unit_production(self, dt: float):
         # For each building producing, each instance produces 1 unit per buildtime g-sec

@@ -29,10 +29,6 @@ PEASANT_BY_NATION = {
 }
 
 
-MINE_SUFFIXES = ("gol", "iro", "coa")
-MINE_SUFFIX_TO_RES = {"gol": "gold", "iro": "iron", "coa": "coal"}
-
-
 def replay_to_build_order(
     replay_bytes: bytes,
     data_json: dict,
@@ -145,18 +141,16 @@ def replay_to_build_order(
             "upgrade_sid": upg["sid"],
         })
 
-    # — Assigns (host only) —
-    # gainres orders target tree/stone/food nodes — without map data we can't
-    # tell the resource type from target_uid. Heuristic: split by game phase.
-    # gotomine orders target mine buildings — we pick the most-recently-built
-    # mine of the player (any type if multiple) as the destination.
-    if is_host:
-        actions.extend(_extract_assigns(
-            result.get("orders_timed_per_pid", {}).get(pid, []),
-            builds,
-            window_g_sec,
-        ))
-
+    # NB: gainres / gotomine extraction is intentionally NOT done.
+    # - gainres carries only `target_uid` (a tree/stone/food node uid). The
+    #   resource TYPE isn't in the replay — the engine knows it because the
+    #   running game has the map state with each node's class. Decoding it
+    #   would require running C3's map-gen for the replay's seed.
+    # - gotomine target_uid is a mine building uid, but the parser doesn't
+    #   yet track building-uid → sid (buildings get their uid via WriteNew
+    #   that we don't decode), so we can't say WHICH mine the peasants enter.
+    # Auto-occupy of mines is handled in the simulator (`advance_construction`)
+    # so the 5 builders → miners flow doesn't need to be in the build_order.
     actions.sort(key=lambda a: (a["at"], 0 if a["do"] == "assign" else 1))
 
     settings = result.get("settings", {})
@@ -172,7 +166,7 @@ def replay_to_build_order(
     player_meta = next((p for p in result.get("players", []) if p.get("pid") == pid), {})
     player_name = player_meta.get("name", f"pid={pid}")
 
-    host_tag = "хост — assigns извлечены" if is_host else "клиент — assigns НЕ извлекаются"
+    host_tag = "хост" if is_host else "клиент"
     return {
         "nation": nation,
         "game_speed": speed_str,
@@ -187,110 +181,14 @@ def replay_to_build_order(
         "actions": actions,
         "_note": (f"Импорт из реплея (игрок: {player_name}, pid={pid}, {host_tag}, "
                   f"первые {int(window_g_sec)} г-сек). "
-                  "Извлечены точно: build, train (finite+∞), trade, research. "
-                  + ("Assigns эвристически: gainres → дерево/еда/камень по фазе игры (mill/sto), "
-                     "gotomine → ближайшая по времени построенная шахта игрока. Проверь, поправь если что."
-                     if is_host else
-                     "У клиента в реплее нет ReadOrder-эвентов (всё уходит в state-sync, который мы не "
-                     "декодируем), поэтому крестьян раскидываешь вручную через каталог.")),
+                  "Извлечены: build, train (finite+∞), trade, research. "
+                  "Раскидывание крестьян на еду/дерево/камень НЕ извлекается — "
+                  "реплей пишет только target_uid (uid ресурса/шахты), а тип "
+                  "(food/wood/stone и какая именно шахта) определяется по "
+                  "стартовому состоянию карты, которое мы не декодируем. "
+                  "Симулятор сам кидает 5 строителей в шахту после её постройки; "
+                  "остальные раскладки — вручную через каталог «Раскидать»."),
     }
-
-
-def _extract_assigns(orders_timed: list[dict],
-                     builds: list[dict],
-                     window_g_sec: float) -> list[dict]:
-    """Turn raw gainres/gotomine ReadOrder events into cumulative assign
-    actions. Heuristics:
-      - gainres before any mill is built  → wood (lumber stage)
-      - gainres after mill, before storehouse  → wood + food (split 50/50)
-      - gainres after storehouse  → food (mill+sto = pop+farming opener done)
-      - gainres after stone walls/towers built → adds stone
-      - gotomine → assign to the player's most-recently-built mine of any type
-    These are rough buckets — meant to make the simulation not starve. The
-    user adjusts in the editor.
-    """
-    # Index builds by time for phase lookups
-    builds_sorted = sorted(builds, key=lambda b: b["ts_g_sec"])
-
-    def first_built_t(suffix: str) -> float | None:
-        """Earliest ts at which a building with `suffix` was ORDERED. Note:
-        we use order time as an approximation (real completion is later, but
-        the player issues gather orders after they SEE the build placed)."""
-        for b in builds_sorted:
-            sid = b["sid"]
-            if sid.endswith(suffix):
-                return b["ts_g_sec"]
-        return None
-
-    mill_t  = first_built_t("mil")
-    sto_t   = first_built_t("sto")
-    tow_t   = first_built_t("tow")
-    swa_t   = first_built_t("swa")  # stone wall
-
-    # Track cumulative N peasants assigned to each resource over time.
-    # Each gainres / gotomine event adds N peasants to ONE resource; we
-    # accumulate so each assign action reflects the player's *current*
-    # gathering layout (assigns in C3 are SET, not ADD).
-    cumulative: dict[str, int] = {"food": 0, "wood": 0, "stone": 0}
-    cumulative_mine: dict[str, int] = {}  # mine_sid → N peasants
-
-    def pick_gainres_res(ts: float) -> str:
-        """Cheap phase classifier — see docstring."""
-        if (swa_t is not None and ts >= swa_t) or (tow_t is not None and ts >= tow_t):
-            # Stone walls or towers ordered — at least some peasants go to stone.
-            # Slightly biased: keep wood/food going, add stone every 3rd order.
-            return "stone"
-        if sto_t is not None and ts >= sto_t:
-            return "food"  # storehouse ordered → can drop food off
-        if mill_t is not None and ts >= mill_t:
-            # Even split: alternate by parity of how many events we've seen
-            return "wood"
-        return "wood"
-
-    # Most-recently-built mine before time T
-    def latest_mine_sid_before(t: float) -> str | None:
-        latest = None
-        for b in builds_sorted:
-            if b["ts_g_sec"] > t:
-                break
-            sid = b["sid"]
-            if any(sid.endswith(s) for s in MINE_SUFFIXES):
-                latest = sid
-        return latest
-
-    out: list[dict] = []
-    for ev in orders_timed:
-        if ev["ts_g_sec"] > window_g_sec:
-            break
-        n = ev.get("n_units") or 0
-        if n <= 0:
-            continue
-        ot = ev["ordtyp"]
-        if ot == 3:  # gainres
-            res = pick_gainres_res(ev["ts_g_sec"])
-            cumulative[res] = max(cumulative.get(res, 0), n)
-        elif ot == 13:  # gotomine
-            mine_sid = latest_mine_sid_before(ev["ts_g_sec"])
-            if not mine_sid:
-                continue
-            cumulative_mine[mine_sid] = max(cumulative_mine.get(mine_sid, 0), n)
-        else:
-            continue  # ignore fishing/build/repair for now
-
-        # Emit a snapshot of current gathering layout.
-        snap = {"at": round(ev["ts_g_sec"], 1), "do": "assign"}
-        snap.update({k: v for k, v in cumulative.items() if v > 0})
-        snap.update(cumulative_mine)
-        out.append(snap)
-
-    # Deduplicate consecutive identical assigns
-    out2: list[dict] = []
-    for a in out:
-        if out2 and {k: v for k, v in a.items() if k not in ("at",)} == \
-                    {k: v for k, v in out2[-1].items() if k not in ("at",)}:
-            continue
-        out2.append(a)
-    return out2
 
 
 if __name__ == "__main__":

@@ -393,11 +393,13 @@ async function init() {
     const isHost = opt?.dataset.host === "true";
     const hint = $("#replay_host_hint");
     if (!hint) return;
+    const common = "Build / train / research / trade извлекутся точно. ";
+    const noAssigns = "Раскидывание крестьян на еду/дерево/камень — НЕ извлекается: реплей пишет только UID цели, а тип (food/wood/stone и какая шахта) хранится в стартовом состоянии карты, которое мы не декодируем. Расставляешь вручную через каталог «Раскидать». Симулятор сам отправляет 5 строителей шахты внутрь работать после её постройки.";
     if (isHost) {
-      hint.innerHTML = "<b>Хост.</b> Извлекутся все действия + assigns эвристически (gainres→дерево/еда/камень по фазе игры, gotomine→ближайшая по времени шахта).";
+      hint.innerHTML = "<b>Хост.</b> " + common + noAssigns;
       hint.className = "muted small host-ok";
     } else {
-      hint.innerHTML = "<b>Клиент.</b> В реплее нет ReadOrder-эвентов этого игрока — assigns придётся раскидать вручную в редакторе. Build/train/research/trade всё равно извлечутся.";
+      hint.innerHTML = "<b>Клиент.</b> Этот игрок не хост — его ReadOrder-эвенты в реплее отсутствуют (всё уходит в state-sync, который мы не декодируем). " + common + " " + noAssigns;
       hint.className = "muted small host-warn";
     }
   }
