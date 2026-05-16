@@ -604,31 +604,19 @@ DECODERS: dict[int, callable] = {
 
 # ----- Class=0x09 decoder (per-object state-sync stream) -----------------
 def decode_class_09(payload: bytes, ts: float) -> dict:
-    """[0x09][u24 seq][u32 count][records]."""
-    r = Reader(payload, 0)
-    _ = r.u8()
-    seq = r.u24()
-    count = r.u32()
-    total_rec_bytes = len(payload) - 8
-    rec_size = total_rec_bytes // count if count > 0 else 0
-    records = []
-    for _ in range(count):
-        if r.remaining() < rec_size: break
-        if rec_size >= 4:
-            uid = r.u32()
-            rest = r.data[r.pos:r.pos + rec_size - 4]
-            r.pos += len(rest)
-            # Decode first 8 / 16 bytes pattern
-            rec = {"uid": uid}
-            if rec_size >= 8:
-                rec["statestag"] = struct.unpack_from("<I", rest, 0)[0]
-            if rec_size >= 16:
-                rec["pos"] = list(struct.unpack_from("<ff", rest, 4))
-            if rec_size > 16:
-                rec["rest_hex"] = rest[12:].hex()
-            records.append(rec)
+    """[0x09][u24 seq][u32 count][records].
+
+    For the web UI we only need the count — fully decoding records is
+    pure overhead (a long-game replay carries millions of them). Keep
+    the header fields and skip the body.
+    """
+    if len(payload) < 8:
+        return {"handler": "class_09_sync", "ts_tick": ts, "ts_g_sec": ts / 10.0,
+                "seq": 0, "count": 0}
+    seq = payload[1] | (payload[2] << 8) | (payload[3] << 16)
+    count = struct.unpack_from("<I", payload, 4)[0]
     return {"handler": "class_09_sync", "ts_tick": ts, "ts_g_sec": ts / 10.0,
-            "seq": seq, "count": count, "rec_size": rec_size, "records": records}
+            "seq": seq, "count": count}
 
 
 # ----- Sub-package walker (multi-package within an entry) ----------------
@@ -961,11 +949,15 @@ def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = N
 def parse_replay_from_bytes(data: bytes) -> dict:
     """Comprehensive replay parse from raw bytes.
 
+    Single-pass aggregation: class=0x09 sync packets and engine-internal
+    pid=14 events are counted but never materialised into a per-record
+    list, otherwise a long-game replay (millions of state-sync records)
+    would freeze the browser tab.
+
     Returns a JSON-friendly dict with header settings, player roster,
     event timelines, summaries and abuse findings — everything a web
     UI needs in one round-trip.
     """
-    # Import lazily so this module remains importable on its own
     from parse_replay import extract_settings, extract_players
 
     settings = extract_settings(data)
@@ -973,17 +965,9 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     entries = walk_entries(data)
     body_entries = entries[1:] if entries and entries[0][0] == 0.0 else entries
 
-    decoded: list[dict] = []
     by_handler: Counter = Counter()
     by_pid: Counter = Counter()
-    for ts, _size, payload in body_entries:
-        for rec in decode_subpackages(payload, ts):
-            decoded.append(rec)
-            by_handler[rec.get("handler", "?")] += 1
-            if "pid" in rec:
-                by_pid[rec["pid_name"]] += 1
 
-    # Per-player aggregations
     builds_per_pid: dict = defaultdict(list)
     units_built_per_pid: dict = defaultdict(Counter)
     spawns_per_pid: dict = defaultdict(Counter)
@@ -993,41 +977,62 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     deaths_per_pid: Counter = Counter()
     proj_per_pid: Counter = Counter()
     rally_per_pid: dict = defaultdict(int)
+    player_nations: dict[int, str] = {}
 
-    for rec in decoded:
-        h = rec.get("handler")
-        pid = rec.get("pid")
-        if h == "ReadConstruct" and pid is not None:
-            builds_per_pid[pid].append({
-                "ts_g_sec": rec["ts_g_sec"], "sid": rec["sid"],
-                "pos": rec["pos"], "builders": len(rec["builders"]),
-            })
-            units_built_per_pid[pid][rec["sid"]] += 1
-        elif h == "ReadNew" and pid is not None:
-            spawns_per_pid[pid][rec["sid"]] += 1
-        elif h == "ReadOrder" and pid is not None:
-            orders_per_pid[pid][rec["ordtyp_name"]] += 1
-        elif h == "ReadTrade" and pid is not None:
-            trades_per_pid[pid].append({
-                "ts_g_sec": rec["ts_g_sec"],
-                "sell": rec["sell_res"], "buy": rec["buy_res"],
-                "amount": rec["amount"],
-            })
-        elif h == "ReadUpgrade" and pid is not None:
-            upgrades_per_pid[pid].append({
-                "ts_g_sec": rec["ts_g_sec"],
-                "upgrade_id": rec["upgrade_id"], "start": rec["start"],
-                "buildings": rec["buildings"],
-            })
-        elif h == "ReadDeath" and pid is not None:
-            deaths_per_pid[pid] += len(rec.get("dead_uids", []))
-        elif h == "ReadProj" and pid is not None:
-            proj_per_pid[pid] += 1
-        elif h == "ReadRally" and pid is not None:
-            rally_per_pid[pid] += 1
+    # Abuse detection inspects ReadUpgrade and ReadApply only; keep just
+    # those records so the detector never sees the bulky sync stream.
+    abuse_input: list[dict] = []
 
-    player_nations = _build_player_nations(decoded)
-    abuses = detect_abuses(decoded, player_nations)
+    for ts, _size, payload in body_entries:
+        for rec in decode_subpackages(payload, ts):
+            h = rec.get("handler", "?")
+            by_handler[h] += 1
+
+            # Skip aggregation for high-volume noise (state-sync stream
+            # and engine pid=14 markers — both already counted).
+            if h == "class_09_sync" or h.startswith("engine_"):
+                continue
+
+            pid = rec.get("pid")
+            if pid is not None:
+                by_pid[rec["pid_name"]] += 1
+
+            if h == "ReadConstruct" and pid is not None:
+                sid = rec.get("sid", "")
+                builds_per_pid[pid].append({
+                    "ts_g_sec": rec["ts_g_sec"], "sid": sid,
+                    "pos": rec["pos"], "builders": len(rec["builders"]),
+                })
+                units_built_per_pid[pid][sid] += 1
+                if pid not in player_nations and len(sid) >= 3:
+                    player_nations[pid] = sid[:3]
+            elif h == "ReadNew" and pid is not None:
+                spawns_per_pid[pid][rec["sid"]] += 1
+            elif h == "ReadOrder" and pid is not None:
+                orders_per_pid[pid][rec["ordtyp_name"]] += 1
+            elif h == "ReadTrade" and pid is not None:
+                trades_per_pid[pid].append({
+                    "ts_g_sec": rec["ts_g_sec"],
+                    "sell": rec["sell_res"], "buy": rec["buy_res"],
+                    "amount": rec["amount"],
+                })
+            elif h == "ReadUpgrade" and pid is not None:
+                upgrades_per_pid[pid].append({
+                    "ts_g_sec": rec["ts_g_sec"],
+                    "upgrade_id": rec["upgrade_id"], "start": rec["start"],
+                    "buildings": rec["buildings"],
+                })
+                abuse_input.append(rec)
+            elif h == "ReadDeath" and pid is not None:
+                deaths_per_pid[pid] += len(rec.get("dead_uids", []))
+            elif h == "ReadProj" and pid is not None:
+                proj_per_pid[pid] += 1
+            elif h == "ReadRally" and pid is not None:
+                rally_per_pid[pid] += 1
+            elif h == "ReadApply":
+                abuse_input.append(rec)
+
+    abuses = detect_abuses(abuse_input, player_nations)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
     return {
@@ -1035,7 +1040,7 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         "players": players,
         "duration_g_sec": duration_g_sec,
         "n_entries": len(entries),
-        "n_sub_packages": len(decoded),
+        "n_sub_packages": sum(by_handler.values()),
         "by_handler": dict(by_handler.most_common()),
         "by_pid": dict(by_pid.most_common()),
         "builds_per_pid": {p: v for p, v in builds_per_pid.items()},

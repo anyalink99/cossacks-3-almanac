@@ -51,6 +51,17 @@ clearBtn.addEventListener("click", () => {
   results.innerHTML = "";
 });
 
+function fmtSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function estimateSeconds(bytes) {
+  // ~1.5 MB/s in Pyodide for the optimised single-pass decoder.
+  return Math.max(1, Math.round(bytes / (1.5 * 1024 * 1024)));
+}
+
 async function processFiles(files) {
   const replays = files.filter((f) =>
     f.name.toLowerCase().endsWith(".rep") || f.name.toLowerCase().endsWith(".map")
@@ -60,18 +71,32 @@ async function processFiles(files) {
   for (const file of replays) {
     const placeholder = document.createElement("div");
     placeholder.className = "progress-row";
-    placeholder.textContent = `Парсим ${file.name}…`;
+    const sizeStr = fmtSize(file.size);
+    const eta = estimateSeconds(file.size);
+    placeholder.textContent =
+      `Парсим ${file.name} · ${sizeStr} · ожидайте ~${eta} сек…`;
     results.appendChild(placeholder);
+
+    // Heartbeat — every second update the elapsed counter so the user
+    // sees something is happening while Pyodide chews on a big replay.
+    const tStart = performance.now();
+    const heartbeat = setInterval(() => {
+      const elapsed = Math.round((performance.now() - tStart) / 1000);
+      placeholder.textContent =
+        `Парсим ${file.name} · ${sizeStr} · ${elapsed} сек / ~${eta} сек`;
+    }, 1000);
 
     try {
       const buf = new Uint8Array(await file.arrayBuffer());
-      const t0 = performance.now();
       const result = await parseReplay(buf);
-      const ms = Math.round(performance.now() - t0);
+      clearInterval(heartbeat);
+      const ms = Math.round(performance.now() - tStart);
       placeholder.replaceWith(renderCard(file.name, result, ms));
     } catch (e) {
+      clearInterval(heartbeat);
       placeholder.className = "error-row";
-      placeholder.textContent = `Ошибка при разборе ${file.name}: ${e.message || e}`;
+      placeholder.textContent =
+        `Ошибка при разборе ${file.name}: ${e.message || e}`;
       console.error(e);
     }
   }

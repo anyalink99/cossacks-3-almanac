@@ -1,70 +1,63 @@
-// Bootstraps Pyodide, mounts the replay-parser Python modules into its
-// virtual filesystem and exposes a single `parseReplay(bytes)` entry-point.
+// Drives the Web Worker that holds Pyodide. The main thread is never
+// blocked: parsing a 200 MB replay can chew seconds of CPU and we want
+// the rest of the page (intro, drop-zone, status pill) to stay alive.
 
-let pyodide = null;
-let ready = false;
+let worker = null;
+let bootReady = false;
+let waitingForReady = [];
+let progressCb = () => {};
+let nextId = 1;
+const pending = new Map();
 
-const FILES = [
-  { url: "../parser/parse_replay.py",        target: "/c3/parse_replay.py" },
-  { url: "../parser/parse_replay_events.py", target: "/c3/parse_replay_events.py" },
-  { url: "../data.json",                     target: "/c3/data.json" },
-  { url: "../derived/pattern_inventory.json", target: "/c3/output/derived/pattern_inventory.json", optional: true },
-  { url: "../derived/pattern_types.json",     target: "/c3/output/derived/pattern_types.json", optional: true },
-];
+function ensureWorker() {
+  if (worker) return worker;
+  worker = new Worker(new URL("./worker.js", import.meta.url));
+  worker.onmessage = (ev) => {
+    const m = ev.data;
+    if (m.kind === "progress") {
+      progressCb(m.text, "loading");
+      return;
+    }
+    if (m.kind === "ready") {
+      bootReady = true;
+      progressCb("Готов — загрузите .rep", "ready");
+      while (waitingForReady.length) waitingForReady.shift()();
+      return;
+    }
+    if (m.kind === "error") {
+      progressCb(`Ошибка: ${m.text}`, "error");
+      return;
+    }
+    if (m.id != null) {
+      const p = pending.get(m.id);
+      if (!p) return;
+      pending.delete(m.id);
+      if (m.ok) p.resolve(m.result);
+      else p.reject(new Error(m.error));
+    }
+  };
+  worker.onerror = (ev) => {
+    progressCb(`Worker error: ${ev.message}`, "error");
+  };
+  return worker;
+}
 
 export async function initPyodide(onProgress = () => {}) {
-  if (ready) return pyodide;
-  onProgress("Загрузка Pyodide…", "loading");
-  pyodide = await window.loadPyodide({
-    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/",
-  });
-
-  onProgress("Загрузка парсера…", "loading");
-  pyodide.FS.mkdirTree("/c3");
-  pyodide.FS.mkdirTree("/c3/output/derived");
-
-  for (const f of FILES) {
-    try {
-      const src = await fetch(f.url).then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.text();
-      });
-      // Make the directory before writing
-      const dir = f.target.substring(0, f.target.lastIndexOf("/"));
-      try { pyodide.FS.mkdirTree(dir); } catch (e) {}
-      pyodide.FS.writeFile(f.target, src);
-    } catch (e) {
-      if (!f.optional) throw e;
-      // Optional files (pattern data) — ignore if missing
-    }
-  }
-
-  pyodide.runPython(`
-import sys
-sys.path.insert(0, "/c3")
-try:
-    sys.stdout.reconfigure(encoding="utf-8")
-except Exception:
-    pass
-import parse_replay
-import parse_replay_events
-`);
-
-  ready = true;
-  onProgress("Готов — загрузите .rep", "ready");
-  return pyodide;
+  progressCb = onProgress;
+  ensureWorker();
+  if (bootReady) return;
+  await new Promise((resolve) => waitingForReady.push(resolve));
 }
 
 export async function parseReplay(bytes) {
-  if (!ready) throw new Error("Pyodide ещё не загрузился");
-  pyodide.FS.writeFile("/c3/_current.rep", bytes);
-  const resultJson = pyodide.runPython(`
-import json
-import parse_replay_events
-with open("/c3/_current.rep", "rb") as f:
-    data = f.read()
-result = parse_replay_events.parse_replay_from_bytes(data)
-json.dumps(result, ensure_ascii=False, default=str)
-`);
-  return JSON.parse(resultJson);
+  ensureWorker();
+  if (!bootReady) {
+    await new Promise((resolve) => waitingForReady.push(resolve));
+  }
+  const id = nextId++;
+  return new Promise((resolve, reject) => {
+    pending.set(id, { resolve, reject });
+    // Transfer the underlying buffer so we don't double the memory cost
+    worker.postMessage({ id, bytes }, [bytes.buffer]);
+  });
 }
