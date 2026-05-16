@@ -821,12 +821,13 @@ def _resolve_unit_member(cid: int, proid: int) -> str | None:
     return members[proid]
 
 
-def _build_player_nations(decoded: list[dict]) -> dict[int, str]:
-    """Infer each player's nation from the sid of their first ReadConstruct.
+_COMMON_BLD_PREFIXES = ("eur", "rus", "tur", "spa", "por", "ukr")
 
-    Building sids are prefixed by the nation tag (`auscen`, `piebar`, ...);
-    same for many unit sids. The first three letters are the canonical
-    nation tag used as `gCountry[cid].sid`.
+
+def _build_player_nations(decoded: list[dict]) -> dict[int, str]:
+    """Infer each player's nation from the sid of their first nation-specific
+    ReadConstruct. Skip common-cluster prefixes (eur*/rus*/tur*/etc.) because
+    those are shared buildings and don't reveal the playing nation.
     """
     nations: dict[int, str] = {}
     for rec in decoded:
@@ -836,7 +837,12 @@ def _build_player_nations(decoded: list[dict]) -> dict[int, str]:
         sid = rec.get("sid", "")
         if pid is None or len(sid) < 3 or pid in nations:
             continue
-        nations[pid] = sid[:3]
+        prefix = sid[:3]
+        # eur*/rus*/tur* are common-cluster sids — they don't pin down the
+        # specific nation. Keep looking until we hit auscen/bavbar/etc.
+        if prefix in _COMMON_BLD_PREFIXES:
+            continue
+        nations[pid] = prefix
     return nations
 
 
@@ -875,19 +881,27 @@ def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = N
         kind, pid, ts_g_sec_first, ts_g_sec_second, gap_ticks, details
     """
     # Race-condition abuse fingerprint:
-    #   - exactly 2 starts of the same (pid, building, upgrade) — the
-    #     second one is the spammed extra click that landed during the
-    #     "almost complete" window.
-    #   - gap between starts is roughly one upgrade-completion-cycle —
-    #     between 50 ticks (5 g-сек) and 200 ticks (20 g-сек).
+    #   Player clicks the upgrade button at t=A. The upgrade starts running.
+    #   Near completion (t ≈ A + upgrade_time), the player spams a second
+    #   click — and because the server hasn't yet committed the upgrade
+    #   to "done" state, the second click queues ANOTHER full research
+    #   cycle. Effect doubles.
     #
-    # Below 50 ticks the cluster looks like legitimate spam-hire on a
-    # queueable upgrade — mercenary purchase at a diplomatic centre, or
-    # peasant-absorber slots on a mine — both fire `ReadUpgrade` per click
-    # at sub-tick spacing and pack tens of starts into one second.
-    # Above 200 ticks the pair is too far apart to be the same lifecycle.
-    GAP_MIN_TICKS = 50
-    GAP_MAX_TICKS = 200
+    # In the replay this looks like:
+    #   • Cluster 1: a single ReadUpgrade(start) at t=A (or a few clicks
+    #     within ~3 ticks of each other — UI spam, not abuse).
+    #   • Cluster 2: another batch at t ≈ A + upgrade_time, before the
+    #     engine "completes" the first cycle.
+    #   • Gap between cluster-1 and cluster-2 is roughly the upgrade's
+    #     own duration — 50..200 ticks (≈ 5..20 g-сек) for typical 1st-
+    #     tier upgrades.
+    #
+    # Legit fast-cycle hires (mercenaries, peasant-absorber slots) fire many
+    # clicks all within ONE tight cluster (sub-tick spacing) and never form
+    # a second cluster — so the cluster split is what tells the two apart.
+    GAP_MIN_TICKS = 50      # min duration of upgrades worth race-clicking
+    GAP_MAX_TICKS = 200     # max — beyond that it's a second legitimate cycle
+    CLUSTER_GAP_TICKS = 30  # within this gap, events belong to the same click-burst
     findings: list[dict] = []
 
     # Index ReadUpgrade(start=True) events
@@ -902,36 +916,53 @@ def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = N
             upgrade_starts.setdefault(key, []).append(rec)
 
     for key, events in upgrade_starts.items():
-        if len(events) != 2:
-            # >2 starts → almost certainly a queueable hire (merc, miner);
-            # singletons obviously aren't duplicates.
+        if len(events) < 2:
             continue
         events_sorted = sorted(events, key=lambda r: r["ts_tick"])
-        a, b = events_sorted
-        gap = b["ts_tick"] - a["ts_tick"]
-        if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
+        # Cluster by tick-gap: events <= CLUSTER_GAP_TICKS apart belong to
+        # the same click-burst.
+        clusters: list[list[dict]] = [[events_sorted[0]]]
+        for ev in events_sorted[1:]:
+            if ev["ts_tick"] - clusters[-1][-1]["ts_tick"] <= CLUSTER_GAP_TICKS:
+                clusters[-1].append(ev)
+            else:
+                clusters.append([ev])
+        if len(clusters) < 2:
+            # All clicks in one burst — looks like a merc/mine queue spam.
             continue
-        pid, bld_uid, upg_id = key
-        upg_meta = None
-        if player_nations and pid in player_nations:
-            nation = player_nations[pid]
-            upgrades = _load_upgrade_names().get(nation)
-            if upgrades and 0 <= upg_id < len(upgrades):
-                upg_meta = upgrades[upg_id]
-        details = {"building_uid": bld_uid, "upgrade_id": upg_id}
-        if upg_meta:
-            details["upgrade_sid"] = upg_meta.get("sid")
-            details["upgrade_name_ru"] = upg_meta.get("name_ru") or ""
-            details["upgrade_name_en"] = upg_meta.get("name_en") or ""
-            details["place"] = upg_meta.get("place")
-        findings.append({
-            "kind": "double-upgrade-start",
-            "pid": pid,
-            "ts_g_sec_first": round(a["ts_g_sec"], 2),
-            "ts_g_sec_second": round(b["ts_g_sec"], 2),
-            "gap_ticks": round(gap, 2),
-            "details": details,
-        })
+        # Inter-cluster gap = first event of cluster N minus last event of cluster N-1.
+        # Any pair of consecutive clusters within the suspect window is enough
+        # to flag the upgrade. Pick the most egregious (largest count in 2nd cluster).
+        for i in range(1, len(clusters)):
+            inter_gap = clusters[i][0]["ts_tick"] - clusters[i-1][-1]["ts_tick"]
+            if inter_gap < GAP_MIN_TICKS or inter_gap > GAP_MAX_TICKS:
+                continue
+            pid, bld_uid, upg_id = key
+            upg_meta = None
+            if player_nations and pid in player_nations:
+                nation = player_nations[pid]
+                upgrades = _load_upgrade_names().get(nation)
+                if upgrades and 0 <= upg_id < len(upgrades):
+                    upg_meta = upgrades[upg_id]
+            details = {
+                "building_uid": bld_uid, "upgrade_id": upg_id,
+                "n_clicks_total": len(events_sorted),
+                "n_clicks_in_second_burst": len(clusters[i]),
+            }
+            if upg_meta:
+                details["upgrade_sid"] = upg_meta.get("sid")
+                details["upgrade_name_ru"] = upg_meta.get("name_ru") or ""
+                details["upgrade_name_en"] = upg_meta.get("name_en") or ""
+                details["place"] = upg_meta.get("place")
+            findings.append({
+                "kind": "double-upgrade-start",
+                "pid": pid,
+                "ts_g_sec_first": round(clusters[i-1][0]["ts_g_sec"], 2),
+                "ts_g_sec_second": round(clusters[i][0]["ts_g_sec"], 2),
+                "gap_ticks": round(inter_gap, 2),
+                "details": details,
+            })
+            break  # one finding per (pid, bld, upg_id) is enough
 
     # Same logic for ReadApply: a real race-condition apply lands in the
     # same gap window as the duplicate start, from the same pid, and only
@@ -1051,8 +1082,16 @@ def parse_replay_from_bytes(data: bytes) -> dict:
                     "pos": rec["pos"], "builders": len(rec["builders"]),
                 })
                 units_built_per_pid[pid][sid] += 1
-                if pid not in player_nations and len(sid) >= 3:
-                    player_nations[pid] = sid[:3]
+                if pid not in player_nations:
+                    # Prefer the explicit `cid` in the ReadConstruct payload
+                    # (= player's country index). Falls back to sid prefix if
+                    # cid is missing/invalid AND the prefix isn't a common
+                    # cluster (eur/rus/tur/…).
+                    cid = rec.get("cid")
+                    if cid is not None and cid in NATION_BY_CID:
+                        player_nations[pid] = NATION_BY_CID[cid]
+                    elif len(sid) >= 3 and sid[:3] not in _COMMON_BLD_PREFIXES:
+                        player_nations[pid] = sid[:3]
             elif h == "ReadNew":
                 # Capture uid→sid for EVERY new entity (units, buildings,
                 # animals…), regardless of owner — so ReadProduce can later
