@@ -1,6 +1,6 @@
 # Cossacks 3 — Tech Tree (по нациям)
 
-Граф зависимостей: что нужно построить или исследовать перед чем. Извлечено из `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). Источник истины — [`docs/derived/tech_tree.json`](../../../derived/tech_tree.json).
+Граф зависимостей: что нужно построить или исследовать перед чем. Извлечено из `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). Источник истины — [`derived/tech_tree.json`](../../derived/tech_tree.json).
 
 **Условные обозначения:**
 - `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)
@@ -13,26 +13,26 @@
 
 ```mermaid
 graph LR
-    ausaca["Академия<br/>`ausaca`"]
-    ausart["Артдепо<br/>`ausart`"]
-    ausba2["Казарма 18<br/>`ausba2`"]
-    ausbar["Казарма 17<br/>`ausbar`"]
-    ausbla["Кузница<br/>`ausbla`"]
-    auscen["Город. центр<br/>`auscen`"]
-    ausdip["Диппцентр<br/>`ausdip`"]
-    aushou["Дом<br/>`aushou`"]
-    aussta["Конюшня<br/>`aussta`"]
-    austem["Собор<br/>`austem`"]
-    eurcoa["Шахта (coal)<br/>`eurcoa`"]
-    eurgol["Шахта (gold)<br/>`eurgol`"]
-    euriro["Шахта (iron)<br/>`euriro`"]
-    eurmar["Рынок<br/>`eurmar`"]
-    eurmil["Мельница<br/>`eurmil`"]
-    eurpor["Порт<br/>`eurpor`"]
-    eursga["Кам. ворота<br/>`eursga`"]
-    eursto["Склад<br/>`eursto`"]
-    eurswa["Стена<br/>`eurswa`"]
-    eurtow["Башня<br/>`eurtow`"]
+    ausaca["Академия<br/><code>ausaca</code>"]
+    ausart["Артдепо<br/><code>ausart</code>"]
+    ausba2["Казарма 18<br/><code>ausba2</code>"]
+    ausbar["Казарма 17<br/><code>ausbar</code>"]
+    ausbla["Кузница<br/><code>ausbla</code>"]
+    auscen["Город. центр<br/><code>auscen</code>"]
+    ausdip["Диппцентр<br/><code>ausdip</code>"]
+    aushou["Дом<br/><code>aushou</code>"]
+    aussta["Конюшня<br/><code>aussta</code>"]
+    austem["Собор<br/><code>austem</code>"]
+    eurcoa["Шахта (coal)<br/><code>eurcoa</code>"]
+    eurgol["Шахта (gold)<br/><code>eurgol</code>"]
+    euriro["Шахта (iron)<br/><code>euriro</code>"]
+    eurmar["Рынок<br/><code>eurmar</code>"]
+    eurmil["Мельница<br/><code>eurmil</code>"]
+    eurpor["Порт<br/><code>eurpor</code>"]
+    eursga["Кам. ворота<br/><code>eursga</code>"]
+    eursto["Склад<br/><code>eursto</code>"]
+    eurswa["Стена<br/><code>eurswa</code>"]
+    eurtow["Башня<br/><code>eurtow</code>"]
     ausbar --> ausaca
     ausaca --> ausart
     auscen_1{"auscen.1<br/>(апгрейд)"}
