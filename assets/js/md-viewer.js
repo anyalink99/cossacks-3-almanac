@@ -3,6 +3,7 @@
 // tree, lets the user pick a file, fetches and renders it via marked.
 
 import { marked } from "https://cdn.jsdelivr.net/npm/marked@13.0.3/+esm";
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
 
 // --- Markdown configuration ----------------------------------------------
 marked.setOptions({
@@ -10,6 +11,70 @@ marked.setOptions({
   breaks: false,
   headerIds: true,
 });
+
+// --- Mermaid configuration (Cossacks warm dark theme) --------------------
+mermaid.initialize({
+  startOnLoad: false,
+  securityLevel: "loose",
+  theme: "base",
+  fontFamily: '"Inter", "Segoe UI", system-ui, sans-serif',
+  themeVariables: {
+    background:        "#15100a",
+    mainBkg:           "#1f1810",
+    primaryColor:      "#1f1810",
+    primaryTextColor:  "#e6d4a8",
+    primaryBorderColor:"#6a5128",
+    secondaryColor:    "#251c14",
+    secondaryTextColor:"#e6d4a8",
+    secondaryBorderColor:"#4e3b1f",
+    tertiaryColor:     "#0c0805",
+    tertiaryTextColor: "#a59470",
+    tertiaryBorderColor:"#4e3b1f",
+    lineColor:         "#9a7836",
+    textColor:         "#e6d4a8",
+    nodeBorder:        "#6a5128",
+    nodeTextColor:     "#e6d4a8",
+    edgeLabelBackground:"#1f1810",
+    clusterBkg:        "rgba(212, 130, 58, 0.05)",
+    clusterBorder:     "#4e3b1f",
+    titleColor:        "#e8c878",
+    actorBkg:          "#1f1810",
+    actorBorder:       "#6a5128",
+    actorTextColor:    "#e6d4a8",
+    actorLineColor:    "#9a7836",
+    labelBoxBkgColor:  "#1f1810",
+    labelBoxBorderColor:"#6a5128",
+    labelTextColor:    "#e6d4a8",
+    loopTextColor:     "#e6d4a8",
+    fillType0:         "#251c14",
+    fillType1:         "#322618",
+    fillType2:         "#1f1810",
+    fillType3:         "#4e3b1f",
+  },
+  flowchart: {
+    htmlLabels: true,
+    curve: "basis",
+  },
+});
+
+async function renderMermaidBlocks(container) {
+  const blocks = container.querySelectorAll("pre > code.language-mermaid, pre > code.lang-mermaid");
+  let idx = 0;
+  for (const code of blocks) {
+    const source = code.textContent;
+    const pre = code.parentElement;
+    const target = document.createElement("div");
+    target.className = "mermaid-render";
+    pre.replaceWith(target);
+    try {
+      const { svg } = await mermaid.render(`mmd-${Date.now()}-${idx++}`, source);
+      target.innerHTML = svg;
+    } catch (e) {
+      target.innerHTML = `<div class="md-error">Не удалось отрисовать mermaid: ${e.message}</div>` +
+                         `<pre><code>${source.replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))}</code></pre>`;
+    }
+  }
+}
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -146,6 +211,7 @@ async function openFile(path) {
     const text = await r.text();
     const html = marked.parse(text);
     main.innerHTML = rewriteRelativeLinks(html, path);
+    await renderMermaidBlocks(main);
     main.scrollTop = 0;
     document.title = `${path.split("/").pop().replace(".md", "")} — ${currentRoot.title}`;
   } catch (e) {

@@ -226,6 +226,28 @@
 
 #md-content img { max-width: 100%; border-radius: 4px; }
 
+/* ── Mermaid diagrams ── */
+.mermaid-render {
+  margin: 1.2em 0;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow-x: auto;
+  text-align: center;
+}
+.mermaid-render svg { max-width: 100%; height: auto; }
+.mermaid-render .nodeLabel,
+.mermaid-render .edgeLabel {
+  font-family: "Inter", system-ui, sans-serif !important;
+}
+.mermaid-render code {
+  background: rgba(212, 130, 58, 0.12);
+  color: var(--ember);
+  border: none;
+  padding: 0 3px;
+}
+
 /* Narrow screens */
 @media (max-width: 900px) {
   .md-layout {
