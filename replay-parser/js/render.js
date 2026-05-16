@@ -107,18 +107,35 @@ function renderAbuses(abuses, players) {
     return p ? p.name : `pid=${pid}`;
   };
 
-  const children = [
-    el("h3", {}, "Обнаружены подозрительные действия"),
-  ];
-  for (const [pid, list] of byPid) {
+  // Sort player groups: larger groups first
+  const sorted = [...byPid.entries()].sort((a, b) => b[1].length - a[1].length);
+
+  const highConfidence = sorted.some(([, list]) => list.length >= 2);
+  const heading = highConfidence
+    ? "Обнаружен повторяющийся паттерн прокачки"
+    : "Возможный случайный двойной клик";
+
+  const children = [el("h3", {}, heading)];
+  for (const [pid, list] of sorted) {
+    const samples = list.slice(0, 3);
+    const conf = list.length >= 3 ? "высокая" : list.length === 2 ? "средняя" : "низкая";
     children.push(el("div", { class: "abuse-item" }, [
       el("span", { class: "abuse-kind" }, list[0].kind),
       el("b", {}, playerName(pid)),
-      ` — ${list.length} попадание(й). Первое: ${fmtTime(list[0].ts_g_sec_first)}, ` +
-      `повтор: ${fmtTime(list[0].ts_g_sec_second)} (gap ${list[0].gap_ticks} ticks).`,
+      ` — ${list.length} срабатывание(й), уверенность ${conf}.`,
+      el("ul", { class: "abuse-list" },
+        samples.map((s) => el("li", {}, [
+          `${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)} `,
+          el("span", { class: "abuse-meta" },
+            `(gap ${(s.gap_ticks / 10).toFixed(1)} g-сек, ` +
+            `здание #${s.details.building_uid ?? s.details.target_uid ?? "?"}, ` +
+            `upg ${s.details.upgrade_id ?? s.details.ind ?? "?"})`),
+        ]))
+      ),
     ]));
   }
-  return el("div", { class: "abuses-found" }, children);
+  const cls = highConfidence ? "abuses-found" : "abuses-borderline";
+  return el("div", { class: cls }, children);
 }
 
 function renderBuildSummary(buildsPerPid, players) {

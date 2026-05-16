@@ -367,6 +367,31 @@ table.compact td.num { text-align: right; font-variant-numeric: tabular-nums; }
   color: var(--ok);
 }
 
+.abuses-borderline {
+  background: rgba(255, 179, 72, 0.07);
+  border: 1px solid rgba(255, 179, 72, 0.28);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+.abuses-borderline h3 {
+  color: var(--warn);
+  margin-top: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+.abuses-borderline .abuse-kind { background: var(--warn); }
+
+.abuse-list {
+  margin: 8px 0 0 24px;
+  padding: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.abuse-list li { margin: 2px 0; }
+.abuse-meta { color: var(--text-dim); font-size: 11px; }
+
 /* Progress + errors */
 .progress-row {
   padding: 14px 18px;

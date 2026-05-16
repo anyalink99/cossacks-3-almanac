@@ -760,7 +760,20 @@ def detect_abuses(decoded: list[dict]) -> list[dict]:
     Returns a list of findings; each finding is a dict with:
         kind, pid, ts_g_sec_first, ts_g_sec_second, gap_ticks, details
     """
-    DOUBLE_UPGRADE_WINDOW_TICKS = 30  # 3 g-sec
+    # Race-condition abuse fingerprint:
+    #   - exactly 2 starts of the same (pid, building, upgrade) — the
+    #     second one is the spammed extra click that landed during the
+    #     "almost complete" window.
+    #   - gap between starts is roughly one upgrade-completion-cycle —
+    #     between 50 ticks (5 g-сек) and 200 ticks (20 g-сек).
+    #
+    # Below 50 ticks the cluster looks like legitimate spam-hire on a
+    # queueable upgrade — mercenary purchase at a diplomatic centre, or
+    # peasant-absorber slots on a mine — both fire `ReadUpgrade` per click
+    # at sub-tick spacing and pack tens of starts into one second.
+    # Above 200 ticks the pair is too far apart to be the same lifecycle.
+    GAP_MIN_TICKS = 50
+    GAP_MAX_TICKS = 200
     findings: list[dict] = []
 
     # Index ReadUpgrade(start=True) events
@@ -775,49 +788,64 @@ def detect_abuses(decoded: list[dict]) -> list[dict]:
             upgrade_starts.setdefault(key, []).append(rec)
 
     for key, events in upgrade_starts.items():
-        if len(events) < 2:
+        if len(events) != 2:
+            # >2 starts → almost certainly a queueable hire (merc, miner);
+            # singletons obviously aren't duplicates.
             continue
         events_sorted = sorted(events, key=lambda r: r["ts_tick"])
-        for a, b in zip(events_sorted, events_sorted[1:]):
-            gap = b["ts_tick"] - a["ts_tick"]
-            if gap > DOUBLE_UPGRADE_WINDOW_TICKS:
-                continue
-            pid, bld_uid, upg_id = key
-            findings.append({
-                "kind": "double-upgrade-start",
-                "pid": pid,
-                "ts_g_sec_first": round(a["ts_g_sec"], 2),
-                "ts_g_sec_second": round(b["ts_g_sec"], 2),
-                "gap_ticks": round(gap, 2),
-                "details": {"building_uid": bld_uid, "upgrade_id": upg_id},
-            })
+        a, b = events_sorted
+        gap = b["ts_tick"] - a["ts_tick"]
+        if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
+            continue
+        pid, bld_uid, upg_id = key
+        findings.append({
+            "kind": "double-upgrade-start",
+            "pid": pid,
+            "ts_g_sec_first": round(a["ts_g_sec"], 2),
+            "ts_g_sec_second": round(b["ts_g_sec"], 2),
+            "gap_ticks": round(gap, 2),
+            "details": {"building_uid": bld_uid, "upgrade_id": upg_id},
+        })
 
-    # Index ReadApply by (target_uid, cid, ind)
+    # Same logic for ReadApply: a real race-condition apply lands in the
+    # same gap window as the duplicate start, from the same pid, and only
+    # twice (queueable hires can apply many times legitimately).
+    # Skip zero-tuple records — those are engine-stub events with garbage
+    # body that decode to (0, 0, 0).
     apply_seen: dict[tuple, list[dict]] = {}
     for rec in decoded:
         if rec.get("handler") != "ReadApply":
             continue
-        key = (rec["target_uid"], rec["upgrade_cid"], rec["upgrade_ind"])
-        apply_seen.setdefault(key, []).append(rec)
+        tgt = rec["target_uid"]; cid = rec["upgrade_cid"]; ind = rec["upgrade_ind"]
+        if tgt == 0 and cid == 0 and ind == 0:
+            continue
+        # Bound check — sub-package garbage parsed as ReadApply produces
+        # uint32-sized values that aren't valid uids or country/upgrade indices.
+        if not (0 < tgt < 0x100000):
+            continue
+        if not (0 <= cid < 256 and 0 <= ind < 4096):
+            continue
+        apply_seen.setdefault((tgt, cid, ind), []).append(rec)
 
     for key, events in apply_seen.items():
-        if len(events) < 2:
+        if len(events) != 2:
             continue
         events_sorted = sorted(events, key=lambda r: r["ts_tick"])
-        # Compare to the first apply only — second+ are the abuse signal
-        a = events_sorted[0]
-        for b in events_sorted[1:]:
-            gap = b["ts_tick"] - a["ts_tick"]
-            tgt_uid, cid, ind = key
-            findings.append({
-                "kind": "double-apply",
-                "pid": b["pid"],
-                "ts_g_sec_first": round(a["ts_g_sec"], 2),
-                "ts_g_sec_second": round(b["ts_g_sec"], 2),
-                "gap_ticks": round(gap, 2),
-                "details": {"target_uid": tgt_uid, "cid": cid, "ind": ind,
-                            "first_pid": a["pid"]},
-            })
+        a, b = events_sorted
+        if a["pid"] != b["pid"]:
+            continue
+        gap = b["ts_tick"] - a["ts_tick"]
+        if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
+            continue
+        tgt_uid, cid, ind = key
+        findings.append({
+            "kind": "double-apply",
+            "pid": b["pid"],
+            "ts_g_sec_first": round(a["ts_g_sec"], 2),
+            "ts_g_sec_second": round(b["ts_g_sec"], 2),
+            "gap_ticks": round(gap, 2),
+            "details": {"target_uid": tgt_uid, "cid": cid, "ind": ind},
+        })
 
     return findings
 
