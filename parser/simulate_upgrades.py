@@ -110,8 +110,7 @@ class SimParser:
             if kw == "with":
                 return self.parse_with()
             if kw in ("var", "const"):
-                self.skip_to_semicolon()
-                return None
+                return self._parse_var_decl()
             if kw in ("procedure", "function"):
                 # Nested procedure/function declaration: skip declaration line and the
                 # following begin..end; block.
@@ -135,6 +134,52 @@ class SimParser:
         if t[0] == "ID":
             return self.parse_call_or_assign()
         self.consume()
+        return None
+
+    def _parse_var_decl(self):
+        """Parse `var IDENT : Type [= expr];` or `var IDENT [: Type] [= expr];`
+        Emits an `assign` node with the init expression so the walker can
+        track variables like `upgplace`/`member` defined inline. Returns
+        None for declarations without init."""
+        self.consume()  # 'var' or 'const'
+        ident_tok = self.peek()
+        if ident_tok is None or ident_tok[0] != "ID":
+            self.skip_to_semicolon()
+            return None
+        self.consume()
+        ident = ident_tok[1]
+        # Optional `: Type`
+        if self.peek() == ("PUNCT", ":"):
+            self.consume()
+            while self.pos < len(self.tokens):
+                t = self.peek()
+                if t is None or t == ("PUNCT", ";") or t == ("PUNCT", "="):
+                    break
+                self.consume()
+        # Optional `= expr`
+        if self.peek() == ("PUNCT", "="):
+            self.consume()
+            rhs_parts: list[str] = []
+            paren = 0
+            while self.pos < len(self.tokens):
+                t = self.peek()
+                if t == ("PUNCT", ";") and paren == 0:
+                    self.consume()
+                    break
+                self.consume()
+                if t[0] == "PUNCT":
+                    if t[1] == "(":
+                        paren += 1
+                    elif t[1] == ")":
+                        paren -= 1
+                if t[0] == "STR":
+                    rhs_parts.append(repr(t[1]))
+                else:
+                    rhs_parts.append(t[1])
+            rhs = "".join(rhs_parts).strip()
+            return Node(kind="assign", name=ident, args=[rhs])
+        # No init — just skip the rest of declaration
+        self.skip_to_semicolon()
         return None
 
     def _skip_type_declaration(self):

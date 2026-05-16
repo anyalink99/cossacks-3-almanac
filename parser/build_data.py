@@ -174,7 +174,11 @@ def assemble() -> dict:
         # Now also pull simulated unit-upgrades from _country_InitUnitsUpgrades —
         # these have full cost/time/value/itype.
         sim_results = simulate_upgrades(country_text, nat)
-        sim_upgrades = [u for u in sim_results if u.get("_kind") != "fixed_produce"]
+        # `member` records (from _country_AddMember) carry the bare unit/building
+        # sid but aren't upgrades — they belong to derived/country_members.json,
+        # not data.json's upgrade list.
+        sim_upgrades = [u for u in sim_results
+                        if u.get("_kind") not in ("fixed_produce", "member")]
         sim_fixed = [u for u in sim_results if u.get("_kind") == "fixed_produce"]
         for u in sim_upgrades:
             upgrades_dict[u["sid"]] = u
