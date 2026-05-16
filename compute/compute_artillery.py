@@ -113,7 +113,7 @@ def render_header(cites: Citations) -> list[str]:
       f"[`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.2.")
     A("")
     A("Морская артиллерия (battleship, galley, frigate и т. п.) — отдельная "
-      "категория, см. [`reference/07_naval.md`](../../reference/07_naval.md). "
+      "категория, см. [`reference/07_naval/README.md`](../../reference/07_naval/README.md). "
       "Гренадёр стреляет осколочным `mortarball`, но в `bartillery`-группу "
       "не входит и относится к пехоте — см. "
       "[`reports/combat/combat_stats.md`](combat_stats.md).")
@@ -205,7 +205,7 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
     A("")
     A("**Эффективность по цене.** Колонка `dmg / shot_cost_g` — это `damage`, "
       "делённый на «золотой эквивалент выстрела». Эквивалент считается по "
-      "стандартному курсу `mar.def` (`reference/06_market.md`): "
+      "стандартному курсу `mar.def` (`reference/06_market/README.md`): "
       "`iron × 140 + coal × 140 + wood × 50 + stone × 50 + food × 25 + gold × 1` "
       "— то есть переводим расход в условные единицы золота по дефолтным buy-ценам. "
       "Это удобная грубая мера, чтобы сравнить, сколько ты «платишь» за единицу "

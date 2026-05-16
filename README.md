@@ -56,7 +56,7 @@
 ├── scripts/                 pipeline-runner (regen.py)
 │
 ├── docs/                    справочник для игрока
-│   ├── reference/           каноническая справка (01_economy.md … 07_naval.md, nations/, compare/)
+│   ├── reference/           каноническая справка (01_economy/README.md … 07_naval/README.md, nations/, compare/)
 │   ├── recon/               глубокие исследования механик (handwritten)
 │   │   ├── world/{economy,combat,map}/   логика мира
 │   │   └── systems/         правила, AI, наёмники, сценарии, UI

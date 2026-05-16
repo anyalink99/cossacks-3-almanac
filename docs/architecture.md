@@ -50,8 +50,8 @@
 │                          │   │                                   │
 │ write_md_tree.py         │   │ Бой:                              │
 │   → docs/reference/      │   │   compute_combat_stats            │
-│      01_economy.md       │   │   compute_counter_matrix          │
-│      02_combat.md        │   │   compute_attack_rates            │
+│      01_economy/README.md       │   │   compute_counter_matrix          │
+│      02_combat/README.md        │   │   compute_attack_rates            │
 │      …                   │   │   compute_vision                  │
 │      nations/×21         │   │   compute_artillery               │
 │      compare/×16         │   │ Экономика:                        │

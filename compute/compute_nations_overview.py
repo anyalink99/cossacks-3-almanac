@@ -94,7 +94,7 @@ def render_building_coverage(buildings: list[dict]) -> list[str]:
     A("## §2. Покрытие стандартных построек")
     A("")
     A("`✅` = у нации есть это здание, `❌` = у нации его нет. Полный каталог "
-      "зданий — [03_buildings.md](../../reference/03_buildings.md).")
+      "зданий — [03_buildings/README.md](../../reference/03_buildings/README.md).")
     A("")
     nat_have = defaultdict(set)
     for b in buildings:
@@ -224,7 +224,7 @@ def render_mercenaries(units: list[dict]) -> list[str]:
       "gold-upkeep (`consume.gold > 0`); юниты с флагом `bmercenary=True` "
       "(в текущем балансе только `battleship`) при этом подвержены Rebellion "
       "при `gold=0` (см. "
-      "[01_economy.md](../../reference/01_economy.md#famine-голод-и-rebellion-восстание)).")
+      "[01_economy/README.md](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).")
     A("")
     dip_to_nations = defaultdict(set)
     dip_to_unit = {}
@@ -263,12 +263,12 @@ def render_market_cluster(buildings: list[dict]) -> list[str]:
     A = L.append
     A("## §6. Вариант рынка")
     A("")
-    A("Рынок — общее здание (см. [03_buildings.md → mar](../../reference/03_buildings.md#mar--market)). "
+    A("Рынок — общее здание (см. [03_buildings/README.md → mar](../../reference/03_buildings/README.md#mar--market)). "
       "На 21 нацию приходится 4 варианта здания (`eurmar` / `rusmar` / `spamar` / "
       "`turmar`), отличающиеся HP, ценой и временем постройки. Это **только "
       "варианты здания** — курсы рынка глобальные и одинаковые для всех игроков "
       "в матче, независимо от того, какой `mar` построен (см. "
-      "[06_market.md](../../reference/06_market.md#курсы--глобальные-их-видят-все-игроки)).")
+      "[06_market/README.md](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).")
     A("")
     nat_to_cluster = {}
     for b in buildings:

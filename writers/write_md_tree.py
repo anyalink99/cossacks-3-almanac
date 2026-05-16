@@ -3,12 +3,13 @@
 Tree:
     reference/
     ├── README.md                  # TL;DR + index + key formulas
-    ├── 01_economy.md              # extraction, portions, eff, mines, fields
-    ├── 02_combat.md               # damage formula, speeds, formations
-    ├── 03_buildings.md            # all buildings (overview tables per type)
-    ├── 04_units.md                # all units grouped by class
-    ├── 05_upgrades.md             # all upgrades grouped by place
-    ├── 06_market.md               # trade rates + examples
+    ├── 01_economy/README.md       # extraction, portions, eff, mines, fields
+    ├── 02_combat/README.md        # damage formula, speeds, formations
+    ├── 03_buildings/README.md     # all buildings (overview tables per type)
+    ├── 04_units/README.md         # all units grouped by class
+    ├── 05_upgrades/README.md      # all upgrades grouped by place
+    ├── 06_market/README.md        # trade rates + examples
+    ├── 07_naval/README.md         # naval fleet, port, transports, fishing
     ├── nations/
     │   ├── README.md              # nation overview + comparison table
     │   └── <nat>.md × 21          # per-nation cheatsheets
@@ -321,13 +322,13 @@ def write_readme(data: dict) -> None:
     A("**Главы по темам:**\n")
     A("| Глава | О чём |")
     A("|---|---|")
-    A("| [01_economy.md](01_economy.md) | Добыча ресурсов: формулы, `eff`, шахты, поля, голод и upkeep, рыбалка. |")
-    A("| [02_combat.md](02_combat.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица. |")
-    A("| [03_buildings.md](03_buildings.md) | Все здания (национальные и общие), цены, footprint. |")
-    A("| [04_units.md](04_units.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли. |")
-    A("| [05_upgrades.md](05_upgrades.md) | Все апгрейды, сгруппированы по месту исследования. |")
-    A("| [06_market.md](06_market.md) | Рынок: курсы обмена, преимущество первого хода, деградация цен. |")
-    A("| [07_naval.md](07_naval.md) | Морской флот: порт, корабли, транспорт, рыболов, DLC-юниты. |")
+    A("| [01. Экономика](01_economy/README.md) | Добыча ресурсов: формулы, `eff`, шахты, поля, голод и upkeep, рыбалка. |")
+    A("| [02. Бой и движение](02_combat/README.md) | Бой: формула урона, хедшот, формации, рассеяние, AoE, скорости, контр-матрица. |")
+    A("| [03. Здания](03_buildings/README.md) | Все здания (национальные и общие), цены, footprint. |")
+    A("| [04. Юниты](04_units/README.md) | Все юниты по классам — пехота, кавалерия, артиллерия, корабли. |")
+    A("| [05. Апгрейды](05_upgrades/README.md) | Все апгрейды, сгруппированы по месту исследования. |")
+    A("| [06. Рынок](06_market/README.md) | Рынок: курсы обмена, преимущество первого хода, деградация цен. |")
+    A("| [07. Морской флот](07_naval/README.md) | Морской флот: порт, корабли, транспорт, рыболов, DLC-юниты. |")
     A("")
     A("**Указатели по объектам:**\n")
     A("- [`nations/`](nations/README.md) — по одной справке на каждую "
@@ -366,7 +367,7 @@ def write_readme(data: dict) -> None:
     A("")
     A("`delivered = floor(portion × eff / 100)`. `eff` стартует со 100; "
       "апгрейды (`mill.X`, `aca.X`, `bla.X`) добавляются **аддитивно**. "
-      "Подробности — [01_economy.md](01_economy.md).\n")
+      "Подробности — [глава «Экономика»](01_economy/README.md).\n")
 
     A("### Урон в бою\n")
     A("```")
@@ -487,8 +488,8 @@ def _dip_buildings_table(buildings: list[dict]) -> str:
 
 def _mercenary_weapons_summary(unit: dict) -> str:
     """Кратко: `arrow 25 / firearrow 100`. Промежуточные паузы и cost не
-    нужны в этой обзорной таблице — они в `02_combat.md → Стоимость одного
-    выстрела` и в `compute_combat_stats.py`."""
+    нужны в этой обзорной таблице — они в `02_combat/README.md → Стоимость
+    одного выстрела` и в `compute_combat_stats.py`."""
     parts: list[str] = []
     for w in (unit.get("weapons") or []):
         kind = w.get("kind") or "?"
@@ -603,7 +604,7 @@ def write_economy(data: dict) -> None:
     A("## Sanity\n")
     A(f"Sanity checks: **{sum(1 for c in data.get('sanity_checks', []) if c['pass'])}/"
       f"{len(data.get('sanity_checks', []))}** PASS. См. xlsx → лист `Sanity_checks`.\n")
-    write_md(TREE_ROOT / "01_economy.md", out)
+    write_md(TREE_ROOT / "01_economy" / "README.md", out)
 
 
 # ---------- 02_combat.md ----------
@@ -851,8 +852,8 @@ def write_combat(data: dict) -> None:
     A("- **Лёгкая кавалерия** против пушек — низкий TTK (cannon без брони, легко убивается).\n")
     A("## Перекрёстная таблица: апгрейды × характеристики\n")
     A("Какой апгрейд на что влияет. Сводка по `itype` (расшифровано в "
-      "[05_upgrades.md](05_upgrades.md)). Цены даны для базовой нации (отличаются по "
-      "нациям — см. [05_upgrades.md](05_upgrades.md)).\n")
+      "[главе «Апгрейды»](../05_upgrades/README.md)). Цены даны для базовой нации (отличаются по "
+      "нациям — см. [главу «Апгрейды»](../05_upgrades/README.md)).\n")
     A("**Подсказки по нотации:** `aca.X` = academy.X, `bla.<unit>.1.X` = blacksmith damage X-уровня для юнита. "
       "`mil.X` = mill.X. Названия — из локали (en).\n")
     A("### Глобальные апгрейды (academy, mill)\n")
@@ -917,7 +918,7 @@ def write_combat(data: dict) -> None:
     A("- Level 7 unique (`.1.6` / `.2.6`): +2 к урону / +2 к защите (переопределение для rus)")
     A("- **Полный стек: +10 к урону / +8 к защите** на полностью прокачанном русском пикинёре.")
     A("")
-    A("Полный список — в [05_upgrades.md](05_upgrades.md) (~4500 строк, по местам).\n")
+    A("Полный список — в [главе «Апгрейды»](../05_upgrades/README.md) (~4500 строк, по местам).\n")
     A("## Стоимость одного выстрела\n")
     A("Многие огнестрельные юниты, башни и корабли тратят `iron` / `coal` / `gold` за каждый выстрел "
       "(независимо от цены постройки самого юнита). Это отдельный налог, помимо `consume[gold]` и `food upkeep`.\n")
@@ -967,7 +968,7 @@ def write_combat(data: dict) -> None:
                 nat_str = ", ".join(sorted(set(nations)))
             A(f"| {name_cell} | {nat_str} | `{weapon}` | {fmt(damage)} | {fmt(pause)} "
               f"| {fmt(shots)} | {fmt(iron)} | {fmt(coal)} | {fmt(gold)} |")
-    write_md(TREE_ROOT / "02_combat.md", out)
+    write_md(TREE_ROOT / "02_combat" / "README.md", out)
 
 
 # ---------- 03_buildings.md ----------
@@ -1107,7 +1108,7 @@ def write_buildings(data: dict) -> None:
     for u in mine_ups:
         cum += u.get("value") or 0
         A(f"| `{u['sid']}` | +{u['value']} | {u['food']} | {u['gold']} | {cum} |")
-    write_md(TREE_ROOT / "03_buildings.md", out)
+    write_md(TREE_ROOT / "03_buildings" / "README.md", out)
 
 
 # ---------- 04_units.md ----------
@@ -1188,7 +1189,7 @@ def write_units(data: dict) -> None:
               f"| {fmt(u['prot_pike'])} | {fmt(u['prot_sword'])} | {fmt(u['prot_bullet'])} "
               f"| {fmt(u['prot_cannister'])} | {fmt(u['prot_arrow'])} | {fmt(u['prot_cannonball'])} |")
         A("")
-    write_md(TREE_ROOT / "04_units.md", out)
+    write_md(TREE_ROOT / "04_units" / "README.md", out)
 
 
 # ---------- 05_upgrades.md ----------
@@ -1327,7 +1328,7 @@ def write_upgrades(data: dict) -> None:
                   f"| {fmt(first['gold'])} | {fmt(first['iron'])} | {fmt(first['coal'])} "
                   f"| {fmt(first['time_sec'])} |")
         A("")
-    write_md(TREE_ROOT / "05_upgrades.md", out)
+    write_md(TREE_ROOT / "05_upgrades" / "README.md", out)
 
 
 # ---------- 06_market.md ----------
@@ -1392,7 +1393,7 @@ def write_market(data: dict) -> None:
       "Полупериод — около 28 g-секунд (≈ 20 real-сек @ fast). Через минуту-две большая часть "
       "сдвига откатится — но если торгуешь часто или крупными партиями, курс хронически «болеет».\n")
     out.extend(render_template("reference/06_market/strategy.md"))
-    write_md(TREE_ROOT / "06_market.md", out)
+    write_md(TREE_ROOT / "06_market" / "README.md", out)
 
 
 # ---------- 07_naval.md ----------
@@ -1532,7 +1533,7 @@ def write_naval(data: dict) -> None:
         ferry_block=ferry_block,
         fishboat_block=fishboat_block,
     )
-    write_md(TREE_ROOT / "07_naval.md", out)
+    write_md(TREE_ROOT / "07_naval" / "README.md", out)
 
 
 # ---------- nations/ ----------
@@ -1728,7 +1729,7 @@ def write_nations(data: dict) -> None:
         # Upgrades summary
         ups = upgrades_by_nation.get(nat, [])
         A(f"## Апгрейды ({len(ups)})\n")
-        A(f"Полный список — в [05_upgrades.md](../05_upgrades.md).\n")
+        A(f"Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).\n")
         # Show counts by place
         place_counts = defaultdict(int)
         for u in ups:
@@ -2266,19 +2267,19 @@ def main():
     write_readme(data)
     print("  README.md", flush=True)
     write_economy(data)
-    print("  01_economy.md", flush=True)
+    print("  01_economy/README.md", flush=True)
     write_combat(data)
-    print("  02_combat.md", flush=True)
+    print("  02_combat/README.md", flush=True)
     write_buildings(data)
-    print("  03_buildings.md", flush=True)
+    print("  03_buildings/README.md", flush=True)
     write_units(data)
-    print("  04_units.md", flush=True)
+    print("  04_units/README.md", flush=True)
     write_upgrades(data)
-    print("  05_upgrades.md", flush=True)
+    print("  05_upgrades/README.md", flush=True)
     write_market(data)
-    print("  06_market.md", flush=True)
+    print("  06_market/README.md", flush=True)
     write_naval(data)
-    print("  07_naval.md", flush=True)
+    print("  07_naval/README.md", flush=True)
     write_nations(data)
     print(f"  nations/ ({len(PLAYABLE_NATIONS) + 1} files)", flush=True)
     write_compare(data)

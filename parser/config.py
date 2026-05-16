@@ -28,7 +28,7 @@ DOCS_DIR = PROJECT_ROOT / "docs"
 #   docs/                           player-facing справочник (читают игроки)
 #   ├── README.md                   навигация
 #   ├── reference/                  каноничный справочник (auto-generated)
-#   │   ├── 01_economy.md … 07_naval.md
+#   │   ├── 01_economy/README.md … 07_naval/README.md
 #   │   ├── nations/<nat>.md (×21 + README)
 #   │   └── compare/<class>.md
 #   ├── recon/                      handwritten деep-разбор механик

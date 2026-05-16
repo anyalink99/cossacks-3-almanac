@@ -5,13 +5,13 @@
     {
       "path": "architecture.md",
       "title": "Архитектура проекта",
-      "size": 18363,
+      "size": 18377,
       "lines": 233
     },
     {
       "path": "known_issues.md",
       "title": "Known issues и оговорки",
-      "size": 12951,
+      "size": 12958,
       "lines": 177
     },
     {
@@ -23,13 +23,13 @@
     {
       "path": "README.md",
       "title": "Cossacks 3 — каталог артефактов",
-      "size": 9397,
+      "size": 9460,
       "lines": 101
     },
     {
       "path": "recon/README.md",
       "title": "Recon notes — глубокие исследования механик",
-      "size": 11800,
+      "size": 11814,
       "lines": 97
     },
     {
@@ -71,7 +71,7 @@
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Recon: конвейер урона",
-      "size": 26637,
+      "size": 26679,
       "lines": 449
     },
     {
@@ -83,7 +83,7 @@
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "Recon: морской бой",
-      "size": 17463,
+      "size": 17491,
       "lines": 299
     },
     {
@@ -107,7 +107,7 @@
     {
       "path": "recon/world/combat/towers.md",
       "title": "Recon: башни",
-      "size": 14122,
+      "size": 14360,
       "lines": 225
     },
     {
@@ -125,7 +125,7 @@
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Recon: стены и ворота",
-      "size": 29659,
+      "size": 30193,
       "lines": 521
     },
     {
@@ -143,13 +143,13 @@
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Recon: голод и бунт",
-      "size": 17782,
+      "size": 17796,
       "lines": 305
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Recon: добыча ресурсов крестьянами",
-      "size": 39709,
+      "size": 40448,
       "lines": 726
     },
     {
@@ -161,59 +161,59 @@
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "Recon: применение апгрейдов",
-      "size": 26850,
+      "size": 27348,
       "lines": 485
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Recon: настройки лобби — что движок делает с каждой опцией",
-      "size": 21795,
+      "size": 21809,
       "lines": 368
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Recon: pipeline генерации карты",
-      "size": 42094,
+      "size": 42108,
       "lines": 572
     },
     {
-      "path": "reference/01_economy.md",
+      "path": "reference/01_economy/README.md",
       "title": "01. Экономика",
       "size": 11688,
       "lines": 172
     },
     {
-      "path": "reference/02_combat.md",
+      "path": "reference/02_combat/README.md",
       "title": "02. Бой и движение",
-      "size": 33057,
+      "size": 33138,
       "lines": 352
     },
     {
-      "path": "reference/03_buildings.md",
+      "path": "reference/03_buildings/README.md",
       "title": "03. Здания",
       "size": 50300,
       "lines": 486
     },
     {
-      "path": "reference/04_units.md",
+      "path": "reference/04_units/README.md",
       "title": "04. Юниты",
       "size": 27511,
       "lines": 266
     },
     {
-      "path": "reference/05_upgrades.md",
+      "path": "reference/05_upgrades/README.md",
       "title": "05. Апгрейды",
       "size": 229586,
       "lines": 1550
     },
     {
-      "path": "reference/06_market.md",
+      "path": "reference/06_market/README.md",
       "title": "06. Рынок",
       "size": 11208,
       "lines": 103
     },
     {
-      "path": "reference/07_naval.md",
+      "path": "reference/07_naval/README.md",
       "title": "07. Морской флот",
       "size": 7833,
       "lines": 109
@@ -443,73 +443,73 @@
     {
       "path": "reference/nations/alg.md",
       "title": "Algeria (`alg`)",
-      "size": 12338,
+      "size": 12362,
       "lines": 191
     },
     {
       "path": "reference/nations/aus.md",
       "title": "Austria (`aus`)",
-      "size": 15142,
+      "size": 15166,
       "lines": 228
     },
     {
       "path": "reference/nations/bav.md",
       "title": "Bavaria (`bav`)",
-      "size": 14430,
+      "size": 14454,
       "lines": 218
     },
     {
       "path": "reference/nations/den.md",
       "title": "Denmark (`den`)",
-      "size": 14438,
+      "size": 14462,
       "lines": 218
     },
     {
       "path": "reference/nations/eng.md",
       "title": "England (`eng`)",
-      "size": 14715,
+      "size": 14739,
       "lines": 223
     },
     {
       "path": "reference/nations/fra.md",
       "title": "France (`fra`)",
-      "size": 15066,
+      "size": 15090,
       "lines": 226
     },
     {
       "path": "reference/nations/hun.md",
       "title": "Hungary (`hun`)",
-      "size": 15014,
+      "size": 15038,
       "lines": 227
     },
     {
       "path": "reference/nations/net.md",
       "title": "Netherlands (`net`)",
-      "size": 14476,
+      "size": 14500,
       "lines": 218
     },
     {
       "path": "reference/nations/pie.md",
       "title": "Piedmont (`pie`)",
-      "size": 14411,
+      "size": 14435,
       "lines": 218
     },
     {
       "path": "reference/nations/pol.md",
       "title": "Poland (`pol`)",
-      "size": 15110,
+      "size": 15134,
       "lines": 223
     },
     {
       "path": "reference/nations/por.md",
       "title": "Portugal (`por`)",
-      "size": 14827,
+      "size": 14851,
       "lines": 224
     },
     {
       "path": "reference/nations/pru.md",
       "title": "Prussia (`pru`)",
-      "size": 14654,
+      "size": 14678,
       "lines": 220
     },
     {
@@ -521,73 +521,73 @@
     {
       "path": "reference/nations/rus.md",
       "title": "Russia (`rus`)",
-      "size": 15001,
+      "size": 15025,
       "lines": 223
     },
     {
       "path": "reference/nations/sax.md",
       "title": "Saxony (`sax`)",
-      "size": 14719,
+      "size": 14743,
       "lines": 220
     },
     {
       "path": "reference/nations/sco.md",
       "title": "Scotland (`sco`)",
-      "size": 13823,
+      "size": 13847,
       "lines": 208
     },
     {
       "path": "reference/nations/spa.md",
       "title": "Spain (`spa`)",
-      "size": 14552,
+      "size": 14576,
       "lines": 219
     },
     {
       "path": "reference/nations/swe.md",
       "title": "Sweden (`swe`)",
-      "size": 14728,
+      "size": 14752,
       "lines": 220
     },
     {
       "path": "reference/nations/swi.md",
       "title": "Switzerland (`swi`)",
-      "size": 14897,
+      "size": 14921,
       "lines": 225
     },
     {
       "path": "reference/nations/tur.md",
       "title": "Turkey (`tur`)",
-      "size": 13467,
+      "size": 13491,
       "lines": 204
     },
     {
       "path": "reference/nations/ukr.md",
       "title": "Ukraine (`ukr`)",
-      "size": 11544,
+      "size": 11568,
       "lines": 179
     },
     {
       "path": "reference/nations/ven.md",
       "title": "Venice (`ven`)",
-      "size": 14156,
+      "size": 14180,
       "lines": 215
     },
     {
       "path": "reference/README.md",
       "title": "Справочник по Cossacks 3",
-      "size": 14052,
+      "size": 14183,
       "lines": 153
     },
     {
       "path": "reports/combat/artillery.md",
       "title": "Артиллерия — сводный справочник",
-      "size": 15967,
+      "size": 16123,
       "lines": 136
     },
     {
       "path": "reports/combat/attack_rates.md",
       "title": "Cossacks 3 — Скорость атаки (per-unit)",
-      "size": 17106,
+      "size": 17120,
       "lines": 193
     },
     {
@@ -671,7 +671,7 @@
     {
       "path": "reports/nations/overview.md",
       "title": "Сравнение наций — общий обзор",
-      "size": 15772,
+      "size": 15828,
       "lines": 138
     },
     {

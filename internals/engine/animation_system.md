@@ -425,7 +425,7 @@ for i := 0 to gc_ResCount-1:
 ресурса нет**, проверка идёт раньше — на этапе выбора цели.
 
 Полные таблицы цены выстрела по каждому юниту — в
-[`../../docs/reference/02_combat.md` → «Стоимость одного выстрела»](../../docs/reference/02_combat.md).
+[`../../docs/reference/02_combat/README.md` → «Стоимость одного выстрела»](../../docs/reference/02_combat/README.md).
 
 ---
 

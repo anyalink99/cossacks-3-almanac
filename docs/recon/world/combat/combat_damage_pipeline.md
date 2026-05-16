@@ -7,7 +7,7 @@
 со смежными системами (формации, захват, лечение).
 
 > **Базовые таблицы** (типы оружия, шкала `protection[kind]`, числа по
-> каждому юниту) — в [`reference/02_combat.md`](../../../reference/02_combat.md).
+> каждому юниту) — в [`reference/02_combat/README.md`](../../../reference/02_combat/README.md).
 > Этот документ объясняет **процесс**, а не цифры.
 
 ## TL;DR
@@ -140,7 +140,7 @@
 
 `uniqrnd` ∈ `[0, 1)` фиксируется при спавне юнита и больше не
 меняется (см.
-[`reference/02_combat.md` § uniqrnd](../../../reference/02_combat.md#uniqrnd--индивидуальное-случайное-число-юнита)
+[`reference/02_combat/README.md` § uniqrnd](../../../reference/02_combat/README.md#uniqrnd--индивидуальное-случайное-число-юнита)
 или [`internals/engine/rng_implementation.md`](../../../../internals/engine/rng_implementation.md)).
 То есть один и тот же юнит **всегда** даёт один и тот же бонус
 хедшота — это часть детерминированной модели sync'а.
@@ -387,7 +387,7 @@ Multiplayer этот механизм не срабатывает.
 [^4]: `data.json`, массив `unit.protection[7]` или
       `building.protection[7]` по индексам
       `gc_obj_weapon_kind_*` (см. также
-      [`reference/02_combat.md` § Типы оружия](../../../reference/02_combat.md#типы-оружия-gc_obj_weapon_kind_)).
+      [`reference/02_combat/README.md` § Типы оружия](../../../reference/02_combat/README.md#типы-оружия-gc_obj_weapon_kind_)).
 
 [^5]: `data/scripts/lib/miscext2.script:_misc_DoDamage`, ветка
       `if (bCanHeadShot) and (random < 0.05) then ...`.

@@ -562,7 +562,7 @@ class SimState:
         """Multiplier on buildtime for `sid`. Engine math (player.script:1848):
             buildtime *= (1 + value / (100 * 100000)) = (1 + value / 10_000_000)
         applied per upgrade. Order-independent because multiplication commutes —
-        see docs/reference/05_upgrades.md «Математика применения». Typical
+        see docs/reference/05_upgrades/README.md «Математика применения». Typical
         values: -7500000 = -75% per upgrade. Clamp to 0.05 to avoid zero/negative.
         """
         factor = 1.0
@@ -584,7 +584,7 @@ class SimState:
         slots and aren't extracted by simulate_upgrades.py yet (the direct
         `sarrparam2[X] := 'NN'` assignments are AST-opaque), so this returns 1.0
         unconditionally. When wired up, stacking is multiplicative per the engine
-        (commutative — order doesn't matter). See docs/reference/05_upgrades.md
+        (commutative — order doesn't matter). See docs/reference/05_upgrades/README.md
         «Математика применения».
         """
         return 1.0

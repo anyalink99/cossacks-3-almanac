@@ -19,4 +19,4 @@
 
 5 уровней апгрейда `eurtow.1..5` снижают `weapon_pause` до
 × 0.467 от базы → частота огня **× 2.14**. Полный список — в
-[05_upgrades.md → tow](05_upgrades.md#tow--башня-скорость-перезарядки).
+[05_upgrades/README.md → tow](05_upgrades/README.md#tow--башня-скорость-перезарядки).

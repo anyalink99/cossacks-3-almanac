@@ -25,7 +25,7 @@ templates/
     ├── readme/                ← главный README справочника
     │   └── glossary.md        ← глоссарий игровых тегов (sid, eff, bnohungry, …)
     │
-    ├── 01_economy/            ← блоки для 01_economy.md
+    ├── 01_economy/            ← блоки для 01_economy/README.md
     │   ├── recon_refs.md      ← блок «Глубокие исследования по этой главе»
     │   ├── summary.md         ← Резюме
     │   ├── extraction_formula.md
@@ -79,12 +79,12 @@ templates/
 |---|---|---|
 | `docs/README.md` | `write_md_tree.py:write_top_inventory` | `output_readme.md` |
 | `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md` |
-| `docs/reference/01_economy.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
-| `docs/reference/02_combat.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
-| `docs/reference/03_buildings.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/{legend,era_progression,lifecycle,tow_combat}.md` |
-| `docs/reference/04_units.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
-| `docs/reference/05_upgrades.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
-| `docs/reference/06_market.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
-| `docs/reference/07_naval.md` | `write_md_tree.py:write_naval` | `reference/07_naval/main.md` |
+| `docs/reference/01_economy/README.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
+| `docs/reference/02_combat/README.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
+| `docs/reference/03_buildings/README.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/{legend,era_progression,lifecycle,tow_combat}.md` |
+| `docs/reference/04_units/README.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
+| `docs/reference/05_upgrades/README.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
+| `docs/reference/06_market/README.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
+| `docs/reference/07_naval/README.md` | `write_md_tree.py:write_naval` | `reference/07_naval/main.md` |
 | `docs/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |
 | `docs/reference/compare/README.md` | `write_md_tree.py:write_compare` | `reference/compare/readme.md` |

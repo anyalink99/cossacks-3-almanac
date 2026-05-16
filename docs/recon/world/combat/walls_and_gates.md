@@ -72,7 +72,7 @@ gc_obj_usage_hardwall`. У сегмента стены `consume.stone` = 250
 сегмент стоит [^1].
 
 Конкретные числа по нациям — в
-[`reference/03_buildings.md`](../../../reference/03_buildings.md).
+[`reference/03_buildings/README.md`](../../../reference/03_buildings/README.md).
 
 ## 2. Footprint и кластеры
 

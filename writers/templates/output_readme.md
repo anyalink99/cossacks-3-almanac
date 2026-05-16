@@ -16,7 +16,7 @@ docs/
 │
 ├── reference/             ← каноническая справка по игре (генерируется)
 │   ├── README.md          ← TL;DR + index + glossary
-│   ├── 01_economy.md … 07_naval.md  ← 7 глав по темам
+│   ├── 01_economy/README.md … 07_naval/README.md  ← 7 глав по темам
 │   ├── nations/           ← 21 cheatsheet по нациям
 │   └── compare/           ← side-by-side сравнения юнитов / зданий
 │
@@ -43,7 +43,7 @@ docs/
 
 [**reference/**](reference/) — главы по темам, cheatsheet на каждую нацию, side-by-side сравнения. Старт — [reference/README.md](reference/README.md).
 
-- **Главы:** [01_economy](reference/01_economy.md), [02_combat](reference/02_combat.md), [03_buildings](reference/03_buildings.md), [04_units](reference/04_units.md), [05_upgrades](reference/05_upgrades.md), [06_market](reference/06_market.md), [07_naval](reference/07_naval.md)
+- **Главы:** [01_economy](reference/01_economy/README.md), [02_combat](reference/02_combat/README.md), [03_buildings](reference/03_buildings/README.md), [04_units](reference/04_units/README.md), [05_upgrades](reference/05_upgrades/README.md), [06_market](reference/06_market/README.md), [07_naval](reference/07_naval/README.md)
 - **Нации:** [reference/nations/](reference/nations/README.md) — 21 нация, по одному cheatsheet
 - **Сравнения:** [reference/compare/](reference/compare/README.md) — пикинеры / мушкетеры / кавалерия / корабли / оружие и др.
 

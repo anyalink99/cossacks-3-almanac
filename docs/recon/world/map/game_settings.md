@@ -119,7 +119,7 @@ single-player). В реплеях и у клиентов состояние пр
 
 У наций без 18 в. (`ukr` Украина, `tur` Турция, `alg` Алжир) опция «Сразу»
 бесполезна — у них нет апгрейда `cen.1` в `country.script`. См.
-[`reference/05_upgrades.md`](../../../reference/05_upgrades.md).
+[`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md).
 
 ### 3.4 `capture` — правила захвата
 

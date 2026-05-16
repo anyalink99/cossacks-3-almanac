@@ -173,32 +173,124 @@ function autoExpandFor(path) {
   }
 }
 
-function rewriteRelativeLinks(html, basePath) {
-  // basePath = relative path of currently rendered file, e.g. "recon/world/map/foo.md"
-  const baseDir = basePath.includes("/")
-    ? basePath.substring(0, basePath.lastIndexOf("/"))
-    : "";
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  for (const a of div.querySelectorAll("a[href]")) {
-    const href = a.getAttribute("href");
-    if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:")) continue;
-    // Resolve relative to baseDir
-    const resolved = new URL(href, "file:///root/" + baseDir + "/").pathname.replace(/^\/root\//, "");
-    if (resolved.endsWith(".md")) {
-      a.setAttribute("href", `?p=${encodeURIComponent(resolved)}`);
-      a.addEventListener("click", (ev) => {
-        ev.preventDefault();
-        history.pushState({}, "", a.href);
-        openFile(resolved);
-      });
+const REPO_GITHUB_BLOB = "https://github.com/anyalink99/cossacks-3-almanac/blob/main";
+
+function currentSection() {
+  const m = location.pathname.match(/\/(docs|internals)(?=\/|$)/);
+  return m ? m[1] : "docs";
+}
+
+function normalizePathParts(parts) {
+  const out = [];
+  for (const p of parts) {
+    if (p === "" || p === ".") continue;
+    if (p === "..") {
+      if (out.length && out[out.length - 1] !== "..") out.pop();
+      else out.push("..");
+    } else {
+      out.push(p);
     }
   }
+  return out;
+}
+
+// Resolve a markdown <a href="..."> against the file currently rendered.
+//   currentFile : relative path within section (e.g. "engine/native_api.md")
+//   href        : href as written in markdown
+// Returns one of:
+//   { kind: "section", section, path }  — viewable in our viewer
+//   { kind: "github",  path }           — outside both sections, link to repo
+//   { kind: "external", url }           — http(s) / mailto / anchor — keep as is
+function resolveHref(currentFile, href) {
+  if (!href) return { kind: "external", url: href };
+  if (/^[a-z]+:/i.test(href) || href.startsWith("#") || href.startsWith("mailto:")) {
+    return { kind: "external", url: href };
+  }
+
+  let parts;
+  if (href.startsWith("/")) {
+    parts = href.replace(/^\/+/, "").split("/");
+  } else {
+    const dirParts = currentFile.includes("/")
+      ? currentFile.split("/").slice(0, -1)
+      : [];
+    parts = dirParts.concat(href.split("/"));
+  }
+  parts = normalizePathParts(parts);
+
+  const escapes = parts.filter(p => p === "..").length;
+  const tail = parts.slice(escapes);
+
+  if (escapes === 0) {
+    return { kind: "section", section: currentSection(), path: tail.join("/") };
+  }
+  if (tail.length && (tail[0] === "docs" || tail[0] === "internals")) {
+    return { kind: "section", section: tail[0], path: tail.slice(1).join("/") };
+  }
+  return { kind: "github", path: tail.join("/") };
+}
+
+function rewriteRelativeLinks(html, basePath) {
+  const section = currentSection();
+  const div = document.createElement("div");
+  div.innerHTML = html;
+
+  for (const a of div.querySelectorAll("a[href]")) {
+    const href = a.getAttribute("href");
+    const resolved = resolveHref(basePath, href);
+    if (resolved.kind === "external") continue;
+
+    if (resolved.kind === "github") {
+      a.setAttribute("href", `${REPO_GITHUB_BLOB}/${resolved.path}`);
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener");
+      continue;
+    }
+
+    // kind === "section"
+    const isMd = resolved.path.endsWith(".md");
+    if (!isMd) {
+      // Non-.md assets inside a section (rare — e.g. images, JSON manifests).
+      // Send those to GitHub too — Pages might serve them, but the user
+      // asked for non-doc links to land on the repo.
+      a.setAttribute(
+        "href",
+        `${REPO_GITHUB_BLOB}/${resolved.section}/${resolved.path}`
+      );
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener");
+      continue;
+    }
+
+    if (resolved.section === section) {
+      const url = `?p=${encodeURIComponent(resolved.path)}`;
+      a.setAttribute("href", url);
+      a.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        history.pushState({}, "", url);
+        openFile(resolved.path);
+      });
+    } else {
+      // Cross-section: hand off to sibling section's viewer page.
+      a.setAttribute(
+        "href",
+        `../${resolved.section}/?p=${encodeURIComponent(resolved.path)}`
+      );
+    }
+  }
+
   for (const img of div.querySelectorAll("img[src]")) {
     const src = img.getAttribute("src");
-    if (!src || src.startsWith("http") || src.startsWith("data:")) continue;
-    const resolved = new URL(src, "file:///root/" + baseDir + "/").pathname.replace(/^\/root\//, "");
-    img.setAttribute("src", resolved);
+    if (!src || /^[a-z]+:/i.test(src) || src.startsWith("data:")) continue;
+    const r = resolveHref(basePath, src);
+    if (r.kind === "section") {
+      img.setAttribute("src", r.path);  // resolved within section's dir
+    } else if (r.kind === "github") {
+      img.setAttribute(
+        "src",
+        `https://raw.githubusercontent.com/anyalink99/cossacks-3-almanac/main/${r.path}`
+      );
+    }
   }
   return div.innerHTML;
 }

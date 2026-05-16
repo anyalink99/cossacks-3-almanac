@@ -54,7 +54,7 @@ scenario-action'ы извлечены вручную.
 | Стоимость `Manufacture agricultural equipment` (blacksmith) | W400 / G100 | **не найден в blacksmith** | `country.script` | В текущей кузнице — только per-unit damage / protection. Возможно, в Cossacks 1 был такой апгрейд, и в C3 он переехал в академию (`aca.X`). |
 
 Дополнительно: в новой главе [02_combat → «Подтверждённые упрощения боевой
-формулы»](reference/02_combat.md) описаны пять механик из других RTS, которых
+формулы»](reference/02_combat/README.md) описаны пять механик из других RTS, которых
 в C3 **нет** (charge bonus, anti-cavalry multiplier, drummer aura, специальная
 траектория гранат, stealth). Это тоже формы расхождения — игроки часто ожидают
 эти эффекты по аналогии с AoE / Total War.

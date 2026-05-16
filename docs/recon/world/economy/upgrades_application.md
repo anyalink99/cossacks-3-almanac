@@ -7,7 +7,7 @@
 [Источниках](#источники).
 
 > Сами числа апгрейдов (цены, бонусы, требования) — в
-> [`reference/05_upgrades.md`](../../../reference/05_upgrades.md). Здесь
+> [`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md). Здесь
 > разбирается **процесс**.
 
 ## TL;DR

@@ -243,7 +243,7 @@ flowchart TB
 
 **Сетка:** 6 колонок × 3 ряда. Шаг 0.75 тайла. Random jitter ±0.125. **Quirk:** `count mod 3 = 18 mod 3 = 0`, поэтому Y-центрирующее смещение = 0. Z-координаты идут от `pointy + 0` до `pointy + 1.5` (т.е. сетка смещена ВНИЗ относительно центра, не центрирована). X-координаты центрированы корректно: от `pointx - 2.25` до `pointx + 1.5`.
 
-Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy.md`](../../../reference/01_economy.md) §Famine).
+Совпадает с эмпирически наблюдаемыми **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-сек × 32/20000 × 120 g-сек ≈ 214 food, см. также [`docs/reference/01_economy/README.md`](../../../reference/01_economy/README.md) §Famine).
 
 Если `gMap.settings.additional.startingunits > 0` (не «По умолчанию») → вместо 18 крестьян вызывается `CreateUniqueStartingUnits` (нация-специфичный отряд: офицер + барабанщик + несколько пехотинцев). Все 14 пресетов с каноническими русскими названиями — [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#startingunits--стартовая-армия); поведение — [`game_settings.md`](game_settings.md) §3.1.
 

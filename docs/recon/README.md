@@ -25,7 +25,7 @@
 | [world/economy/upgrades_application.md](world/economy/upgrades_application.md) | Как применяется апгрейд: к существующим юнитам и будущим, аддитивная композиция `eff`, `priceperc` / `buildtimeperc`, прерывание исследования. |
 | [world/economy/hunger_and_rebellion.md](world/economy/hunger_and_rebellion.md) | Голод (`bfamine`) и бунт (`brebellion`): когда поднимаются флаги, кто и в каком порядке умирает, защита. |
 | [world/economy/production_queue.md](world/economy/production_queue.md) | Очередь производства: 12 слотов, infinite-режим, слитие ордеров через `costpercent`, refund при отмене и захвате, прерывание захватчиками. |
-| (Рынок) | Подробный разбор механики и формулы обмена — пока только в [`../reference/06_market.md`](../reference/06_market.md). |
+| (Рынок) | Подробный разбор механики и формулы обмена — пока только в [`../reference/06_market/README.md`](../reference/06_market/README.md). |
 
 ### Бой и команды
 
