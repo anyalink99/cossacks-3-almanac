@@ -4,7 +4,14 @@ import { NATION_FROM_SID, NATION_LABEL_RU } from "./i18n.js";
 
 const RESOURCE_NAMES_RU = ["?", "Еда", "Дерево", "Камень", "Золото", "Железо", "Уголь"];
 const GAMESPEED_LABEL = { 0: "Медленно", 1: "Нормально", 2: "Быстро" };
-const MAPSIZE_LABEL = { 0: "Малая", 1: "Средняя", 2: "Большая", 3: "Огромная" };
+// Per derived/game_settings.json: 0=Standard (320 tiles), 1=Big (480),
+// 2=Huge (640), 3=Tiny (256). Index 3 is intentionally out of order.
+const MAPSIZE_LABEL = {
+  0: "Нормальный (320×320)",
+  1: "Большой (480×480)",
+  2: "Огромный (640×640)",
+  3: "Маленький (256×256)",
+};
 const TERRAIN_LABEL = { 0: "Land", 1: "Mediterranean", 2: "Peninsulas",
                         5: "Continent", 7: "Lakes", 9: "Coastal" };
 const RELIEF_LABEL = { 0: "Гладко", 1: "Лёгкий", 2: "Холмы", 3: "Highlands", 4: "Горы", 5: "Случайно" };
@@ -124,13 +131,21 @@ function renderAbuses(abuses, players) {
       el("b", {}, playerName(pid)),
       ` — ${list.length} срабатывание(й), уверенность ${conf}.`,
       el("ul", { class: "abuse-list" },
-        samples.map((s) => el("li", {}, [
-          `${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)} `,
-          el("span", { class: "abuse-meta" },
-            `(gap ${(s.gap_ticks / 10).toFixed(1)} g-сек, ` +
-            `здание #${s.details.building_uid ?? s.details.target_uid ?? "?"}, ` +
-            `upg ${s.details.upgrade_id ?? s.details.ind ?? "?"})`),
-        ]))
+        samples.map((s) => {
+          const d = s.details || {};
+          const name = d.upgrade_name_ru || d.upgrade_name_en || "";
+          const place = d.place ? `${d.place}` : "—";
+          const upgRaw = `id ${d.upgrade_id ?? d.ind ?? "?"}`;
+          const label = name
+            ? el("b", { class: "abuse-upgname" }, name)
+            : el("span", { class: "abuse-meta" }, `апгрейд ${upgRaw}`);
+          return el("li", {}, [
+            `${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)} · `,
+            label,
+            el("span", { class: "abuse-meta" },
+              ` · ${place} · gap ${(s.gap_ticks / 10).toFixed(1)} g-сек`),
+          ]);
+        })
       ),
     ]));
   }

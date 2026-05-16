@@ -741,7 +741,95 @@ def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
     return entries
 
 
-def detect_abuses(decoded: list[dict]) -> list[dict]:
+_UPGRADE_NAME_CACHE: dict | None = None
+
+
+def _load_upgrade_names() -> dict:
+    """Load `(nation_sid, upgrade_index) → {sid, name_ru, name_en, place, member}`
+    once per process. The data.json upgrade list is ordered per-nation in
+    the same sequence the engine builds `gCountry[cid].upgrade[]`, so the
+    list-index equals the engine's `upgrade_id` argument seen in replays.
+    """
+    global _UPGRADE_NAME_CACHE
+    if _UPGRADE_NAME_CACHE is not None:
+        return _UPGRADE_NAME_CACHE
+    candidates = [
+        Path(__file__).resolve().parent.parent / "data.json",
+        Path("/c3/data.json"),  # Pyodide virtual FS layout
+        Path("data.json"),
+    ]
+    for path in candidates:
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            by_nation: dict[str, list[dict]] = {}
+            for u in data.get("upgrades", []):
+                nation = u.get("nation")
+                if nation:
+                    by_nation.setdefault(nation, []).append(u)
+            _UPGRADE_NAME_CACHE = by_nation
+            return by_nation
+    _UPGRADE_NAME_CACHE = {}
+    return {}
+
+
+# gCountry cid → nation sid, matches NATION_ID_TO_SID in parser/config.py.
+NATION_BY_CID = {
+    0: "aus",  1: "fra",  2: "eng",  3: "spa",  4: "rus",  5: "ukr",
+    6: "pol",  7: "swe",  8: "pru",  9: "ven",  10: "tur", 11: "alg",
+    12: "mis", 13: "net", 14: "den", 15: "por", 16: "pie", 17: "sax",
+    18: "bav", 19: "hun", 20: "swi", 21: "sco", 22: "tat", 23: "lit",
+}
+
+
+def _resolve_upgrade(cid: int, upgrade_id: int) -> dict | None:
+    """Look up upgrade metadata by country index + upgrade index."""
+    nation = NATION_BY_CID.get(cid)
+    if not nation:
+        return None
+    upgrades = _load_upgrade_names().get(nation)
+    if not upgrades or upgrade_id < 0 or upgrade_id >= len(upgrades):
+        return None
+    return upgrades[upgrade_id]
+
+
+def _build_player_nations(decoded: list[dict]) -> dict[int, str]:
+    """Infer each player's nation from the sid of their first ReadConstruct.
+
+    Building sids are prefixed by the nation tag (`auscen`, `piebar`, ...);
+    same for many unit sids. The first three letters are the canonical
+    nation tag used as `gCountry[cid].sid`.
+    """
+    nations: dict[int, str] = {}
+    for rec in decoded:
+        if rec.get("handler") != "ReadConstruct":
+            continue
+        pid = rec.get("pid")
+        sid = rec.get("sid", "")
+        if pid is None or len(sid) < 3 or pid in nations:
+            continue
+        nations[pid] = sid[:3]
+    return nations
+
+
+def _build_uid_index(decoded: list[dict]) -> dict[int, dict]:
+    """Map runtime UID → spawn metadata for every object we see spawned.
+    Used to translate abuse-finding building_uid'ы into sids.
+    """
+    out: dict[int, dict] = {}
+    for rec in decoded:
+        h = rec.get("handler")
+        if h in ("ReadNew", "ReadNewP"):
+            uid = rec.get("uid")
+            if uid:
+                out[uid] = {"sid": rec.get("sid", ""), "kind": h,
+                            "race": rec.get("race", ""), "pid": rec.get("pid")}
+    return out
+
+
+def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = None) -> list[dict]:
     """Scan decoded sub-package list for known multiplayer-abuse patterns.
 
     Currently detects:
@@ -798,13 +886,25 @@ def detect_abuses(decoded: list[dict]) -> list[dict]:
         if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
             continue
         pid, bld_uid, upg_id = key
+        upg_meta = None
+        if player_nations and pid in player_nations:
+            nation = player_nations[pid]
+            upgrades = _load_upgrade_names().get(nation)
+            if upgrades and 0 <= upg_id < len(upgrades):
+                upg_meta = upgrades[upg_id]
+        details = {"building_uid": bld_uid, "upgrade_id": upg_id}
+        if upg_meta:
+            details["upgrade_sid"] = upg_meta.get("sid")
+            details["upgrade_name_ru"] = upg_meta.get("name_ru") or ""
+            details["upgrade_name_en"] = upg_meta.get("name_en") or ""
+            details["place"] = upg_meta.get("place")
         findings.append({
             "kind": "double-upgrade-start",
             "pid": pid,
             "ts_g_sec_first": round(a["ts_g_sec"], 2),
             "ts_g_sec_second": round(b["ts_g_sec"], 2),
             "gap_ticks": round(gap, 2),
-            "details": {"building_uid": bld_uid, "upgrade_id": upg_id},
+            "details": details,
         })
 
     # Same logic for ReadApply: a real race-condition apply lands in the
@@ -838,13 +938,21 @@ def detect_abuses(decoded: list[dict]) -> list[dict]:
         if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
             continue
         tgt_uid, cid, ind = key
+        details = {"target_uid": tgt_uid, "cid": cid, "ind": ind}
+        upg_meta = _resolve_upgrade(cid, ind)
+        if upg_meta:
+            details["upgrade_sid"] = upg_meta.get("sid")
+            details["upgrade_name_ru"] = upg_meta.get("name_ru") or ""
+            details["upgrade_name_en"] = upg_meta.get("name_en") or ""
+            details["place"] = upg_meta.get("place")
+            details["nation"] = NATION_BY_CID.get(cid)
         findings.append({
             "kind": "double-apply",
             "pid": b["pid"],
             "ts_g_sec_first": round(a["ts_g_sec"], 2),
             "ts_g_sec_second": round(b["ts_g_sec"], 2),
             "gap_ticks": round(gap, 2),
-            "details": {"target_uid": tgt_uid, "cid": cid, "ind": ind},
+            "details": details,
         })
 
     return findings
@@ -918,7 +1026,8 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         elif h == "ReadRally" and pid is not None:
             rally_per_pid[pid] += 1
 
-    abuses = detect_abuses(decoded)
+    player_nations = _build_player_nations(decoded)
+    abuses = detect_abuses(decoded, player_nations)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
     return {

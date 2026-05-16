@@ -389,8 +389,9 @@ table.compact td.num { text-align: right; font-variant-numeric: tabular-nums; }
   font-size: 12px;
   color: var(--text-dim);
 }
-.abuse-list li { margin: 2px 0; }
+.abuse-list li { margin: 4px 0; }
 .abuse-meta { color: var(--text-dim); font-size: 11px; }
+.abuse-upgname { color: var(--text); font-weight: 500; }
 
 /* Progress + errors */
 .progress-row {

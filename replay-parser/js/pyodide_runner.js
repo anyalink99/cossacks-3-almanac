@@ -7,6 +7,7 @@ let ready = false;
 const FILES = [
   { url: "../parser/parse_replay.py",        target: "/c3/parse_replay.py" },
   { url: "../parser/parse_replay_events.py", target: "/c3/parse_replay_events.py" },
+  { url: "../data.json",                     target: "/c3/data.json" },
   { url: "../derived/pattern_inventory.json", target: "/c3/output/derived/pattern_inventory.json", optional: true },
   { url: "../derived/pattern_types.json",     target: "/c3/output/derived/pattern_types.json", optional: true },
 ];
