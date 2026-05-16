@@ -79,7 +79,9 @@ def render_buildings_mermaid(nat: str, nt: dict) -> list[str]:
     bld_sids = sorted(nt["buildings"].keys())
     bld_set = set(bld_sids)
     for sid in bld_sids:
-        L.append(f'    {sid}["{_short_bld_label(sid, nat)}<br/>`{sid}`"]')
+        # Mermaid does not support inline codespan in flowchart labels; emit
+        # <code>…</code> directly (securityLevel="loose" lets htmlLabels through).
+        L.append(f'    {sid}["{_short_bld_label(sid, nat)}<br/><code>{sid}</code>"]')
 
     def _nid(s: str) -> str:
         # Mermaid node IDs must be alphanumeric — replace '.' with '_' for upgrades.

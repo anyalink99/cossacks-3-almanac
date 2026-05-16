@@ -23,9 +23,10 @@ async function boot() {
   });
   postMessage({ kind: "progress", text: "Загрузка парсера…" });
   pyodide.FS.mkdirTree("/c3");
-  await loadFile("../parser/parse_replay.py",        "/c3/parse_replay.py");
-  await loadFile("../parser/parse_replay_events.py", "/c3/parse_replay_events.py");
-  await loadFile("../data.json",                     "/c3/data.json");
+  // Worker URL is replay-parser/js/worker.js, so "../../" climbs to repo root.
+  await loadFile("../../parser/parse_replay.py",        "/c3/parse_replay.py");
+  await loadFile("../../parser/parse_replay_events.py", "/c3/parse_replay_events.py");
+  await loadFile("../../data.json",                     "/c3/data.json");
   pyodide.runPython(`
 import sys
 sys.path.insert(0, "/c3")

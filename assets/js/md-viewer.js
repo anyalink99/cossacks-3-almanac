@@ -61,11 +61,18 @@ mermaid.initialize({
   },
 });
 
+// Mermaid flowchart labels do not understand `inline-code` (codespan).
+// Rewrite backtick spans inside node labels to <code>…</code> before render
+// so doc authors can keep writing `sid` naturally.
+function preprocessMermaid(source) {
+  return source.replace(/`([^`\r\n]+)`/g, "<code>$1</code>");
+}
+
 async function renderMermaidBlocks(container) {
   const blocks = container.querySelectorAll("pre > code.language-mermaid, pre > code.lang-mermaid");
   let idx = 0;
   for (const code of blocks) {
-    const source = code.textContent;
+    const source = preprocessMermaid(code.textContent);
     const pre = code.parentElement;
     const target = document.createElement("div");
     target.className = "mermaid-render";
