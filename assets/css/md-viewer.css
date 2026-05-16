@@ -226,6 +226,108 @@
 
 #md-content img { max-width: 100%; border-radius: 4px; }
 
+/* ── Footnotes (via marked-footnote plugin) ── */
+#md-content sup[id^="fn-ref-"],
+#md-content sup.footnote-ref,
+#md-content sup > a[href^="#fn-"] {
+  font-size: 0.78em;
+  color: var(--ember);
+}
+#md-content sup > a[href^="#fn-"] {
+  text-decoration: none;
+  border-bottom: none;
+  padding: 0 2px;
+}
+#md-content sup > a[href^="#fn-"]:hover {
+  color: var(--gold-bright);
+}
+#md-content section.footnotes,
+#md-content section[class*="footnote"],
+#md-content .footnotes {
+  margin-top: 3em;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+#md-content .footnotes::before {
+  content: "Примечания";
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 10px;
+}
+#md-content .footnotes ol {
+  padding-left: 24px;
+  list-style: decimal;
+}
+#md-content .footnotes ol li {
+  margin: 0.5em 0;
+  line-height: 1.65;
+}
+#md-content .footnotes ol li p { margin: 0.2em 0; }
+#md-content .footnotes a.footnote-backref,
+#md-content .footnotes a[href^="#fn-ref-"] {
+  margin-left: 6px;
+  color: var(--brass);
+  font-size: 12px;
+  border-bottom: none;
+  text-decoration: none;
+}
+#md-content .footnotes a.footnote-backref:hover { color: var(--gold-bright); }
+
+/* Highlight target footnote when arrived via #fn-1 etc. */
+#md-content :target {
+  background: rgba(212, 130, 58, 0.10);
+  outline: 1px solid rgba(212, 130, 58, 0.35);
+  outline-offset: 4px;
+  border-radius: 3px;
+  transition: background 0.4s, outline-color 0.4s;
+}
+
+/* ── GitHub-style alerts (via marked-alert plugin) ── */
+.markdown-alert {
+  margin: 1.2em 0;
+  padding: 12px 18px;
+  border-left: 3px solid var(--brass);
+  border-radius: 0 4px 4px 0;
+  background: rgba(154, 120, 54, 0.06);
+}
+.markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Cinzel", serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 6px;
+}
+.markdown-alert p:last-child { margin-bottom: 0; }
+.markdown-alert.markdown-alert-note    { border-left-color: var(--gold);    background: rgba(200, 160, 80, 0.06); }
+.markdown-alert.markdown-alert-note    .markdown-alert-title { color: var(--gold); }
+.markdown-alert.markdown-alert-tip     { border-left-color: var(--ok);      background: rgba(135, 165, 72, 0.07); }
+.markdown-alert.markdown-alert-tip     .markdown-alert-title { color: var(--ok); }
+.markdown-alert.markdown-alert-important{ border-left-color: var(--ember);  background: rgba(212, 130, 58, 0.07); }
+.markdown-alert.markdown-alert-important .markdown-alert-title { color: var(--ember); }
+.markdown-alert.markdown-alert-warning { border-left-color: var(--warn);    background: rgba(212, 144, 64, 0.08); }
+.markdown-alert.markdown-alert-warning .markdown-alert-title { color: var(--warn); }
+.markdown-alert.markdown-alert-caution { border-left-color: var(--danger);  background: rgba(208, 80, 56, 0.08); }
+.markdown-alert.markdown-alert-caution .markdown-alert-title { color: var(--danger); }
+
+/* ── Task lists (gfm) ── */
+#md-content input[type="checkbox"] {
+  margin-right: 6px;
+  accent-color: var(--ember);
+  vertical-align: middle;
+}
+#md-content li:has(> input[type="checkbox"]) { list-style: none; margin-left: -18px; }
+
 /* ── Mermaid diagrams ── */
 .mermaid-render {
   margin: 1.2em 0;

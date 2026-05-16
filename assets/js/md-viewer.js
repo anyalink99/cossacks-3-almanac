@@ -3,6 +3,8 @@
 // tree, lets the user pick a file, fetches and renders it via marked.
 
 import { marked } from "https://cdn.jsdelivr.net/npm/marked@13.0.3/+esm";
+import markedFootnote from "https://cdn.jsdelivr.net/npm/marked-footnote@1.2.4/+esm";
+import markedAlert from "https://cdn.jsdelivr.net/npm/marked-alert@2.1.2/+esm";
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
 
 // --- Markdown configuration ----------------------------------------------
@@ -11,6 +13,8 @@ marked.setOptions({
   breaks: false,
   headerIds: true,
 });
+marked.use(markedFootnote());
+marked.use(markedAlert());
 
 // --- Mermaid configuration (Cossacks warm dark theme) --------------------
 mermaid.initialize({
