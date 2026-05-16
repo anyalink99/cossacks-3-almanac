@@ -248,10 +248,181 @@ def decode_produce(r: Reader, ts: float, hdr: dict) -> dict:
 
 
 def decode_player(r: Reader, ts: float, hdr: dict) -> dict:
-    """state_id=??? — ReadPlayer (transfer ownership)."""
+    """state_id=0x13 — ReadPlayer (transfer ownership / capture).
+
+    Format: Int uid, Bool cap. Often appears in batches inside one entry —
+    e.g. capturing 6 units = 6 nested ReadPlayer sub-packages.
+    """
     uid = r.i32(); cap = r.boolean()
     return {**_ctx_from(ts, hdr), "handler": "ReadPlayer",
             "uid": uid, "capture": cap}
+
+
+def decode_death(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x11 — ReadDeath.
+
+    Format: Bool bFromServer, Int mode, Float randkey, Int count, N*Int uids.
+    """
+    bFromServer = r.boolean()
+    mode = r.i32()
+    randkey = r.f32()
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadDeath",
+            "mode": mode, "randkey": randkey,
+            "dead_uids": uids, "from_server": bFromServer}
+
+
+def decode_upgrade(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x19 — ReadUpgrade (start/cancel research).
+
+    Format: Bool bFromServer, Int upgid, Bool state, Int count, N*Int building-uids.
+    state=true means "start research", false means "cancel".
+    """
+    bFromServer = r.boolean()
+    upgid = r.i32()
+    state = r.boolean()
+    count = r.i32()
+    buildings = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadUpgrade",
+            "upgrade_id": upgid, "start": state,
+            "buildings": buildings, "from_server": bFromServer}
+
+
+def decode_sync_units_params(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x3d — ReadSyncUnitsParams (HP sync for multiple units).
+
+    Format: Int count + N*(Int uid + Bool bvalid + Int hp).
+    """
+    count = r.i32()
+    updates = []
+    for _ in range(count):
+        uid = r.i32()
+        bvalid = r.boolean()
+        hp = r.i32()
+        updates.append({"uid": uid, "valid": bvalid, "hp": hp})
+    return {**_ctx_from(ts, hdr), "handler": "ReadSyncUnitsParams",
+            "hp_updates": updates}
+
+
+def decode_trade(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x31 — ReadTrade (resource trade on market).
+
+    Format: Bool bFromServer, Byte sell, Byte buy, Int amount.
+    sell/buy are gc_resource_type_* indices (1=food, 2=wood, 3=stone, 4=gold,
+    5=iron, 6=coal).
+    """
+    bFromServer = r.boolean()
+    sell = r.u8()
+    buy = r.u8()
+    amount = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadTrade",
+            "sell_res": sell, "buy_res": buy, "amount": amount,
+            "from_server": bFromServer}
+
+
+def decode_leave(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x27 — ReadLeave (unit goes outside of a building).
+
+    Format: Bool dead, Int uid.
+    """
+    dead = r.boolean()
+    uid = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadLeave",
+            "dead": dead, "uid": uid}
+
+
+def decode_newp(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x2d — ReadNewP (spawn primitive: field, balloon, ship-dummy).
+
+    Format: Bool bFromServer, String race, String base, Float posx, posz, roll,
+    Int plind, Int id, Int uid, Int num.
+
+    Entries with state_id=0x2d usually contain MANY nested ReadNewP packages
+    (e.g. when planting a row of fields, the engine writes one ReadNewP per
+    field cell, all into one entry).
+    """
+    bFromServer = r.boolean()
+    race = r.string()
+    base = r.string()
+    posx = r.f32(); posz = r.f32(); roll = r.f32()
+    plind = r.i32(); id_ = r.i32(); uid = r.i32(); num = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadNewP",
+            "race": race, "sid": base, "pos": [posx, posz], "roll": roll,
+            "plind": plind, "id": id_, "uid": uid, "num_units_total": num,
+            "from_server": bFromServer}
+
+
+def decode_proj(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x29 — ReadProj (projectile fired).
+
+    Format (61 bytes body):
+      Int uid (shooter), Int trguid (target uid or 0), Bool busetrgpos,
+      3*Float (sx, sy, sz) source pos including height,
+      Int weaponid,
+      3*Float (tx, ty, tz) target pos,
+      Int cid, Int id, Int weapind, Float randkey,
+      Int projuid (assigned to new projectile), Int num.
+
+    Records every musket shot / arrow / cannonball.
+    """
+    uid = r.i32()
+    trguid = r.i32()
+    busetrgpos = r.boolean()
+    sx = r.f32(); sy = r.f32(); sz = r.f32()
+    weaponid = r.i32()
+    tx = r.f32(); ty = r.f32(); tz = r.f32()
+    cid = r.i32(); id_ = r.i32(); weapind = r.i32()
+    randkey = r.f32()
+    projuid = r.i32(); num = r.i32()
+    return {**_ctx_from(ts, hdr), "handler": "ReadProj",
+            "shooter_uid": uid, "target_uid": trguid,
+            "use_target_pos": busetrgpos,
+            "source_pos": [sx, sy, sz],
+            "weapon_id": weaponid,
+            "target_pos": [tx, ty, tz],
+            "cid": cid, "id": id_, "weapon_index": weapind,
+            "randkey": randkey,
+            "proj_uid": projuid, "num_total": num}
+
+
+def decode_freelist(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x37 — ReadFreeList (mass-delete game objects).
+
+    Format: Int count + N*Int uids. Used for cleanup (e.g. dead units,
+    cancelled construction).
+    """
+    count = r.i32()
+    uids = [r.i32() for _ in range(count)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadFreeList",
+            "freed_uids": uids}
+
+
+def decode_wall(r: Reader, ts: float, hdr: dict) -> dict:
+    """state_id=0x33 — ReadWall (build wall cluster of cells).
+
+    Format: Bool bFromServer, Byte usage, Byte cid, Byte id, Int count,
+    count*(Byte sprite + Float px + Float pz + Int gouid), Int num, Int peasantcount,
+    peasantcount*Int hnduids.
+    """
+    bFromServer = r.boolean()
+    usage = r.u8()
+    cid = r.u8()
+    id_ = r.u8()
+    count = r.i32()
+    cells = []
+    for _ in range(count):
+        sprite = r.u8()
+        px = r.f32(); pz = r.f32()
+        gouid = r.i32()
+        cells.append({"sprite": sprite, "pos": [px, pz], "gouid": gouid})
+    num = r.i32()
+    peasantcount = r.i32()
+    builders = [r.i32() for _ in range(peasantcount)]
+    return {**_ctx_from(ts, hdr), "handler": "ReadWall",
+            "wall_usage": usage, "cid": cid, "id": id_,
+            "cells": cells, "num_units_total": num,
+            "builders": builders, "from_server": bFromServer}
 
 
 def decode_move(r: Reader, ts: float, hdr: dict) -> dict:
@@ -277,12 +448,23 @@ def decode_move(r: Reader, ts: float, hdr: dict) -> dict:
 # nick-niotid 2.rep. Others are GUESSED by structural fit and may need
 # correction.
 DECODERS: dict[int, callable] = {
-    0x21: decode_construct,  # ✓ verified on 89 events
-    0x0d: decode_new,        # ✓ verified on 1776 events
-    0x15: decode_rally,      # ✓ verified on 19 events
-    0x17: decode_order,      # ✓ verified (ordtyp values in [0..20] enum)
-    0x23: decode_apply,      # ✓ verified — 4 Integers match plind/uid/cid/ind
-    0x1b: decode_produce,    # ✓ verified — amoun=-1 matches gc_obj_order_produce_infinite
+    0x21: decode_construct,         # ✓ ReadConstruct
+    0x0d: decode_new,               # ✓ ReadNew
+    0x15: decode_rally,             # ✓ ReadRally
+    0x17: decode_order,             # ✓ ReadOrder
+    0x23: decode_apply,             # ✓ ReadApply
+    0x1b: decode_produce,           # ✓ ReadProduce
+    0x11: decode_death,             # ✓ ReadDeath (13+4N body, randkey is RNG seed restore)
+    0x19: decode_upgrade,           # ✓ ReadUpgrade (10+4N body)
+    0x3d: decode_sync_units_params, # ✓ ReadSyncUnitsParams (HP sync per uid)
+    0x31: decode_trade,             # ✓ ReadTrade (Bool+2*Byte+Int=7 body)
+    0x27: decode_leave,             # ✓ ReadLeave (Bool+Int=5 body)
+    0x13: decode_player,            # ✓ ReadPlayer (5B body — multiple nested in one entry)
+    0x2d: decode_newp,              # ✓ ReadNewP (race+base, multi-pkg envelope for fields)
+    0x33: decode_wall,              # ✓ ReadWall (wall cluster with per-cell records)
+    0x37: decode_freelist,          # ✓ ReadFreeList (mass-delete; see end-game cleanup)
+    0x29: decode_proj,              # ✓ ReadProj (projectile fired — every musket shot)
+    0x0b: decode_move,              # ✓ ReadMove (per-unit destination)
 }
 
 

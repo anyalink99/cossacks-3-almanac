@@ -187,33 +187,52 @@ sub-package'а** из §3.1, а не часть String.
 
 ## 4. Карта `state_id` → handler
 
-**Verified** (декодер построен и парсит 100% событий с этим state_id):
+**Verified** (декодер построен и парсит 100% событий с этим state_id;
+проверено на 3+ replay'ах):
 
-| state_id | handler           | сигнатура                              |
-|---------:|-------------------|----------------------------------------|
-| `0x0d`   | `ReadNew`         | Bool, String race, String base, 2*Float, 3*Int |
-| `0x15`   | `ReadRally`       | Int uid, Bool, 2*Float (no bFromServer)|
-| `0x17`   | `ReadOrder`       | Int ordtyp, Int taruid, 2*Bool, Int number, [2*Float if patrol/atkpoint], N*Int uids |
-| `0x1b`   | `ReadProduce`     | 3*Int proid/prcid/amount, Bool state, Int count, N*Int building_uids |
-| `0x21`   | `ReadConstruct`   | Bool, Int cid, String sid, 2*Float, Bool clrord, Int count, N*Int builder_uids |
-| `0x23`   | `ReadApply`       | 4*Int plind/uid/cid/ind                |
+| state_id | handler              | сигнатура                              |
+|---------:|----------------------|----------------------------------------|
+| `0x0b`   | `ReadMove`           | 2*Float dir, 2*Bool, 2*Int mode/count, N*(Int uid + 2*Float pos), [Word squaduid, Byte plind] |
+| `0x0d`   | `ReadNew`            | Bool, String race, String base, 2*Float, 3*Int |
+| `0x11`   | `ReadDeath`          | Bool, Int mode, Float randkey, Int count, N*Int dead_uids |
+| `0x13`   | `ReadPlayer`         | Int uid, Bool capture                  |
+| `0x15`   | `ReadRally`          | Int uid, Bool, 2*Float (no bFromServer)|
+| `0x17`   | `ReadOrder`          | Int ordtyp, Int taruid, 2*Bool, Int number, [2*Float if patrol/atkpoint], N*Int uids |
+| `0x19`   | `ReadUpgrade`        | Bool, Int upgid, Bool state, Int count, N*Int building_uids |
+| `0x1b`   | `ReadProduce`        | 3*Int proid/prcid/amount, Bool state, Int count, N*Int building_uids |
+| `0x21`   | `ReadConstruct`      | Bool, Int cid, String sid, 2*Float, Bool clrord, Int count, N*Int builder_uids |
+| `0x23`   | `ReadApply`          | 4*Int plind/uid/cid/ind                |
+| `0x27`   | `ReadLeave`          | Bool dead, Int uid                     |
+| `0x29`   | `ReadProj`           | 61B fixed: Int+Int+Bool+3*Float+Int+3*Float+3*Int+Float+2*Int |
+| `0x2d`   | `ReadNewP`           | Bool, String race, String base, 3*Float, 4*Int (multi-pkg envelope for fields) |
+| `0x31`   | `ReadTrade`          | Bool, Byte sell, Byte buy, Int amount  |
+| `0x33`   | `ReadWall`           | Bool, 3*Byte usage/cid/id, Int count, N*(Byte+2*Float+Int) cells, 2*Int, M*Int builders |
+| `0x37`   | `ReadFreeList`       | Int count, N*Int freed_uids (mass-cleanup) |
+| `0x3d`   | `ReadSyncUnitsParams`| Int count, N*(Int uid + Bool valid + Int hp) |
 
-**Probable** (по структурной близости к сигнатуре handler'а — нужна валидация):
+**Probable** (engine-internal `Progress*` events от `pid=14`):
 
 | state_id | вероятно            | свидетельство                          |
 |---------:|---------------------|----------------------------------------|
-| `0x08`   | `Progress` или `ProgressEconomicAI` | 5629 событий с pid=14, периодика |
-| `0x0f`   | `Progress` или `ProgressAI`         | 173 событий с pid=14            |
-| `0x0a`   | `ProgressWarAI` (?) | 6 событий с pid=14, stats arrays      |
-| `0x13`   | `ReadSquadNew` или `ReadSquadListAction` | большие nested события  |
-| `0x3d`   | `ReadSyncUnitsParams` (?) | per-uid integer-stats updates   |
-| `0x31`   | (контейнер с вложенным ReadNew) | спавн строящегося здания    |
-| `0x19`   | `ReadStand` / `ReadSearch` (?) | 14-byte body, не совпало           |
+| `0x08`   | `Progress` либо `ProgressEconomicAI` | 5629×, периодика каждые ~2 g-sec |
+| `0x0f`   | `Progress*` другой    | 5929×, периодика                      |
+| `0x0a`   | `Progress*` со статами| 44 событий, 12 Int'ов внутри          |
 
-**Unknown** (требуют отдельного разбора): `0x11, 0x27, 0x29, 0x2d, 0x33, 0x37, 0x39`.
+**Rare / TBD** (не разобраны, ≤8 событий):
+
+`0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x09, 0x0c, 0x0e, 0x12, 0x14, 0x1d, 0x1f, 0x39`
 
 Полные сигнатуры handler'ов читаются прямо в скриптах — см.
-[`data/scripts/units/global.inc/read*.inc`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.inc\). 30 пар read/write secции в этой папке.
+[`data/scripts/units/global.inc/read*.inc`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.inc\). 30 пар read/write секций в этой папке.
+
+### 4.1 Паттерн нумерации state_id
+
+State_id'ы для `Read*`-handler'ов — все **нечётные**, идут с шагом 2:
+0x0b, 0x0d, 0x0f, 0x11, 0x13, 0x15, 0x17, 0x19, 0x1b, 0x1d, 0x1f, 0x21,
+0x23, 0x25, 0x27, 0x29, 0x2b, 0x2d, 0x2f, 0x31, 0x33, 0x35, 0x37, 0x39,
+0x3b, 0x3d. Чётные между ними — скорее всего `Write*`-counterparts.
+
+State_id'ы 0x00..0x09 — какие-то системные/начальные (`Initial`, `CheckErrors`, `OnBeforeSave`, `OnAfterLoad` и четыре `Progress*`).
 
 ---
 
@@ -310,23 +329,30 @@ class=0x00 (default-канал).
 | 254.2 | 0   | gainres    | 4337       | 13     |
 | 295.7 | 0   | gotomine   | 7065       | 15     |
 
-### 7.4 Распределение state_id (class=0x00)
+### 7.4 Распределение state_id (class=0x00, верифицировано на 3 replay'ах)
 
-| state_id | count | handler                  |
-|---------:|------:|--------------------------|
-| `0x08`   | 5 629 | (?) Progress             |
-| `0x0d`   | 1 776 | ReadNew ✓                |
-| `0x17`   |   436 | ReadOrder ✓              |
-| `0x0f`   |   173 | (?) ProgressAI           |
-| `0x3d`   |   150 | (?) ReadSyncUnitsParams  |
-| `0x31`   |   110 | (?) контейнер с вложенным ReadNew |
-| `0x21`   |    89 | ReadConstruct ✓          |
-| `0x13`   |    86 | (?) ReadSquadListAction  |
-| `0x1b`   |    52 | ReadProduce ✓            |
-| `0x19`   |    37 | (?)                      |
-| `0x23`   |    34 | ReadApply ✓              |
-| `0x15`   |    19 | ReadRally ✓              |
-| остальные|   <30 | TBD                      |
+| state_id | nick-niotid 2 | nick-niotid 1 | Длинная | handler                |
+|---------:|--------------:|--------------:|--------:|------------------------|
+| `0x08`   | 5 629         | 5 301         |  —      | (?) Progress           |
+| `0x0d`   | 1 776 ✓       | 1 806 ✓       |  —      | ReadNew                |
+| `0x17`   |   436 ✓       |   350 ✓       |   51 ✓  | ReadOrder              |
+| `0x0f`   |   173         |   147         |  —      | (?) Progress           |
+| `0x3d`   |   150 ✓       |   125 ✓       |  —      | ReadSyncUnitsParams    |
+| `0x31`   |   110 ✓       |    94 ✓       |  246 ✓  | ReadTrade              |
+| `0x2d`   |   124 ✓       |   144 ✓       |  —      | ReadNewP (fields)      |
+| `0x21`   |    89 ✓       |    87 ✓       |  110 ✓  | ReadConstruct          |
+| `0x13`   |    86 ✓       |     7 ✓       |  —      | ReadPlayer             |
+| `0x29`   |     3 ✓       |    51 ✓       |  —      | ReadProj (combat)      |
+| `0x1b`   |    52 ✓       |    36 ✓       |   88 ✓  | ReadProduce            |
+| `0x19`   |    37 ✓       |    45 ✓       |   69 ✓  | ReadUpgrade            |
+| `0x23`   |    34 ✓       |    41 ✓       |  —      | ReadApply              |
+| `0x15`   |    19 ✓       |    26 ✓       |   13 ✓  | ReadRally              |
+| `0x11`   |    19 ✓       |     3 ✓       |    4 ✓  | ReadDeath              |
+| `0x0b`   |     1 ✓       |  —            |   43 ✓  | ReadMove               |
+| `0x33`   |     7 ✓       |     6 ✓       |  —      | ReadWall               |
+| `0x37`   |     1 ✓       |     1 ✓       |  —      | ReadFreeList (cleanup) |
+| `0x0a`   |     6         |     7         |  —      | (?) Progress           |
+| остальные|   <10         |   <10         |  —      | rare, TBD              |
 
 ### 7.5 Pid-разбивка
 
@@ -334,13 +360,22 @@ class=0x00 (default-канал).
 - `player_0`: 1 999 — реальный игрок P0
 - `player_1`: 1 849 — реальный игрок P1
 
-### 7.6 Топ-команды по типу
+### 7.6 ReadOrder ordtyp-распределение (на `nick-niotid 2.rep`, 662 events)
 
-ReadOrder (662 events):
-- `gainres` (gather resources) — главная экономическая команда
-- `gotomine` — посадить пеасантов в шахту
-- `build` — приказать строить
-- `attackobj` / `attackpoint` — боевые приказы
+| ordtyp_name | count | смысл                                |
+|-------------|------:|--------------------------------------|
+| `build`     | 643   | приказ пеасантам строить здание     |
+| `gainres`   |  13   | собирать ресурсы с заданной точки   |
+| `gotomine`  |   6   | войти в шахту                       |
+
+Move-команды (right-click на пустую землю) идут через **ReadMove** (state_id=0x0b),
+а не через ReadOrder. Server-state-sync для движения юнитов — в class=0x09 stream.
+
+### 7.7 ReadTrade распределение (на `nick-niotid 2.rep`, 133 events)
+
+Большинство торгов: food → gold (54), gold → stone (17), gold → iron (12),
+wood → gold (12), food → stone (11). То есть игроки активно конвертировали
+еду в золото для найма наёмников и продавали золото за стратегические ресурсы.
 
 ---
 
@@ -376,18 +411,28 @@ ReadOrder (662 events):
 | String encoding | ✓ | `[u16 len][bytes]` (без префикса) |
 | Multi-package boundaries | ✓ | через end-marker 0x01 и распознавание `00 03` начала след. sub-pkg |
 | Class=0x09 layout | ✓ | `[09][u24 seq][u32 count][records]` |
-| 6 ключевых handler'ов | ✓ | Construct, New, Rally, Order, Produce, Apply |
+| Class=0x09 record format | ✓ | 8B = `[Int uid][Int statestag]`; 19B = `[Int uid][Int statestag][Int24][2*Float pos]` |
+| 16 handler'ов verified | ✓ | Construct, New, Rally, Order, Produce, Apply, Death, Upgrade, Trade, Leave, Player, NewP, Wall, FreeList, Proj, Move, SyncUnitsParams |
+| Cross-replay stability | ✓ | Карта state_id одинаковая на 3 разных replay'ах |
+| Где move-команды | ✓ | через `ReadMove` (state=0x0b) — отдельный handler, не через ReadOrder |
+| Гипотеза о парности state_id | ✓ | `Read*` на нечётных state_id, `Write*` (вероятно) на чётных |
 
 ## 10. Открытые TBD
 
-- 10-байт entry-маркер `b0 04 ...` (вероятно channel-id `0x04b0=1200`)
-- Точное соответствие state_id для остальных handler'ов (≈20 state_id'ов не сопоставлены)
-- `RecordCustomReadPackedFloat` — формат записи
-- Class=0x09 запись: точные поля при rec_size > 16
-- Размер-13 первый event в `nick-niotid 2.rep` (ts=14.13, payload
-  `00 04 40 00 00 00 60 41 02 00 00 00 01`) — не подходит ни под
-  один из проверенных handler'ов. Возможно `ReadPackage` или
-  специальный init-пакет.
+- **10-байт entry-маркер** `b0 04 ...` (вероятно channel-id `0x04b0=1200`)
+- **state_id=0x08, 0x0f, 0x0a** — engine `Progress*` events от pid=14
+  (5629+5929+44 = ~12k событий из 33k всего, не player commands)
+- **Rare state_id'ы** (~30 событий suma'ой по всем replay'ам):
+  0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x09, 0x0c, 0x0e, 0x12, 0x14,
+  0x1d, 0x1f, 0x39 — возможно `ReadProjFree`, `ReadSearch`, `ReadStop`,
+  `ReadGate`, `ReadLeaveOrder`, `ReadFree`, `ReadSquadNew`,
+  `ReadSquadListAction`, `ReadStand`, `ReadPackage`, `ReadPeaceTime`,
+  `ReadSync`, `ReadTradeResources` — нужны events с этими handler'ами
+  чтобы матчить.
+- `RecordCustomReadPackedFloat` — формат записи (native есть, в реплеях не наблюдался)
+- Размер-13 первый event (ts=14.13, payload `00 04 40 00 00 00 60 41 02 00 00 00 01`):
+  4-байтовый header `00 04 40 00` имеет sub=0x04 (не 0x03) — это особый
+  init-пакет, не идущий через стандартный sub-package layout.
 
 ---
 
