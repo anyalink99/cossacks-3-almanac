@@ -342,20 +342,42 @@ number` идут **2 дополнительных Float'а posx, posz** (точ�
 
 ---
 
-## 6. Каналы записи (5 native-каналов)
+## 6. Каналы записи (5 native-каналов) — закрыто через disasm
+
+Disassembly `RecordCustomBegin` (VA `0x685c38` → impl `0x733590`)
+показывает, что **второй байт sub-package** — это **channel ID**:
+
+| channel ID | native API                          |
+|-----------:|-------------------------------------|
+| 1          | `RecordCustomBeginMap`              |
+| 2          | (internal/reserved)                 |
+| **3**      | **`RecordCustomBegin`** (default)   |
+| 4          | `RecordCustomBeginStateMachine`     |
+| 5          | `RecordCustomBeginTagObject`        |
+
+То есть в sub-package шапке `00 03 [pid] [state_id]`:
+- byte 0 = 0x00 — hardcoded begin-marker (первый байт от `RecordCustomBegin`)
+- byte 1 = **0x03 = Default channel**
+- bytes 2-3 = упакованные pid + state_id
+
+Class=0x09 sub-packages — это `RecordCustomBeginTagObject` (per-object
+state-sync), приходят с pid=14. Формат `[0x09][u24 seq][...]` другой,
+потому что TagObject пишет per-object updates compactly.
+
+Disasm-выписка (для дальнейшего исследования):
 
 ```
-RecordCustomBegin(state)                       — default (units progress)
-RecordCustomBeginGUI(state)                    — UI events
-RecordCustomBeginMap(state)                    — map-level
-RecordCustomBeginStateMachine(smhnd, state)    — конкретная FSM
-RecordCustomBeginTagObject(taghnd, state)      — per-object FSM
+  0x007336b6: mov  byte ptr [esp+5], 0   ; начать с 0x00
+  0x007336c4: mov  eax, [edi+0x118]      ; RecordWriter handle
+  0x007336ca: call 0x5b4620              ; WriteBytes(handle, ptr, count=1)
+  0x007336cf: lea  edx, [edi+0x124]      ; channel ID (bl)
+  0x007336d5: mov  ecx, 1
+  ; ... call WriteBytes again — channel byte ...
 ```
 
-В наблюдаемом `.rep` все entry имеют одинаковый 10-байт маркер —
-либо в реплей пишется только default-канал, либо TagObject-канал
-(class=0x09) идёт сквозно через тот же entry-формат, плюс редкие
-class=0x00 (default-канал).
+Adresses для углубления: `RecordCustomBegin = VA 0x685c38`,
+`impl = 0x733590`, `WriteBytes = 0x5b4620`, channel-tables
+`0x789980` (Map), `0x7c3160`, `0x7af5e8`.
 
 ---
 
@@ -503,7 +525,103 @@ wood → gold (12), food → stone (11). То есть игроки активн
 
 ---
 
-## 11. Связь с другими документами
+## 11. Aggregate findings (20 replay'ев)
+
+`compute/aggregate_replay_events.py` распарсил все 20 `.rep`-файлов
+профиля. Сводки в `derived/replay_events_{aggregate,per_file}.json`
+и `replay_events_summary.csv`.
+
+### 11.1 Сводные цифры
+
+- 20 replay'ев, **1336 g-минут суммарно** (22 g-часа геймплея)
+- Среднее: 67 g-мин/игра, мин 19 g-мин, макс **290 g-мин (4.8 часа)**
+- 4.86 миллиона sub-package'ей (включая class=0x09 streams)
+- Распределение игр: 4 коротких (≤25 g-мин), 5 средних (25-50), 11 длинных (>50)
+
+### 11.2 Топ-хендлеры через весь корпус
+
+| handler                       | events    |
+|-------------------------------|----------:|
+| class_09_sync (TagObject)     | 1 235 682 |
+| engine_ReadFree (pid=14)      |   231 276 |
+| engine_ReadSquadListAction    |   229 793 |
+| ReadNew                       |   172 159 |
+| **ReadProj** (combat)         |    75 947 |
+| ReadOrder                     |    38 574 |
+| ReadSquadListAction (player)  |    29 516 |
+| ReadProduce                   |    15 542 |
+| ReadLeave                     |    11 110 |
+| ReadSquadNew                  |     6 584 |
+| ReadNewP                      |     6 460 |
+| ReadConstruct                 |     5 314 |
+| ReadSyncUnitsParams           |     4 310 |
+| ReadProjFree                  |     3 820 |
+| ReadPlayer                    |     3 719 |
+
+### 11.3 ReadOrder ordtyp distribution (всего 38 574 приказов)
+
+| ordtyp_name | count  | % | смысл |
+|-------------|-------:|--:|-------|
+| `build`     | 25 455 | 66% | дать пеасантам стройку  |
+| `gainres`   | 10 405 | 27% | сбор ресурсов |
+| `guard`     |  1 303 |  3% | охранять цель |
+| `gotomine`  |    774 |  2% | войти в шахту |
+| `repair`    |    408 |  1% | чинить |
+| `attackobj` |    214 |  1% | атаковать объект |
+| `none`      |     13 |  — | пустой приказ |
+| **`move`**  |      2 |  — | через ReadOrder; реальные move'ы — через `ReadMove`/state=0x0b |
+
+### 11.4 Top-5 buildings построено
+
+| sid | count | смысл |
+|-----|------:|-------|
+| `turpor`  | 806 | Турция: пристань |
+| `saxhou`  | 336 | Саксония: дом |
+| `denhou`  | 323 | Дания: дом |
+| `ruspor`  | 278 | Россия: пристань |
+| `alghou`  | 261 | Алжир: дом |
+
+### 11.5 Top-5 units заспаунено
+
+| sid | count |
+|-----|------:|
+| `pikeman18`     | 26 695 |
+| `roundshierdip` | 13 644 |
+| `musketeer`     | 12 323 |
+| `peaaus`        |  8 657 |
+| `serdiuk`       |  8 270 |
+
+### 11.6 First-build timing (avg по корпусу)
+
+Самые ранние постройки (по нашему критерию):
+
+| sid           | avg t (g-сек) | range | games |
+|---------------|--------------:|-------|------:|
+| `bavcen`      |  2.9          | 2-4   | 3     |
+| `swicen`      |  12.6         | 3-26  | 3     |
+| `fracen`      |  4.5          | 3-8   | 4     |
+| `eursto`      | 43.3          | 14-134| 34    |
+| `eurmil`      | 51.4          | 2-1207| 35    |
+| `russto`      | 58.4          | 22-213| 11    |
+| `ausbla`      | 84.0          | 65-120| 4     |
+| `eurgol`      | 127.5         | 4-542 | 49    |
+| `eurmar` (рынок) | 120.1      | 29-745| 27    |
+
+### 11.7 Empirical confirmations
+
+- **Move-команды**: 38 574 ReadOrder'ов, из них только 2 с `ordtyp=move`.
+  Реальные движения юнитов идут через **`ReadMove` (state=0x0b)** —
+  отдельный handler.
+- **Mercenary trade**: Top trade pair `food → gold` (294 раз) —
+  игроки конвертируют еду в золото для найма наёмников.
+- **Combat intensity**: `ReadProj` 75 947 событий = каждый выстрел
+  отдельный пакет. Самая боевая партия — 43 246 ReadProj.
+- **State_id stability**: карта state_id из global.aix константна
+  на всех 20 replay'ах.
+
+---
+
+## 12. Связь с другими документами
 
 - [`../engine/server_sync_architecture.md`](../engine/server_sync_architecture.md) — сетевая модель C3.
 - [`../engine/server_sync_packet_format.md`](../engine/server_sync_packet_format.md) — бинарный `EconomyPackage`.
