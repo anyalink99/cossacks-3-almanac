@@ -196,49 +196,63 @@ def extract_settings(data: bytes) -> dict:
 def extract_players(data: bytes) -> list[dict]:
     """Extract per-player metadata from kv pairs.
 
-    The replay header carries one set of per-player kv blocks identified by
-    repeated keys `name`, `lanid`, `team`, `color`, `csid`. Each player is
-    encoded as a contiguous group of these keys; the first `name` value is
-    the overall game name (e.g. "game_v92k…") and is skipped.
+    The replay header carries 12 (= `gc_MaxPlayerCount`) sequential blocks
+    of the `TMapPlayer` record: id, cid, csid, name, team, color, lanid,
+    startx, starty, aidifficulty, bexists, bai, bhuman, bclosed, bready,
+    bloaded, bleave (+ random-nation enable/options sic/snX/si1..si3).
+    We walk the kv stream once, packing each player's fields together by
+    the order they appear, then drop slots with `bexists=false`. The
+    surviving slots' indices form the engine's runtime `pid`.
+
+    Returns a list of {pid, name, lanid, team, color, csid, cid}.
     """
     pairs = extract_kv_pairs(data)
-    # Collect ordered values for relevant keys
-    name_values = [v for _, k, v in pairs if k == "name"]
-    lanid_values = [v for _, k, v in pairs if k == "lanid"]
-    team_values = [v for _, k, v in pairs if k == "team"]
-    color_values = [v for _, k, v in pairs if k == "color"]
-    csid_values = [v for _, k, v in pairs if k == "csid"]
-
-    # Skip the first "name" — it's the lobby/game name, not a player nick
-    if name_values and name_values[0].startswith("game_"):
-        name_values = name_values[1:]
-
-    n = min(len(name_values), len(lanid_values))
-    out: list[dict] = []
-    for i in range(n):
-        name = name_values[i]
-        lanid = lanid_values[i]
-        # Skip empty/closed slots (no nick + zero lanid)
-        if not name and (not lanid or lanid == "0"):
+    # Skip leading game-level `name` ("game_v92k…") so the per-player
+    # blocks start at the first true player slot.
+    seen_game_name = False
+    # Group consecutive (key, value) into slot dicts, starting a new slot
+    # whenever we see `id` (the first field of TMapPlayer).
+    slot_keys = ("id", "cid", "csid", "name", "team", "color", "lanid",
+                 "startx", "starty", "aidifficulty",
+                 "bexists", "bai", "bhuman", "bclosed",
+                 "bready", "bloaded", "bleave")
+    slots: list[dict] = []
+    current: dict | None = None
+    for _, k, v in pairs:
+        if k == "name" and not seen_game_name and v.startswith("game_"):
+            seen_game_name = True
             continue
-        team = team_values[i] if i < len(team_values) else ""
-        color = color_values[i] if i < len(color_values) else ""
-        csid = csid_values[i] if i < len(csid_values) else ""
+        if k == "id":
+            current = {"id": v}
+            slots.append(current)
+        elif current is not None and k in slot_keys:
+            current[k] = v
+    out: list[dict] = []
+    for idx, s in enumerate(slots):
+        # bexists is a string "true"/"false"
+        if str(s.get("bexists", "false")).lower() != "true":
+            continue
         try:
-            team_int = int(team)
+            team_int = int(s.get("team", "-1"))
         except (ValueError, TypeError):
             team_int = -1
         try:
-            color_int = int(color)
+            color_int = int(s.get("color", "-1"))
         except (ValueError, TypeError):
             color_int = -1
+        try:
+            cid_int = int(s.get("cid", "-1"))
+        except (ValueError, TypeError):
+            cid_int = -1
         out.append({
-            "pid": i,
-            "name": name,
-            "lanid": lanid,
+            "pid": len(out),  # engine renumbers existing slots from 0
+            "name": s.get("name", ""),
+            "lanid": s.get("lanid", ""),
             "team": team_int,
             "color": color_int,
-            "csid": csid,
+            "csid": s.get("csid", ""),
+            "cid": cid_int,
+            "slot_idx": idx,
         })
     return out
 

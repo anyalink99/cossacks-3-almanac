@@ -861,8 +861,14 @@ def _build_uid_index(decoded: list[dict]) -> dict[int, dict]:
     return out
 
 
-def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = None) -> list[dict]:
+def detect_abuses(decoded: list[dict],
+                  player_nations: dict[int, str] | None = None,
+                  host_pid: int | None = None) -> list[dict]:
     """Scan decoded sub-package list for known multiplayer-abuse patterns.
+
+    `host_pid`, if provided, is excluded from findings — the race-condition
+    exploit requires client-server latency, which the host (= the server) by
+    definition cannot have.
 
     Currently detects:
 
@@ -917,6 +923,9 @@ def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = N
 
     for key, events in upgrade_starts.items():
         if len(events) < 2:
+            continue
+        if host_pid is not None and key[0] == host_pid:
+            # Host can't race-condition itself (it IS the server).
             continue
         events_sorted = sorted(events, key=lambda r: r["ts_tick"])
         # Cluster by tick-gap: events <= CLUSTER_GAP_TICKS apart belong to
@@ -991,6 +1000,8 @@ def detect_abuses(decoded: list[dict], player_nations: dict[int, str] | None = N
         a, b = events_sorted
         if a["pid"] != b["pid"]:
             continue
+        if host_pid is not None and a["pid"] == host_pid:
+            continue
         gap = b["ts_tick"] - a["ts_tick"]
         if gap < GAP_MIN_TICKS or gap > GAP_MAX_TICKS:
             continue
@@ -1037,6 +1048,15 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     by_handler: Counter = Counter()
     by_pid: Counter = Counter()
 
+    # Player nations come from the .rep header (TMapPlayer.cid) — this is
+    # the canonical source. Fall back to ReadConstruct cid/sid only if a
+    # player slot has cid<0 (e.g. "random nation" before resolution).
+    player_nations: dict[int, str] = {}
+    for p in players:
+        cid_val = p.get("cid", -1)
+        if cid_val in NATION_BY_CID:
+            player_nations[p["pid"]] = NATION_BY_CID[cid_val]
+
     builds_per_pid: dict = defaultdict(list)
     units_built_per_pid: dict = defaultdict(Counter)
     spawns_per_pid: dict = defaultdict(Counter)
@@ -1052,7 +1072,6 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     deaths_per_pid: Counter = Counter()
     proj_per_pid: Counter = Counter()
     rally_per_pid: dict = defaultdict(int)
-    player_nations: dict[int, str] = {}
     # Building/unit uid → sid map, built incrementally from ReadNew events.
     # Used to resolve `building_uids` in ReadProduce orders into sids.
     uid_to_sid: dict[int, str] = {}
@@ -1148,7 +1167,15 @@ def parse_replay_from_bytes(data: bytes) -> dict:
             elif h == "ReadApply":
                 abuse_input.append(rec)
 
-    abuses = detect_abuses(abuse_input, player_nations)
+    # Host = the player that issues ReadOrder events at all. In a typical
+    # online match exactly one client is the host; their move/gather
+    # commands serialize as ReadOrder while non-host clients route through
+    # state-sync (which we skip). Race-condition double-upgrade can ONLY
+    # occur for the non-host (the client experiences the latency window),
+    # so exclude the host from abuse findings.
+    order_counts = {p: sum(v.values()) for p, v in orders_per_pid.items()}
+    host_pid = max(order_counts, key=lambda p: order_counts[p]) if order_counts else None
+    abuses = detect_abuses(abuse_input, player_nations, host_pid=host_pid)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
     return {
