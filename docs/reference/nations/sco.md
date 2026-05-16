@@ -192,7 +192,7 @@ _Шотландия_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (156)
+## Апгрейды (168)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
@@ -200,8 +200,8 @@ _Шотландия_
 
 - **aca** (aca): 36
 - **bla** (bla): 6
-- **sta** (sta): 12
-- **bar** (bar): 26
+- **sta** (sta): 24
+- **bar** (bar): 24
 - **ba2** (ba2): 24
 - **art** (art): 24
 - **cen** (cen): 1

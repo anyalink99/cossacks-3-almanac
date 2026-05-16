@@ -1,6 +1,6 @@
 # Национальные отклонения — здания и юниты
 
-**Производный** файл (расчётный, не извлечение). Считается из [`docs/data.json`](../../../data.json) скриптом [`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).
+**Производный** файл (расчётный, не извлечение). Считается из [`data.json`](../../data.json) скриптом [`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).
 
 Цель — собрать в одном месте ВСЕ места, где у конкретной нации значение стата здания или общего юнита отличается от того, что у большинства. Источник дельт — `case i of nation:` ветки в `unit.script`, которые перезаписывают `SetObjBuildingProperties` / `SetObjBaseWeapon` для отдельных наций.
 
@@ -480,7 +480,7 @@
 ### `drummer18` — Лёгкая пехота
 
 - **Базовый вариант** (15 наций): **aus** Австрия, **bav** Бавария, **den** Дания, **fra** Франция, **hun** Венгрия … (+10)
-  - HP **75**, цена: 50 F · 30 G, buildtime **6.0** g-сек, speed 32
+  - HP **100**, цена: 50 F · 30 G, buildtime **6.0** g-сек, speed 32
   - score=10
 
 - **Отклонение 1** (1 нация): **rus** Россия

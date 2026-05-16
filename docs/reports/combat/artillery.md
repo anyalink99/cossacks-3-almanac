@@ -48,7 +48,7 @@
 
 Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту. Если у нации те же значения — одна строка, нации сгруппированы.
 
-| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | `consume[gold]` | gold/g-sec | score |
+| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | `consume[gold]` | gold/г-сек | score |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `cannon` | все 21 | 250 W · 400 G · 400 I | 75.0 | 9000 | 75 | 20 | 300 | 0.48 | 50 |
 | `howitzer` | все 21 | 250 W · 350 G · 300 I | 94.0 | 3000 | 75 | 20 | 350 | 0.56 | 25 |
@@ -56,7 +56,7 @@
 | `multicannon` | aus, bav, den, eng, fra … (+12) | 200 W · 400 G · 250 I | 50.0 | 2000 | 50 | 16 | 300 | 0.48 | 25 |
 | `framegun` | sco | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
 
-`consume[gold]` — поле `objprop.consume[gc_resource_type_gold]`. Реальный расход считается формулой `consume × gc_time_to_frames / 20000` за каждую игровую секунду (так как процедура `_player_ProcessResourceConsume` использует `speed = 20000` в делителе). Колонка `gold/g-sec` уже учитывает эту формулу. Артиллерия — единственный класс, у которого `consume.gold > 0` для всех юнитов: пушку нужно «содержать», даже если она не стреляет. У пехоты и кавалерии `consume.gold = 0`. Подробнее — в [`../../recon/world/economy/hunger_and_rebellion.md` §2.3](../../recon/world/economy/hunger_and_rebellion.md).
+`consume[gold]` — поле `objprop.consume[gc_resource_type_gold]`. Реальный расход считается формулой `consume × gc_time_to_frames / 20000` за каждую игровую секунду (так как процедура `_player_ProcessResourceConsume` использует `speed = 20000` в делителе). Колонка `gold/г-сек` уже учитывает эту формулу. Артиллерия — единственный класс, у которого `consume.gold > 0` для всех юнитов: пушку нужно «содержать», даже если она не стреляет. У пехоты и кавалерии `consume.gold = 0`. Подробнее — в [`../../recon/world/economy/hunger_and_rebellion.md` §2.3](../../recon/world/economy/hunger_and_rebellion.md).
 
 ## §4. Лимит парка от Артиллерийского депо
 

@@ -217,7 +217,7 @@ _Англия_
 - **bla** (bla): 6
 - **sta** (sta): 60
 - **bar** (bar): 24
-- **ba2** (ba2): 53
+- **ba2** (ba2): 51
 - **art** (art): 24
 - **cen** (cen): 1
 - **mines** (Mine): 18

@@ -1,6 +1,6 @@
 # Cossacks 3 — Counter-unit matrix
 
-**Производный** файл (расчётный, не извлечение). Считается из `docs/data.json` скриптом [`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).
 
 ## Метод
 
@@ -13,7 +13,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 
 Источник формулы — `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.
 
-## Time-to-kill matrix (g-сек)
+## Time-to-kill matrix (real-sec @ fast)
 
 **Cell (row=attacker, col=defender)** = сколько секунд **одному** атакующему нужно чтобы убить **одного** защитника, считая игровое время × 1.4 (fast). Учитывает protection, **не** учитывает shield/бонусы отряда/перемещение/дальность. Для артиллерии (cannon/mortar): один снаряд может зацепить нескольких — здесь считаем урон только по одной цели.
 
@@ -71,7 +71,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 | 21 | Cannon (eur) | `cannon` · aus | 9000 | 0/0/0/0/0/0 |
 | 22 | Mortar (eur) | `mortar` · aus | 400 | 0/0/0/0/0/0 |
 
-## Матрица эффективного DPS (g-сек)
+## Матрица эффективного DPS (real-sec @ fast)
 
 Сколько урона **в секунду реального времени** атакующий наносит защитнику после вычета protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. Ближний бой — деление на длительность `attack0` из .aaf (per-unit; fallback ≈ 0.4688 g-sec).
 
@@ -121,7 +121,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 
 ---
 
-Сгенерировано из `docs/data.json`. Для перегенерации:
+Сгенерировано из `data.json`. Для перегенерации:
 
 ```
 python compute/compute_counter_matrix.py

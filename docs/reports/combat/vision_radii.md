@@ -1,6 +1,6 @@
 # Cossacks 3 — Vision и searchradius
 
-**Производный** отчёт. Считается из `docs/data.json` скриптом [`compute/compute_vision.py`](../../compute/compute_vision.py).
+**Производный** отчёт. Считается из `data.json` скриптом [`compute/compute_vision.py`](../../compute/compute_vision.py).
 
 Cossacks 3 имеет два концентрических радиуса «осведомлённости»:
 
@@ -31,12 +31,12 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Battleship | `battleship` | 8 | **52** | 31.5 | alg, aus, bav, den, eng, fra … (+14) |
 | Frigate | `frigate` | 8 | **52** | 33.75 | aus, bav, den, eng, fra, hun … (+12) |
 | Frigate | `xebec` | 8 | **52** | 33.75 | alg, tur |
-| Light Infantry | `bagpiper` | 8 | **52** | — | eng, sco |
-| Light Infantry | `drummer` | 8 | **52** | — | aus, bav, den, eng, fra, hun … (+10) |
 | Light Infantry | `drummer18` | 8 | **52** | — | aus, bav, den, fra, hun, net … (+9) |
 | Heavy Cavalry | `hetman` | 7 | **48** | 11.25 | ukr |
 | Light Infantry | `drummertur` | 7 | **48** | — | alg, tur |
+| Light Infantry | `drummer` | 6 | **44** | — | aus, bav, den, eng, fra, hun … (+10) |
 | Light Cavalry | `hussarpru` | 5 | **40** | 15.0 | pru |
+| Light Infantry | `bagpiper` | 5 | **40** | — | eng, sco |
 | Light Infantry | `drummer18` | 5 | **40** | — | rus |
 | Light Infantry | `drummerrus` | 5 | **40** | — | rus |
 | Mounted Shooter | `dragoon18pie` | 5 | **40** | 16.88 | pie |
@@ -117,7 +117,7 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Light Infantry | `lightinfantrydip` | 1 | **24** | 13.13 | all |
 | Light Infantry | `mullah` | 1 | **24** | 9.38 | alg, tur |
 | Light Infantry | `officerrus` | 1 | **24** | 9.38 | rus |
-| Light Infantry | `padre` | 1 | **24** | 9.38 | pie |
+| Light Infantry | `padre` | 1 | **24** | 7.5 | pie |
 | Light Infantry | `pikeman` | 1 | **24** | 13.13 | aus, bav, den, eng, fra, hun … (+7) |
 | Light Infantry | `pikeman18swe` | 1 | **24** | 13.13 | swe |
 | Light Infantry | `pikemanpol` | 1 | **24** | 13.13 | pol |
@@ -127,7 +127,7 @@ Cossacks 3 имеет два концентрических радиуса «о�
 | Light Infantry | `pikemanswi` | 1 | **24** | 13.13 | swi |
 | Light Infantry | `pikemantur` | 1 | **24** | 13.13 | alg, tur |
 | Light Infantry | `pope` | 1 | **24** | 9.38 | rus, ukr |
-| Light Infantry | `priest` | 1 | **24** | 9.38 | aus, bav, den, eng, fra, hun … (+10) |
+| Light Infantry | `priest` | 1 | **24** | 7.5 | aus, bav, den, eng, fra, hun … (+10) |
 | Light Infantry | `roundshier` | 1 | **24** | 11.25 | aus |
 | Light Infantry | `roundshierdip` | 1 | **24** | 13.13 | alg, aus, bav, den, eng, fra … (+14) |
 | Mortar | `howitzer` | 1 | **24** | 18.75 | all |

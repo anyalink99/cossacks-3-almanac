@@ -211,7 +211,7 @@ _Венгрия_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (225)
+## Апгрейды (231)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
@@ -219,8 +219,8 @@ _Венгрия_
 
 - **aca** (aca): 36
 - **bla** (bla): 6
-- **sta** (sta): 54
-- **bar** (bar): 26
+- **sta** (sta): 60
+- **bar** (bar): 24
 - **ba2** (ba2): 51
 - **art** (art): 24
 - **cen** (cen): 1

@@ -1,6 +1,6 @@
 # Cossacks 3 — Скорость атаки (per-unit)
 
-**Производный** отчёт. Считается из `docs/data.json` + `docs/derived/animations.json` скриптом [`compute/compute_attack_rates.py`](../../compute/compute_attack_rates.py).
+**Производный** отчёт. Считается из `data.json` + `derived/animations.json` скриптом [`compute/compute_attack_rates.py`](../../compute/compute_attack_rates.py).
 
 ## Модель
 
@@ -13,7 +13,7 @@ attacks_per_g_sec = 1 / cycle
 attacks_per_real_sec @ fast = 1 / cycle × 1.4
 ```
 
-Для melee длительность `attack0` варьируется 11..33 кадра между юнитами (median 15). Источник: `data/animations/aaf/<sid>.aaf` → `docs/derived/animations.json`.
+Для melee длительность `attack0` варьируется 11..33 кадра между юнитами (median 15). Источник: `data/animations/aaf/<sid>.aaf` → `derived/animations.json`.
 
 ## §1. Скорость атаки по юнитам
 
@@ -97,7 +97,7 @@ attacks_per_real_sec @ fast = 1 / cycle × 1.4
 | `mortar` | Super Mortar | mortarball #0 | 200 | 48.75 | 7.81 | pause | 0.13 | 0.18 | all |
 | `cannon` | Cannon | cannonball #0 | 1800 | 40.5 | 10.94 | pause | 0.09 | 0.13 | all |
 | `yacht` | Yacht | cannonball #0 | 1000 | 20.63 | 10.94 | pause | 0.09 | 0.13 | aus, bav, den, eng … (+14) |
-| `yachttur` | Yacht | cannonball #0 | 1000 | 20.63 | 10.94 | pause | 0.09 | 0.13 | tur |
+| `yachttur` | Yacht | cannonball #0 | 30 | 18.75 | 12.50 | pause | 0.08 | 0.11 | tur |
 | `howitzer` | Mortar | cannonball #0 | 4000 | 26.25 | 18.75 | pause | 0.05 | 0.07 | all |
 | `pikeman18` | Light Infantry | pike #0 | 9 | 1.88 | 0.28 | anim | 3.56 | 4.98 | aus, bav, den, eng … (+12) |
 | `pikemanrus` | Light Infantry | pike #0 | 8 | 1.69 | 0.31 | anim | 3.20 | 4.48 | rus |
@@ -186,7 +186,7 @@ Min / median / max длительности цикла для каждого `ki
 - **Multi-weapon юниты.** Musketeer18 (bayonet + musket), архер с горящими стрелами и т.п. — у них в таблице по строке на оружие, колонка `weapon` показывает `#index`.
 - **`heal` исключён.** Священник = неагрессивный, не входит в боевой DPS-расчёт.
 - **Real vs game.** Вся игровая логика (анимации, pause) — в **игровых** секундах. Чтобы получить реальное время на скорости fast, делите g-sec на 1.4 (или умножайте rate на 1.4).
-- **Cooldown апгрейды.** `attpauseperc` (см. [`../reference/05_upgrades/README.md`](../../reference/05_upgrades/README.md)) уменьшает только pause у ranged. Melee swing не апгрейдится — он привязан к анимации.
+- **Cooldown апгрейды.** `attpauseperc` (см. [`../reference/05_upgrades/README.md`](../reference/05_upgrades/README.md)) уменьшает только pause у ranged. Melee swing не апгрейдится — он привязан к анимации.
 
 ---
 

@@ -1,6 +1,6 @@
 // Renders one replay-result dict (returned from Python) into a card.
 
-import { NATION_FROM_SID, NATION_LABEL_RU } from "./i18n.js";
+import { NATION_FROM_SID, NATION_BY_CID, NATION_LABEL_RU } from "./i18n.js";
 
 const RESOURCE_NAMES_RU = ["?", "Еда", "Дерево", "Камень", "Золото", "Железо", "Уголь"];
 const GAMESPEED_LABEL = { 0: "Медленно", 1: "Нормально", 2: "Быстро" };
@@ -41,15 +41,21 @@ function fmtTime(g_sec) {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-function inferNation(builds) {
-  // First ReadConstruct sid tells us the player's nation prefix.
+function inferNation(player, builds) {
+  // Primary source: TMapPlayer.cid from the .rep header. cid 0..23 maps to
+  // a real nation. cid 24 = empty slot, cid -2 = "random — pick at game
+  // start" (we then fall back to the first ReadConstruct's cid / sid
+  // prefix).
+  const cid = player?.cid;
+  if (typeof cid === "number" && NATION_BY_CID[cid]) {
+    return NATION_BY_CID[cid];
+  }
   if (!builds || !builds.length) return null;
-  const sid = builds[0].sid;
-  // Match by NATION_FROM_SID prefix table; otherwise return first 3 chars
+  const sid = builds[0].sid || "";
   for (const [prefix, nation] of Object.entries(NATION_FROM_SID)) {
     if (sid.startsWith(prefix)) return nation;
   }
-  return sid.slice(0, 3);
+  return sid.slice(0, 3) || null;
 }
 
 function renderSettings(s) {
@@ -82,7 +88,7 @@ function renderSettings(s) {
 
 function renderPlayers(players, buildsPerPid) {
   const rows = players.map((p) => {
-    const nation = inferNation(buildsPerPid[p.pid]);
+    const nation = inferNation(p, buildsPerPid[p.pid]);
     const nationLabel = nation ? (NATION_LABEL_RU[nation] || nation) : "—";
     const swatch = el("span", { class: "color-swatch",
                                  style: `background:${COLOR_VAR(p.color)};` });

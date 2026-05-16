@@ -1,6 +1,6 @@
 # Cossacks 3 — Цены зданий по N-му экземпляру
 
-**Производный** файл (расчётный, не извлечение). Считается из `docs/data.json` скриптом [`compute/compute_scaling.py`](../../compute/compute_scaling.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_scaling.py`](../../compute/compute_scaling.py).
 
 ## Формула
 
@@ -367,6 +367,18 @@ sid формируется как `<cluster><suffix>` — общий для гр
 | `russga` | rus | Каменные ворота | 0 | S60 | S60 | S60 | S60 | S60 | S60 | не масштабируется (`costpercent` = 0/100) |
 | `tursga` | alg, tur | Каменные ворота | 0 | S60 | S60 | S60 | S60 | S60 | S60 | не масштабируется (`costpercent` = 0/100) |
 
+### 2.11 `wga` — Деревянные ворота
+
+| sid | Используют нации | Имя | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Примечание |
+| --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
+| `ukrwga` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Деревянные ворота | 0 | W10 | W10 | W10 | W10 | W10 | W10 | не масштабируется (`costpercent` = 0/100) |
+
+### 2.12 `wwa` — Палисад
+
+| sid | Используют нации | Имя | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Примечание |
+| --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
+| `ukrwwa` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Частокол | 0 | W10 | W10 | W10 | W10 | W10 | W10 | не масштабируется (`costpercent` = 0/100) |
+
 
 ## Источники
 
@@ -380,7 +392,7 @@ sid формируется как `<cluster><suffix>` — общий для гр
 
 ---
 
-Сгенерировано из `docs/data.json`. Для перегенерации:
+Сгенерировано из `data.json`. Для перегенерации:
 
 ```
 python compute/compute_scaling.py

@@ -24,9 +24,12 @@ async function boot() {
   postMessage({ kind: "progress", text: "Загрузка парсера…" });
   pyodide.FS.mkdirTree("/c3");
   // Worker URL is replay-parser/js/worker.js, so "../../" climbs to repo root.
-  await loadFile("../../parser/parse_replay.py",        "/c3/parse_replay.py");
-  await loadFile("../../parser/parse_replay_events.py", "/c3/parse_replay_events.py");
-  await loadFile("../../data.json",                     "/c3/data.json");
+  // Cache-bust query string forces fresh fetch after every data.json / parser
+  // change — without it the browser pins the previous version forever.
+  const v = `?v=${Date.now()}`;
+  await loadFile("../../parser/parse_replay.py"        + v, "/c3/parse_replay.py");
+  await loadFile("../../parser/parse_replay_events.py" + v, "/c3/parse_replay_events.py");
+  await loadFile("../../data.json"                     + v, "/c3/data.json");
   pyodide.runPython(`
 import sys
 sys.path.insert(0, "/c3")

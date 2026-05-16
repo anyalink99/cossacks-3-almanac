@@ -189,15 +189,16 @@ _Турция_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (175)
+## Апгрейды (181)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
 По зданиям:
 
 - **aca** (aca): 36
+- **mil** (mil): 1
 - **bla** (bla): 6
-- **sta** (sta): 31
+- **sta** (sta): 36
 - **bar** (bar): 51
 - **art** (art): 24
 - **cen** (cen): 1

@@ -164,7 +164,7 @@ _Украина_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (115)
+## Апгрейды (127)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
@@ -172,8 +172,8 @@ _Украина_
 
 - **aca** (aca): 36
 - **bla** (bla): 6
-- **sta** (sta): 14
-- **bar** (bar): 14
+- **sta** (sta): 26
+- **bar** (bar): 12
 - **art** (art): 24
 - **cen** (cen): 1
 - **mines** (Mine): 18

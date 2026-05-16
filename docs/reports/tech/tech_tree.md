@@ -33,6 +33,8 @@ graph LR
     eursto["Склад<br/><code>eursto</code>"]
     eurswa["Стена<br/><code>eurswa</code>"]
     eurtow["Башня<br/><code>eurtow</code>"]
+    ukrwga["Дер. ворота<br/><code>ukrwga</code>"]
+    ukrwwa["Палисад<br/><code>ukrwwa</code>"]
     ausbar --> ausaca
     ausaca --> ausart
     auscen_1{"auscen.1<br/>(апгрейд)"}
@@ -50,6 +52,7 @@ graph LR
     auscen --> eursto
     eursto --> eurswa
     eursto --> eurtow
+    eursto --> ukrwwa
 ```
 
 ## Содержание
@@ -103,6 +106,8 @@ graph LR
 | `tursto` | Склад | 31.2 | W30 S10 | — | [B] `algcen` |
 | `turswa` | Стена | 120.0 | S60 | — | [B] `tursto` |
 | `turtow` | Башня | 984.4 | W150 S90 G100 | — | [B] `tursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `tursto` |
 
 ### `alg` — юниты
 
@@ -218,6 +223,8 @@ graph LR
 | `eursto` | Склад | 31.2 | W50 S20 | — | [B] `auscen` |
 | `eurswa` | Стена | 90.0 | S50 | — | [B] `eursto` |
 | `eurtow` | Башня | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `aus` — юниты
 
@@ -233,7 +240,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | aussta | [B] `ausbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | aussta | [B] `ausbla`, [T] `auscen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | ausbar | [B] `ausaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | ausbar | [B] `ausaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | ausba2 | [B] `ausaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `ausart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -251,11 +258,11 @@ graph LR
 | `musketeeraus` | Мушкетер 17в. | 6.50 | F35 G9 I15 | ausbar | [B] `ausbla` |
 | `officer` | Офицер 17в. | 10.00 | F50 G150 I30 | ausbar | [B] `ausaca` |
 | `officer18` | Офицер 18в. | 6.00 | F50 G200 I10 | ausba2 | [B] `ausaca` |
-| `pandur` | Пандур | 6.00 | F40 G15 I10 | ausba2 | [B] `ausbla` |
+| `pandur` | Пандур | 5.50 | F40 G15 I10 | ausba2 | [B] `ausbla` |
 | `peaaus` | Крестьянин | 12.50 | F100 | auscen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | ausbar | [B] `ausbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | ausba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | austem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | austem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | aussta | [B] `ausbla` |
 | `roundshier` | Рундашир | 4.00 | F20 G3 I25 | ausbar | [B] `ausbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | ausdip | [B] `ausaca`, [B] `auscen` |
@@ -368,6 +375,8 @@ graph LR
 | `eursto` | Склад | 31.2 | W50 S20 | — | [B] `bavcen` |
 | `eurswa` | Стена | 90.0 | S50 | — | [B] `eursto` |
 | `eurtow` | Башня | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `bav` — юниты
 
@@ -382,7 +391,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | bavsta | [B] `bavbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | bavbar | [B] `bavaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | bavbar | [B] `bavaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | bavba2 | [B] `bavaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `bavart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -403,7 +412,7 @@ graph LR
 | `peaaus` | Крестьянин | 12.50 | F100 | bavcen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | bavbar | [B] `bavbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | bavba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | bavtem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | bavtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | bavsta | [B] `bavbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | bavdip | [B] `bavaca`, [B] `bavcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -509,6 +518,8 @@ graph LR
 | `eursto` | Склад | 31.2 | W50 S20 | — | [B] `dencen` |
 | `eurswa` | Стена | 90.0 | S50 | — | [B] `eursto` |
 | `eurtow` | Башня | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `den` — юниты
 
@@ -523,7 +534,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | densta | [B] `denbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | densta | [B] `denbla`, [T] `dencen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | dendip | [B] `denaca`, [B] `dencen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | denbar | [B] `denaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | denbar | [B] `denaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | denba2 | [B] `denaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `denart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -544,7 +555,7 @@ graph LR
 | `peaeng` | Крестьянин | 12.50 | F100 | dencen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | denbar | [B] `denbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | denba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | dentem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | dentem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | densta | [B] `denbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | dendip | [B] `denaca`, [B] `dencen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -650,6 +661,8 @@ graph LR
 | `eursto` | Склад | 31.2 | W50 S20 | — | [B] `engcen` |
 | `eurswa` | Стена | 90.0 | S50 | — | [B] `eursto` |
 | `eurtow` | Башня | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `eng` — юниты
 
@@ -657,7 +670,7 @@ graph LR
 |---|---|---:|---|---|---|
 | `archerdip` | Лучник (наемник) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
 | `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
-| `bagpiper` | Волынщик | 6.00 | F50 G30 | engba2 | [B] `engaca` |
+| `bagpiper` | Волынщик | 7.00 | F120 G20 | engba2 | [B] `engaca` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `engaca.29`, [B] `engart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | engart | [B] `engbla` |
 | `cossacksichdip` | Сечевой козак (наемник) | 2.50 | G60 | engdip | [B] `engaca`, [B] `engcen` |
@@ -665,14 +678,14 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | engsta | [B] `engbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | engsta | [B] `engbla`, [T] `engcen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | engbar | [B] `engaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | engbar | [B] `engaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `engart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
 | `frigate` | Фрегат | 230.00 | W5000 G1100 I600 C800 | eurpor | [T] `engaca.6`, [B] `engart` |
 | `galley` | Галера | 50.00 | W9500 G900 I800 | eurpor | [B] `engart` |
 | `grenadier` | Гренадер | 6.00 | F80 G60 I40 | engba2 | [B] `engbla` |
 | `grenadierdip` | Гренадер (наемник) | 1.50 | G25 | engdip | [B] `engaca`, [B] `engcen` |
-| `highlander` | Шотландский стрелок | 6.00 | F90 G25 I10 | engba2 | [B] `engbla` |
+| `highlander` | Шотландский стрелок | 6.50 | F90 G25 I10 | engba2 | [B] `engbla` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | engart | [B] `engbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | engsta | [B] `engbla`, [T] `engcen.1` |
 | `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
@@ -686,7 +699,7 @@ graph LR
 | `peaeng` | Крестьянин | 12.50 | F100 | engcen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | engbar | [B] `engbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | engba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | engtem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | engtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | engsta | [B] `engbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | engdip | [B] `engaca`, [B] `engcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -795,6 +808,8 @@ graph LR
 | `frahou` | Дом | 31.2 | W100 S100 | 25 | [B] `fracen` |
 | `frasta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `frabla` |
 | `fratem` | Собор | 312.5 | W1100 S2000 I600 | — | [B] `fracen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `fra` — юниты
 
@@ -804,13 +819,13 @@ graph LR
 | `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | fradip | [B] `fraaca`, [B] `fracen` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `fraaca.29`, [B] `fraart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | fraart | [B] `frabla` |
-| `chasseur` | Егерь | 6.00 | F50 G45 I15 | fraba2 | [B] `frabla` |
+| `chasseur` | Егерь | 7.50 | F50 G45 I15 | fraba2 | [B] `frabla` |
 | `cossacksichdip` | Сечевой козак (наемник) | 2.50 | G60 | fradip | [B] `fraaca`, [B] `fracen` |
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | frasta | [B] `frabla`, [T] `fracen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | frasta | [B] `frabla` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | fradip | [B] `fraaca`, [B] `fracen` |
 | `dragoon18fra` | Драгун 18в. | 15.00 | F50 G30 I6 | frasta | [B] `frabla`, [T] `fracen.1` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | frabar | [B] `fraaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | frabar | [B] `fraaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | fraba2 | [B] `fraaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `fraart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -832,7 +847,7 @@ graph LR
 | `peaeng` | Крестьянин | 12.50 | F100 | fracen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | frabar | [B] `frabla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | fraba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | fratem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | fratem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | frasta | [B] `frabla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | fradip | [B] `fraaca`, [B] `fracen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -938,6 +953,8 @@ graph LR
 | `hunhou` | Дом | 31.2 | W100 S100 | 25 | [B] `huncen` |
 | `hunsta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `hunbla` |
 | `huntem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `huncen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `hun` — юниты
 
@@ -951,7 +968,7 @@ graph LR
 | `cuirassier` | Кирасир | 22.50 | F120 G35 I25 | hunsta | [B] `hunbla`, [T] `huncen.1` |
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | hunsta | [B] `hunbla` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | hundip | [B] `hunaca`, [B] `huncen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | hunbar | [B] `hunaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | hunbar | [B] `hunaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | hunba2 | [B] `hunaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `hunart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -970,11 +987,11 @@ graph LR
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | hunba2 | [B] `hunbla` |
 | `officer` | Офицер 17в. | 10.00 | F50 G150 I30 | hunbar | [B] `hunaca` |
 | `officer18` | Офицер 18в. | 6.00 | F50 G200 I10 | hunba2 | [B] `hunaca` |
-| `pandurhun` | Секей | 6.00 | F30 G25 I10 | hunba2 | [B] `hunbla` |
+| `pandurhun` | Секей | 6.50 | F30 G25 I10 | hunba2 | [B] `hunbla` |
 | `peapol` | Крестьянин | 12.50 | F100 | huncen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | hunbar | [B] `hunbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | hunba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | huntem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | huntem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | hunsta | [B] `hunbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | hundip | [B] `hunaca`, [B] `huncen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1080,6 +1097,8 @@ graph LR
 | `nethou` | Дом | 31.2 | W100 S100 | 25 | [B] `netcen` |
 | `netsta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `netbla` |
 | `nettem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `netcen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `net` — юниты
 
@@ -1094,7 +1113,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | netsta | [B] `netbla` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | netdip | [B] `netaca`, [B] `netcen` |
 | `dragoon18net` | Драгун 18в. | 24.00 | F100 G70 I7 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | netbar | [B] `netaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | netbar | [B] `netaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | netba2 | [B] `netaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `netart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -1115,7 +1134,7 @@ graph LR
 | `peaeng` | Крестьянин | 12.50 | F100 | netcen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | netbar | [B] `netbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | netba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | nettem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | nettem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | netsta | [B] `netbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | netdip | [B] `netaca`, [B] `netcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1221,6 +1240,8 @@ graph LR
 | `piehou` | Дом | 31.2 | W100 S100 | 25 | [B] `piecen` |
 | `piesta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `piebla` |
 | `pietem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `piecen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `pie` — юниты
 
@@ -1235,7 +1256,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | piesta | [B] `piebla` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | piedip | [B] `pieaca`, [B] `piecen` |
 | `dragoon18pie` | Драгун 18в. | 20.25 | F60 G65 I7 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | piebar | [B] `pieaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | piebar | [B] `pieaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | pieba2 | [B] `pieaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `pieart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -1253,7 +1274,7 @@ graph LR
 | `musketeer18` | Мушкетер 18в. | 4.50 | F50 G40 I40 | pieba2 | [B] `piebla` |
 | `officer` | Офицер 17в. | 10.00 | F50 G150 I30 | piebar | [B] `pieaca` |
 | `officer18` | Офицер 18в. | 6.00 | F50 G200 I10 | pieba2 | [B] `pieaca` |
-| `padre` | Падре | 15.00 | F30 G10 | pietem | — |
+| `padre` | Падре | 25.00 | F50 G40 | pietem | — |
 | `peaspa` | Крестьянин | 12.50 | F100 | piecen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | piebar | [B] `piebla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | pieba2 | — |
@@ -1362,6 +1383,8 @@ graph LR
 | `polsta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `polbla` |
 | `poltem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `polcen` |
 | `russto` | Склад | 31.2 | W50 S20 | — | [B] `polcen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `russto` |
 
 ### `pol` — юниты
 
@@ -1377,7 +1400,7 @@ graph LR
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | polsta | [B] `polbla`, [T] `polcen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | poldip | [B] `polaca`, [B] `polcen` |
 | `dragoonpol` | Посполитое рушение | 13.50 | F70 G5 I4 | polsta | [B] `polbla` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | polbar | [B] `polaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | polbar | [B] `polaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | polba2 | [B] `polaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `polart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -1398,7 +1421,7 @@ graph LR
 | `peapol` | Крестьянин | 12.50 | F100 | polcen | — |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | polba2 | — |
 | `pikemanpol` | Пикинер 17в. | 3.00 | F25 G1 | polbar | [B] `polbla` |
-| `priest` | Капеллан | 15.00 | F30 G10 | poltem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | poltem | — |
 | `reiterpol` | Легкий рейтар | 8.25 | F60 G5 I2 | polsta | [B] `polbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | poldip | [B] `polaca`, [B] `polcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1505,6 +1528,8 @@ graph LR
 | `portem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `porcen` |
 | `spamar` | Рынок | 156.2 | W450 | — | [B] `eurmil`, [B] `spasto` |
 | `spasto` | Склад | 31.2 | W20 S20 | — | [B] `porcen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `spasto` |
 
 ### `por` — юниты
 
@@ -1519,7 +1544,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | porsta | [B] `porbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | porsta | [B] `porbla`, [T] `porcen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | porbar | [B] `poraca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | porbar | [B] `poraca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | porba2 | [B] `poraca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | porpor | [B] `porart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | porpor | — |
@@ -1529,7 +1554,7 @@ graph LR
 | `grenadierdip` | Гренадер (наемник) | 1.50 | G25 | pordip | [B] `poraca`, [B] `porcen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | porart | [B] `porbla` |
 | `hussar` | Гусар | 15.00 | F70 G20 I2 | porsta | [B] `porbla`, [T] `porcen.1` |
-| `jagerpor` | Доброволец | 6.00 | F30 G2 I5 | porba2 | [B] `porbla` |
+| `jagerpor` | Доброволец | 2.25 | F30 G2 I5 | porba2 | [B] `porbla` |
 | `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
 | `lightinfantrydip` | Легкий пехотинец (наемник) | 1.25 | G4 | pordip | [B] `poraca`, [B] `porcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | porart | [B] `porbla` |
@@ -1541,7 +1566,7 @@ graph LR
 | `peaspa` | Крестьянин | 12.50 | F100 | porcen | — |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | porba2 | — |
 | `pikemanpor` | Пикинер 17в. | 4.00 | F40 G4 I5 | porbar | [B] `porbla` |
-| `priest` | Капеллан | 15.00 | F30 G10 | portem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | portem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | porsta | [B] `porbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | pordip | [B] `poraca`, [B] `porcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1647,6 +1672,8 @@ graph LR
 | `pruhou` | Дом | 31.2 | W100 S100 | 25 | [B] `prucen` |
 | `prusta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `prubla` |
 | `prutem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `prucen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `pru` — юниты
 
@@ -1661,7 +1688,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | prusta | [B] `prubla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | prusta | [B] `prubla`, [T] `prucen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | prudip | [B] `pruaca`, [B] `prucen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | prubar | [B] `pruaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | prubar | [B] `pruaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | pruba2 | [B] `pruaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `pruart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -1683,7 +1710,7 @@ graph LR
 | `peaaus` | Крестьянин | 12.50 | F100 | prucen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | prubar | [B] `prubla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | pruba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | prutem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | prutem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | prusta | [B] `prubla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | prudip | [B] `pruaca`, [B] `prucen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1789,6 +1816,8 @@ graph LR
 | `russwa` | Стена | 200.0 | S60 | — | [B] `russto` |
 | `rustem` | Православная церковь | 156.2 | W1150 S1650 G100 I500 | — | [B] `ruscen` |
 | `rustow` | Башня | 1476.6 | W100 S100 G150 | — | [B] `russto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `russto` |
 
 ### `rus` — юниты
 
@@ -1823,7 +1852,7 @@ graph LR
 | `pearus` | Крепостной | 12.50 | F100 | ruscen | — |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | rusba2 | — |
 | `pikemanrus` | Копейщик | 5.50 | F45 G4 I15 | rusbar | [B] `rusbla` |
-| `pope` | Поп | 15.00 | F30 G10 | rustem | — |
+| `pope` | Поп | 20.00 | F40 G20 | rustem | — |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | rusdip | [B] `rusaca`, [B] `ruscen` |
 | `strelet` | Стрелец | 8.50 | F70 G7 I9 | rusbar | [B] `rusbla` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -1930,6 +1959,8 @@ graph LR
 | `saxhou` | Дом | 31.2 | W100 S100 | 25 | [B] `saxcen` |
 | `saxsta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `saxbla` |
 | `saxtem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `saxcen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `sax` — юниты
 
@@ -1944,7 +1975,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | saxsta | [B] `saxbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | saxbar | [B] `saxaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | saxbar | [B] `saxaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | saxba2 | [B] `saxaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `saxart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -1966,7 +1997,7 @@ graph LR
 | `peaaus` | Крестьянин | 12.50 | F100 | saxcen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | saxbar | [B] `saxbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | saxba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | saxtem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | saxtem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | saxsta | [B] `saxbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | saxdip | [B] `saxaca`, [B] `saxcen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -2072,6 +2103,8 @@ graph LR
 | `scohou` | Дом | 31.2 | W100 S100 | 25 | [B] `scocen` |
 | `scosta` | Конюшня | 375.0 | W2350 G800 | — | [B] `scobla` |
 | `scotem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `scocen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `sco` — юниты
 
@@ -2080,7 +2113,7 @@ graph LR
 | `archerdip` | Лучник (наемник) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
 | `archersco` | Лучник кланов | 6.00 | F80 W5 G7 | scoba2 | [B] `scobla` |
 | `archerturdip` | Турецкий лучник (наемник) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
-| `bagpiper` | Волынщик | 6.00 | F50 G30 | scobar | [B] `scoaca` |
+| `bagpiper` | Волынщик | 7.00 | F120 G20 | scobar | [B] `scoaca` |
 | `battleship` | Линейный корабль | 390.00 | W9000 G3200 I700 C6500 | eurpor | [T] `scoaca.29`, [B] `scoart` |
 | `cannon` | Пушка | 75.00 | W250 G400 I400 | scoart | [B] `scobla` |
 | `cossacksichdip` | Сечевой козак (наемник) | 2.50 | G60 | scodip | [B] `scoaca`, [B] `scocen` |
@@ -2099,7 +2132,7 @@ graph LR
 | `officersco` | Офицер | 10.00 | F130 G130 I10 | scobar | [B] `scoaca` |
 | `peasco` | Крестьянин | 12.50 | F100 | scocen | — |
 | `pikemansco` | Пикинер Ковенанта | 4.00 | F35 G2 | scobar | [B] `scobla` |
-| `priest` | Капеллан | 15.00 | F30 G10 | scotem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | scotem | — |
 | `raidersco` | Рейдер | 22.50 | F130 G8 I2 | scosta | [B] `scobla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | scodip | [B] `scoaca`, [B] `scocen` |
 | `swordsmansco` | Мечник кланов | 7.00 | F110 W5 G10 | scoba2 | [B] `scobla` |
@@ -2204,6 +2237,8 @@ graph LR
 | `spasta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `spabla` |
 | `spasto` | Склад | 31.2 | W20 S20 | — | [B] `spacen` |
 | `spatem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `spacen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `spasto` |
 
 ### `spa` — юниты
 
@@ -2218,7 +2253,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | spasta | [B] `spabla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | spasta | [B] `spabla`, [T] `spacen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | spadip | [B] `spaaca`, [B] `spacen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | spabar | [B] `spaaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | spabar | [B] `spaaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | spaba2 | [B] `spaaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `spaart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -2240,7 +2275,7 @@ graph LR
 | `pikeman` | Пикинер 17в. | 5.50 | F35 G7 I30 | spabar | [B] `spabla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | spaba2 | — |
 | `pikemanspa` | Коселет | 5.50 | F35 G7 I30 | spabar | [B] `spabla` |
-| `priest` | Капеллан | 15.00 | F30 G10 | spatem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | spatem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | spasta | [B] `spabla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | spadip | [B] `spaaca`, [B] `spacen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -2346,6 +2381,8 @@ graph LR
 | `swehou` | Дом | 31.2 | W100 S100 | 25 | [B] `swecen` |
 | `swesta` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `swebla` |
 | `swetem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `swecen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `swe` — юниты
 
@@ -2360,7 +2397,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | swesta | [B] `swebla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | swesta | [B] `swebla`, [T] `swecen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | swedip | [B] `sweaca`, [B] `swecen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | swebar | [B] `sweaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | swebar | [B] `sweaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | sweba2 | [B] `sweaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `sweart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -2382,7 +2419,7 @@ graph LR
 | `peaeng` | Крестьянин | 12.50 | F100 | swecen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | swebar | [B] `swebla` |
 | `pikeman18swe` | Пикинер 18в. | 1.50 | F40 G3 | sweba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | swetem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | swetem | — |
 | `reiterswe` | Шведский рейтар | 22.50 | F130 G7 I20 | swesta | [B] `swebla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | swedip | [B] `sweaca`, [B] `swecen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -2488,6 +2525,8 @@ graph LR
 | `swihou` | Дом | 31.2 | W100 S100 | 25 | [B] `swicen` |
 | `swista` | Конюшня | 625.0 | W2500 S100 G600 | — | [B] `swibla` |
 | `switem` | Собор | 156.2 | W1000 S1200 I500 | — | [B] `swicen` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 
 ### `swi` — юниты
 
@@ -2502,7 +2541,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | swista | [B] `swibla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | swista | [B] `swibla`, [T] `swicen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | swibar | [B] `swiaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | swibar | [B] `swiaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | swiba2 | [B] `swiaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `swiart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -2512,7 +2551,7 @@ graph LR
 | `grenadierdip` | Гренадер (наемник) | 1.50 | G25 | swidip | [B] `swiaca`, [B] `swicen` |
 | `howitzer` | Гаубица | 94.00 | W250 G350 I300 | swiart | [B] `swibla` |
 | `hussarswi` | Конный егерь | 19.50 | F120 G30 I2 | swista | [B] `swibla`, [T] `swicen.1` |
-| `jagerswi` | Егерь | 6.00 | F40 G70 I20 | swiba2 | [B] `swibla` |
+| `jagerswi` | Егерь | 8.50 | F40 G70 I20 | swiba2 | [B] `swibla` |
 | `lightcavalrydip` | Легкий кавалерист (наемник) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
 | `lightinfantrydip` | Легкий пехотинец (наемник) | 1.25 | G4 | swidip | [B] `swiaca`, [B] `swicen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | swiart | [B] `swibla` |
@@ -2524,7 +2563,7 @@ graph LR
 | `peaaus` | Крестьянин | 12.50 | F100 | swicen | — |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | swiba2 | — |
 | `pikemanswi` | Пикинер 17в. | 5.00 | F40 G6 I20 | swibar | [B] `swibla` |
-| `priest` | Капеллан | 15.00 | F30 G10 | switem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | switem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | swista | [B] `swibla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | swidip | [B] `swiaca`, [B] `swicen` |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -2629,6 +2668,8 @@ graph LR
 | `turswa` | Стена | 120.0 | S60 | — | [B] `tursto` |
 | `turtem` | Мечеть | 93.8 | W1000 S1200 I500 | — | [B] `turcen` |
 | `turtow` | Башня | 984.4 | W150 S90 G100 | — | [B] `tursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `tursto` |
 
 ### `tur` — юниты
 
@@ -2752,6 +2793,8 @@ graph LR
 | `ukrpor` | Порт | 1562.5 | W2000 | — | [B] `rusmar` |
 | `ukrsta` | Конюшня | 156.2 | W3200 S850 G850 | — | [B] `ukrbla` |
 | `ukrtem` | Православная церковь | 156.2 | W1100 S1400 I300 | — | [B] `ukrcen` |
+| `ukrwga` | Деревянные ворота | 8.1 | W12 | — | — |
+| `ukrwwa` | Частокол | 8.1 | W12 | — | [B] `russto` |
 
 ### `ukr` — юниты
 
@@ -2775,7 +2818,7 @@ graph LR
 | `lightinfantrydip` | Легкий пехотинец (наемник) | 1.25 | G4 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `mortar` | Мортира | 25.00 | W100 G75 I200 | ukrart | [B] `ukrbla` |
 | `peaukr` | Крестьянин | 11.25 | F100 | ukrcen | — |
-| `pope` | Поп | 15.00 | F30 G10 | ukrtem | — |
+| `pope` | Поп | 20.00 | F40 G20 | ukrtem | — |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `serdiuk` | Сердюк | 11.00 | F60 G11 I5 | ukrbar | — |
 | `unitbox` | — | 3.12 | F100 | — | — |
@@ -2845,6 +2888,8 @@ graph LR
 | `eursto` | Склад | 31.2 | W50 S20 | — | [B] `vencen` |
 | `eurswa` | Стена | 90.0 | S50 | — | [B] `eursto` |
 | `eurtow` | Башня | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
+| `ukrwga` | Деревянные ворота | 5.6 | W10 | — | — |
+| `ukrwwa` | Частокол | 5.6 | W10 | — | [B] `eursto` |
 | `venaca` | Академия | 625.0 | W1090 S1260 | — | [B] `venbar` |
 | `venart` | Артиллерийское депо | 245.9 | W100 S1000 C1400 | — | [B] `venaca` |
 | `venba2` | Казарма 18в. | 5625.0 | W1700 S2950 G4000 | 250 | [T] `vencen.1` |
@@ -2869,7 +2914,7 @@ graph LR
 | `dragoon` | Драгун 17в. | 15.00 | F90 G7 I5 | vensta | [B] `venbla` |
 | `dragoon18` | Драгун 18в. | 22.50 | F70 G60 I7 | vensta | [B] `venbla`, [T] `vencen.1` |
 | `dragoon18dip` | Драгун 18в. (наемник) | 2.00 | G120 | vendip | [B] `venaca`, [B] `vencen` |
-| `drummer` | Барабанщик 17в. | 6.00 | F50 G30 | venbar | [B] `venaca` |
+| `drummer` | Барабанщик 17в. | 5.00 | F60 G20 | venbar | [B] `venaca` |
 | `drummer18` | Барабанщик 18в. | 6.00 | F50 G30 | venba2 | [B] `venaca` |
 | `ferry` | Транспорт | 56.00 | W300 G50 I100 | eurpor | [B] `venart` |
 | `fishboat` | Рыбацкая лодка | 40.00 | W600 | eurpor | — |
@@ -2890,7 +2935,7 @@ graph LR
 | `peaspa` | Крестьянин | 12.50 | F100 | vencen | — |
 | `pikeman` | Пикинер 17в. | 4.50 | F25 G3 I20 | venbar | [B] `venbla` |
 | `pikeman18` | Пикинер 18в. | 1.25 | F30 G2 | venba2 | — |
-| `priest` | Капеллан | 15.00 | F30 G10 | ventem | — |
+| `priest` | Капеллан | 20.00 | F60 G25 | ventem | — |
 | `reiter` | Рейтар | 24.00 | F120 G10 I40 | vensta | [B] `venbla` |
 | `roundshierdip` | Рундашир (наемник) | 1.50 | G12 | vendip | [B] `venaca`, [B] `vencen` |
 | `unitbox` | — | 3.12 | F100 | — | — |

@@ -1,6 +1,6 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-05-05 16:33:56** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-17 02:06:09** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 
@@ -96,6 +96,6 @@ python scripts/regen.py help             # все targets
 - Нации: **21**
 - Здания: **456** строк (sid×nation)
 - Юниты: **714** строк
-- Апгрейды: **4429** строк (с полными cost/value/itype)
+- Апгрейды: **4483** строк (с полными cost/value/itype)
 - Офицеры: **231** групп
 - Sanity checks: **112/112** PASS

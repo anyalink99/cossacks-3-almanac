@@ -216,7 +216,7 @@ _Польша_
 - **aca** (aca): 36
 - **bla** (bla): 6
 - **sta** (sta): 72
-- **bar** (bar): 26
+- **bar** (bar): 24
 - **ba2** (ba2): 39
 - **art** (art): 24
 - **cen** (cen): 1

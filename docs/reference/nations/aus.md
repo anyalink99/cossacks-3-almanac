@@ -212,7 +212,7 @@ _Австрия_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (249)
+## Апгрейды (255)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
@@ -220,8 +220,8 @@ _Австрия_
 
 - **aca** (aca): 36
 - **bla** (bla): 6
-- **sta** (sta): 66
-- **bar** (bar): 38
+- **sta** (sta): 72
+- **bar** (bar): 36
 - **ba2** (ba2): 51
 - **art** (art): 24
 - **cen** (cen): 1

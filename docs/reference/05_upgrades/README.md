@@ -39,6 +39,7 @@
 - [Математика применения: порядок и комбинирование](#математика-применения-порядок-и-комбинирование)
 - [Апгрейды шахт (eurgol/eurcoa/euriro)](#апгрейды-шахт-eurgoleurcoaeuriro)
 - [aca — Академия (исследования)](#aca--академия-исследования)
+- [mil — Мельница (эффективность еды)](#mil--мельница-эффективность-еды)
 - [bla — Кузница (по юнитам — урон и защита)](#bla--кузница-по-юнитам--урон-и-защита)
 - [sta — Конюшня (по юнитам — кавалерия)](#sta--конюшня-по-юнитам--кавалерия)
 - [bar — Казарма 17 в. (по юнитам)](#bar--казарма-17-в-по-юнитам)
@@ -181,6 +182,15 @@
 | **Использовать новые строительные материалы (прочность зданий +85)** `turaca.9` | alg,tur | +shield | 85 | — | 0 | 9400 | 0 | 1150 | 0 | 0 | 15.62 |
 | **Использовать новые строительные материалы (прочность зданий +85)** `ukraca.9` | ukr | +shield | 85 | — | 0 | 3200 | 7850 | 950 | 0 | 0 | 15.62 |
 
+## mil — Мельница (эффективность еды)
+
+| Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
+|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| `eurmil.1` | all | +food eff % | 140 | — | 750 | 0 | 0 | 250 | 0 | 0 | 15.62 |
+| `turmil.1` | alg,tur | +food eff % | 140 | — | 600 | 0 | 0 | 250 | 0 | 0 | 15.62 |
+| `eurmil.2` | aus,bav,den,eng,fra,hun,net,pie,pol,por,pru,rus,sax,spa,swe,swi,ven | +food eff % | 180 | — | 25600 | 0 | 0 | 3350 | 2000 | 0 | 15.62 |
+| `rusmil.2` | sco,ukr | +food eff % | 180 | — | 5600 | 0 | 0 | 1350 | 1900 | 0 | 15.62 |
+
 ## bla — Кузница (по юнитам — урон и защита)
 
 | Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
@@ -204,25 +214,48 @@
 
 | Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
-| `tursta.1` | tur | +food eff % | 140 | — | 600 | 0 | 0 | 250 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +1 (ур. 2)** `russta.cossackdon.1.1` | rus | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +1 (ур. 3)** `russta.cossackdon.1.2` | rus | damage | 1 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +2 (ур. 4)** `russta.cossackdon.1.3` | rus | damage | 2 | — | 10000 | 0 | 0 | 1200 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +2 (ур. 5)** `russta.cossackdon.1.4` | rus | damage | 2 | — | 20000 | 0 | 0 | 1300 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +3 (ур. 6)** `russta.cossackdon.1.5` | rus | damage | 3 | — | 30000 | 0 | 0 | 4000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackdon урон +3 (ур. 7)** `russta.cossackdon.1.6` | rus | damage | 3 | — | 20000 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +1 (ур. 2)** `russta.cossackdon.2.1` | rus | protection | 1 | — | 2000 | 0 | 0 | 1350 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +1 (ур. 3)** `russta.cossackdon.2.2` | rus | protection | 1 | — | 1500 | 0 | 0 | 2100 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +1 (ур. 4)** `russta.cossackdon.2.3` | rus | protection | 1 | — | 5000 | 0 | 0 | 3300 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +1 (ур. 5)** `russta.cossackdon.2.4` | rus | protection | 1 | — | 10500 | 0 | 0 | 4400 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +2 (ур. 6)** `russta.cossackdon.2.5` | rus | protection | 2 | — | 12600 | 0 | 0 | 5500 | 0 | 0 | 15.62 |
 | **Конюшня · cossackdon защита +2 (ур. 7)** `russta.cossackdon.2.6` | rus | protection | 2 | — | 40000 | 0 | 0 | 6000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +1 (ур. 2)** `ukrsta.cossackregister.1.1` | ukr | damage | 1 | — | 1000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +2 (ур. 3)** `ukrsta.cossackregister.1.2` | ukr | damage | 2 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +2 (ур. 4)** `ukrsta.cossackregister.1.3` | ukr | damage | 2 | — | 7100 | 0 | 0 | 8000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +2 (ур. 5)** `ukrsta.cossackregister.1.4` | ukr | damage | 2 | — | 2250 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +2 (ур. 6)** `ukrsta.cossackregister.1.5` | ukr | damage | 2 | — | 3030 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
+| **Конюшня · cossackregister урон +1 (ур. 7)** `ukrsta.cossackregister.1.6` | ukr | damage | 1 | — | 7000 | 0 | 0 | 18000 | 0 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 2)** `ukrsta.cossackregister.2.1` | ukr | protection | 2 | — | 200 | 0 | 0 | 135 | 3000 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 3)** `ukrsta.cossackregister.2.2` | ukr | protection | 2 | — | 2000 | 0 | 0 | 100 | 5000 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 4)** `ukrsta.cossackregister.2.3` | ukr | protection | 2 | — | 65000 | 0 | 0 | 200 | 10000 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 5)** `ukrsta.cossackregister.2.4` | ukr | protection | 2 | — | 65000 | 0 | 0 | 300 | 4000 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 6)** `ukrsta.cossackregister.2.5` | ukr | protection | 2 | — | 65000 | 0 | 0 | 350 | 20000 | 0 | 15.62 |
 | **Конюшня · cossackregister защита +2 (ур. 7)** `ukrsta.cossackregister.2.6` | ukr | protection | 2 | — | 65000 | 0 | 0 | 1000 | 30000 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +1 (ур. 2)** `ukrsta.cossacksich.1.1` | ukr | damage | 1 | — | 1000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +2 (ур. 3)** `ukrsta.cossacksich.1.2` | ukr | damage | 2 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +2 (ур. 4)** `ukrsta.cossacksich.1.3` | ukr | damage | 2 | — | 7100 | 0 | 0 | 8000 | 0 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +1 (ур. 5)** `ukrsta.cossacksich.1.4` | ukr | damage | 1 | — | 2250 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +2 (ур. 6)** `ukrsta.cossacksich.1.5` | ukr | damage | 2 | — | 3030 | 0 | 0 | 4000 | 0 | 0 | 15.62 |
+| **Конюшня · cossacksich урон +2 (ур. 7)** `ukrsta.cossacksich.1.6` | ukr | damage | 2 | — | 7000 | 0 | 0 | 18000 | 0 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 2)** `ukrsta.cossacksich.2.1` | ukr | protection | 2 | — | 200 | 0 | 0 | 135 | 3000 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 3)** `ukrsta.cossacksich.2.2` | ukr | protection | 2 | — | 2000 | 0 | 0 | 100 | 5000 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 4)** `ukrsta.cossacksich.2.3` | ukr | protection | 2 | — | 44930 | 0 | 0 | 200 | 10000 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 5)** `ukrsta.cossacksich.2.4` | ukr | protection | 2 | — | 44930 | 0 | 0 | 300 | 4000 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 6)** `ukrsta.cossacksich.2.5` | ukr | protection | 2 | — | 44930 | 0 | 0 | 350 | 20000 | 0 | 15.62 |
 | **Конюшня · cossacksich защита +2 (ур. 7)** `ukrsta.cossacksich.2.6` | ukr | protection | 2 | — | 44930 | 0 | 0 | 1000 | 30000 | 0 | 15.62 |
+| **Конюшня · croat урон +1 (ур. 2)** `aussta.croat.1.1` | aus | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · croat урон +2 (ур. 3)** `aussta.croat.1.2` | aus | damage | 2 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |
+| **Конюшня · croat урон +2 (ур. 4)** `aussta.croat.1.3` | aus | damage | 2 | — | 10000 | 0 | 0 | 1200 | 0 | 0 | 15.62 |
+| **Конюшня · croat урон +1 (ур. 5)** `aussta.croat.1.4` | aus | damage | 1 | — | 20000 | 0 | 0 | 1300 | 0 | 0 | 15.62 |
+| **Конюшня · croat урон +2 (ур. 6)** `aussta.croat.1.5` | aus | damage | 2 | — | 30000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
+| **Конюшня · croat урон +2 (ур. 7)** `aussta.croat.1.6` | aus | damage | 2 | — | 20000 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
 | **Конюшня · croat защита +1 (ур. 2)** `aussta.croat.2.1` | aus | protection | 1 | — | 2000 | 0 | 0 | 1350 | 0 | 0 | 15.62 |
 | **Конюшня · croat защита +1 (ур. 3)** `aussta.croat.2.2` | aus | protection | 1 | — | 1500 | 0 | 0 | 2100 | 0 | 0 | 15.62 |
 | **Конюшня · croat защита +2 (ур. 4)** `aussta.croat.2.3` | aus | protection | 2 | — | 5000 | 0 | 0 | 2300 | 0 | 0 | 15.62 |
@@ -517,6 +550,12 @@
 | **Конюшня · hussar защита +3 (ур. 7)** `frasta.hussar.2.6` | fra | protection | 3 | — | 51000 | 0 | 0 | 20150 | 0 | 0 | 15.62 |
 | **Конюшня · hussar защита +2 (ур. 7)** `engsta.hussar.2.6` | eng | protection | 2 | — | 52000 | 0 | 0 | 19850 | 0 | 0 | 15.62 |
 | **Конюшня · hussar защита +3 (ур. 7)** `densta.hussar.2.6` | den | protection | 3 | — | 48000 | 0 | 0 | 22150 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +1 (ур. 2)** `hunsta.hussarhun.1.1` | hun | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +2 (ур. 3)** `hunsta.hussarhun.1.2` | hun | damage | 2 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +2 (ур. 4)** `hunsta.hussarhun.1.3` | hun | damage | 2 | — | 10000 | 0 | 0 | 1200 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +3 (ур. 5)** `hunsta.hussarhun.1.4` | hun | damage | 3 | — | 20000 | 0 | 0 | 1300 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +4 (ур. 6)** `hunsta.hussarhun.1.5` | hun | damage | 4 | — | 30000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
+| **Конюшня · hussarhun урон +5 (ур. 7)** `hunsta.hussarhun.1.6` | hun | damage | 5 | — | 20000 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
 | **Конюшня · hussarhun защита +1 (ур. 2)** `hunsta.hussarhun.2.1` | hun | protection | 1 | — | 2000 | 0 | 0 | 1350 | 0 | 0 | 15.62 |
 | **Конюшня · hussarhun защита +1 (ур. 3)** `hunsta.hussarhun.2.2` | hun | protection | 1 | — | 1500 | 0 | 0 | 2100 | 0 | 0 | 15.62 |
 | **Конюшня · hussarhun защита +1 (ур. 4)** `hunsta.hussarhun.2.3` | hun | protection | 1 | — | 5000 | 0 | 0 | 2300 | 0 | 0 | 15.62 |
@@ -554,6 +593,12 @@
 | **Конюшня · kingmusketeer защита +2 (ур. 5)** `frasta.kingmusketeer.2.4` | fra | protection | 2 | — | 0 | 0 | 0 | 0 | 0 | 0 | 15.62 |
 | **Конюшня · kingmusketeer защита +2 (ур. 6)** `frasta.kingmusketeer.2.5` | fra | protection | 2 | — | 0 | 0 | 0 | 0 | 0 | 0 | 15.62 |
 | **Конюшня · kingmusketeer защита +2 (ур. 7)** `frasta.kingmusketeer.2.6` | fra | protection | 2 | — | 0 | 0 | 0 | 0 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +1 (ур. 2)** `scosta.lancersco.1.1` | sco | damage | 1 | — | 1000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +1 (ур. 3)** `scosta.lancersco.1.2` | sco | damage | 1 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +2 (ур. 4)** `scosta.lancersco.1.3` | sco | damage | 2 | — | 7100 | 0 | 0 | 8000 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +1 (ур. 5)** `scosta.lancersco.1.4` | sco | damage | 1 | — | 2250 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +2 (ур. 6)** `scosta.lancersco.1.5` | sco | damage | 2 | — | 3030 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
+| **Конюшня · lancersco урон +3 (ур. 7)** `scosta.lancersco.1.6` | sco | damage | 3 | — | 7000 | 0 | 0 | 18000 | 0 | 0 | 15.62 |
 | **Конюшня · lancersco защита +1 (ур. 2)** `scosta.lancersco.2.1` | sco | protection | 1 | — | 4000 | 0 | 0 | 1350 | 0 | 0 | 15.62 |
 | **Конюшня · lancersco защита +1 (ур. 3)** `scosta.lancersco.2.2` | sco | protection | 1 | — | 3500 | 0 | 0 | 2100 | 0 | 0 | 15.62 |
 | **Конюшня · lancersco защита +2 (ур. 4)** `scosta.lancersco.2.3` | sco | protection | 2 | — | 8000 | 0 | 0 | 3300 | 0 | 0 | 15.62 |
@@ -572,12 +617,24 @@
 | **Конюшня · lightcavalry защита +1 (ур. 5)** `hunsta.lightcavalry.2.4` | hun | protection | 1 | — | 22600 | 0 | 0 | 5350 | 0 | 0 | 15.62 |
 | **Конюшня · lightcavalry защита +1 (ур. 6)** `hunsta.lightcavalry.2.5` | hun | protection | 1 | — | 19600 | 0 | 0 | 3350 | 0 | 0 | 15.62 |
 | **Конюшня · lightcavalry защита +2 (ур. 7)** `hunsta.lightcavalry.2.6` | hun | protection | 2 | — | 15760 | 0 | 0 | 9350 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +1 (ур. 2)** `algsta.mameluke.1.1` | alg | damage | 1 | — | 1000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +1 (ур. 3)** `algsta.mameluke.1.2` | alg | damage | 1 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +1 (ур. 4)** `algsta.mameluke.1.3` | alg | damage | 1 | — | 7100 | 0 | 0 | 3500 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +1 (ур. 5)** `algsta.mameluke.1.4` | alg | damage | 1 | — | 2250 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +1 (ур. 6)** `algsta.mameluke.1.5` | alg | damage | 1 | — | 3030 | 0 | 0 | 6500 | 0 | 0 | 15.62 |
+| **Конюшня · mameluke урон +2 (ур. 7)** `algsta.mameluke.1.6` | alg | damage | 2 | — | 7000 | 0 | 0 | 8000 | 0 | 0 | 15.62 |
 | **Конюшня · mameluke защита +1 (ур. 2)** `algsta.mameluke.2.1` | alg | protection | 1 | — | 200 | 0 | 0 | 135 | 1000 | 0 | 15.62 |
 | **Конюшня · mameluke защита +2 (ур. 3)** `algsta.mameluke.2.2` | alg | protection | 2 | — | 2000 | 0 | 0 | 100 | 1000 | 0 | 15.62 |
 | **Конюшня · mameluke защита +3 (ур. 4)** `algsta.mameluke.2.3` | alg | protection | 3 | — | 40000 | 0 | 0 | 200 | 4000 | 0 | 15.62 |
 | **Конюшня · mameluke защита +3 (ур. 5)** `algsta.mameluke.2.4` | alg | protection | 3 | — | 40000 | 0 | 0 | 300 | 6000 | 0 | 15.62 |
 | **Конюшня · mameluke защита +2 (ур. 6)** `algsta.mameluke.2.5` | alg | protection | 2 | — | 40000 | 0 | 0 | 350 | 8000 | 0 | 15.62 |
 | **Конюшня · mameluke защита +1 (ур. 7)** `algsta.mameluke.2.6` | alg | protection | 1 | — | 40000 | 0 | 0 | 1000 | 10000 | 0 | 15.62 |
+| **Конюшня · raidersco урон +1 (ур. 2)** `scosta.raidersco.1.1` | sco | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · raidersco урон +2 (ур. 3)** `scosta.raidersco.1.2` | sco | damage | 2 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |
+| **Конюшня · raidersco урон +2 (ур. 4)** `scosta.raidersco.1.3` | sco | damage | 2 | — | 10000 | 0 | 0 | 1200 | 0 | 0 | 15.62 |
+| **Конюшня · raidersco урон +3 (ур. 5)** `scosta.raidersco.1.4` | sco | damage | 3 | — | 2000 | 0 | 0 | 6000 | 0 | 0 | 15.62 |
+| **Конюшня · raidersco урон +3 (ур. 6)** `scosta.raidersco.1.5` | sco | damage | 3 | — | 8100 | 0 | 0 | 1000 | 0 | 0 | 15.62 |
+| **Конюшня · raidersco урон +1 (ур. 7)** `scosta.raidersco.1.6` | sco | damage | 1 | — | 20000 | 0 | 0 | 3000 | 0 | 0 | 15.62 |
 | **Конюшня · raidersco защита +1 (ур. 2)** `scosta.raidersco.2.1` | sco | protection | 1 | — | 500 | 0 | 0 | 50 | 0 | 0 | 15.62 |
 | **Конюшня · raidersco защита +2 (ур. 3)** `scosta.raidersco.2.2` | sco | protection | 2 | — | 1500 | 0 | 0 | 150 | 0 | 0 | 15.62 |
 | **Конюшня · raidersco защита +2 (ур. 4)** `scosta.raidersco.2.3` | sco | protection | 2 | — | 5625 | 0 | 0 | 560 | 0 | 0 | 15.62 |
@@ -678,6 +735,12 @@
 | **Конюшня · sipahi защита +2 (ур. 5)** `tursta.sipahi.2.4` | tur | protection | 2 | — | 1600 | 0 | 0 | 300 | 640 | 0 | 15.62 |
 | **Конюшня · sipahi защита +2 (ур. 6)** `tursta.sipahi.2.5` | tur | protection | 2 | — | 3200 | 0 | 0 | 350 | 300 | 0 | 15.62 |
 | **Конюшня · sipahi защита +3 (ур. 7)** `tursta.sipahi.2.6` | tur | protection | 3 | — | 16000 | 0 | 0 | 1000 | 5000 | 0 | 15.62 |
+| **Конюшня · spakh урон +1 (ур. 2)** `tursta.spakh.1.1` | tur | damage | 1 | — | 1000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
+| **Конюшня · spakh урон +1 (ур. 3)** `tursta.spakh.1.2` | tur | damage | 1 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |
+| **Конюшня · spakh урон +2 (ур. 4)** `tursta.spakh.1.3` | tur | damage | 2 | — | 7100 | 0 | 0 | 3500 | 0 | 0 | 15.62 |
+| **Конюшня · spakh урон +1 (ур. 5)** `tursta.spakh.1.4` | tur | damage | 1 | — | 2250 | 0 | 0 | 5000 | 0 | 0 | 15.62 |
+| **Конюшня · spakh урон +1 (ур. 6)** `tursta.spakh.1.5` | tur | damage | 1 | — | 3030 | 0 | 0 | 6500 | 0 | 0 | 15.62 |
+| **Конюшня · spakh урон +1 (ур. 7)** `tursta.spakh.1.6` | tur | damage | 1 | — | 7000 | 0 | 0 | 8000 | 0 | 0 | 15.62 |
 | **Конюшня · spakh защита +1 (ур. 2)** `tursta.spakh.2.1` | tur | protection | 1 | — | 200 | 0 | 0 | 135 | 1000 | 0 | 15.62 |
 | **Конюшня · spakh защита +1 (ур. 3)** `tursta.spakh.2.2` | tur | protection | 1 | — | 2000 | 0 | 0 | 100 | 1000 | 0 | 15.62 |
 | **Конюшня · spakh защита +2 (ур. 4)** `tursta.spakh.2.3` | tur | protection | 2 | — | 40000 | 0 | 0 | 200 | 4000 | 0 | 15.62 |
@@ -725,10 +788,6 @@
 
 | Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
-| `ausbar.1` | all | +food eff % | 140 | — | 750 | 0 | 0 | 250 | 0 | 0 | 15.62 |
-| `algbar.1` | alg | +food eff % | 140 | — | 600 | 0 | 0 | 250 | 0 | 0 | 15.62 |
-| `ausbar.2` | aus,bav,den,fra,hun,net,pie,pol,por,pru,rus,sax,spa,swe,swi,ven | +food eff % | 180 | — | 25600 | 0 | 0 | 3350 | 2000 | 0 | 15.62 |
-| `ukrbar.2` | sco,ukr | +food eff % | 180 | — | 5600 | 0 | 0 | 1350 | 1900 | 0 | 15.62 |
 | **Казарма 17 в. · archer урон +2 (ур. 2)** `algbar.archer.1.1` | alg | damage | 2 | — | 700 | 0 | 0 | 250 | 0 | 0 | 15.62 |
 | **Казарма 17 в. · archer урон +2 (ур. 3)** `algbar.archer.1.2` | alg | damage | 2 | — | 500 | 0 | 0 | 200 | 0 | 0 | 15.62 |
 | **Казарма 17 в. · archer урон +2 (ур. 4)** `algbar.archer.1.3` | alg | damage | 2 | — | 700 | 0 | 0 | 240 | 0 | 0 | 15.62 |
@@ -1079,8 +1138,6 @@
 
 | Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
-| `engba2.1` | eng | +food eff % | 140 | — | 750 | 0 | 0 | 250 | 0 | 0 | 15.62 |
-| `engba2.2` | eng | +food eff % | 180 | — | 25600 | 0 | 0 | 3350 | 2000 | 0 | 15.62 |
 | **Казарма 18 в. · archersco урон +2 (ур. 2)** `scoba2.archersco.1.1` | sco | damage | 2 | — | 3000 | 0 | 0 | 360 | 0 | 0 | 15.62 |
 | **Казарма 18 в. · archersco урон +3 (ур. 3)** `scoba2.archersco.1.2` | sco | damage | 3 | — | 7500 | 0 | 0 | 700 | 0 | 0 | 15.62 |
 | **Казарма 18 в. · archersco урон +4 (ур. 4)** `scoba2.archersco.1.3` | sco | damage | 4 | — | 9750 | 0 | 0 | 1200 | 0 | 0 | 15.62 |
@@ -1463,12 +1520,12 @@
 
 | Апгрейд | Нации | itype | val | % по ресурсам | F | W | S | G | I | C | Время |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
-| `ausart.cannon.1.1` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 1000 | 500 | 300 | 0 | 0 | 10.0 |
-| `ausart.cannon.1.2` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 3000 | 1000 | 500 | 0 | 0 | 10.0 |
-| `ausart.cannon.1.3` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 6000 | 2000 | 1000 | 0 | 0 | 10.0 |
-| `ausart.cannon.1.4` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
-| `ausart.cannon.1.5` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
-| `ausart.cannon.1.6` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.cannon.1.1` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 1000 | 500 | 300 | 0 | 0 | 10.0 |
+| `ausart.cannon.1.2` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 3000 | 1000 | 500 | 0 | 0 | 10.0 |
+| `ausart.cannon.1.3` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 6000 | 2000 | 1000 | 0 | 0 | 10.0 |
+| `ausart.cannon.1.4` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.cannon.1.5` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.cannon.1.6` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
 | `ausart.cannon.2.1` | all | build time % | -2500000 | — | 0 | 0 | 0 | 500 | 1000 | 0 | 10.0 |
 | `turart.cannon.2.1` | alg,tur | build time % | -2500000 | — | 0 | 0 | 0 | 950 | 1000 | 0 | 10.0 |
 | `ausart.cannon.2.2` | all | build time % | -2500000 | — | 0 | 0 | 0 | 1000 | 2000 | 0 | 10.0 |
@@ -1481,12 +1538,12 @@
 | `turart.cannon.2.5` | alg,tur | build time % | -2000000 | — | 3560 | 0 | 0 | 2500 | 0 | 0 | 15.62 |
 | `ausart.cannon.2.6` | all | build time % | -2000000 | — | 5560 | 0 | 0 | 0 | 0 | 0 | 15.62 |
 | `turart.cannon.2.6` | alg,tur | build time % | -2000000 | — | 5560 | 0 | 0 | 3350 | 0 | 0 | 15.62 |
-| `ausart.howitzer.1.1` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 1000 | 500 | 300 | 0 | 0 | 10.0 |
-| `ausart.howitzer.1.2` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 3000 | 1000 | 500 | 0 | 0 | 10.0 |
-| `ausart.howitzer.1.3` | all | price % | — | gold -25% / iron -25% / wood -25% | 0 | 6000 | 2000 | 1000 | 0 | 0 | 10.0 |
-| `ausart.howitzer.1.4` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
-| `ausart.howitzer.1.5` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
-| `ausart.howitzer.1.6` | all | price % | — | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.howitzer.1.1` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 1000 | 500 | 300 | 0 | 0 | 10.0 |
+| `ausart.howitzer.1.2` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 3000 | 1000 | 500 | 0 | 0 | 10.0 |
+| `ausart.howitzer.1.3` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 0 | 6000 | 2000 | 1000 | 0 | 0 | 10.0 |
+| `ausart.howitzer.1.4` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.howitzer.1.5` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
+| `ausart.howitzer.1.6` | all | price % | 35 | gold -25% / iron -25% / wood -25% | 1760 | 0 | 0 | 350 | 0 | 0 | 15.62 |
 | `ausart.howitzer.2.1` | all | build time % | -2500000 | — | 0 | 0 | 0 | 500 | 1000 | 0 | 10.0 |
 | `turart.howitzer.2.1` | alg,tur | build time % | -2500000 | — | 0 | 0 | 0 | 350 | 1000 | 0 | 10.0 |
 | `ausart.howitzer.2.2` | all | build time % | -2500000 | — | 0 | 0 | 0 | 1000 | 2000 | 0 | 10.0 |

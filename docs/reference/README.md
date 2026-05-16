@@ -1,6 +1,6 @@
 # Справочник по Cossacks 3
 
-_Extracted **2026-05-05 16:33:56** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-17 02:06:09** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../data.json`](../data.json); этот каталог — человеко-читаемый рендер.
 
@@ -97,7 +97,7 @@ applied = max(1, weapon.damage
 | Тег | Что значит |
 |---|---|
 | `sid` | Внутренний ID объекта в `unit.script` (например `bavcen`, `peaaus`, `aca.4`). |
-| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в [04_units.md](04_units.md). |
+| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в [04_units/README.md](04_units/README.md). |
 | `usage` / `usage_short` | Класс юнита/здания: `lightinfantry`, `fasthorse`, `building`, `tower`, и т. д. Влияет на AI и формулы. |
 | `commonsid` / `cluster` | Кластер общих зданий (`eur`/`rus`/`tur`/`spa`/`ukr`/`por`). Например `eurmil` — мельница для всех eur-наций. |
 | `costpercent` | Множитель цены каждого следующего экземпляра здания: `cost(N) = floor(base × (cp/100)^(N-1))`. 100 = одинаковая, 300 = ×3 за второе, 0 = без масштабирования. |
@@ -120,7 +120,7 @@ applied = max(1, weapon.damage
 | `bbuilt` | Здание полностью достроено (`True`) или ещё в стройке (`False`). При `False` входящий урон вычитает только `shield/3` вместо `shield`. |
 | `bcapture` | Здание можно захватить вражеской пехотой в радиусе `gc_gameplay_captureradius=4 тайла` без своих защитников рядом. Захват мгновенный. У всех башен (`gc_obj_usage_tower`) включается автоматически. |
 | `bnohungry` | Юнит / здание не потребляет food, голодом не убиваются. У всех зданий = `True`. У наёмников = `True` (но они «едят» gold через Rebellion). У крестьян и обычной пехоты = `False`. |
-| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Едят gold вместо food, при `gold=0` массово переходят к нейтралу (см. Rebellion в [01_economy.md](01_economy.md)). |
+| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Едят gold вместо food, при `gold=0` массово переходят к нейтралу (см. Rebellion в [01_economy/README.md](01_economy/README.md)). |
 | `bfamine` | Флаг голода у игрока: `food = 0` **и** есть юниты с `consume.food > 0`. Включает случайную гибель юнитов, у которых `bnohungry = False`. |
 | `brebellion` | Флаг бунта у игрока: `gold = 0` **и** `consume[gold] > income[gold]`. Включает массовое дезертирство наёмников. |
 | `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |
@@ -147,7 +147,7 @@ applied = max(1, weapon.damage
 | Играбельных наций | 21 |
 | Зданий (`sid` × нация) | 456 |
 | Юнитов | 714 |
-| Апгрейдов с полностью разрешёнными `cost / value / itype / prereqs` | 4429 |
+| Апгрейдов с полностью разрешёнными `cost / value / itype / prereqs` | 4483 |
 | Групп офицеров и формаций | 231 |
 
 Известные парсерные пробелы и расхождения с внешними гайдами — в [`../known_issues.md`](../known_issues.md).

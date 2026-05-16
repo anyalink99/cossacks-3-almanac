@@ -207,16 +207,17 @@ _Россия_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (213)
+## Апгрейды (219)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
 По зданиям:
 
 - **aca** (aca): 36
+- **mil** (mil): 2
 - **bla** (bla): 6
-- **sta** (sta): 54
-- **bar** (bar): 26
+- **sta** (sta): 60
+- **bar** (bar): 24
 - **ba2** (ba2): 39
 - **art** (art): 24
 - **cen** (cen): 1

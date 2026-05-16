@@ -176,7 +176,7 @@ _Алжир_
 | `archersco` | `archersco` | archersco |
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
-## Апгрейды (139)
+## Апгрейды (145)
 
 Полный список — в [главе «Апгрейды»](../05_upgrades/README.md).
 
@@ -184,8 +184,8 @@ _Алжир_
 
 - **aca** (aca): 36
 - **bla** (bla): 6
-- **sta** (sta): 6
-- **bar** (bar): 40
+- **sta** (sta): 12
+- **bar** (bar): 39
 - **art** (art): 24
 - **cen** (cen): 1
 - **mines** (Mine): 18

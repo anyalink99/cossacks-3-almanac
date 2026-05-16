@@ -1,6 +1,6 @@
 # Cossacks 3 — DPS / EHP / armor metrics
 
-**Производный** файл (расчётный, не извлечение). Считается из `docs/data.json` скриптом [`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).
 
 ## Формула урона
 
@@ -61,32 +61,31 @@ target.hp     -= applied_damage
 | `wingedhussar` | **pol** Польша | Лёгкая кавалерия | 225 | 96 | 14d / 0 (melee) / 1.88t [pike] | — | — | pike=1, sword=2, bullet=5, cannister=160, arrow=10, cannonball=30 |
 | `cossacksichdip` | все 21 | Лёгкая кавалерия | 150 | 96 | 8d / 0 (melee) / 1.22t [sword] | — | — | — |
 | `swordsmansco` | **sco** Шотландия | Лёгкая пехота | 180 | 32 | 10d / 0 (melee) / 1.13t [sword] | — | — | pike=1, sword=2, bullet=2, cannister=110, arrow=6, cannonball=10 |
+| `bagpiper` | **eng** Англия, **sco** Шотландия | Лёгкая пехота | 150 | 32 | — | — | — | — |
 | `officersco` | **sco** Шотландия | Лёгкая пехота | 150 | 32 | 40d / 0 (melee) / 1.22t [pike] | — | — | — |
 | `officer` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+11) | Лёгкая пехота | 125 | 32 | 30d / 0 (melee) / 1.22t [pike] | — | — | pike=2, sword=2, bullet=5, cannister=200, arrow=10, cannonball=30 |
 | `officer18` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+12) | Лёгкая пехота | 125 | 32 | 50d / 0 (melee) / 1.22t [pike] | — | — | — |
 | `officerrus` | **rus** Россия | Лёгкая пехота | 125 | 32 | 40d / 0 (melee) / 1.22t [pike] | — | — | — |
 | `officertur` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 125 | 32 | 30d / 0 (melee) / 1.22t [pike] | — | — | — |
 | `pikeman18swe` | **swe** Швеция | Лёгкая пехота | 110 | 32 | 11d / 0 (melee) / 1.88t [pike] | — | — | — |
-| `drummer18` | **rus** Россия | Лёгкая пехота | 100 | 32 | — | — | — | — |
+| `drummer18` | **aus** Австрия, **bav** Бавария, **den** Дания, **fra** Франция, **hun** Венгрия … (+11) | Лёгкая пехота | 100 | 32 | — | — | — | — |
 | `drummerrus` | **rus** Россия | Лёгкая пехота | 100 | 32 | — | — | — | — |
-| `mullah` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 100 | 32 | — | — | — | — |
-| `padre` | **pie** Пьемонт | Лёгкая пехота | 100 | 32 | — | — | — | — |
 | `pikeman` | **spa** Испания | Лёгкая пехота | 100 | 32 | 10d / 0 (melee) / 1.88t [pike] | — | — | pike=3, sword=4, bullet=6, cannister=240, arrow=12, cannonball=50 |
 | `pikemanpor` | **por** Португалия | Лёгкая пехота | 100 | 32 | 9d / 0 (melee) / 1.88t [pike] | — | — | sword=1, bullet=1, cannister=25, arrow=4 |
 | `pikemansco` | **sco** Шотландия | Лёгкая пехота | 100 | 32 | 9d / 0 (melee) / 1.88t [pike] | — | — | — |
 | `pikemanspa` | **spa** Испания | Лёгкая пехота | 100 | 32 | 10d / 0 (melee) / 1.88t [pike] | — | — | pike=3, sword=4, bullet=6, cannister=240, arrow=12, cannonball=50 |
-| `pope` | **rus** Россия, **ukr** Украина | Лёгкая пехота | 100 | 32 | — | — | — | — |
 | `priest` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+11) | Лёгкая пехота | 100 | 32 | — | — | — | — |
 | `roundshier` | **aus** Австрия | Лёгкая пехота | 100 | 32 | 6d / 0 (melee) / 1.13t [sword] | — | — | pike=3, sword=3, bullet=7, cannister=225, arrow=16, cannonball=80 |
 | `pikemantur` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 95 | 32 | 9d / 0 (melee) / 2.06t [pike] | — | — | — |
+| `padre` | **pie** Пьемонт | Лёгкая пехота | 90 | 32 | — | — | — | — |
 | `pikeman` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+7) | Лёгкая пехота | 90 | 32 | 8d / 0 (melee) / 1.88t [pike] | — | — | pike=3, sword=2, bullet=4, cannister=210, arrow=6, cannonball=40 |
 | `pikemanpol` | **pol** Польша | Лёгкая пехота | 90 | 32 | 8d / 0 (melee) / 2.06t [pike] | — | — | — |
 | `pikemanswi` | **swi** Швейцария | Лёгкая пехота | 90 | 32 | 10d / 0 (melee) / 1.88t [pike] | — | — | pike=3, sword=3, bullet=6, cannister=220, arrow=6, cannonball=45 |
 | `pikeman18` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+11) | Лёгкая пехота | 85 | 32 | 9d / 0 (melee) / 1.88t [pike] | — | — | — |
 | `pikemanrus` | **rus** Россия | Лёгкая пехота | 85 | 32 | 8d / 0 (melee) / 1.69t [pike] | — | — | pike=2, sword=1, bullet=4, cannister=140, arrow=4, cannonball=25 |
-| `bagpiper` | **eng** Англия, **sco** Шотландия | Лёгкая пехота | 75 | 32 | — | — | — | — |
 | `drummer` | **aus** Австрия, **bav** Бавария, **den** Дания, **eng** Англия, **fra** Франция … (+11) | Лёгкая пехота | 75 | 32 | — | — | — | — |
-| `drummer18` | **aus** Австрия, **bav** Бавария, **den** Дания, **fra** Франция, **hun** Венгрия … (+10) | Лёгкая пехота | 75 | 32 | — | — | — | — |
+| `mullah` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 75 | 32 | — | — | — | — |
+| `pope` | **rus** Россия, **ukr** Украина | Лёгкая пехота | 75 | 32 | — | — | — | — |
 | `roundshierdip` | все 21 | Лёгкая пехота | 75 | 32 | 6d / 0 (melee) / 1.13t [sword] | — | — | pike=5, sword=3, bullet=8, cannister=225, arrow=17, cannonball=80 |
 | `lightinfantry` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 55 | 32 | 5d / 0 (melee) / 0.94t [sword] | — | — | — |
 | `drummertur` | **alg** Алжир, **tur** Турция | Лёгкая пехота | 50 | 32 | — | — | — | — |
@@ -224,7 +223,7 @@ target.hp     -= applied_damage
 
 ---
 
-Сгенерировано из `docs/data.json`. Для перегенерации:
+Сгенерировано из `data.json`. Для перегенерации:
 
 ```
 python compute/compute_combat_stats.py
