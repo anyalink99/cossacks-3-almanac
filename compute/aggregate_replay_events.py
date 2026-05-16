@@ -1,28 +1,31 @@
-"""Run event-parser across every replay in the profile, aggregate stats.
+"""Walk a directory of `.rep` files, decode every event, and emit
+aggregate statistics covering handler frequency, ordtyp distribution,
+trade-pair counts, first-build timings and per-replay summaries.
 
-Outputs per-replay summary (CSV) + aggregate stats (JSON) covering:
-- replay length / duration / event count
-- ordtyp distribution across all games
-- handler frequency across the corpus
-- ReadTrade pairs across the corpus
-- timeline of "interesting" events (death/wall/upgrade/etc.)
+The replay directory is taken from `$COSSACKS3_REPLAYS`, the first CLI
+argument, or autodetected under the user's Cossacks 3 profile folder.
 
-Run: `python compute/aggregate_replay_events.py`
+Outputs:
+    derived/replay_events_per_file.json
+    derived/replay_events_aggregate.json
+    derived/replay_events_summary.csv
+
+Run: `python compute/aggregate_replay_events.py [<replays_dir>]`
 """
 from __future__ import annotations
 import csv
 import json
+import os
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-# Allow importing parser
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "parser"))
 
 from parse_replay_events import walk_entries, decode_subpackages  # type: ignore
+from parse_replay_aggregates import find_replays_dir  # type: ignore
 
-REPLAY_DIR = Path(r"C:\Users\stasi\OneDrive\Документы\cossacks\profiles\Niotid\replays")
 OUT_DIR = PROJECT_ROOT / "derived"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -95,8 +98,16 @@ def process_replay(path: Path) -> dict:
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
-    replays = sorted(REPLAY_DIR.glob("*.rep"))
-    print(f"Found {len(replays)} replays.")
+    if len(sys.argv) > 1:
+        replays_dir = Path(sys.argv[1])
+    else:
+        replays_dir = find_replays_dir()
+    if replays_dir is None or not replays_dir.is_dir():
+        print("error: replays directory not found. Set $COSSACKS3_REPLAYS "
+              "or pass the path as first argument.", file=sys.stderr)
+        sys.exit(1)
+    replays = sorted(replays_dir.glob("*.rep"))
+    print(f"Found {len(replays)} replays in {replays_dir}")
 
     per_replay = []
     total_handler: Counter = Counter()

@@ -567,10 +567,10 @@ def decode_move(r: Reader, ts: float, hdr: dict) -> dict:
             "squad_uid": squaduid, "squad_plind": plind}
 
 
-# Heuristic state_id → decoder. ReadConstruct (0x21), ReadNew (0x0d),
-# ReadRally (0x15), ReadOrder (0x17) are EMPIRICALLY VERIFIED on
-# nick-niotid 2.rep. Others are GUESSED by structural fit and may need
-# correction.
+# State_id → decoder dispatch. The state_id-to-name correspondence is
+# fixed by the order of sections in data/scripts/units/global.aix;
+# decoders implement the typed-field signature declared in each
+# read*.inc handler.
 DECODERS: dict[int, callable] = {
     0x21: decode_construct,         # ✓ ReadConstruct
     0x0d: decode_new,               # ✓ ReadNew

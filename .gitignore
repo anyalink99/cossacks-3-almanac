@@ -9,3 +9,9 @@ venv/
 *.swp
 .DS_Store
 Thumbs.db
+
+# Aggregate outputs derived from local replay corpus —
+# regenerable via parser/compute scripts
+derived/replay_events_aggregate.json
+derived/replay_events_per_file.json
+derived/replay_events_summary.csv
