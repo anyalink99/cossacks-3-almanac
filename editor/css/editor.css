@@ -244,6 +244,7 @@ select {
 .events-list li:last-child { border-bottom: none; }
 .events-list li.skip { color: #d4a857; }
 .events-list li.error { color: #d97766; }
+.events-list li.defer { color: #8aaecf; }
 .events-list li.info { color: #b8a785; }
 
 /* ─── Misc ────────────────────────────────────────────────────────── */

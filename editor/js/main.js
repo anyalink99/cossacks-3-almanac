@@ -237,6 +237,7 @@ function renderEvents(events) {
     let cls = "info";
     if (/SKIP/i.test(ev)) cls = "skip";
     else if (/ERROR|FAIL/i.test(ev)) cls = "error";
+    else if (/DEFER/i.test(ev)) cls = "defer";
     li.className = cls;
     li.textContent = ev;
     ul.appendChild(li);

@@ -145,12 +145,40 @@ def load_data():
 
 # ---------- Simulator state ----------
 
+PLACE_SUFFIXES = ("aca", "ba2", "bar", "bla", "sta", "mil", "art", "tem",
+                   "cen", "dip", "tow", "swa", "wwa", "por", "hou",
+                   "gol", "iro", "coa")
+SHARED_PLACES = {"tow", "swa", "wwa", "por"}  # cluster-prefixed
+MINE_PLACES = {"gol", "iro", "coa"}            # always eur*
+
+def upgrade_place_building(upg_sid: str, nation: str, cluster: str) -> str | None:
+    """Derive the building sid where this upgrade is researched, e.g.
+    `bavbla.1` → `bavbla`, `eurgol.3` → `eurgol`, `eurtow.2` → `<cluster>tow`.
+    Returns None if the suffix doesn't match any known place."""
+    stem = upg_sid.split(".")[0]
+    for p in (nation, cluster, "eur", "rus", "tur", "spa", "ukr", "por"):
+        if not p or not stem.startswith(p):
+            continue
+        rest = stem[len(p):]
+        if rest in PLACE_SUFFIXES:
+            if rest in MINE_PLACES:
+                return "eur" + rest
+            if rest in SHARED_PLACES:
+                return cluster + rest
+            return nation + rest
+    return None
+
+
 class SimState:
     def __init__(self, nation: str, build_order: dict, data: dict, tree: dict):
         self.nation = nation
         self.data = data
         self.tree = tree
         self.nat_tree = tree["nations"][nation]
+        # Cluster (eur/rus/ukr/tur/etc.) — for resolving where upgrades / shared
+        # buildings live. Falls back to "eur" if not in data.
+        nat_meta = next((n for n in data.get("nations", []) if n.get("sid") == nation), None)
+        self.cluster = (nat_meta or {}).get("cluster", "eur")
         self.bldgs_idx = {b["sid"]: b for b in data["buildings"] if b["nation"] == nation}
         self.units_idx = {u["sid"]: u for u in data["units"] if u["nation"] == nation}
         self.upg_idx = {u["sid"]: u for u in data["upgrades"] if u["nation"] == nation}
@@ -203,7 +231,12 @@ class SimState:
         # Last regen tick time (used for stage_0 +HP every FIELD_REGEN_INTERVAL_SEC).
         self.next_field_regen_t = FIELD_REGEN_INTERVAL_SEC
 
-        self.actions = sorted(build_order.get("actions", []), key=lambda a: a["at"])
+        # Deep-copy each action so deferral (mutating `at`) doesn't leak back
+        # into the caller's build_order dict (the editor reuses it after sim).
+        self.actions = sorted(
+            ({**a} for a in build_order.get("actions", [])),
+            key=lambda a: a["at"],
+        )
         self.action_idx = 0
 
         self.events: list[str] = []  # log of milestones / errors
@@ -301,13 +334,85 @@ class SimState:
     def idle_peasants(self) -> int:
         return self.total_peasants() - sum(self.assigned.values()) - sum(self.mine_assignments.values())
 
+    # --- prereq ETA (for action deferral) ---
+
+    def _eta_for_prereq(self, prereq: dict) -> float | None:
+        """Earliest projected time when this single prereq will be satisfied.
+
+        Returns None if no plan exists (action would have to skip outright).
+        Looks at: current state, in-progress construction/research, and future
+        actions in the build order.
+        """
+        kind, sid = prereq["kind"], prereq["sid"]
+        if self.has_prereq(prereq):
+            return self.t_g
+        if kind == "building":
+            finishes = [finish for s, finish, _b in self.construction if s == sid]
+            if finishes:
+                return min(finishes)
+            b = self.bldgs_idx.get(sid)
+            if not b:
+                return None
+            base_bt = b.get("buildtime_sec") or 1.0
+            cap = slot_cap_for(sid)
+            for fut in self.actions[self.action_idx + 1:]:
+                if fut.get("do") == "build" and fut.get("sid") == sid:
+                    builders = max(1, min(int(fut.get("builders", 1)), cap))
+                    bt = base_bt * 1.13 / builders
+                    return max(fut["at"], self.t_g) + bt
+            return None
+        if kind == "upgrade":
+            finishes = [finish for s, finish in self.upgrades_in_progress if s == sid]
+            if finishes:
+                return min(finishes)
+            ug = self.upg_idx.get(sid)
+            time_sec = (ug.get("time_sec") or 0) if ug else 0
+            for fut in self.actions[self.action_idx + 1:]:
+                if fut.get("do") == "research" and fut.get("upgrade_sid") == sid:
+                    return max(fut["at"], self.t_g) + time_sec
+            return None
+        # unit prereq: no good ETA (queues don't surface per-unit completion times)
+        return None
+
+    def _earliest_satisfaction_time(self, missing: list[dict]) -> float | None:
+        eta = self.t_g
+        for p in missing:
+            e = self._eta_for_prereq(p)
+            if e is None:
+                return None
+            if e > eta:
+                eta = e
+        # Tiny buffer so the prereq's completion has actually been applied to state
+        return eta + max(self.dt, 0.05)
+
+    def _bubble_deferred(self, act: dict, new_at: float) -> None:
+        """Mutate `act["at"]` and re-sort the suffix so the action queue stays
+        chronological. Does NOT advance action_idx — the slot is now occupied
+        by whatever neighbour ended up there."""
+        act["at"] = new_at
+        i = self.action_idx
+        while i + 1 < len(self.actions) and self.actions[i + 1]["at"] < self.actions[i]["at"]:
+            self.actions[i], self.actions[i + 1] = self.actions[i + 1], self.actions[i]
+            i += 1
+        act["defer_count"] = act.get("defer_count", 0) + 1
+
     # --- core tick ---
 
     def step(self):
-        # 1. Process queued actions whose time has arrived
+        # 1. Process queued actions whose time has arrived. An action may
+        #    return a future timestamp to mean "defer me until that time".
+        safety = 0
         while self.action_idx < len(self.actions) and self.actions[self.action_idx]["at"] <= self.t_g:
-            self.execute_action(self.actions[self.action_idx])
-            self.action_idx += 1
+            act = self.actions[self.action_idx]
+            defer_to = self.execute_action(act)
+            if defer_to is not None and defer_to > self.t_g and act.get("defer_count", 0) < 20:
+                self._bubble_deferred(act, defer_to)
+            else:
+                self.action_idx += 1
+            safety += 1
+            if safety > 1000:
+                self.events.append(f"t={self.t_g:6.1f}g: SAFETY-BREAK in action loop")
+                break
 
         # 2. Field state transitions (growing → alive → dead → reborn)
         self.advance_fields(self.dt)
@@ -655,6 +760,13 @@ class SimState:
             prereqs = self.nat_tree["buildings"].get(sid, {}).get("prereqs", [])
             ok, missing = self.all_prereqs_met(prereqs)
             if not ok:
+                eta = self._earliest_satisfaction_time(missing)
+                if eta is not None:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER build {sid} → t={eta:.1f}g "
+                        f"(ждём {[p['sid'] for p in missing]})"
+                    )
+                    return eta
                 self.events.append(f"t={self.t_g:6.1f}g: SKIP build {sid} — missing prereqs {[p['sid'] for p in missing]}")
                 return
             # Cost (with costpercent scaling)
@@ -684,6 +796,13 @@ class SimState:
             unit_sid = act["unit_sid"]
             amount = act.get("amount", 1)
             if self.buildings[bld_sid] == 0:
+                eta = self._earliest_satisfaction_time([{"kind": "building", "sid": bld_sid}])
+                if eta is not None and eta > self.t_g:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER train {unit_sid} в {bld_sid} → t={eta:.1f}g "
+                        f"(ждём {bld_sid})"
+                    )
+                    return eta
                 self.events.append(f"t={self.t_g:6.1f}g: SKIP train {unit_sid} at {bld_sid} — no such building")
                 return
             u = self.units_idx.get(unit_sid)
@@ -694,6 +813,13 @@ class SimState:
             prereqs = self.nat_tree["units"].get(unit_sid, {}).get("prereqs", [])
             ok, missing = self.all_prereqs_met(prereqs)
             if not ok:
+                eta = self._earliest_satisfaction_time(missing)
+                if eta is not None:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER train {unit_sid} → t={eta:.1f}g "
+                        f"(ждём {[p['sid'] for p in missing]})"
+                    )
+                    return eta
                 self.events.append(f"t={self.t_g:6.1f}g: SKIP train {unit_sid} — missing {[p['sid'] for p in missing]}")
                 return
             # Queue `amount` units at this building
@@ -709,9 +835,32 @@ class SimState:
             if upg_sid in self.upgrades_done:
                 self.events.append(f"t={self.t_g:6.1f}g: SKIP research {upg_sid} — already done")
                 return
+            # Implicit prereq: the building that hosts this upgrade must exist.
+            # data.json doesn't currently surface `place_sid`, so derive it from
+            # the sid convention (<nation><place>.N).
+            place_bld = upgrade_place_building(upg_sid, self.nation, self.cluster)
+            if place_bld and self.buildings.get(place_bld, 0) == 0:
+                eta = self._earliest_satisfaction_time([{"kind": "building", "sid": place_bld}])
+                if eta is not None and eta > self.t_g:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER research {upg_sid} → t={eta:.1f}g "
+                        f"(ждём {place_bld})"
+                    )
+                    return eta
+                self.events.append(
+                    f"t={self.t_g:6.1f}g: SKIP research {upg_sid} — здание {place_bld} не построено"
+                )
+                return
             prereqs = self.nat_tree["upgrades"].get(upg_sid, {}).get("prereqs", [])
             ok, missing = self.all_prereqs_met(prereqs)
             if not ok:
+                eta = self._earliest_satisfaction_time(missing)
+                if eta is not None:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER research {upg_sid} → t={eta:.1f}g "
+                        f"(ждём {[p['sid'] for p in missing]})"
+                    )
+                    return eta
                 self.events.append(f"t={self.t_g:6.1f}g: SKIP research {upg_sid} — missing {[p['sid'] for p in missing]}")
                 return
             cost = {k: ug.get(k) or 0 for k in self.resources}
