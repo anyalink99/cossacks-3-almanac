@@ -1,6 +1,6 @@
 import { COMMON_NAME, DEFAULT_PEASANT } from "./ui/i18n.js";
 
-const LS_KEY = "c3_editor_build_order_v4";
+const LS_KEY = "c3_editor_build_order_v5";
 
 export function defaultBuildOrder(nation = "bav") {
   const cen = nation + "cen";

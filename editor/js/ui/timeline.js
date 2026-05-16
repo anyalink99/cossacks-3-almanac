@@ -106,6 +106,39 @@ export class Timeline {
     return total;
   }
 
+  /** Peasants not occupied by an active build or a standing `assign` action at T.
+   *  Optional `exclude` skips one specific action from the busy-list (useful for
+   *  "how many peasants would be free if this action didn't exist yet"). */
+  freePeasantsAt(t, exclude = null) {
+    let total = this.peasantsAt(t);
+    for (const a of this.bo.actions) {
+      if (a === exclude) continue;
+      if (a.do !== "build") continue;
+      const at = +a.at || 0;
+      if (at > t) continue;
+      const b = this._findBuilding(a.sid);
+      const buildtime = (b?.buildtime_sec) || 30;
+      const builders = Math.max(1, +a.builders || 1);
+      const finish = at + (buildtime * 1.13) / builders;
+      if (t < finish) total -= builders;
+    }
+    let lastAssign = null;
+    for (const a of this.bo.actions) {
+      if (a === exclude) continue;
+      if (a.do !== "assign") continue;
+      const at = +a.at || 0;
+      if (at > t) continue;
+      if (!lastAssign || at > (+lastAssign.at || 0)) lastAssign = a;
+    }
+    if (lastAssign) {
+      for (const [k, v] of Object.entries(lastAssign)) {
+        if (k === "do" || k === "at") continue;
+        total -= (+v || 0);
+      }
+    }
+    return Math.max(0, total);
+  }
+
   /** Earliest time at which a single prereq sid is satisfied. Returns Infinity if never. */
   earliestForOne(sid) {
     for (const e of this.events) {
@@ -126,9 +159,39 @@ export class Timeline {
     return latest;
   }
 
-  /** Suggested default time for a new action: 5 g-sec after the last action's start (rounded), or 0. */
+  /** Suggested default time for a new action: 30 g-sec after the last action's start, or 0 if none. */
   suggestNextTime() {
+    if (!this.bo.actions.length) return 0;
     const last = this.bo.actions.reduce((m, a) => Math.max(m, +a.at || 0), 0);
-    return last === 0 ? 0 : last + 30;
+    return last + 30;
+  }
+
+  /** Earliest time after T at which at least one peasant is no longer building.
+   *  Returns T itself if peasants are already free, or Infinity if nothing will ever free up. */
+  nextPeasantFreeTime(t) {
+    let earliest = Infinity;
+    for (const a of this.bo.actions) {
+      if (a.do !== "build") continue;
+      const at = +a.at || 0;
+      const b = this._findBuilding(a.sid);
+      const buildtime = (b?.buildtime_sec) || 30;
+      const builders = Math.max(1, +a.builders || 1);
+      const finish = at + (buildtime * 1.13) / builders;
+      if (finish > t && finish < earliest) earliest = finish;
+    }
+    return earliest;
+  }
+
+  /** Earliest time when at least `needed` peasants are free for new work. */
+  earliestTimeFreePeasants(needed, fromT = 0) {
+    if (needed <= 0) return fromT;
+    let t = fromT;
+    for (let safety = 0; safety < 100; safety++) {
+      if (this.freePeasantsAt(t) >= needed) return t;
+      const next = this.nextPeasantFreeTime(t);
+      if (!isFinite(next) || next <= t) return Infinity;
+      t = Math.ceil(next + 0.05);
+    }
+    return Infinity;
   }
 }

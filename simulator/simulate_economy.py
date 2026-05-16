@@ -117,6 +117,20 @@ T_HIT = {"food":  PEASANT_ANIM_SEC["workfood"],
 MINE_RATE_PER_PEASANT = 13 * 32 / 250  # 1.664 res/g-sec/peasant
 MINE_TYPES = ("gold", "iron", "coal")
 
+# ---------- Market economy (gEconomy[restype], shared across players) -------
+# Defaults from `res.script:_res_InitEconomy`. See docs/reference/06_market.
+MARKET_DEFAULTS = {
+    # res:    (buy_min, buy_def, buy_max, sell_min, sell_def, sell_max)
+    "food":  (20,  25.00,  40,  10.64, 15.20, 19.76),
+    "wood":  (40,  50.00,  60,  20.00, 30.00, 40.00),
+    "stone": (40,  50.00,  60,  15.68, 20.90, 26.13),
+    "gold":  (140, 190.00, 240, 80.00, 110.00, 140.00),
+    "iron":  (100, 140.00, 180, 40.00, 60.00, 80.00),
+    "coal":  (100, 140.00, 180, 40.00, 60.00, 80.00),
+}
+GC_ECONOMY_EXP = 0.00002       # weight scaler per traded unit
+ECONOMY_REVERT_PER_GSEC = 0.025  # default returns ~2.5% per g-sec toward def
+
 # Real per-building builder slot cap, from compute/compute_builder_slots.py
 # (faithful sim of `_unit_CalcBuilderPoints` in unit.script:8702-9006).
 def _load_builder_slots() -> dict[str, int]:
@@ -175,10 +189,15 @@ class SimState:
         self.data = data
         self.tree = tree
         self.nat_tree = tree["nations"][nation]
-        # Cluster (eur/rus/ukr/tur/etc.) — for resolving where upgrades / shared
-        # buildings live. Falls back to "eur" if not in data.
-        nat_meta = next((n for n in data.get("nations", []) if n.get("sid") == nation), None)
-        self.cluster = (nat_meta or {}).get("cluster", "eur")
+        # Cluster (eur/rus/ukr/tur) — common-buildings prefix per country.script.
+        # data.json doesn't surface this field per-nation; mirror parser/config.py's
+        # _commonname mapping here.
+        if nation in ("rus", "ukr"):
+            self.cluster = "rus"
+        elif nation in ("tur", "alg"):
+            self.cluster = "tur"
+        else:
+            self.cluster = "eur"
         self.bldgs_idx = {b["sid"]: b for b in data["buildings"] if b["nation"] == nation}
         self.units_idx = {u["sid"]: u for u in data["units"] if u["nation"] == nation}
         self.upg_idx = {u["sid"]: u for u in data["upgrades"] if u["nation"] == nation}
@@ -206,6 +225,23 @@ class SimState:
         self.unit_queues: dict[str, list[tuple[str, float]]] = defaultdict(list)
         # Upgrade research: list of (upgrade_sid, finish_time_g)
         self.upgrades_in_progress = []
+
+        # Active "infinite train" orders. Each entry:
+        #   {"building_sid": str, "unit_sid": str, "start_t": float}
+        # Sim tops up the unit_queues so production never stops while orders
+        # are active and resources hold out.
+        self.infinite_orders: list[dict] = []
+
+        # Market rates — shared across players, mutated by trade actions and
+        # drifted back toward defaults every tick.
+        self.market = {
+            res: {
+                "buy_min": vals[0], "buy": vals[1], "buy_max": vals[2],
+                "sell_min": vals[3], "sell": vals[4], "sell_max": vals[5],
+                "buy_def": vals[1], "sell_def": vals[4],
+            }
+            for res, vals in MARKET_DEFAULTS.items()
+        }
 
         # Peasant assignments: {resource_type: count}
         self.assigned = defaultdict(int)
@@ -426,11 +462,15 @@ class SimState:
         # 5. Construction progress
         self.advance_construction()
 
-        # 6. Unit production progress
+        # 6. Refill unit queues for active infinite-orders, then advance.
+        self.maintain_infinite_orders()
         self.advance_unit_production(self.dt)
 
         # 7. Upgrade research progress
         self.advance_upgrades()
+
+        # 7b. Market rates drift back toward defaults (~2.5% / g-sec)
+        self.advance_market(self.dt)
 
         # 8. Snapshot
         if self.t_g % self.snapshot_interval == 0 or abs(self.t_g - self.max_time_g) < self.dt:
@@ -577,6 +617,31 @@ class SimState:
                 continue
             self.resources[res] -= (total_per_tick_unit * GC_TIME_TO_FRAMES / 20000) * dt
 
+    def maintain_infinite_orders(self):
+        """Keep unit_queues topped up for active train_infinite orders.
+
+        For each (building_sid, unit_sid) with N infinite orders, ensure the
+        queue contains at least min(N, n_buildings) entries of that unit. This
+        way each building instance always has work as long as an order targets
+        it, and N orders for N buildings produce in parallel."""
+        if not self.infinite_orders:
+            return
+        by_pair: dict[tuple[str, str], int] = defaultdict(int)
+        for o in self.infinite_orders:
+            if o["start_t"] > self.t_g:
+                continue
+            by_pair[(o["building_sid"], o["unit_sid"])] += 1
+        for (bld_sid, unit_sid), n_orders in by_pair.items():
+            n_inst = self.buildings.get(bld_sid, 0)
+            if n_inst == 0:
+                continue
+            target = min(n_orders, n_inst)
+            queue = self.unit_queues[bld_sid]
+            cur = sum(1 for u, _p in queue if u == unit_sid)
+            while cur < target:
+                queue.append((unit_sid, 0.0))
+                cur += 1
+
     def advance_construction(self):
         finished = []
         for i, (sid, finish_time, _) in enumerate(self.construction):
@@ -682,6 +747,44 @@ class SimState:
                 factor *= 1.0 + float(v) / 10_000_000.0
         return max(0.05, factor)
 
+    # --- market ---
+
+    def market_building_sid(self) -> str:
+        # Market is sister-clustered: spa/por share "spamar"; everyone else
+        # uses their common cluster (eur/rus/tur).
+        if self.nation in ("spa", "por"):
+            return "spamar"
+        return self.cluster + "mar"
+
+    def advance_market(self, dt: float):
+        """Drift buy/sell rates toward their `def` values. Engine uses
+        exponential return: cur ← cur + (def - cur) × dt × 0.025."""
+        k = ECONOMY_REVERT_PER_GSEC * dt
+        for state in self.market.values():
+            state["buy"]  += (state["buy_def"]  - state["buy"])  * k
+            state["sell"] += (state["sell_def"] - state["sell"]) * k
+
+    def apply_trade(self, sell_res: str, buy_res: str, amount: int) -> int:
+        """Execute one market trade. Returns units of buy_res received.
+        Mutates self.market and self.resources."""
+        sell_state = self.market[sell_res]
+        buy_state  = self.market[buy_res]
+        sellcost_x = sell_state["sell"]
+        buycost_y  = buy_state["buy"]
+        received = int(amount * sellcost_x / buycost_y)
+        # Move resources
+        self.resources[sell_res] -= amount
+        self.resources[buy_res]  += received
+        # Update rates per engine formula (res.script:_res_MarketTradeResources)
+        w = amount * GC_ECONOMY_EXP
+        # Selling X → both costs drift toward min
+        sell_state["sell"] = (sell_state["sell"] + sell_state["sell_min"] * w) / (1 + w)
+        sell_state["buy"]  = (sell_state["buy"]  + sell_state["buy_min"]  * w) / (1 + w)
+        # Buying Y → both costs drift toward max
+        buy_state["buy"]   = (buy_state["buy"]   + buy_state["buy_max"]   * w) / (1 + w)
+        buy_state["sell"]  = (buy_state["sell"]  + buy_state["sell_max"]  * w) / (1 + w)
+        return received
+
     def price_modifier(self, sid: str) -> float:
         """Multiplier on cost for `sid`. Engine math (player.script:1841):
             price[j] *= (1 + StrToInt(sarrparam2[...]) / 100)
@@ -786,10 +889,22 @@ class SimState:
             base_bt = b.get("buildtime_sec") or 1.0
             # Per-building slot cap from faithful sim of _unit_CalcBuilderPoints.
             cap = slot_cap_for(sid)
-            n_builders = max(1, min(builders, cap))
+            # Clamp builders by physically free peasants right now: total alive
+            # minus those already busy on other construction sites and those
+            # standing at gathering/mine assignments.
+            busy_in_construction = sum(b for _s, _f, b in self.construction)
+            busy_at_resources = sum(self.assigned.values()) + sum(self.mine_assignments.values())
+            free = max(0, self.total_peasants() - busy_in_construction - busy_at_resources)
+            requested = builders
+            n_builders = max(1, min(requested, cap, free if free > 0 else 1))
+            if requested > n_builders:
+                self.events.append(
+                    f"t={self.t_g:6.1f}g: CLAMP build {sid} builders {requested} → {n_builders} "
+                    f"(свободно {free}, cap {cap})"
+                )
             bt = base_bt * 1.13 / n_builders
             finish = self.t_g + bt
-            self.construction.append((sid, finish, builders))
+            self.construction.append((sid, finish, n_builders))
             self.events.append(f"t={self.t_g:6.1f}g: START build {sid} (finish at t={finish:.1f}g, cost={cost})")
         elif kind == "train":
             bld_sid = act["building_sid"]
@@ -826,6 +941,41 @@ class SimState:
             for _ in range(amount):
                 self.unit_queues[bld_sid].append((unit_sid, 0.0))
             self.events.append(f"t={self.t_g:6.1f}g: QUEUE train {amount}× {unit_sid} at {bld_sid} (queue={len(self.unit_queues[bld_sid])})")
+        elif kind == "train_infinite":
+            bld_sid = act["building_sid"]
+            unit_sid = act["unit_sid"]
+            if self.buildings.get(bld_sid, 0) == 0:
+                eta = self._earliest_satisfaction_time([{"kind": "building", "sid": bld_sid}])
+                if eta is not None and eta > self.t_g:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER ∞ {unit_sid} в {bld_sid} → t={eta:.1f}g"
+                    )
+                    return eta
+                self.events.append(f"t={self.t_g:6.1f}g: SKIP ∞ {unit_sid} в {bld_sid} — нет такого здания")
+                return
+            u = self.units_idx.get(unit_sid)
+            if not u:
+                self.events.append(f"t={self.t_g:6.1f}g: ERROR unknown unit {unit_sid}")
+                return
+            prereqs = self.nat_tree["units"].get(unit_sid, {}).get("prereqs", [])
+            ok, missing = self.all_prereqs_met(prereqs)
+            if not ok:
+                eta = self._earliest_satisfaction_time(missing)
+                if eta is not None:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER ∞ {unit_sid} → t={eta:.1f}g "
+                        f"(ждём {[p['sid'] for p in missing]})"
+                    )
+                    return eta
+                self.events.append(f"t={self.t_g:6.1f}g: SKIP ∞ {unit_sid} — нет пререквизитов")
+                return
+            self.infinite_orders.append({
+                "building_sid": bld_sid, "unit_sid": unit_sid, "start_t": self.t_g,
+            })
+            self.events.append(
+                f"t={self.t_g:6.1f}g: ∞ START production {unit_sid} в {bld_sid} (всего ∞-заказов: "
+                f"{sum(1 for o in self.infinite_orders if o['building_sid'] == bld_sid and o['unit_sid'] == unit_sid)})"
+            )
         elif kind == "research":
             upg_sid = act["upgrade_sid"]
             ug = self.upg_idx.get(upg_sid)
@@ -872,6 +1022,36 @@ class SimState:
             finish = self.t_g + time_sec
             self.upgrades_in_progress.append((upg_sid, finish))
             self.events.append(f"t={self.t_g:6.1f}g: START research {upg_sid} (finish at t={finish:.1f}g)")
+        elif kind == "trade":
+            sell_res = act.get("sell")
+            buy_res = act.get("buy")
+            amount = int(act.get("amount") or 0)
+            if sell_res not in self.market or buy_res not in self.market or sell_res == buy_res or amount <= 0:
+                self.events.append(f"t={self.t_g:6.1f}g: ERROR invalid trade {sell_res}→{buy_res} ×{amount}")
+                return
+            mar_sid = self.market_building_sid()
+            if self.buildings.get(mar_sid, 0) == 0:
+                eta = self._earliest_satisfaction_time([{"kind": "building", "sid": mar_sid}])
+                if eta is not None and eta > self.t_g:
+                    self.events.append(
+                        f"t={self.t_g:6.1f}g: DEFER trade {amount}×{sell_res}→{buy_res} → t={eta:.1f}g (ждём {mar_sid})"
+                    )
+                    return eta
+                self.events.append(
+                    f"t={self.t_g:6.1f}g: SKIP trade {amount}×{sell_res}→{buy_res} — рынок {mar_sid} не построен"
+                )
+                return
+            if self.resources.get(sell_res, 0) < amount:
+                self.events.append(
+                    f"t={self.t_g:6.1f}g: SKIP trade {amount}×{sell_res}→{buy_res} — "
+                    f"не хватает {sell_res} (есть {int(self.resources.get(sell_res, 0))})"
+                )
+                return
+            received = self.apply_trade(sell_res, buy_res, amount)
+            self.events.append(
+                f"t={self.t_g:6.1f}g: TRADE {amount} {sell_res} → {received} {buy_res} "
+                f"(курс sell={self.market[sell_res]['sell']:.2f}, buy={self.market[buy_res]['buy']:.2f})"
+            )
         else:
             self.events.append(f"t={self.t_g:6.1f}g: WARN unknown action {kind}")
 

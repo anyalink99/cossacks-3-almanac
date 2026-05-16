@@ -12,10 +12,12 @@ export const RES_INFO = {
 export const RES_ORDER = ["food", "wood", "stone", "gold", "iron", "coal"];
 
 export const KIND_INFO = {
-  build:    { ru: "Построить",          short: "Стр", color: "#6da5d4" },
-  train:    { ru: "Обучить",            short: "Об",  color: "#87b369" },
-  research: { ru: "Исследовать",        short: "Исс", color: "#d4a857" },
-  assign:   { ru: "Раскидать крестьян", short: "Расп", color: "#b87dd4" },
+  build:           { ru: "Построить",          short: "Стр", color: "#6da5d4" },
+  train:           { ru: "Обучить",            short: "Об",  color: "#87b369" },
+  train_infinite:  { ru: "Беск. производство", short: "∞",   color: "#5fc78e" },
+  research:        { ru: "Исследовать",        short: "Исс", color: "#d4a857" },
+  assign:          { ru: "Раскидать крестьян", short: "Расп", color: "#b87dd4" },
+  trade:           { ru: "Обмен на рынке",     short: "Тор", color: "#c9784a" },
 };
 
 // Inline HTML for a small colored dot — used everywhere icons used to be.
@@ -75,6 +77,32 @@ export const COMMON_NAME = {
   net: "eur", den: "eur", por: "por", pie: "eur", sax: "eur", bav: "eur",
   hun: "eur", swi: "eur", sco: "eur",
 };
+
+/**
+ * Match parser/config.py `building_cluster(nat, suffix)`. Specifically:
+ * - market (`mar`) lives under spa cluster for spa/por nations
+ * - storehouse (`sto`) lives under rus for pol, spa for spa/por
+ */
+export function buildingClusterFor(nation, suffix) {
+  const com = COMMON_NAME[nation] || "eur";
+  if (suffix === "sto") {
+    if (nation === "pol") return "rus";
+    if (nation === "spa" || nation === "por") return "spa";
+    return com;
+  }
+  if (suffix === "mar") {
+    if (nation === "spa" || nation === "por") return "spa";
+    return com;
+  }
+  if (suffix === "por") {
+    if (nation === "por") return "por";
+    if (nation === "ukr") return "ukr";
+    return com;
+  }
+  if (suffix === "gol" || suffix === "iro" || suffix === "coa") return "eur";
+  if (suffix === "wwa" || suffix === "wga") return "ukr";
+  return com;
+}
 
 export const DEFAULT_PEASANT = {
   aus: "peaaus", fra: "peaeng", eng: "peaeng", spa: "peaspa", rus: "pearus",

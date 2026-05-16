@@ -783,6 +783,44 @@ def _resolve_upgrade(cid: int, upgrade_id: int) -> dict | None:
     return upgrades[upgrade_id]
 
 
+_MEMBER_CACHE: dict | None = None
+
+
+def _load_country_members() -> dict:
+    """Load per-nation ordered member list. ReadProduce's `proid` is the
+    index into this list (== `ind` from `_country_AddMember` calls in
+    `country.script`)."""
+    global _MEMBER_CACHE
+    if _MEMBER_CACHE is not None:
+        return _MEMBER_CACHE
+    candidates = [
+        Path(__file__).resolve().parent.parent / "derived" / "country_members.json",
+        Path("/c3/country_members.json"),  # Pyodide virtual FS layout
+        Path("derived/country_members.json"),
+    ]
+    for path in candidates:
+        if path.exists():
+            try:
+                _MEMBER_CACHE = json.loads(path.read_text(encoding="utf-8"))
+                return _MEMBER_CACHE
+            except Exception:
+                continue
+    _MEMBER_CACHE = {}
+    return {}
+
+
+def _resolve_unit_member(cid: int, proid: int) -> str | None:
+    """Look up the unit/building sid by country + member-index. Returns the
+    sid string, or None if cid/proid is out of range."""
+    nation = NATION_BY_CID.get(cid)
+    if not nation:
+        return None
+    members = _load_country_members().get(nation)
+    if not members or proid < 0 or proid >= len(members):
+        return None
+    return members[proid]
+
+
 def _build_player_nations(decoded: list[dict]) -> dict[int, str]:
     """Infer each player's nation from the sid of their first ReadConstruct.
 
@@ -974,10 +1012,14 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     orders_per_pid: dict = defaultdict(Counter)
     trades_per_pid: dict = defaultdict(list)
     upgrades_per_pid: dict = defaultdict(list)
+    produces_per_pid: dict = defaultdict(list)
     deaths_per_pid: Counter = Counter()
     proj_per_pid: Counter = Counter()
     rally_per_pid: dict = defaultdict(int)
     player_nations: dict[int, str] = {}
+    # Building/unit uid → sid map, built incrementally from ReadNew events.
+    # Used to resolve `building_uids` in ReadProduce orders into sids.
+    uid_to_sid: dict[int, str] = {}
 
     # Abuse detection inspects ReadUpgrade and ReadApply only; keep just
     # those records so the detector never sees the bulky sync stream.
@@ -1006,8 +1048,30 @@ def parse_replay_from_bytes(data: bytes) -> dict:
                 units_built_per_pid[pid][sid] += 1
                 if pid not in player_nations and len(sid) >= 3:
                     player_nations[pid] = sid[:3]
-            elif h == "ReadNew" and pid is not None:
-                spawns_per_pid[pid][rec["sid"]] += 1
+            elif h == "ReadNew":
+                # Capture uid→sid for EVERY new entity (units, buildings,
+                # animals…), regardless of owner — so ReadProduce can later
+                # resolve building UIDs into sids.
+                uid = rec.get("uid")
+                sid = rec.get("sid")
+                if uid is not None and sid:
+                    uid_to_sid[uid] = sid
+                if pid is not None:
+                    spawns_per_pid[pid][sid] += 1
+            elif h == "ReadProduce" and pid is not None:
+                bld_uids = rec.get("buildings") or []
+                bld_sids = [uid_to_sid.get(u) for u in bld_uids]
+                unit_sid = _resolve_unit_member(rec["prcid"], rec["proid"])
+                produces_per_pid[pid].append({
+                    "ts_g_sec": rec["ts_g_sec"],
+                    "building_uids": bld_uids,
+                    "building_sids": bld_sids,
+                    "unit_sid": unit_sid,
+                    "proid": rec["proid"], "prcid": rec["prcid"],
+                    "amount": rec["amount"],   # -1 means ∞
+                    "infinite": rec["amount"] == -1,
+                    "start": rec["state"],
+                })
             elif h == "ReadOrder" and pid is not None:
                 orders_per_pid[pid][rec["ordtyp_name"]] += 1
             elif h == "ReadTrade" and pid is not None:
@@ -1049,6 +1113,7 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         "orders_per_pid": {p: dict(v) for p, v in orders_per_pid.items()},
         "trades_per_pid": {p: v for p, v in trades_per_pid.items()},
         "upgrades_per_pid": {p: v for p, v in upgrades_per_pid.items()},
+        "produces_per_pid": {p: v for p, v in produces_per_pid.items()},
         "deaths_per_pid": dict(deaths_per_pid),
         "proj_per_pid": dict(proj_per_pid),
         "rally_per_pid": dict(rally_per_pid),

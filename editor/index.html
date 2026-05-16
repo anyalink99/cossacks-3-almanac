@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Cossacks 3 — Тренажёр стратегий</title>
-  <link rel="stylesheet" href="../assets/css/cossacks-theme.css" />
-  <link rel="stylesheet" href="css/editor.css" />
+  <link rel="stylesheet" href="../assets/css/cossacks-theme.css?v=20260517a" />
+  <link rel="stylesheet" href="css/editor.css?v=20260517a" />
   <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
@@ -14,43 +17,44 @@
   <header class="topbar">
     <div class="brand">
       <span class="logo-mark">C3</span>
-      <h1>Тренажёр стратегий <span class="ver">v0.3</span></h1>
+      <h1>Тренажёр стратегий <span class="ver">v0.4</span></h1>
     </div>
     <div class="topbar-actions">
+      <label class="topbar-field">
+        <span>Нация</span>
+        <select id="nation"></select>
+      </label>
+      <label class="topbar-field">
+        <span>Длительность</span>
+        <select id="max_time">
+          <option value="300">5 минут</option>
+          <option value="600">10 минут</option>
+          <option value="900" selected>15 минут</option>
+          <option value="1200">20 минут</option>
+          <option value="1800">30 минут</option>
+          <option value="2700">45 минут</option>
+          <option value="3600">60 минут</option>
+        </select>
+      </label>
+      <button id="settings_btn" class="btn btn-ghost" title="Доп. настройки сценария">⚙ Настройки</button>
       <span id="status" class="pill loading">Загрузка…</span>
       <button id="run_sim" class="btn btn-primary" disabled>▶ Прогнать</button>
+      <div class="topbar-extra">
+        <button id="import_replay_btn" class="btn btn-ghost btn-sm" title="Извлечь стратегию из .rep">Реплей →</button>
+        <button id="export_btn" class="btn btn-ghost btn-sm">Экспорт</button>
+        <button id="import_btn" class="btn btn-ghost btn-sm">Импорт</button>
+        <button id="reset_btn" class="btn btn-ghost btn-sm">Сброс</button>
+        <input type="file" id="import_file" accept=".json" hidden />
+        <input type="file" id="import_replay_file" accept=".rep" hidden />
+      </div>
     </div>
   </header>
 
-  <main class="layout">
-
-    <!-- LEFT: scenario builder -->
-    <section class="panel panel-left">
-
-      <div class="card">
-        <h2>Игрок</h2>
-        <div class="grid-2">
-          <label class="field">
-            <span>Нация</span>
-            <select id="nation"></select>
-          </label>
-          <label class="field">
-            <span>Длительность партии</span>
-            <select id="max_time">
-              <option value="300">5 минут</option>
-              <option value="600">10 минут</option>
-              <option value="900" selected>15 минут</option>
-              <option value="1200">20 минут</option>
-              <option value="1800">30 минут</option>
-              <option value="2700">45 минут</option>
-              <option value="3600">60 минут</option>
-            </select>
-          </label>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Параметры карты</h2>
+  <!-- Settings drawer (slides from top, hidden by default) -->
+  <aside id="settings_drawer" class="settings-drawer hidden">
+    <div class="drawer-inner">
+      <details class="drawer-section" open>
+        <summary><h3>Параметры карты</h3></summary>
         <div class="grid-2">
           <label class="field"><span>Размер карты</span><select id="set_mapsize"></select></label>
           <label class="field"><span>Тип ландшафта</span><select id="set_terraintype"></select></label>
@@ -63,14 +67,14 @@
           <summary>Показать ресурсы поштучно</summary>
           <div id="starting_resources" class="resources-row"></div>
         </details>
-      </div>
+      </details>
 
-      <div class="card">
-        <h2>Правила игры</h2>
+      <details class="drawer-section">
+        <summary><h3>Правила игры</h3></summary>
         <div class="grid-2">
           <label class="field"><span>Скорость партии</span><select id="set_gamespeed"></select></label>
           <label class="field"><span>Стартовая армия</span><select id="set_startingunits"></select></label>
-          <label class="field"><span>Время мира (peace time)</span><select id="set_peacetime"></select></label>
+          <label class="field"><span>Время мира</span><select id="set_peacetime"></select></label>
           <label class="field"><span>Переход в 18 век</span><select id="set_century18"></select></label>
           <label class="field"><span>Захват</span><select id="set_capture"></select></label>
           <label class="field"><span>Рынок и дипцентр</span><select id="set_marketdip"></select></label>
@@ -81,64 +85,101 @@
           <label class="field"><span>Сложность ИИ</span><select id="set_difficulty"></select></label>
           <label class="field"><span>Крестьян на старте</span><select id="start_peasants"></select></label>
         </div>
-        <div class="muted small">
-          Источник опций — игровые скрипты (`gc_mapsettings_*` + локализация).
-          Подробности механик — <a href="../docs/recon/game_settings.md" target="_blank">docs/recon/game_settings.md</a>.
-        </div>
-      </div>
+      </details>
+    </div>
+  </aside>
 
-      <div class="card">
-        <div class="card-header">
-          <h2>Действия <span id="actions_count" class="badge">0</span></h2>
-          <div class="action-tabs">
-            <button class="tab" data-tab="build"><span class="kind-tag" style="--c:#6da5d4">Стр</span> Построить</button>
-            <button class="tab" data-tab="train"><span class="kind-tag" style="--c:#87b369">Об</span> Обучить</button>
-            <button class="tab" data-tab="research"><span class="kind-tag" style="--c:#d4a857">Исс</span> Исследовать</button>
-            <button class="tab" data-tab="assign"><span class="kind-tag" style="--c:#b87dd4">Расп</span> Раскидать</button>
+  <main class="workspace">
+
+    <!-- LEFT: catalog -->
+    <aside class="catalog">
+      <div class="catalog-tabs">
+        <button class="cat-tab active" data-cat="build">Здания</button>
+        <button class="cat-tab" data-cat="train">Юниты</button>
+        <button class="cat-tab" data-cat="research">Апгр.</button>
+        <button class="cat-tab" data-cat="other">Прочее</button>
+      </div>
+      <input type="search" id="catalog_search" placeholder="Поиск…" />
+      <ul id="catalog_list" class="catalog-list"></ul>
+      <div class="catalog-hint muted small">
+        Клик по пункту — добавить в билд-ордер. Время подбирается автоматически на самый ранний валидный момент.
+      </div>
+    </aside>
+
+    <!-- CENTER: timeline -->
+    <section class="timeline-area">
+      <div class="timeline-toolbar">
+        <span class="muted small">Зум:</span>
+        <button class="btn btn-ghost btn-sm" id="zoom_out">−</button>
+        <span id="zoom_label" class="muted small">2 px/g-сек</span>
+        <button class="btn btn-ghost btn-sm" id="zoom_in">+</button>
+        <span class="sep"></span>
+        <span class="muted small">Действий: <b id="actions_count">0</b></span>
+      </div>
+      <div class="timeline-scroll">
+        <svg id="timeline_svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </section>
+
+    <!-- BOTTOM: inspector + events -->
+    <section class="bottom-panel">
+      <div class="bp-tabs">
+        <button class="bp-tab active" data-bp="inspector">Инспектор</button>
+        <button class="bp-tab" data-bp="events">События <span id="events_count" class="badge">0</span></button>
+        <button class="bp-tab" data-bp="summary">Итог</button>
+        <button class="bp-tab" data-bp="charts">Графики</button>
+      </div>
+      <div class="bp-body">
+        <div id="bp_inspector" class="bp-pane active">
+          <div class="inspector-empty muted">Кликни по точке на таймлайне, чтобы редактировать действие.</div>
+        </div>
+        <div id="bp_events" class="bp-pane">
+          <ul id="events_list" class="events-list"></ul>
+        </div>
+        <div id="bp_summary" class="bp-pane">
+          <div id="summary" class="summary">
+            <div class="summary-empty">Нажми «Прогнать» сверху, чтобы увидеть результат.</div>
           </div>
         </div>
-
-        <div id="action_form" class="action-form hidden"></div>
-
-        <ul id="actions_list" class="actions-list"></ul>
-      </div>
-
-      <div class="card card-meta">
-        <button id="export_btn" class="btn">Экспорт JSON</button>
-        <button id="import_btn" class="btn">Импорт JSON</button>
-        <button id="reset_btn" class="btn btn-ghost">Сброс</button>
-        <input type="file" id="import_file" accept=".json" hidden />
-      </div>
-
-    </section>
-
-    <!-- RIGHT: results -->
-    <section class="panel panel-right">
-
-      <div class="card card-summary">
-        <h2>Итог симуляции</h2>
-        <div id="summary" class="summary">
-          <div class="summary-empty">Нажми «Прогнать» сверху, чтобы увидеть результат.</div>
+        <div id="bp_charts" class="bp-pane">
+          <div class="charts-grid">
+            <div class="chart-wrap"><canvas id="chart_resources"></canvas></div>
+            <div class="chart-wrap"><canvas id="chart_pop"></canvas></div>
+          </div>
         </div>
       </div>
-
-      <div class="card">
-        <h2>Ресурсы во времени</h2>
-        <div class="chart-wrap"><canvas id="chart_resources"></canvas></div>
-      </div>
-
-      <div class="card">
-        <h2>Население / лимит фермы</h2>
-        <div class="chart-wrap"><canvas id="chart_pop"></canvas></div>
-      </div>
-
-      <div class="card">
-        <h2>События <span id="events_count" class="badge">0</span></h2>
-        <ul id="events_list" class="events-list"></ul>
-      </div>
-
     </section>
+
   </main>
+
+  <!-- Modal for replay-import player picker -->
+  <div id="replay_modal" class="modal hidden">
+    <div class="modal-back"></div>
+    <div class="modal-body">
+      <h3>Импорт стратегии из реплея</h3>
+      <div class="muted small" id="replay_modal_file"></div>
+      <label class="field">
+        <span>Игрок</span>
+        <select id="replay_pid_select"></select>
+      </label>
+      <label class="field">
+        <span>Окно (г-минут)</span>
+        <select id="replay_window_select">
+          <option value="300">5</option>
+          <option value="600">10</option>
+          <option value="900" selected>15</option>
+          <option value="1200">20</option>
+          <option value="1800">30</option>
+          <option value="3600">60</option>
+        </select>
+      </label>
+      <div class="muted small">Извлекутся: build · train · ∞-train · trade · research. Заказы крестьян (assign) добавь вручную после импорта.</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="replay_cancel_btn">Отмена</button>
+        <button class="btn btn-primary" id="replay_confirm_btn">Импорт</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="js/main.js"></script>
 </body>

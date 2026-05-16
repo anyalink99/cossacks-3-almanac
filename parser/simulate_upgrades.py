@@ -930,6 +930,19 @@ def walk_sim(node: Node, state: dict, env: dict, sink: list, nation: str):
                 if (tgt and tgt != "''" and tgt not in last.get("targets", [])
                         and not tgt.startswith(("garr_", "csid+", "commonName"))):
                     last.setdefault("targets", []).append(tgt)
+        elif name == "_country_AddMember":
+            # signature: (country, sid, ind, enabled, category, priority, airole)
+            # Each call registers `sid` as a country member; `ind` auto-
+            # increments and is what the replay protocol calls `proid`.
+            if len(args) >= 2:
+                sid = _eval_string_arg(args[1], env)
+                if sid:
+                    sink.append({
+                        "_kind": "member",
+                        "sid": sid,
+                        "nation": nation,
+                        "_source": "AddMember",
+                    })
         elif name in ("_country_AddFixedProduce", "_country_AddFixedProduceWithAccessControl"):
             # signature: (country, fpind, producer_sid, product_sid, x, y, ind, [req0, req1, req2])
             if len(args) >= 4:
@@ -1118,13 +1131,15 @@ def simulate(country_text: str, nat: str, *, dedup: bool = True) -> list[dict]:
     # Drop entries with unresolved sids (e.g., from inside the nested AddUpgradePack
     # proc declaration that may have leaked through). Keep fixed_produce events as-is.
     sink = [u for u in sink
-            if u.get("_kind") == "fixed_produce" or
+            if u.get("_kind") in ("fixed_produce", "member") or
             (u.get("sid") and "+" not in u["sid"]
              and "upgstruct" not in u["sid"] and "csid" not in u["sid"])]
     if dedup:
-        # Keep last-write-wins (mirrors real game: AddUpgrade with same id overwrites).
-        last: dict[str, dict] = {}
+        # Keep last-write-wins for upgrades (mirrors AddUpgrade overwrite),
+        # first-write-wins for members (preserves the proid-allocation order).
+        last_upg: dict[str, dict] = {}
         fp_seen: set[tuple[str, str]] = set()
+        member_seen: set[str] = set()
         deduped = []
         for u in sink:
             if u.get("_kind") == "fixed_produce":
@@ -1133,9 +1148,14 @@ def simulate(country_text: str, nat: str, *, dedup: bool = True) -> list[dict]:
                     continue
                 fp_seen.add(key)
                 deduped.append(u)
+            elif u.get("_kind") == "member":
+                if u["sid"] in member_seen:
+                    continue
+                member_seen.add(u["sid"])
+                deduped.append(u)
             else:
-                last[u["sid"]] = u
-        deduped.extend(last.values())
+                last_upg[u["sid"]] = u
+        deduped.extend(last_upg.values())
         sink = deduped
     return sink
 

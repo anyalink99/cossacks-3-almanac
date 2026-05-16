@@ -1,10 +1,16 @@
+// Editor v0.4 — timeline-based UI.
+// Catalog (left) → Timeline (center) → Inspector (bottom).
+
 import { loadAll } from "./data_loader.js";
-import { initPyodide, runSimulation } from "./pyodide_runner.js";
+import { initPyodide, runSimulation, importReplay, listReplayPlayers } from "./pyodide_runner.js";
 import * as BO from "./build_order.js";
 import * as Charts from "./ui/charts.js";
-import * as ActionList from "./ui/action_list.js";
-import * as ActionForm from "./ui/action_form.js";
 import { upgradesForNation } from "./ui/catalog.js";
+import { Timeline } from "./ui/timeline.js";
+import * as CatalogPanel from "./ui/catalog_panel.js";
+import * as TimelineView from "./ui/timeline_view.js";
+import * as Inspector from "./ui/inspector.js";
+import { maxBuildersFor } from "./ui/catalog.js";
 import {
   RES_ORDER, RES_INFO, RES_PRESETS, PEASANT_PRESETS,
   fmtName, fmtTime, DEFAULT_PEASANT,
@@ -12,7 +18,6 @@ import {
 
 const $ = (sel) => document.querySelector(sel);
 const status = $("#status");
-
 function setStatus(text, cls = "loading") {
   status.textContent = text;
   status.className = `pill ${cls}`;
@@ -20,21 +25,64 @@ function setStatus(text, cls = "loading") {
 
 let bundle = null;
 let buildOrder = BO.load();
-let lookupCtx = null;
+let currentTimeline = null;
 
-function rebuildLookups() {
+function rebuildTimeline() {
   if (!bundle) return;
-  const nation = buildOrder.nation;
-  const byBuildingSid = new Map(bundle.data.buildings.filter(b => b.nation === nation).map(b => [b.sid, b]));
-  const byUnitSid = new Map(bundle.data.units.filter(u => u.nation === nation).map(u => [u.sid, u]));
-  const ups = upgradesForNation(bundle.data, nation);
-  const byUpgradeSid = new Map(ups.map(u => [u.sid, u]));
-  lookupCtx = { byBuildingSid, byUnitSid, byUpgradeSid, gameSpeed: buildOrder.game_speed || "fast" };
-  ActionForm.bindContext(bundle.data, bundle.slots, buildOrder);
+  currentTimeline = new Timeline(buildOrder, bundle.data);
 }
 
-// Populate a dropdown from a list of {value, label_ru, label_en, ...extras}
-function fillSelect(elId, list, currentValue, extraText = (x) => "") {
+function refreshAll() {
+  rebuildTimeline();
+  CatalogPanel.refresh(buildOrder, currentTimeline);
+  TimelineView.render({ buildOrder, bundle, timeline: currentTimeline });
+  Inspector.bind(buildOrder, currentTimeline);
+  $("#actions_count").textContent = String(buildOrder.actions.length);
+}
+
+// ─── Add an action from the catalog with auto-snap time ────────────
+function addFromCatalog(item) {
+  const at = computeSnapTime(item);
+  const action = buildActionFromCatalog(item, at);
+  buildOrder.actions.push(action);
+  buildOrder.actions.sort((a, b) => a.at - b.at);
+  BO.save(buildOrder);
+  refreshAll();
+  TimelineView.setSelection(action);
+  Inspector.select(action);
+}
+
+function computeSnapTime(item) {
+  if (!currentTimeline) return 0;
+  let t = isFinite(item.earliest) ? Math.round(item.earliest) : currentTimeline.suggestNextTime();
+  // For build, also need at least 1 free peasant
+  if (item.kind === "build") {
+    const free = currentTimeline.earliestTimeFreePeasants(1, t);
+    if (isFinite(free)) t = Math.max(t, Math.round(free));
+  }
+  return Math.max(0, t);
+}
+
+function buildActionFromCatalog(item, at) {
+  const base = { at };
+  if (item.kind === "build") {
+    const max = maxBuildersFor(bundle.data, bundle.slots, item.payload.sid, currentTimeline, at);
+    return { ...base, do: "build", sid: item.payload.sid, builders: max };
+  }
+  if (item.kind === "train") {
+    if (item._mode === "infinite") {
+      return { ...base, do: "train_infinite", building_sid: item.payload.building_sid, unit_sid: item.payload.unit_sid };
+    }
+    return { ...base, do: "train", building_sid: item.payload.building_sid, unit_sid: item.payload.unit_sid, amount: item.payload.amount };
+  }
+  if (item.kind === "research") return { ...base, do: "research", upgrade_sid: item.payload.upgrade_sid };
+  if (item.kind === "assign")   return { ...base, do: "assign" };
+  if (item.kind === "trade")    return { ...base, do: "trade", sell: item.payload.sell, buy: item.payload.buy, amount: item.payload.amount };
+  return { ...base, do: item.kind };
+}
+
+// ─── Settings drawer ───────────────────────────────────────────────
+function fillSelect(elId, list, currentValue, extraText = () => "") {
   const sel = $(`#${elId}`);
   if (!sel) return;
   sel.innerHTML = "";
@@ -52,19 +100,17 @@ function renderControls() {
   const settings = bundle.settings;
   const ms = buildOrder.map_settings ||= {};
 
-  // Nation dropdown
   const natSel = $("#nation");
   natSel.innerHTML = "";
   for (const n of bundle.data.nations) {
     const opt = document.createElement("option");
     opt.value = n.sid;
-    opt.textContent = `${(n.name_ru || n.name_en || n.sid)}`;
+    opt.textContent = n.name_ru || n.name_en || n.sid;
     if (n.sid === buildOrder.nation) opt.selected = true;
     natSel.appendChild(opt);
   }
   $("#max_time").value = String(buildOrder.max_time_sec || 900);
 
-  // Map settings (gen.*) — directly from game_settings.json
   fillSelect("set_mapsize",       settings.mapsize,       ms.mapsize       ?? settings.defaults.gen.mapsize,
              (x) => `(${x.tiles}×${x.tiles})`);
   fillSelect("set_terraintype",   settings.terraintype,   ms.terraintype   ?? settings.defaults.gen.terraintype);
@@ -74,7 +120,6 @@ function renderControls() {
              (x) => `· ${x.amount.toLocaleString("ru-RU")} ед.`);
   fillSelect("set_resourcemines", settings.resourcemines, ms.resourcemines ?? settings.defaults.gen.resourcemines);
 
-  // Additional (rules)
   fillSelect("set_gamespeed",     settings.gamespeed,     ms.gamespeed     ?? settings.defaults.additional.gamespeed,
              (x) => `(×${x.factor})`);
   fillSelect("set_startingunits", settings.startingunits, ms.startingunits ?? settings.defaults.additional.startingunits);
@@ -91,7 +136,6 @@ function renderControls() {
   fillSelect("set_difficulty",    settings.difficulty,    ms.difficulty    ?? 1,
              (x) => `(×${x.koef})`);
 
-  // Peasants dropdown
   const peaSel = $("#start_peasants");
   peaSel.innerHTML = "";
   const peaSid = DEFAULT_PEASANT[buildOrder.nation];
@@ -104,7 +148,6 @@ function renderControls() {
     peaSel.appendChild(opt);
   }
 
-  // Per-resource fine control (collapsed by default — most users use resourcestart preset)
   const row = $("#starting_resources");
   row.innerHTML = "";
   for (const r of RES_ORDER) {
@@ -115,8 +158,7 @@ function renderControls() {
       `<option value="${p.value}" ${p.value === val ? "selected" : ""}>${p.label}</option>`
     ).join("");
     const customOpt = !RES_PRESETS.some(p => p.value === val)
-      ? `<option value="${val}" selected>${val.toLocaleString("ru-RU")} (своё)</option>`
-      : "";
+      ? `<option value="${val}" selected>${val.toLocaleString("ru-RU")} (своё)</option>` : "";
     cell.innerHTML = `
       <span><span class="dot" style="background:${RES_INFO[r].color}"></span> ${RES_INFO[r].ru}</span>
       <select data-res="${r}">${customOpt}${opts}</select>
@@ -133,7 +175,6 @@ function readControls() {
   buildOrder.max_time_sec = +$("#max_time").value;
   delete (buildOrder.map_config || {}).walk_overhead;
 
-  // Map / additional settings — store the enum values verbatim
   const ms = buildOrder.map_settings ||= {};
   const enums = {
     mapsize: "set_mapsize", terraintype: "set_terraintype", relieftype: "set_relieftype",
@@ -147,11 +188,8 @@ function readControls() {
     const el = $(`#${elId}`);
     if (el) ms[key] = +el.value;
   }
-
-  // Translate gamespeed enum (0/1/2) to legacy string for the simulator
   buildOrder.game_speed = ["slow", "normal", "fast"][ms.gamespeed] || "fast";
 
-  // Translate resourcestart preset to actual numeric resources, if user hasn't customized
   const rsPreset = bundle.settings.resourcestart.find(x => x.value === ms.resourcestart);
   if (rsPreset && !buildOrder._resources_customized) {
     buildOrder.starting_resources = {
@@ -159,7 +197,6 @@ function readControls() {
       gold: rsPreset.amount, iron: rsPreset.amount, coal: rsPreset.amount,
     };
   } else {
-    // Use per-resource overrides from the (collapsed) detail view
     const sr = buildOrder.starting_resources || {};
     document.querySelectorAll("#starting_resources select[data-res]").forEach(sel => {
       sr[sel.dataset.res] = +sel.value;
@@ -167,25 +204,15 @@ function readControls() {
     buildOrder.starting_resources = sr;
   }
 
-  // Translate `limit` enum to map_config.limit (1..8) — simulator already supports it
   if (ms.limit > 0) (buildOrder.map_config ||= {}).limit = ms.limit;
   else delete (buildOrder.map_config || {}).limit;
 
-  // Peasants
   const peaSid = DEFAULT_PEASANT[buildOrder.nation];
   const count = +$("#start_peasants").value;
   buildOrder.starting_units = { [peaSid]: count };
 }
 
-function renderActions() {
-  ActionList.render(buildOrder.actions, lookupCtx, (i) => {
-    buildOrder.actions.splice(i, 1);
-    BO.save(buildOrder);
-    renderActions();
-    ActionForm.refresh();
-  });
-}
-
+// ─── Run simulation ────────────────────────────────────────────────
 async function runSim() {
   setStatus("Симулирую…", "busy");
   try {
@@ -216,15 +243,14 @@ function renderSummary(result) {
       <div class="value">${v.toLocaleString("ru-RU")}</div>
     </div>`;
   }).join("");
-  const buildings = Object.entries(f.buildings || {}).filter(([k, v]) => v > 0).map(([k, v]) => `${k}×${v}`).join(", ") || "—";
+  const buildings = Object.entries(f.buildings || {}).filter(([, v]) => v > 0).map(([k, v]) => `${k}×${v}`).join(", ") || "—";
   const meta_html = `
     <div class="summary-meta">
       <div class="pair">Время: <b>${fmtTime(f.t_g ?? 0, speed)}</b></div>
       <div class="pair">Крестьян: <b>${f.peasants_total ?? 0}</b></div>
       <div class="pair">Ферма: <b>${f.farm_used ?? 0} / ${f.farm_cap ?? 0}</b></div>
       <div class="pair">Здания: <b>${buildings}</b></div>
-    </div>
-  `;
+    </div>`;
   $("#summary").innerHTML = `<div class="summary-grid">${cells}</div>${meta_html}`;
 }
 
@@ -244,40 +270,95 @@ function renderEvents(events) {
   }
 }
 
+// ─── Boot ───────────────────────────────────────────────────────────
 async function init() {
   setStatus("Загрузка данных…", "loading");
   bundle = await loadAll();
   setStatus(`Данные · ${bundle.data.nations.length} наций · ${bundle.data.units.length} юнитов`, "ready");
 
-  rebuildLookups();
+  rebuildTimeline();
   renderControls();
-  renderActions();
 
-  ActionForm.init((action) => {
-    buildOrder.actions.push(action);
-    buildOrder.actions.sort((a, b) => a.at - b.at);
-    BO.save(buildOrder);
-    renderActions();
-    ActionForm.refresh();
+  // Timeline view
+  TimelineView.init({
+    svg: $("#timeline_svg"),
+    onSelect: (action) => {
+      TimelineView.setSelection(action);
+      Inspector.select(action);
+    },
+    onChange: (action) => {
+      // Triggered after drag-to-reschedule completes.
+      buildOrder.actions.sort((a, b) => a.at - b.at);
+      BO.save(buildOrder);
+      refreshAll();
+      TimelineView.setSelection(action);
+      Inspector.select(action);
+    },
   });
 
+  // Inspector
+  Inspector.init({
+    data: bundle.data, slots: bundle.slots,
+    buildOrder, timeline: currentTimeline,
+    onChange: (action) => {
+      buildOrder.actions.sort((a, b) => a.at - b.at);
+      BO.save(buildOrder);
+      refreshAll();
+      TimelineView.setSelection(action);
+      Inspector.select(action);  // re-render to refresh warnings
+    },
+    onDelete: (action) => {
+      const i = buildOrder.actions.indexOf(action);
+      if (i >= 0) buildOrder.actions.splice(i, 1);
+      BO.save(buildOrder);
+      TimelineView.setSelection(null);
+      refreshAll();
+    },
+  });
+
+  // Catalog
+  CatalogPanel.init({
+    data: bundle.data, buildOrder, timeline: currentTimeline,
+    onAdd: addFromCatalog,
+  });
+
+  refreshAll();
+
+  // Settings drawer toggle
+  $("#settings_btn").addEventListener("click", () => {
+    $("#settings_drawer").classList.toggle("hidden");
+  });
+
+  // Bottom-panel tab switching
+  document.querySelectorAll(".bp-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".bp-tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".bp-pane").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      $(`#bp_${btn.dataset.bp}`).classList.add("active");
+    });
+  });
+
+  // Zoom controls
+  const zoomLabel = $("#zoom_label");
+  const updateZoomLabel = () => zoomLabel.textContent = `${TimelineView.getZoom().toFixed(1)} px/г-сек`;
+  $("#zoom_in").addEventListener("click", () => { TimelineView.setZoom(TimelineView.getZoom() * 1.4); updateZoomLabel(); });
+  $("#zoom_out").addEventListener("click", () => { TimelineView.setZoom(TimelineView.getZoom() / 1.4); updateZoomLabel(); });
+  updateZoomLabel();
+
+  // Top-bar controls
   const onChange = () => {
     readControls();
-    rebuildLookups();
-    renderActions();
+    refreshAll();
     BO.save(buildOrder);
-    ActionForm.refresh();
   };
   $("#nation").addEventListener("change", () => {
     onChange();
-    renderControls();  // peasant dropdown depends on nation
-    rebuildLookups();
-    ActionForm.refresh();
+    renderControls();
+    refreshAll();
   });
   $("#max_time").addEventListener("change", onChange);
   $("#start_peasants").addEventListener("change", onChange);
-
-  // Wire all the map/rules settings dropdowns
   const settingIds = [
     "set_mapsize", "set_terraintype", "set_relieftype", "set_season",
     "set_resourcestart", "set_resourcemines", "set_gamespeed", "set_startingunits",
@@ -287,10 +368,8 @@ async function init() {
   for (const id of settingIds) {
     const el = $(`#${id}`);
     if (el) el.addEventListener("change", () => {
-      // Changing resourcestart resets per-resource customization
       if (id === "set_resourcestart") buildOrder._resources_customized = false;
       onChange();
-      // resourcestart change cascades into the visible per-resource fields
       if (id === "set_resourcestart") renderControls();
     });
   }
@@ -304,23 +383,71 @@ async function init() {
   $("#run_sim").addEventListener("click", runSim);
   $("#export_btn").addEventListener("click", () => BO.exportToFile(buildOrder));
   $("#import_btn").addEventListener("click", () => $("#import_file").click());
+
+  // — Import from replay (.rep) —
+  let pendingReplayBytes = null;
+  let pendingReplayFilename = "";
+  $("#import_replay_btn").addEventListener("click", () => $("#import_replay_file").click());
+  $("#import_replay_file").addEventListener("change", async (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    setStatus(`Читаю реплей ${f.name}…`, "busy");
+    try {
+      pendingReplayBytes = new Uint8Array(await f.arrayBuffer());
+      pendingReplayFilename = f.name;
+      const players = await listReplayPlayers(pendingReplayBytes);
+      // Sort by build count desc — most-active player likely the one user cares about.
+      players.sort((a, b) => b.n_builds - a.n_builds);
+      const sel = $("#replay_pid_select");
+      sel.innerHTML = players.map(p =>
+        `<option value="${p.pid}">${p.name || ("pid=" + p.pid)} · ${p.nation} · ${p.n_builds} построек</option>`
+      ).join("");
+      $("#replay_modal_file").textContent = f.name;
+      $("#replay_modal").classList.remove("hidden");
+      setStatus("Выбери игрока", "ready");
+    } catch (err) {
+      console.error(err);
+      setStatus(`Ошибка чтения реплея: ${err.message || err}`, "error");
+    }
+    e.target.value = "";  // allow re-pick of same file
+  });
+  $("#replay_cancel_btn").addEventListener("click", () => {
+    $("#replay_modal").classList.add("hidden");
+    pendingReplayBytes = null;
+  });
+  $("#replay_confirm_btn").addEventListener("click", async () => {
+    if (!pendingReplayBytes) return;
+    const pid = +$("#replay_pid_select").value;
+    const windowSec = +$("#replay_window_select").value;
+    $("#replay_modal").classList.add("hidden");
+    setStatus(`Извлекаю стратегию из ${pendingReplayFilename}…`, "busy");
+    try {
+      const imported = await importReplay(pendingReplayBytes, pid, windowSec);
+      buildOrder = imported;
+      BO.save(buildOrder);
+      renderControls();
+      refreshAll();
+      setStatus(`Импортировано · ${buildOrder.actions.length} действий`, "ready");
+    } catch (err) {
+      console.error(err);
+      setStatus(`Ошибка импорта: ${err.message || err}`, "error");
+    }
+    pendingReplayBytes = null;
+  });
+
   $("#import_file").addEventListener("change", async (e) => {
     if (!e.target.files[0]) return;
     buildOrder = await BO.importFromFile(e.target.files[0]);
     BO.save(buildOrder);
-    rebuildLookups();
     renderControls();
-    renderActions();
-    ActionForm.refresh();
+    refreshAll();
   });
   $("#reset_btn").addEventListener("click", () => {
     if (!confirm("Сбросить билд-ордер до значений по умолчанию?")) return;
     buildOrder = BO.defaultBuildOrder(buildOrder.nation);
     BO.save(buildOrder);
-    rebuildLookups();
     renderControls();
-    renderActions();
-    ActionForm.refresh();
+    refreshAll();
   });
 
   setStatus("Загрузка Pyodide…", "loading");
