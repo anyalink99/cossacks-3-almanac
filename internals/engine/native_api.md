@@ -190,18 +190,23 @@ PathDataThreadSafeClean();
 
 В существующем `determinism_audit.md` мы фиксировали `random`,
 `RandomExt`, `SetRandomKey`. Нативный API раскрывает картину:
-**три независимых seed-хранилища, два алгоритма поверх одного из них**.
+**четыре независимых seed-хранилища**, на каждом — свой алгоритм.
 
-> **Поправлено по RE.** Раньше эта секция называла четыре «независимых
-> потока». RE-проверка (приватный `cossacks-deep/findings/rng_implementation.md`)
-> показала: `Random` и `RandomExt` — два **разных алгоритма** (32-бит LCG
-> и 64-бит LCG), но **читают и пишут одну** глобальную seed-ячейку.
-> Изоляции между ними нет. Полный разбор — в этом же файле и в
-> [`rng_implementation.md`](rng_implementation.md) §3, §8.
+> **Уточнение, на которое не сразу попали.** Раньше в этой таблице (и
+> в более ранней правке [`rng_implementation.md`](rng_implementation.md))
+> предполагалось, что `Random` и `RandomExt` работают на одной общей
+> 64-битной ячейке. Это не так: декомпиляция показала, что `Random` —
+> обёртка над `System._Random`, которая мутирует стандартный Delphi
+> `RandSeed`, **отдельную** 32-битную глобальную, не связанную с тем
+> 64-битным расширенным seed'ом, что управляется через `SetRandomKey`
+> и `SetRandomExtKey64`. Так что оригинальная модель «независимые
+> потоки» остаётся в силе. Подробности — в приватном
+> `cossacks-deep/findings/rng_implementation.md`.
 
-| Хранилище | Seed-функции | Алгоритм(ы) поверх | Назначение |
+| Хранилище | Seed-функции | Алгоритм поверх | Назначение |
 |---|---|---|---|
-| **Глобальный 64-бит seed** | `SetRandomKey(key: Integer)` (32-бит → sign-extend в 64-бит), `SetRandomExtKey64(k0, k1: Integer)` (полный 64-бит) | `Random` (Delphi `System._Random`, 32-бит LCG), `RandomExt` (64-бит LCG, своя пара констант) | Весь runtime-RNG: gameplay, AI, UI, дисперсия снарядов, любые `Random*`-вызовы из скриптов. |
+| **Delphi `System.RandSeed`** (32-бит) | `Randomize` или прямая запись `System.RandSeed` (DWS не выставляет) | `Random` (`System._Random`: `seed := seed * 0x8088405 + 1`) | Дефолтный gameplay-RNG. Не управляется `SetRandomKey`. |
+| **Расширенный 64-бит seed** | `SetRandomKey(key: Integer)` (32-бит → sign-extend), `SetRandomExtKey64(k0, k1: Integer)` (полный 64-бит) | `RandomExt` (64-бит LCG, своя пара констант) | Контролируемый поток для случайности, где нужна детерминированность через пересев. |
 | **Seed генератора карт** | `SetMapGeneratorRandomKey(const randkey0, randkey1)` | Внутренний алгоритм генератора (не разобран) | Изолированный RNG для `_DoGenerate` (рельеф, размещение объектов, стартовых позиций). |
 | **Глобальный seed map-генератора** | `SetGlobalMapGeneratorRandomKey(const randkey0, randkey1)` | Отдельный (не разобран) | Параллельное хранилище в state-структурах карты — кандидат на worldmap или превью карты в лобби. |
 
@@ -216,12 +221,11 @@ PathDataThreadSafeClean();
 (ветер, тучи), чтобы визуал не влиял на gameplay-PRNG.
 
 **Что это меняет для симулятора:** когда в [extraction
-model](../../docs/recon/world/economy/peasant_extraction.md) нам нужно репродуцировать
-поведение крестьян, нужно засеять **глобальный seed** (`SetRandomKey`
-или эквивалент). При этом любой `RandomExt`-вызов в hot-path тоже
-сдвигает этот seed — нужно либо имитировать весь смешанный поток,
-либо пересеивать локально перед каждой extraction-операцией (как и
-делает сам скрипт). Map RNG и weather — действительно независимые
+model](../../docs/recon/world/economy/peasant_extraction.md) нам нужно
+репродуцировать поведение крестьян, важно понимать, какой именно `Random*`
+скрипт зовёт в каждом hot-path шаге. Если только `random` — нужно
+имитировать Delphi `RandSeed`. Если есть `SetRandomKey + RandomExt` —
+имитировать расширенный seed и его LCG. Map RNG и weather — независимые
 хранилища, на extraction-цепочку не влияют.
 
 ### 2.5. Поведенческие компоненты (Behaviour)
