@@ -34,6 +34,14 @@ from pathlib import Path
 
 # ----- Constants ---------------------------------------------------------
 ENTRY_MARKER = b"\xb0\x04\x00\x00\x00\x00\x00\x00\x00\x00"
+# Some replays (notably rated matches) use an alternate 10-byte marker:
+# `b0 04 <4-byte signature> 00 00 00 00`. The two-byte prefix and last
+# four zeros are stable; the middle 4 bytes carry stream/version info
+# that's still constant per file. To capture every entry we scan for the
+# 2-byte `b0 04` prefix and accept any 10-byte sequence whose tail four
+# bytes are zero (the format invariant — sub-record class+sub bytes
+# never start with b0 04, so this won't false-match).
+ENTRY_PREFIX = b"\xb0\x04"
 SUBPKG_BEGIN = 0x00
 SUBPKG_END = 0x01
 
@@ -714,18 +722,32 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
 
 # ----- Entry walker ------------------------------------------------------
 def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
+    """Walk the .rep body and yield every (ts, size, payload) entry.
+
+    Accepts BOTH known marker variants:
+      - `b0 04 00 00 00 00 00 00 00 00` (default — most common)
+      - `b0 04 <4-byte sig> 00 00 00 00` (rated/online matches carry a
+        non-zero signature word that's constant for the file)
+    Either way the entry layout is: [ts: f32][size: u32][marker: 10][payload: size].
+    """
     entries: list[tuple[float, int, bytes]] = []
     i = 0
     while True:
-        j = data.find(ENTRY_MARKER, i)
+        j = data.find(ENTRY_PREFIX, i)
         if j < 0: break
-        if j >= 8:
+        # Marker must be exactly 10 bytes, with the last 4 zero.
+        if j + 10 <= len(data) and data[j+6:j+10] == b"\x00\x00\x00\x00" \
+                and j >= 8:
             ts = struct.unpack_from("<f", data, j-8)[0]
             size = struct.unpack_from("<I", data, j-4)[0]
-            if 0 < size <= 0x100000 and j + 10 + size <= len(data):
+            if 0 < size <= 0x100000 and j + 10 + size <= len(data) \
+                    and 0 <= ts < 1_000_000:
                 payload = data[j+10:j+10+size]
                 entries.append((ts, size, payload))
         i = j + 1
+    # Sort by timestamp — alt-marker entries are interleaved with the
+    # primary stream temporally but may not appear in file order.
+    entries.sort(key=lambda e: e[0])
     return entries
 
 

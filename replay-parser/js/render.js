@@ -79,6 +79,11 @@ function renderSettings(s) {
     ["Маска генератора",   s.maskname],
     ["randkey0",           s.randkey0],
     ["randkey1",           s.randkey1],
+    ["Рейтинговая",        s.brating === "true" ? "Да" : "Нет"],
+    ["Битва (вспомог.)",   s.bbattle === "true" ? "Да" : "Нет"],
+    ["DLC bitmask",        s.dlcs],
+    ["Автосохранение",     s.autosave],
+    ["Помощник советника", s.adviserassistant],
   ];
   const grid = el("div", { class: "setting-grid" },
     items.filter(([_, v]) => v != null && v !== "").map(([k, v]) =>
