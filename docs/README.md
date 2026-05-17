@@ -1,6 +1,6 @@
 # Cossacks 3 — каталог артефактов
 
-_Extracted **2026-05-17 02:06:09** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
+_Extracted **2026-05-17 12:33:30** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
 

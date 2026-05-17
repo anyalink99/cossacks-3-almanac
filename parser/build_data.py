@@ -543,24 +543,25 @@ UPG_RE = re.compile(r"^(?P<place>[a-z]+)\.(?P<rest>.+)$")
 def _format_upgrade_row(uid: str, nation: str, meta: dict, loc_en, loc_ru) -> dict:
     # Upgrade ID typically: "<place>.<member>.<itype>.<level>" e.g. "ausbla.pikeman.1.5"
     # Or "<nat><place>.<level>" e.g. "ausaca.1"
-    name_en = loc_en.get("upgrades", uid)
-    name_ru = loc_ru.get("upgrades", uid)
-    if name_en is None:
-        for nat in [nation]:
-            templated = uid.replace(nat, "%nat%", 1)
-            if templated != uid:
-                v = loc_en.get("upgrades", templated)
+    # Locale lookup mirrors `_country_GetUpgradeNameBySID` in country.script:
+    # try literal sid → `%nat%<rest>` → `%com%<rest>`, where `rest` is sid[3:].
+    com = NATION_TO_COMMON_CLUSTER.get(nation, nation)
+
+    def _lookup(loc, key_nat: str, key_com: str) -> str | None:
+        v = loc.get("upgrades", uid)
+        if v is not None:
+            return v
+        rest = uid[3:] if len(uid) > 3 else ""
+        if rest:
+            for tmpl in (f"%nat%{rest}", f"%com%{rest}"):
+                v = loc.get("upgrades", tmpl)
                 if v is not None:
-                    name_en = v.replace("%nat%", nat)
-                    break
-    if name_ru is None:
-        for nat in [nation]:
-            templated = uid.replace(nat, "%nat%", 1)
-            if templated != uid:
-                v = loc_ru.get("upgrades", templated)
-                if v is not None:
-                    name_ru = v.replace("%nat%", nat)
-                    break
+                    return (v.replace("%nat%", key_nat)
+                             .replace("%com%", key_com))
+        return None
+
+    name_en = _lookup(loc_en, nation, com)
+    name_ru = _lookup(loc_ru, nation, com)
     # Synthesize a name from sid for blacksmith/stable/barracks unit upgrades:
     # "<nat><place>.<member>.<itype>.<level>" → "<Place> <Member> +<value> (lvl X)"
     if name_en is None and meta.get("place") and meta.get("member"):

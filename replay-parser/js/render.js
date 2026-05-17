@@ -106,7 +106,7 @@ function renderPlayers(players, buildsPerPid) {
 
 function renderAbuses(abuses, players) {
   if (!abuses || !abuses.length) {
-    return el("div", { class: "abuses-clean" }, "Подозрительных действий не обнаружено.");
+    return el("div", { class: "abuses-clean" }, "Двойных прокачек не обнаружено.");
   }
   // Group by pid
   const byPid = new Map();
@@ -123,40 +123,31 @@ function renderAbuses(abuses, players) {
   // Sort player groups: larger groups first
   const sorted = [...byPid.entries()].sort((a, b) => b[1].length - a[1].length);
 
-  const highConfidence = sorted.some(([, list]) => list.length >= 2);
-  const heading = highConfidence
-    ? "Обнаружен повторяющийся паттерн прокачки"
-    : "Возможный случайный двойной клик";
-
-  const children = [el("h3", {}, heading)];
+  const children = [el("h3", {}, "Обнаружена двойная прокачка")];
   for (const [pid, list] of sorted) {
-    const samples = list.slice(0, 3);
-    const conf = list.length >= 3 ? "высокая" : list.length === 2 ? "средняя" : "низкая";
+    const samples = list.slice(0, 5);
     children.push(el("div", { class: "abuse-item" }, [
-      el("span", { class: "abuse-kind" }, list[0].kind),
       el("b", {}, playerName(pid)),
-      ` — ${list.length} срабатывание(й), уверенность ${conf}.`,
+      ` — ${list.length} срабатывание(й).`,
       el("ul", { class: "abuse-list" },
         samples.map((s) => {
           const d = s.details || {};
-          const name = d.upgrade_name_ru || d.upgrade_name_en || "";
-          const place = d.place ? `${d.place}` : "—";
-          const upgRaw = `id ${d.upgrade_id ?? d.ind ?? "?"}`;
+          const name = d.upgrade_name_ru || d.upgrade_name_en || d.upgrade_sid || "";
           const label = name
             ? el("b", { class: "abuse-upgname" }, name)
-            : el("span", { class: "abuse-meta" }, `апгрейд ${upgRaw}`);
+            : el("span", { class: "abuse-meta" },
+                          `апгрейд id ${d.upgrade_id ?? d.ind ?? "?"}`);
           return el("li", {}, [
             `${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)} · `,
             label,
             el("span", { class: "abuse-meta" },
-              ` · ${place} · gap ${(s.gap_ticks / 10).toFixed(1)} g-сек`),
+              ` · gap ${(s.gap_ticks / 10).toFixed(1)} g-сек`),
           ]);
         })
       ),
     ]));
   }
-  const cls = highConfidence ? "abuses-found" : "abuses-borderline";
-  return el("div", { class: cls }, children);
+  return el("div", { class: "abuses-found" }, children);
 }
 
 function renderBuildSummary(buildsPerPid, players) {
