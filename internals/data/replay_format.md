@@ -60,7 +60,7 @@ offset  size  поле                                    замечание
 ---------------------------------------------------------------------
 +0      4B    float ts                                ticks; см. §2.1
 +4      4B    u32 payload_size LE                     размер payload
-+8     10B    const "b0 04 00 00 00 00 00 00 00 00"   entry-маркер
++8     10B    entry-маркер                            см. §2.2
 +18    N      payload                                  N = payload_size
 ```
 
@@ -86,15 +86,38 @@ g_sec = ts / 10
 движок пишет `GetCurrentTime × GetTimeSpeedFactor` с полной
 float-точностью, а не округляет до целого тика.
 
-### 2.2 Десятибайтовый entry-маркер
+### 2.2 Десятибайтовый entry-маркер — два варианта
 
-Каждый entry в body предваряется фиксированной последовательностью
-`b0 04 00 00 00 00 00 00 00 00`. Эти 10 байт идентичны для всех
-entry'ев в одном файле. Семантика байт пока не разобрана; вероятная
-интерпретация — `u16 0x04b0 = 1200` как идентификатор канала записи
-плюс 8 байт резерва. В коде исполняемого файла literal-сравнения с
-этой последовательностью не обнаружено — маркер, вероятно,
-формируется runtime'ом из значения engine-internal struct'ы.
+Каждый entry в body предваряется 10-байтовой последовательностью.
+Наблюдаются ДВА варианта; разделяет их состояние middle-word'а:
+
+```
+вариант A (saves, локальные replay'и):
+  b0 04 00 00 00 00 00 00 00 00
+
+вариант B (rated/online матчи):
+  b0 04 <4B signature> 00 00 00 00
+                       ^^^^^^^^^^^ хвост остаётся нулевым
+         ^^^^^^^^^^^^^ ненулевое слово, КОНСТАНТНОЕ для одного файла
+```
+
+Инварианты, на которые опирается walker:
+
+- Первые 2 байта — всегда `b0 04`.
+- Последние 4 байта — всегда нули.
+- Middle-word (offset +2 от начала маркера) может быть нулевым или
+  ненулевым, но в пределах одного файла он постоянен — это сигнатура
+  потока, выдаваемая при `RecordCustomBegin`-init.
+
+Walker должен сканировать prefix `b0 04` и принимать любые 10 байт,
+у которых last-4 == 0. Старые декодеры, проверявшие весь маркер
+literally, на rated-replay'ях теряли 98% entry'ев — именно тот entry-
+поток, через который сервер раздаёт команды клиентов.
+
+Семантика middle-word ещё не разобрана. `0x04b0 = 1200` встречается
+в коде exe 99 раз как 16-битовый operand, но как 10-байт sequence не
+присутствует — маркер формируется runtime'ом из engine-internal
+struct'ы (`RecordCustomBegin` → channel-table).
 
 ---
 
@@ -291,6 +314,77 @@ State_id'ы 0x04, 0x09, 0x12, 0x3e, 0x41 — это separator-записи
 Сигнатуры всех `Read*`-handler'ов читаются из
 [`data/scripts/units/global.inc/read*.inc`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.inc\).
 
+### 4.1 Сигнатуры тел ключевых handler'ов
+
+Параметры в порядке записи. Типы — это `RecordCustomRead*`-примитивы
+из §3.3. Эти шесть handler'ов покрывают почти весь анализ команд
+игрока.
+
+```
+ReadConstruct   (0x21)  Bool bFromServer
+                        Int  cid                 ← country index игрока
+                        Str  sid                 ← sid здания
+                        Float posx, posz
+                        Bool clrord
+                        Int  count
+                        Int[count] builder-uids
+
+ReadNew         (0x0d)  Bool bFromServer
+                        Str  race, base
+                        Float posx, posz
+                        Int  cid                 ← cid≤0 → -cid = country;
+                                                   cid>0 → uid здания-производителя
+                        Int  uid, num
+
+ReadNewP        (0x2d)  Bool bFromServer
+                        Str  race, base
+                        Float posx, posz, roll
+                        Int  plind, id, uid, num
+
+ReadOrder       (0x17)  Int  ordtyp              ← см. §5
+                        Int  taruid
+                        Bool clrord, locktrg
+                        Int  number
+                        Float posx, posz         ← только при ordtyp ∈ {5,6}
+                        Int[number] unit-uids
+
+ReadProduce     (0x1b)  Int  proid               ← индекс в country.members[]
+                        Int  prcid               ← country index юнита
+                        Int  amount              ← -1 = infinite queue
+                        Bool state               ← start / cancel
+                        Int  count
+                        Int[count] building-uids
+
+ReadUpgrade     (0x19)  Bool bFromServer
+                        Int  upgid               ← индекс в gCountry[cid].upgrade[]
+                        Bool state               ← start / cancel
+                        Int  count
+                        Int[count] building-uids
+
+ReadApply       (0x23)  Int  plind, uid          ← target
+                        Int  cid, ind            ← gCountry[cid].upgrade[ind]
+```
+
+Семантические замечания:
+
+- **`ReadProduce.proid`** — это индекс в упорядоченном списке
+  members нации (`_country_AddMember` в `country.script`).
+  Расшифровка: `country_members[NATION_BY_CID[prcid]][proid] = sid`.
+  Список member'ов экстрактится симулятором апгрейдов в
+  `derived/country_members.json`.
+- **`ReadUpgrade.upgid` и `ReadApply.ind`** — индекс в
+  `gCountry[cid].upgrade[]`. Engine строит этот массив в `_country_Init`
+  (с inline-call'ом `_country_InitUnitsUpgrades`), вызывая
+  `SetUpgStruct` / `AddUpgradePack` / `_country_AddUpgrade` по фиксированному
+  порядку. Парсер в [`parser/simulate_upgrades.py`](../../parser/simulate_upgrades.py)
+  повторяет ту же последовательность и эмитит `data.json :: upgrades`
+  с упорядоченным per-nation списком — list-index в нём равен
+  `upgid`/`ind`. Без правильного порядка `upgid=2` будет ложно
+  указывать на «казармы», а не на мельницу.
+- **`ReadConstruct.cid`** — country index игрока (тот же что
+  `TMapPlayer.cid`, см. §11.2). Полезен для определения нации, когда
+  в TMapPlayer стоит `cid=-2` (random) и нация неизвестна заранее.
+
 ---
 
 ## 5. `gc_obj_order_type_*` — типы приказов в `ReadOrder`
@@ -365,30 +459,55 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
 
 ---
 
-## 7. Что хранится и что не хранится
+## 7. Что хранится в header'е
 
-**Хранится:**
+### 7.1 Lobby settings
 
-- Настройки лобби (карта, randkey'и, peacetime, gamespeed,
-  resourcemines, terraintype, season).
-- BMP-превью карты.
-- Стартовый снимок мира (начальные юниты, ресурсы, кластеры).
-- Полный лог клиентских команд: build, produce, order, move, apply,
-  rally, trade, capture, wall, upgrade.
-- Полный лог серверных state-sync пакетов (class=`0x09`): обновления
-  state-tag, позиций, hp юнитов.
+Все поля `gMap.settings.*` пишутся в kv-stream header'а в текстовой
+форме (`[u16 keylen][key][u16 vallen][val]`). Полный список (имена ↔
+смысл) — в [`docs/recon/world/map/game_settings.md`](../../docs/recon/world/map/game_settings.md);
+канонические enum-метки → `derived/game_settings.json`. Сюда входят
+все правила партии (`peacetime`, `century18`, `capture`, `marketdip`,
+`cannons`, `balloon`, `startingunits`, `resourcestart`, `gamespeed`,
+`resourcemines`, `terraintype`, `relieftype`, `season`, `limit`,
+`maskname`, `randkey0`, `randkey1`, `brating`, `bbattle`, `dlcs`,
+`autosave`, `adviserassistant`, `teams`).
 
-**Не хранится в header'е, но восстанавливается:**
+### 7.2 Per-player TMapPlayer-блоки
 
-- `playerscount` и `startid` — выводятся по counts паттернов карты
-  (см. [`map_generation_pipeline.md`](../../docs/recon/world/map/map_generation_pipeline.md)).
-- Нации игроков — определяются по sid'ам в первых `ReadConstruct`'ах.
+Header содержит 12 (= `gc_MaxPlayerCount`) последовательных блоков
+record'а `TMapPlayer`. Поля одного блока в kv-stream идут в фикс-
+порядке:
 
-**Не хранится вообще:**
+```
+id, cid, csid, name, team, color, lanid,
+startx, starty, aidifficulty,
+bexists, bai, bhuman, bclosed, bready, bloaded, bleave,
+(+ random-nation enable/options: sic, snX, si1..si3)
+```
 
-- Имена игроков (только pid'ы).
-- Чат и голос — возможно идут через `ReadPackage`, но в наблюдаемых
-  потоках не зафиксированы.
+Парсер группирует kv-пары в блоки по появлению поля `id` (первое в
+TMapPlayer), затем фильтрует `bexists != true`. Список оставшихся
+существующих слотов и определяет engine'овый runtime `pid` каждого
+игрока — **это позиция в bexists-фильтрованном списке, НЕ значение
+поля `id`**. См. §11.1.
+
+### 7.3 BMP-превью и стартовый снимок
+
+- BMP-превью карты (~145 КБ) между `GameMapSnapShotBegin/End`.
+- В первом entry body (`ts == 0`) лежит начальный снимок мира:
+  стартовые юниты, ресурсные кластеры, шахты, fog. Этот entry
+  отличается от остальных только размером и тем, что декодеру
+  обычно нужен лишь как baseline.
+
+### 7.4 Поток событий
+
+Полный лог клиентских команд и серверных state-sync пакетов — см. §3.
+
+### 7.5 Что НЕ хранится
+
+- Чат и голос (возможно идут через `ReadPackage`, но в наблюдаемых
+  потоках не зафиксированы).
 - ELO и рейтинг — приходят отдельно из Steam match-сервера.
 
 ---
@@ -407,14 +526,16 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
 | Различение Read*/Write*               | Read и Write идут попеременно в `global.aix` |
 | Каналы записи                         | из disasm `RecordCustomBegin` (§6)       |
 | Семантика engine pid=14 событий       | state_id используется как метка FSM-перехода, payload — engine-internal |
+| 10-байт entry-маркер (два варианта)   | b0 04 + (zero \| signature) + zero-tail; см. §2.2 |
+| Имена и нации игроков                 | хранятся в TMapPlayer-блоках; см. §7.2, §11 |
+| Хост-игрок в рейтинге                 | `brating=true` ⇒ host = color 0 (red); см. §11.2 |
 
 ## 9. Открытые TBD
 
-- Содержимое 10-байт entry-маркера `b0 04 00 00 00 00 00 00 00 00`.
-  Значение `0x04b0 = 1200` встречается в коде exe 99 раз как
-  16-битовый константный operand, но как 10-байт последовательность
-  не присутствует. Маркер, вероятно, формируется runtime'ом из
-  engine-internal struct'ы.
+- Семантика middle-word альтернативного entry-маркера (вариант B
+  из §2.2): откуда runtime берёт это значение и почему оно отличается
+  у rated против saves. Подозрение — channel/session ID, выдаваемый
+  match-сервером, но disasm `RecordCustomBegin` это не подтверждает.
 - Точная схема variable-length записи class=`0x09` при размере
   больше 8 байт. Дополнительные поля выбираются битами `statestag`;
   таблица соответствия флагов и полей требует disasm
@@ -429,6 +550,9 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
   юнита со всеми ориентационными матрицами, hp, RNG-seed). В
   обычных replay'ях не наблюдается; вероятно, используется при
   initial-connect клиента к идущей игре.
+- Идентификация host'а в не-рейтинговых играх. В рейтинге работает
+  правило «color=0», но в LAN/private-lobby игроки свободно меняют
+  цвета, и host-pid в файле не маркируется ничем явным.
 
 ---
 
@@ -447,3 +571,78 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
 - [`../engine/rng_implementation.md`](../engine/rng_implementation.md)
   — `uniqrnd` (per-object RNG seed), синхронизируемый в `ReadSync`
   и `ReadDeath`.
+
+---
+
+## 11. Identification conventions
+
+Соглашения о том, как из header'а и потока вытащить «кто есть кто».
+Полезно для любого внешнего инструмента, которому нужно
+сопоставить replay'у людей, нации и роль.
+
+### 11.1 Runtime `pid` ≠ `TMapPlayer.id`
+
+Engine'овый `pid`, который попадает в каждый sub-package, — это
+**позиция игрока в bexists-фильтрованном списке слотов**, а не
+значение `TMapPlayer.id`. То есть:
+
+1. Собрать слоты в порядке появления в kv-stream.
+2. Выкинуть слоты с `bexists != true` (закрытые / пустые).
+3. У оставшихся `pid = индекс в этом отфильтрованном списке`.
+
+Поле `TMapPlayer.id` хранится отдельно (видимо session/join id) и в
+event payload'ах не используется. Эмпирически проверено: известные
+читеры в `ex1.rep` ложатся именно на slot-order, а не на id-order.
+
+### 11.2 Нация: `TMapPlayer.cid` как канонический источник
+
+Поле `cid` в TMapPlayer-блоке — это country index `0..23`, который
+маппится в nation sid через статическую таблицу (`NATION_BY_CID` в
+парсере, она же `gc_country_*` в `country.script`):
+
+| cid | sid   |  | cid | sid   |  | cid | sid   |  | cid | sid   |
+|----:|-------|--|----:|-------|--|----:|-------|--|----:|-------|
+| 0   | aus   |  | 6   | pol   |  | 12  | mis   |  | 18  | bav   |
+| 1   | fra   |  | 7   | swe   |  | 13  | net   |  | 19  | hun   |
+| 2   | eng   |  | 8   | pru   |  | 14  | den   |  | 20  | swi   |
+| 3   | spa   |  | 9   | ven   |  | 15  | por   |  | 21  | sco   |
+| 4   | rus   |  | 10  | tur   |  | 16  | pie   |  | 22  | tat   |
+| 5   | ukr   |  | 11  | alg   |  | 17  | sax   |  | 23  | lit   |
+
+Спец-значения:
+
+- `cid = -2` — игрок выбрал «**Random nation**», итог зафиксирован
+  при старте партии. В header'е итоговой нации нет — её надо вывести
+  из первой `ReadConstruct`'а игрока (поле `cid` в payload — см.
+  §3.1 / handler-table), либо из sid-префикса (с фильтром общих
+  кластеров `eur*/rus*/tur*/spa*/por*/ukr*`).
+- `cid = 24` — **закрытый слот** (`bexists` может остаться true для
+  spectators / observer-стула, но играющего игрока нет).
+
+В первых ReadConstruct'ах игрока payload тоже несёт `cid` — это
+дополнительный канал той же информации, полезный для cid=-2 случая.
+
+### 11.3 Host-игрок
+
+В рейтинговых партиях (`brating = "true"` в settings) **host — это
+игрок с `color = 0` (красный)**. Match-сервер при создании комнаты
+назначает красный хосту, и в рейтинге игроки не могут поменять цвета.
+
+В не-рейтинговых партиях (LAN, private lobby) это правило **не
+работает** — игроки свободно меняют цвета в лобби, и host-pid нигде
+явно не маркируется. Для анализа эксплойтов вроде double-upgrade
+race-condition (которое физически возможно только у клиента, не
+у хоста) это означает, что в не-рейтинговых replay'ях host
+отфильтровать не получится — приходится мириться с возможными
+false-positive'ами на действиях самого хоста.
+
+Engine-источник: `GetKeyColorByPlayerIndex` в
+[`lib/classes.script:7986`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\lib\classes.script)
+красит индекс 0 в rgb(164, 0, 0).
+
+### 11.4 Имена игроков
+
+`TMapPlayer.name` — это display-имя (то, что игрок ввёл в профиле:
+`[WhoT]Niotid`, `macaron`, `skipi_lon`). `TMapPlayer.lanid` — числовой
+ID профиля от match-сервера, удобен как стабильный ключ при
+агрегации статистики по игроку через много replay'ев.

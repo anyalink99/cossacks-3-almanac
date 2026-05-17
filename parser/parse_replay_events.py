@@ -1191,31 +1191,23 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     # latency window, so the host (= the server process) can never trigger
     # it. We must drop host findings.
     #
-    # Rule: host = the player whose `color` is 0 (red). The engine's
-    # `GetKeyColorByPlayerIndex` in classes.script paints index 0 with
-    # rgb(164,0,0). In rated/online matches the host is ALWAYS the red
-    # player; in non-rated/LAN games `gMap.players[i].color := i` defaults
-    # slot 0 (= host) to red as well, so the same rule applies — players
-    # may swap colors in lobby but the host slot stays red unless someone
-    # explicitly picked it for a non-host slot.
+    # Rule applies ONLY to rated matches: `brating=true` ⇒ host = the
+    # player whose `color` is 0 (red). The matchmaking server assigns the
+    # red colour to whoever hosts the session, and players cannot change
+    # colour in rated lobbies. Engine source: `GetKeyColorByPlayerIndex`
+    # in `classes.script:7986` paints index 0 with rgb(164,0,0).
     #
-    # Fallback: if no player has color 0 (rare — someone disabled red?),
-    # use the legacy heuristic of "pid that dominates ReadOrder events
-    # ≥10× over the runner-up". This only catches non-rated saves where
-    # the recorder's outgoing commands swamp everyone else's relayed ones.
+    # In non-rated games (LAN / private lobby) anyone can pick any colour
+    # and the host's colour is not constrained, so we can't identify them
+    # reliably — don't filter and accept the rare false-positive on the
+    # host's own clicks.
+    is_rated = str(settings.get("brating", "")).lower() == "true"
     host_pid = None
-    for p in players:
-        if p.get("color") == 0:
-            host_pid = p["pid"]
-            break
-    if host_pid is None:
-        order_counts = {p: sum(v.values()) for p, v in orders_per_pid.items()}
-        if order_counts:
-            ranked = sorted(order_counts.values(), reverse=True)
-            top = ranked[0]
-            runner_up = ranked[1] if len(ranked) > 1 else 0
-            if top >= 10 and top >= 10 * max(1, runner_up):
-                host_pid = max(order_counts, key=lambda p: order_counts[p])
+    if is_rated:
+        for p in players:
+            if p.get("color") == 0:
+                host_pid = p["pid"]
+                break
     abuses = detect_abuses(abuse_input, player_nations, host_pid=host_pid)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
