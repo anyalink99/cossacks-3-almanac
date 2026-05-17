@@ -189,15 +189,21 @@ PathDataThreadSafeClean();
 ### 2.4. RNG — глубже, чем мы думали
 
 В существующем `determinism_audit.md` мы фиксировали `random`,
-`RandomExt`, `SetRandomKey`. Нативный API раскрывает **четыре
-независимых RNG-потока**:
+`RandomExt`, `SetRandomKey`. Нативный API раскрывает картину:
+**три независимых seed-хранилища, два алгоритма поверх одного из них**.
 
-| Стрим | Seed-функции | Назначение |
-|---|---|---|
-| `Random` | `SetRandomKey(key: Integer)` (32-bit), `GetRandomKey: Integer` | Глобальный gameplay-PRNG. |
-| `RandomExt` | `SetRandomExtKey64(const key0, key1: Integer)`, `GetRandomExtKey64(var key0, key1)` | **64-битный seed** (два uint32). Расширенный PRNG. |
-| `MapGenerator` | `SetMapGeneratorRandomKey(const randkey0, randkey1)` | Изолированный RNG генератора карт. |
-| `GlobalMapGenerator` | `SetGlobalMapGeneratorRandomKey(const randkey0, randkey1)` | Тоже для генерации, но на уровне campaign/global. |
+> **Поправлено по RE.** Раньше эта секция называла четыре «независимых
+> потока». RE-проверка (приватный `cossacks-deep/findings/rng_implementation.md`)
+> показала: `Random` и `RandomExt` — два **разных алгоритма** (32-бит LCG
+> и 64-бит LCG), но **читают и пишут одну** глобальную seed-ячейку.
+> Изоляции между ними нет. Полный разбор — в этом же файле и в
+> [`rng_implementation.md`](rng_implementation.md) §3, §8.
+
+| Хранилище | Seed-функции | Алгоритм(ы) поверх | Назначение |
+|---|---|---|---|
+| **Глобальный 64-бит seed** | `SetRandomKey(key: Integer)` (32-бит → sign-extend в 64-бит), `SetRandomExtKey64(k0, k1: Integer)` (полный 64-бит) | `Random` (Delphi `System._Random`, 32-бит LCG), `RandomExt` (64-бит LCG, своя пара констант) | Весь runtime-RNG: gameplay, AI, UI, дисперсия снарядов, любые `Random*`-вызовы из скриптов. |
+| **Seed генератора карт** | `SetMapGeneratorRandomKey(const randkey0, randkey1)` | Внутренний алгоритм генератора (не разобран) | Изолированный RNG для `_DoGenerate` (рельеф, размещение объектов, стартовых позиций). |
+| **Глобальный seed map-генератора** | `SetGlobalMapGeneratorRandomKey(const randkey0, randkey1)` | Отдельный (не разобран) | Параллельное хранилище в state-структурах карты — кандидат на worldmap или превью карты в лобби. |
 
 Дополнительно: `GetPlayerCubeRandomValue(playerhandle: Integer): Float`
 — отдельный per-player детерминированный «куб случайности» (вероятно,
@@ -211,9 +217,12 @@ PathDataThreadSafeClean();
 
 **Что это меняет для симулятора:** когда в [extraction
 model](../../docs/recon/world/economy/peasant_extraction.md) нам нужно репродуцировать
-поведение крестьян, нам надо засеять **только** `Random` (тот, что
-отдаёт `random()` в DWS). `RandomExt`, weather и map RNG — независимые
-и не влияют на extraction-цепочку.
+поведение крестьян, нужно засеять **глобальный seed** (`SetRandomKey`
+или эквивалент). При этом любой `RandomExt`-вызов в hot-path тоже
+сдвигает этот seed — нужно либо имитировать весь смешанный поток,
+либо пересеивать локально перед каждой extraction-операцией (как и
+делает сам скрипт). Map RNG и weather — действительно независимые
+хранилища, на extraction-цепочку не влияют.
 
 ### 2.5. Поведенческие компоненты (Behaviour)
 
