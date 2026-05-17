@@ -1,7 +1,7 @@
 // Main controller: file uploads + result rendering.
 
 import { initPyodide, parseReplay } from "./pyodide_runner.js";
-import { renderCard } from "./render.js";
+import { renderCard, setGameSettings } from "./render.js";
 
 const $ = (sel) => document.querySelector(sel);
 const status = $("#status");
@@ -15,11 +15,16 @@ function setStatus(text, cls = "loading") {
   status.className = `pill ${cls}`;
 }
 
-// Boot Pyodide
+// Boot Pyodide + load canonical lobby-setting labels from derived/game_settings.json
+// (extracted from game scripts/locale — single source of truth for option names).
 initPyodide(setStatus).catch((e) => {
   setStatus(`Ошибка загрузки: ${e}`, "error");
   console.error(e);
 });
+fetch(`../derived/game_settings.json?v=${Date.now()}`)
+  .then((r) => r.json())
+  .then((gs) => setGameSettings(gs))
+  .catch((e) => console.warn("game_settings.json load failed:", e));
 
 // File picker
 fileInput.addEventListener("change", async (ev) => {
