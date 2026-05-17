@@ -170,9 +170,15 @@ def extract_settings(data: bytes) -> dict:
     pairs = extract_kv_pairs(data)
     settings: dict = {}
     keys_to_extract = {
+        # Map / generator
         "randkey0", "randkey1", "maskname", "maskpath",
         "mapsize", "relieftype", "resourcemines", "terraintype", "season",
+        "resourcestart",
+        # Game / lobby rules — all the gc_mapsettings_* enums
         "limit", "gamespeed", "playerscount", "startid", "teams",
+        "peacetime", "century18", "capture", "marketdip",
+        "cannons", "balloon", "startingunits", "adviserassistant",
+        "brating", "bbattle", "autosave", "dlcs",
     }
     seen = set()
     for off, k, v in pairs:
@@ -184,6 +190,9 @@ def extract_settings(data: bytes) -> dict:
         "randkey0", "randkey1", "mapsize", "relieftype",
         "resourcemines", "terraintype", "season", "limit",
         "gamespeed", "playerscount", "startid", "teams",
+        "resourcestart", "peacetime", "century18", "capture",
+        "marketdip", "cannons", "balloon", "startingunits",
+        "adviserassistant", "autosave", "dlcs",
     ):
         if k in settings:
             try:

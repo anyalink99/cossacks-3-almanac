@@ -3,20 +3,51 @@
 import { NATION_FROM_SID, NATION_BY_CID, NATION_LABEL_RU } from "./i18n.js";
 
 const RESOURCE_NAMES_RU = ["?", "Еда", "Дерево", "Камень", "Золото", "Железо", "Уголь"];
+// All label tables mirror derived/game_settings.json — the canonical source
+// extracted from game scripts + locale. Keep in sync with derived dump.
 const GAMESPEED_LABEL = { 0: "Медленно", 1: "Нормально", 2: "Быстро" };
-// Per derived/game_settings.json: 0=Standard (320 tiles), 1=Big (480),
-// 2=Huge (640), 3=Tiny (256). Index 3 is intentionally out of order.
 const MAPSIZE_LABEL = {
-  0: "Нормальный (320×320)",
-  1: "Большой (480×480)",
-  2: "Огромный (640×640)",
-  3: "Маленький (256×256)",
+  0: "Нормальный (320×320)", 1: "Большой (480×480)",
+  2: "Огромный (640×640)",   3: "Маленький (256×256)",
 };
 const TERRAIN_LABEL = { 0: "Land", 1: "Mediterranean", 2: "Peninsulas",
                         5: "Continent", 7: "Lakes", 9: "Coastal" };
-const RELIEF_LABEL = { 0: "Гладко", 1: "Лёгкий", 2: "Холмы", 3: "Highlands", 4: "Горы", 5: "Случайно" };
+const RELIEF_LABEL = { 0: "Гладко", 1: "Лёгкий", 2: "Холмы",
+                       3: "Highlands", 4: "Горы", 5: "Случайно" };
 const SEASON_LABEL = { 0: "Лето", 1: "Зима", 2: "Осень", 3: "Пустыня" };
 const RESOURCEMINES_LABEL = { 0: "Мало", 1: "Средне", 2: "Много" };
+const RESOURCESTART_LABEL = { 0: "Обычные (1 000)", 1: "Богатые (4 000)",
+                              2: "Тысячи (5 000)", 3: "Миллионы (1 000 000)" };
+const PEACETIME_LABEL = {
+  0: "Без времени мира", 1: "10 мин", 2: "20 мин", 3: "30 мин",
+  4: "45 мин", 5: "60 мин", 6: "90 мин", 7: "2 часа", 8: "3 часа",
+  9: "4 часа", 11: "15 мин",
+};
+const CENTURY18_LABEL = { 0: "По умолчанию", 1: "Никогда", 2: "Сразу" };
+const CAPTURE_LABEL = {
+  0: "По умолчанию", 1: "Без захвата крестьян",
+  2: "Без захвата крестьян и центров", 3: "Только пушки",
+};
+const MARKETDIP_LABEL = {
+  0: "По умолчанию", 1: "Без дипцентра", 2: "Без рынка",
+  3: "Не доступны", 4: "Дорогие наёмники",
+};
+const CANNONS_LABEL = {
+  0: "По умолчанию", 1: "Без пушек, башен и стен", 2: "Дорогие пушки",
+};
+const BALLOON_LABEL = {
+  0: "По умолчанию", 1: "Без монгольфьеров", 2: "Монгольфьеры",
+};
+const STARTINGUNITS_LABEL = {
+  0: "По умолчанию", 1: "Армия", 2: "Большая армия", 3: "Огромная армия",
+  4: "Множество крестьян", 5: "Разные нации", 6: "Башни",
+  7: "Пушки", 8: "Пушки и гаубицы", 9: "Казармы 18 века",
+  10: "Казарма 17 в.", 11: "Деревня", 12: "Срубы", 13: "Уния",
+};
+const LIMIT_LABEL = {
+  0: "По умолчанию", 1: "500", 2: "1000", 3: "2000",
+  4: "3000", 5: "4000", 6: "5000", 7: "6000", 8: "8000",
+};
 
 const COLOR_VAR = (i) => `var(--color-${Math.max(0, Math.min(12, i))})`;
 
@@ -59,18 +90,27 @@ function inferNation(player, builds) {
 }
 
 function renderSettings(s) {
+  const lookup = (table, k) => (s[k] != null && table[s[k]] != null) ? table[s[k]] : s[k];
   const items = [
-    ["Размер карты", MAPSIZE_LABEL[s.mapsize] ?? s.mapsize],
-    ["Ландшафт", TERRAIN_LABEL[s.terraintype] ?? s.terraintype],
-    ["Рельеф", RELIEF_LABEL[s.relieftype] ?? s.relieftype],
-    ["Шахты", RESOURCEMINES_LABEL[s.resourcemines] ?? s.resourcemines],
-    ["Сезон", SEASON_LABEL[s.season] ?? s.season],
-    ["Скорость", GAMESPEED_LABEL[s.gamespeed] ?? s.gamespeed],
-    ["Лимит", s.limit],
-    ["Маска", s.maskname],
-    ["randkey0", s.randkey0],
-    ["randkey1", s.randkey1],
-    ["Команды", s.teams ? "Включены" : "Выключены"],
+    ["Размер карты",       lookup(MAPSIZE_LABEL, "mapsize")],
+    ["Ландшафт",           lookup(TERRAIN_LABEL, "terraintype")],
+    ["Рельеф",             lookup(RELIEF_LABEL, "relieftype")],
+    ["Сезон",              lookup(SEASON_LABEL, "season")],
+    ["Шахт на карте",      lookup(RESOURCEMINES_LABEL, "resourcemines")],
+    ["Стартовые ресурсы",  lookup(RESOURCESTART_LABEL, "resourcestart")],
+    ["Скорость партии",    lookup(GAMESPEED_LABEL, "gamespeed")],
+    ["Стартовая армия",    lookup(STARTINGUNITS_LABEL, "startingunits")],
+    ["Время мира",         lookup(PEACETIME_LABEL, "peacetime")],
+    ["Переход в 18 век",   lookup(CENTURY18_LABEL, "century18")],
+    ["Захват",             lookup(CAPTURE_LABEL, "capture")],
+    ["Рынок и дипцентр",   lookup(MARKETDIP_LABEL, "marketdip")],
+    ["Пушки/башни/стены",  lookup(CANNONS_LABEL, "cannons")],
+    ["Воздушные шары",     lookup(BALLOON_LABEL, "balloon")],
+    ["Лимит населения",    lookup(LIMIT_LABEL, "limit")],
+    ["Команды",            s.teams ? "Включены" : "Выключены"],
+    ["Маска генератора",   s.maskname],
+    ["randkey0",           s.randkey0],
+    ["randkey1",           s.randkey1],
   ];
   const grid = el("div", { class: "setting-grid" },
     items.filter(([_, v]) => v != null && v !== "").map(([k, v]) =>
