@@ -174,9 +174,12 @@ offset  size  поле
 
 #### Three-way dispatch — три подформата записи
 
-Дисассм `RecordCustomBeginTagObject` раскрывает, что один и тот же
-class=0x09 channel несёт три разных под-формата, выбираемые по типу
-переданного handle. Движок последовательно пробует три классификации:
+Декомпиляция `RecordCustomBeginTagObject` (приватный recon-workspace
+`cossacks-deep/decompiled/record.c:286-338`, перекрёстная заметка —
+`cossacks-deep/findings/record_sync.md`) раскрывает, что один и тот
+же class=0x09 channel несёт три разных под-формата, выбираемые по
+типу переданного handle. Движок последовательно пробует три
+классификации:
 
 | Категория      | Resolver               | Источник state_record   | Признак handle             |
 |----------------|------------------------|-------------------------|----------------------------|
@@ -226,8 +229,9 @@ sid `"auscen"` в payload'е выглядит как:
 #### Bitfield order — LSB-first
 
 Внутри bit-pack'а (`BeginBitFields … WriteBit × N … EndBitFields`)
-биты пакуются **младшим вперёд** (LSB-first). Дисассм
-`_Stream_WriteBit @ 0x5b4874`:
+биты пакуются **младшим вперёд** (LSB-first). Декомпиляция
+`_Stream_WriteBit @ 0x5b4874` (приватный recon-workspace
+`cossacks-deep/decompiled/record.c:728-745`):
 
 ```c
 *(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR в текущий байт по маске
@@ -509,8 +513,11 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
 
 #### Current write stream + проверка парности
 
-Все `RecordCustomWrite*`-примитивы перед сериализацией читают
-указатель на текущий буфер по адресу:
+Раскладка `RecordManager`-структуры выявлена декомпиляцией record.c
+(приватный recon-workspace `cossacks-deep/decompiled/record.c` плюс
+обзор `cossacks-deep/findings/record_sync.md`). Все
+`RecordCustomWrite*`-примитивы перед сериализацией читают указатель
+на текущий буфер по адресу:
 
 ```
 *(int*)(*(int*)(root + 0x4c) + 0x6c) + 0x118
