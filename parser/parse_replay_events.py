@@ -136,6 +136,30 @@ class Reader:
         self.pos += n
         return s
 
+    def short_string(self) -> str:
+        """Pascal ShortString: [u8 len][bytes]. Max 255 chars."""
+        n = self.u8()
+        if self.pos + n > len(self.data):
+            raise ValueError(f"short_string len={n} overruns at pos={self.pos}")
+        s = self.data[self.pos:self.pos+n].decode("ascii", errors="replace")
+        self.pos += n
+        return s
+
+    def packed_float(self, minfloat: float, maxfloat: float) -> float:
+        """PackedFloat: 2 bytes uint16, decoded as min + (raw/65535) * (max-min).
+
+        The min/max bounds are NOT in the stream — they're context-dependent
+        (each use-site in the engine passes its own constants to
+        RecordCustomWritePackedFloat). The caller must know what range was
+        used at write time.
+
+        Engine-side: _Stream_WritePackedFloat (0x005b46e0) does
+            normalized = clamp((value - min) / (max - min), 0, 1)
+            write_u16(round(normalized * 65535))
+        """
+        raw = self.u16()
+        return minfloat + (raw / 65535.0) * (maxfloat - minfloat)
+
 
 # ----- Class=0x00 handler decoders --------------------------------------
 def _ctx_from(ts: float, hdr: dict) -> dict:

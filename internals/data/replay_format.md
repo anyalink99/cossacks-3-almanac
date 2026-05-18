@@ -214,9 +214,37 @@ RecordCustomReadInteger   — 4 байта LE signed
 RecordCustomReadFloat     — 4 байта LE IEEE-754
 RecordCustomReadString    — [u16 len LE][bytes]
 RecordCustomReadShortString — [u8 len][bytes]
-RecordCustomReadPackedFloat — float, упакованный в фиксированный диапазон
+RecordCustomReadPackedFloat — 2 байта uint16 LE; decode = min + (raw/65535)*(max-min); min/max не в потоке, подразумеваются контекстом записи (см. ниже)
 RecordCustomReadBit + RecordCustomBeginReadBitFields — для bit-stream'ов
 ```
+
+#### `PackedFloat` — 2 байта uint16
+
+Подтверждено декомпиляцией `_Stream_WritePackedFloat @ 0x5b46e0`
+(приватный `cossacks-deep/decompiled/record.c` + `findings/record_sync.md`).
+Engine-side:
+
+```c
+normalized = clamp((value - min) / (max - min), 0, 1);
+write_u16_le(round(normalized * 65535));
+```
+
+Decode в парсере (`Reader.packed_float(min, max)` в
+`parser/parse_replay_events.py`):
+
+```python
+raw = read_u16_le()
+value = min + (raw / 65535.0) * (max - min)
+```
+
+**Важная тонкость.** `min/max` **не записываются в поток**. Они
+**подразумеваются** use-site'ом — каждый вызов
+`RecordCustomWritePackedFloat(value, min, max)` использует свои
+константы. Чтобы корректно декодировать конкретное PackedFloat-поле,
+парсер должен знать какой диапазон был использован при записи.
+В практике это означает таблицу «state X, поле Y → min=N, max=M».
+
+#### Строки
 
 `String` — это просто `[u16 len LE][bytes]`, никакого префикса. Например,
 sid `"auscen"` в payload'е выглядит как:
