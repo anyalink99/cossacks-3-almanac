@@ -156,8 +156,8 @@ trade, ...) и для engine-progress событий (см. §3.5). Channel ID 0
 
 ### 3.2 Class=0x09 (TagObject state-sync stream) — формат
 
-Канал per-object state-sync (`RecordCustomBeginTagObject`) пишется
-в другой схеме:
+Канал per-object state-sync (`RecordCustomBeginTagObject @ 0x685c6c`)
+пишется в другой схеме:
 
 ```
 offset  size  поле
@@ -170,9 +170,34 @@ offset  size  поле
 
 Размер записи варьируется от 8 до 23 байт с шагом ~3 байта. Базовая
 часть `[u32 uid][u32 statestag]` (8 байт) присутствует всегда;
-расширения добавляются по битам `statestag` — например, при изменении
-позиции пишется пара `Float posx, posz`. Конкретный набор полей для
-каждой комбинации флагов в публичных скриптах не описан.
+расширения добавляются по битам `statestag`.
+
+#### Three-way dispatch — три подформата записи
+
+Дисассм `RecordCustomBeginTagObject` раскрывает, что один и тот же
+class=0x09 channel несёт три разных под-формата, выбираемые по типу
+переданного handle. Движок последовательно пробует три классификации:
+
+| Категория      | Resolver               | Источник state_record   | Признак handle             |
+|----------------|------------------------|-------------------------|----------------------------|
+| `TaggedHandle` (SM state) | `ResolveTaggedHandle`      | `obj + 0x18` (variables collection) | high bits `0x8000` в обеих половинах handle |
+| `GameObject`   | `ValidateGameObjectHandle` | `FUN_007c32ec(go)` (sync-context accessor) | проходит `ValidateGameObjectHandle` |
+| `Player`       | `ValidatePlayerHandle`     | `obj + 0x24` (player.sync_field) | проходит `ValidatePlayerHandle` |
+
+Все три пути в итоге зовут `_RecordManager_BeginTagWrite` с разным
+state-record'ом, поэтому набор сериализованных полей в record'ах
+class=0x09 зависит от того, *какой объект был тегирован при записи*.
+
+Парсер, который пытается декодировать все class=0x09 записи единой
+схемой, будет периодически путаться. Корректный декодер должен
+сначала диспетчеризоваться по маркеру в начале record'а
+(пока не разобрано — какой именно байт несёт tag-категорию), и
+применять разные layout'ы к Tagged-SM / GameObject / Player потокам.
+
+В практике replay-parser'а проще оставить class=0x09 как «считать
+record'ы, тело не декодировать» — почти весь полезный сигнал лежит
+в class=0x00 командах, а sync-поток гигантский (миллионы записей в
+длинной партии) и его декомпозиция замедляет парсер на порядок.
 
 ### 3.3 Типизированные `RecordCustomRead*`-примитивы
 
@@ -197,6 +222,31 @@ sid `"auscen"` в payload'е выглядит как:
 06 00                          u16 len = 6
 61 75 73 63 65 6e              "auscen"
 ```
+
+#### Bitfield order — LSB-first
+
+Внутри bit-pack'а (`BeginBitFields … WriteBit × N … EndBitFields`)
+биты пакуются **младшим вперёд** (LSB-first). Дисассм
+`_Stream_WriteBit @ 0x5b4874`:
+
+```c
+*(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR в текущий байт по маске
+*(byte *)(stream + 0x15) <<= 1;                         // mask <<= 1
+```
+
+Mask стартует со значения `0x01` и сдвигается влево после каждого
+записанного бита. Это значит: первый `WriteBit(true)` ставит бит
+`0x01`, второй — `0x02`, и так далее. На чтении (`ReadBit`) парсер
+обязан повторять эту же логику — иначе все packed bool'ы развернутся
+в зеркальном порядке.
+
+При `EndBitFields` неполный байт выравнивается до целого, mask
+сбрасывается. То есть длина bit-pack'а в потоке — `ceil(N_bits / 8)`
+байт, а не сжатая до бита.
+
+`Int24` подтверждён как 3 байта LE signed (`RecordCustomWriteInt24 @
+0x6860d4` использует `_Stream_WriteByte × 3` без знакового extend
+при upper-byte).
 
 ### 3.4 Multi-package entry
 
@@ -457,6 +507,40 @@ Class=`0x09` sub-package'и — это TagObject channel; его первый б
 `WriteBytes = 0x5b4620`, channel-tables `0x789980` (Map),
 `0x7c3160`, `0x7af5e8`.
 
+#### Current write stream + проверка парности
+
+Все `RecordCustomWrite*`-примитивы перед сериализацией читают
+указатель на текущий буфер по адресу:
+
+```
+*(int*)(*(int*)(root + 0x4c) + 0x6c) + 0x118
+                 │              │     │
+                 │              │     └── current write stream (ptr)
+                 │              └──────── RecordManager
+                 └─────────────────────── главный sub-manager
+```
+
+Если по `+0x118` лежит NULL, write-операция тихо ничего не пишет.
+Это значит, что **valid replay-поток обязан содержать парные
+begin/end записи**: `RecordCustomBegin*` инициализирует stream,
+`RecordCustomEnd` (`@ 0x685e00`) его обнуляет, и любые
+write-вызовы между ними попадают в буфер, а после end'а — нет.
+
+Прикладные следствия для парсера:
+
+- Поток sub-package'ей в одном entry устроен как
+  «begin → body → end → begin → body → end …», end-marker `0x01`
+  в class=0x00 — это runtime-side подтверждение, что
+  `RecordCustomEnd` выполнен и stream закрыт.
+- Если декодер натыкается на ситуацию «несколько begin'ов подряд
+  без end'а» — это либо вложенные begin'ы (TagObject внутри SM),
+  либо повреждённый файл. В наблюдаемых replay'ях вложений не
+  замечено: TagObject всегда стоит отдельным sub-package'ем.
+- `recordEnabled` / `recordGroupEnabled` / `recordInitializeEnabled`
+  флаги в RecordManager (`+0x130`, `+0x131`, `+0x132`) могут
+  обнулять stream на лету; начальный snapshot (entry с `ts == 0`)
+  пишется при `recordInitializeEnabled = true`.
+
 ---
 
 ## 7. Что хранится в header'е
@@ -529,6 +613,9 @@ TMapPlayer), затем фильтрует `bexists != true`. Список ос�
 | 10-байт entry-маркер (два варианта)   | b0 04 + (zero \| signature) + zero-tail; см. §2.2 |
 | Имена и нации игроков                 | хранятся в TMapPlayer-блоках; см. §7.2, §11 |
 | Хост-игрок в рейтинге                 | `brating=true` ⇒ host = color 0 (red); см. §11.2 |
+| Class=0x09 three-way dispatch         | TaggedHandle / GameObject / Player ветки в `RecordCustomBeginTagObject @ 0x685c6c`; см. §3.2 |
+| Порядок битов в bit-pack'е            | LSB-first (`_Stream_WriteBit @ 0x5b4874`); см. §3.3 |
+| Парность begin/end в потоке           | через `+0x118` write stream — write вне begin/end молча no-op; см. §6 |
 
 ## 9. Открытые TBD
 
@@ -540,9 +627,11 @@ TMapPlayer), затем фильтрует `bexists != true`. Список ос�
   больше 8 байт. Дополнительные поля выбираются битами `statestag`;
   таблица соответствия флагов и полей требует disasm
   `RecordCustomBeginTagObject` и связанных write-routine'ов.
-- Формат `RecordCustomReadPackedFloat`. Native существует, но в
-  стандартных streams не наблюдается; вероятно, используется в
-  `ReadSync` для упаковки координат и углов.
+- Формат `RecordCustomReadPackedFloat` / `WritePackedFloat`
+  (`@ 0x6860ac` / `@ 0x6860c4`). Native существует, но в стандартных
+  streams не наблюдается; вероятно, используется в `ReadSync` для
+  упаковки координат и углов. Разовая декомпиляция тела даст
+  раскладку (half-float, fixed-point с диапазоном, или delta-encoded).
 - Тело engine-progress payload'ов (state_id'ы 0x08, 0x0a, 0x0f
   при pid=14). Layout отличается от script handler signature и
   записывается напрямую engine-кодом.
