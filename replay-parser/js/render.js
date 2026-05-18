@@ -121,46 +121,86 @@ function renderAbuses(abuses, players) {
   if (!abuses || !abuses.length) {
     return el("div", { class: "abuses-clean" }, "Двойных прокачек не обнаружено.");
   }
-  // Group by pid
-  const byPid = new Map();
-  for (const ab of abuses) {
-    const list = byPid.get(ab.pid) || [];
-    list.push(ab);
-    byPid.set(ab.pid, list);
-  }
   const playerName = (pid) => {
     const p = players.find((p) => p.pid === pid);
     return p ? p.name : `pid=${pid}`;
   };
 
-  // Sort player groups: larger groups first
-  const sorted = [...byPid.entries()].sort((a, b) => b[1].length - a[1].length);
+  // Group by (pid, abuse_group_id). A real race-condition abuse produces
+  // TWO findings — one `double-upgrade-start` (click pair) and one
+  // `double-apply` (commit pair) — sharing the same abuse_group_id and
+  // describing the same underlying incident. We collapse them into one
+  // card so the UI doesn't show what looks like two abuses.
+  const byPid = new Map();
+  for (const ab of abuses) {
+    const groups = byPid.get(ab.pid) || new Map();
+    const gid = ab.abuse_group_id || `${ab.pid}-${ab.kind}-${ab.ts_g_sec_first}`;
+    const list = groups.get(gid) || [];
+    list.push(ab);
+    groups.set(gid, list);
+    byPid.set(ab.pid, groups);
+  }
+
+  // Order findings inside a group: start before apply (chronological).
+  for (const groups of byPid.values()) {
+    for (const list of groups.values()) {
+      list.sort((a, b) => a.ts_g_sec_first - b.ts_g_sec_first);
+    }
+  }
+
+  // Sort players: more groups first.
+  const sortedPids = [...byPid.entries()]
+    .sort((a, b) => b[1].size - a[1].size);
 
   const children = [el("h3", {}, "Обнаружена двойная прокачка")];
-  for (const [pid, list] of sorted) {
-    const samples = list.slice(0, 5);
+  for (const [pid, groups] of sortedPids) {
+    // Sort each player's groups by the earliest timestamp.
+    const sortedGroups = [...groups.values()]
+      .sort((a, b) => a[0].ts_g_sec_first - b[0].ts_g_sec_first);
+
     children.push(el("div", { class: "abuse-item" }, [
       el("b", {}, playerName(pid)),
-      ` — ${list.length} срабатывание(й).`,
+      ` — ${sortedGroups.length} прокачк${sortedGroups.length === 1 ? "а" : "и"}.`,
       el("ul", { class: "abuse-list" },
-        samples.map((s) => {
-          const d = s.details || {};
-          const name = d.upgrade_name_ru || d.upgrade_name_en || d.upgrade_sid || "";
-          const label = name
-            ? el("b", { class: "abuse-upgname" }, name)
-            : el("span", { class: "abuse-meta" },
-                          `апгрейд id ${d.upgrade_id ?? d.ind ?? "?"}`);
-          return el("li", {}, [
-            `${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)} · `,
-            label,
-            el("span", { class: "abuse-meta" },
-              ` · gap ${(s.gap_ticks / 10).toFixed(1)} g-сек`),
-          ]);
-        })
-      ),
+        sortedGroups.map((group) => renderAbuseGroup(group))),
     ]));
   }
   return el("div", { class: "abuses-found" }, children);
+}
+
+function renderAbuseGroup(group) {
+  // `group` is an array of 1 or 2 findings sharing an abuse_group_id.
+  // Pair (start + apply) is the normal real-abuse case; solo apply is
+  // ground truth without a matching click pattern.
+  const d = group[0].details || {};
+  const name = d.upgrade_name_ru || d.upgrade_name_en || d.upgrade_sid || "";
+  const nameNode = name
+    ? el("b", { class: "abuse-upgname" }, name)
+    : el("span", { class: "abuse-meta" },
+                  `апгрейд id ${d.upgrade_id ?? d.ind ?? "?"}`);
+
+  const lines = group.map((s) => {
+    const kindLabel = s.kind === "double-upgrade-start" ? "клики" : "применения";
+    const kindClass = s.kind === "double-upgrade-start" ? "abuse-tag-click" : "abuse-tag-apply";
+    return el("div", { class: "abuse-row" }, [
+      el("span", { class: `abuse-tag ${kindClass}` }, kindLabel),
+      el("span", { class: "abuse-row-ts" },
+        ` ${fmtTime(s.ts_g_sec_first)} → ${fmtTime(s.ts_g_sec_second)}`),
+      el("span", { class: "abuse-meta" },
+        ` · gap ${(s.gap_ticks / 10).toFixed(1)} g-сек`),
+    ]);
+  });
+
+  const soloHint = group.length === 1 && group[0].kind === "double-apply"
+    ? el("span", { class: "abuse-meta abuse-solo-hint" },
+        " · только apply (клики не разделились в кластеры)")
+    : null;
+
+  return el("li", { class: "abuse-group" }, [
+    nameNode,
+    soloHint,
+    el("div", { class: "abuse-rows" }, lines),
+  ]);
 }
 
 function renderBuildSummary(buildsPerPid, players) {

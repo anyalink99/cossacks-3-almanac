@@ -234,6 +234,48 @@
   font-family: "Inter", sans-serif;
 }
 
+/* Paired-abuse layout (one card per underlying race-condition incident).
+   Each card shows the upgrade name on top, then 1-2 sub-rows: the click
+   pair and/or the apply pair. */
+.abuse-group {
+  margin: 8px 0 12px;
+  padding-left: 4px;
+}
+.abuse-rows {
+  margin-top: 4px;
+  padding-left: 14px;
+  border-left: 1px solid var(--border-dim);
+}
+.abuse-row {
+  padding: 2px 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.abuse-row-ts {
+  color: var(--text-bright);
+  font-family: "Inter", sans-serif;
+}
+.abuse-tag {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  padding: 1px 7px;
+  border-radius: 2px;
+  margin-right: 8px;
+  min-width: 70px;
+  text-align: center;
+}
+.abuse-tag-click { background: var(--text-mute); }
+.abuse-tag-apply { background: var(--danger); }
+.abuse-solo-hint {
+  margin-left: 8px;
+  font-style: italic;
+}
+
 /* ── Progress / error rows ── */
 .progress-row,
 .error-row {

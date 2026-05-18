@@ -1150,7 +1150,73 @@ def detect_abuses(decoded: list[dict],
             "details": details,
         })
 
-    return findings
+    # Cross-confirmation pass: a real race-condition abuse produces BOTH
+    # a `double-upgrade-start` finding (the two clicks) AND a `double-apply`
+    # finding (the two commits) for the same (pid, building, upgrade), with
+    # the apply pair temporally adjacent to the start pair (apply 1 fires
+    # right around the second click, since the second click happens just
+    # as the first research completes — that's the race window).
+    #
+    # A `double-upgrade-start` WITHOUT a matching `double-apply` means
+    # the engine accepted two clicks but only one apply actually fired
+    # (button locked after first completion, no resources for second
+    # research, etc.) — the in-game effect did NOT double, so it's a
+    # false positive for the user's purposes.
+    #
+    # A `double-apply` WITHOUT a matching `double-upgrade-start` is still
+    # ground truth — the effect did double; we just missed the click
+    # pattern (e.g., both clicks fell into one cluster and weren't split).
+    #
+    # Pairs are tagged with the same `abuse_group_id` so UI can render
+    # them as one card per underlying abuse instead of two.
+    def _start_key(f: dict) -> tuple:
+        d = f["details"]
+        return (f["pid"], d.get("building_uid"), d.get("upgrade_id"))
+
+    def _apply_key(f: dict) -> tuple:
+        d = f["details"]
+        return (f["pid"], d.get("target_uid"), d.get("ind"))
+
+    PAIR_WINDOW_SEC = 5.0  # apply pair starts within this many g-sec of start pair end
+
+    starts = [f for f in findings if f["kind"] == "double-upgrade-start"]
+    applies = [f for f in findings if f["kind"] == "double-apply"]
+    applies_by_key: dict[tuple, list[dict]] = {}
+    for f in applies:
+        applies_by_key.setdefault(_apply_key(f), []).append(f)
+
+    confirmed: list[dict] = []
+    matched_apply_ids: set[int] = set()
+    for s in starts:
+        skey = _start_key(s)
+        # Apply key uses target_uid which == building_uid for the upgrades
+        # we've seen so far (academy/mill style: research building IS the
+        # target). Match on full triple.
+        candidates = applies_by_key.get(skey, [])
+        best = None
+        for c in candidates:
+            if id(c) in matched_apply_ids:
+                continue
+            if abs(c["ts_g_sec_first"] - s["ts_g_sec_second"]) <= PAIR_WINDOW_SEC:
+                best = c
+                break
+        if best is not None:
+            gid = f"{skey[0]}-b{skey[1]}-u{skey[2]}"
+            s["abuse_group_id"] = gid
+            best["abuse_group_id"] = gid
+            confirmed.append(s)
+            confirmed.append(best)
+            matched_apply_ids.add(id(best))
+        # else: drop solo start (false positive)
+
+    # Add solo applies (no matching start) — these are still ground truth
+    for a in applies:
+        if id(a) not in matched_apply_ids:
+            akey = _apply_key(a)
+            a["abuse_group_id"] = f"{akey[0]}-t{akey[1]}-i{akey[2]}-solo"
+            confirmed.append(a)
+
+    return confirmed
 
 
 def parse_replay_from_bytes(data: bytes) -> dict:
