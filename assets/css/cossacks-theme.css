@@ -66,6 +66,16 @@
 
 html, body { margin: 0; padding: 0; }
 
+/* Курсор из игры — золотая стрелка из главного меню Cossacks 3.
+   Сам PNG 32x32 RGBA, hotspot оставлен по умолчанию (0,0) — кончик
+   стрелки в верхнем-левом углу изображения. Кнопки и ссылки имеют
+   собственный `cursor: pointer`, инпуты — нативный I-beam: ради UX
+   их специально не перебиваем (в отличие от gliniak.gitlab.io, где
+   `* { cursor: inherit }` форсит стрелку даже на input'ах). */
+html, body {
+  cursor: url("../img/cursor.png"), default;
+}
+
 body {
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
   font-size: 14px;
