@@ -68,6 +68,20 @@ function preprocessMermaid(source) {
   return source.replace(/`([^`\r\n]+)`/g, "<code>$1</code>");
 }
 
+// Marked emits raw <table>; if columns are wide the table overflows the
+// article column without a scrollbar (unscrollable on touch + mouse).
+// Wrap each table in a div with overflow-x: auto so wide tables become
+// horizontally scrollable while narrow ones still look natural.
+function wrapTablesInScrollContainers(container) {
+  for (const table of container.querySelectorAll("table")) {
+    if (table.parentElement?.classList.contains("md-table-scroll")) continue;
+    const wrap = document.createElement("div");
+    wrap.className = "md-table-scroll";
+    table.replaceWith(wrap);
+    wrap.appendChild(table);
+  }
+}
+
 async function renderMermaidBlocks(container) {
   const blocks = container.querySelectorAll("pre > code.language-mermaid, pre > code.lang-mermaid");
   let idx = 0;
@@ -314,6 +328,7 @@ async function openFile(path) {
     const text = await r.text();
     const html = marked.parse(text);
     main.innerHTML = rewriteRelativeLinks(html, path);
+    wrapTablesInScrollContainers(main);
     await renderMermaidBlocks(main);
     main.scrollTop = 0;
     document.title = `${path.split("/").pop().replace(".md", "")} — ${currentRoot.title}`;

@@ -201,6 +201,27 @@
   margin: 2em 0;
 }
 
+/* Контейнер для горизонтального скролла широких таблиц. JS-обёртка
+   в md-viewer.js оборачивает каждую <table> в этот div. На узких
+   таблицах ничего не меняется (table.width=100% растягивает её до
+   ширины контейнера); на широких — появляется horizontal scrollbar
+   вместо обрезания содержимого. */
+/* Контейнер для горизонтального скролла широких таблиц. JS-обёртка
+   в md-viewer.js оборачивает каждую <table> в этот div. На узких
+   таблицах ничего не меняется (min-width:100% растягивает её до
+   ширины контейнера); на широких — таблица превышает ширину и в
+   контейнере появляется horizontal scrollbar. */
+#md-content .md-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1em 0;
+}
+#md-content .md-table-scroll > table {
+  margin: 0;
+  width: auto;
+  min-width: 100%;
+}
+
 #md-content table {
   border-collapse: collapse;
   margin: 1em 0;

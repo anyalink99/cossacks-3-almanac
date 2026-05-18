@@ -76,6 +76,26 @@ html, body {
   cursor: url("../img/cursor.png"), default;
 }
 
+/* ── Кастомные скроллбары (поднято из editor/css/editor.css сюда,
+      чтобы все страницы получили единообразный вид) ──
+   - Firefox: scrollbar-width: thin (узкие);
+   - WebKit/Chromium: 9px ширина/высота, тёмный track под фон bg-deep,
+     thumb в цвете border-dim — тонкая бронза на угольном фоне;
+   - hover: чуть ярче, чтобы было видно куда тянуть. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-dim) var(--bg-deep);
+}
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-track { background: var(--bg-deep); }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-dim);
+  border-radius: 4px;
+  border: 2px solid var(--bg-deep);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+*::-webkit-scrollbar-corner { background: var(--bg-deep); }
+
 body {
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
   font-size: 14px;
