@@ -904,6 +904,54 @@ def _build_uid_index(decoded: list[dict]) -> dict[int, dict]:
     return out
 
 
+def infer_recorder_pid(decoded: list[dict]) -> int | None:
+    """Identify which player's machine recorded this replay file.
+
+    A replay is a single client's view of the match. The recording
+    client's own outgoing intents (ReadUpgrade with `bFromServer=False`)
+    are captured BEFORE the server echoes them back as broadcasts
+    (`bFromServer=True`). For every other player in the match, only
+    server broadcasts arrive on the recorder's machine, so they appear
+    purely as `bFromServer=True`.
+
+    Methodology: per-pid, compute the fraction of ReadUpgrade events
+    that have `bFromServer=False`. The pid with a substantial share of
+    False (>15%) is the recorder. In a well-formed replay only one pid
+    should match.
+
+    Returns the recorder pid, or None if the asymmetry is absent (e.g.,
+    older replay format, no upgrade events).
+
+    NB: this is NOT the same as `host_pid`. The recorder is whoever
+    saved the .rep file (any player can do this in lobby/post-game);
+    the host is the player whose machine is the authoritative server
+    for the match. These can be the same player or different players.
+    """
+    from collections import Counter
+    intent_count: Counter[int] = Counter()
+    total_count: Counter[int] = Counter()
+    for rec in decoded:
+        if rec.get("handler") != "ReadUpgrade":
+            continue
+        pid = rec.get("pid")
+        if pid is None:
+            continue
+        total_count[pid] += 1
+        if not rec.get("from_server"):
+            intent_count[pid] += 1
+    candidates: list[tuple[int, float, int]] = []
+    for pid, total in total_count.items():
+        if total < 5:  # too few events to judge
+            continue
+        share = intent_count[pid] / total
+        if share > 0.15:
+            candidates.append((pid, share, intent_count[pid]))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda c: c[1], reverse=True)
+    return candidates[0][0]
+
+
 def detect_abuses(decoded: list[dict],
                   player_nations: dict[int, str] | None = None,
                   host_pid: int | None = None) -> list[dict]:
@@ -913,18 +961,48 @@ def detect_abuses(decoded: list[dict],
     exploit requires client-server latency, which the host (= the server) by
     definition cannot have.
 
-    Currently detects:
+    Detection methodology
+    ---------------------
+    The abuse player perceives in-game = the **right-bottom log shows the
+    same upgrade applied twice with a small interval**. The engine fires
+    that log message when `_player_ApplyUpgrade` commits, which is when
+    `ReadApply` lands in the replay. So the ground-truth signal is:
 
-    - **double-upgrade-start**: two `ReadUpgrade` events with `start=True`
-      for the same `(pid, building_uid, upgrade_id)` within
-      `DOUBLE_UPGRADE_WINDOW_TICKS` ticks. This is the canonical
-      race-condition exploit where a non-host client spams the upgrade
-      button as it nears completion and forces the host to queue the
-      research more than once.
-    - **double-apply**: two `ReadApply` events for the same
-      `(target_uid, upgrade_cid, upgrade_ind)`. Each `ReadApply` invokes
-      `_player_ApplyUpgrade`, which has no idempotency check and
-      compounds the effect on every call.
+        two `ReadApply` events for the same `(target_uid, cid, ind)` from
+        the same `pid`, with a gap shorter than the upgrade's research time
+
+    `ReadUpgrade(start=True)` events are the player's *click intents* and
+    are NOT a reliable abuse signal on their own. Two distinct
+    interpretations explain why:
+
+    1. **Recorder-client noise.** Every `ReadUpgrade` carries a
+       `bFromServer` flag. A replay file is recorded on ONE specific
+       player's machine — call it the recorder (NOT necessarily the host).
+       For that player's own clicks, the recorder's machine sees BOTH the
+       outgoing intent (`bFromServer=False`, before the server has echoed
+       it back) AND the server's confirmation (`bFromServer=True`). For
+       every other player in the same replay, only the server's broadcast
+       arrives, so all their events are `bFromServer=True`. Without
+       filtering, the recorder always looks like they're "race-clicking"
+       everything — 2-5 events per logical click within a sub-second
+       burst.
+
+    2. **UI spam.** Even with the filter, players legitimately click the
+       same upgrade button multiple times when nothing visible happens —
+       that's a UI no-op, not an abuse.
+
+    Current detectors (all gate on `bFromServer=True`):
+
+    - **double-upgrade-start** (heuristic, server-confirmed clicks only):
+      two server-side `ReadUpgrade(start=True)` clusters for the same
+      `(pid, building_uid, upgrade_id)` with inter-cluster gap in
+      [GAP_MIN_TICKS, GAP_MAX_TICKS]. Used as a weak hint; main signal
+      is double-apply.
+
+    - **double-apply** (strong): exactly two `ReadApply` events for the
+      same `(target_uid, upgrade_cid, upgrade_ind)` from the same pid
+      with a small gap. `_player_ApplyUpgrade` has no idempotency check;
+      every call compounds the effect.
 
     Returns a list of findings; each finding is a dict with:
         kind, pid, ts_g_sec_first, ts_g_sec_second, gap_ticks, details
@@ -953,12 +1031,18 @@ def detect_abuses(decoded: list[dict],
     CLUSTER_GAP_TICKS = 30  # within this gap, events belong to the same click-burst
     findings: list[dict] = []
 
-    # Index ReadUpgrade(start=True) events
+    # Index ReadUpgrade(start=True) events. Critical: only count SERVER-confirmed
+    # events. The replay-recorder client also sees its own outgoing intents
+    # (bFromServer=False) — those are pre-confirmation duplicates of clicks the
+    # server later echoes back, and treating them as separate events fabricates
+    # the abuse signal for every legit click the recorder makes.
     upgrade_starts: dict[tuple, list[dict]] = {}
     for rec in decoded:
         if rec.get("handler") != "ReadUpgrade":
             continue
         if not rec.get("start"):
+            continue
+        if not rec.get("from_server"):
             continue
         for bld in rec.get("buildings", []):
             key = (rec["pid"], bld, rec["upgrade_id"])
@@ -1232,6 +1316,12 @@ def parse_replay_from_bytes(data: bytes) -> dict:
             if p.get("color") == 0:
                 host_pid = p["pid"]
                 break
+
+    # recorder_pid = whose machine wrote this .rep file. Distinct from
+    # host_pid: any player can save a replay regardless of who hosted.
+    # Detected via bFromServer asymmetry on ReadUpgrade — see
+    # `infer_recorder_pid` docstring.
+    recorder_pid = infer_recorder_pid(abuse_input)
     abuses = detect_abuses(abuse_input, player_nations, host_pid=host_pid)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
 
@@ -1241,6 +1331,8 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         "duration_g_sec": duration_g_sec,
         "n_entries": len(entries),
         "n_sub_packages": sum(by_handler.values()),
+        "host_pid": host_pid,
+        "recorder_pid": recorder_pid,
         "by_handler": dict(by_handler.most_common()),
         "by_pid": dict(by_pid.most_common()),
         "builds_per_pid": {p: v for p, v in builds_per_pid.items()},
