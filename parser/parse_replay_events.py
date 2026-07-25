@@ -813,6 +813,7 @@ NATION_BY_CID = {
     12: "mis", 13: "net", 14: "den", 15: "por", 16: "pie", 17: "sax",
     18: "bav", 19: "hun", 20: "swi", 21: "sco", 22: "tat", 23: "lit",
 }
+CID_BY_NATION = {nation: cid for cid, nation in NATION_BY_CID.items()}
 
 
 def _resolve_upgrade(cid: int, upgrade_id: int) -> dict | None:
@@ -1227,14 +1228,23 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     list, otherwise a long-game replay (millions of state-sync records)
     would freeze the browser tab.
 
-    Returns a JSON-friendly dict with header settings, player roster,
-    event timelines, summaries and abuse findings — everything a web
-    UI needs in one round-trip.
+    Returns a JSON-friendly dict with identity/footer metadata, PatternList
+    coordinates, lobby settings, player roster, event timelines, summaries
+    and abuse findings — everything the web UI needs in one round-trip.
     """
-    from parse_replay import extract_settings, extract_players
+    from parse_replay import (
+        extract_pattern_placements,
+        extract_players,
+        extract_settings,
+        parse_footer,
+        parse_identity,
+    )
 
+    replay_identity = parse_identity(data)
     settings = extract_settings(data)
     players = extract_players(data)
+    footer = parse_footer(data)
+    pattern_placements = extract_pattern_placements(data)
     entries = walk_entries(data)
     body_entries = entries[1:] if entries and entries[0][0] == 0.0 else entries
 
@@ -1246,10 +1256,12 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     # start"; for those we fall back to the cid field carried in each
     # ReadConstruct event below.
     player_nations: dict[int, str] = {}
+    player_cids: dict[int, int] = {}
     for p in players:
         cid_val = p.get("cid", -1)
         if cid_val in NATION_BY_CID:
             player_nations[p["pid"]] = NATION_BY_CID[cid_val]
+            player_cids[p["pid"]] = cid_val
 
     builds_per_pid: dict = defaultdict(list)
     units_built_per_pid: dict = defaultdict(Counter)
@@ -1346,11 +1358,26 @@ def parse_replay_from_bytes(data: bytes) -> dict:
                     "amount": rec["amount"],
                 })
             elif h == "ReadUpgrade" and pid is not None:
-                upgrades_per_pid[pid].append({
+                upgrade = {
                     "ts_g_sec": rec["ts_g_sec"],
                     "upgrade_id": rec["upgrade_id"], "start": rec["start"],
                     "buildings": rec["buildings"],
-                })
+                }
+                cid = player_cids.get(pid)
+                if cid is None:
+                    cid = CID_BY_NATION.get(player_nations.get(pid, ""))
+                upg_meta = (
+                    _resolve_upgrade(cid, rec["upgrade_id"])
+                    if cid is not None
+                    else None
+                )
+                if upg_meta:
+                    upgrade.update({
+                        "upgrade_sid": upg_meta.get("sid"),
+                        "upgrade_name_ru": upg_meta.get("name_ru") or "",
+                        "upgrade_name_en": upg_meta.get("name_en") or "",
+                    })
+                upgrades_per_pid[pid].append(upgrade)
                 abuse_input.append(rec)
             elif h == "ReadDeath" and pid is not None:
                 deaths_per_pid[pid] += len(rec.get("dead_uids", []))
@@ -1390,10 +1417,28 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     recorder_pid = infer_recorder_pid(abuse_input)
     abuses = detect_abuses(abuse_input, player_nations, host_pid=host_pid)
     duration_g_sec = round(entries[-1][0] / 10.0, 2) if entries else 0.0
+    format_warnings: list[str] = []
+    if not replay_identity.get("header"):
+        format_warnings.append("Не удалось прочитать OSWMap-заголовок.")
+    if not entries:
+        format_warnings.append("Поток entry-событий не найден.")
+    if not footer:
+        format_warnings.append("Футер GameMapBegin/GameMapEnd не найден.")
+    elif not footer.get("complete"):
+        format_warnings.append("Футер найден, но завершающий GameMapEnd отсутствует.")
+    if not pattern_placements:
+        format_warnings.append("PatternList не содержит распознанных n/x/y-записей.")
 
     return {
+        "replay": {
+            **replay_identity,
+            "file_size": len(data),
+        },
         "settings": settings,
         "players": players,
+        "footer": footer,
+        "pattern_placements": pattern_placements,
+        "format_warnings": format_warnings,
         "duration_g_sec": duration_g_sec,
         "n_entries": len(entries),
         "n_sub_packages": sum(by_handler.values()),

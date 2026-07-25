@@ -58,6 +58,15 @@ write_md_tree   compute_scaling           simulate_economy
 | **`parse_units.py`** | Text-based balanced-block walker. Парсит `_unit_InitBase` — три case-блока (units / common buildings / per-nation buildings) с per-nation/per-cluster overrides. |
 | **`simulate_upgrades.py`** | Symbolic Pascal executor для `_country_InitUnitsUpgrades` и `_country_Init`. Трекает `member`/`upgplace`, инлайнит `SetUpgStruct*` + `AddUpgradePack`, разворачивает `for i:=1 to 3 do` (mine upgrades). Эмитит ~3000 fully-resolved upgrade rows. |
 
+### Инструменты replay'ев
+
+| Файл | Что делает |
+|---|---|
+| **`parse_replay.py`** | Разбирает OSWMap13 header/footer, lobby settings, игроков и `PatternList`. В `--json` возвращает точные `n/x/y`-координаты размещённых паттернов и metadata карты из футера. |
+| **`parse_replay_events.py`** | Декодирует entry/sub-package поток в JSON-таймлайн команд и state-sync событий. |
+| **`parse_replay_aggregates.py`** | Строит агрегаты по каталогу replay'ев для эмпирической проверки формата. |
+| **`replay_to_build_order.py`** | Преобразует декодированные события в последовательность строительства/производства. |
+
 ### Orchestrator (вход: парсеры; выход: единый dict)
 
 | Файл | Что делает |

@@ -43,13 +43,15 @@ global do not progress`).
 |                              sub-package'ей              |
 | GameMapRecordEnd                                         |
 +----------------------------------------------------------+
-| Хвост: несколько финальных kv-пар (init-state markers)   |
+| GameMapBegin + f64 elapsed_raw_s + metadata карты        |
+| map_file + width/height + init-state + GameMapEnd         |
 +----------------------------------------------------------+
 ```
 
 Header'ы и kv-пары парсятся напрямую как длиннопрефиксные ASCII-строки.
 Тело — это последовательность entry-блоков; декодер должен пройти
-до маркера `GameMapRecordEnd` и не пытаться парсить хвост как entry.
+до маркера `GameMapRecordEnd` и не пытаться парсить футер как entry.
+Подтверждённая схема футера приведена в §7.5.
 
 ---
 
@@ -583,7 +585,7 @@ write-вызовы между ними попадают в буфер, а пос
 ### 7.1 Lobby settings
 
 Все поля `gMap.settings.*` пишутся в kv-stream header'а в текстовой
-форме (`[u16 keylen][key][u16 vallen][val]`). Полный список (имена ↔
+форме (`[u32 keylen][key][u32 vallen][val]`, длины little-endian). Полный список (имена ↔
 смысл) — в [`docs/recon/world/map/game_settings.md`](../../docs/recon/world/map/game_settings.md);
 канонические enum-метки → `derived/game_settings.json`. Сюда входят
 все правила партии (`peacetime`, `century18`, `capture`, `marketdip`,
@@ -618,12 +620,76 @@ TMapPlayer), затем фильтрует `bexists != true`. Список ос�
   стартовые юниты, ресурсные кластеры, шахты, fog. Этот entry
   отличается от остальных только размером и тем, что декодеру
   обычно нужен лишь как baseline.
+- Опубликованная сторонним инструментом гипотеза о повторяющейся записи
+  `[f32 x][f32 y][u16 id][20 00 1a][u32 flag]` (фактически 17, а не
+  16 байт) не воспроизвелась на выборке из 25 replay'ев. Канонической
+  схемой стартового снимка она не считается.
 
-### 7.4 Поток событий
+### 7.4 PatternList: имена и координаты размещённых паттернов
+
+После LP-маркера `PatternList` идут последовательные текстовые kv-тройки:
+
+```
+[u32 1] "n" [u32 name_len] pattern_name
+[u32 1] "x" [u32 x_len]    x_ascii
+[u32 1] "y" [u32 y_len]    y_ascii
+```
+
+`n` — имя выбранного генератором pattern-файла, `x` и `y` — его
+координаты на карте, сериализованные ASCII-числами (обычно целыми, в
+том числе отрицательными). Тройка должна быть именно смежной: отдельные
+ключи `n`, `x` или `y` вне `PatternList` не являются placement-записью.
+
+Схема подтверждена на 25 replay'ях: от 62 записей на карте 256×256 до
+1291 на карте 640×640. `parser/parse_replay.py` возвращает их через
+`extract_pattern_placements()` и поле JSON `pattern_placements`.
+
+### 7.5 Футер после GameMapRecordEnd
+
+Во всех 25 проверенных replay'ях сразу после конца entry-потока находится
+одинаковый каркас:
+
+```
+[LP]  "GameMapRecordEnd"
+[LP]  "GameMapBegin"
+[f64] elapsed_raw_s
+[u32] reserved0                  // 0 в проверенной выборке
+[LP]  project_name               // "cossacks"
+[LP]  project_path               // data\projects\project.main.prj
+[...] padding / непрочитанные поля
+[LP]  map_file                   // game_v....map
+[LP]  "Default"
+[LP]  "Default"
+[u32] map_width
+[u32] map_height
+[u32] map_flags
+[...] непрочитанные поля
+[LP]  menu_config                // .\data\gui\menu.cfg
+[LP]  light                      // light0
+[LP]  "InitMapGen"
+[LP]  player_state               // playerN
+[LP]  "GameMapEnd"
+```
+
+Размеры карты в выборке — 256×256, 320×320, 480×480 и 640×640; их нельзя
+хардкодить по одному примеру. `elapsed_raw_s` — конечное неотрицательное
+time-like значение, но оно **не совпадает** с длительностью потока
+`last_ts / 10`. Пока семантика часов не установлена, это поле нельзя
+подставлять вместо `duration_g_sec`.
+
+Парсер `parse_footer()` возвращает подтверждённые поля и помечает футер
+`complete=true` только при найденном `GameMapEnd`.
+
+Наводки на `PatternList` и каркас футера были сверены с
+[`czanchetta/cossacks3-replay-tools`](https://github.com/czanchetta/cossacks3-replay-tools/blob/main/docs/FORMATO_REP_COSSACKS3.md),
+после чего независимо проверены на локальной выборке. Код из внешнего
+репозитория не переносился; неподтвердившаяся гипотеза snapshot'а отклонена.
+
+### 7.6 Поток событий
 
 Полный лог клиентских команд и серверных state-sync пакетов — см. §3.
 
-### 7.5 Что НЕ хранится
+### 7.7 Что НЕ хранится
 
 - Чат и голос (возможно идут через `ReadPackage`, но в наблюдаемых
   потоках не зафиксированы).
@@ -651,6 +717,8 @@ TMapPlayer), затем фильтрует `bexists != true`. Список ос�
 | Class=0x09 three-way dispatch         | TaggedHandle / GameObject / Player ветки в `RecordCustomBeginTagObject @ 0x685c6c`; см. §3.2 |
 | Порядок битов в bit-pack'е            | LSB-first (`_Stream_WriteBit @ 0x5b4874`); см. §3.3 |
 | Парность begin/end в потоке           | через `+0x118` write stream — write вне begin/end молча no-op; см. §6 |
+| PatternList placement-записи          | смежные LP-kv тройки `n`/`x`/`y`; см. §7.4 |
+| Каркас футера replay'я                | `GameMapBegin` → metadata карты → `GameMapEnd`; см. §7.5 |
 
 ## 9. Открытые TBD
 
@@ -677,6 +745,12 @@ TMapPlayer), затем фильтрует `bexists != true`. Список ос�
 - Идентификация host'а в не-рейтинговых играх. В рейтинге работает
   правило «color=0», но в LAN/private-lobby игроки свободно меняют
   цвета, и host-pid в файле не маркируется ничем явным.
+- Точная семантика footer-поля `elapsed_raw_s`: значение time-like, но
+  не равно игровому времени `last_ts / 10`; возможны wall-clock,
+  pause-aware или engine-lifetime часы.
+- Точная бинарная схема начального entry (`ts == 0`). Гипотеза о
+  17-байтовой записи с разделителем `20 00 1a` на 25 replay'ях не
+  воспроизвелась.
 
 ---
 

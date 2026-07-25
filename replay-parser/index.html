@@ -6,37 +6,56 @@
   <title>Cossacks 3 — Разбор реплеев</title>
   <link rel="stylesheet" href="../assets/css/cossacks-theme.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 </head>
 <body>
 
 <header class="topbar">
   <div class="brand">
     <span class="logo-mark">C3</span>
-    <h1>Разбор реплеев <span class="ver">v0.2</span></h1>
+    <h1>Разбор реплеев <span class="ver">v0.3</span></h1>
   </div>
   <div class="topbar-actions">
-    <span id="status" class="pill loading">Загрузка движка…</span>
+    <span id="status" class="pill loading" aria-live="polite">Загрузка движка…</span>
     <label class="btn btn-primary" id="upload_btn">
       <input type="file" id="file_input" accept=".rep,.map" multiple hidden />
-      Загрузить .rep
+      Открыть .rep
     </label>
     <button class="btn btn-secondary" id="clear_btn">Очистить</button>
   </div>
 </header>
 
 <main class="layout">
-  <p class="intro">
-    Локальный разбор файлов <code>.rep</code> в браузере: настройки лобби,
-    игроки и нации, постройки и торговля, детектор повторных прокачек
-    (race-condition абуз). Файлы не покидают вашу машину.
-  </p>
+  <section class="briefing" aria-labelledby="briefing-title">
+    <div>
+      <p class="eyebrow">Штабной журнал кампании</p>
+      <h2 id="briefing-title">Разложите партию по минутам — и карту по точкам.</h2>
+      <p>
+        Изучайте build order, производство, торговлю, улучшения и размещение
+        генераторных паттернов. Несколько реплеев можно держать открытыми рядом.
+      </p>
+    </div>
+    <div class="privacy-note">
+      <span class="privacy-mark" aria-hidden="true">⌁</span>
+      <div>
+        <b>Разбор выполняется локально</b>
+        <span>Файл остаётся в браузере и не отправляется на сервер.</span>
+      </div>
+    </div>
+  </section>
 
-  <div id="drop_zone" class="drop-zone">
-    <div class="drop-hint">Перетащите <code>.rep</code> сюда — или жмите «Загрузить»</div>
+  <div id="drop_zone" class="drop-zone" tabindex="0" role="button"
+       aria-label="Перетащите реплей или нажмите, чтобы выбрать файл">
+    <span class="drop-compass" aria-hidden="true">✥</span>
+    <div class="drop-copy">
+      <b>Положите реплей на стол</b>
+      <span>Перетащите <code>.rep</code> или <code>.map</code> сюда</span>
+    </div>
+    <span class="drop-action">выбрать файл</span>
   </div>
 
-  <div id="results"></div>
+  <section id="comparison" class="comparison-board" hidden></section>
+
+  <div id="results" aria-live="polite"></div>
 
   <footer class="footnote">
     Часть проекта
@@ -45,6 +64,8 @@
     <a href="../internals/?p=data%2Freplay_format.md"><code>internals/data/replay_format.md</code></a>.
   </footer>
 </main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script type="module" src="js/main.js"></script>
 </body>

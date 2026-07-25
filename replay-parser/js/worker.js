@@ -30,6 +30,7 @@ async function boot() {
   await loadFile("../../parser/parse_replay.py"        + v, "/c3/parse_replay.py");
   await loadFile("../../parser/parse_replay_events.py" + v, "/c3/parse_replay_events.py");
   await loadFile("../../data.json"                     + v, "/c3/data.json");
+  await loadFile("../../derived/country_members.json"  + v, "/c3/country_members.json");
   pyodide.runPython(`
 import sys
 sys.path.insert(0, "/c3")
