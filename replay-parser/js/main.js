@@ -4,6 +4,7 @@ import { initPyodide, parseReplay } from "./pyodide_runner.js";
 import {
   renderCard,
   renderComparison,
+  setCanonicalTerms,
   setGameSettings,
   setPatternData,
 } from "./render.js";
@@ -39,10 +40,12 @@ const metadataPromise = Promise.all([
   fetch(`../derived/game_settings.json?v=${Date.now()}`).then((r) => r.json()),
   fetch(`../derived/pattern_types.json?v=${Date.now()}`).then((r) => r.json()),
   fetch(`../derived/pattern_inventory.json?v=${Date.now()}`).then((r) => r.json()),
+  fetch(`../derived/canonical_terms.json?v=${Date.now()}`).then((r) => r.json()),
 ])
-  .then(([settings, types, inventory]) => {
+  .then(([settings, types, inventory, canonicalTerms]) => {
     setGameSettings(settings);
     setPatternData(types, inventory);
+    setCanonicalTerms(canonicalTerms);
   })
   .catch((e) => console.warn("replay metadata load failed:", e));
 
@@ -92,8 +95,9 @@ function fmtSize(bytes) {
 }
 
 function estimateSeconds(bytes) {
-  // ~1.5 MB/s in Pyodide for the optimised single-pass decoder.
-  return Math.max(1, Math.round(bytes / (1.5 * 1024 * 1024)));
+  // Deliberately conservative: the previous 1.5 MB/s estimate was too
+  // optimistic on typical user hardware, so show an ETA about 1.5× longer.
+  return Math.max(1, Math.ceil(bytes / (1.0 * 1024 * 1024)));
 }
 
 async function processFiles(files) {

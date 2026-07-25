@@ -18,6 +18,15 @@ input {
   font: inherit;
 }
 
+body {
+  background-attachment: scroll;
+}
+
+.topbar {
+  background: linear-gradient(180deg, #281f15, #15100a);
+  backdrop-filter: none;
+}
+
 button:focus-visible,
 select:focus-visible,
 input:focus-visible,
@@ -180,7 +189,10 @@ input:focus-visible,
   margin: 0 0 34px;
   overflow: clip;
   border-color: var(--border-strong);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.48);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42);
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 900px;
 }
 
 .workspace-header {
@@ -291,6 +303,7 @@ input:focus-visible,
 .workspace-panel {
   min-height: 350px;
   padding: 26px;
+  contain: layout paint;
   background:
     linear-gradient(var(--map-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--map-grid) 1px, transparent 1px),
@@ -973,44 +986,10 @@ input:focus-visible,
 .pattern-map {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 12 / 7;
-}
-
-.map-ground {
-  fill: #10120d;
-}
-
-.map-gridline {
-  stroke: rgba(219, 194, 126, 0.105);
-  stroke-width: 1;
-}
-
-.map-frame {
-  fill: none;
-  stroke: rgba(219, 194, 126, 0.42);
-  stroke-width: 1;
-}
-
-.map-axis-label {
-  fill: #8f805c;
-  font-family: "JetBrains Mono", "Consolas", monospace;
-  font-size: 10px;
-  text-anchor: middle;
-}
-
-.map-point {
-  stroke: rgba(9, 8, 5, 0.8);
-  stroke-width: 1;
-  opacity: 0.82;
-  cursor: pointer;
-  transition: opacity 100ms ease;
-}
-
-.map-point:hover,
-.map-point:focus {
-  opacity: 1;
-  stroke: #f6e6bc;
-  stroke-width: 2;
+  contain: strict;
+  touch-action: manipulation;
 }
 
 .map-note {
