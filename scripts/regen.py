@@ -84,6 +84,7 @@ TARGETS: dict[str, list[list[str]]] = {
 
     "data": [
         ["parser/build_data.py"],
+        ["parser/build_replay_upgrades.py"],
         ["parser/parse_generator_cfg.py"],
         ["parser/build_canonical_terms.py"],
         ["parser/build_tech_graph.py"],

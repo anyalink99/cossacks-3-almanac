@@ -635,25 +635,35 @@ DECODERS: dict[int, callable] = {
 
 
 # ----- Class=0x09 decoder (per-object state-sync stream) -----------------
-def decode_class_09(payload: bytes, ts: float) -> dict:
+def decode_class_09(payload: bytes, ts: float, start: int = 0) -> dict:
     """[0x09][u24 seq][u32 count][records].
 
     For the web UI we only need the count — fully decoding records is
     pure overhead (a long-game replay carries millions of them). Keep
     the header fields and skip the body.
     """
-    if len(payload) < 8:
+    if len(payload) - start < 8:
         return {"handler": "class_09_sync", "ts_tick": ts, "ts_g_sec": ts / 10.0,
                 "seq": 0, "count": 0}
-    seq = payload[1] | (payload[2] << 8) | (payload[3] << 16)
-    count = struct.unpack_from("<I", payload, 4)[0]
+    seq = (payload[start + 1]
+           | (payload[start + 2] << 8)
+           | (payload[start + 3] << 16))
+    count = struct.unpack_from("<I", payload, start + 4)[0]
     return {"handler": "class_09_sync", "ts_tick": ts, "ts_g_sec": ts / 10.0,
             "seq": seq, "count": count}
 
 
 # ----- Sub-package walker (multi-package within an entry) ----------------
-def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
-    """Walk all sub-packages in an entry. Returns list of decoded dicts."""
+def decode_subpackages(
+    payload: bytes,
+    ts: float,
+    compact: bool = False,
+) -> list[dict]:
+    """Walk all sub-packages in an entry.
+
+    ``compact`` skips fields that the comprehensive web summary never keeps.
+    The default retains the detailed records expected by the CLI event dump.
+    """
     results: list[dict] = []
     r = Reader(payload, 0)
 
@@ -662,9 +672,10 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
             # class=0x09 sub-package: read [seq u24][count u32][records]
             # Records consume rest of entry — we can't easily know inner size
             # without parsing each record. For now, consume to end-of-entry.
-            start = r.pos
-            sub_bytes = r.data[start:]
-            results.append(decode_class_09(sub_bytes, ts))
+            if compact:
+                results.append({"handler": "class_09_sync"})
+            else:
+                results.append(decode_class_09(r.data, ts, r.pos))
             r.pos = len(r.data)
             break
 
@@ -702,23 +713,46 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
 
         if decoder is None or engine_internal:
             # Find next sub-pkg by scanning for `01 00 03` (end + next start)
-            tail = r.data[body_start:]
-            next_start = tail.find(b"\x01\x00\x03")
+            next_start = r.data.find(b"\x01\x00\x03", body_start)
             if next_start >= 0:
-                consumed = next_start + 1
+                consumed = next_start - body_start + 1
             else:
-                consumed = len(tail)
+                consumed = len(r.data) - body_start
             label = (f"engine_{state_name}" if engine_internal
                      else (state_name if decoder is None else f"undecoded_{state_name}"))
             results.append({**_ctx_from(ts, hdr),
                             "handler": label,
                             "size": consumed,
-                            "raw_first_24": tail[:24].hex()})
+                            "raw_first_24": r.data[body_start:body_start+24].hex()})
             r.pos += consumed
             continue
 
         try:
-            rec = decoder(r, ts, hdr)
+            if compact and state_id == 0x29:
+                # ReadProj has a fixed 61-byte body. The web result only
+                # counts projectiles, so decoding sixteen unused fields for
+                # every musket shot is pure overhead.
+                body_size = 61
+                if r.remaining() < body_size:
+                    raise ValueError("truncated ReadProj body")
+                r.pos += body_size
+                rec = {**_ctx_from(ts, hdr), "handler": "ReadProj"}
+            elif compact and state_id == 0x3d:
+                # ReadSyncUnitsParams: Int count + N*(Int uid + Bool + Int hp).
+                # HP details are not exposed by the replay summary.
+                count = r.i32()
+                body_size = count * 9
+                if count < 0 or r.remaining() < body_size:
+                    raise ValueError(
+                        f"invalid ReadSyncUnitsParams count={count}"
+                    )
+                r.pos += body_size
+                rec = {
+                    **_ctx_from(ts, hdr),
+                    "handler": "ReadSyncUnitsParams",
+                }
+            else:
+                rec = decoder(r, ts, hdr)
             # Expect 0x01 end-marker
             if r.remaining() >= 1 and r.data[r.pos] == SUBPKG_END:
                 r.pos += 1  # consume end-marker
@@ -734,10 +768,9 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
                             "error": str(e),
                             "raw_first_24": payload[body_start:body_start+24].hex()})
             # Skip to next sub-pkg via heuristic
-            tail = payload[body_start:]
-            next_start = tail.find(b"\x01\x00\x03")
+            next_start = payload.find(b"\x01\x00\x03", body_start)
             if next_start >= 0:
-                r.pos = body_start + next_start + 1
+                r.pos = next_start + 1
             else:
                 r.pos = len(payload)
             continue
@@ -745,8 +778,8 @@ def decode_subpackages(payload: bytes, ts: float) -> list[dict]:
 
 
 # ----- Entry walker ------------------------------------------------------
-def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
-    """Walk the .rep body and yield every (ts, size, payload) entry.
+def walk_entry_offsets(data: bytes) -> list[tuple[float, int, int]]:
+    """Locate every replay entry as ``(ts, size, payload_offset)``.
 
     Accepts BOTH known marker variants:
       - `b0 04 00 00 00 00 00 00 00 00` (default — most common)
@@ -754,7 +787,7 @@ def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
         non-zero signature word that's constant for the file)
     Either way the entry layout is: [ts: f32][size: u32][marker: 10][payload: size].
     """
-    entries: list[tuple[float, int, bytes]] = []
+    entries: list[tuple[float, int, int]] = []
     i = 0
     while True:
         j = data.find(ENTRY_PREFIX, i)
@@ -765,11 +798,22 @@ def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
             size = struct.unpack_from("<I", data, j-4)[0]
             if 0 < size <= 0x100000 and j + 10 + size <= len(data) \
                     and 0 <= ts < 1_000_000:
-                payload = data[j+10:j+10+size]
-                entries.append((ts, size, payload))
+                entries.append((ts, size, j + 10))
         i = j + 1
     entries.sort(key=lambda e: e[0])
     return entries
+
+
+def walk_entries(data: bytes) -> list[tuple[float, int, bytes]]:
+    """Compatibility wrapper returning materialised entry payloads.
+
+    The comprehensive browser parser uses :func:`walk_entry_offsets` and
+    slices one payload at a time, keeping peak memory bounded on large files.
+    """
+    return [
+        (ts, size, data[offset:offset + size])
+        for ts, size, offset in walk_entry_offsets(data)
+    ]
 
 
 _UPGRADE_NAME_CACHE: dict | None = None
@@ -777,19 +821,36 @@ _UPGRADE_NAME_CACHE: dict | None = None
 
 def _load_upgrade_names() -> dict:
     """Load `(nation_sid, upgrade_index) → {sid, name_ru, name_en, place, member}`
-    once per process. The data.json upgrade list is ordered per-nation in
-    the same sequence the engine builds `gCountry[cid].upgrade[]`, so the
-    list-index equals the engine's `upgrade_id` argument seen in replays.
+    once per process. The compact catalog preserves data.json's per-nation
+    order — the same sequence the engine builds `gCountry[cid].upgrade[]` —
+    so the list-index equals the `upgrade_id` argument seen in replays.
     """
     global _UPGRADE_NAME_CACHE
     if _UPGRADE_NAME_CACHE is not None:
         return _UPGRADE_NAME_CACHE
-    candidates = [
+    catalog_candidates = [
+        Path(__file__).resolve().parent.parent / "derived" / "replay_upgrades.json",
+        Path("/c3/replay_upgrades.json"),  # Pyodide virtual FS layout
+        Path("derived/replay_upgrades.json"),
+    ]
+    for path in catalog_candidates:
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                by_nation = data["upgrades_by_nation"]
+                if isinstance(by_nation, dict):
+                    _UPGRADE_NAME_CACHE = by_nation
+                    return by_nation
+            except Exception:
+                continue
+
+    # Backward-compatible fallback for standalone copies of the parser.
+    data_candidates = [
         Path(__file__).resolve().parent.parent / "data.json",
         Path("/c3/data.json"),  # Pyodide virtual FS layout
         Path("data.json"),
     ]
-    for path in candidates:
+    for path in data_candidates:
         if path.exists():
             try:
                 data = json.loads(path.read_text(encoding="utf-8"))
@@ -1236,16 +1297,18 @@ def parse_replay_from_bytes(data: bytes) -> dict:
         extract_pattern_placements,
         extract_players,
         extract_settings,
+        extract_header_kv_pairs,
         parse_footer,
         parse_identity,
     )
 
     replay_identity = parse_identity(data)
-    settings = extract_settings(data)
-    players = extract_players(data)
+    header_pairs = extract_header_kv_pairs(data)
+    settings = extract_settings(data, header_pairs)
+    players = extract_players(data, header_pairs)
     footer = parse_footer(data)
-    pattern_placements = extract_pattern_placements(data)
-    entries = walk_entries(data)
+    pattern_placements = extract_pattern_placements(data, header_pairs)
+    entries = walk_entry_offsets(data)
     body_entries = entries[1:] if entries and entries[0][0] == 0.0 else entries
 
     by_handler: Counter = Counter()
@@ -1286,8 +1349,9 @@ def parse_replay_from_bytes(data: bytes) -> dict:
     # those records so the detector never sees the bulky sync stream.
     abuse_input: list[dict] = []
 
-    for ts, _size, payload in body_entries:
-        for rec in decode_subpackages(payload, ts):
+    for ts, size, payload_offset in body_entries:
+        payload = data[payload_offset:payload_offset + size]
+        for rec in decode_subpackages(payload, ts, compact=True):
             h = rec.get("handler", "?")
             by_handler[h] += 1
 

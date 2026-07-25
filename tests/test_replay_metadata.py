@@ -1,6 +1,7 @@
 """Tests for replay header metadata that does not require game assets."""
 from __future__ import annotations
 
+import json
 import struct
 import sys
 import unittest
@@ -10,11 +11,19 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "parser"))
 
 from parse_replay import (  # noqa: E402
+    extract_header_kv_pairs,
     extract_pattern_placements,
+    extract_players,
+    extract_settings,
     parse_footer,
     parse_header,
     parse_identity,
 )
+from parse_replay_events import (  # noqa: E402
+    decode_subpackages,
+    parse_replay_from_bytes,
+)
+from build_replay_upgrades import build_catalog  # noqa: E402
 
 
 def lp(value: str) -> bytes:
@@ -129,6 +138,103 @@ class PatternList(unittest.TestCase):
 
     def test_missing_pattern_list_is_empty(self) -> None:
         self.assertEqual(extract_pattern_placements(b"not a replay"), [])
+
+
+class HeaderMetadata(unittest.TestCase):
+    def test_shared_header_scan_stops_before_event_stream(self) -> None:
+        header = b"".join([
+            kv("gamespeed", "2"),
+            kv("id", "0"),
+            kv("cid", "4"),
+            kv("name", "Header player"),
+            kv("bexists", "true"),
+        ])
+        event_payload = b"".join([
+            kv("gamespeed", "0"),
+            kv("id", "1"),
+            kv("cid", "5"),
+            kv("name", "Event-stream decoy"),
+            kv("bexists", "true"),
+        ])
+        marker = b"\xb0\x04\x00\x00\x00\x00\x00\x00\x00\x00"
+        event = struct.pack("<fI", 1.0, len(event_payload)) + marker + event_payload
+        data = header + event
+
+        pairs = extract_header_kv_pairs(data)
+
+        self.assertEqual(extract_settings(data, pairs)["gamespeed"], 2)
+        self.assertEqual(
+            [player["name"] for player in extract_players(data, pairs)],
+            ["Header player"],
+        )
+        self.assertNotIn("Event-stream decoy", [value for _, _, value in pairs])
+
+    def test_comprehensive_parser_scans_header_once(self) -> None:
+        header = b"".join([
+            kv("gamespeed", "2"),
+            kv("id", "0"),
+            kv("cid", "4"),
+            kv("name", "Player"),
+            kv("bexists", "true"),
+        ])
+        marker = b"\xb0\x04\x00\x00\x00\x00\x00\x00\x00\x00"
+        event = struct.pack("<fI", 1.0, 1) + marker + b"\x00"
+
+        import parse_replay
+        from unittest.mock import patch
+
+        original = parse_replay.extract_header_kv_pairs
+        with patch(
+            "parse_replay.extract_header_kv_pairs",
+            wraps=original,
+        ) as scan:
+            result = parse_replay_from_bytes(header + event)
+
+        self.assertEqual(scan.call_count, 1)
+        self.assertEqual(result["settings"]["gamespeed"], 2)
+
+
+class ReplayUpgradeCatalog(unittest.TestCase):
+    def test_committed_catalog_matches_data_json(self) -> None:
+        data = json.loads((ROOT / "data.json").read_text(encoding="utf-8"))
+        committed = json.loads(
+            (ROOT / "derived" / "replay_upgrades.json").read_text(
+                encoding="utf-8",
+            )
+        )
+
+        self.assertEqual(committed, build_catalog(data))
+
+
+class CompactEventDecode(unittest.TestCase):
+    @staticmethod
+    def package(state_id: int, body: bytes) -> bytes:
+        return bytes((0x00, 0x03, 0x00, state_id, 0x00)) + body + b"\x01"
+
+    def test_skips_unused_projectile_fields_but_preserves_summary(self) -> None:
+        payload = self.package(0x29, b"\x00" * 61)
+
+        detailed = decode_subpackages(payload, 10.0)
+        compact = decode_subpackages(payload, 10.0, compact=True)
+
+        self.assertEqual(compact[0]["handler"], detailed[0]["handler"])
+        self.assertEqual(compact[0]["pid"], detailed[0]["pid"])
+        self.assertNotIn("source_pos", compact[0])
+        self.assertTrue(compact[0]["end_marker_ok"])
+
+    def test_skips_unused_hp_records_but_consumes_complete_package(self) -> None:
+        body = struct.pack("<i", 2)
+        body += struct.pack("<i?i", 101, True, 900)
+        body += struct.pack("<i?i", 102, False, 0)
+        payload = self.package(0x3D, body)
+
+        detailed = decode_subpackages(payload, 10.0)
+        compact = decode_subpackages(payload, 10.0, compact=True)
+
+        self.assertEqual(compact[0]["handler"], detailed[0]["handler"])
+        self.assertEqual(len(detailed[0]["hp_updates"]), 2)
+        self.assertNotIn("hp_updates", compact[0])
+        self.assertTrue(compact[0]["end_marker_ok"])
 
 
 if __name__ == "__main__":

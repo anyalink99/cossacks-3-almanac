@@ -274,20 +274,26 @@ def is_ascii_str(b: bytes) -> bool:
     return all(32 <= c < 127 for c in b)
 
 
-def extract_kv_pairs(data: bytes) -> list[tuple[int, str, str]]:
-    """Walk file extracting all (u32 keylen, key, u32 vallen, value) pairs.
+def extract_kv_pairs(
+    data: bytes,
+    start: int = 0,
+    end: int | None = None,
+) -> list[tuple[int, str, str]]:
+    """Extract (u32 keylen, key, u32 vallen, value) pairs in a byte range.
+
     Both keys and values are ASCII length-prefixed. Values are returned as
     strings (raw ASCII bytes); numeric values come pre-formatted (e.g. "1176877135").
     """
     out = []
-    i = 0
-    while i < len(data) - 8:
+    i = max(0, start)
+    limit = len(data) if end is None else min(end, len(data))
+    while i < limit - 8:
         klen = struct.unpack_from("<I", data, i)[0]
-        if 1 <= klen <= 64 and i + 4 + klen + 4 < len(data):
+        if 1 <= klen <= 64 and i + 4 + klen + 4 < limit:
             kbytes = data[i + 4 : i + 4 + klen]
             if is_ascii_str(kbytes):
                 vlen = struct.unpack_from("<I", data, i + 4 + klen)[0]
-                if 0 <= vlen <= 1024 and i + 4 + klen + 4 + vlen <= len(data):
+                if 0 <= vlen <= 1024 and i + 4 + klen + 4 + vlen <= limit:
                     vbytes = data[i + 4 + klen + 4 : i + 4 + klen + 4 + vlen]
                     if vlen == 0 or is_ascii_str(vbytes):
                         k = kbytes.decode("ascii")
@@ -320,6 +326,21 @@ def _find_first_entry_marker(data: bytes, start: int) -> int | None:
     return None
 
 
+def extract_header_kv_pairs(data: bytes) -> list[tuple[int, str, str]]:
+    """Extract metadata pairs without scanning the replay event stream.
+
+    Lobby settings, player slots and PatternList all precede the first replay
+    entry. Long matches can contain hundreds of megabytes after that boundary,
+    so a byte-by-byte scan of the complete file is prohibitively expensive in
+    Pyodide.
+    """
+    body_offset = _find_first_entry_marker(data, 0)
+    return extract_kv_pairs(
+        data,
+        end=body_offset if body_offset is not None else len(data),
+    )
+
+
 def _parse_ascii_number(value: str) -> int | float | None:
     if re.fullmatch(r"[+-]?\d+", value):
         return int(value)
@@ -330,7 +351,10 @@ def _parse_ascii_number(value: str) -> int | float | None:
     return number if math.isfinite(number) else None
 
 
-def extract_pattern_placements(data: bytes) -> list[dict]:
+def extract_pattern_placements(
+    data: bytes,
+    header_pairs: list[tuple[int, str, str]] | None = None,
+) -> list[dict]:
     """Extract PatternList's adjacent ``n``/``x``/``y`` placement triplets.
 
     ``n`` is the selected pattern name; ``x`` and ``y`` are ASCII-encoded map
@@ -352,7 +376,10 @@ def extract_pattern_placements(data: bytes) -> list[dict]:
     ]
     end = min(candidates) if candidates else len(data)
 
-    pairs = extract_kv_pairs(data[start:end])
+    if header_pairs is None:
+        pairs = extract_kv_pairs(data, start=start, end=end)
+    else:
+        pairs = [pair for pair in header_pairs if start <= pair[0] < end]
     placements: list[dict] = []
     i = 0
     while i + 2 < len(pairs):
@@ -369,7 +396,7 @@ def extract_pattern_placements(data: bytes) -> list[dict]:
                     "name": name_pair[2],
                     "x": x,
                     "y": y,
-                    "offset": start + name_pair[0],
+                    "offset": name_pair[0],
                 })
                 i += 3
                 continue
@@ -377,9 +404,12 @@ def extract_pattern_placements(data: bytes) -> list[dict]:
     return placements
 
 
-def extract_settings(data: bytes) -> dict:
+def extract_settings(
+    data: bytes,
+    header_pairs: list[tuple[int, str, str]] | None = None,
+) -> dict:
     """Extract known game settings from the kv pair stream."""
-    pairs = extract_kv_pairs(data)
+    pairs = header_pairs if header_pairs is not None else extract_header_kv_pairs(data)
     settings: dict = {}
     keys_to_extract = {
         # Map / generator
@@ -414,7 +444,10 @@ def extract_settings(data: bytes) -> dict:
     return settings
 
 
-def extract_players(data: bytes) -> list[dict]:
+def extract_players(
+    data: bytes,
+    header_pairs: list[tuple[int, str, str]] | None = None,
+) -> list[dict]:
     """Extract per-player metadata from kv pairs.
 
     The replay header carries 12 (= `gc_MaxPlayerCount`) sequential blocks
@@ -427,7 +460,7 @@ def extract_players(data: bytes) -> list[dict]:
 
     Returns a list of {pid, name, lanid, team, color, csid, cid}.
     """
-    pairs = extract_kv_pairs(data)
+    pairs = header_pairs if header_pairs is not None else extract_header_kv_pairs(data)
     # Skip leading game-level `name` ("game_v92k…") so the per-player
     # blocks start at the first true player slot.
     seen_game_name = False

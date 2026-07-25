@@ -94,12 +94,6 @@ function fmtSize(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function estimateSeconds(bytes) {
-  // Deliberately conservative: the previous 1.5 MB/s estimate was too
-  // optimistic on typical user hardware, so show an ETA about 1.5× longer.
-  return Math.max(1, Math.ceil(bytes / (1.0 * 1024 * 1024)));
-}
-
 async function processFiles(files) {
   const replays = files.filter((f) =>
     f.name.toLowerCase().endsWith(".rep") || f.name.toLowerCase().endsWith(".map")
@@ -110,9 +104,8 @@ async function processFiles(files) {
     const placeholder = document.createElement("div");
     placeholder.className = "progress-row";
     const sizeStr = fmtSize(file.size);
-    const eta = estimateSeconds(file.size);
     placeholder.textContent =
-      `Парсим ${file.name} · ${sizeStr} · ожидайте ~${eta} сек…`;
+      `Разбираем ${file.name} · ${sizeStr}…`;
     results.appendChild(placeholder);
     setStatus(`Разбор: ${file.name}`, "loading");
 
@@ -122,7 +115,7 @@ async function processFiles(files) {
     const heartbeat = setInterval(() => {
       const elapsed = Math.round((performance.now() - tStart) / 1000);
       placeholder.textContent =
-        `Парсим ${file.name} · ${sizeStr} · ${elapsed} сек / ~${eta} сек`;
+        `Разбираем ${file.name} · ${sizeStr} · прошло ${elapsed} сек`;
     }, 1000);
 
     try {

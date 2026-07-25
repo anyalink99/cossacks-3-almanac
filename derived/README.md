@@ -10,6 +10,7 @@
 | Файл | Что внутри | Откуда |
 |---|---|---|
 | [`canonical_terms.json`](canonical_terms.json) | Каноничные русские названия из локали игры: 21 нация, 22 здания, 7 типов оружия, 5 уровней сложности, 79 настроек лобби, 9 типов тренировок офицеров, 75 апгрейдов, 148 юнитов, 6 ресурсов. **Единый источник правды** для всех writer'ов и compute-скриптов. | [`parser/build_canonical_terms.py`](../parser/build_canonical_terms.py) |
+| [`replay_upgrades.json`](replay_upgrades.json) | Компактный, упорядоченный по нациям справочник улучшений для replay-parser. Сохраняет только `sid`, русское/английское название и здание исследования, чтобы браузеру не загружать полный `data.json`. | [`parser/build_replay_upgrades.py`](../parser/build_replay_upgrades.py) |
 | [`game_settings.json`](game_settings.json) | Все опции лобби (`mapsize`, `terraintype`, `relieftype`, `peacetime`, `gamespeed` и т. д.) — 95 значений в 18 категориях, с английскими и русскими лейблами + значениями по умолчанию из `initmap.inc`. Используется браузерным редактором для построения dropdown'ов. | [`compute/compute_game_settings.py`](../compute/compute_game_settings.py) |
 | [`tech_tree.json`](tech_tree.json) | Граф зависимостей зданий, юнитов и апгрейдов: для каждого `sid` — список prereq'ов с типами (`[B]` здание, `[U]` юнит, `[T]` апгрейд) + базовая цена и время. Используется симулятором экономики и редактором. | [`parser/build_tech_graph.py`](../parser/build_tech_graph.py) |
 | [`builder_slots.json`](builder_slots.json) | Сколько крестьян одновременно может строить каждое здание. Считается обходом периметра collision-маски с шагом `gc_BuilderDist = 1.0`. Используется в [`docs/reports/economy/builder_slots.md`](../docs/reports/economy/builder_slots.md) и в редакторе. | [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py) |
@@ -62,6 +63,7 @@ canon = json.loads((DERIVED / "canonical_terms.json").read_text(encoding="utf-8"
 ```bash
 python scripts/regen.py derived          # все игровые JSON в этой папке
 # или поодиночке:
+python parser/build_replay_upgrades.py
 python parser/build_canonical_terms.py
 python parser/parse_animations.py
 python parser/parse_generator_cfg.py

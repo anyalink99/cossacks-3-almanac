@@ -24,13 +24,15 @@ async function boot() {
   postMessage({ kind: "progress", text: "Загрузка парсера…" });
   pyodide.FS.mkdirTree("/c3");
   // Worker URL is replay-parser/js/worker.js, so "../../" climbs to repo root.
-  // Cache-bust query string forces fresh fetch after every data.json / parser
-  // change — without it the browser pins the previous version forever.
+  // Cache-bust query string forces fresh fetch after parser/catalog changes —
+  // without it the browser pins the previous version forever.
   const v = `?v=${Date.now()}`;
-  await loadFile("../../parser/parse_replay.py"        + v, "/c3/parse_replay.py");
-  await loadFile("../../parser/parse_replay_events.py" + v, "/c3/parse_replay_events.py");
-  await loadFile("../../data.json"                     + v, "/c3/data.json");
-  await loadFile("../../derived/country_members.json"  + v, "/c3/country_members.json");
+  await Promise.all([
+    loadFile("../../parser/parse_replay.py"               + v, "/c3/parse_replay.py"),
+    loadFile("../../parser/parse_replay_events.py"        + v, "/c3/parse_replay_events.py"),
+    loadFile("../../derived/replay_upgrades.json"         + v, "/c3/replay_upgrades.json"),
+    loadFile("../../derived/country_members.json"         + v, "/c3/country_members.json"),
+  ]);
   pyodide.runPython(`
 import sys
 sys.path.insert(0, "/c3")
@@ -40,6 +42,8 @@ except Exception:
     pass
 import parse_replay
 import parse_replay_events
+parse_replay_events._load_upgrade_names()
+parse_replay_events._load_country_members()
 `);
   ready = true;
   postMessage({ kind: "ready" });
@@ -54,17 +58,21 @@ self.onmessage = async (ev) => {
   const { id, bytes } = ev.data || {};
   try {
     await bootPromise;
-    pyodide.FS.writeFile("/c3/_current.rep", bytes);
+    // A Uint8Array becomes a Pyodide JsBuffer. Converting it directly to
+    // Python bytes copies the replay once; writing to MEMFS and reading it
+    // back copied large files twice.
+    pyodide.globals.set("_replay_bytes_js", bytes);
     const resultJson = pyodide.runPython(`
 import json
 import parse_replay_events
-with open("/c3/_current.rep", "rb") as f:
-    data = f.read()
+data = _replay_bytes_js.to_bytes()
 result = parse_replay_events.parse_replay_from_bytes(data)
 json.dumps(result, ensure_ascii=False, default=str)
 `);
     postMessage({ id, ok: true, result: JSON.parse(resultJson) });
   } catch (e) {
     postMessage({ id, ok: false, error: String(e?.message || e) });
+  } finally {
+    pyodide?.globals.delete("_replay_bytes_js");
   }
 };
