@@ -1,5 +1,8 @@
 <a id="cossacks-3--tech-tree-по-нациям"></a>
+<a id="дерево-развития"></a>
 # Cossacks 3 - Tech Tree (by nation)
+
+[← Tables and calculations](../README.md)
 
 Dependency graph: what needs to be built or researched before what. Extracted from `_country_AddFixedProduceWithAccessControl` and `_country_AddUpgradeWithAccessControl` (parameters `req0`..`req7`). The source of truth is [`derived/tech_tree.json`](../../../derived/tech_tree.json).
 
@@ -9,6 +12,7 @@ Dependency graph: what needs to be built or researched before what. Extracted fr
 - For buildings the base price is shown (see [`scaling_prices.md`](../economy/scaling_prices.md) for N>1)
 
 <a id="граф-зданий-австрия-как-репрезентативный-пример"></a>
+<a id="схема-зданий-на-примере-австрии"></a>
 ## Building graph (Austria as a representative example)
 
 The graph shows the dependence of the construction of one building on another. Solid arrows - `prereqs` from `country.script`, dotted arrows - the connection “building → its upgrade” (for example, `auscen → auscen.1`, advance to the 18th century). For other nations, the graph is structurally identical - only the nation-specific names `<nat>cen`, `<nat>bar`, etc. differ.
@@ -83,9 +87,10 @@ graph LR
 | **[VEN - Venice](#ven--venice-венеция)** | [buildings](#ven--здания) | [units](#ven--юниты) | [upgrades](#ven--ключевые-апгрейды-с-зависимостями) |
 
 <a id="alg--algeria-алжир"></a>
-## ALG - Algeria
-
+<a id="алжир"></a>
+## Algeria (`alg`)
 <a id="alg--здания"></a>
+<a id="здания--алжир"></a>
 ### `alg` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -113,6 +118,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `tursto` |
 
 <a id="alg--юниты"></a>
+<a id="юниты--алжир"></a>
 ### `alg` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -144,6 +150,7 @@ graph LR
 | `xebec` | Xebec | 230.00 | W7000 G1600 I320 C960 | turpor | [T] `algaca.6`, [B] `algart` |
 
 <a id="alg--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--алжир"></a>
 ### `alg` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -203,9 +210,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="aus--austria-австрия"></a>
-## AUS - Austria
-
+<a id="австрия"></a>
+## Austria (`aus`)
 <a id="aus--здания"></a>
+<a id="здания--австрия"></a>
 ### `aus` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -234,6 +242,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="aus--юниты"></a>
+<a id="юниты--австрия"></a>
 ### `aus` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -278,6 +287,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `ausart` |
 
 <a id="aus--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--австрия"></a>
 ### `aus` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -359,9 +369,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="bav--bavaria-бавария"></a>
-## BAV - Bavaria
-
+<a id="бавария"></a>
+## Bavaria (`bav`)
 <a id="bav--здания"></a>
+<a id="здания--бавария"></a>
 ### `bav` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -390,6 +401,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="bav--юниты"></a>
+<a id="юниты--бавария"></a>
 ### `bav` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -431,6 +443,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `bavart` |
 
 <a id="bav--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--бавария"></a>
 ### `bav` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -506,9 +519,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="den--denmark-дания"></a>
-## DEN - Denmark
-
+<a id="дания"></a>
+## Denmark (`den`)
 <a id="den--здания"></a>
+<a id="здания--дания"></a>
 ### `den` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -537,6 +551,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="den--юниты"></a>
+<a id="юниты--дания"></a>
 ### `den` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -578,6 +593,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `denart` |
 
 <a id="den--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--дания"></a>
 ### `den` - key upgrades (with dependencies)
 | sid | name | Time (g-sec) | price | requires |
 |---|---|---:|---|---|
@@ -652,9 +668,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="eng--england-англия"></a>
-## ENG — England
-
+<a id="англия"></a>
+## England (`eng`)
 <a id="eng--здания"></a>
+<a id="здания--англия"></a>
 ### `eng` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -683,6 +700,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="eng--юниты"></a>
+<a id="юниты--англия"></a>
 ### `eng` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -725,6 +743,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `engart` |
 
 <a id="eng--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--англия"></a>
 ### `eng` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -803,9 +822,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="fra--france-франция"></a>
-## FRA - France
-
+<a id="франция"></a>
+## France (`fra`)
 <a id="fra--здания"></a>
+<a id="здания--франция"></a>
 ### `fra` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -834,6 +854,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="fra--юниты"></a>
+<a id="юниты--франция"></a>
 ### `fra` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -877,6 +898,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `fraart` |
 
 <a id="fra--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--франция"></a>
 ### `fra` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -952,9 +974,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="hun--hungary-венгрия"></a>
-## HUN - Hungary
-
+<a id="венгрия"></a>
+## Hungary (`hun`)
 <a id="hun--здания"></a>
+<a id="здания--венгрия"></a>
 ### `hun` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -983,6 +1006,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="hun--юниты"></a>
+<a id="юниты--венгрия"></a>
 ### `hun` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1025,6 +1049,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `hunart` |
 
 <a id="hun--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--венгрия"></a>
 ### `hun` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1100,9 +1125,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="net--netherlands-нидерланды"></a>
-## NET - Netherlands
-
+<a id="нидерланды"></a>
+## Netherlands (`net`)
 <a id="net--здания"></a>
+<a id="здания--нидерланды"></a>
 ### `net` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1131,6 +1157,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="net--юниты"></a>
+<a id="юниты--нидерланды"></a>
 ### `net` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1172,6 +1199,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `netart` |
 
 <a id="net--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--нидерланды"></a>
 ### `net` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1247,9 +1275,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="pie--piedmont-пьемонт"></a>
-## PIE - Piedmont
-
+<a id="пьемонт"></a>
+## Piedmont (`pie`)
 <a id="pie--здания"></a>
+<a id="здания--пьемонт"></a>
 ### `pie` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1278,6 +1307,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="pie--юниты"></a>
+<a id="юниты--пьемонт"></a>
 ### `pie` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1319,6 +1349,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `pieart` |
 
 <a id="pie--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--пьемонт"></a>
 ### `pie` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1394,9 +1425,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="pol--poland-польша"></a>
-## POL - Poland
-
+<a id="польша"></a>
+## Poland (`pol`)
 <a id="pol--здания"></a>
+<a id="здания--польша"></a>
 ### `pol` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1425,6 +1457,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `russto` |
 
 <a id="pol--юниты"></a>
+<a id="юниты--польша"></a>
 ### `pol` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1468,6 +1501,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `polart` |
 
 <a id="pol--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--польша"></a>
 ### `pol` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1543,9 +1577,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="por--portugal-португалия"></a>
-## POR - Portugal
-
+<a id="португалия"></a>
+## Portugal (`por`)
 <a id="por--здания"></a>
+<a id="здания--португалия"></a>
 ### `por` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1574,6 +1609,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `spasto` |
 
 <a id="por--юниты"></a>
+<a id="юниты--португалия"></a>
 ### `por` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1616,6 +1652,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | porpor | [B] `porart` |
 
 <a id="por--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--португалия"></a>
 ### `por` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1691,9 +1728,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="pru--prussia-пруссия"></a>
-## PRU - Prussia
-
+<a id="пруссия"></a>
+## Prussia (`pru`)
 <a id="pru--здания"></a>
+<a id="здания--пруссия"></a>
 ### `pru` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1722,6 +1760,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="pru--юниты"></a>
+<a id="юниты--пруссия"></a>
 ### `pru` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1764,6 +1803,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `pruart` |
 
 <a id="pru--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--пруссия"></a>
 ### `pru` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1839,9 +1879,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="rus--russia-россия"></a>
-## RUS — Russia
-
+<a id="россия"></a>
+## Russia (`rus`)
 <a id="rus--здания"></a>
+<a id="здания--россия"></a>
 ### `rus` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -1870,6 +1911,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `russto` |
 
 <a id="rus--юниты"></a>
+<a id="юниты--россия"></a>
 ### `rus` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -1911,6 +1953,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | ruspor | [B] `rusart` |
 
 <a id="rus--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--россия"></a>
 ### `rus` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -1986,9 +2029,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="sax--saxony-саксония"></a>
-## SAX - Saxony
-
+<a id="саксония"></a>
+## Saxony (`sax`)
 <a id="sax--здания"></a>
+<a id="здания--саксония"></a>
 ### `sax` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2017,6 +2061,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="sax--юниты"></a>
+<a id="юниты--саксония"></a>
 ### `sax` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2059,6 +2104,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `saxart` |
 
 <a id="sax--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--саксония"></a>
 ### `sax` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2134,9 +2180,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="sco--scotland-шотландия"></a>
-## SCO - Scotland
-
+<a id="шотландия"></a>
+## Scotland (`sco`)
 <a id="sco--здания"></a>
+<a id="здания--шотландия"></a>
 ### `sco` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2165,6 +2212,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="sco--юниты"></a>
+<a id="юниты--шотландия"></a>
 ### `sco` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2199,6 +2247,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `scoart` |
 
 <a id="sco--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--шотландия"></a>
 ### `sco` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2272,9 +2321,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="spa--spain-испания"></a>
-## SPA – Spain
-
+<a id="испания"></a>
+## Spain (`spa`)
 <a id="spa--здания"></a>
+<a id="здания--испания"></a>
 ### `spa` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2303,6 +2353,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `spasto` |
 
 <a id="spa--юниты"></a>
+<a id="юниты--испания"></a>
 ### `spa` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2345,6 +2396,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `spaart` |
 
 <a id="spa--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--испания"></a>
 ### `spa` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2420,9 +2472,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="swe--sweden-швеция"></a>
-## SWE - Sweden
-
+<a id="швеция"></a>
+## Sweden (`swe`)
 <a id="swe--здания"></a>
+<a id="здания--швеция"></a>
 ### `swe` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2451,6 +2504,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="swe--юниты"></a>
+<a id="юниты--швеция"></a>
 ### `swe` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2493,6 +2547,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `sweart` |
 
 <a id="swe--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--швеция"></a>
 ### `swe` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2568,9 +2623,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="swi--switzerland-швейцария"></a>
-## SWI - Switzerland
-
+<a id="швейцария"></a>
+## Switzerland (`swi`)
 <a id="swi--здания"></a>
+<a id="здания--швейцария"></a>
 ### `swi` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2599,6 +2655,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
 <a id="swi--юниты"></a>
+<a id="юниты--швейцария"></a>
 ### `swi` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2641,6 +2698,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `swiart` |
 
 <a id="swi--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--швейцария"></a>
 ### `swi` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2716,9 +2774,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="tur--turkey-турция"></a>
-## TUR – Turkey
-
+<a id="турция"></a>
+## Turkey (`tur`)
 <a id="tur--здания"></a>
+<a id="здания--турция"></a>
 ### `tur` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2746,6 +2805,7 @@ graph LR
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `tursto` |
 
 <a id="tur--юниты"></a>
+<a id="юниты--турция"></a>
 ### `tur` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2781,6 +2841,7 @@ graph LR
 | `yachttur` | Yacht | 48.00 | W900 G450 I150 C200 | turpor | [B] `turart` |
 
 <a id="tur--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--турция"></a>
 ### `tur` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2847,9 +2908,10 @@ graph LR
 
 [↑ to contents](#содержание)
 <a id="ukr--ukraine-украина"></a>
-## UKR - Ukraine
-
+<a id="украина"></a>
+## Ukraine (`ukr`)
 <a id="ukr--здания"></a>
+<a id="здания--украина"></a>
 ### `ukr` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2874,6 +2936,7 @@ graph LR
 | `ukrwwa` | Palisade | 8.1 | W12 | — | [B] `russto` |
 
 <a id="ukr--юниты"></a>
+<a id="юниты--украина"></a>
 ### `ukr` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -2902,6 +2965,7 @@ graph LR
 | `unitbox` | — | 3.12 | F100 | — | — |
 
 <a id="ukr--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--украина"></a>
 ### `ukr` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |
@@ -2952,9 +3016,10 @@ graph LR
 [↑ to contents](#содержание)
 
 <a id="ven--venice-венеция"></a>
-## VEN - Venice
-
+<a id="венеция"></a>
+## Venice (`ven`)
 <a id="ven--здания"></a>
+<a id="здания--венеция"></a>
 ### `ven` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -2983,6 +3048,7 @@ graph LR
 | `ventem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `vencen` |
 
 <a id="ven--юниты"></a>
+<a id="юниты--венеция"></a>
 ### `ven` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -3024,6 +3090,7 @@ graph LR
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `venart` |
 
 <a id="ven--ключевые-апгрейды-с-зависимостями"></a>
+<a id="ключевые-улучшения--венеция"></a>
 ### `ven` - key upgrades (with dependencies)
 
 | sid | name | Time (g-sec) | price | requires |

@@ -1,5 +1,8 @@
 <a id="cossacks-3--counter-unit-matrix"></a>
+<a id="кто-кого-побеждает"></a>
 # Cossacks 3 - Counter-unit matrix
+
+[← Tables and calculations](../README.md)
 
 **Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).
 
@@ -13,6 +16,7 @@ ttk_real_fast    = defender.hp / real_dps_fast
 ```
 The source of the formula is `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 from game-time. Details and disclaimers in §Disclaimers.
 
+<a id="время-победы-в-поединке"></a>
 ## Time-to-kill matrix (real-sec @ fast)
 
 **Cell (row=attacker, col=defender)** = how many seconds does **one** attacker need to kill **one** defender, counting game time × 1.4 (fast). Takes into account protection, **does not** take into account shield/squad bonuses/movement/range. For artillery (cannon/mortar): one shell can hit several - here we count damage to only one target.
@@ -72,6 +76,7 @@ The source of the formula is `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespee
 | 22 | Mortar (eur) | `mortar` · aus | 400 | 0/0/0/0/0/0 |
 
 <a id="матрица-эффективного-dps-real-sec--fast"></a>
+<a id="урон-в-секунду-по-каждому-защитнику"></a>
 ## Effective DPS matrix (real-sec @ fast)
 
 How much damage **per second of real time** does the attacker inflict on the defender after subtracting protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. Melee - divided by duration `attack0` from .aaf (per-unit; fallback ≈ 0.4688 g-sec).
@@ -120,10 +125,3 @@ The table is **symmetrical** in shape relative to the TTK above: TTK = HP / DPS,
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^1]: `_misc_DoDamage` - damage - `lib/miscext2.script:380, 434`.
-
----
-
-Generated from `data.json`. For regeneration:
-```
-python compute/compute_counter_matrix.py
-```

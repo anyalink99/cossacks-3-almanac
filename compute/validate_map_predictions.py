@@ -7,7 +7,7 @@ For each replay in `derived/replay_ground_truth.json`:
 
 Outputs:
   - stdout: per-replay diff table
-  - docs/reports/map/map_predictions_validation.md: aggregate calibration report
+  - internals/data/map_predictions_validation.md: aggregate calibration report
 
 This is the empirical-validation harness that lets us tune compute_map_resources
 without needing to play 100 games — we already have replays.
@@ -22,12 +22,12 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DERIVED_DIR, PROJECT_ROOT, REPORTS_MAP_DIR
+from config import DERIVED_DIR, PROJECT_ROOT, INTERNALS_DIR
 from compute_map_resources import compute_counts
 
 GROUND_TRUTH = DERIVED_DIR / "replay_ground_truth.json"
-OUT_MD = REPORTS_MAP_DIR / "map_predictions_validation.md"
-OUT_MD_EN = PROJECT_ROOT / "docs_en" / "reports" / "map" / "map_predictions_validation.md"
+OUT_MD = INTERNALS_DIR / "data" / "map_predictions_validation.md"
+OUT_MD_EN = PROJECT_ROOT / "internals_en" / "data" / "map_predictions_validation.md"
 
 
 def spcount_from_maskname(maskname: str | None) -> int:
@@ -273,7 +273,7 @@ def main():
       "cluster counts из replay / save файлов "
       "(`derived/replay_ground_truth.json`). Расшифровка значений "
       "`mapsize` / `relieftype` / `terraintype` / `season` — "
-      "[`lobby_settings.md`](lobby_settings.md).")
+      "[справочник по настройкам матча](../../docs/reports/map/lobby_settings.md).")
     A("")
     A(f"**Replays processed:** {len(rows)}")
     A("")
@@ -360,11 +360,11 @@ def main():
         "cluster counts из replay / save файлов "
         "(`derived/replay_ground_truth.json`). Расшифровка значений "
         "`mapsize` / `relieftype` / `terraintype` / `season` — "
-        "[`lobby_settings.md`](lobby_settings.md).",
+        "[справочник по настройкам матча](../../docs/reports/map/lobby_settings.md).",
         "Comparison of `compute_map_resources.compute_counts(...)` with actual "
         "cluster counts from replay and save files "
         "(`derived/replay_ground_truth.json`). See "
-        "[`lobby_settings.md`](lobby_settings.md) for the meaning of "
+        "[match settings reference](../../docs_en/reports/map/lobby_settings.md) for the meaning of "
         "`mapsize`, `relieftype`, `terraintype`, and `season`.",
     )
     english_report = english_report.replace(

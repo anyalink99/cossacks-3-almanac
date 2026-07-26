@@ -1,7 +1,7 @@
 <a id="дома"></a>
 # Housing
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Housing increases the population limit (`farm`). The base farm is the same (25), the price and HP are different.
 
@@ -10,24 +10,24 @@ Housing increases the population limit (`farm`). The base farm is the same (25),
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Housing** `alghou` | alg | **4300** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `aushou` | aus | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `bavhou` | bav | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `denhou` | den | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `enghou` | eng | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `frahou` | fra | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `hunhou` | hun | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `nethou` | net | **4500** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `piehou` | pie | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `polhou` | pol | **4100** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `porhou` | por | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `pruhou` | pru | **4500** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Izba** `rushou` | rus | **5000** | 31.25 | 104 | **120** | **0** | 0 | 25 | — |
-| **Housing** `saxhou` | sax | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `scohou` | sco | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `spahou` | spa | **4200** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `swehou` | swe | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `swihou` | swi | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
-| **Housing** `turhou` | tur | 4000 | 31.25 | **106** | 100 | 100 | 0 | 25 | — |
-| **Hut** `ukrhou` | ukr | **4150** | 31.25 | **105** | **120** | **0** | 0 | 25 | — |
-| **Housing** `venhou` | ven | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `alghou` | Algeria | **4300** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `aushou` | Austria | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `bavhou` | Bavaria | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `denhou` | Denmark | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `enghou` | England | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `frahou` | France | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `hunhou` | Hungary | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `nethou` | Netherlands | **4500** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `piehou` | Piedmont | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `polhou` | Poland | **4100** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `porhou` | Portugal | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `pruhou` | Prussia | **4500** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Izba** `rushou` | Russia | **5000** | 31.25 | 104 | **120** | **0** | 0 | 25 | — |
+| **Housing** `saxhou` | Saxony | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `scohou` | Scotland | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `spahou` | Spain | **4200** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `swehou` | Sweden | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `swihou` | Switzerland | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
+| **Housing** `turhou` | Turkey | 4000 | 31.25 | **106** | 100 | 100 | 0 | 25 | — |
+| **Hut** `ukrhou` | Ukraine | **4150** | 31.25 | **105** | **120** | **0** | 0 | 25 | — |
+| **Housing** `venhou` | Venice | **5000** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |

@@ -1,5 +1,8 @@
 <a id="recon-механика-захвата"></a>
-# Recon: capture mechanics
+<a id="как-захватываются-здания-и-юниты"></a>
+# How Buildings and Units Are Captured
+
+[← How the game works](../../README.md)
 
 Reverse engineering using `lib/miscext.script` (functions `_misc_CheckCapture`,
 `_misc_ChangePlayer`). All links to the code and the Pascal blocks themselves are collected in
@@ -51,7 +54,7 @@ Card settings `gMap.settings.additional.capture` [^4]:
 2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured
 3 capture_onlyartillery      — only artillery can be captured
 ```
-All 4 values ​​of the `capture` option with canonical Russian names are [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#capture--правила-захвата). Engine behavior (how `capture` interacts with `peacetime` and territory ownership) - [`game_settings.md`](../map/game_settings.md) §3.4.
+All 4 values of the `capture` option with canonical Russian names are [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#capture--правила-захвата). Engine behavior (how `capture` interacts with `peacetime` and territory ownership) - [`game_settings.md`](../map/game_settings.md) §3.4.
 
 ---
 
@@ -232,26 +235,28 @@ They cannot be captured at all.
 <a id="4-захват-юнитов"></a>
 ## 4. Capture units
 
-###Who can be captured as a unit
+### Who can be captured as a unit
 - Peasant (any nation, sid=`pea*`).
 - Artillery: `cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`.
 
 This is all. Infantry, cavalry, ships - cannot be captured** (only killed).
 
-###Who's taking over
+### Who captures the unit
 Any `bcancapture && not bbuilding && not peasant` ⇒ all normal
 infantry / cavalry / art team (but not peasant and not the target itself).
 
 <a id="кого-можно-захватить-как-юнита"></a>
+<a id="что-становится-с-захваченным"></a>
 ### What happens to the captured
 - Peasant: with default settings and normal conditions → changes player
-  (`_misc_ChangePlayer`). Inside, the resource is not dropped, the AI ​​is restarted.
+  (`_misc_ChangePlayer`). Inside, the resource is not dropped, the AI is restarted.
 - Cannon / mortar: switches the player, the charge is stored in the inventory `weapon.cost`.
   Production delays are reset.
 - Squad: the captured unit **leaves the squad** (see `_misc_SquadChangePlayer`);
   if the artillery was in formation, the formation collapses.
 
 <a id="кто-захватывает"></a>
+<a id="по-умолчанию-в-deathmatch-и-historical-battle"></a>
 ### Default in Deathmatch and Historical Battle
 
 Both modes set `capture_nopeasants` [^15], so **in standard

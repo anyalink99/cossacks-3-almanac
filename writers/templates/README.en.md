@@ -70,7 +70,7 @@ templates/
 <a id="когда-что-добавлять--править"></a>
 ## When to add / edit what
 
-- **Any long, static piece of prose (> ~5 lines) that currently lives in Python via `A("…")` / `A(f"…")`** is a takeaway candidate. Especially if it does not depend on `data` (values ​​from `data.json`).
+- **Any long, static piece of prose (> ~5 lines) that currently lives in Python via `A("…")` / `A(f"…")`** is a takeaway candidate. Especially if it does not depend on `data` (values from `data.json`).
 - **If a piece depends on calculated values** - leave it in Python and don’t take it out, or use `{var}` placeholders in the template and pass it through `render_template(name, var=...)`.
 - **File names** - in lower case, in words via `_`. Chapter prefix where useful (`section_5b_*` for monolith).
 - **Each `.md` folder corresponds to one output chapter or page.** If the block belongs to several, put it in a common place (for example, `reference/readme/`).

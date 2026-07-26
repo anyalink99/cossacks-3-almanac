@@ -1,19 +1,21 @@
-#Scotland (`sco`)
-_Scotland_
+<a id="шотландия"></a>
+# Scotland (`sco`)
 
-[← Index](../README.md) · [← All nations](README.md)
+
+
+[← All nations](README.md) · [← Quick reference](../README.md)
 
 <a id="кластер"></a>
-## Cluster
+<a id="общие-особенности"></a>
+## Shared features
 
-- **Shared cluster:** `eur` (mill/sto/mar/tow use the suffix `eur+`)
-- **Peasant:** `peasco`
-- **Cluster infantry:** cluster `eur`
+- **Base peasant:** **Peasant** (`peasco`).
+- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `eur`).
 
 <a id="уникальные-юниты-9"></a>
 ## Unique units (9)
 
-| Unit | role | HP | damage | recharge | far (tile) |
+| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
 |---|---|---:|---:|---:|---:|
 | **Bow Clansman** `archersco` | Archer | 150 | 150 | 4.38 | 18.75 |
 | **Frame gun** `framegun` | Cannon | 3000 | 500 | 2.81 | 33.75 |
@@ -31,23 +33,24 @@ _Scotland_
 <a id="уникальные-для-нации-10"></a>
 ### Unique to the nation (10)
 
-> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
+> **Bold** marks values that differ from the most common version of the same building.
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Academy** `scoaca` | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Artillery Depot** `scoart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Castle** `scoba2` | **40000** | **625.0** | **250** | 0 | **640** | **2400** | **2400** | 0 | 0 | **150** | archersco, chasseur, drummer18, grenadier, grenadierbav (+18) |
-| **Barracks, 17th century** `scobar` | **30000** | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, bagpiper, drummer, drummerrus (+25) |
+| **Artillery Depot** `scoart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon, Frame gun, Howitzer, Bombard, Multi-barrelled Cannon |
+| **Castle** `scoba2` | **40000** | **625.0** | **250** | 0 | **640** | **2400** | **2400** | 0 | 0 | **150** | Bow Clansman, Chasseur, Drummer, 18th century, Grenadier, Grenadier (+18) |
+| **Barracks, 17th century** `scobar` | **30000** | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer, Turkish archer, Bagpiper, Drummer, 17th century, Drummer, 17th century (+25) |
 | **Blacksmith** `scobla` | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Town Hall** `scocen` | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Diplomatic Center** `scodip` | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Town Hall** `scocen` | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant, Peasant, Peasant, Serf, Peasant (+3) |
+| **Diplomatic Center** `scodip` | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary), Turkish archer (mercenary), Sich Cossack (mercenary), Dragoon, 18th century (mercenary), Grenadier (mercenary) (+3) |
 | **Housing** `scohou` | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Stable** `scosta` | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Cathedral** `scotem` | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
+| **Stable** `scosta` | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | Don Cossack, Register Cossack, Sich Cossack, Croat, Cuirassier (+25) |
+| **Cathedral** `scotem` | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah, Padre, Pope, Priest |
 
 <a id="общий-кластер-12"></a>
-### Shared cluster (12)
+<a id="общие-здания-архитектурной-группы-12"></a>
+### Shared buildings (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -105,7 +108,7 @@ _Scotland_
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
-### Archerand
+### Archers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -177,7 +180,7 @@ _Scotland_
 | **Officer** `officersco` | 150 | 10.0 | 130 | 130 | 10 | 40 | 1.22 | 0.0 | unique |
 
 <a id="барабанщики-и-волынщики"></a>
-### Drummer, 17th centuryand pipers
+### Drummers and pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -217,6 +220,7 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
 <a id="апгрейды-168"></a>
+<a id="улучшения-168"></a>
 ## Upgrades (168)
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).

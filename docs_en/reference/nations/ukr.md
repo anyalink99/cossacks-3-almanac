@@ -1,21 +1,23 @@
+<a id="украина"></a>
 # Ukraine (`ukr`)
-_Ukraine_
 
-[← Index](../README.md) · [← All nations](README.md)
+
+
+[← All nations](README.md) · [← Quick reference](../README.md)
 
 <a id="кластер"></a>
-## Cluster
+<a id="общие-особенности"></a>
+## Shared features
 
-- **Shared cluster:** `rus` (mill/sto/mar/tow use the suffix `rus+`)
-- **Peasant:** `peaukr`
-- **Cluster infantry:** cluster `rus`
+- **Base peasant:** **Peasant** (`peaukr`).
+- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `rus`).
 
 <a id="уникальные-юниты-6"></a>
 ## Unique units (6)
 
-| Unit | role | HP | damage | recharge | far (tile) |
+| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
 |---|---|---:|---:|---:|---:|
-| `chaika` | Yacht | 25000 | 1000 | 2.34 | 20.63 |
+| **Chaika** `chaika` | Yacht | 25000 | 1000 | 2.34 | 20.63 |
 | **Register Cossack** `cossackregister` | Heavy Cavalry | 250 | 12 | 0.0 | 1.88 |
 | **Sich Cossack** `cossacksich` | Light Cavalry | 250 | 13 | 0.0 | 1.22 |
 | **Hetman** `hetman` | Heavy Cavalry | 320 | 70 | 0.0 | 1.22 |
@@ -28,22 +30,23 @@ _Ukraine_
 <a id="уникальные-для-нации-9"></a>
 ### Unique to the nation (9)
 
-> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
+> **Bold** marks values that differ from the most common version of the same building.
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Academy** `ukraca` | **65000** | **46.88** | 300 | 0 | **1350** | **1200** | 0 | 0 | 0 | 0 | — |
-| **Artillery Depot** `ukrart` | 40000 | 245.94 | 200 | 0 | **4250** | **4400** | **100** | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Cossack House** `ukrbar` | **20000** | 93.75 | **300** | 0 | **150** | **150** | **0** | 0 | 0 | **75** | archer, archertur, drummer, drummerrus, drummertur (+24) |
+| **Artillery Depot** `ukrart` | 40000 | 245.94 | 200 | 0 | **4250** | **4400** | **100** | 0 | 1400 | 0 | Cannon, Frame gun, Howitzer, Bombard, Multi-barrelled Cannon |
+| **Cossack House** `ukrbar` | **20000** | 93.75 | **300** | 0 | **150** | **150** | **0** | 0 | 0 | **75** | Archer, Turkish archer, Drummer, 17th century, Drummer, 17th century, Drummer, 17th century (+24) |
 | **Blacksmith** `ukrbla` | **4500** | **62.5** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Town Hall** `ukrcen` | **5300** | 156.25 | **400** | 0 | 700 | **0** | 0 | 0 | 0 | **200** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Diplomatic Center** `ukrdip` | **5000** | 312.5 | 100 | 0 | **3900** | **2700** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Town Hall** `ukrcen` | **5300** | 156.25 | **400** | 0 | 700 | **0** | 0 | 0 | 0 | **200** | Peasant, Peasant, Peasant, Serf, Peasant (+3) |
+| **Diplomatic Center** `ukrdip` | **5000** | 312.5 | 100 | 0 | **3900** | **2700** | 0 | 0 | 0 | 0 | Archer (mercenary), Turkish archer (mercenary), Sich Cossack (mercenary), Dragoon, 18th century (mercenary), Grenadier (mercenary) (+3) |
 | **Hut** `ukrhou` | **4150** | 31.25 | **105** | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
-| **Stable** `ukrsta` | **10000** | **156.25** | **300** | 0 | **3200** | **850** | **850** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Orthodox Cathedral** `ukrtem` | **5300** | 156.25 | 300 | 0 | **1100** | **1400** | 0 | **300** | 0 | 0 | mullah, padre, pope, priest |
+| **Stable** `ukrsta` | **10000** | **156.25** | **300** | 0 | **3200** | **850** | **850** | 0 | 0 | 0 | Don Cossack, Register Cossack, Sich Cossack, Croat, Cuirassier (+25) |
+| **Orthodox Cathedral** `ukrtem` | **5300** | 156.25 | 300 | 0 | **1100** | **1400** | 0 | **300** | 0 | 0 | Mullah, Padre, Pope, Priest |
 
 <a id="общий-кластер-9"></a>
-### Shared cluster (9)
+<a id="общие-здания-архитектурной-группы-9"></a>
+### Shared buildings (9)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -89,7 +92,7 @@ _Ukraine_
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
-### Archerand
+### Archers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -120,7 +123,7 @@ _Ukraine_
 | **Sich Cossack** `cossacksich` | 250 | 13.5 | 130 | 0 | 2 | 13 | 1.22 | 0.0 | unique |
 | **Sich Cossack (mercenary)** `cossacksichdip` | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | common |
 
-###Cannons
+### Cannons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -185,6 +188,7 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
 <a id="апгрейды-127"></a>
+<a id="улучшения-127"></a>
 ## Upgrades (127)
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).

@@ -1,82 +1,58 @@
-<a id="расчётные-отчёты-derived-reports"></a>
-# Derived reports
+<a id="подробные-таблицы-и-расчёты"></a>
+# Tables and Calculations
 
-Derivative calculations based on [`../../data.json`](../../data.json) - something that cannot be read directly from game scripts and needs to be calculated. Grouped by topic; index below.
+[← Encyclopedia home](../README.md)
 
-<a id="бой-combatcombat"></a>
-## Fight ([`combat/`](combat/))
+This section contains expanded comparisons that do not fit in the quick
+reference. Choose the result you need in play; the method and technical source
+names are given at the end of each article.
 
-| File | What's inside | Generator |
-|---|---|---|
-| [combat/combat_stats.md](combat/combat_stats.md) | DPS and effective HP (EHP) by weapon type for all combat units. | `compute/compute_combat_stats.py` |
-| [combat/counter_matrix.md](combat/counter_matrix.md) | Approximate TTK (time-to-kill) between unit classes, taking into account defense and hit. | `compute/compute_counter_matrix.py` |
-| [combat/attack_rates.md](combat/attack_rates.md) | Unit attack speed: cycle duration (pause or attack0 animation), attacks/g-sec, attacks/real @ fast. | `compute/compute_attack_rates.py` |
-| [combat/vision_radii.md](combat/vision_radii.md) | Vision (FOW) and searchradius for all units. Formula `floor(20 + 4×vision)` tiles. The best scouts (Drummer, 17th century, Hetman, ships). | `compute/compute_vision.py` |
-| [combat/artillery.md](combat/artillery.md) | Land Artillery Summary (`bartillery = True`): damage, pause, dispertion, cost per shot, fleet limit from the Artillery Depot, unit economics and national differences. | `compute/compute_artillery.py` |
+<a id="бой"></a>
+## Combat
 
-<a id="экономика-economyeconomy"></a>
-## Economy ([`economy/`](economy/))
+| Reference | What you can learn |
+|---|---|
+| [Combat statistics](combat/combat_stats.md) | Health, weapons, damage per second, and protection of combat units. |
+| [Who defeats whom](combat/counter_matrix.md) | Approximate time one unit type needs to destroy another. |
+| [Attack rates](combat/attack_rates.md) | Full attack cycles and attacks per game and real second. |
+| [Vision radius](combat/vision_radii.md) | How far units reveal the map and acquire targets. |
+| [Artillery](combat/artillery.md) | Cannons and mortars: damage, range, accuracy, shot cost, and artillery limits. |
 
-| File | What's inside | Generator |
-|---|---|---|
-| [economy/scaling_prices.md](economy/scaling_prices.md) | Price of the Nth building instance: `cost(N) = floor(base × (costpercent/100)^(N-1))`. Tables N=1..6. | `compute/compute_scaling.py` |
-| [economy/efficiency_upgrades.md](economy/efficiency_upgrades.md) | Summary of `gc_upg_type_effect*` - which upgrades add what (food/wood/stone/damage/protection/range). | `compute/compute_efficiency_upgrades.py` |
-| [economy/production_rates.md](economy/production_rates.md) | For each nation × building × unit: `buildtime`, `units/g-min`, `units/real-min @ fast`, price and upkeep. | `compute/compute_tech_tree.py` |
-| [economy/construction_times.md](economy/construction_times.md) | Construction time of each building with 1, 2, 5, 10 builders and at maximum slots. | `compute/compute_construction_times.py` |
-| [economy/builder_slots.md](economy/builder_slots.md) | How many peasants can build a building at the same time (calculated by walking around the mask perimeter in steps of `gc_BuilderDist=1.0`). | `compute/compute_builder_slots.py` |
+<a id="экономика-и-строительство"></a>
+## Economy and construction
 
-<a id="тех-дерево-techtech"></a>
-## Tech tree ([`tech/`](tech/))
+| Reference | What you can learn |
+|---|---|
+| [Scaling building prices](economy/scaling_prices.md) | The cost of the first, second, and each subsequent copy of a building. |
+| [Gathering and stat upgrades](economy/efficiency_upgrades.md) | How bonuses to gathering, damage, protection, and other values combine. |
+| [Unit production rates](economy/production_rates.md) | How many units one building produces per minute. |
+| [Construction and repair times](economy/construction_times.md) | How long a building takes with different numbers of peasants. |
+| [Maximum builders](economy/builder_slots.md) | How many peasants can actually work on each building at once. |
 
-| File | What's inside | Generator |
-|---|---|---|
-| [tech/tech_tree.md](tech/tech_tree.md) | Wood dependencies: for each building/unit/upgrade - a list of prerequisites (`[B]` building, `[U]` unit, `[T]` upgrade). Machine version - `../../derived/tech_tree.json`. | `compute/compute_tech_tree.py` |
+<a id="развитие"></a>
+## Development
 
-<a id="карта-mapmap"></a>
-## Map ([`map/`](map/))
+- [Technology tree](tech/tech_tree.md) — which buildings, units, and upgrades
+  must be unlocked before a chosen target becomes available.
 
-| File | What's inside | Generator |
-|---|---|---|
-| [map/lobby_settings.md](map/lobby_settings.md) | All lobby options with canonical Russian names from the game locale (terrain, resources, peace time, population limit, AI difficulty - 95 values ​​in 18 categories). | `compute/compute_game_settings.py` |
-| [map/map_resources.md](map/map_resources.md) | Counting forests, stones and mines on the standard map Small + Highlands + Rich. About 109 large trees, 33 stones, up to 12 deposits per player. | `compute/compute_map_resources.py` |
-| [map/starting_layout.md](map/starting_layout.md) | Starting layout: 18 peasants in a 6x3 grid near the City Center, location `cen` / `sto` / mines. | `compute/compute_starting_layout.py` |
-| [map/map_predictions_validation.md](map/map_predictions_validation.md) | Validation of the `compute_map_resources` model against the ground truth replay (10 homogeneous replays Small + Land + Highlands). | `compute/validate_map_predictions.py` |
+<a id="карта-и-настройки-матча"></a>
+## Map and match settings
 
-<a id="нации-nationsnations"></a>
-## Nations ([`nations/`](nations/))
+| Reference | What you can learn |
+|---|---|
+| [Lobby settings](map/lobby_settings.md) | Canonical names and effects of map and match-rule options. |
+| [Map resources](map/map_resources.md) | Estimated numbers of trees, stone deposits, and mines on a typical map. |
+| [Starting layout](map/starting_layout.md) | Where peasants, the Town Hall, and nearby resources appear. |
 
-| File | What's inside | Generator |
-|---|---|---|
-| [nations/overview.md](nations/overview.md) | Side-by-side comparison of all 21 nations: roster size, access to the 18th century, unique units, stat anomalies, mercenaries, market cluster. | `compute/compute_nations_overview.py` |
-| [nations/deviations.md](nations/deviations.md) | Full stat fingerprints of common buildings (`<nat>cen`, `<nat>aca`, `<nat>art`, etc.) and common units: which nations deviate from the base case and in what ways. Complements overview.md in detail. | `compute/compute_nation_deviations.py` |
+<a id="нации"></a>
+## Nations
 
-<a id="связанные-данные"></a>
-## Linked data
+| Reference | What you can learn |
+|---|---|
+| [Nation overview](nations/overview.md) | Army size, access to the 18th century, unique troops, mercenaries, and other differences. |
 
-- [`../reference/`](../reference/README.md) - canonical help (chapters 01–07, `nations/`, `compare/`). The reports above are built on top of it.
-- [`../recon/`](../recon/README.md) - deep research into the mechanics on which these reports are based.
-- [`../../derived/`](../../derived/) - machine-readable JSON datasets (`tech_tree.json`, `builder_slots.json`, `pattern_*.json`, `animations.json`).
+---
 
-<a id="регенерация"></a>
-## Regeneration
-
-After updating `data.json`:
-```bash
-python compute/compute_combat_stats.py        # → reports/combat/combat_stats.md
-python compute/compute_counter_matrix.py      # → reports/combat/counter_matrix.md
-python compute/compute_attack_rates.py        # → reports/combat/attack_rates.md
-python compute/compute_vision.py              # → reports/combat/vision_radii.md
-python compute/compute_artillery.py           # → reports/combat/artillery.md
-python compute/compute_scaling.py             # → reports/economy/scaling_prices.md
-python compute/compute_efficiency_upgrades.py # → reports/economy/efficiency_upgrades.md
-python compute/compute_builder_slots.py       # → reports/economy/builder_slots.md (+derived/builder_slots.json)
-python compute/compute_construction_times.py  # → reports/economy/construction_times.md
-python parser/build_tech_graph.py             # → derived/tech_tree.json
-python compute/compute_tech_tree.py           # → reports/tech/tech_tree.md, reports/economy/production_rates.md
-python compute/compute_game_settings.py        # → reports/map/lobby_settings.md (+derived/game_settings.json)
-python compute/compute_map_resources.py        # → reports/map/map_resources.md
-python compute/compute_starting_layout.py     # → reports/map/starting_layout.md
-python compute/validate_map_predictions.py     # → reports/map/map_predictions_validation.md
-python compute/compute_nations_overview.py     # → reports/nations/overview.md
-python compute/compute_nation_deviations.py    # → reports/nations/deviations.md
-```
+Most readers do not need to start here. Shorter tables are in the
+[quick reference](../reference/README.md), while detailed explanations of
+game rules are in [How the game works](../recon/README.md).

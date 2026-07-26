@@ -1,5 +1,5 @@
 # Сравнения юнитов
 
-[← compare/](../README.md) · [← Index](../../README.md)
+[← Все сравнения](../README.md) · [← Краткий справочник](../../README.md)
 
-См. [списком в compare/README.md](../README.md#unitsreadmemd--сравнения-юнитов).
+Выберите нужный класс в [общем списке сравнений](../README.md#юниты).

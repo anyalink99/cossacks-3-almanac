@@ -15,12 +15,24 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from config import LOCALE, PLAYABLE_NATIONS, NATION_TO_COMMON_CLUSTER, DERIVED_DIR
+from config import (
+    DATA_JSON,
+    DERIVED_DIR,
+    LOCALE,
+    NATION_TO_COMMON_CLUSTER,
+    PLAYABLE_NATIONS,
+)
 
 INCLUDE_RE = re.compile(r"%include\(([^;]+);([^)]+)\)%")
 STYLE_RE = re.compile(r"%(def|pos|neg|val)%")
 ANY_PCT_RE = re.compile(r"%[^%]+%")
 KEY_RE = re.compile(r"^\t@(\S+)\s*$")
+
+# A handful of objects exist only in the Russian locale. Use established
+# English transliterations instead of exposing their internal SIDs.
+ENGLISH_NAME_FALLBACKS = {
+    "chaika": "Chaika",
+}
 
 
 def parse_locale_file(path: Path) -> dict[str, str]:
@@ -199,6 +211,32 @@ def build() -> dict:
             continue
         en_c = clean(resolve(en, "units", k) or en["units"].get(k, ""))
         canon["units"][k] = {"ru": ru_c, "en": en_c}
+
+    # Some playable objects are localized outside units.txt. The Ukrainian
+    # chaika, for example, lives in misc.txt. Restrict this extra lookup to
+    # SIDs that occur in data.json so unrelated UI strings do not leak into
+    # the unit-name catalog.
+    if DATA_JSON.exists():
+        data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
+        unit_sids = sorted({
+            str(item.get("sid") or "")
+            for item in data.get("units", [])
+            if item.get("sid")
+        })
+        for sid in unit_sids:
+            if sid in canon["units"]:
+                continue
+            ru_c = ""
+            en_c = ""
+            for fname in ("units", "misc", "new"):
+                if not ru_c:
+                    ru_c = clean(resolve(ru, fname, sid))
+                if not en_c:
+                    en_c = clean(resolve(en, fname, sid))
+            if not en_c:
+                en_c = ENGLISH_NAME_FALLBACKS.get(sid, "")
+            if ru_c or en_c:
+                canon["units"][sid] = {"ru": ru_c, "en": en_c}
 
     return canon
 

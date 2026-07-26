@@ -249,7 +249,7 @@ save и lobby (см.
    `SetRandomKey` непосредственно перед.
 
 Это и есть план для симулятора Level C
-[`project_level_c_simulator_plan.md`](../../docs/architecture.md)
+[`project_level_c_simulator_plan.md`](../project/architecture.md)
 (если симулятор когда-нибудь будет нацелен на bit-perfect
 reproducibility, а не на статистическую точность).
 

@@ -1,7 +1,7 @@
 <a id="конюшни"></a>
 # Stables
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 They train the cavalry. Most nations have a common pool of units, `rus`/`ukr` have unique heavy horsemen.
 
@@ -10,24 +10,24 @@ They train the cavalry. Most nations have a common pool of units, `rus`/`ukr` ha
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Stable** `algsta` | alg | **55000** | **156.25** | **700** | **1000** | **2200** | **0** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `aussta` | aus | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `bavsta` | bav | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `densta` | den | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `engsta` | eng | **25000** | **375.0** | 200 | **2350** | **0** | **800** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `frasta` | fra | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `hunsta` | hun | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+25) |
-| **Stable** `netsta` | net | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `piesta` | pie | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `polsta` | pol | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `porsta` | por | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `prusta` | pru | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `russta` | rus | **25000** | **375.0** | 200 | **7950** | **0** | **550** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `saxsta` | sax | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `scosta` | sco | **25000** | **375.0** | 200 | **2350** | **0** | **800** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `spasta` | spa | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `swesta` | swe | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `swista` | swi | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `tursta` | tur | **55000** | **156.25** | **700** | **1000** | **2600** | **0** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `ukrsta` | ukr | **10000** | **156.25** | **300** | **3200** | **850** | **850** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
-| **Stable** `vensta` | ven | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `algsta` | Algeria | **55000** | **156.25** | **700** | **1000** | **2200** | **0** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `aussta` | Austria | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `bavsta` | Bavaria | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `densta` | Denmark | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `engsta` | England | **25000** | **375.0** | 200 | **2350** | **0** | **800** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `frasta` | France | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `hunsta` | Hungary | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+25) |
+| **Stable** `netsta` | Netherlands | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `piesta` | Piedmont | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `polsta` | Poland | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `porsta` | Portugal | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `prusta` | Prussia | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `russta` | Russia | **25000** | **375.0** | 200 | **7950** | **0** | **550** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `saxsta` | Saxony | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `scosta` | Scotland | **25000** | **375.0** | 200 | **2350** | **0** | **800** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `spasta` | Spain | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `swesta` | Sweden | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `swista` | Switzerland | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `tursta` | Turkey | **55000** | **156.25** | **700** | **1000** | **2600** | **0** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `ukrsta` | Ukraine | **10000** | **156.25** | **300** | **3200** | **850** | **850** | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |
+| **Stable** `vensta` | Venice | 20000 | 625.0 | 200 | 2500 | 100 | 600 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon (+24) |

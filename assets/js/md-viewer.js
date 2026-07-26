@@ -8,6 +8,59 @@ import markedAlert from "https://cdn.jsdelivr.net/npm/marked-alert@2.1.2/+esm";
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
 
 const ENGLISH = /\/(?:docs_en|internals_en)(?:\/|$)/.test(location.pathname);
+const DIRECTORY_LABELS = ENGLISH ? {
+  reference: "Quick reference",
+  recon: "How the game works",
+  reports: "Tables and calculations",
+  "01_economy": "Economy",
+  "02_combat": "Combat and movement",
+  "03_buildings": "Buildings",
+  "04_units": "Units",
+  "05_upgrades": "Upgrades",
+  "06_market": "Market",
+  "07_naval": "Navy",
+  nations: "Nations",
+  compare: "Comparisons",
+  units: "Units",
+  buildings: "Buildings",
+  weapons: "Weapons and projectiles",
+  world: "Game world",
+  systems: "Game systems",
+  combat: "Combat",
+  economy: "Economy",
+  map: "Map and match settings",
+  tech: "Technology tree",
+  data: "Data formats",
+  engine: "Engine",
+  scripts: "Scripts",
+  project: "Project documentation",
+} : {
+  reference: "Краткий справочник",
+  recon: "Как устроена игра",
+  reports: "Таблицы и расчёты",
+  "01_economy": "Экономика",
+  "02_combat": "Бой и движение",
+  "03_buildings": "Здания",
+  "04_units": "Юниты",
+  "05_upgrades": "Улучшения",
+  "06_market": "Рынок",
+  "07_naval": "Флот",
+  nations: "Нации",
+  compare: "Сравнения",
+  units: "Юниты",
+  buildings: "Здания",
+  weapons: "Оружие и снаряды",
+  world: "Игровой мир",
+  systems: "Игровые системы",
+  combat: "Бой",
+  economy: "Экономика",
+  map: "Карта и настройки матча",
+  tech: "Дерево развития",
+  data: "Форматы данных",
+  engine: "Движок",
+  scripts: "Скрипты",
+  project: "Документация проекта",
+};
 const UI = ENGLISH ? {
   home: "Home",
   contents: "Contents",
@@ -22,6 +75,7 @@ const UI = ENGLISH ? {
   searchShown: (count) => `${count} shown`,
   searchEmpty: (query) => `No matches for “${query}”`,
   searchError: (message) => `Search is unavailable: ${message}`,
+  sectionOverview: "Section overview",
 } : {
   home: "На главную",
   contents: "Содержание",
@@ -36,6 +90,7 @@ const UI = ENGLISH ? {
   searchShown: (count) => `показано ${count}`,
   searchEmpty: (query) => `По запросу «${query}» ничего не найдено`,
   searchError: (message) => `Поиск недоступен: ${message}`,
+  sectionOverview: "Обзор раздела",
 };
 
 // --- Markdown configuration ----------------------------------------------
@@ -162,6 +217,23 @@ const params = new URLSearchParams(location.search);
 let currentPath = params.get("p");
 let searchIndexPromise = null;
 let searchElements = null;
+
+function directoryLabel(segment) {
+  return DIRECTORY_LABELS[segment] || segment.replaceAll("_", " ");
+}
+
+function readablePath(path, documentTitle = "") {
+  const parts = path.split("/");
+  const filename = parts.pop() || "";
+  const labels = parts.map(directoryLabel);
+  if (documentTitle && labels.at(-1)?.toLocaleLowerCase() !== documentTitle.toLocaleLowerCase()) {
+    labels.push(documentTitle);
+  }
+  else if (filename !== "README.md") {
+    labels.push(filename.replace(/\.md$/i, "").replaceAll("_", " "));
+  }
+  return labels.join(" › ");
+}
 
 async function loadManifest() {
   const r = await fetch("_manifest.json");
@@ -298,7 +370,7 @@ function renderSearchResults(query, ranked) {
     appendHighlightedText(title, result.title, ranked.terms);
     const path = document.createElement("span");
     path.className = "md-search-result-path";
-    path.textContent = result.path;
+    path.textContent = readablePath(result.path);
     const snippet = document.createElement("span");
     snippet.className = "md-search-result-snippet";
     appendHighlightedText(snippet, result.snippet, ranked.terms);
@@ -412,7 +484,8 @@ function renderTree(node, depth = 0) {
     li.className = "md-tree-dir";
     const head = document.createElement("div");
     head.className = "md-tree-dir-head";
-    head.textContent = name;
+    head.textContent = directoryLabel(name);
+    head.dataset.segment = name;
     const sub = renderTree(child, depth + 1);
     sub.hidden = depth > 0;  // top-level expanded, deeper collapsed by default
     head.addEventListener("click", () => {
@@ -427,10 +500,11 @@ function renderTree(node, depth = 0) {
 
   // Then files
   for (const f of node.files.sort((a, b) => a.name.localeCompare(b.name))) {
+    if (depth === 0 && f.name === "README.md") continue;
     const li = document.createElement("li");
     li.className = "md-tree-file";
     const a = document.createElement("a");
-    a.textContent = f.entry.title;
+    a.textContent = f.name === "README.md" ? UI.sectionOverview : f.entry.title;
     a.href = `?p=${encodeURIComponent(f.entry.path)}`;
     a.dataset.path = f.entry.path;
     a.addEventListener("click", (ev) => {
@@ -458,7 +532,7 @@ function autoExpandFor(path) {
   const dirs = document.querySelectorAll(".md-tree-dir");
   for (const li of dirs) {
     const head = li.querySelector(":scope > .md-tree-dir-head");
-    if (head && parts.includes(head.textContent)) {
+    if (head && parts.includes(head.dataset.segment)) {
       const sub = li.querySelector(":scope > ul");
       if (sub) sub.hidden = false;
       head.classList.remove("md-tree-collapsed");
@@ -654,7 +728,7 @@ async function openFile(path) {
   currentPath = path;
   const main = $("#md-content");
   const crumb = $("#md-crumbs");
-  crumb.textContent = path;
+  crumb.textContent = readablePath(path);
   main.innerHTML = `<div class="md-loading">${UI.loading(path)}</div>`;
   try {
     const r = await fetch(path);
@@ -665,9 +739,14 @@ async function openFile(path) {
     assignHeadingIds(main);
     wrapTablesInScrollContainers(main);
     await renderMermaidBlocks(main);
+    const pageTitle = main.querySelector("h1")?.textContent?.trim()
+      || path.split("/").pop().replace(".md", "");
+    crumb.textContent = readablePath(path, pageTitle);
     if (location.hash) scrollToCurrentHash();
     else window.scrollTo({ top: 0 });
-    document.title = `${path.split("/").pop().replace(".md", "")} — ${currentRoot.title}`;
+    document.title = pageTitle === currentRoot.title
+      ? pageTitle
+      : `${pageTitle} — ${currentRoot.title}`;
   } catch (e) {
     main.innerHTML = `<div class="md-error">${UI.loadError(`<code>${path}</code>`, e.message)}</div>`;
   }

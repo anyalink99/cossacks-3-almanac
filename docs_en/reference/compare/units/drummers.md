@@ -1,7 +1,7 @@
 <a id="барабанщики-и-волынщик"></a>
 # Drummer, 17th century and the piper
 
-[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 The musician is the second mandatory “anchor” of the detachment after the officer (`drummer` / `drummer18` / `drummerrus` / `drummertur` / `bagpiper`). No attack. For `rus` and `tur`, the options differ significantly in HP/cost from the base template.
 
@@ -12,40 +12,40 @@ The musician is the second mandatory “anchor” of the detachment after the of
 
 | Unit | Nation | HP | Time (g-sec) | F | G | I | upkeep F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Bagpiper** `bagpiper` | eng | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
-| **Bagpiper** `bagpiper` | sco | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
-| **Drummer, 17th century** `drummer` | aus | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | bav | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | den | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | eng | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | fra | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | hun | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | net | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | pie | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | pol | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | por | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | pru | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | sax | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | spa | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | swe | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | swi | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 17th century** `drummer` | ven | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
-| **Drummer, 18th century** `drummer18` | aus | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | bav | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | den | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | fra | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | hun | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | net | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | pie | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | pol | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | por | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | pru | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | rus | 100 | 6.0 | **90** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | sax | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | spa | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | swe | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | swi | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 18th century** `drummer18` | ven | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
-| **Drummer, 17th century** `drummerrus` | rus | 100 | 6.0 | **90** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | unique |
-| **Drummer, 17th century** `drummertur` | alg | **50** | **4.0** | **30** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
-| **Drummer, 17th century** `drummertur` | tur | **50** | **4.0** | **30** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
+| **Bagpiper** `bagpiper` | England | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
+| **Bagpiper** `bagpiper` | Scotland | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
+| **Drummer, 17th century** `drummer` | Austria | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Bavaria | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Denmark | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | England | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | France | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Hungary | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Netherlands | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Piedmont | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Poland | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Portugal | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Prussia | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Saxony | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Spain | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Sweden | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Switzerland | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 17th century** `drummer` | Venice | **75** | **5.0** | 60 | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared(16n) |
+| **Drummer, 18th century** `drummer18` | Austria | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Bavaria | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Denmark | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | France | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Hungary | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Netherlands | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Piedmont | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Poland | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Portugal | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Prussia | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Russia | 100 | 6.0 | **90** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Saxony | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Spain | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Sweden | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Switzerland | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 18th century** `drummer18` | Venice | 100 | 6.0 | **50** | **30** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | shared (16n) |
+| **Drummer, 17th century** `drummerrus` | Russia | 100 | 6.0 | **90** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | unique |
+| **Drummer, 17th century** `drummertur` | Algeria | **50** | **4.0** | **30** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
+| **Drummer, 17th century** `drummertur` | Turkey | **50** | **4.0** | **30** | **15** | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |

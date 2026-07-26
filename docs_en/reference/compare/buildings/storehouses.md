@@ -1,7 +1,7 @@
 <a id="склады"></a>
 # Storehouses
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Wood/stone delivery point. One option per cluster.
 
@@ -10,24 +10,24 @@ Wood/stone delivery point. One option per cluster.
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Storehouse** `tursto` | alg | 10000 | 31.25 | **200** | **30** | **10** | 0 | 0 | — |
-| **Storehouse** `eursto` | aus | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | bav | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | den | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | eng | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | fra | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | hun | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | net | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | pie | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `russto` | pol | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `spasto` | por | 10000 | 31.25 | 150 | **20** | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | pru | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `russto` | rus | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | sax | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | sco | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `spasto` | spa | 10000 | 31.25 | 150 | **20** | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | swe | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | swi | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `tursto` | tur | 10000 | 31.25 | **200** | **30** | **10** | 0 | 0 | — |
-| **Storehouse** `russto` | ukr | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
-| **Storehouse** `eursto` | ven | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `tursto` | Algeria | 10000 | 31.25 | **200** | **30** | **10** | 0 | 0 | — |
+| **Storehouse** `eursto` | Austria | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Bavaria | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Denmark | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | England | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | France | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Hungary | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Netherlands | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Piedmont | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `russto` | Poland | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `spasto` | Portugal | 10000 | 31.25 | 150 | **20** | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Prussia | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `russto` | Russia | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Saxony | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Scotland | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `spasto` | Spain | 10000 | 31.25 | 150 | **20** | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Sweden | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Switzerland | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `tursto` | Turkey | 10000 | 31.25 | **200** | **30** | **10** | 0 | 0 | — |
+| **Storehouse** `russto` | Ukraine | 10000 | 31.25 | **200** | 50 | 20 | 0 | 0 | — |
+| **Storehouse** `eursto` | Venice | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |

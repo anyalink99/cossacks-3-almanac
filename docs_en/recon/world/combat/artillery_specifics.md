@@ -1,5 +1,8 @@
 <a id="recon-артиллерия"></a>
-# Recon: artillery
+<a id="как-работает-артиллерия"></a>
+# How Artillery Works
+
+[← How the game works](../../README.md)
 
 In-depth analysis: how artillery differs from ordinary shooters,
 how does `bartprepare` (shot preparation phase) work?

@@ -1,5 +1,8 @@
 <a id="recon-условия-победы-и-конец-партии"></a>
-# Recon: victory conditions and end of game
+<a id="победа-поражение-и-завершение-партии"></a>
+# Victory, Defeat, and the End of a Match
+
+[← How the game works](../README.md)
 
 Reverse engineering the conditions under which a game ends in Cossacks 3:
 who is declared the winner, who is the loser, how the score is calculated and what
@@ -161,7 +164,7 @@ The full score per-sid table requires parsing all calls
 `SetObjBuildingExtProperties` and `SetObjBaseSearchBuildVisionScore`. Search
 by `.score :=` to `unit.script` shows only two direct assignments,
 both through these helper procedures, so accurate parsing of call sites
-will give values ​​for all units and buildings.
+will give values for all units and buildings.
 
 <a id="52-накопление-при-убийстве"></a>
 ### 5.2 Accumulation on Kill

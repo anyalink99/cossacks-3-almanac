@@ -1,5 +1,8 @@
 <a id="recon-выбор-цели-и-attack-move"></a>
-# Recon: target selection and attack-move
+<a id="выбор-цели-и-атака-с-движением"></a>
+# Target Selection and Attack-Move
+
+[← How the game works](../../README.md)
 
 Reverse engineering the target search functions and how the order "attack to the point"
 diverges into different processing branches depending on the type of unit. All
@@ -133,7 +136,7 @@ compatible target [^15]:
 | 1 (priest) | at unit `objprop.bpriest = True` | first **own** unit with `hp < maxhp`. If the first candidate is at full HP, the function exits the loop without a result. |
 | 2 (capture-fallback) | default for most non-`bcapture` units on progress-tick | first looks for the target to kill (as scanmode 0); if not found, it checks `bcapture && _unit_TestCapture(trgHnd)` in a separate pass and returns the captured one. |
 | 3 (capture-only) | specialized search (for example, AI on capture tasks) | returns the first valid `bcapture` + `_unit_TestCapture`, does not consider anything else. |
-| 4 (AI sabotage) | AI mode for special tasks | aggregates: goes through ALL candidates and selects the one with the maximum `weapon[0].damage`. That is, the AI ​​saboteur aims at the most dangerous, and not at the nearest. |
+| 4 (AI sabotage) | AI mode for special tasks | aggregates: goes through ALL candidates and selects the one with the maximum `weapon[0].damage`. That is, the AI saboteur aims at the most dangerous, and not at the nearest. |
 
 “First” in modes 0, 1, 2, 3 is the first according to that very random
 bypass from §2.2. In mode 4, the cycle is not terminated by an early exit -

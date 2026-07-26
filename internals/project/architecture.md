@@ -181,7 +181,7 @@
    (`combat / economy / tech / map / nations`) — пиши в
    `docs/reports/<раздел>/<имя>.md`. Если новый раздел — заведи папку и
    добавь в `docs/reports/README.md`.
-4. Если отчёт нужно показать в [`docs/README.md`](README.md), внеси его в
+4. Если отчёт нужно показать в [`docs/README.md`](../../docs/README.md), внеси его в
    список (этот файл не auto-gen).
 
 ### Добавить новый JSON-датасет

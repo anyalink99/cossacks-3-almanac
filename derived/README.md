@@ -90,4 +90,4 @@ python parser/engine_recon/extract_dws_signatures.py  # → derived/dws_native_s
 - **Готовая для людей справка** — в [`../docs/reference/`](../docs/reference/),
   [`../docs/reports/`](../docs/reports/), [`../docs/recon/`](../docs/recon/).
 - **Документация движка** — в [`../internals/`](../internals/) (engine, scripts, data).
-- **Схема архитектуры pipeline'а** — в [`../docs/architecture.md`](../docs/architecture.md).
+- **Схема архитектуры конвейера данных** — в [`../internals/project/architecture.md`](../internals/project/architecture.md).

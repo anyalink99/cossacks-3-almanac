@@ -1,5 +1,8 @@
 <a id="recon-добыча-ресурсов-крестьянами"></a>
-# Recon: resource extraction by peasants
+<a id="как-крестьяне-добывают-ресурсы"></a>
+# How Peasants Gather Resources
+
+[← How the game works](../../README.md)
 
 A complete model of the extraction rate of all resources: formulas, mines, fields,
 efficiency upgrades, map influence. The simulator is built on these numbers
@@ -158,10 +161,10 @@ are located on the **north (upper) side** of the building.
 
 | sid | Nations | x | z | Position |
 |---|---|---:|---:|---|
-| eurosto | aus, bav, den, eng, fra, hun, net, pie, pru, sax, sco, swe, swi, ven | +0.20 | −1.69 | north corner |
-| russto | pol, rus, ukr | +0.19 | −1.50 | north corner |
-| tursto | alg, tur | +0.17 | −1.67 | north corner |
-| spasto | por, spa | — | — | building center (0, 0) - not specified |
+| eurosto | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | +0.20 | −1.69 | north corner |
+| russto | Poland, Russia, Ukraine | +0.19 | −1.50 | north corner |
+| tursto | Algeria, Turkey | +0.17 | −1.67 | north corner |
+| spasto | Portugal, Spain | — | — | building center (0, 0) - not specified |
 
 **Mills** (`gc_obj_usage_mill`):
 | sid | x | z | Position |
@@ -526,7 +529,7 @@ report in [`docs/reports/map/map_resources.md`](../../../reports/map/map_resourc
 | Parameter | Meaning |
 |---|---:|
 | Card size | 65536 tiles (256x256) |
-| `prob*` (after ×2.5 modifier) ​​| ≈1.85-2.06 (depending on the pattern size) |
+| `prob*` (after ×2.5 modifier) | ≈1.85-2.06 (depending on the pattern size) |
 | Big forest clusters (placed, 65% success) | ~34 |
 | Mid forest clusters | ~37 |
 | Small forest clusters | ~23 |
@@ -630,7 +633,7 @@ Life cycle of a tree:
 4. **The stump continues to live as a valid goal** for
    `_unit_SearchResourceInRadius` [^34] - check only `brised`, checks
    No HP.
-5. The impacts continue: `hp -= 1` goes into negative values ​​(-1, -2, -3, ...).
+5. The impacts continue: `hp -= 1` goes into negative values (-1, -2, -3, ...).
    Condition `if hp = 0` is triggered only once (at exactly 0), because
    there is no re-transition to death.
 6. `peasant.resamount` increments each hit → **tree gives wood indefinitely**.
@@ -657,7 +660,7 @@ stump. But if all the trees are occupied, the peasants go to the stumps.
 |---:|---|---|
 | 1 | ~~Peasant's Exact Speed~~ | ✅ **Closed:** `TrackPointMoveStep = 0.0375` × 32 frames / g-sec = **1.20 tiles / g-sec** (see §3 “Movement Speeds” and [`internals/engine/animation_system.md` §2.4](../../../../internals_en/engine/animation_system.md)). |
 | 2 | Full list of efficiency upgrades for 21 nations | Use `parser/simulate_upgrades.py` (already inlines SetUpgStruct and iterates over `case cid`). |
-| 3 | The real cost of going to the warehouse | Speed ​​is now known (see question 1) → distance × 1/1.20 g-sec/tile. |
+| 3 | The real cost of going to the warehouse | Speed is now known (see question 1) → distance × 1/1.20 g-sec/tile. |
 | 4 | Accounting `ferry` (delivery from isolated forest islands) | Not critical for tiny+land, put it aside. |
 | 5 | `walkintervalfactor` - how it affects walking animation | It looks like the animation speed is scaling relative to the physical speed. Set aside (see also [`internals/engine/animation_system.md` §9](../../../../internals_en/engine/animation_system.md)). |
 

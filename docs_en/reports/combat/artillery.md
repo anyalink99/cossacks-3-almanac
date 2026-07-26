@@ -1,5 +1,8 @@
 <a id="артиллерия--сводный-справочник"></a>
+<a id="артиллерия"></a>
 # Artillery - summary reference book
+
+[← Tables and calculations](../README.md)
 
 **Derived** file (calculated, not extracted). Counted from [`data.json`](../../../data.json) as script [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
 
@@ -16,6 +19,7 @@ Contents:
 - [§5. Notes and cross-references](#5-заметки-и-cross-references)
 
 <a id="1-каталог-и-боевые-статы"></a>
+<a id="1-орудия-и-боевые-характеристики"></a>
 ## §1. Catalog and combat stats
 
 One line for a unique set of stats for the main weapon - if a nation has a different stat, it is placed in a separate line. Column **Preparation** = `bartprepare`: delay animation before each shot, fixed in the script, but the exact duration in `data.json` was not extracted and is not given here. **Pause** - cold reload after a shot (`weapon.pause` in g-sec). **Accuracy** — `weapon.dispertion` in pixels and tiles; less = more accurate. Radius - `weapon.radiusmax` (tiles); `radiusmin` is shown if the unit has a melee deadzone.
@@ -23,7 +27,7 @@ One line for a unique set of stats for the main weapon - if a nation has a diffe
 | `sid` | Class | Nations | dmg | pause | DPS, g-sec | Radius | Accuracy | Preparation |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |
 | `cannon` | Cannon | all 21 | 1800 | 10.94 s | 164.53 | 10.31..40.5 t | 225 px · 4.22 t | ✓ |
-| `framegun` | Cannon | sco | 500 | 2.81s | 177.94 | 3.75..33.75 t | 250 px · 4.69 t | ✓ |
+| `framegun` | Cannon | Scotland | 500 | 2.81s | 177.94 | 3.75..33.75 t | 250 px · 4.69 t | ✓ |
 | `howitzer` | Bombard | all 21 | 4000 | 18.75 s | 213.33 | 13.13..26.25 t | 300 px · 5.63 t | ✓ |
 | `mortar` | Supermortar | all 21 | 200 | 7.81s | 25.61 | 23.44..48.75 t | 200 px · 3.75 t | — |
 | `multicannon` | Richbarreled gun | aus, bav, den, eng, fra… (+12) | 500 | 1.88s | 265.96 | 0.19..13.13 t | — | — |
@@ -39,7 +43,7 @@ Column **DPS, g-sec** is `damage / pause`, excluding formation bonuses (artiller
 | `sid` | Nations | Projectile type | dmg | iron | coal | wood/stone/gold | shot_cost_g | dmg/shot_cost_g |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `cannon` | all 21 | cannonball | 1800 | 20 | 40 | — | 8400 | 0.21 |
-| `framegun` | sco | cannonball | 500 | 30 | 40 | — | 9800 | 0.05 |
+| `framegun` | Scotland | cannonball | 500 | 30 | 40 | — | 9800 | 0.05 |
 | `howitzer` | all 21 | cannonball | 4000 | 20 | 100 | — | 16800 | 0.24 |
 | `mortar` | all 21 | mortarball | 200 | 20 | 30 | — | 7000 | 0.03 |
 | `multicannon` | aus, bav, den, eng, fra… (+12) | canister | 500 | 40 | 30 | — | 9800 | 0.05 |
@@ -49,7 +53,7 @@ Column **DPS, g-sec** is `damage / pause`, excluding formation bonuses (artiller
 <a id="3-экономика-юнита-и-национальные-различия"></a>
 ## §3. Unit economics and national differences
 
-Purchase price, construction time, HP, shield, speed and upkeep in gold. If a nation has the same values ​​- one line, the nations are grouped.
+Purchase price, construction time, HP, shield, speed and upkeep in gold. If a nation has the same values - one line, the nations are grouped.
 
 | `sid` | Nations | Price | bt, g-sec | HP | shield | speed | `consume[gold]` | gold/g-sec | score |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -57,7 +61,7 @@ Purchase price, construction time, HP, shield, speed and upkeep in gold. If a na
 | `howitzer` | all 21 | 250 W · 350 G · 300 I | 94.0 | 3000 | 75 | 20 | 350 | 0.56 | 25 |
 | `mortar` | all 21 | 100 W · 75 G · 200 I | 25.0 | 400 | 25 | 24 | 50 | 0.08 | 100 |
 | `multicannon` | aus, bav, den, eng, fra… (+12) | 200 W · 400 G · 250 I | 50.0 | 2000 | 50 | 16 | 300 | 0.48 | 25 |
-| `framegun` | sco | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
+| `framegun` | Scotland | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
 
 `consume[gold]` - field `objprop.consume[gc_resource_type_gold]`. The actual consumption is calculated by the formula `consume × gc_time_to_frames / 20000` for each game second (since the `_player_ProcessResourceConsume` procedure uses `speed = 20000` in the divisor). Column `gold/game sec` already takes this formula into account. Artillery is the only class that has `consume.gold > 0` for all units: the cannon must be “maintained” even if it does not fire. For infantry and cavalry `consume.gold = 0`. More details in [`../../recon/world/economy/hunger_and_rebellion.md` §2.3](../../recon/world/economy/hunger_and_rebellion.md).
 
@@ -82,10 +86,11 @@ In other words, to roll out a full mortar battalion of 30 pieces, you need three
 | Nation | HP | Price (food/wood/stone/gold/iron/coal) | bt, g-sec | costpercent |
 | --- | ---: | --- | ---: | ---: |
 | alg, aus, bav, den, eng… (+14) | 40000 | 0 / 100 / 1000 / 0 / 0 / 1400 | 245.94 | 200 |
-| ukr | 40000 | 0 / 4250 / 4400 / 100 / 0 / 1400 | 245.94 | 200 |
-| tur | 40000 | 0 / 500 / 1200 / 0 / 0 / 1400 | 245.94 | 200 |
+| Ukraine | 40000 | 0 / 4250 / 4400 / 100 / 0 / 1400 | 245.94 | 200 |
+| Turkey | 40000 | 0 / 500 / 1200 / 0 / 0 / 1400 | 245.94 | 200 |
 
 <a id="5-заметки-и-cross-references"></a>
+<a id="5-важные-особенности"></a>
 ## §5. Notes and cross-references
 
 - **Preparation before shooting.** `bartprepare = True` means that a long animation is played before each shot. The behavior of the engine when issuing a shooting order is `_unit_TryAttackPoint` [^9]. The exact preparation duration is taken from the `.aaf` animation of the `attack0` unit; in `data.json` it is not extracted. For evaluation purposes, we use `weapon.pause` as a “cold reload” on top of any animation delays.

@@ -1,19 +1,21 @@
+<a id="турция"></a>
 # Turkey (`tur`)
-_Turkey_
 
-[← Index](../README.md) · [← All nations](README.md)
+
+
+[← All nations](README.md) · [← Quick reference](../README.md)
 
 <a id="кластер"></a>
-## Cluster
+<a id="общие-особенности"></a>
+## Shared features
 
-- **Shared cluster:** `tur` (mill/sto/mar/tow use the suffix `tur+`)
-- **Peasant:** `peatur`
-- **Cluster infantry:** cluster `tur`
+- **Base peasant:** **Peasant** (`peatur`).
+- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `tur`).
 
 <a id="уникальные-юниты-6"></a>
 ## Unique units (6)
 
-| Unit | role | HP | damage | recharge | far (tile) |
+| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
 |---|---|---:|---:|---:|---:|
 | **Turkish archer** `archertur` | Archer | 65 | 150 | 4.38 | 16.88 |
 | **Janissary** `jannisary` | Shooter | 65 | 12 | 4.69 | 15.94 |
@@ -28,22 +30,23 @@ _Turkey_
 <a id="уникальные-для-нации-9"></a>
 ### Unique to the nation (9)
 
-> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
+> **Bold** marks values that differ from the most common version of the same building.
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Minaret** `turaca` | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
-| **Artillery Depot** `turart` | 40000 | 245.94 | 200 | 0 | **500** | **1200** | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Barracks** `turbar` | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | archer, archertur, drummer, drummerrus, drummertur (+24) |
+| **Artillery Depot** `turart` | 40000 | 245.94 | 200 | 0 | **500** | **1200** | 0 | 0 | 1400 | 0 | Cannon, Frame gun, Howitzer, Bombard, Multi-barrelled Cannon |
+| **Barracks** `turbar` | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | Archer, Turkish archer, Drummer, 17th century, Drummer, 17th century, Drummer, 17th century (+24) |
 | **Blacksmith** `turbla` | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Town Hall** `turcen` | 4000 | 156.25 | 300 | 0 | **600** | **500** | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Diplomatic Center** `turdip` | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Town Hall** `turcen` | 4000 | 156.25 | 300 | 0 | **600** | **500** | 0 | 0 | 0 | 100 | Peasant, Peasant, Peasant, Serf, Peasant (+3) |
+| **Diplomatic Center** `turdip` | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | Archer (mercenary), Turkish archer (mercenary), Sich Cossack (mercenary), Dragoon, 18th century (mercenary), Grenadier (mercenary) (+3) |
 | **Housing** `turhou` | 4000 | 31.25 | **106** | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Stable** `tursta` | **55000** | **156.25** | **700** | 0 | **1000** | **2600** | **0** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Mosque** `turtem` | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
+| **Stable** `tursta` | **55000** | **156.25** | **700** | 0 | **1000** | **2600** | **0** | 0 | 0 | 0 | Don Cossack, Register Cossack, Sich Cossack, Croat, Cuirassier (+25) |
+| **Mosque** `turtem` | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah, Padre, Pope, Priest |
 
 <a id="общий-кластер-12"></a>
-### Shared cluster (12)
+<a id="общие-здания-архитектурной-группы-12"></a>
+### Shared buildings (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -101,7 +104,7 @@ _Turkey_
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
-### Archerand
+### Archers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -174,7 +177,7 @@ _Turkey_
 | **Officer** `officertur` | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | semi-unique (2n) |
 
 <a id="барабанщики-и-волынщики"></a>
-### Drummer, 17th centuryand pipers
+### Drummers and pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -214,6 +217,7 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
 <a id="апгрейды-181"></a>
+<a id="улучшения-181"></a>
 ## Upgrades (181)
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).

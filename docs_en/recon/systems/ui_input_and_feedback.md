@@ -1,5 +1,8 @@
 <a id="recon-интерфейс-ввод-и-обратная-связь"></a>
-# Recon: interface, input and feedback
+<a id="управление-и-обратная-связь"></a>
+# Controls and Player Feedback
+
+[← How the game works](../README.md)
 
 Deep dive: how the game reacts to input (mouse, keyboard,
 scroll), what kind of feedback goes to the player (alarm notifications,

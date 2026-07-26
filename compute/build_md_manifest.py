@@ -36,10 +36,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TARGETS = {
-    "docs": "Документация",
-    "docs_en": "Documentation",
-    "internals": "Internals (engine recon)",
-    "internals_en": "Internals (engine recon)",
+    "docs": "Энциклопедия Cossacks 3",
+    "docs_en": "Cossacks 3 Encyclopedia",
+    "internals": "Техническая документация",
+    "internals_en": "Technical documentation",
 }
 
 

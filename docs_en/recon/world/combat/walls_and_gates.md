@@ -1,5 +1,8 @@
 <a id="recon-стены-и-ворота"></a>
-# Recon: walls and gates
+<a id="стены-и-ворота"></a>
+# Walls and Gates
+
+[← How the game works](../../README.md)
 
 Deep analysis: how wall clusters are arranged (`gWallSystem` /
 `TWallCluster`), how the segments are built by peasants than the gates

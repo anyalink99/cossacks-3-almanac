@@ -1,19 +1,21 @@
+<a id="алжир"></a>
 # Algeria (`alg`)
-_Algeria_
 
-[← Index](../README.md) · [← All nations](README.md)
+
+
+[← All nations](README.md) · [← Quick reference](../README.md)
 
 <a id="кластер"></a>
-## Cluster
+<a id="общие-особенности"></a>
+## Shared features
 
-- **Shared cluster:** `tur` (mill/sto/mar/tow use the suffix `tur+`)
-- **Peasant:** `peatur`
-- **Cluster infantry:** cluster `tur`
+- **Base peasant:** **Peasant** (`peatur`).
+- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `tur`).
 
 <a id="уникальные-юниты-2"></a>
 ## Unique units (2)
 
-| Unit | role | HP | damage | recharge | far (tile) |
+| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
 |---|---|---:|---:|---:|---:|
 | **Archer** `archer` | Archer | 40 | 15 | 2.34 | 15.0 |
 | **Mameluke** `mameluke` | Heavy Cavalry | 280 | 16 | 0.0 | 1.88 |
@@ -24,22 +26,23 @@ _Algeria_
 <a id="уникальные-для-нации-9"></a>
 ### Unique to the nation (9)
 
-> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
+> **Bold** marks values that differ from the most common version of the same building.
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Minaret** `algaca` | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
-| **Artillery Depot** `algart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Barracks** `algbar` | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | archer, archertur, drummer, drummerrus, drummertur (+24) |
+| **Artillery Depot** `algart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon, Frame gun, Howitzer, Bombard, Multi-barrelled Cannon |
+| **Barracks** `algbar` | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | Archer, Turkish archer, Drummer, 17th century, Drummer, 17th century, Drummer, 17th century (+24) |
 | **Blacksmith** `algbla` | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Town Hall** `algcen` | **5500** | 156.25 | 300 | 0 | **450** | 700 | 0 | 0 | 0 | **50** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Diplomatic Center** `algdip` | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Town Hall** `algcen` | **5500** | 156.25 | 300 | 0 | **450** | 700 | 0 | 0 | 0 | **50** | Peasant, Peasant, Peasant, Serf, Peasant (+3) |
+| **Diplomatic Center** `algdip` | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | Archer (mercenary), Turkish archer (mercenary), Sich Cossack (mercenary), Dragoon, 18th century (mercenary), Grenadier (mercenary) (+3) |
 | **Housing** `alghou` | **4300** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Stable** `algsta` | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Mosque** `algtem` | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
+| **Stable** `algsta` | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | Don Cossack, Register Cossack, Sich Cossack, Croat, Cuirassier (+25) |
+| **Mosque** `algtem` | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah, Padre, Pope, Priest |
 
 <a id="общий-кластер-12"></a>
-### Shared cluster (12)
+<a id="общие-здания-архитектурной-группы-12"></a>
+### Shared buildings (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -89,7 +92,7 @@ _Algeria_
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
-### Archerand
+### Archers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -159,7 +162,7 @@ _Algeria_
 | **Officer** `officertur` | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | semi-unique (2n) |
 
 <a id="барабанщики-и-волынщики"></a>
-### Drummer, 17th centuryand pipers
+### Drummers and pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -199,6 +202,7 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
 <a id="апгрейды-145"></a>
+<a id="улучшения-145"></a>
 ## Upgrades (145)
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).

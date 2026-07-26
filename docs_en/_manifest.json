@@ -1,690 +1,660 @@
 {
   "root": "docs_en",
-  "title": "Documentation",
+  "title": "Cossacks 3 Encyclopedia",
   "entries": [
     {
-      "path": "architecture.md",
-      "title": "Project architecture",
-      "size": 16435,
-      "lines": 238
-    },
-    {
-      "path": "known_issues.md",
-      "title": "Known issues and disclaimers",
-      "size": 10054,
-      "lines": 188
-    },
-    {
-      "path": "known_issues_archive.md",
-      "title": "Known issues - archive of fixed issues",
-      "size": 4362,
-      "lines": 74
-    },
-    {
       "path": "README.md",
-      "title": "Cossacks 3 — documentation catalog",
-      "size": 8621,
-      "lines": 111
+      "title": "Cossacks 3 Encyclopedia",
+      "size": 4604,
+      "lines": 81
     },
     {
       "path": "recon/README.md",
-      "title": "Recon notes - deep research into mechanics",
-      "size": 9931,
-      "lines": 106
+      "title": "How the Game Works",
+      "size": 4422,
+      "lines": 68
     },
     {
       "path": "recon/systems/ai_behavior.md",
-      "title": "Recon: AI behavior",
-      "size": 23107,
-      "lines": 501
+      "title": "How the Computer Player Works",
+      "size": 23205,
+      "lines": 504
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
-      "title": "Recon: diplomatic centers and mercenaries",
-      "size": 32836,
-      "lines": 667
+      "title": "Mercenaries and the Diplomatic Center",
+      "size": 33030,
+      "lines": 670
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
-      "title": "Recon: scripts and triggers",
-      "size": 10874,
-      "lines": 257
+      "title": "Scenarios and Triggers",
+      "size": 10962,
+      "lines": 260
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
-      "title": "Recon: interface, input and feedback",
-      "size": 23183,
-      "lines": 530
+      "title": "Controls and Player Feedback",
+      "size": 23283,
+      "lines": 533
     },
     {
       "path": "recon/systems/victory_conditions.md",
-      "title": "Recon: victory conditions and end of game",
-      "size": 22117,
-      "lines": 453
+      "title": "Victory, Defeat, and the End of a Match",
+      "size": 22234,
+      "lines": 456
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
-      "title": "Recon: artillery",
-      "size": 10311,
-      "lines": 258
+      "title": "How Artillery Works",
+      "size": 10418,
+      "lines": 261
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
-      "title": "Recon: damage pipeline",
-      "size": 20224,
-      "lines": 464
+      "title": "How Damage Is Calculated",
+      "size": 20330,
+      "lines": 467
     },
     {
       "path": "recon/world/combat/formations.md",
-      "title": "Recon: formations",
-      "size": 19088,
-      "lines": 453
+      "title": "Formations and Their Combat Bonuses",
+      "size": 19294,
+      "lines": 457
     },
     {
       "path": "recon/world/combat/naval_combat.md",
-      "title": "Recon: naval battle",
-      "size": 12844,
-      "lines": 320
+      "title": "How Naval Combat Works",
+      "size": 13038,
+      "lines": 324
     },
     {
       "path": "recon/world/combat/pathfinding.md",
-      "title": "Recon: pathfinding and unit movement",
-      "size": 41380,
-      "lines": 892
+      "title": "Pathfinding and Unit Movement",
+      "size": 41533,
+      "lines": 896
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
-      "title": "Recon: behavior of shooting units",
-      "size": 14634,
-      "lines": 337
+      "title": "Ranged-Unit Behavior",
+      "size": 14739,
+      "lines": 340
     },
     {
       "path": "recon/world/combat/target_selection.md",
-      "title": "Recon: target selection and attack-move",
-      "size": 35513,
-      "lines": 744
+      "title": "Target Selection and Attack-Move",
+      "size": 35615,
+      "lines": 747
     },
     {
       "path": "recon/world/combat/towers.md",
-      "title": "Recon: towers",
-      "size": 11106,
-      "lines": 237
+      "title": "How Towers Work",
+      "size": 11202,
+      "lines": 240
     },
     {
       "path": "recon/world/combat/unit_commands.md",
-      "title": "Recon: commands to units",
-      "size": 12788,
-      "lines": 303
+      "title": "Unit Orders",
+      "size": 12947,
+      "lines": 307
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
-      "title": "Recon: review and fog of war",
-      "size": 9220,
-      "lines": 217
+      "title": "Vision and Fog of War",
+      "size": 9308,
+      "lines": 220
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
-      "title": "Recon: walls and gates",
-      "size": 24176,
-      "lines": 509
+      "title": "Walls and Gates",
+      "size": 24255,
+      "lines": 512
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
-      "title": "Recon: building mechanics",
-      "size": 29478,
-      "lines": 492
+      "title": "Building Construction, Repair, and Destruction",
+      "size": 29682,
+      "lines": 495
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
-      "title": "Recon: capture mechanics",
-      "size": 29520,
-      "lines": 588
+      "title": "How Buildings and Units Are Captured",
+      "size": 29787,
+      "lines": 593
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
-      "title": "Recon: Hunger and Riot",
-      "size": 13906,
-      "lines": 316
+      "title": "Famine and Mercenary Rebellion",
+      "size": 14015,
+      "lines": 319
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
-      "title": "Recon: resource extraction by peasants",
-      "size": 34219,
-      "lines": 744
+      "title": "How Peasants Gather Resources",
+      "size": 34395,
+      "lines": 747
     },
     {
       "path": "recon/world/economy/production_queue.md",
-      "title": "Recon: production queue",
-      "size": 13821,
-      "lines": 328
+      "title": "Production Queues",
+      "size": 13914,
+      "lines": 331
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
-      "title": "Recon: applying upgrades",
-      "size": 21255,
-      "lines": 502
+      "title": "How Upgrades Are Applied",
+      "size": 21363,
+      "lines": 505
     },
     {
       "path": "recon/world/map/game_settings.md",
-      "title": "Recon: lobby settings - what the engine does with each option",
-      "size": 17423,
-      "lines": 366
+      "title": "How Match Settings Affect the Game",
+      "size": 17502,
+      "lines": 369
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
-      "title": "Recon: map generation pipeline",
-      "size": 35949,
-      "lines": 582
+      "title": "How a Random Map Is Generated",
+      "size": 36280,
+      "lines": 588
     },
     {
       "path": "reference/01_economy/README.md",
-      "title": "README",
-      "size": 9946,
+      "title": "Economy",
+      "size": 7704,
       "lines": 180
     },
     {
       "path": "reference/02_combat/README.md",
-      "title": "README",
-      "size": 28192,
-      "lines": 360
+      "title": "Combat and Movement",
+      "size": 3759,
+      "lines": 86
     },
     {
       "path": "reference/03_buildings/README.md",
-      "title": "README",
-      "size": 45882,
-      "lines": 516
+      "title": "Buildings",
+      "size": 38128,
+      "lines": 382
     },
     {
       "path": "reference/04_units/README.md",
-      "title": "README",
-      "size": 24904,
-      "lines": 285
+      "title": "Units",
+      "size": 26229,
+      "lines": 289
     },
     {
       "path": "reference/05_upgrades/README.md",
-      "title": "README",
-      "size": 212734,
-      "lines": 1622
+      "title": "Upgrades",
+      "size": 224760,
+      "lines": 1617
     },
     {
       "path": "reference/06_market/README.md",
-      "title": "Buy amount units of Y:",
-      "size": 8631,
-      "lines": 109
+      "title": "Market",
+      "size": 5137,
+      "lines": 128
     },
     {
       "path": "reference/07_naval/README.md",
-      "title": "README",
-      "size": 6276,
-      "lines": 112
+      "title": "Navy",
+      "size": 5798,
+      "lines": 134
     },
     {
       "path": "reference/compare/buildings/academies.md",
-      "title": "academies",
-      "size": 2334,
-      "lines": 32
+      "title": "Academies",
+      "size": 2481,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/artillery_depots.md",
       "title": "Artillery depots",
-      "size": 3431,
-      "lines": 33
+      "size": 3546,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/barracks.md",
       "title": "Barracks (17th and 18th centuries)",
-      "size": 6872,
-      "lines": 62
+      "size": 7130,
+      "lines": 64
     },
     {
       "path": "reference/compare/buildings/blacksmiths.md",
       "title": "Forges",
-      "size": 2289,
-      "lines": 33
+      "size": 2404,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/diplomatic_centers.md",
       "title": "Diplomatic centers",
-      "size": 4383,
-      "lines": 33
+      "size": 4498,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/houses.md",
       "title": "Housing",
-      "size": 2298,
-      "lines": 33
+      "size": 2413,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/markets.md",
-      "title": "markets",
-      "size": 2170,
-      "lines": 32
+      "title": "Markets",
+      "size": 2438,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/mills.md",
-      "title": "mills",
-      "size": 2174,
-      "lines": 32
+      "title": "Mills",
+      "size": 2321,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/mines.md",
       "title": "Mines",
-      "size": 850,
-      "lines": 12
+      "size": 877,
+      "lines": 13
     },
     {
       "path": "reference/compare/buildings/ports.md",
       "title": "Shipyards",
-      "size": 3425,
-      "lines": 33
+      "size": 3540,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/README.md",
       "title": "Building Comparisons",
-      "size": 233,
-      "lines": 6
+      "size": 250,
+      "lines": 7
     },
     {
       "path": "reference/compare/buildings/stables.md",
       "title": "Stables",
-      "size": 3907,
-      "lines": 33
+      "size": 4022,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/storehouses.md",
       "title": "Storehouses",
-      "size": 2254,
-      "lines": 33
+      "size": 2369,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/temples.md",
       "title": "Cathedrals / Churches / Mosques",
-      "size": 3031,
-      "lines": 33
+      "size": 3146,
+      "lines": 34
     },
     {
       "path": "reference/compare/buildings/towers.md",
-      "title": "towers",
-      "size": 2182,
-      "lines": 31
+      "title": "Towers",
+      "size": 2319,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/town_halls.md",
       "title": "Town Halls",
-      "size": 3474,
-      "lines": 33
+      "size": 3616,
+      "lines": 35
     },
     {
       "path": "reference/compare/README.md",
       "title": "Comparisons",
-      "size": 3653,
-      "lines": 59
+      "size": 3227,
+      "lines": 62
     },
     {
       "path": "reference/compare/units/archers.md",
       "title": "Archeri",
-      "size": 8647,
-      "lines": 59
+      "size": 8860,
+      "lines": 60
     },
     {
       "path": "reference/compare/units/dragoons.md",
       "title": "Dragoons",
-      "size": 11705,
-      "lines": 68
+      "size": 11956,
+      "lines": 69
     },
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Drummer, 17th century and the piper",
-      "size": 7413,
-      "lines": 51
+      "size": 7594,
+      "lines": 52
     },
     {
       "path": "reference/compare/units/grenadiers.md",
       "title": "Grenadiers",
-      "size": 8071,
-      "lines": 53
+      "size": 8260,
+      "lines": 54
     },
     {
       "path": "reference/compare/units/heavy_cavalry.md",
       "title": "Heavy Cavalry",
-      "size": 13255,
-      "lines": 80
+      "size": 13546,
+      "lines": 81
     },
     {
       "path": "reference/compare/units/light_cavalry.md",
       "title": "Light Cavalry",
-      "size": 9115,
-      "lines": 57
+      "size": 9322,
+      "lines": 58
     },
     {
       "path": "reference/compare/units/light_infantry.md",
       "title": "Light Infantry",
-      "size": 9321,
-      "lines": 60
+      "size": 9538,
+      "lines": 61
     },
     {
       "path": "reference/compare/units/musketeers17.md",
       "title": "Musketeers (17th century)",
-      "size": 4533,
-      "lines": 34
+      "size": 4644,
+      "lines": 35
     },
     {
       "path": "reference/compare/units/musketeers18.md",
       "title": "Musketeers (18th century)",
-      "size": 3946,
-      "lines": 31
+      "size": 4045,
+      "lines": 32
     },
     {
       "path": "reference/compare/units/officers.md",
       "title": "Officers",
-      "size": 7747,
-      "lines": 51
+      "size": 7928,
+      "lines": 52
     },
     {
       "path": "reference/compare/units/peasants.md",
       "title": "Peasants",
-      "size": 4305,
-      "lines": 35
+      "size": 4420,
+      "lines": 36
     },
     {
       "path": "reference/compare/units/pikemen.md",
       "title": "Pikemen (17th century)",
-      "size": 4592,
-      "lines": 35
+      "size": 4705,
+      "lines": 36
     },
     {
       "path": "reference/compare/units/pikemen18.md",
       "title": "Pikemen (18th century)",
-      "size": 3714,
-      "lines": 31
+      "size": 3813,
+      "lines": 32
     },
     {
       "path": "reference/compare/units/priests.md",
       "title": "Priests",
-      "size": 1744,
-      "lines": 17
+      "size": 1894,
+      "lines": 19
     },
     {
       "path": "reference/compare/units/README.md",
       "title": "Unit comparisons",
-      "size": 225,
-      "lines": 6
+      "size": 242,
+      "lines": 7
     },
     {
       "path": "reference/compare/units/ships.md",
-      "title": "ships",
-      "size": 22187,
-      "lines": 135
+      "title": "Ships",
+      "size": 22745,
+      "lines": 137
     },
     {
       "path": "reference/compare/units/siege.md",
       "title": "Artillery",
-      "size": 15799,
-      "lines": 95
+      "size": 16161,
+      "lines": 96
     },
     {
       "path": "reference/compare/units/special_infantry_18c.md",
       "title": "Special infantry (18th century)",
-      "size": 2306,
+      "size": 2572,
       "lines": 20
     },
     {
       "path": "reference/compare/weapons/projectiles.md",
       "title": "Weapon catalog (projectile-level)",
-      "size": 3684,
-      "lines": 36
+      "size": 3757,
+      "lines": 38
     },
     {
       "path": "reference/compare/weapons/README.md",
       "title": "Weapon catalog",
-      "size": 390,
-      "lines": 6
+      "size": 454,
+      "lines": 8
     },
     {
       "path": "reference/nations/alg.md",
       "title": "Algeria (`alg`)",
-      "size": 10544,
-      "lines": 214
+      "size": 10919,
+      "lines": 219
     },
     {
       "path": "reference/nations/aus.md",
       "title": "Austria (`aus`)",
-      "size": 12893,
-      "lines": 255
+      "size": 13287,
+      "lines": 260
     },
     {
       "path": "reference/nations/bav.md",
       "title": "Bavaria (`bav`)",
-      "size": 12299,
-      "lines": 244
+      "size": 12693,
+      "lines": 249
     },
     {
       "path": "reference/nations/den.md",
       "title": "Denmark (`den`)",
-      "size": 12311,
-      "lines": 244
+      "size": 12701,
+      "lines": 249
     },
     {
       "path": "reference/nations/eng.md",
       "title": "England (`eng`)",
-      "size": 12553,
-      "lines": 250
+      "size": 12945,
+      "lines": 255
     },
     {
       "path": "reference/nations/fra.md",
       "title": "France (`fra`)",
-      "size": 12812,
-      "lines": 252
+      "size": 13207,
+      "lines": 257
     },
     {
       "path": "reference/nations/hun.md",
       "title": "Hungary (`hun`)",
-      "size": 12767,
-      "lines": 255
+      "size": 13161,
+      "lines": 260
     },
     {
       "path": "reference/nations/net.md",
       "title": "Netherlands (`net`)",
-      "size": 12335,
-      "lines": 244
+      "size": 12731,
+      "lines": 249
     },
     {
       "path": "reference/nations/pie.md",
       "title": "Piedmont (`pie`)",
-      "size": 12287,
-      "lines": 244
+      "size": 12680,
+      "lines": 249
     },
     {
       "path": "reference/nations/pol.md",
       "title": "Poland (`pol`)",
-      "size": 12750,
-      "lines": 249
+      "size": 13155,
+      "lines": 254
     },
     {
       "path": "reference/nations/por.md",
       "title": "Portugal (`por`)",
-      "size": 12633,
-      "lines": 251
+      "size": 13032,
+      "lines": 256
     },
     {
       "path": "reference/nations/pru.md",
       "title": "Prussia (`pru`)",
-      "size": 12473,
-      "lines": 246
+      "size": 12867,
+      "lines": 251
     },
     {
       "path": "reference/nations/README.md",
       "title": "Nations",
-      "size": 2429,
-      "lines": 31
+      "size": 2135,
+      "lines": 32
     },
     {
       "path": "reference/nations/rus.md",
       "title": "Russia (`rus`)",
-      "size": 12683,
-      "lines": 250
+      "size": 13073,
+      "lines": 255
     },
     {
       "path": "reference/nations/sax.md",
       "title": "Saxony (`sax`)",
-      "size": 12473,
-      "lines": 246
+      "size": 12870,
+      "lines": 251
     },
     {
       "path": "reference/nations/sco.md",
-      "title": "sco",
-      "size": 11639,
-      "lines": 233
+      "title": "Scotland (`sco`)",
+      "size": 12023,
+      "lines": 238
     },
     {
       "path": "reference/nations/spa.md",
       "title": "Spain (`spa`)",
-      "size": 12401,
-      "lines": 246
+      "size": 12797,
+      "lines": 251
     },
     {
       "path": "reference/nations/swe.md",
       "title": "Sweden (`swe`)",
-      "size": 12489,
-      "lines": 246
+      "size": 12882,
+      "lines": 251
     },
     {
       "path": "reference/nations/swi.md",
-      "title": "swi",
-      "size": 12708,
-      "lines": 252
+      "title": "Switzerland (`swi`)",
+      "size": 13103,
+      "lines": 257
     },
     {
       "path": "reference/nations/tur.md",
       "title": "Turkey (`tur`)",
-      "size": 11404,
-      "lines": 230
+      "size": 11782,
+      "lines": 235
     },
     {
       "path": "reference/nations/ukr.md",
       "title": "Ukraine (`ukr`)",
-      "size": 9797,
-      "lines": 200
+      "size": 10199,
+      "lines": 205
     },
     {
       "path": "reference/nations/ven.md",
       "title": "Venice (`ven`)",
-      "size": 12094,
-      "lines": 242
+      "size": 12477,
+      "lines": 247
     },
     {
       "path": "reference/README.md",
-      "title": "Cossacks 3 Guide",
-      "size": 10864,
-      "lines": 164
+      "title": "Cossacks 3 Quick Reference",
+      "size": 3780,
+      "lines": 84
     },
     {
       "path": "reports/combat/artillery.md",
       "title": "Artillery - summary reference book",
-      "size": 12880,
-      "lines": 139
+      "size": 13104,
+      "lines": 144
     },
     {
       "path": "reports/combat/attack_rates.md",
-      "title": "Cossacks 3 - Attack speed (per-unit)",
-      "size": 16198,
-      "lines": 195
+      "title": "Attack speed",
+      "size": 16437,
+      "lines": 200
     },
     {
       "path": "reports/combat/combat_stats.md",
       "title": "Cossacks 3 – DPS / EHP / armor metrics",
-      "size": 26767,
-      "lines": 245
+      "size": 25364,
+      "lines": 246
     },
     {
       "path": "reports/combat/counter_matrix.md",
       "title": "Cossacks 3 - Counter-unit matrix",
-      "size": 14595,
+      "size": 14724,
       "lines": 129
     },
     {
       "path": "reports/combat/vision_radii.md",
       "title": "Cossacks 3 – Vision and searchradius",
-      "size": 11206,
-      "lines": 188
+      "size": 11975,
+      "lines": 194
     },
     {
       "path": "reports/economy/builder_slots.md",
       "title": "Cossacks 3 - Builder slots near buildings",
-      "size": 23375,
-      "lines": 515
+      "size": 24083,
+      "lines": 536
     },
     {
       "path": "reports/economy/construction_times.md",
       "title": "Cossacks 3 - Time to build and repair",
-      "size": 109476,
-      "lines": 1225
+      "size": 110337,
+      "lines": 1229
     },
     {
       "path": "reports/economy/efficiency_upgrades.md",
       "title": "Cossacks 3 — Efficiency upgrades per nation",
-      "size": 30777,
-      "lines": 989
+      "size": 31961,
+      "lines": 993
     },
     {
       "path": "reports/economy/production_rates.md",
       "title": "Cossacks 3 - Production Rate",
-      "size": 118396,
-      "lines": 1958
+      "size": 126258,
+      "lines": 2114
     },
     {
       "path": "reports/economy/scaling_prices.md",
       "title": "Cossacks 3 – Building prices for the Nth instance",
-      "size": 50057,
-      "lines": 425
+      "size": 52979,
+      "lines": 447
     },
     {
       "path": "reports/map/lobby_settings.md",
-      "title": "Lobby settings - value reference",
-      "size": 13769,
-      "lines": 332
-    },
-    {
-      "path": "reports/map/map_predictions_validation.md",
-      "title": "Map predictions vs replay ground truth",
-      "size": 30869,
-      "lines": 849
+      "title": "Match settings",
+      "size": 14247,
+      "lines": 343
     },
     {
       "path": "reports/map/map_resources.md",
       "title": "Map resource assessment - Tiny (256×256) + Highlands + Rich mines",
-      "size": 10533,
-      "lines": 163
+      "size": 10898,
+      "lines": 170
     },
     {
       "path": "reports/map/starting_layout.md",
       "title": "Cossacks 3 - Starting layout",
-      "size": 6851,
-      "lines": 99
-    },
-    {
-      "path": "reports/nations/deviations.md",
-      "title": "National deviations - buildings and units",
-      "size": 25742,
-      "lines": 538
+      "size": 7043,
+      "lines": 101
     },
     {
       "path": "reports/nations/overview.md",
-      "title": "Comparison of nations - general overview",
-      "size": 12666,
-      "lines": 143
+      "title": "Nation comparison",
+      "size": 12379,
+      "lines": 152
     },
     {
       "path": "reports/README.md",
-      "title": "Derived reports",
-      "size": 6806,
-      "lines": 83
+      "title": "Tables and Calculations",
+      "size": 2832,
+      "lines": 59
     },
     {
       "path": "reports/tech/tech_tree.md",
       "title": "Cossacks 3 - Tech Tree (by nation)",
-      "size": 237346,
-      "lines": 3100
+      "size": 241277,
+      "lines": 3167
     }
   ]
 }

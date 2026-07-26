@@ -16,7 +16,7 @@ weapon-стат — для юнитов) и показываем, кто отк�
 Здесь — детализированные дельты, которые нельзя восстановить из
 overview.md без перекрёстного чтения per-nation cheatsheet'ов.
 
-Output: docs/reports/nations/deviations.md.
+Output: internals/data/nation_deviations.md.
 """
 from __future__ import annotations
 import sys
@@ -26,10 +26,10 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import (DATA_JSON, PLAYABLE_NATIONS, REPORTS_NATIONS_DIR,
+from config import (DATA_JSON, PLAYABLE_NATIONS, INTERNALS_DIR,
                     NATION_NAMES_RU, USAGE_RU, nation_ru)
 
-MD_PATH = REPORTS_NATIONS_DIR / "deviations.md"
+MD_PATH = INTERNALS_DIR / "data" / "nation_deviations.md"
 
 
 # Per-nation building suffixes (each nation has its own, so 21 records per suffix).
@@ -135,8 +135,8 @@ def render_header() -> list[str]:
     A("# Национальные отклонения — здания и юниты")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "[`data.json`](../../../data.json) скриптом "
-      "[`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).")
+      "[`data.json`](../../data.json) скриптом "
+      "[`compute/compute_nation_deviations.py`](../../compute/compute_nation_deviations.py).")
     A("")
     A("Цель — собрать в одном месте ВСЕ места, где у конкретной нации значение "
       "стата здания или общего юнита отличается от того, что у большинства. "
@@ -151,7 +151,7 @@ def render_header() -> list[str]:
       "отличаются.")
     A("")
     A("Этот отчёт **не дублирует**, а дополняет "
-      "[`reports/nations/overview.md`](overview.md). overview даёт "
+      "[сравнением наций](../../docs/reports/nations/overview.md). Оно даёт "
       "обзор «у кого что есть» (roster size, building coverage, рынок-"
       "кластеры) и top-10 stat-anomalies по HP-разбросу. Здесь же "
       "перечисляются полные стат-отпечатки.")
@@ -175,7 +175,7 @@ def render_buildings_section(buildings: list[dict]) -> list[str]:
       "скрипте читаются через `SetObjBuildingProperties` / "
       "`SetObjBuildingExtProperties`. Если у нации этого здания нет "
       "(например, Украина без Башни и каменных стен — см. "
-      "[`overview.md` §2](overview.md)), она в данной группе не появляется.")
+      "[сравнении наций](../../docs/reports/nations/overview.md), она в данной группе не появляется.")
     A("")
     A("Тип «отпечатка»: HP · buildtime · costpercent · цена · score · "
       "vision · farm · peasantabsorber · consume · weapon (damage/pause/radiusmax) · produces.")
@@ -241,7 +241,7 @@ def render_units_section(units: list[dict]) -> list[str]:
     A("")
     A("Берётся каждый sid юнита, у которого есть запись хотя бы у двух наций "
       "(если у одной — это уникальный юнит, описывается в "
-      "[`reports/nations/overview.md`](overview.md) §3). Записи группируются по "
+      "[сравнении наций](../../docs/reports/nations/overview.md). Записи группируются по "
       "стат-отпечатку (HP / buildtime / цена / щит / скорость / защиты / "
       "consume / weapon-набор). Юниты с одинаковым отпечатком сливаются в "
       "одну группу.")
@@ -327,7 +327,7 @@ def main() -> None:
     L += render_buildings_section(buildings)
     L += render_units_section(units)
 
-    REPORTS_NATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    MD_PATH.parent.mkdir(parents=True, exist_ok=True)
     MD_PATH.write_text("\n".join(L), encoding="utf-8")
     print(f"saved -> {MD_PATH}")
 

@@ -26,6 +26,7 @@ This includes everything that:
 | [engine/](engine/) | Binary, script VM, network model, ticks, RNG. |
 | [scripts/](scripts/) | Structure `data/scripts/*` - load order, entry points that are in each file. |
 | [data/](data/) | `data/` structure: subfolders, file formats (`.parser`, `.pattern`, `.aaf`). |
+| [project/](project/) | Repository architecture, current limitations, and the archive of resolved issues. |
 
 ## engine/
 
@@ -61,6 +62,9 @@ The contents of `data/`: directories, formats, and parsing rules.
 |---|---|
 | [data/layout.md](data/layout.md) | Full review of `data/`: 26 subfolders and what's in each. |
 | [data/file_formats.md](data/file_formats.md) | File formats: `.parser` (text configs), `.pattern` (brush maps), `.aaf` (animations), `.tga`/`.dds` (textures). |
+| [data/game_fields_glossary.md](data/game_fields_glossary.md) | Glossary of internal fields found in `data.json` and game scripts. |
+| [data/nation_deviations.md](data/nation_deviations.md) | Technical fingerprints for national building and unit variants. |
+| [data/map_predictions_validation.md](data/map_predictions_validation.md) | Replay-based calibration of the map-resource model. |
 
 <a id="чем-это-отличается-от-docsrecon"></a>
 ## How is this different from `docs/recon/`

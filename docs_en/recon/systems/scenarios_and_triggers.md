@@ -1,5 +1,8 @@
 <a id="recon-сценарии-и-триггеры"></a>
-# Recon: scripts and triggers
+<a id="сценарии-и-триггеры"></a>
+# Scenarios and Triggers
+
+[← How the game works](../README.md)
 
 Deep dive: how the scenarios work (Historical Battles and
 campaign) - what is a trigger, condition, action, FSM state.

@@ -1,7 +1,7 @@
 <a id="крестьяне"></a>
 # Peasants
 
-[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 8 types of peasants (`peaaus` / `peaeng` / `peapol` / `pearus` / `peaspa` / `peatur` / `peaukr` / `peasco`) — differ in appearance and starting HP.
 
@@ -12,24 +12,24 @@
 
 | Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Peasant** `peaaus` | aus | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaaus` | bav | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaaus` | pru | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaaus` | sax | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaaus` | swi | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaeng` | den | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaeng` | eng | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaeng` | fra | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaeng` | net | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peaeng` | swe | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
-| **Peasant** `peapol` | hun | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
-| **Peasant** `peapol` | pol | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
-| **Serf** `pearus` | rus | 50 | 12.5 | 100 | 0 | 0 | 0.0416 (26) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
-| **Peasant** `peasco` | sco | **60** | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
-| **Peasant** `peaspa` | pie | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
-| **Peasant** `peaspa` | por | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
-| **Peasant** `peaspa` | spa | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
-| **Peasant** `peaspa` | ven | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
-| **Peasant** `peatur` | alg | 50 | 12.5 | 100 | 0 | 0 | 0.0448 (28) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
-| **Peasant** `peatur` | tur | 50 | 12.5 | 100 | 0 | 0 | 0.0448 (28) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
-| **Peasant** `peaukr` | ukr | **75** | **11.25** | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **Peasant** `peaaus` | Austria | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaaus` | Bavaria | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaaus` | Prussia | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaaus` | Saxony | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaaus` | Switzerland | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaeng` | Denmark | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaeng` | England | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaeng` | France | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaeng` | Netherlands | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peaeng` | Sweden | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
+| **Peasant** `peapol` | Hungary | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
+| **Peasant** `peapol` | Poland | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
+| **Serf** `pearus` | Russia | 50 | 12.5 | 100 | 0 | 0 | 0.0416 (26) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **Peasant** `peasco` | Scotland | **60** | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |
+| **Peasant** `peaspa` | Piedmont | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
+| **Peasant** `peaspa` | Portugal | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
+| **Peasant** `peaspa` | Spain | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
+| **Peasant** `peaspa` | Venice | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(4n) |
+| **Peasant** `peatur` | Algeria | 50 | 12.5 | 100 | 0 | 0 | 0.0448 (28) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
+| **Peasant** `peatur` | Turkey | 50 | 12.5 | 100 | 0 | 0 | 0.0448 (28) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
+| **Peasant** `peaukr` | Ukraine | **75** | **11.25** | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | unique |

@@ -31,20 +31,20 @@ MD_PATH = REPORTS_MAP_DIR / "starting_layout.md"
 # These map the startid integer to the symbolic enum name from dmscript.global:1032-1045.
 PRESET_NAMES = {
     -1: "(шаблон — не выбирается)",
-    0:  "default",
-    1:  "armysmall",
-    2:  "armymedium",
-    3:  "armylarge",
-    4:  "peasantslot",
-    5:  "differentnations",
-    6:  "towers",
-    7:  "cannons",
-    8:  "cannonsandhowitzers",
-    9:  "barrack18",
-    10: "barrack17",
-    11: "village",
-    12: "logcabins",
-    13: "union",
+    0:  "По умолчанию",
+    1:  "Армия",
+    2:  "Большая армия",
+    3:  "Огромная армия",
+    4:  "Множество крестьян",
+    5:  "Разные нации",
+    6:  "Башни",
+    7:  "Пушки",
+    8:  "Пушки и гаубицы",
+    9:  "Казармы 18 века",
+    10: "Казарма 17 в.",
+    11: "Деревня",
+    12: "Срубы",
+    13: "Уния",
 }
 
 
@@ -159,7 +159,7 @@ def fmt_resources(r: dict) -> str:
     return " ".join(parts) if parts else "—"
 
 
-def render(circles: dict, grid: dict, presets: list[dict]) -> str:
+def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     cites = Citations()
     L: list[str] = []
     A = L.append
@@ -308,6 +308,101 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("```")
     A("python compute/compute_starting_layout.py")
     A("```")
+    L.extend(cites.render())
+    return "\n".join(L)
+
+
+def render(circles: dict, grid: dict, presets: list[dict]) -> str:
+    """Render the player-facing summary.
+
+    The former source-oriented dump remains above as a reference for the
+    generator, while the public article focuses on what a player sees.
+    """
+    cites = Citations()
+    L: list[str] = []
+    A = L.append
+    A("# Стартовое расположение и ресурсы")
+    A("")
+    A("[← Таблицы и расчёты](../README.md)")
+    A("")
+    A("Эта страница показывает, как располагаются первые крестьяне и где "
+      "генератор старается разместить ближайшие леса и камни. Точная картинка "
+      "каждого матча немного меняется из-за формы рельефа и случайного выбора "
+      "подходящих точек.")
+    A("")
+    A("## Первые крестьяне")
+    A("")
+    count = grid.get("peasant_count")
+    cols = grid.get("cols")
+    rows = grid.get("rows")
+    spacing = grid.get("spacing_tiles")
+    cite = cites.cite(
+        "common.inc/dogenerate.inc:1231-1281",
+        label="расстановка стартовых крестьян",
+    )
+    A(f"В обычном варианте старта появляются **{count} крестьян** сеткой "
+      f"**{cols}×{rows}** с шагом {spacing} тайла {cite}. Вся группа занимает "
+      f"примерно {cols * spacing}×{rows * spacing} тайла; положение каждого "
+      "крестьянина слегка сдвигается случайным образом.")
+    A("")
+    A("Внутри этой небольшой области генератор не размещает природные ресурсы, "
+      "поэтому крестьяне не оказываются внутри леса или каменной россыпи.")
+    A("")
+    A("## Ближайшие леса и камни")
+    A("")
+    A("Вокруг стартовой точки используются три условные зоны:")
+    A("")
+    A("| Зона | Примерное расстояние | Что появляется |")
+    A("| --- | ---: | --- |")
+    A(f"| Внутренняя | до {circles.get('circle1_x', '?')} тайлов | "
+      "Свободное место для стартовой группы |")
+    A(f"| Средняя | примерно {circles.get('circle1_x', '?')}–"
+      f"{circles.get('circle2_x', '?')} тайлов | Ближайшие камни и части леса |")
+    A(f"| Внешняя | примерно {circles.get('circle2_x', '?')}–"
+      f"{circles.get('circle3_x', '?')} тайлов | Дополнительные леса и камни |")
+    A("")
+    A("Генератор несколько раз пробует поставить каждый объект на случайном "
+      "угле и расстоянии. Если рельеф мешает, фактическое положение может "
+      "отличаться от приведённого диапазона. Месторождения золота, железа и "
+      "угля размещаются отдельным алгоритмом.")
+    A("")
+    A("Подробнее: [как создаётся карта](../../recon/world/map/map_generation_pipeline.md) "
+      "и [оценка количества ресурсов](map_resources.md).")
+    A("")
+    A("## Варианты стартовых ресурсов")
+    A("")
+    A("В лобби можно выбрать готовый набор стартовых войск и ресурсов. В "
+      "таблице ниже показаны актуальные записи каждого варианта; названия "
+      "совпадают с русской локализацией игры.")
+    A("")
+    A("| Вариант | Еда | Дерево | Камень | Золото | Железо | Уголь |")
+    A("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+    current_by_id: dict[int, dict] = {}
+    for preset in presets:
+        start_id = preset.get("startid")
+        if start_id is None:
+            continue
+        previous = current_by_id.get(start_id)
+        current_min = preset.get("dataversionmin") or 0
+        previous_min = (previous or {}).get("dataversionmin") or -1
+        if previous is None or current_min >= previous_min:
+            current_by_id[start_id] = preset
+    for start_id, preset in sorted(current_by_id.items()):
+        resources = preset.get("addresources") or {}
+        A("| " + " | ".join([
+            PRESET_NAMES.get(start_id, f"Вариант {start_id}"),
+            str(resources.get("food") or 0),
+            str(resources.get("wood") or 0),
+            str(resources.get("stone") or 0),
+            str(resources.get("gold") or 0),
+            str(resources.get("iron") or 0),
+            str(resources.get("coal") or 0),
+        ]) + " |")
+    A("")
+    A("Некоторые варианты также добавляют здания и войска. Их состав зависит "
+      "от выбранной нации; полный список названий настроек приведён в "
+      "[справочнике по лобби](lobby_settings.md).")
+    A("")
     L.extend(cites.render())
     return "\n".join(L)
 

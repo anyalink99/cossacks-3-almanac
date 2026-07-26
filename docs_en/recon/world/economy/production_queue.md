@@ -1,5 +1,8 @@
 <a id="recon-очередь-производства"></a>
-# Recon: production queue
+<a id="очередь-производства"></a>
+# Production Queues
+
+[← How the game works](../../README.md)
 
 In-depth analysis: how the order queue in buildings works
 (barracks/academy/stable/town hall), how replays work and

@@ -1,6 +1,6 @@
 {
   "root": "internals",
-  "title": "Internals (engine recon)",
+  "title": "Техническая документация",
   "entries": [
     {
       "path": "data/file_formats.md",
@@ -9,10 +9,28 @@
       "lines": 234
     },
     {
+      "path": "data/game_fields_glossary.md",
+      "title": "Глоссарий извлечённых полей игры",
+      "size": 3589,
+      "lines": 51
+    },
+    {
       "path": "data/layout.md",
       "title": "Структура `data/` в Cossacks 3",
       "size": 10079,
       "lines": 198
+    },
+    {
+      "path": "data/map_predictions_validation.md",
+      "title": "Проверка расчётной модели ресурсов карты по реплеям",
+      "size": 31279,
+      "lines": 851
+    },
+    {
+      "path": "data/nation_deviations.md",
+      "title": "Национальные отклонения — здания и юниты",
+      "size": 28967,
+      "lines": 522
     },
     {
       "path": "data/replay_format.md",
@@ -47,7 +65,7 @@
     {
       "path": "engine/rng_implementation.md",
       "title": "Реализация RNG в Cossacks 3",
-      "size": 17319,
+      "size": 17318,
       "lines": 267
     },
     {
@@ -81,10 +99,34 @@
       "lines": 537
     },
     {
+      "path": "project/architecture.md",
+      "title": "Архитектура проекта",
+      "size": 18383,
+      "lines": 233
+    },
+    {
+      "path": "project/known_issues.md",
+      "title": "Known issues и оговорки",
+      "size": 13067,
+      "lines": 177
+    },
+    {
+      "path": "project/known_issues_archive.md",
+      "title": "Known issues — архив исправленных проблем",
+      "size": 5407,
+      "lines": 70
+    },
+    {
+      "path": "project/README.md",
+      "title": "Устройство и сопровождение проекта",
+      "size": 715,
+      "lines": 10
+    },
+    {
       "path": "README.md",
       "title": "Internals — техническое устройство Cossacks 3",
-      "size": 7767,
-      "lines": 95
+      "size": 8462,
+      "lines": 99
     },
     {
       "path": "scripts/structure.md",

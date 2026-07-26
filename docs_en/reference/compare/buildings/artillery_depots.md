@@ -1,7 +1,7 @@
 <a id="артиллерийские-депо"></a>
 # Artillery depots
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 They train guns/mortars. The production list varies (for example, Algeria does not have multicannon).
 
@@ -10,24 +10,24 @@ They train guns/mortars. The production list varies (for example, Algeria does n
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Artillery Depot** `algart` | alg | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `ausart` | aus | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `bavart` | bav | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `denart` | den | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `engart` | eng | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `fraart` | fra | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `hunart` | hun | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `netart` | net | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `pieart` | pie | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `polart` | pol | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `porart` | por | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `pruart` | pru | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `rusart` | rus | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `saxart` | sax | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `scoart` | sco | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `spaart` | spa | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `sweart` | swe | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `swiart` | swi | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `turart` | tur | 40000 | 245.94 | 200 | **500** | **1200** | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `ukrart` | ukr | 40000 | 245.94 | 200 | **4250** | **4400** | **100** | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `venart` | ven | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `algart` | Algeria | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `ausart` | Austria | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `bavart` | Bavaria | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `denart` | Denmark | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `engart` | England | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `fraart` | France | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `hunart` | Hungary | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `netart` | Netherlands | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `pieart` | Piedmont | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `polart` | Poland | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `porart` | Portugal | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `pruart` | Prussia | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `rusart` | Russia | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `saxart` | Saxony | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `scoart` | Scotland | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `spaart` | Spain | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `sweart` | Sweden | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `swiart` | Switzerland | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `turart` | Turkey | 40000 | 245.94 | 200 | **500** | **1200** | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `ukrart` | Ukraine | 40000 | 245.94 | 200 | **4250** | **4400** | **100** | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Artillery Depot** `venart` | Venice | 40000 | 245.94 | 200 | 100 | 1000 | 0 | 0 | cannon, framegun, howitzer, mortar, multicannon |

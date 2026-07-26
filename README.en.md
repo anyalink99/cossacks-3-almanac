@@ -1,49 +1,49 @@
-# Cossacks 3 Almanac
+#Cossacks 3 Almanacs
 
-**English** · [Русский](README.md)
+[English] (README.en.md) * * Russian**
 
-A comprehensive reference for the economy, units, buildings, and upgrades in **Cossacks 3 — Back to War**, extracted directly from game scripts (`unit.script`, `country.script`, `dmscript.global`, and locale files). The repository includes game-file parsers, derived calculations, Markdown/XLSX writers, an economy simulator, and reverse-engineering research.
+A complete guide to the economy, units, buildings and upgrades of the game **Cossacks 3 - Back to War**, extracted directly from game scripts (`unit.script`, `country.script`, `dmscript.global`, locale files). In the repository: parser of game files, a set of derivative calculations, writers for markdown / xlsx, economics simulator and accumulated research mechanics.
 
-> Every number comes from the installed game files. When an external calculator or guide disagrees, prefer this repository; known discrepancies are documented. The pipeline is idempotent, so a game patch can be handled by regenerating all artifacts.
+>> The source of all numbers is the files of the installed game. If something disagrees with external calculators or guides, trust the repository (the discrepancies are documented). Scripts are idempotent: after a game patch, you regenerate the pipeline, and all artifacts are updated.
+
+<a id="cossacks-3-almanac"></a>
+# What's inside
+
+**Ready directory for players** - open directly on GitHub, you do not need to run anything. Everything is in [`docs/`] (docs/):
+
+- [`docs/reference/`] (docs/reference/) - Canonical reference: 7 chapters by topic, 21 nations, 15 side-by-side comparisons
+- [`docs/recon/`] (docs/recon/) - handwritten reverse-engineering game mechanics, broken down by theme:
+`world/economy/` (mining, building, capture, starvation, queue, upgrades), `world/combat/` (damage, formations, target selection, towers, walls, artillery, fleet, review), `world/map/` (map generation, lobby options), `systems/` (AI, mercenaries, victory conditions, scenarios, UI/ent)
+[`docs/reports/`] (docs/reports/) are derived calculations grouped by theme:
+`combat/` (DPS, counter-matrix, attack speed, vision, artillery), `economy/` (scaling, builders, construction, production, slot, efficiency), `tech/` (tech tree), `map/` (resources, launch layout, replay validation), `nations/` (overview, deviations)
+
+** Technical documentation (for developers/modders)** - separate from `docs/` in [`internals/`](internals_en/):
+
+[`internals/engine/`] (internals/engine/) — engine device (Delphi + DWS): native API (4,856 functions), RTTI, RNG, animation system, network packages, tics
+[`internals/scripts/`] (internals/scripts/) — the `data/scripts/*` (load order, entry points) structure
+- [`internals/data/`] (internals/data/) - `data/` game directory: subfolders and file formats (`.parser`, `.pattern`, `.aaf`)
+
+**Machine-readable JSON datasets** - for build editor, simulator, external analyzers:
+
+- [`data.json`] (data.json) - master structure (~5.7 MB): 21 nations, 456 buildings, 714 units, 4,483 upgrades
+- [`derived/`](derived/) - Specialized slices: `tech_tree.json`, `builder_slots.json`, `animations.json`, `game_settings.json`, `canonical_terms.json`, `pattern_*.json`, `replay_ground_truth.json`, plus engine-RE dumps (`dws_native_signatures.json`, `engine_primitives.json`00036, ZXX00037)
+
+**Pipeline for regeneration after game patch:**
+
+- [`parser/`](parser/) - extraction of data from `.script` (Pascal parser with symbolic execution); subfolder [`engine_recon/`](parser/engine_recon/) - extractors from the `cossacks.exe` binary
+- [`compute/`] (compute/) - derived calculations (scaling, map gen, tech tree, construction times, etc.)
+- [`writers/`] (writers/) - generation of markdown directory + diff between snapshots
+- [`simulator/`] (simulator/) - timeline economy simulator (backend for browser editor via Pyodide)
+- [`editor/`] (editor/) - browser build editor (HTML + JS + Pyodide), runs the simulator directly in the browser
+- [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) - a single runner for the entire pipeline
+**Before starting work with `data.json`:** [`internals/project/known_issues.md`] (internals/project/known_issues.md) — a list of current parser gaps, discrepancies with external guides and open empirical questions. Closed issues, including a previous error with mercenary stats, are transferred to [`internals/project/known_issues_archive.md`] (internals/project/known_issues_archive.md).
+
+**Mods** - changes in game logic via C3 mod-loader:
+
+- [`mods/`] (mods/) - each mod as a subfolder with `build.py` (patcher) and the result collected. See [`mods/README.md`] (mods/README.md) for the convention.
 
 <a id="что-внутри"></a>
-## What's inside
-
-**Player reference** — open it directly on GitHub; no local setup is required. The English edition is in [`docs_en/`](docs_en/):
-
-- [`docs_en/reference/`](docs_en/reference/) - canonical reference: 7 chapters on topics, 21 nations, 15 side-by-side comparisons
-- [`docs_en/recon/`](docs_en/recon/) - handwritten reverse-engineering game mechanics, divided into topics:
-  `world/economy/` (production, construction, capture, hunger, queue, upgrades), `world/combat/` (damage, formations, target selection, towers, walls, artillery, fleet, review), `world/map/` (map generation, lobby options), `systems/` (AI, mercenaries, victory conditions, scenarios, UI/input)
-- [`docs_en/reports/`](docs_en/reports/) - derivative calculations grouped by topic:
-  `combat/` (DPS, counter-matrix, attack speed, vision, artillery), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (resources, starting layout, replay validation), `nations/` (overview, deviations)
-
-**Technical documentation for developers and modders** — kept separately in [`internals_en/`](internals_en/):
-
-- [`internals/engine/`](internals_en/engine/) — engine internals (Delphi + DWS): native API (4,856 functions), RTTI, RNG, animation system, network packets, and ticks
-- [`internals/scripts/`](internals_en/scripts/) — `data/scripts/*` structure, load order, and entry points
-- [`internals/data/`](internals_en/data/) — the game's `data/` directory, subdirectories, and file formats (`.parser`, `.pattern`, `.aaf`)
-
-**Machine-readable JSON datasets** - for the build editor, simulator, external analyzers:
-
-- [`data.json`](data.json) — master dataset (~5.7 MB): 21 nations, 456 building rows, 714 unit rows, and 4,483 upgrade rows
-- [`derived/`](derived/) - specialized sections: `tech_tree.json`, `builder_slots.json`, `animations.json`, `game_settings.json`, `canonical_terms.json`, `pattern_*.json`, `replay_ground_truth.json`, plus engine-RE dumps (`dws_native_signatures.json`, `engine_primitives.json`, `exe_strings.json`)
-
-**Pipeline - for regeneration after a game patch:**
-
-- [`parser/`](parser/) — extracting data from `.script` (Pascal parser with symbolic execution); subfolder [`engine_recon/`](parser/engine_recon/) - extractors from the `cossacks.exe` binary
-- [`compute/`](compute/) - derivative calculations (scaling, map gen, tech tree, construction times, etc.)
-- [`writers/`](writers/) - generation of markdown reference + diff between snapshots
-- [`simulator/`](simulator/) - timeline economic simulator (backend for browser editor via Pyodide)
-- [`editor/`](editor/) - browser-based build editor (HTML + JS + Pyodide), launches the simulator directly in the browser
-- [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) - a single runner for the entire pipeline
-**Before building on `data.json`:** read [`docs_en/known_issues.md`](docs_en/known_issues.md) for current parser gaps, discrepancies with external guides, and open empirical questions. Resolved issues, including the former mercenary-stat bug, are recorded in [`docs_en/known_issues_archive.md`](docs_en/known_issues_archive.md).
-
-**Mods** - changes to game logic via C3 mod-loader:
-
-- [`mods/`](mods/) - each mod as a subfolder with `build.py` (patcher) and the collected result. See [`mods/README.md`](mods/README.en.md) for convention.
-
-<a id="структура-репозитория"></a>
-## Repository structure
+## Structure of the repository
 ```
 .
 ├── data.json                master data (~5.7 MB; downstream source of truth)
@@ -69,22 +69,20 @@ A comprehensive reference for the economy, units, buildings, and upgrades in **C
     ├── scripts/             data/scripts/* load order and entry points
     └── data/                data/ directory layout and file formats
 ```
-<a id="быстрый-старт"></a>
+<a id="структура-репозитория"></a>
 ## Quick start
 
-<a id="просто-почитать"></a>
-### Just read
+# Just reading.
 
-GitHub renders markdown - open the required file. Entry points:
+GitHub renders markdown – open the file. Entrance points:
 
-- [`docs/reference/README.md`](docs_en/reference/README.md) - table of contents of the directory + summary
-- [`docs/recon/README.md`](docs_en/recon/README.md) - deep research index
-- [`docs/reports/README.md`](docs_en/reports/README.md) — index of derived reports
+- [`docs/reference/README.md`](docs_en/reference/README.md) - Table of Contents of Reference + Brief Extract
+[`docs/recon/README.md`] (docs/recon/README.md) - Deep Research Index
+- [`docs/reports/README.md`] (docs/reports/README.md) - index of derivative reports
 
-<a id="регенерировать-после-патча-игры"></a>
-### Regenerate after game patch
+Regenerate after the game patch
 
-Requirements: Python 3.11+ and Cossacks 3 (Steam) installed. Default is searched in `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3` - for another path, set the env variable:
+Requirements: Python 3.11+ and installed Cossacks 3 (Steam). Default is searched in `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3` - for another path, set the env variable:
 ```bash
 # Linux/macOS
 export COSSACKS3_PATH="/path/to/Cossacks 3"
@@ -107,7 +105,7 @@ make reports
 make sanity       # parser + 112 sanity checks
 make help
 ```
-What's inside (for step-by-step calling without a runner):
+What is inside (for a turn-based call without a runner):
 ```bash
 python parser/build_data.py                     # → data.json (master data)
 python parser/build_canonical_terms.py          # → derived/canonical_terms.json
@@ -131,16 +129,15 @@ python parser/parse_animations.py               # → derived/animations.json
 python parser/parse_generator_cfg.py            # → derived/pattern_types.json
 python parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json
 ```
-`parser/build_data.py` is the only script that reads game files. All others consume `data.json` and work for <30 seconds in total.
+`parser/build_data.py` is the only script that reads game files. All others consume `data.json` and work in <30 seconds.
 
-<a id="diff-снапшотов-после-патча"></a>
-### Diff snapshots after the patch
+### Diff Snapshots after the patch
 
-One step via make (or manual - three commands below):
+One step through make (or manual - three commands below):
 ```bash
 make diff   # snapshot data.json, regenerate, write diff.md
 ```
-Or manually:
+Or by hand:
 ```bash
 python parser/build_data.py
 cp data.json /tmp/data_old.json
@@ -148,22 +145,20 @@ cp data.json /tmp/data_old.json
 python parser/build_data.py
 python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 ```
-After regeneration in `diff.md`, all stat changes between versions of the game are visible.
+After the regeneration in `diff.md`, you can see all stat changes between versions of the game.
 
 ## Sanity checks
 
-`parser/build_data.py` runs **112 automatic checks** on every invocation and fails when a key game invariant changes: time constants, base resource portions, known unit values, the mine-upgrade chain, market rates, and more. [`parser/README.en.md`](parser/README.en.md) lists the covered categories.
+`parser/build_data.py` runs **112 autochecks** at each launch and feils if the game changes something key (time constants, base portions, known numbers of specific units, mine upgrade chain, market rates). Coverage – `parser/README.md` contains a list of categories.
 
-<a id="что-сейчас-в-данных"></a>
-## What's in the data now
+# What's in the data now
 
-- **Nations:** 21 (playable; mis/tat/lit excluded)
-- **Buildings:** 456 rows (sid×nation)
-- **Units:** 714 lines
-- **Upgrades:** 4,483 rows (with cost, value, `itype`, and prerequisites resolved)
+- **Nations:**21 (playable; mis/tat/lit excluded)
+** Buildings:** 456 lines (sid×nation)
+- ** Units: ** 714 lines
+* Upgrades:** 4483 lines (with full cost/value/itype/prereqs allowed)
 - **Officers/formations:** 231 groups
 
-<a id="лицензия-и-атрибуция"></a>
-## License and Attribution
+License and attribution
 
-This repository contains **derived data only** from publicly distributed Cossacks 3 game files (GSC Game World). Game resources and trademarks belong to their owners. The scripts in this repository are a separate work and are distributed without a special license (use at your own risk).
+This repository contains **only derived data** from publicly distributed Cossacks 3 (GSC Game World) game files. Game resources and trademarks belong to their owners. Scripts in this repository are a separate work, distributed without a special license (use at your own risk).

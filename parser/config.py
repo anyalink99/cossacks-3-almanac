@@ -154,6 +154,8 @@ WEAPON_KIND_RU = {
     "cannonball": "ядро",         # gui.weaponkind.4 = "Урон от ядер"
     "cannister":  "картечь",      # gui.weaponkind.5 = "Урон от картечи"
     "firearrow":  "огненная стрела",  # gui.weaponkind.6 = "Огненные стрелы"
+    "mortarball": "взрыв мортиры",
+    "heal":       "лечение",
 }
 
 # px / tile (dmscript.global:172)
@@ -173,28 +175,28 @@ def px_to_tiles(px: int | float | None) -> float | None:
 # Tuple: (numeric_id, short_label_en, description_en, short_label_ru).
 UPG_TYPE_DECODE = {
     "gc_upg_type_none": (0, "—", "", "—"),
-    "gc_upg_type_lifeperc": (1, "HP %", "Health % bonus", "+HP %"),
+    "gc_upg_type_lifeperc": (1, "HP %", "Health % bonus", "здоровье, %"),
     "gc_upg_type_damage": (2, "+damage", "Adds flat damage to specific weapon kind", "+урон"),
-    "gc_upg_type_damageperc": (3, "+damage %", "Damage % bonus", "+урон %"),
+    "gc_upg_type_damageperc": (3, "+damage %", "Damage % bonus", "урон, %"),
     "gc_upg_type_protection": (4, "+protection", "Adds flat protection vs weapon kinds", "+защита"),
     "gc_upg_type_shield": (5, "+shield", "Shield bonus (negates damage up to N)", "+щит"),
     "gc_upg_type_enableunit": (6, "enable unit", "Unlocks a unit/building", "разблокировка"),
-    "gc_upg_type_effectfood": (7, "+food eff %", "Adds X% to food extraction efficiency", "+эффект. еды %"),
-    "gc_upg_type_effectfoodperc": (8, "+food eff %", "Adds X% to food extraction efficiency", "+эффект. еды %"),
-    "gc_upg_type_effectwood": (9, "+wood eff %", "Adds X% to wood extraction efficiency", "+эффект. дерева %"),
-    "gc_upg_type_effectwoodperc": (10, "+wood eff %", "Adds X% to wood extraction efficiency", "+эффект. дерева %"),
-    "gc_upg_type_effectstone": (11, "+stone eff %", "Adds X% to stone extraction efficiency", "+эффект. камня %"),
-    "gc_upg_type_effectstoneperc": (12, "+stone eff %", "Adds X% to stone extraction efficiency", "+эффект. камня %"),
-    "gc_upg_type_priceperc": (13, "price %", "Modifies unit/building price by %", "цена %"),
-    "gc_upg_type_buildtimeperc": (14, "build time %", "Modifies build time by %", "время постройки %"),
-    "gc_upg_type_attpauseperc": (15, "reload %", "Modifies attack pause (lower = faster)", "перезарядка %"),
-    "gc_upg_type_attrangeperc": (16, "range %", "Modifies attack range %", "дальность %"),
-    "gc_upg_type_attdispertionperc": (17, "accuracy %", "Modifies dispersion (lower = more accurate)", "точность %"),
+    "gc_upg_type_effectfood": (7, "+food eff %", "Adds X% to food extraction efficiency", "добыча еды, %"),
+    "gc_upg_type_effectfoodperc": (8, "+food eff %", "Adds X% to food extraction efficiency", "добыча еды, %"),
+    "gc_upg_type_effectwood": (9, "+wood eff %", "Adds X% to wood extraction efficiency", "добыча дерева, %"),
+    "gc_upg_type_effectwoodperc": (10, "+wood eff %", "Adds X% to wood extraction efficiency", "добыча дерева, %"),
+    "gc_upg_type_effectstone": (11, "+stone eff %", "Adds X% to stone extraction efficiency", "добыча камня, %"),
+    "gc_upg_type_effectstoneperc": (12, "+stone eff %", "Adds X% to stone extraction efficiency", "добыча камня, %"),
+    "gc_upg_type_priceperc": (13, "price %", "Modifies unit/building price by %", "цена, %"),
+    "gc_upg_type_buildtimeperc": (14, "build time %", "Modifies build time by %", "время постройки, %"),
+    "gc_upg_type_attpauseperc": (15, "reload %", "Modifies attack pause (lower = faster)", "перезарядка, %"),
+    "gc_upg_type_attrangeperc": (16, "range %", "Modifies attack range %", "дальность, %"),
+    "gc_upg_type_attdispertionperc": (17, "accuracy %", "Modifies dispersion (lower = more accurate)", "разброс, %"),
     "gc_upg_type_healing": (18, "healing", "Heals all units (one-time)", "лечение"),
-    "gc_upg_type_fishingperc": (19, "+fish eff %", "Increases boat fish capacity", "+рыбалка %"),
+    "gc_upg_type_fishingperc": (19, "+fish eff %", "Increases boat fish capacity", "рыбалка, %"),
     "gc_upg_type_geology": (20, "geology", "Reveals hidden mineral deposits", "геология"),
     "gc_upg_type_balloon": (21, "balloon", "Reveals whole map (Montgolfier)", "монгольфьер"),
-    "gc_upg_type_speedperc": (22, "speed %", "Movement speed %", "скорость %"),
+    "gc_upg_type_speedperc": (22, "speed %", "Movement speed %", "скорость, %"),
     "gc_upg_type_fieldlifeperc": (23, "+field HP %", "Adds X to fieldlife (HP/hit reduction)", "+живучесть поля"),
     "gc_upg_type_single_inside": (24, "+building capacity", "Increases building peasant capacity", "+вместимость здания"),
     "gc_upg_type_single_inside_mine": (25, "+mine workers", "Adds X workers to mine capacity (per mine)", "+рабочих в шахту"),
@@ -307,6 +309,8 @@ NATION_NAMES_RU: dict[str, str] = {}
 NATION_NAMES_EN: dict[str, str] = {}
 BUILDING_NAMES_RU: dict[str, str] = {}  # by suffix: 'cen' → 'Городской центр'
 BUILDING_NAMES_EN: dict[str, str] = {}
+UNIT_NAMES_RU: dict[str, str] = {}
+UNIT_NAMES_EN: dict[str, str] = {}
 
 _CANON_FALLBACK_NATIONS_RU = {
     "aus": "Австрия", "fra": "Франция", "eng": "Англия", "spa": "Испания",
@@ -344,10 +348,13 @@ def _load_canonical_terms() -> None:
     """
     global NATION_NAMES_RU, NATION_NAMES_EN
     global BUILDING_NAMES_RU, BUILDING_NAMES_EN
+    global UNIT_NAMES_RU, UNIT_NAMES_EN
     NATION_NAMES_RU = dict(_CANON_FALLBACK_NATIONS_RU)
     NATION_NAMES_EN = dict(_CANON_FALLBACK_NATIONS_EN)
     BUILDING_NAMES_RU = dict(_CANON_FALLBACK_BUILDINGS_RU)
     BUILDING_NAMES_EN = {}
+    UNIT_NAMES_RU = {}
+    UNIT_NAMES_EN = {}
 
     canon_path = DERIVED_DIR / "canonical_terms.json"
     if not canon_path.exists():
@@ -367,6 +374,11 @@ def _load_canonical_terms() -> None:
             BUILDING_NAMES_RU[suffix] = names["ru"]
         if names.get("en"):
             BUILDING_NAMES_EN[suffix] = names["en"]
+    for sid, names in (canon.get("units") or {}).items():
+        if names.get("ru"):
+            UNIT_NAMES_RU[sid] = names["ru"]
+        if names.get("en"):
+            UNIT_NAMES_EN[sid] = names["en"]
 
 
 _load_canonical_terms()
@@ -375,6 +387,11 @@ _load_canonical_terms()
 def nation_ru(sid: str) -> str:
     """Russian name for a nation sid; falls back to the sid itself."""
     return NATION_NAMES_RU.get(sid, sid)
+
+
+def unit_ru(sid: str, fallback: str = "") -> str:
+    """Canonical Russian unit name, then an optional caller fallback."""
+    return UNIT_NAMES_RU.get(sid) or fallback or sid
 
 
 def nation_en(sid: str) -> str:

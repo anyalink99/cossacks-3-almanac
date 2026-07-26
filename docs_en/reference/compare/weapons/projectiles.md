@@ -1,11 +1,12 @@
 <a id="каталог-оружия-projectile-level"></a>
+<a id="оружие-и-снаряды"></a>
 # Weapon catalog (projectile-level)
 
-[← weapons/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Weapons and projectiles](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 All unique `weaponsid` (types of projectiles and throwing weapons) with their parameters and carrier units. One `weaponsid` can be used by different units with different stats (damage/pause vary), but **kind, dispersion, projectile-id are universal** - they are set in the weapon object itself (see `weapon.script`).
 
-Column `dmg` shows the **range** of values ​​among carrier units (`min..max` if different, otherwise same number). The same for `reload (s)`.
+Column `dmg` shows the **range** of values among carrier units (`min..max` if different, otherwise same number). The same for `reload (s)`.
 
 | weaponsid | kind | dmg | reload(s) | range(t) | cost (per shot) | Carrier units |
 |---|---|---|---:|---:|---|---|

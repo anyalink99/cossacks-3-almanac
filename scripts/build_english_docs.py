@@ -52,6 +52,32 @@ URL_RE = re.compile(r"https?://[^\s)>]+")
 FOOTNOTE_RE = re.compile(r"\[\^[^\]]+]")
 MARKER_RE = re.compile(r"ZXQ[A-Z]+\d{5}QXZ")
 TRANSLATION_CLEANUPS = {
+    "#Switzerland": "# Switzerland",
+    "#Scotland": "# Scotland",
+    "#Academies": "# Academies",
+    "#Markets": "# Markets",
+    "#Mills": "# Mills",
+    "#Towers": "# Towers",
+    "#Ships": "# Ships",
+    "###Building from scratch": "### Building from scratch",
+    "###Phase": "### Phase",
+    "###Who can be captured as a unit": "### Who can be captured as a unit",
+    "###Who's taking over": "### Who captures the unit",
+    "###Cannons": "### Cannons",
+    "Archerand": "Archers",
+    "Drummer, 17th centuryand pipers": "Drummers and pipers",
+    "Roster size and Mythic access": "Roster size and access to the 18th century",
+    "| Combat | Strelkov | Cavalry |": "| Combat | Ranged units | Cavalry |",
+    "`mapsize` - card size": "`mapsize` — map size",
+    "The card size is square": "The map is square",
+    "`gamespeed` - batch speed": "`gamespeed` — game speed",
+    "Urban centers (cen)": "Town Halls (cen)",
+    "Forges (bla)": "Blacksmiths (bla)",
+    "Barracks 17th century. (bar)": "17th-century Barracks (bar)",
+    "Barracks 18th century. (ba2)": "18th-century Barracks (ba2)",
+    "**eng** Russia": "**Russia** (`rus`)",
+    "| `chaika` | Yacht |": "| **Chaika** `chaika` | Yacht |",
+    "### Shared cluster (": "### Shared buildings (",
     "game secondsы": "game seconds",
     "game secondsа": "game seconds",
     "game secondы": "game seconds",
@@ -581,9 +607,189 @@ def translate_markdown(
 
 
 def clean_translation_artifacts(text: str) -> str:
+    text = text.replace("\u200b", "")
     for source, target in TRANSLATION_CLEANUPS.items():
         text = text.replace(source, target)
     return text
+
+
+def clean_reader_report(text: str) -> str:
+    """Keep generated report provenance out of the reader's opening screen."""
+    text = re.sub(
+        r"(?ms)^\*\*Derived[^\n]*\n(?:[^\n]*\n)*?\s*\n",
+        "",
+        text,
+    )
+    text = re.sub(
+        r"(?m)^(?:---\s*\n\s*)?Regeneration:\s*`[^`\n]+`\.?\s*\n?",
+        "",
+        text,
+    )
+    if "[← Tables and calculations]" in text:
+        return text
+
+    lines = text.splitlines()
+    for index, line in enumerate(lines):
+        if re.match(r"^#\s+", line):
+            lines[index + 1:index + 1] = [
+                "",
+                "[← Tables and calculations](../README.md)",
+            ]
+            break
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
+def canonicalize_reader_table_codes(text: str) -> str:
+    """Expand bare nation codes in English reader-facing Markdown tables."""
+    canonical = json.loads(
+        (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+    )
+    nation_names = {
+        sid: str(names.get("en") or sid)
+        for sid, names in (canonical.get("nations") or {}).items()
+    }
+    if not nation_names:
+        return text
+
+    code_list = re.compile(
+        rf"(?:{'|'.join(map(re.escape, nation_names))})"
+        rf"(?:\s*,\s*(?:{'|'.join(map(re.escape, nation_names))}))*"
+    )
+    had_final_newline = text.endswith("\n")
+    output: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            output.append(line)
+            continue
+        if in_fence or not line.startswith("|"):
+            output.append(line)
+            continue
+
+        cells = line.split("|")
+        for index in range(1, len(cells) - 1):
+            value = cells[index].strip()
+            nation_label = re.fullmatch(
+                r"\*\*([a-z]{3})\*\*\s+[^|]+",
+                value,
+            )
+            if nation_label and nation_label.group(1) in nation_names:
+                sid = nation_label.group(1)
+                cells[index] = f" **{nation_names[sid]}** (`{sid}`) "
+                continue
+            if not code_list.fullmatch(value):
+                continue
+            cells[index] = " " + ", ".join(
+                nation_names[code.strip()] for code in value.split(",")
+            ) + " "
+        output.append("|".join(cells))
+    return "\n".join(output) + ("\n" if had_final_newline else "")
+
+
+def canonicalize_reader_nation_headings(text: str) -> str:
+    """Put canonical nation names before internal codes in report headings."""
+    canonical = json.loads(
+        (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+    )
+    nation_names = {
+        sid: str(names.get("en") or sid)
+        for sid, names in (canonical.get("nations") or {}).items()
+    }
+    for sid, name in nation_names.items():
+        text = re.sub(
+            rf"^(##{{1,2}})\s+{sid.upper()}\s+[-—–]\s+{re.escape(name)}\s*$",
+            rf"\1 {name} (`{sid}`)",
+            text,
+            flags=re.MULTILINE,
+        )
+    return text
+
+
+def clean_english_nation_page(text: str) -> str:
+    """Turn generated nation sheets into reader-facing reference pages."""
+    canonical = json.loads(
+        (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+    )
+    unit_names = {
+        sid: str(names.get("en") or sid)
+        for sid, names in (canonical.get("units") or {}).items()
+    }
+
+    heading = re.search(r"^#\s+(.+?)\s+\(`([a-z]{3})`\)\s*$", text, re.MULTILINE)
+    if heading:
+        name, sid = heading.groups()
+        text = text.replace(f"_{name}_\n\n", "", 1)
+        text = text.replace(
+            heading.group(0) + "\n[←",
+            heading.group(0) + "\n\n[←",
+            1,
+        )
+        text = text.replace(
+            "[← Quick reference](../README.md) · [← All nations](README.md)",
+            "[← All nations](README.md) · [← Quick reference](../README.md)",
+            1,
+        )
+
+    cluster_pattern = re.compile(
+        r"## Cluster\n\n"
+        r"- \*\*Shared cluster:\*\* `([^`]+)` \([^\n]+\)\n"
+        r"- \*\*Peasant:\*\* `([^`]+)`\n"
+        r"- \*\*Cluster infantry:\*\* cluster `[^\n]+`"
+    )
+
+    def replace_cluster(match: re.Match[str]) -> str:
+        cluster, peasant = match.groups()
+        peasant_name = unit_names.get(peasant, "Peasant")
+        return (
+            "## Shared features\n\n"
+            f"- **Base peasant:** **{peasant_name}** (`{peasant}`).\n"
+            "- The Mill, Storehouse, Market, and Tower use one of the game's "
+            f"shared architectural sets (internal group `{cluster}`)."
+        )
+
+    text = cluster_pattern.sub(replace_cluster, text)
+    text = text.replace(
+        "| Unit | role | HP | damage | recharge | far (tile) |",
+        "| Unit | Role | Health | Damage | Reload, game s | Range, tiles |",
+    )
+    text = text.replace(
+        "> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.",
+        "> **Bold** marks values that differ from the most common version of the same building.",
+    )
+    text = text.replace(
+        "| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |",
+        "| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |",
+    )
+
+    lines = text.splitlines()
+    produces_column: int | None = None
+    for line_index, line in enumerate(lines):
+        if not line.startswith("|"):
+            produces_column = None
+            continue
+        cells = line.split("|")
+        normalized = [cell.strip().lower() for cell in cells]
+        if "produces" in normalized:
+            produces_column = normalized.index("produces")
+            continue
+        if produces_column is None or produces_column >= len(cells) - 1:
+            continue
+        value = cells[produces_column].strip()
+        if not value or value == "—" or set(value) <= {":", "-", " "}:
+            continue
+        converted: list[str] = []
+        for item in value.split(","):
+            raw = item.strip()
+            match = re.fullmatch(r"([a-z0-9_]+)(\s+\(\+\d+\))?", raw)
+            if not match:
+                converted.append(raw)
+                continue
+            unit_sid, suffix = match.groups()
+            converted.append(unit_names.get(unit_sid, unit_sid) + (suffix or ""))
+        cells[produces_column] = " " + ", ".join(converted) + " "
+        lines[line_index] = "|".join(cells)
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
 
 
 def rewrite_translated_links(
@@ -781,6 +987,19 @@ def main() -> int:
             cleaned = clean_translation_artifacts(
                 canonicalize_fenced_blocks(current, canonical)
             )
+            if target.is_relative_to(ROOT / "docs_en"):
+                cleaned = canonicalize_reader_table_codes(cleaned)
+                cleaned = canonicalize_reader_nation_headings(cleaned)
+            if (
+                target.parent == ROOT / "docs_en" / "reference" / "nations"
+                and target.name != "README.md"
+            ):
+                cleaned = clean_english_nation_page(cleaned)
+            if (
+                target.is_relative_to(ROOT / "docs_en" / "reports")
+                and target.name != "README.md"
+            ):
+                cleaned = clean_reader_report(cleaned)
             cleaned = ensure_heading_aliases(
                 source.read_text(encoding="utf-8"),
                 cleaned,
@@ -813,6 +1032,19 @@ def main() -> int:
         translated = translate_markdown(source_text, canonical, manual_fences)
         translated = rewrite_translated_links(source, target, translated, pairs)
         translated = ensure_heading_aliases(source_text, translated)
+        if target.is_relative_to(ROOT / "docs_en"):
+            translated = canonicalize_reader_table_codes(translated)
+            translated = canonicalize_reader_nation_headings(translated)
+        if (
+            target.parent == ROOT / "docs_en" / "reference" / "nations"
+            and target.name != "README.md"
+        ):
+            translated = clean_english_nation_page(translated)
+        if (
+            target.is_relative_to(ROOT / "docs_en" / "reports")
+            and target.name != "README.md"
+        ):
+            translated = clean_reader_report(translated)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(translated, encoding="utf-8")
         return source, target

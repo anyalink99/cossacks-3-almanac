@@ -1,4 +1,6 @@
-# Recon: pipeline генерации карты
+# Как создаётся случайная карта
+
+[← Как устроена игра](../../README.md)
 
 Полный таймлайн `DoGenerate`. Точка входа — `ExecuteState('DoGenerate')` [^1].
 Все ссылки на код и Pascal-блоки собраны в разделе [Источники](#источники)
@@ -305,7 +307,7 @@ flowchart TB
 
 ---
 
-## 14. Empirical validation pipeline (replay-based ground truth)
+## 14. Проверка расчётной модели по реплеям
 
 **С 2026-04-29:** есть infrastructure для *эмпирической* валидации модели против реальных save/replay-файлов. Это превращает §10 из «гипотез» в «измерения».
 
@@ -376,7 +378,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 ---
 
-## 11. Ключевые файлы pipeline
+## 11. Ключевые файлы алгоритма
 
 | Что | Где | Строки |
 |---|---|---|
@@ -390,7 +392,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 ---
 
-## 12. Seed space — что определяет уникальную карту
+## 12. Что определяет уникальную карту
 
 При фиксированных параметрах (terrain + mapsize + relief + mines + players) карта однозначно задаётся парой `(inputbitmap, randkey0/randkey1)`:
 

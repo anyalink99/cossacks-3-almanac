@@ -24,6 +24,7 @@
 | [engine/](engine/) | Бинарь, скриптовый VM, сетевая модель, тики, RNG. |
 | [scripts/](scripts/) | Структура `data/scripts/*` — load order, точки входа, что в каждом файле. |
 | [data/](data/) | Структура `data/`: подпапки, форматы файлов (`.parser`, `.pattern`, `.aaf`). |
+| [project/](project/) | Архитектура этого репозитория, ограничения и журнал решённых проблем. |
 
 ## engine/
 
@@ -59,6 +60,9 @@ Ghidra/IDA, только через парсинг бинарника на Pytho
 |---|---|
 | [data/layout.md](data/layout.md) | Полный обзор `data/`: 26 подпапок и что в каждой. |
 | [data/file_formats.md](data/file_formats.md) | Форматы файлов: `.parser` (текстовые конфиги), `.pattern` (карты-кисти), `.aaf` (анимации), `.tga`/`.dds` (текстуры). |
+| [data/game_fields_glossary.md](data/game_fields_glossary.md) | Глоссарий технических полей из `data.json` и скриптов игры. |
+| [data/nation_deviations.md](data/nation_deviations.md) | Технические отпечатки национальных вариантов зданий и юнитов. |
+| [data/map_predictions_validation.md](data/map_predictions_validation.md) | Калибровка расчётной модели ресурсов карты по данным реплеев. |
 
 ## Чем это отличается от `docs/recon/`
 

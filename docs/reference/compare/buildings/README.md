@@ -1,5 +1,5 @@
 # Сравнения зданий
 
-[← compare/](../README.md) · [← Index](../../README.md)
+[← Все сравнения](../README.md) · [← Краткий справочник](../../README.md)
 
-См. [списком в compare/README.md](../README.md#buildingsreadmemd--сравнения-зданий).
+Выберите нужный тип в [общем списке сравнений](../README.md#здания).

@@ -1,5 +1,8 @@
 <a id="cossacks-3--слоты-строителей-у-зданий"></a>
+<a id="максимальное-число-строителей"></a>
 # Cossacks 3 - Builder slots near buildings
+
+[← Tables and calculations](../README.md)
 
 How many peasants can build a building at the same time? Counted from `collisionmaskproperty.Mask` of each `.prop` file in `data/objects/buildings/` according to a rule empirically consistent with the game.
 
@@ -38,7 +41,8 @@ How many peasants can build a building at the same time? Counted from `collision
 **Gates** (`*sga`, `*wga`, `*sga_*`, `*wga_*`) appear as **instant** custom upgrade `gc_upg_type_single_buildgate` on the selected wall segment: the new gate object immediately becomes `bbuilt = True, hp = maxhp` via fast-path `if (bwall) and (upglevel>0) then hp := maxhp` to `_unit_ControlBuildProgress`. Peasants are not involved in the construction of the gate. The slots in the tables below refer to the wall segments themselves and are used to repair them.
 
 <a id="городские-центры-cen"></a>
-## Urban centers (cen)
+<a id="городские-центры"></a>
+## Town Halls (cen)
 
 | sid | bbox | cells | comp. | method | slots |
 |---|---|---:|---:|---|---:|
@@ -65,6 +69,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukrcen` | 15x14 | 124 | 1 | walker | **29** |
 
 <a id="склады-sto"></a>
+<a id="склады"></a>
 ## Storehouses (sto)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -75,6 +80,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `eursto` | 6x3 | 5 | 2 | bbox_union | **9** |
 
 <a id="мельницы-mil"></a>
+<a id="мельницы"></a>
 ## Mills (mil)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -84,6 +90,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `turmil` | 8x8 | 41 | 1 | walker | **16** |
 
 <a id="дома-hou"></a>
+<a id="дома"></a>
 ## Housing (hou)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -111,6 +118,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `rushou` | 9x8 | 45 | 1 | walker | **17** |
 
 <a id="конюшни-sta"></a>
+<a id="конюшни"></a>
 ## Stables (sta)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -137,6 +145,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukrsta` | 13x13 | 97 | 1 | walker | **26** |
 
 <a id="базары-mar"></a>
+<a id="рынки"></a>
 ## Markets (mar)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -147,6 +156,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `eurmar` | 14x11 | 83 | 1 | walker | **25** |
 
 <a id="дипломатические-центры-dip"></a>
+<a id="дипломатические-центры"></a>
 ## Diplomatic centers (dip)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -173,6 +183,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ausdip` | 12x12 | 76 | 1 | walker | **24** |
 
 <a id="храмы-tem"></a>
+<a id="храмы"></a>
 ## Temples (tem)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -199,7 +210,8 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ventem` | 18x18 | 191 | 1 | walker | **30** |
 
 <a id="казармы-17-в-bar"></a>
-## Barracks 17th century. (bar)
+<a id="казармы-xvii-века"></a>
+## 17th-century Barracks (bar)
 
 | sid | bbox | cells | comp. | method | slots |
 |---|---|---:|---:|---|---:|
@@ -225,7 +237,8 @@ How many peasants can build a building at the same time? Counted from `collision
 | `polbar` | 14x13 | 113 | 1 | walker | **27** |
 
 <a id="казармы-18-в-ba2"></a>
-## Barracks 18th century. (ba2)
+<a id="казармы-xviii-века"></a>
+## 18th-century Barracks (ba2)
 
 | sid | bbox | cells | comp. | method | slots |
 |---|---|---:|---:|---|---:|
@@ -249,7 +262,8 @@ How many peasants can build a building at the same time? Counted from `collision
 | `scoba2` | 15x15 | 123 | 1 | walker | **30** |
 
 <a id="кузницы-bla"></a>
-## Forges (bla)
+<a id="кузницы"></a>
+## Blacksmiths (bla)
 
 | sid | bbox | cells | comp. | method | slots |
 |---|---|---:|---:|---|---:|
@@ -275,6 +289,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukrbla` | 10x9 | 54 | 1 | walker | **19** |
 
 <a id="академии-aca"></a>
+<a id="академии"></a>
 ## Academies (aca)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -301,6 +316,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukraca` | 17x17 | 121 | 1 | walker | **30** |
 
 <a id="артиллерийские-депо-art"></a>
+<a id="артиллерийские-депо"></a>
 ## Artillery depots (art)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -327,6 +343,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukrart` | 17x14 | 141 | 1 | walker | **30** |
 
 <a id="порты-por"></a>
+<a id="порты"></a>
 ## Shipyards (por)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -338,6 +355,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `ukrpor` | 15x21 | 188 | 1 | walker | **30** |
 
 <a id="башни-tow"></a>
+<a id="башни"></a>
 ## Towers (tow)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -347,6 +365,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `turtow` | 7x7 | 37 | 1 | walker | **14** |
 
 <a id="шахты-golirocoa"></a>
+<a id="шахты"></a>
 ## Mines (gol/iro/coa)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -356,6 +375,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `eurcoa` | 8x8 | 52 | 1 | walker | **16** |
 
 <a id="стены-swawwa"></a>
+<a id="стены"></a>
 ## Walls (swa/wwa)
 
 | sid | bbox | cells | comp. | method | slots |
@@ -367,6 +387,7 @@ How many peasants can build a building at the same time? Counted from `collision
 | `eurwwa` | 6x7 | 30 | 1 | walker | **13** |
 
 <a id="ворота-sgawga"></a>
+<a id="ворота"></a>
 ## Gate (sga/wga)
 
 | sid | bbox | cells | comp. | method | slots |

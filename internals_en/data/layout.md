@@ -20,7 +20,7 @@ common/Cossacks 3/data/`), what format is there and who parses it.
 | `gui/` | 139 | 2.4 MiB | UI elements (.aix, .cfg, .inc) |
 | `hud/` | 180 | 153 MiB | HUD textures (icons, buttons) |
 | `images/` | 22 | 6.3 MiB | Loading screens, etc. |
-| `locale/` | 2,187 | 20 MiB | Localization into 7+ languages ​​|
+| `locale/` | 2,187 | 20 MiB | Localization into 7+ languages |
 | `maps/` | 68 | 1.7 GiB | Ready cards (`.map`, `.aix`) |
 | `materials/` | 866 | 2.9 GiB | Materials and textures (`.mat`, `.dds`) |
 | `objects/` | 1,290 | 3.4 MiB | Per-unit/building `.parser`-configs (see below) |

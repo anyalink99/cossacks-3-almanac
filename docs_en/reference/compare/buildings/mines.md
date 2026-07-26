@@ -1,7 +1,7 @@
 <a id="шахты"></a>
 # Mines
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 The mines produce `coal` / `gold` / `iron`. The script accidentally uses `commonsid+'X'` for all clusters (eur/rus/tur/ukr/sco), but the stats are general: the surface parser only uses the `eur*` version, because all clusters inherit the same HP/price/rate. There are **no Cluster-specific mines** - this is a single model for all nations.
 

@@ -1,19 +1,21 @@
+<a id="россия"></a>
 # Russia (`rus`)
-_Russia_
 
-[← Index](../README.md) · [← All nations](README.md)
+
+
+[← All nations](README.md) · [← Quick reference](../README.md)
 
 <a id="кластер"></a>
-## Cluster
+<a id="общие-особенности"></a>
+## Shared features
 
-- **Shared cluster:** `rus` (mill/sto/mar/tow use the suffix `rus+`)
-- **Peasant:** `pearus`
-- **Cluster infantry:** cluster `rus`
+- **Base peasant:** **Serf** (`pearus`).
+- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `rus`).
 
 <a id="уникальные-юниты-7"></a>
 ## Unique units (7)
 
-| Unit | role | HP | damage | recharge | far (tile) |
+| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
 |---|---|---:|---:|---:|---:|
 | **Don Cossack** `cossackdon` | Heavy Cavalry | 220 | 13 | 0.0 | 1.88 |
 | **Drummer, 17th century** `drummerrus` | Light Infantry | 100 | — | — | — |
@@ -29,23 +31,24 @@ _Russia_
 <a id="уникальные-для-нации-10"></a>
 ### Unique to the nation (10)
 
-> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
+> **Bold** marks values that differ from the most common version of the same building.
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Academy** `rusaca` | **65000** | **843.75** | 300 | 0 | 1250 | **1300** | 0 | 0 | 0 | 0 | — |
-| **Artillery Depot** `rusart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Barracks, 18th century** `rusba2` | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Strelets Barracks** `rusbar` | **25000** | **78.12** | **300** | 0 | **200** | **20** | **0** | 0 | 0 | **25** | archer, archertur, drummer, drummerrus, drummertur (+24) |
+| **Artillery Depot** `rusart` | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon, Frame gun, Howitzer, Bombard, Multi-barrelled Cannon |
+| **Barracks, 18th century** `rusba2` | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman, Bagpiper, Chasseur, Drummer, 18th century, Grenadier (+19) |
+| **Strelets Barracks** `rusbar` | **25000** | **78.12** | **300** | 0 | **200** | **20** | **0** | 0 | 0 | **25** | Archer, Turkish archer, Drummer, 17th century, Drummer, 17th century, Drummer, 17th century (+24) |
 | **Blacksmith** `rusbla` | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Town Hall** `ruscen` | **4050** | 156.25 | 300 | 0 | **680** | 700 | 0 | 0 | 0 | **75** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Diplomatic Center** `rusdip` | **6500** | 312.5 | 100 | 0 | **7900** | **3700** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Town Hall** `ruscen` | **4050** | 156.25 | 300 | 0 | **680** | 700 | 0 | 0 | 0 | **75** | Peasant, Peasant, Peasant, Serf, Peasant (+3) |
+| **Diplomatic Center** `rusdip` | **6500** | 312.5 | 100 | 0 | **7900** | **3700** | 0 | 0 | 0 | 0 | Archer (mercenary), Turkish archer (mercenary), Sich Cossack (mercenary), Dragoon, 18th century (mercenary), Grenadier (mercenary) (+3) |
 | **Izba** `rushou` | **5000** | 31.25 | 104 | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
-| **Stable** `russta` | **25000** | **375.0** | 200 | 0 | **7950** | **0** | **550** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Orthodox Cathedral** `rustem` | **4500** | 156.25 | 300 | 0 | **1150** | **1650** | **100** | 500 | 0 | 0 | mullah, padre, pope, priest |
+| **Stable** `russta` | **25000** | **375.0** | 200 | 0 | **7950** | **0** | **550** | 0 | 0 | 0 | Don Cossack, Register Cossack, Sich Cossack, Croat, Cuirassier (+25) |
+| **Orthodox Cathedral** `rustem` | **4500** | 156.25 | 300 | 0 | **1150** | **1650** | **100** | 500 | 0 | 0 | Mullah, Padre, Pope, Priest |
 
 <a id="общий-кластер-12"></a>
-### Shared cluster (12)
+<a id="общие-здания-архитектурной-группы-12"></a>
+### Shared buildings (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -117,7 +120,7 @@ _Russia_
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
-### Archerand
+### Archers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -193,7 +196,7 @@ _Russia_
 | **Commander** `officerrus` | 125 | 12.5 | 100 | 125 | 5 | 40 | 1.22 | 0.0 | unique |
 
 <a id="барабанщики-и-волынщики"></a>
-### Drummer, 17th centuryand pipers
+### Drummers and pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -233,6 +236,7 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 | `swordsmansco` | `swordsmansco` | swordsmansco |
 
 <a id="апгрейды-219"></a>
+<a id="улучшения-219"></a>
 ## Upgrades (219)
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).

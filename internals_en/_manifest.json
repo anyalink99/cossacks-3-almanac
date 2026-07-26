@@ -1,6 +1,6 @@
 {
   "root": "internals_en",
-  "title": "Internals (engine recon)",
+  "title": "Technical documentation",
   "entries": [
     {
       "path": "data/file_formats.md",
@@ -9,10 +9,28 @@
       "lines": 242
     },
     {
+      "path": "data/game_fields_glossary.md",
+      "title": "Extracted game-field glossary",
+      "size": 2561,
+      "lines": 55
+    },
+    {
       "path": "data/layout.md",
       "title": "Structure `data/` in Cossacks 3",
-      "size": 8111,
+      "size": 8105,
       "lines": 204
+    },
+    {
+      "path": "data/map_predictions_validation.md",
+      "title": "Replay-based validation of the map resource model",
+      "size": 31029,
+      "lines": 853
+    },
+    {
+      "path": "data/nation_deviations.md",
+      "title": "National deviations — buildings and units",
+      "size": 25198,
+      "lines": 544
     },
     {
       "path": "data/replay_format.md",
@@ -23,7 +41,7 @@
     {
       "path": "engine/animation_system.md",
       "title": "Animation system: timings, cycles, impact point",
-      "size": 21113,
+      "size": 21101,
       "lines": 500
     },
     {
@@ -47,25 +65,25 @@
     {
       "path": "engine/rng_implementation.md",
       "title": "Implementation of RNG in Cossacks 3",
-      "size": 12539,
+      "size": 12530,
       "lines": 267
     },
     {
       "path": "engine/rtti_class_map.md",
       "title": "Delphi engine class map (RTTI)",
-      "size": 15305,
+      "size": 15293,
       "lines": 333
     },
     {
       "path": "engine/script_modding_constraints.md",
       "title": "Scripting restrictions when modding: DoDamage and unit death",
-      "size": 6544,
+      "size": 6538,
       "lines": 149
     },
     {
       "path": "engine/server_sync_architecture.md",
       "title": "Recon: server architecture and network synchronization",
-      "size": 23851,
+      "size": 23845,
       "lines": 534
     },
     {
@@ -81,10 +99,34 @@
       "lines": 542
     },
     {
+      "path": "project/architecture.md",
+      "title": "Project architecture",
+      "size": 16447,
+      "lines": 238
+    },
+    {
+      "path": "project/known_issues.md",
+      "title": "Known issues and disclaimers",
+      "size": 10835,
+      "lines": 194
+    },
+    {
+      "path": "project/known_issues_archive.md",
+      "title": "Known issues - archive of fixed issues",
+      "size": 4393,
+      "lines": 74
+    },
+    {
+      "path": "project/README.md",
+      "title": "Project architecture and maintenance",
+      "size": 538,
+      "lines": 11
+    },
+    {
       "path": "README.md",
       "title": "Cossacks 3 internals",
-      "size": 6254,
-      "lines": 100
+      "size": 6748,
+      "lines": 104
     },
     {
       "path": "scripts/structure.md",

@@ -1,32 +1,33 @@
-#Markets
+<a id="рынки"></a>
+# Markets
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Point of exchange of resources and purchase. One option per cluster.
+Building for resource exchange. The appearance depends on the architectural group.
 
-> **Base values** (column mode): HP = 4000, Time (g-sec) = 234.38, cost% = 2000, W = 450, S = 0, G = 0, farm = 0.
+> **Base values** (column mode): health = 4000, construction time (game s) = 234.38, price increase = 2000, wood = 450, stone = 0, gold = 0, population locations = 0.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Time for construction and games. with | Price growth, % | Wood | Stone | Gold | Population places | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Bazaar** `turmar` | alg | **4500** | 234.38 | **1500** | 450 | **150** | 0 | 0 | — |
-| **Market** `eurmar` | aus | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | bav | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | den | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | eng | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | fra | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | hun | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | net | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | pie | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | pol | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `spamar` | por | 4000 | **156.25** | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | pru | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `rusmar` | rus | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | sax | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | sco | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `spamar` | spa | 4000 | **156.25** | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | swe | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | swi | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Bazaar** `turmar` | tur | **4500** | 234.38 | **1500** | 450 | **150** | 0 | 0 | — |
-| **Market** `rusmar` | ukr | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
-| **Market** `eurmar` | ven | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Bazaar** `turmar` | Algeria | **4500** | 234.38 | **1500** | 450 | **150** | 0 | 0 | — |
+| **Market** `eurmar` | Austria | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Bavaria | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Denmark | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | England | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | France | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Hungary | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Netherlands | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Piedmont | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Poland | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `spamar` | Portugal | 4000 | **156.25** | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Prussia | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `rusmar` | Russia | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Saxony | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Scotland | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `spamar` | Spain | 4000 | **156.25** | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Sweden | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Switzerland | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Bazaar** `turmar` | Turkey | **4500** | 234.38 | **1500** | 450 | **150** | 0 | 0 | — |
+| **Market** `rusmar` | Ukraine | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Venice | 4000 | 234.38 | 2000 | 450 | 0 | 0 | 0 | — |

@@ -1,30 +1,31 @@
 <a id="нации"></a>
 # Nations
 
-[← Index](../README.md)
+[← Quick reference](../README.md)
 
-Complete list of 21 available nations. Each link is a separate reference with unique units, buildings, upgrades and dependencies.
+Choose one of the 21 playable nations. Each page lists its unique units,
+building differences, access to the 18th century, and upgrades.
 
-| ID | sid | English | rus. | cluster | peasant | unique units |
-|---:|---|---|---|---|---|---|
-| 0 | [`aus`](aus.md) | Austria | Austria | `eur` | `peaaus` | croat, musketeeraus, pandur, roundshier |
-| 1 | [`fra`](fra.md) | France | France | `eur` | `peaeng` | chasseur, dragoon18fra, kingmusketeer |
-| 2 | [`eng`](eng.md) | England | England | `eur` | `peaeng` | highlander |
-| 3 | [`spa`](spa.md) | Spain | Spain | `eur` | `peaspa` | musketeerspa, pikemanspa |
-| 4 | [`rus`](rus.md) | Russia | Russia | `rus` | `pearus` | cossackdon, pikemanrus, strelet, vityaz |
-| 5 | [`ukr`](ukr.md) | Ukraine | Ukraine | `rus` | `peaukr` | chaika, cossackregister, cossacksich, hetman, serdiuk |
-| 6 | [`pol`](pol.md) | Poland | Poland | `eur` | `peapol` | dragoonpol, musketeerpol, pikemanpol, reiterpol, wingedhussar |
-| 7 | [`swe`](swe.md) | Sweden | Sweden | `eur` | `peaeng` | hackapell, pikeman18swe, reiterswe |
-| 8 | [`pru`](pru.md) | Prussia | Prussia | `eur` | `peaaus` | grenadierpru, hussarpru, musketeer18pru |
-| 9 | [`ven`](ven.md) | Venice | Venice | `eur` | `peaspa` | — |
-| 10 | [`tur`](tur.md) | Turkey | Turkey | `tur` | `peatur` | archertur, jannisary, sipahi, spakh, tatar (+1) |
-| 11 | [`alg`](alg.md) | Algeria | Algeria | `tur` | `peatur` | archer, mameluke |
-| 12 | [`net`](net.md) | Netherlands | Netherlands | `eur` | `peaeng` | dragoon18net, musketeernet |
-| 13 | [`den`](den.md) | Denmark | Denmark | `eur` | `peaeng` | grenadierden, musketeer18den |
-| 14 | [`por`](por.md) | Portugal | Portugal | `eur` | `peaspa` | jagerpor, pikemanpor |
-| 15 | [`pie`](pie.md) | Piedmont | Piedmont | `eur` | `peaspa` | dragoon18pie |
-| 16 | [`sax`](sax.md) | Saxony | Saxony | `eur` | `peaaus` | grenadiersax, guardcavalrysax, musketeer18sax |
-| 17 | [`bav`](bav.md) | Bavaria | Bavaria | `eur` | `peaaus` | grenadierbav, musketeer18bav |
-| 18 | [`hun`](hun.md) | Hungary | Hungary | `eur` | `peapol` | gauduk, grenadierhun, hussarhun, lightcavalry, pandurhun |
-| 19 | [`swi`](swi.md) | Switzerland | Switzerland | `eur` | `peaaus` | hussarswi, jagerswi, pikemanswi |
-| 20 | [`sco`](sco.md) | Scotland | Scotland | `eur` | `peasco` | archersco, framegun, lancersco, musketeersco, pikemansco (+2) |
+| Nation | Code | 18th century | Unique units |
+|---|---|:---:|---|
+| [**Austria**](aus.md) | `aus` | ✓ | Croat, Musketeer (17th century), Pandur, Roundshier |
+| [**France**](fra.md) | `fra` | ✓ | Chasseur, Dragoon (18th century), King's Musketeer |
+| [**England**](eng.md) | `eng` | ✓ | Highlander |
+| [**Spain**](spa.md) | `spa` | ✓ | Musketeer (17th century), Coselete |
+| [**Russia**](rus.md) | `rus` | ✓ | Don Cossack, Spearman, Strelets, Vityaz |
+| [**Ukraine**](ukr.md) | `ukr` | — | Chaika, Register Cossack, Sich Cossack, Hetman, Serdiuk |
+| [**Poland**](pol.md) | `pol` | ✓ | Pospolite ruszenie, Musketeer (17th century), Pikeman (17th century), Light Reiter, Winged Hussar |
+| [**Sweden**](swe.md) | `swe` | ✓ | Hakkapeliitta, Pikeman (18th century), Swedish Reiter |
+| [**Prussia**](pru.md) | `pru` | ✓ | Grenadier, Hussar, Musketeer (18th century) |
+| [**Venice**](ven.md) | `ven` | ✓ | — |
+| [**Turkey**](tur.md) | `tur` | — | Turkish Archer, Janissary, Heavy Sipahi, Light Sipahi, Tatar (+1) |
+| [**Algeria**](alg.md) | `alg` | — | Archer, Mameluke |
+| [**Netherlands**](net.md) | `net` | ✓ | Dragoon (18th century), Musketeer (17th century) |
+| [**Denmark**](den.md) | `den` | ✓ | Grenadier, Musketeer (18th century) |
+| [**Portugal**](por.md) | `por` | ✓ | Volunteer, Pikeman (17th century) |
+| [**Piedmont**](pie.md) | `pie` | ✓ | Dragoon (18th century) |
+| [**Saxony**](sax.md) | `sax` | ✓ | Grenadier, Guard Cavalryman, Musketeer (18th century) |
+| [**Bavaria**](bav.md) | `bav` | ✓ | Grenadier, Musketeer (18th century) |
+| [**Hungary**](hun.md) | `hun` | ✓ | Hajduk, Grenadier, Hussar, Light Cavalryman, Szekely |
+| [**Switzerland**](swi.md) | `swi` | ✓ | Mounted Chasseur, Chasseur, Pikeman (17th century) |
+| [**Scotland**](sco.md) | `sco` | ✓ | Clan Archer, Frame Gun, Lancer, Covenanter Musketeer, Covenanter Pikeman (+2) |

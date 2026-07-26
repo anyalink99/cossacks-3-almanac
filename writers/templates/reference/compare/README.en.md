@@ -1,16 +1,18 @@
 <a id="сравнения"></a>
 # Comparisons
 
-**English** · [Русский](README.md)
+[English](README.en.md) · **Russian**
 
-[← Index](../README.md)
+[← Quick Reference](../README.md)
 
-Parallel tables for all nations. Base values ​​(column mode) - above the table in each file; deviations are highlighted in **bold**.
+Here similar units and buildings of different nations can be matched row by row.
+The most common value is considered the base value, and differences are highlighted
+**bold**.
 
-<a id="unitsunitsreadmemd--сравнения-юнитов"></a>
-## [units/](units/README.md) - unit comparisons
+<a id="юнитыunitsreadmemd"></a>
+## [Units](units/README.md)
 
-| File | What compares |
+| Comparison | What's inside |
 |---|---|
 | [units/pikemen.md](units/pikemen.md) | All 17th century. pikemen |
 | [units/pikemen18.md](units/pikemen18.md) | All 18th century. pikemen |
@@ -30,10 +32,10 @@ Parallel tables for all nations. Base values ​​(column mode) - above the tab
 | [units/drummers.md](units/drummers.md) | Drummer, 17th century and the piper |
 | [units/priests.md](units/priests.md) | Priests - `priest`/`pope`/`mullah`/`padre` with heal-specific table (radius and healing power) |
 
-<a id="buildingsbuildingsreadmemd--сравнения-зданий"></a>
-## [buildings/](buildings/README.md) - building comparisons
+<a id="зданияbuildingsreadmemd"></a>
+## [Buildings](buildings/README.md)
 
-| File | What compares |
+| Comparison | What's inside |
 |---|---|
 | [buildings/town_halls.md](buildings/town_halls.md) | Urban centers across all nations |
 | [buildings/barracks.md](buildings/barracks.md) | Barracks of the 17th and 18th centuries. |
@@ -51,11 +53,11 @@ Parallel tables for all nations. Base values ​​(column mode) - above the tab
 | [buildings/towers.md](buildings/towers.md) | Towers |
 | [buildings/mines.md](buildings/mines.md) | Mines (coa/gol/iro × cluster) |
 
-<a id="weaponsweaponsreadmemd--каталоги-оружия-и-снарядов"></a>
-## [weapons/](weapons/README.md) - catalogs of weapons and shells
+<a id="оружие-и-снарядыweaponsreadmemd"></a>
+## [Weapons and projectiles](weapons/README.md)
 
-This is not a “comparison by nation”, but a catalog of projectile types (projectile-level) associated with units.
+Types of projectiles tied to the units using them.
 
-| File | What's inside |
+| Help | What's inside |
 |---|---|
-| [weapons/projectiles.md](weapons/projectiles.md) | `weaponsid` catalog - shells, arrows, cannonballs, grenades with characteristics (kind, dispersion, projectile-id) and a list of carrier units |
+| [Projectiles](weapons/projectiles.md) | Arrow Attack, cannonballs and grenades: damage type, spread, speed and list of units using them. Internal codes are shown in the background. |

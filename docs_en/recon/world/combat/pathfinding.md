@@ -1,5 +1,8 @@
 <a id="recon-pathfinding-и-движение-юнитов"></a>
-# Recon: pathfinding and unit movement
+<a id="поиск-пути-и-движение-юнитов"></a>
+# Pathfinding and Unit Movement
+
+[← How the game works](../../README.md)
 
 How do units in Cossacks 3 find a way, bypass each other and buildings, and what
 occurs when blocked. **The main conclusion right away:** the algorithm itself
@@ -155,6 +158,7 @@ cells/side).
 ---
 
 <a id="3-trackpointы--выход-pathfindingа"></a>
+<a id="3-маршрутные-точки"></a>
 ## 3. TrackPoints - pathfinding output
 
 After `TopologyGetPath` each unit receives an array of **TrackPoints**

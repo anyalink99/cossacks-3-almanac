@@ -1,6 +1,7 @@
-#Towers
+<a id="башни"></a>
+# Towers
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Defensive tower with a cannon. One option per cluster.
 
@@ -9,23 +10,23 @@ Defensive tower with a cannon. One option per cluster.
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Tower** `turtow` | alg | **22500** | **984.38** | **125** | **150** | **90** | **100** | 0 | — |
-| **Tower** `eurtow` | aus | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | bav | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | den | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | eng | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | fra | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | hun | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | net | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | pie | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | pol | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | por | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | pru | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `rustow` | rus | **21000** | **1476.56** | **125** | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | sax | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | sco | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | spa | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | swe | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `eurtow` | swi | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
-| **Tower** `turtow` | tur | **22500** | **984.38** | **125** | **150** | **90** | **100** | 0 | — |
-| **Tower** `eurtow` | ven | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `turtow` | Algeria | **22500** | **984.38** | **125** | **150** | **90** | **100** | 0 | — |
+| **Tower** `eurtow` | Austria | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Bavaria | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Denmark | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | England | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | France | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Hungary | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Netherlands | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Piedmont | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Poland | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Portugal | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Prussia | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `rustow` | Russia | **21000** | **1476.56** | **125** | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Saxony | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Scotland | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Spain | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Sweden | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `eurtow` | Switzerland | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |
+| **Tower** `turtow` | Turkey | **22500** | **984.38** | **125** | **150** | **90** | **100** | 0 | — |
+| **Tower** `eurtow` | Venice | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |

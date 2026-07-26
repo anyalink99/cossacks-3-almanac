@@ -3,7 +3,7 @@
 [English](CONTRIBUTING.en.md) · **Русский**
 
 Этот документ — короткая шпаргалка по тому, как устроен репозиторий и где
-что трогать. Если ты только пришёл, начни с [`docs/architecture.md`](docs/architecture.md)
+что трогать. Если ты только пришёл, начни с [`internals/project/architecture.md`](internals/project/architecture.md)
 — там диаграмма потока данных и принципы. Этот файл отвечает на конкретные
 «как мне…» вопросы.
 
@@ -55,7 +55,7 @@ CI на каждый PR прогоняет smoke-тесты, проверяет 
 
    Handwritten — значит править вручную:
    - `README.md`, `CONTRIBUTING.md` (top-level).
-   - `docs/architecture.md`, `docs/known_issues*.md`,
+   - `internals/project/architecture.md`, `internals/project/known_issues*.md`,
      `docs/reports/README.md`, `docs/reference/README.md` (writer пишет
      краткую шапку, остальное руками).
    - `docs/recon/**/*.md` (включая README) — handwritten reverse-engineering.
@@ -103,9 +103,9 @@ Body коммита — что и почему изменилось. Если м
 
 ## Когда сомневаешься
 
-- Архитектура и потоки данных — [`docs/architecture.md`](docs/architecture.md).
+- Архитектура и потоки данных — [`internals/project/architecture.md`](internals/project/architecture.md).
 - Канонические термины — [`derived/canonical_terms.json`](derived/canonical_terms.json) +
   [`parser/config.py`](parser/config.py).
-- Известные пробелы — [`docs/known_issues.md`](docs/known_issues.md).
+- Известные пробелы — [`internals/project/known_issues.md`](internals/project/known_issues.md).
 - Что куда генерится — [`derived/README.md`](derived/README.md) +
   [`docs/reports/README.md`](docs/reports/README.md) + [`scripts/regen.py`](scripts/regen.py).

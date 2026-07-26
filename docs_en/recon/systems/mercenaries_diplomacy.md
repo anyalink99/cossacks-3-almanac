@@ -1,5 +1,8 @@
 <a id="recon-дипломатические-центры-и-наёмники"></a>
-# Recon: diplomatic centers and mercenaries
+<a id="наёмники-и-дипломатический-центр"></a>
+# Mercenaries and the Diplomatic Center
+
+[← How the game works](../README.md)
 
 Reverse engineering of the subsystem for hiring mercenaries through the diplomatic center
 (`<nat>dip`): economy, upkeep with gold, riot `Rebellion`, scaling limit
@@ -61,10 +64,10 @@ but next to it is the comment `0{1000}`. This is a marker that in Cossacks 1 the
 
 | Building | nation(s) | HP | buildtime (frames/wall-sec/32/g-sec ×10/32) | wood | stone | gold | bcapture |
 |---|---|---:|---:|---:|---:|---:|---|
-| `<nat>dip` (default - 17 of 21) | aus, fra, eng, spa, pol, swe, pru, ven, net, den, por, pie, sax, bav, hun, swi, sco | 4500 | 1000 / 31.25s / 312.5g-s | 4900 | 1700 | 0 | False |
-| `rusdip` | rus | 6500 | 1000 | 7900 | 3700 | 0 | False |
-| `ukrdip` | ukr | 5000 | 1000 | 3900 | 2700 | 0 | False |
-| `turdip` / `algdip` | tur, alg | 5500 | 1000 | 4600 | 2020 | 0 | False |
+| `<nat>dip` (default - 17 of 21) | Austria, France, England, Spain, Poland, Sweden, Prussia, Venice, Netherlands, Denmark, Portugal, Piedmont, Saxony, Bavaria, Hungary, Switzerland, Scotland | 4500 | 1000 / 31.25s / 312.5g-s | 4900 | 1700 | 0 | False |
+| `rusdip` | Russia | 6500 | 1000 | 7900 | 3700 | 0 | False |
+| `ukrdip` | Ukraine | 5000 | 1000 | 3900 | 2700 | 0 | False |
+| `turdip` / `algdip` | Turkey, Algeria | 5500 | 1000 | 4600 | 2020 | 0 | False |
 
 Preconditions (from field `prereqs` to `data.json["buildings"]`, for example
 `ausdip → ['ausaca']`): deepcenter requires that Academy already exist.
@@ -396,7 +399,7 @@ as `gold` will drop to zero.
 
 | # | Question | Where to dig |
 |---:|---|---|
-| 1 | Limit “one diplomatic center per player” - the localization states “you can only build one diplomatic center”, but there is no explicit check in the scripts of the form `if count(dip) >= 1 then bproduceenabled := False`. `<nat>dip` `costpercent = 100` also does not block. | `gui.script`, or quota `_ai_TryUnit`. The AI ​​logic checks for `_ai_GetUnitCount(plind, cid, gc_ai_unit_dipcenter) > 0`, but this is not enforcement for the human player. |
+| 1 | Limit “one diplomatic center per player” - the localization states “you can only build one diplomatic center”, but there is no explicit check in the scripts of the form `if count(dip) >= 1 then bproduceenabled := False`. `<nat>dip` `costpercent = 100` also does not block. | `gui.script`, or quota `_ai_TryUnit`. The AI logic checks for `_ai_GetUnitCount(plind, cid, gc_ai_unit_dipcenter) > 0`, but this is not enforcement for the human player. |
 | 2 | `bnoreputation` - does not appear in any installation script. It's possible that this field referred to Cossacks 1/2, or that we have the wrong name. | grep over all .script + .global. |
 | 3 | Riot tick frequency in real time - Nothing-handler fires once every progress-tick. | Reconciliation with [`ticks_and_subticks.md`](../../../internals_en/engine/ticks_and_subticks.md) §3. Reference point: with Nothing-tick ≈ 135 ms, mercenaries switch to hard in less than 1 second; at ≈ 100 ms - in ~0.5 seconds. |
 | 4 | `bmercenary = True` for a battleship in `data.json` - 20 battleship lines are marked `bmercenary = True`, but in `case 'battleship'` this flag is not explicitly set inside `unit.script`. | Perhaps this is a separate branch (ports?) or a parser artifact. 5 minutes check. |

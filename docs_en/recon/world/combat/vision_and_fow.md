@@ -1,5 +1,8 @@
 <a id="recon-обзор-и-туман-войны"></a>
-# Recon: review and fog of war
+<a id="обзор-и-туман-войны"></a>
+# Vision and Fog of War
+
+[← How the game works](../../README.md)
 
 Deep analysis: how is the viewing radius of each unit calculated, how
 How the fog of war works, in what situations it is disabled, how it works

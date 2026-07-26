@@ -1,5 +1,8 @@
 <a id="recon-pipeline-генерации-карты"></a>
-# Recon: map generation pipeline
+<a id="как-создаётся-случайная-карта"></a>
+# How a Random Map Is Generated
+
+[← How the game works](../../README.md)
 
 Full timeline `DoGenerate`. The entry point is `ExecuteState('DoGenerate')` [^1].
 All links to code and Pascal blocks are collected in the [Sources](#sources) section
@@ -105,7 +108,7 @@ Phase details below.
 3. `ClearMapMaskAndObjects` - cleaning `gPatternMask` (640×640), `arrStartPos[0..7]`, `arrStartPosBusy[i] := -1` [^6].
 4. `_gui_ProcessProgressBar('progressbar.loadingenvironment')` → `LoadPatterns(True, False)` + `LoadPatterns(True, True)` - loads all `.pattern` files from `data/gen/patterns/*` [^7].
 
-###Phase 1 - terrain
+### Phase 1 - terrain
 
 5. Count `plcount` = existing non-spectator players [^8].
 6. `SetupTiledPatterns('tiles')` (or `desert_tiles` if `bDesert`) - places background decoration-tiles (for example, dirt, cracks) on a 25×25-tile grid: `wcount = mapW div 25`, `hcount = mapH div 25`, the center of each block `realx = (x*25) + 12 - mapW/2 - 1`. For 256×256 this is ~10×10 ≈ **100 placements** [^9].
@@ -319,6 +322,7 @@ A checklist of what the code `dogenerate.inc` does but we either ignore or appro
 
 ---
 
+<a id="14-проверка-расчётной-модели-по-реплеям"></a>
 ## 14. Empirical validation pipeline (replay-based ground truth)
 
 **Since 2026-04-29:** there is infrastructure for *empirical* model validation against real save/replay files. This turns §10 from “hypotheses” into “measurements.”
@@ -330,7 +334,7 @@ A checklist of what the code `dogenerate.inc` does but we either ignore or appro
 |---|---|
 | [`parser/parse_replay.py`](../../../../parser/parse_replay.py) | OSWMap13 reader: extract settings (randkey0/1, maskname, mapsize, relieftype, terraintype, season, ...), BMP thumbnail, pattern-name occurrences |
 | [`parser/parse_replay_aggregates.py`](../../../../parser/parse_replay_aggregates.py) | Folder of `.rep`/`.map` → `derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
-| [`compute/validate_map_predictions.py`](../../../../compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `docs/reports/map/map_predictions_validation.md` |
+| [`compute/validate_map_predictions.py`](../../../../compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `internals_en/data/map_predictions_validation.md` |
 
 For details about the OSWMap13 format, bucketing methodology and calibration numbers, see §14.2-14.5 below.
 
@@ -391,6 +395,7 @@ For **non-Land** (`terraintype != 0`) the formula does not work (the engine logi
 ---
 
 <a id="11-ключевые-файлы-pipeline"></a>
+<a id="11-ключевые-файлы-алгоритма"></a>
 ## 11. Key pipeline files
 
 | What | Where | Strings |
@@ -406,6 +411,7 @@ For **non-Land** (`terraintype != 0`) the formula does not work (the engine logi
 ---
 
 <a id="12-seed-space--что-определяет-уникальную-карту"></a>
+<a id="12-что-определяет-уникальную-карту"></a>
 ## 12. Seed space - what determines a unique map
 
 With fixed parameters (terrain + mapsize + relief + mines + players), the map is uniquely specified by the pair `(inputbitmap, randkey0/randkey1)`:
@@ -444,7 +450,7 @@ For our scope (Land + 4pl) - **230 basic forms** cards.
 
 1. **Exact position of arrStartPos in inputbitmap.tga.** The Engine reads the markers in the mask (probably by special RGB pixel codes). Decode `data/gen/terrainmasks/land/4pl_*.tga` by hand - you can build an accurate start-positions map for each preset. Useful for editor-tooling and accurate prediction of distances to resources.
 
-2. ~~**`_misc_GetFreePatternMaskModifier`** values ​​for Tiny+Highlands.~~ **PARTIALLY ANSWERED** - modifiers themselves are not measured, but the per-type **effective placement rate** is now empirically calibrated for 10 replays (see §14.5). This covers practical use cases without having to decode Monte-Carlo internals.
+2. ~~**`_misc_GetFreePatternMaskModifier`** values for Tiny+Highlands.~~ **PARTIALLY ANSWERED** - modifiers themselves are not measured, but the per-type **effective placement rate** is now empirically calibrated for 10 replays (see §14.5). This covers practical use cases without having to decode Monte-Carlo internals.
 
 3. **`SetupTiledPatterns` does it affect the placement of other objects?** ~100 tile-paterns at 256×256 are “ground decoration” (cracks, mud spots). Perhaps they also block `gPatternMask` for subsequent placement phases - you need to check the behavior through `_misc_CheckStandPatternExt`.
 
@@ -456,7 +462,7 @@ For our scope (Land + 4pl) - **230 basic forms** cards.
 
 7. **Plain / mountains / swamps / hills / plateaus / stoneforests / desert_* - add to `compute_counts`.** These pattern types are called *outside* the foreststype block (for mountains/plateau/ravine/hills [^23], the rest are somewhere nearby) and make up ~50% of all cluster occurrences according to replay data. You need to read the relevant sections and expand the model.
 
-8. **Dozens of `randkey0` / `randkey1` values ​​on Land + Tiny + Highlands** - you need to collect 50+ replays on the same settings and vary only `randkey` in order to either confirm determinism (the same `randkey` → the same cluster count), or measure the variance. Variance was not assessed on the 10 available replays.
+8. **Dozens of `randkey0` / `randkey1` values on Land + Tiny + Highlands** - you need to collect 50+ replays on the same settings and vary only `randkey` in order to either confirm determinism (the same `randkey` → the same cluster count), or measure the variance. Variance was not assessed on the 10 available replays.
 
 ---
 

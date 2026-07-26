@@ -1,5 +1,8 @@
 <a id="recon-башни"></a>
-# Recon: towers
+<a id="как-работают-башни"></a>
+# How Towers Work
+
+[← How the game works](../../README.md)
 
 In-depth analysis: how the turret fires, target designation, resources for
 shot, upgrades, capture and demolition. All links to the code are in

@@ -21,7 +21,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from citations import Citations
 from config import (DATA_JSON, DERIVED_DIR, REPORTS_ECONOMY_DIR,
-                    REPORTS_TECH_DIR, nation_label)
+                    REPORTS_TECH_DIR, nation_ru, unit_ru)
 
 TREE_JSON = DERIVED_DIR / "tech_tree.json"
 TREE_MD = REPORTS_TECH_DIR / "tech_tree.md"
@@ -35,10 +35,10 @@ SHORT_BLD_LABELS = {
     "cen": "Город. центр", "hou": "Дом",
     "bar": "Казарма 17",   "ba2": "Казарма 18",
     "bla": "Кузница",      "sta": "Конюшня",     "tem": "Собор",
-    "aca": "Академия",     "art": "Артдепо",     "dip": "Диппцентр",
+    "aca": "Академия",     "art": "Артиллерийское депо", "dip": "Дипломатический центр",
     "mil": "Мельница",     "sto": "Склад",       "mar": "Рынок",
     "por": "Порт",         "tow": "Башня",
-    "gol": "Шахта (gold)", "iro": "Шахта (iron)", "coa": "Шахта (coal)",
+    "gol": "Золотая шахта", "iro": "Железная шахта", "coa": "Угольная шахта",
     "swa": "Стена",        "sga": "Кам. ворота",
     "wga": "Дер. ворота",  "wwa": "Палисад",
 }
@@ -54,7 +54,8 @@ def heading_anchor(text: str) -> str:
 def name_ru_en(item: dict) -> str:
     ru = (item.get("name_ru") or "").strip()
     en = (item.get("name_en") or "").strip()
-    return ru or en or "—"
+    sid = str(item.get("sid") or "")
+    return unit_ru(sid, ru or en or "—")
 
 
 def _short_bld_label(sid: str, nat: str) -> str:
@@ -63,9 +64,30 @@ def _short_bld_label(sid: str, nat: str) -> str:
     return SHORT_BLD_LABELS.get(suf, sid)
 
 
-def _fmt_prereq(p: dict) -> str:
-    glyph = {"building": "B", "unit": "U", "upgrade": "T"}.get(p["kind"], "?")
-    return f"[{glyph}] `{p['sid']}`"
+RESOURCE_LABELS = {
+    "food": "Еда",
+    "wood": "Дерево",
+    "stone": "Камень",
+    "gold": "Золото",
+    "iron": "Железо",
+    "coal": "Уголь",
+}
+
+
+def _fmt_cost(cost: dict) -> str:
+    return ", ".join(
+        f"{RESOURCE_LABELS.get(key, key)} {value}"
+        for key, value in cost.items()
+        if value
+    ) or "—"
+
+
+def _fmt_prereq(p: dict, labels: dict[str, str]) -> str:
+    sid = p["sid"]
+    kind = {"building": "здание", "unit": "юнит", "upgrade": "улучшение"}.get(
+        p["kind"], "объект"
+    )
+    return f"{labels.get(sid, sid)} (`{sid}`, {kind})"
 
 
 def render_buildings_mermaid(nat: str, nt: dict) -> list[str]:
@@ -107,28 +129,24 @@ def render_buildings_mermaid(nat: str, nt: dict) -> list[str]:
 
 def write_tree_md(tree: dict) -> None:
     L: list[str] = []
-    L.append("# Cossacks 3 — Tech Tree (по нациям)")
+    L.append("# Дерево развития")
     L.append("")
-    L.append("Граф зависимостей: что нужно построить или исследовать перед чем. "
-             "Извлечено из `_country_AddFixedProduceWithAccessControl` и "
-             "`_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). "
-             "Источник истины — [`derived/tech_tree.json`](../../../derived/tech_tree.json).")
+    L.append("[← Таблицы и расчёты](../README.md)")
     L.append("")
-    L.append("**Условные обозначения:**")
-    L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")
-    L.append("- `→ X, Y` — для разблокировки нужны X и Y одновременно")
-    L.append("- Для зданий показана базовая цена (см. [`scaling_prices.md`](../economy/scaling_prices.md) для N>1)")
+    L.append("Что нужно построить или исследовать, чтобы открыть выбранное здание, "
+             "юнита или улучшение. Каноническое название показано первым, "
+             "внутренний код — вторым.")
+    L.append("")
+    L.append("Для зданий указана цена первого экземпляра. Стоимость следующих "
+             "экземпляров приведена в [таблице роста цен](../economy/scaling_prices.md).")
     L.append("")
 
     if "aus" in tree["nations"]:
-        L.append("## Граф зданий (Австрия как репрезентативный пример)")
+        L.append("## Схема зданий на примере Австрии")
         L.append("")
-        L.append("Граф показывает зависимости постройки одного здания от другого. "
-                 "Сплошные стрелки — `prereqs` из `country.script`, пунктирные — "
-                 "связь «здание → его апгрейд» (например, `auscen → auscen.1`, "
-                 "переход в 18 век). У других наций граф структурно идентичен — "
-                 "отличаются только нация-специфичные имена `<nat>cen`, `<nat>bar` "
-                 "и т. д.")
+        L.append("Стрелка идёт от требования к открываемому зданию. Пунктиром "
+                 "показана связь Городского центра с переходом в XVIII век. "
+                 "У большинства наций схема устроена так же.")
         L.append("")
         L.extend(render_buildings_mermaid("aus", tree["nations"]["aus"]))
 
@@ -140,55 +158,63 @@ def write_tree_md(tree: dict) -> None:
     for nat in nations_sorted:
         nt = tree["nations"][nat]
         has_ug = any(ug["prereqs"] for ug in nt["upgrades"].values())
-        anchor = heading_anchor(nation_label(nat))
-        bld_link = f"[здания](#{heading_anchor(nat + ' — здания')})"
-        unit_link = f"[юниты](#{heading_anchor(nat + ' — юниты')})"
-        ug_link = (f"[апгрейды](#{heading_anchor(nat + ' — ключевые апгрейды (с зависимостями)')})"
+        anchor = heading_anchor(nation_ru(nat))
+        nation_name = nation_ru(nat)
+        bld_link = f"[здания](#{heading_anchor('Здания — ' + nation_name)})"
+        unit_link = f"[юниты](#{heading_anchor('Юниты — ' + nation_name)})"
+        ug_link = (f"[улучшения](#{heading_anchor('Ключевые улучшения — ' + nation_name)})"
                    if has_ug else "—")
-        L.append(f"| **[{nation_label(nat)}](#{anchor})** | {bld_link} | {unit_link} | {ug_link} |")
+        L.append(f"| **[{nation_ru(nat)}](#{anchor})** | {bld_link} | {unit_link} | {ug_link} |")
     L.append("")
 
     for nat in nations_sorted:
         nt = tree["nations"][nat]
-        L.append(f"## {nation_label(nat)}")
+        L.append(f"## {nation_ru(nat)}")
         L.append("")
-        L.append(f"### `{nat}` — здания")
+        labels = {
+            sid: name_ru_en(item)
+            for category in ("buildings", "units", "upgrades")
+            for sid, item in nt[category].items()
+        }
+        L.append(f"### Здания — {nation_ru(nat)}")
         L.append("")
-        L.append("| sid | имя | Время (g-сек) | цена | ферма | требует |")
-        L.append("|---|---|---:|---|---:|---|")
+        L.append("| Здание | Время строительства, игр. с | Цена | Места населения | Требуется |")
+        L.append("|---|---:|---|---:|---|")
         for sid in sorted(nt["buildings"].keys()):
             b = nt["buildings"][sid]
-            cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in b["cost"].items() if v)
-            prereqs_str = ", ".join(_fmt_prereq(p) for p in b["prereqs"]) or "—"
+            cost_str = _fmt_cost(b["cost"])
+            prereqs_str = ", ".join(_fmt_prereq(p, labels) for p in b["prereqs"]) or "—"
             time_str = f"{b['buildtime_sec']:.1f}" if b['buildtime_sec'] else "—"
             farm_str = str(b["farm"] or "—")
-            L.append(f"| `{sid}` | {name_ru_en(b)} | {time_str} | {cost_str or '—'} | {farm_str} | {prereqs_str} |")
+            L.append(f"| **{name_ru_en(b)}** (`{sid}`) | {time_str} | {cost_str} | {farm_str} | {prereqs_str} |")
         L.append("")
 
-        L.append(f"### `{nat}` — юниты")
+        L.append(f"### Юниты — {nation_ru(nat)}")
         L.append("")
-        L.append("| sid | имя | Время (g-сек) | цена | тренируется в | требует |")
-        L.append("|---|---|---:|---|---|---|")
+        L.append("| Юнит | Время найма, игр. с | Цена | Производится в | Требуется |")
+        L.append("|---|---:|---|---|---|")
         for sid in sorted(nt["units"].keys()):
             u = nt["units"][sid]
-            cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in u["cost"].items() if v)
+            cost_str = _fmt_cost(u["cost"])
             time_str = f"{u['buildtime_sec']:.2f}" if u['buildtime_sec'] else "—"
-            prereqs_str = ", ".join(_fmt_prereq(p) for p in u["prereqs"]) or "—"
-            tr_str = ", ".join(u["trained_in"]) or "—"
-            L.append(f"| `{sid}` | {name_ru_en(u)} | {time_str} | {cost_str or '—'} | {tr_str} | {prereqs_str} |")
+            prereqs_str = ", ".join(_fmt_prereq(p, labels) for p in u["prereqs"]) or "—"
+            tr_str = ", ".join(
+                f"{labels.get(host, host)} (`{host}`)" for host in u["trained_in"]
+            ) or "—"
+            L.append(f"| **{name_ru_en(u)}** (`{sid}`) | {time_str} | {cost_str} | {tr_str} | {prereqs_str} |")
         L.append("")
 
         ug_with_reqs = [(sid, ug) for sid, ug in nt["upgrades"].items() if ug["prereqs"]]
         if ug_with_reqs:
-            L.append(f"### `{nat}` — ключевые апгрейды (с зависимостями)")
+            L.append(f"### Ключевые улучшения — {nation_ru(nat)}")
             L.append("")
-            L.append("| sid | имя | Время (g-сек) | цена | требует |")
-            L.append("|---|---|---:|---|---|")
+            L.append("| Улучшение | Время исследования, игр. с | Цена | Требуется |")
+            L.append("|---|---:|---|---|")
             for sid, ug in sorted(ug_with_reqs):
-                cost_str = " ".join(f"{k[0].upper()}{v}" for k, v in ug["cost"].items() if v)
+                cost_str = _fmt_cost(ug["cost"])
                 time_str = f"{ug['time_sec']:.1f}" if ug['time_sec'] else "—"
-                prereqs_str = ", ".join(_fmt_prereq(p) for p in ug["prereqs"]) or "—"
-                L.append(f"| `{sid}` | {name_ru_en(ug)} | {time_str} | {cost_str or '—'} | {prereqs_str} |")
+                prereqs_str = ", ".join(_fmt_prereq(p, labels) for p in ug["prereqs"]) or "—"
+                L.append(f"| **{name_ru_en(ug)}** (`{sid}`) | {time_str} | {cost_str} | {prereqs_str} |")
             L.append("")
         L.append("[↑ к содержанию](#содержание)")
         L.append("")
@@ -202,27 +228,22 @@ def write_production_rates_md(data: dict) -> None:
     units_idx = {(u["sid"], u["nation"]): u for u in data["units"]}
     cites = Citations()
     L: list[str] = []
-    L.append("# Cossacks 3 — Темпы производства")
+    L.append("# Скорость производства юнитов")
+    L.append("")
+    L.append("[← Таблицы и расчёты](../README.md)")
     L.append("")
     L.append("Сколько юнитов в минуту даёт **одно здание**, при бесперебойной "
-             "очереди и без farm/resource ограничений.")
+             "очереди, свободных мест населения и достаточных ресурсов.")
     L.append("")
     progress_cite = cites.cite(
         "units/building.inc/doprogressorders.inc:120-373",
         label="`DoProgressOrders` для зданий — обработка очереди производства",
     )
-    L.append(f"**Механика** {progress_cite}:")
-    L.append("- Здание имеет ОДНУ очередь (`orders[0]`). Параллельной постройки **нет**.")
-    L.append("- Прогресс: `progress += deltatime / unit.buildtime`. При `progress ≥ 1` "
-             "юнит спавнится, прогресс сбрасывается.")
-    L.append("- Стоимость списывается **сразу (upfront)** при старте каждого юнита.")
-    L.append("- Если упёрлись в farm cap или unit cap — производство **встаёт**, "
-             "прогресс не идёт.")
-    L.append("")
-    L.append("**Формулы:**")
-    L.append("- `rate_per_g_sec = 1 / unit.buildtime_sec`")
-    L.append(f"- `rate_per_real_sec_fast = rate_per_g_sec × {GAMESPEED_FAST}`")
-    L.append(f"- `units_per_real_min_fast = rate_per_real_sec_fast × 60`")
+    L.append(f"**Как это работает** {progress_cite}:")
+    L.append("- У здания одна очередь; параллельно два юнита не производятся.")
+    L.append("- Стоимость списывается при начале производства каждого юнита.")
+    L.append("- Если нет свободных мест населения или достигнут лимит юнитов, "
+             "производство останавливается.")
     L.append("")
     L.append("Сгруппировано по нациям. Для каждого здания — список юнитов, которых "
              "оно может производить.")
@@ -236,15 +257,15 @@ def write_production_rates_md(data: dict) -> None:
         if not bldgs:
             continue
         bld_links = ", ".join(
-            f"[`{b['sid']}`](#{heading_anchor(b['sid'] + ' — ' + name_ru_en(b))})"
+            f"[{name_ru_en(b)}](#{heading_anchor(name_ru_en(b) + ' — ' + b['sid'])})"
             for b in sorted(bldgs, key=lambda x: x["sid"])
         )
-        anchor = heading_anchor(nation_label(nat))
-        L.append(f"- **[{nation_label(nat)}](#{anchor})** — {bld_links}")
+        anchor = heading_anchor(nation_ru(nat))
+        L.append(f"- **[{nation_ru(nat)}](#{anchor})** — {bld_links}")
     L.append("")
 
     for nat in nations:
-        L.append(f"## {nation_label(nat)}")
+        L.append(f"## {nation_ru(nat)}")
         L.append("")
         bldgs = [b for b in data["buildings"] if b["nation"] == nat and (b.get("produces") or [])]
         if not bldgs:
@@ -252,11 +273,11 @@ def write_production_rates_md(data: dict) -> None:
             L.append("")
             continue
         for b in sorted(bldgs, key=lambda x: x["sid"]):
-            L.append(f"### `{b['sid']}` — {name_ru_en(b)}")
+            L.append(f"### {name_ru_en(b)} — `{b['sid']}`")
             L.append("")
-            L.append("| Юнит | имя | Время (g-сек) | темп (units / g-мин) | "
-                     "темп (units / real-мин @ fast) | F | G | I | ферма | расход еды |")
-            L.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+            L.append("| Юнит | Время найма, игр. с | За игровую минуту | "
+                     "За реальную минуту на «Быстро» | Еда | Золото | Железо | Места населения | Расход еды |")
+            L.append("|---|---:|---:|---:|---:|---:|---:|---:|---:|")
             for unit_sid in sorted(b.get("produces") or []):
                 u = units_idx.get((unit_sid, nat))
                 if not u or not u.get("buildtime_sec"):
@@ -265,7 +286,7 @@ def write_production_rates_md(data: dict) -> None:
                 rate_g = 60 / bt
                 rate_r = rate_g * GAMESPEED_FAST
                 upkeep = (u.get("consume") or {}).get("food") if isinstance(u.get("consume"), dict) else None
-                L.append(f"| `{unit_sid}` | {name_ru_en(u)} | {bt:.2f} | {rate_g:.1f} | "
+                L.append(f"| **{name_ru_en(u)}** (`{unit_sid}`) | {bt:.2f} | {rate_g:.1f} | "
                          f"**{rate_r:.1f}** | {u.get('food') or 0} | {u.get('gold') or 0} | "
                          f"{u.get('iron') or 0} | {1 if not (u.get('peasantabsorber') or 0) else 0} | "
                          f"{upkeep or '—'} |")
@@ -276,16 +297,13 @@ def write_production_rates_md(data: dict) -> None:
     L.append("")
     L.append("## Замечания")
     L.append("")
-    L.append("1. **farm = 1 для каждого юнита** — каждый юнит занимает 1 слот популяции "
-             "(контролируется `gPlayer.farm`). Зданиям, увеличивающим лимит — "
-             "`cen = +100`, `hou = +25`, `bar = +150`, `ba2 = +250` и т. д.")
-    L.append("2. **Расход еды** — потребление еды в одну игровую секунду делится на 32 "
-             "(см. `gc_obj_foodperunit`). Стандарт — 32 для пехоты, 26 для русских "
-             "крестьян, 40+ для тяжёлой кавалерии.")
-    L.append("3. **При нехватке farm производство останавливается** — здание попытается "
-             "списать ресурс, но юнит не выйдет, прогресс заморожен.")
-    L.append("4. **N зданий = N × rate.** 5 пехотных казарм = 5 × ~13 мушкетёр/мин @ fast "
-             "= ~65 мушкетёров/мин.")
+    L.append("1. Каждый юнит занимает одно место населения. Городские центры, дома "
+             "и казармы увеличивают доступный предел.")
+    L.append("2. **Расход еды** показывает содержание юнита за игровую секунду.")
+    L.append("3. **При нехватке мест населения производство останавливается:** "
+             "юнит не выходит, а прогресс остаётся замороженным.")
+    L.append("4. Несколько одинаковых зданий работают параллельно. Например, пять "
+             "казарм дают примерно впятеро больше юнитов в минуту, чем одна.")
     L.extend(cites.render())
     RATES_MD.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {RATES_MD} ({RATES_MD.stat().st_size:,} bytes)")

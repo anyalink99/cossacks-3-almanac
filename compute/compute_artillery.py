@@ -81,8 +81,15 @@ def fmt_nations(nats: list[str]) -> str:
     if len(nats) == len(PLAYABLE_NATIONS):
         return "все 21"
     if len(nats) > 6:
-        return ", ".join(nats[:5]) + f" … (+{len(nats) - 5})"
-    return ", ".join(nats)
+        return ", ".join(nation_ru(nat) for nat in nats[:5]) + f" … (+{len(nats) - 5})"
+    return ", ".join(nation_ru(nat) for nat in nats)
+
+
+def canonical_name(u: dict) -> str:
+    """Reader-facing unit label with the technical identifier kept secondary."""
+    name = u.get("name_ru") or u.get("name_en") or u.get("sid") or "—"
+    sid = u.get("sid")
+    return f"{name} (`{sid}`)" if sid else str(name)
 
 
 def group_by_sid(art_units: list[dict]) -> dict[str, list[dict]]:
@@ -95,11 +102,12 @@ def group_by_sid(art_units: list[dict]) -> dict[str, list[dict]]:
 def render_header(cites: Citations) -> list[str]:
     L: list[str] = []
     A = L.append
-    A("# Артиллерия — сводный справочник")
+    A("# Артиллерия")
     A("")
-    A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "[`data.json`](../../../data.json) скриптом "
-      "[`compute/compute_artillery.py`](../../../compute/compute_artillery.py).")
+    A("[← Таблицы и расчёты](../README.md)")
+    A("")
+    A("Здесь собраны боевые характеристики сухопутной артиллерии, цена каждого "
+      "выстрела, содержание орудий и лимиты Артиллерийского депо.")
     A("")
     bartillery_cite = cites.cite(
         "lib/unit.script:1725, 1757, 1788, 1815, 1847",
@@ -120,11 +128,11 @@ def render_header(cites: Citations) -> list[str]:
     A("")
     A("Содержание:")
     A("")
-    A("- [§1. Каталог и боевые статы](#1-каталог-и-боевые-статы)")
+    A("- [§1. Орудия и боевые характеристики](#1-орудия-и-боевые-характеристики)")
     A("- [§2. Стоимость одного выстрела](#2-стоимость-одного-выстрела)")
     A("- [§3. Экономика юнита и национальные различия](#3-экономика-юнита-и-национальные-различия)")
     A("- [§4. Лимит парка от Артиллерийского депо](#4-лимит-парка-от-артиллерийского-депо)")
-    A("- [§5. Заметки и cross-references](#5-заметки-и-cross-references)")
+    A("- [§5. Важные особенности](#5-важные-особенности)")
     A("")
     return L
 
@@ -132,7 +140,7 @@ def render_header(cites: Citations) -> list[str]:
 def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
     L: list[str] = []
     A = L.append
-    A("## §1. Каталог и боевые статы")
+    A("## §1. Орудия и боевые характеристики")
     A("")
     A("Одна строка на уникальный набор статов основного оружия — если у нации "
       "стат отличается, она выносится в отдельную строку. Колонка **Подготовка** "
@@ -143,7 +151,7 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
       "и тайлах; меньше = точнее. Радиус — `weapon.radiusmax` (тайлы); "
       "`radiusmin` показан, если у юнита есть мёртвая зона ближнего боя.")
     A("")
-    A("| `sid` | Класс | Нации | dmg | пауза | DPS, g-сек | Радиус | Точность | Подготовка |")
+    A("| Орудие | Класс | Нации | Урон | Перезарядка, игр. с | Урон/с | Радиус | Разброс | Подготовка |")
     A("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |")
 
     by_sid = group_by_sid(art_units)
@@ -175,16 +183,17 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
             prep = "✓" if rep.get("bartprepare") else "—"
             usage_ru = USAGE_RU.get(rep.get("usage_short"), rep.get("usage_short", "—"))
             nats = sorted({u["nation"] for u in group})
-            rows.append((sid, usage_ru, fmt_nations(nats), d, p, dps, range_str, disp, prep, d))
+            rows.append((sid, canonical_name(rep), usage_ru, fmt_nations(nats), d, p,
+                         dps, range_str, disp, prep, d))
 
     rows.sort(key=lambda r: (r[0], r[-1]))
-    for sid, cls, nats, d, p, dps, rng, disp, prep, _ in rows:
+    for sid, name, cls, nats, d, p, dps, rng, disp, prep, _ in rows:
         dps_str = f"{dps}" if dps is not None else "—"
-        A(f"| `{sid}` | {cls} | {nats} | {d} | {p} s | {dps_str} | {rng} | {disp} | {prep} |")
+        A(f"| {name} | {cls} | {nats} | {d} | {p} | {dps_str} | {rng} | {disp} | {prep} |")
     A("")
-    A("Колонка **DPS, g-сек** — это `damage / pause`, без учёта формационных "
-      "бонусов (у артиллерии своих формаций нет), AoE-капа и защиты цели. "
-      "Реальный output по толпе обычно ниже из-за `AoE damage cap = "
+    A("Колонка **Урон/с** показывает урон за игровую секунду без учёта "
+      "защиты цели и ограничения числа поражаемых взрывом юнитов. "
+      "Реальный урон по толпе обычно ниже из-за ограничения "
       "floor(1 + (r/0.35)²)` (см. [`recon/world/combat/combat_damage_pipeline.md` §6.5]"
       "(../../recon/world/combat/combat_damage_pipeline.md)).")
     A("")
@@ -215,7 +224,7 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
 
     DEF_BUY = {"food": 25, "wood": 50, "stone": 50, "gold": 1, "iron": 140, "coal": 140}
 
-    A("| `sid` | Нации | Тип снаряда | dmg | iron | coal | wood/stone/gold | shot_cost_g | dmg / shot_cost_g |")
+    A("| Орудие | Нации | Тип снаряда | Урон | Железо | Уголь | Прочие ресурсы | Цена в золотом эквиваленте | Урон на единицу цены |")
     A("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |")
 
     rows = []
@@ -238,19 +247,20 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
         misc = " · ".join(misc_parts) or "—"
         gold_eq = sum((cost.get(r) or 0) * DEF_BUY[r] for r in DEF_BUY)
         eff = round(d / gold_eq, 2) if gold_eq else None
-        rows.append((u["sid"], u["nation"], kind, d, iron, coal, misc, gold_eq, eff))
+        rows.append((u["sid"], canonical_name(u), u["nation"],
+                     WEAPON_KIND_RU.get(kind, kind), d, iron, coal, misc, gold_eq, eff))
 
     grouped: dict[tuple, list[str]] = defaultdict(list)
-    for sid, nat, kind, d, iron, coal, misc, gold_eq, eff in rows:
-        key = (sid, kind, d, iron, coal, misc, gold_eq, eff)
+    for sid, name, nat, kind, d, iron, coal, misc, gold_eq, eff in rows:
+        key = (sid, name, kind, d, iron, coal, misc, gold_eq, eff)
         grouped[key].append(nat)
 
-    out_rows = sorted(grouped.items(), key=lambda kv: (kv[0][0], kv[0][3]))
+    out_rows = sorted(grouped.items(), key=lambda kv: (kv[0][0], kv[0][4]))
     for key, nats in out_rows:
-        sid, kind, d, iron, coal, misc, gold_eq, eff = key
+        sid, name, kind, d, iron, coal, misc, gold_eq, eff = key
         eff_str = f"{eff}" if eff is not None else "—"
         gold_eq_str = gold_eq if gold_eq else "—"
-        A(f"| `{sid}` | {fmt_nations(sorted(set(nats)))} | {kind} | "
+        A(f"| {name} | {fmt_nations(sorted(set(nats)))} | {kind} | "
           f"{d} | {iron} | {coal} | {misc} | {gold_eq_str} | {eff_str} |")
     A("")
     cannister_cite = cites.cite(
@@ -275,10 +285,10 @@ def render_section_3(art_units: list[dict], cites: Citations) -> list[str]:
     A = L.append
     A("## §3. Экономика юнита и национальные различия")
     A("")
-    A("Цена покупки, время постройки, HP, щит, скорость и upkeep по золоту. "
+    A("Цена покупки, время постройки, здоровье, защита, скорость и содержание в золоте. "
       "Если у нации те же значения — одна строка, нации сгруппированы.")
     A("")
-    A("| `sid` | Нации | Цена | bt, g-сек | HP | shield | speed | `consume[gold]` | gold/г-сек | score |")
+    A("| Орудие | Нации | Цена | Время, игр. с | Здоровье | Щит | Скорость | Расход золота (служебное значение) | Золота/игр. с | Очки |")
     A("| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
 
     by_sid = group_by_sid(art_units)
@@ -308,7 +318,7 @@ def render_section_3(art_units: list[dict], cites: Citations) -> list[str]:
                 gpg = round(int(gpt) * 32 / 20000, 3) if gpt not in ("—", None) else "—"
             except (ValueError, TypeError):
                 gpg = "—"
-            A(f"| `{sid}` | {fmt_nations(nats)} | {cost} | {bt} | {hp} | "
+            A(f"| {canonical_name(rep)} | {fmt_nations(nats)} | {cost} | {bt} | {hp} | "
               f"{sh} | {sp} | {gpt} | {gpg} | {sc} |")
     A("")
     A("`consume[gold]` — поле `objprop.consume[gc_resource_type_gold]`. "
@@ -351,15 +361,15 @@ def render_section_4(buildings: list[dict], cites: Citations) -> list[str]:
                                  "objprop.bartdepo := True;"))
     A(f"Базовая раздача с одного депо {base_cite}:")
     A("")
-    A("| Индекс `artind` | Юнит-индекс | Слотов с одного депо |")
+    A("| Орудие | Технический индекс | Слотов с одного депо |")
     A("| --- | --- | ---: |")
-    for sid, slots in [
-        ("cannon", "0 — `gc_obj_artind_cannon`"),
-        ("howitzer", "1 — `gc_obj_artind_howitzer`"),
-        ("mortar", "2 — `gc_obj_artind_mortar`"),
-        ("multicannon", "3 — `gc_obj_artind_multicannon`"),
+    for sid, name, slots in [
+        ("cannon", "Пушка", "0 — `gc_obj_artind_cannon`"),
+        ("howitzer", "Гаубица", "1 — `gc_obj_artind_howitzer`"),
+        ("mortar", "Мортира", "2 — `gc_obj_artind_mortar`"),
+        ("multicannon", "Многоствольное орудие", "3 — `gc_obj_artind_multicannon`"),
     ]:
-        A(f"| {slots} | `{sid}` | {ARTDEPO_SLOTS[sid]} |")
+        A(f"| {name} (`{sid}`) | {slots} | {ARTDEPO_SLOTS[sid]} |")
     A("")
     A("Иначе говоря, чтобы выкатить полный мортирный батальон в 30 штук, "
       "нужно три Артиллерийских депо (3 × 10 = 30 слотов под `mortar`).")
@@ -377,12 +387,12 @@ def render_section_4(buildings: list[dict], cites: Citations) -> list[str]:
             label="`if (i = ukr) ...` и `if (i = tur) ...` для цены депо",
         )
         A(f"**Цена и параметры самого Артиллерийского депо** по нациям. "
-          f"Базовое значение по умолчанию: `costpercent = 200`, `HP = 40000`, "
-          f"`score = 1400` {defaults_cite}. Нации, у которых этот юнит "
-          f"дешевле или дороже, показаны явно — у Украины и Турции есть "
-          f"`if (i = ukr/tur)`-override {overrides_cite}.")
+          f"Обычный вариант имеет 40 000 здоровья, даёт 1 400 очков, а каждое "
+          f"следующее депо стоит вдвое дороже предыдущего {defaults_cite}. "
+          f"Отличия Украины и Турции показаны отдельными строками "
+          f"{overrides_cite}.")
         A("")
-        A("| Нация | HP | Цена (food/wood/stone/gold/iron/coal) | bt, g-сек | costpercent |")
+        A("| Нация | Здоровье | Цена (еда/дерево/камень/золото/железо/уголь) | Время строительства, игр. с | Рост цены, % |")
         A("| --- | ---: | --- | ---: | ---: |")
         sub: dict[tuple, list[str]] = defaultdict(list)
         for b in depots:
@@ -400,20 +410,19 @@ def render_section_4(buildings: list[dict], cites: Citations) -> list[str]:
 def render_section_5(cites: Citations) -> list[str]:
     L: list[str] = []
     A = L.append
-    A("## §5. Заметки и cross-references")
+    A("## §5. Важные особенности")
     A("")
 
     try_attack_cite = cites.cite(
         "lib/unit.script:7512",
         label="`_unit_TryAttackPoint` и связанные ветки",
     )
-    A(f"- **Подготовка перед выстрелом.** `bartprepare = True` означает, что "
-      f"перед каждым выстрелом проигрывается длинная анимация. Поведение "
-      f"движка при отдаче ордера на стрельбу — `_unit_TryAttackPoint` "
-      f"{try_attack_cite}. Точная длительность подготовки берётся из "
-      f"`.aaf`-анимации `attack0` юнита; в `data.json` она не извлечена. "
-      f"Для оценок используем `weapon.pause` как «холодную перезарядку» "
-      f"поверх любых анимационных задержек.")
+    A(f"- **Подготовка перед выстрелом.** У пушки, гаубицы и некоторых других "
+      f"орудий перед каждым выстрелом проигрывается отдельная длинная анимация "
+      f"(внутренний флаг `bartprepare`) {try_attack_cite}. Её точная "
+      f"длительность хранится в анимации атаки (`attack0`) и пока не извлечена "
+      f"в `data.json`. Поэтому расчёт использует паузу оружия как чистую "
+      f"перезарядку, без добавочной анимационной задержки.")
     A("")
 
     move_penalty_cite = cites.cite(

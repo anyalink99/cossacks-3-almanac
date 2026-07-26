@@ -1,5 +1,8 @@
 <a id="recon-настройки-лобби--что-движок-делает-с-каждой-опцией"></a>
-# Recon: lobby settings - what the engine does with each option
+<a id="как-настройки-матча-влияют-на-игру"></a>
+# How Match Settings Affect the Game
+
+[← How the game works](../../README.md)
 
 This document is **handwritten reverse-engineering** of how the Cossacks 3 engine works
 reacts to the player's choice in the lobby. Values and labels are not included here - for
@@ -44,7 +47,7 @@ This is what the engine reads.
 | `mapsize` | [^5] | Specifies `Width × Height` maps in tiles (square map). Affects the placement density and `prob*` modifiers [^6]. |
 | `terraintype` | [^7] | Selects the mask table (`data/gen/terrainmasks/`) for the base map image. `terraintype ∈ {2,3,4}` (Peninsulas / Islands / Several Continents) includes “sea” waters - without `por` (port) they cannot be reached. |
 | `relieftype` | [^8] | Selects the density of mountains/hills (`mnt`, `hgh`). On `relieftype = 3` (“Highlands”) the density of mountains is maximum - there are fewer flat areas for farms and warehouses. |
-| `resourcestart` | [^9] | Cycle of 6 resources - each player is given a starting amount of **each** of 6 resources. Values ​​according to `resourcestart`: 1000 / 4000 / 5000 / 1,000,000. |
+| `resourcestart` | [^9] | Cycle of 6 resources - each player is given a starting amount of **each** of 6 resources. Values according to `resourcestart`: 1000 / 4000 / 5000 / 1,000,000. |
 | `resourcemines` | [^10] | Substituted in `minesdensity` - controls the mine placement phase. See [`map_generation_pipeline.md`](map_generation_pipeline.md) §8 (3 rounds × 3 types = 9 deposits per player for Tiny + Rich). |
 | `season` | [^11] | `bDesert := (season = 3)`. This flag switches the set of pattern types (`forests_pinefir_*` → `desert_forests_*`, etc.). Other seasons only change textures. |
 | `randkey0` / `randkey1` | [^12] | RNG keys. `randkey1` is used for relief (`SetRandomKey`), `randkey0` is used for placement. **The triple `(inputbitmap, randkey0, randkey1)` determines the map** - so replays reproduce the same map. More details - [`map_generation_pipeline.md` §12](map_generation_pipeline.md#12-seed-space). |
@@ -145,14 +148,14 @@ artillery. The verification algorithm itself is the same.
 [`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_diplomacy.md).
 
 <a id="36-gamespeed--скорость-партии"></a>
-### 3.6 `gamespeed` - batch speed
+### 3.6 `gamespeed` — game speed
 
 Constants `gc_settings_gamespeed_*` set the number of ticks per real second:
 `slow = 7`, `normal = 10`, `fast = 14`; fourth value `20` (ultra-fast) in
 code commented out [^20]. `gc_time_to_frames = 32` always (32 frames in one
 game second); only the real-time factor changes.
 
-| Speed ​​| Ticks / real second | Multiplier | Real time per 1 game second |
+| Speed | Ticks / real second | Multiplier | Real time per 1 game second |
 |---:|---:|---:|---:|
 | 0 (slow) | 7 | ×0.7 | 1.43 real seconds |
 | 1 (normal) | 10 | ×1.0 | 1.00 real seconds |
@@ -181,7 +184,7 @@ Contextual clues in the corner of the screen. Does not affect the simulation - o
 
 The constants `gc_player_difficulty_*` from `-1` to `4` [^21] are listed:
 
-| `difficulty` | Locale (gui) | What does | Speed ​​Multiplier |
+| `difficulty` | Locale (gui) | What does | Speed Multiplier |
 |---:|---|---|---:|
 | -1 | (none) | No AI | — |
 | 0 | difficulty.1 | Easy / Easy | 0.30 |

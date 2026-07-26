@@ -1,7 +1,7 @@
 <a id="порты"></a>
 # Shipyards
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Shipyard and fish delivery point. One option per cluster.
 
@@ -10,24 +10,24 @@ Shipyard and fish delivery point. One option per cluster.
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Shipyard** `turpor` | alg | **40000** | 1562.5 | 150 | **800** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | aus | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | bav | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | den | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | eng | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | fra | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | hun | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | net | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | pie | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | pol | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `porpor` | por | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | pru | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `ruspor` | rus | **45000** | 1562.5 | 150 | **1200** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | sax | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | sco | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | spa | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | swe | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | swi | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `turpor` | tur | **40000** | 1562.5 | 150 | **800** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `ukrpor` | ukr | **45000** | 1562.5 | 150 | **2000** | **0** | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
-| **Shipyard** `eurpor` | ven | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `turpor` | Algeria | **40000** | 1562.5 | 150 | **800** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Austria | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Bavaria | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Denmark | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | England | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | France | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Hungary | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Netherlands | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Piedmont | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Poland | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `porpor` | Portugal | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Prussia | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `ruspor` | Russia | **45000** | 1562.5 | 150 | **1200** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Saxony | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Scotland | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Spain | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Sweden | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Switzerland | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `turpor` | Turkey | **40000** | 1562.5 | 150 | **800** | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `ukrpor` | Ukraine | **45000** | 1562.5 | 150 | **2000** | **0** | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |
+| **Shipyard** `eurpor` | Venice | 50000 | 1562.5 | 150 | 1600 | 800 | 0 | 0 | battleship, chaika, ferry, fishboat, frigate, galley (+3) |

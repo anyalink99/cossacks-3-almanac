@@ -1,5 +1,8 @@
 <a id="recon-поведение-ии"></a>
-# Recon: AI behavior
+<a id="как-играет-компьютер"></a>
+# How the Computer Player Works
+
+[← How the game works](../README.md)
 
 Reverse engineering using `data/scripts/` in the Cossacks 3 installation. All links
 the code and the Pascal blocks themselves are collected in the [Sources](#sources) section
@@ -70,7 +73,7 @@ for AI it is multiplied by the difficulty factor [^10]. Effect:
 - **normal** — 50% (2 times slower);
 - **hard** — 75%;
 - **veryhard** — parity with the player;
-- **impossible** - 125% (25% faster) - the only mode where the AI ​​gets a real advantage.
+- **impossible** - 125% (25% faster) - the only mode where the AI gets a real advantage.
 
 The `aiData.bhumanai` flag (default `False` [^11]) disables
 multiplier - AI plays at parity regardless of level.
@@ -199,7 +202,7 @@ In the block `:2103-2150` and further [^33]:
 - `howitzer_count = ClampInt(num_depo × 2, 2, 8)`;
 - `mortar_count = ClampInt(num_depo × 8, 8, 40)`;
 - 18-eternal dragoon and pikeman: depend on the `gc_ai_upg_horse` upgrade and the nation;
-- Archerand (alg/sco): `_ai_GetUnitCount < farmused / 3` (on the water card `/5`).
+- Archers (alg/sco): `_ai_GetUnitCount < farmused / 3` (on the water card `/5`).
 
 These numbers are the **counts for the production queue** passed
 `_ai_TryUnit`, not hard limits. Barracks train until achievement

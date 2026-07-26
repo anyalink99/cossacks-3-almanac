@@ -1,5 +1,8 @@
 <a id="recon-морской-бой"></a>
-# Recon: naval battle
+<a id="как-устроен-морской-бой"></a>
+# How Naval Combat Works
+
+[← How the game works](../../README.md)
 
 In-depth analysis: how do naval units differ from land units, how
 boarding works, how transport ships behave, what it means
@@ -46,6 +49,7 @@ pathfinding so that the ship does not try to go on land.
 ---
 
 <a id="2-регионы-и-pathfinding"></a>
+<a id="2-водные-области-и-поиск-пути"></a>
 ## 2. Regions and pathfinding
 
 The map in C3 is divided into **regions** via
@@ -117,7 +121,7 @@ the coast can sink 15-20 pikemen in a couple of salvos.
 
 Transport protection:
 - Convoy of warships.
-- Landing in a safe zone (outside the area of ​​enemy towers).
+- Landing in a safe zone (outside the area of enemy towers).
 - Hidden landing in FOW (fog of war on the enemy side).
 
 ---
@@ -130,7 +134,7 @@ Transport protection:
 1. **Multiple weapons**: broadsides, bow gun.
    In the code this is represented through several `weapon_*` fields in
    `data.json`. Our parser extracts only the first one (see.
-   [`docs/known_issues.md`](../../../known_issues.md) — open issue
+   [known limitations](../../../../internals_en/project/known_issues.md) — open issue
    about multi-weapon buildings).
 2. **`bmercenary = True`** - the battleship is marked as
    "mercenary" in 168 dip-units. This means: it costs **gold-upkeep**,
@@ -166,9 +170,9 @@ to [`reports/combat/attack_rates.md`](../../../reports/combat/attack_rates.md).
 
 | Unit | Nation | What's special |
 |---|---|---|
-| `chaika` | ukr | The fastest shooting ship (speed = 55). HP 25,000 (versus 31,000 for a regular yacht). High vision = 4. |
-| `xebec` | alg, tur | Eastern analogue of the frigate. HP = 65,000 (+30% to the frigate). Speed ​​= 28 (−2 to frigate). |
-| `yachttur` | tur | Yacht. HP 31,000 is the same as the regular one, but `pause = 2.34` (versus 10.94 for the European one) → **DPS 4.7× higher**. Noticeable balance anomaly. |
+| `chaika` | Ukraine | The fastest shooting ship (speed = 55). HP 25,000 (versus 31,000 for a regular yacht). High vision = 4. |
+| `xebec` | Algeria, Turkey | Eastern analogue of the frigate. HP = 65,000 (+30% to the frigate). Speed = 28 (−2 to frigate). |
+| `yachttur` | Turkey | Yacht. HP 31,000 is the same as the regular one, but `pause = 2.34` (versus 10.94 for the European one) → **DPS 4.7× higher**. Noticeable balance anomaly. |
 
 ---
 

@@ -1,690 +1,660 @@
 {
   "root": "docs",
-  "title": "Документация",
+  "title": "Энциклопедия Cossacks 3",
   "entries": [
     {
-      "path": "architecture.md",
-      "title": "Архитектура проекта",
-      "size": 18377,
-      "lines": 233
-    },
-    {
-      "path": "known_issues.md",
-      "title": "Known issues и оговорки",
-      "size": 12958,
-      "lines": 177
-    },
-    {
-      "path": "known_issues_archive.md",
-      "title": "Known issues — архив исправленных проблем",
-      "size": 5382,
-      "lines": 70
-    },
-    {
       "path": "README.md",
-      "title": "Cossacks 3 — каталог артефактов",
-      "size": 9517,
-      "lines": 103
+      "title": "Энциклопедия Cossacks 3",
+      "size": 6814,
+      "lines": 76
     },
     {
       "path": "recon/README.md",
-      "title": "Recon notes — глубокие исследования механик",
-      "size": 11814,
-      "lines": 97
+      "title": "Как устроена игра",
+      "size": 6535,
+      "lines": 64
     },
     {
       "path": "recon/systems/ai_behavior.md",
-      "title": "Recon: поведение ИИ",
-      "size": 29835,
-      "lines": 501
+      "title": "Как играет компьютер",
+      "size": 29896,
+      "lines": 503
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
-      "title": "Recon: дипломатические центры и наёмники",
-      "size": 40104,
-      "lines": 678
+      "title": "Наёмники и Дипломатический центр",
+      "size": 40148,
+      "lines": 680
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
-      "title": "Recon: сценарии и триггеры",
-      "size": 14573,
-      "lines": 243
+      "title": "Сценарии и триггеры",
+      "size": 14619,
+      "lines": 245
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
-      "title": "Recon: интерфейс, ввод и обратная связь",
-      "size": 28472,
-      "lines": 498
+      "title": "Управление и обратная связь",
+      "size": 28511,
+      "lines": 500
     },
     {
       "path": "recon/systems/victory_conditions.md",
-      "title": "Recon: условия победы и конец партии",
-      "size": 27521,
-      "lines": 473
+      "title": "Победа, поражение и завершение партии",
+      "size": 27582,
+      "lines": 475
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
-      "title": "Recon: артиллерия",
-      "size": 13755,
-      "lines": 244
+      "title": "Как работает артиллерия",
+      "size": 13828,
+      "lines": 246
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
-      "title": "Recon: конвейер урона",
-      "size": 26679,
-      "lines": 449
+      "title": "Как рассчитывается урон",
+      "size": 26745,
+      "lines": 451
     },
     {
       "path": "recon/world/combat/formations.md",
-      "title": "Recon: формации",
-      "size": 24083,
-      "lines": 440
+      "title": "Построения и их боевые бонусы",
+      "size": 24178,
+      "lines": 442
     },
     {
       "path": "recon/world/combat/naval_combat.md",
-      "title": "Recon: морской бой",
-      "size": 17491,
-      "lines": 299
+      "title": "Как устроен морской бой",
+      "size": 17619,
+      "lines": 301
     },
     {
       "path": "recon/world/combat/pathfinding.md",
-      "title": "Recon: pathfinding и движение юнитов",
-      "size": 49747,
-      "lines": 902
+      "title": "Поиск пути и движение юнитов",
+      "size": 49791,
+      "lines": 904
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
-      "title": "Recon: поведение стрелковых юнитов",
-      "size": 18253,
-      "lines": 325
+      "title": "Как ведут себя стрелковые юниты",
+      "size": 18309,
+      "lines": 327
     },
     {
       "path": "recon/world/combat/target_selection.md",
-      "title": "Recon: выбор цели и attack-move",
-      "size": 44958,
-      "lines": 745
+      "title": "Выбор цели и атака с движением",
+      "size": 45029,
+      "lines": 747
     },
     {
       "path": "recon/world/combat/towers.md",
-      "title": "Recon: башни",
-      "size": 14364,
-      "lines": 225
+      "title": "Как работают башни",
+      "size": 14437,
+      "lines": 227
     },
     {
       "path": "recon/world/combat/unit_commands.md",
-      "title": "Recon: команды юнитам",
-      "size": 17330,
-      "lines": 292
+      "title": "Приказы юнитам",
+      "size": 17399,
+      "lines": 294
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
-      "title": "Recon: обзор и туман войны",
-      "size": 12855,
-      "lines": 206
+      "title": "Обзор и туман войны",
+      "size": 12904,
+      "lines": 208
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
-      "title": "Recon: стены и ворота",
-      "size": 30193,
-      "lines": 521
+      "title": "Стены и ворота",
+      "size": 30242,
+      "lines": 523
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
-      "title": "Recon: механика зданий",
-      "size": 36131,
-      "lines": 482
-    },
-    {
-      "path": "recon/world/economy/capture_mechanics.md",
-      "title": "Recon: механика захвата",
-      "size": 35911,
-      "lines": 593
-    },
-    {
-      "path": "recon/world/economy/hunger_and_rebellion.md",
-      "title": "Recon: голод и бунт",
-      "size": 17796,
-      "lines": 305
-    },
-    {
-      "path": "recon/world/economy/peasant_extraction.md",
-      "title": "Recon: добыча ресурсов крестьянами",
-      "size": 40469,
-      "lines": 726
-    },
-    {
-      "path": "recon/world/economy/production_queue.md",
-      "title": "Recon: очередь производства",
-      "size": 18450,
-      "lines": 313
-    },
-    {
-      "path": "recon/world/economy/upgrades_application.md",
-      "title": "Recon: применение апгрейдов",
-      "size": 27348,
-      "lines": 485
-    },
-    {
-      "path": "recon/world/map/game_settings.md",
-      "title": "Recon: настройки лобби — что движок делает с каждой опцией",
-      "size": 21812,
-      "lines": 368
-    },
-    {
-      "path": "recon/world/map/map_generation_pipeline.md",
-      "title": "Recon: pipeline генерации карты",
-      "size": 42039,
-      "lines": 572
-    },
-    {
-      "path": "reference/01_economy/README.md",
-      "title": "01. Экономика",
-      "size": 11753,
-      "lines": 172
-    },
-    {
-      "path": "reference/02_combat/README.md",
-      "title": "02. Бой и движение",
-      "size": 33195,
-      "lines": 352
-    },
-    {
-      "path": "reference/03_buildings/README.md",
-      "title": "03. Здания",
-      "size": 50364,
+      "title": "Строительство, ремонт и разрушение зданий",
+      "size": 36207,
       "lines": 486
     },
     {
+      "path": "recon/world/economy/capture_mechanics.md",
+      "title": "Как захватываются здания и юниты",
+      "size": 35989,
+      "lines": 595
+    },
+    {
+      "path": "recon/world/economy/hunger_and_rebellion.md",
+      "title": "Голод и бунт наёмников",
+      "size": 17864,
+      "lines": 307
+    },
+    {
+      "path": "recon/world/economy/peasant_extraction.md",
+      "title": "Как крестьяне добывают ресурсы",
+      "size": 40523,
+      "lines": 728
+    },
+    {
+      "path": "recon/world/economy/production_queue.md",
+      "title": "Очередь производства",
+      "size": 18499,
+      "lines": 315
+    },
+    {
+      "path": "recon/world/economy/upgrades_application.md",
+      "title": "Как применяются улучшения",
+      "size": 27406,
+      "lines": 487
+    },
+    {
+      "path": "recon/world/map/game_settings.md",
+      "title": "Как настройки матча влияют на игру",
+      "size": 21829,
+      "lines": 370
+    },
+    {
+      "path": "recon/world/map/map_generation_pipeline.md",
+      "title": "Как создаётся случайная карта",
+      "size": 42108,
+      "lines": 574
+    },
+    {
+      "path": "reference/01_economy/README.md",
+      "title": "Экономика",
+      "size": 11153,
+      "lines": 165
+    },
+    {
+      "path": "reference/02_combat/README.md",
+      "title": "Бой и движение",
+      "size": 5440,
+      "lines": 77
+    },
+    {
+      "path": "reference/03_buildings/README.md",
+      "title": "Здания",
+      "size": 65347,
+      "lines": 480
+    },
+    {
       "path": "reference/04_units/README.md",
-      "title": "04. Юниты",
-      "size": 27531,
+      "title": "Юниты",
+      "size": 32746,
       "lines": 266
     },
     {
       "path": "reference/05_upgrades/README.md",
-      "title": "05. Апгрейды",
-      "size": 241341,
-      "lines": 1607
+      "title": "Улучшения",
+      "size": 277471,
+      "lines": 1593
     },
     {
       "path": "reference/06_market/README.md",
-      "title": "06. Рынок",
-      "size": 11225,
-      "lines": 103
+      "title": "Рынок",
+      "size": 7989,
+      "lines": 108
     },
     {
       "path": "reference/07_naval/README.md",
-      "title": "07. Морской флот",
-      "size": 7877,
-      "lines": 109
+      "title": "Флот",
+      "size": 8841,
+      "lines": 121
     },
     {
       "path": "reference/compare/buildings/academies.md",
       "title": "Академии",
-      "size": 2710,
+      "size": 3229,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/artillery_depots.md",
       "title": "Артиллерийские депо",
-      "size": 4051,
+      "size": 5820,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/barracks.md",
       "title": "Казармы (17 в. и 18 в.)",
-      "size": 6899,
+      "size": 10027,
       "lines": 59
     },
     {
       "path": "reference/compare/buildings/blacksmiths.md",
       "title": "Кузницы",
-      "size": 2537,
+      "size": 3056,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/diplomatic_centers.md",
       "title": "Дипломатические центры",
-      "size": 5058,
+      "size": 8958,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/houses.md",
       "title": "Дома",
-      "size": 2423,
+      "size": 2985,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/markets.md",
       "title": "Рынки",
-      "size": 2405,
+      "size": 2962,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/mills.md",
       "title": "Мельницы",
-      "size": 2597,
+      "size": 3182,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/mines.md",
       "title": "Шахты",
-      "size": 1017,
+      "size": 1062,
       "lines": 11
     },
     {
       "path": "reference/compare/buildings/ports.md",
       "title": "Порты",
-      "size": 3570,
+      "size": 5562,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/README.md",
       "title": "Сравнения зданий",
-      "size": 210,
+      "size": 260,
       "lines": 5
     },
     {
       "path": "reference/compare/buildings/stables.md",
       "title": "Конюшни",
-      "size": 4248,
+      "size": 6155,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/storehouses.md",
       "title": "Склады",
-      "size": 2382,
+      "size": 2949,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/temples.md",
       "title": "Соборы / Церкви / Мечети",
-      "size": 3233,
+      "size": 4247,
       "lines": 32
     },
     {
       "path": "reference/compare/buildings/towers.md",
       "title": "Башни",
-      "size": 2447,
+      "size": 3000,
       "lines": 31
     },
     {
       "path": "reference/compare/buildings/town_halls.md",
-      "title": "Ратуши (Town Halls)",
-      "size": 4076,
+      "title": "Ратуши",
+      "size": 6347,
       "lines": 32
     },
     {
       "path": "reference/compare/README.md",
       "title": "Сравнения",
-      "size": 4143,
-      "lines": 55
+      "size": 4573,
+      "lines": 59
     },
     {
       "path": "reference/compare/units/archers.md",
       "title": "Лучники",
-      "size": 9699,
+      "size": 12139,
       "lines": 58
     },
     {
       "path": "reference/compare/units/dragoons.md",
       "title": "Драгуны",
-      "size": 12016,
+      "size": 13996,
       "lines": 67
     },
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Барабанщики и волынщик",
-      "size": 7915,
+      "size": 8767,
       "lines": 50
     },
     {
       "path": "reference/compare/units/grenadiers.md",
       "title": "Гренадёры",
-      "size": 8792,
+      "size": 10566,
       "lines": 52
     },
     {
       "path": "reference/compare/units/heavy_cavalry.md",
       "title": "Тяжёлая кавалерия",
-      "size": 14290,
+      "size": 16776,
       "lines": 79
     },
     {
       "path": "reference/compare/units/light_cavalry.md",
       "title": "Лёгкая кавалерия",
-      "size": 10110,
+      "size": 12078,
       "lines": 56
     },
     {
       "path": "reference/compare/units/light_infantry.md",
       "title": "Лёгкая пехота",
-      "size": 10363,
+      "size": 12783,
       "lines": 59
     },
     {
       "path": "reference/compare/units/musketeers17.md",
       "title": "Мушкетёры (17 в.)",
-      "size": 4908,
+      "size": 5776,
       "lines": 33
     },
     {
       "path": "reference/compare/units/musketeers18.md",
       "title": "Мушкетёры (18 в.)",
-      "size": 4251,
+      "size": 4952,
       "lines": 30
     },
     {
       "path": "reference/compare/units/officers.md",
       "title": "Офицеры",
-      "size": 8137,
+      "size": 9023,
       "lines": 50
     },
     {
       "path": "reference/compare/units/peasants.md",
       "title": "Крестьяне",
-      "size": 4933,
+      "size": 5648,
       "lines": 34
     },
     {
       "path": "reference/compare/units/pikemen.md",
       "title": "Пикинёры (17 в.)",
-      "size": 5026,
+      "size": 5825,
       "lines": 34
     },
     {
       "path": "reference/compare/units/pikemen18.md",
       "title": "Пикинёры (18 в.)",
-      "size": 4028,
+      "size": 4654,
       "lines": 30
     },
     {
       "path": "reference/compare/units/priests.md",
-      "title": "Жрецы",
-      "size": 2188,
+      "title": "Священники",
+      "size": 2417,
       "lines": 16
     },
     {
       "path": "reference/compare/units/README.md",
       "title": "Сравнения юнитов",
-      "size": 206,
+      "size": 262,
       "lines": 5
     },
     {
       "path": "reference/compare/units/ships.md",
       "title": "Корабли",
-      "size": 23942,
+      "size": 29776,
       "lines": 135
     },
     {
       "path": "reference/compare/units/siege.md",
       "title": "Артиллерия",
-      "size": 16813,
+      "size": 20403,
       "lines": 94
     },
     {
       "path": "reference/compare/units/special_infantry_18c.md",
       "title": "Особая пехота (18 в.)",
-      "size": 2782,
+      "size": 3449,
       "lines": 19
     },
     {
       "path": "reference/compare/weapons/projectiles.md",
-      "title": "Каталог оружия (projectile-level)",
-      "size": 4519,
-      "lines": 35
+      "title": "Оружие и снаряды",
+      "size": 5366,
+      "lines": 33
     },
     {
       "path": "reference/compare/weapons/README.md",
-      "title": "Каталог оружия",
-      "size": 478,
+      "title": "Оружие и снаряды",
+      "size": 427,
       "lines": 5
     },
     {
       "path": "reference/nations/alg.md",
-      "title": "Algeria (`alg`)",
-      "size": 12363,
-      "lines": 191
+      "title": "Алжир",
+      "size": 15822,
+      "lines": 190
     },
     {
       "path": "reference/nations/aus.md",
-      "title": "Austria (`aus`)",
-      "size": 15166,
-      "lines": 228
-    },
-    {
-      "path": "reference/nations/bav.md",
-      "title": "Bavaria (`bav`)",
-      "size": 14454,
-      "lines": 218
-    },
-    {
-      "path": "reference/nations/den.md",
-      "title": "Denmark (`den`)",
-      "size": 14462,
-      "lines": 218
-    },
-    {
-      "path": "reference/nations/eng.md",
-      "title": "England (`eng`)",
-      "size": 14739,
-      "lines": 223
-    },
-    {
-      "path": "reference/nations/fra.md",
-      "title": "France (`fra`)",
-      "size": 15090,
-      "lines": 226
-    },
-    {
-      "path": "reference/nations/hun.md",
-      "title": "Hungary (`hun`)",
-      "size": 15038,
+      "title": "Австрия",
+      "size": 18850,
       "lines": 227
     },
     {
+      "path": "reference/nations/bav.md",
+      "title": "Бавария",
+      "size": 18050,
+      "lines": 217
+    },
+    {
+      "path": "reference/nations/den.md",
+      "title": "Дания",
+      "size": 18058,
+      "lines": 217
+    },
+    {
+      "path": "reference/nations/eng.md",
+      "title": "Англия",
+      "size": 18408,
+      "lines": 222
+    },
+    {
+      "path": "reference/nations/fra.md",
+      "title": "Франция",
+      "size": 18747,
+      "lines": 225
+    },
+    {
+      "path": "reference/nations/hun.md",
+      "title": "Венгрия",
+      "size": 18779,
+      "lines": 226
+    },
+    {
       "path": "reference/nations/net.md",
-      "title": "Netherlands (`net`)",
-      "size": 14500,
-      "lines": 218
+      "title": "Нидерланды",
+      "size": 18084,
+      "lines": 217
     },
     {
       "path": "reference/nations/pie.md",
-      "title": "Piedmont (`pie`)",
-      "size": 14435,
-      "lines": 218
+      "title": "Пьемонт",
+      "size": 18038,
+      "lines": 217
     },
     {
       "path": "reference/nations/pol.md",
-      "title": "Poland (`pol`)",
-      "size": 15134,
-      "lines": 223
+      "title": "Польша",
+      "size": 18701,
+      "lines": 222
     },
     {
       "path": "reference/nations/por.md",
-      "title": "Portugal (`por`)",
-      "size": 14851,
-      "lines": 224
+      "title": "Португалия",
+      "size": 18519,
+      "lines": 223
     },
     {
       "path": "reference/nations/pru.md",
-      "title": "Prussia (`pru`)",
-      "size": 14678,
-      "lines": 220
+      "title": "Пруссия",
+      "size": 18282,
+      "lines": 219
     },
     {
       "path": "reference/nations/README.md",
       "title": "Нации",
-      "size": 2706,
-      "lines": 30
+      "size": 2855,
+      "lines": 31
     },
     {
       "path": "reference/nations/rus.md",
-      "title": "Russia (`rus`)",
-      "size": 15045,
-      "lines": 224
+      "title": "Россия",
+      "size": 18780,
+      "lines": 223
     },
     {
       "path": "reference/nations/sax.md",
-      "title": "Saxony (`sax`)",
-      "size": 14743,
-      "lines": 220
-    },
-    {
-      "path": "reference/nations/sco.md",
-      "title": "Scotland (`sco`)",
-      "size": 13847,
-      "lines": 208
-    },
-    {
-      "path": "reference/nations/spa.md",
-      "title": "Spain (`spa`)",
-      "size": 14576,
+      "title": "Саксония",
+      "size": 18336,
       "lines": 219
     },
     {
+      "path": "reference/nations/sco.md",
+      "title": "Шотландия",
+      "size": 17523,
+      "lines": 207
+    },
+    {
+      "path": "reference/nations/spa.md",
+      "title": "Испания",
+      "size": 18166,
+      "lines": 218
+    },
+    {
       "path": "reference/nations/swe.md",
-      "title": "Sweden (`swe`)",
-      "size": 14752,
-      "lines": 220
+      "title": "Швеция",
+      "size": 18334,
+      "lines": 219
     },
     {
       "path": "reference/nations/swi.md",
-      "title": "Switzerland (`swi`)",
-      "size": 14921,
-      "lines": 225
+      "title": "Швейцария",
+      "size": 18591,
+      "lines": 224
     },
     {
       "path": "reference/nations/tur.md",
-      "title": "Turkey (`tur`)",
-      "size": 13511,
-      "lines": 205
+      "title": "Турция",
+      "size": 17065,
+      "lines": 204
     },
     {
       "path": "reference/nations/ukr.md",
-      "title": "Ukraine (`ukr`)",
-      "size": 11568,
-      "lines": 179
+      "title": "Украина",
+      "size": 15021,
+      "lines": 178
     },
     {
       "path": "reference/nations/ven.md",
-      "title": "Venice (`ven`)",
-      "size": 14180,
-      "lines": 215
+      "title": "Венеция",
+      "size": 17741,
+      "lines": 214
     },
     {
       "path": "reference/README.md",
-      "title": "Справочник по Cossacks 3",
-      "size": 14223,
-      "lines": 153
+      "title": "Краткий справочник Cossacks 3",
+      "size": 5462,
+      "lines": 76
     },
     {
       "path": "reports/combat/artillery.md",
-      "title": "Артиллерия — сводный справочник",
-      "size": 16162,
-      "lines": 136
+      "title": "Артиллерия",
+      "size": 17286,
+      "lines": 138
     },
     {
       "path": "reports/combat/attack_rates.md",
-      "title": "Cossacks 3 — Скорость атаки (per-unit)",
-      "size": 17103,
-      "lines": 193
+      "title": "Скорость атаки",
+      "size": 26689,
+      "lines": 184
     },
     {
       "path": "reports/combat/combat_stats.md",
-      "title": "Cossacks 3 — DPS / EHP / armor metrics",
-      "size": 31270,
-      "lines": 243
+      "title": "Боевые характеристики",
+      "size": 40525,
+      "lines": 235
     },
     {
       "path": "reports/combat/counter_matrix.md",
-      "title": "Cossacks 3 — Counter-unit matrix",
-      "size": 15873,
-      "lines": 128
+      "title": "Кто кого побеждает",
+      "size": 16309,
+      "lines": 122
     },
     {
       "path": "reports/combat/vision_radii.md",
-      "title": "Cossacks 3 — Vision и searchradius",
-      "size": 12006,
-      "lines": 182
+      "title": "Радиус обзора и обнаружения целей",
+      "size": 14988,
+      "lines": 179
     },
     {
       "path": "reports/economy/builder_slots.md",
-      "title": "Cossacks 3 — Слоты строителей у зданий",
-      "size": 24669,
-      "lines": 494
+      "title": "Максимальное число строителей",
+      "size": 26211,
+      "lines": 468
     },
     {
       "path": "reports/economy/construction_times.md",
-      "title": "Cossacks 3 — Время постройки и ремонта",
-      "size": 117688,
-      "lines": 1183
+      "title": "Время строительства и ремонта",
+      "size": 240817,
+      "lines": 1174
     },
     {
       "path": "reports/economy/efficiency_upgrades.md",
-      "title": "Cossacks 3 — Efficiency upgrades per nation",
-      "size": 32591,
-      "lines": 949
+      "title": "Улучшения добычи по нациям",
+      "size": 64325,
+      "lines": 944
     },
     {
       "path": "reports/economy/production_rates.md",
-      "title": "Cossacks 3 — Темпы производства",
-      "size": 126771,
-      "lines": 1763
+      "title": "Скорость производства юнитов",
+      "size": 143571,
+      "lines": 1759
     },
     {
       "path": "reports/economy/scaling_prices.md",
-      "title": "Cossacks 3 — Цены зданий по N-му экземпляру",
-      "size": 58561,
-      "lines": 399
+      "title": "Цена каждого следующего здания",
+      "size": 66065,
+      "lines": 392
     },
     {
       "path": "reports/map/lobby_settings.md",
-      "title": "Настройки лобби — справочник значений",
-      "size": 16387,
-      "lines": 308
-    },
-    {
-      "path": "reports/map/map_predictions_validation.md",
-      "title": "Map predictions vs replay ground truth",
-      "size": 31198,
-      "lines": 849
+      "title": "Настройки матча",
+      "size": 13569,
+      "lines": 267
     },
     {
       "path": "reports/map/map_resources.md",
-      "title": "Оценка ресурсов карты — Tiny (256×256) + Highlands + шахты Rich",
-      "size": 12410,
-      "lines": 154
+      "title": "Сколько ресурсов появляется на карте",
+      "size": 3698,
+      "lines": 50
     },
     {
       "path": "reports/map/starting_layout.md",
-      "title": "Cossacks 3 — Starting layout",
-      "size": 8548,
-      "lines": 97
-    },
-    {
-      "path": "reports/nations/deviations.md",
-      "title": "Национальные отклонения — здания и юниты",
-      "size": 28886,
-      "lines": 522
+      "title": "Стартовое расположение и ресурсы",
+      "size": 4439,
+      "lines": 57
     },
     {
       "path": "reports/nations/overview.md",
-      "title": "Сравнение наций — общий обзор",
-      "size": 15823,
+      "title": "Сравнение наций",
+      "size": 17142,
       "lines": 138
     },
     {
       "path": "reports/README.md",
-      "title": "Расчётные отчёты (derived reports)",
-      "size": 8089,
-      "lines": 76
+      "title": "Подробные таблицы и расчёты",
+      "size": 4235,
+      "lines": 54
     },
     {
       "path": "reports/tech/tech_tree.md",
-      "title": "Cossacks 3 — Tech Tree (по нациям)",
-      "size": 299470,
-      "lines": 3017
+      "title": "Дерево развития",
+      "size": 488089,
+      "lines": 3016
     }
   ]
 }

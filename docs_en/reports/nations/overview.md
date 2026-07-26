@@ -1,67 +1,74 @@
 <a id="сравнение-наций--общий-обзор"></a>
-# Comparison of nations - general overview
+<a id="сравнение-наций"></a>
+# Nation comparison
 
-**Derived report.** Counted from [`data.json`](../../../data.json) by script [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). Regeneration: `python compute/compute_nations_overview.py`.
+[← Tables and calculations](../README.md)
 
-Side-by-side comparison of all 21 nations. For details on a specific nation - [`reference/nations/<nat>.md`](../../reference/nations/README.md).
+A side-by-side comparison of all 21 nations: access to the 18th century,
+buildings, unique units, notable stat differences, and mercenaries. Individual
+nation pages are available in the [nation reference](../../reference/nations/README.md).
 
 <a id="1-размер-ростера-и-эпохальный-доступ"></a>
-## §1. Roster size and Mythic access
+<a id="1-размер-армии-и-доступ-к-xviii-веку"></a>
+## §1. Roster size and access to the 18th century
 
-How many different unit-sids are available to the nation (`?` - miss/test units, Drummer/Officer/Priest, etc. are classified separately). Column **18c** - Does the nation have 18th-century Barracks? (`<nat>ba2`); if not, the nation is locked in the 17th century. era.
+The number of different units available to each nation and whether it can
+build an 18th-century Barracks. Scenario and test objects are excluded from
+combat categories.
 
-| Nation | Total units | Combat | Strelkov | Cavalry | Grenadiers | Ships | 18th century |
+| Nation | Total units | Combat | Ranged units | Cavalry | Grenadiers | Ships | 18th century |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
-| **alg** Algeria | 25 | 18 | 2 | 2 | 1 | 5 | ❌ |
-| **aus** Austria | 38 | 30 | 5 | 7 | 2 | 6 | ✅ |
-| **bav** Bavaria | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
-| **den** Denmark | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
-| **eng** England | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
-| **fra** France | 37 | 29 | 5 | 7 | 2 | 6 | ✅ |
-| **hun** Hungary | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
-| **net** Netherlands | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
-| **pie** Piedmont | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
-| **pol** Poland | 37 | 29 | 4 | 8 | 2 | 6 | ✅ |
-| **por** Portugal | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
-| **pru** Prussia | 36 | 28 | 4 | 6 | 3 | 6 | ✅ |
-| **eng** Russia | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
-| **sax** Saxony | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
-| **sco** Scotland | 28 | 21 | 3 | 3 | 1 | 5 | ✅ |
-| **spa** Spain | 36 | 28 | 4 | 6 | 2 | 6 | ✅ |
-| **swe** Sweden | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
-| **swi** Switzerland | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
-| **tur** Turkey | 29 | 21 | 3 | 3 | 1 | 6 | ❌ |
-| **ukr** Ukraine | 22 | 16 | 3 | 4 | 1 | 4 | ❌ |
-| **ven** Venice | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **Algeria** (`alg`) | 25 | 18 | 2 | 2 | 1 | 5 | ❌ |
+| **Austria** (`aus`) | 38 | 30 | 5 | 7 | 2 | 6 | ✅ |
+| **Bavaria** (`bav`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **Denmark** (`den`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **England** (`eng`) | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **France** (`fra`) | 37 | 29 | 5 | 7 | 2 | 6 | ✅ |
+| **Hungary** (`hun`) | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **Netherlands** (`net`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **Piedmont** (`pie`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **Poland** (`pol`) | 37 | 29 | 4 | 8 | 2 | 6 | ✅ |
+| **Portugal** (`por`) | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **Prussia** (`pru`) | 36 | 28 | 4 | 6 | 3 | 6 | ✅ |
+| **Russia** (`rus`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
+| **Saxony** (`sax`) | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
+| **Scotland** (`sco`) | 28 | 21 | 3 | 3 | 1 | 5 | ✅ |
+| **Spain** (`spa`) | 36 | 28 | 4 | 6 | 2 | 6 | ✅ |
+| **Sweden** (`swe`) | 36 | 28 | 4 | 7 | 2 | 6 | ✅ |
+| **Switzerland** (`swi`) | 36 | 28 | 5 | 6 | 2 | 6 | ✅ |
+| **Turkey** (`tur`) | 29 | 21 | 3 | 3 | 1 | 6 | ❌ |
+| **Ukraine** (`ukr`) | 22 | 16 | 3 | 4 | 1 | 4 | ❌ |
+| **Venice** (`ven`) | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
 
 <a id="2-покрытие-стандартных-построек"></a>
-## §2. Covering standard buildings
+## §2. Standard buildings
 
-`✅` = nation has this building, `❌` = nation does not have it. Full catalog of buildings - [03_buildings/README.md](../../reference/03_buildings/README.md).
+`✅` means the nation has the building; `❌` means it does not. See the
+[building reference](../../reference/03_buildings/README.md) for full details.
 
 | Nation | Town Hall | Housing | Mill | Storehouse | Tower | Stone wall/gate | Mine | Shipyard | Diplomatic Center |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **alg** Algeria | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **aus** Austria | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **bav** Bavaria | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **den** Denmark | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **eng** England | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **fra** France | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **hun** Hungary | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **net** Netherlands | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **pie** Piedmont | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **pol** Poland | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **por** Portugal | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **pru** Prussia | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **eng** Russia | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **sax** Saxony | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **sco** Scotland | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **spa** Spain | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **swe** Sweden | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **swi** Switzerland | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **tur** Turkey | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **ukr** Ukraine | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **ven** Venice | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Algeria** (`alg`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Austria** (`aus`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Bavaria** (`bav`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Denmark** (`den`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **England** (`eng`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **France** (`fra`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Hungary** (`hun`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Netherlands** (`net`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Piedmont** (`pie`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Poland** (`pol`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Portugal** (`por`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Prussia** (`pru`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Russia** (`rus`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Saxony** (`sax`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Scotland** (`sco`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Spain** (`spa`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Sweden** (`swe`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Switzerland** (`swi`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Turkey** (`tur`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Ukraine** (`ukr`) | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **Venice** (`ven`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 **Notable Omissions:**
 
@@ -73,46 +80,47 @@ Units with `sid`, which is found only in one nation (excluding mercenaries from 
 
 | Nation | Unique `sid` (class HP) |
 | --- | --- |
-| **alg** Algeria | `mameluke` _Mameluke_ (Heavy cavalry, HP=280)<br>`archer` _Archer_ (Archer, HP=40) |
-| **aus** Austria | `croat` _Croat_ (Light cavalry, HP=260)<br>`roundshier` _Roundshier_ (Light infantry, HP=100)<br>`pandur` _Pandur_ (Shooter, HP=85)<br>`musketeeraus` _Musketeer, 17th century_ (Shooter, HP=55) |
-| **bav** Bavaria | `grenadierbav` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18bav` _Musketeer, 18th century_ (Gunner, HP=100) |
-| **den** Denmark | `grenadierden` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18den` _Musketeer, 18th century_ (Gunner, HP=100) |
-| **eng** England | `highlander` _Highlander_ (Shooter, HP=130) |
-| **fra** France | `kingmusketeer` _King's Musketeer_ (Horse Rifleman, HP=280)<br>`dragoon18fra` _Dragoon, 18th century_ (Horse Rifleman, HP=140)<br>`chasseur` _Chasseur_ (Shooter, HP=75) |
-| **hun** Hungary | `hussarhun` _Hussar_ (Light Cavalry, HP=250)<br>`lightcavalry` _Light cavalry_ (Horse Rifleman, HP=175)<br>`grenadierhun` _Grenadier_ (Grenadier, HP=125)<br>`pandurhun` _Szekely_ (Gunner, HP=75)<br>`gauduk` _Hajduk_ (Shooter, HP=60) |
-| **net** Netherlands | `dragoon18net` _Dragoon, 18th century_ (Horse Rifleman, HP=320)<br>`musketeernet` _Musketeer, 17th century_ (Rifleman, HP=65) |
-| **pie** Piedmont | `dragoon18pie` _Dragoon, 18th century_ (Horse Rifleman, HP=200)<br>`padre` _Padre_ (Light Infantry, HP=90) |
-| **pol** Poland | `wingedhussar` _Winged Hussar_ (Light cavalry, HP=225)<br>`reiterpol` _Light Reiter_ (Heavy cavalry, HP=190)<br>`dragoonpol` _Pospolite ruszenie_ (Horse Rifleman, HP=185)<br>`pikemanpol` _Pikeman, 17th century_ (Light Infantry, HP=90)<br>`musketeerpol` _Musketeer, 17th century_ (Shooter, HP=70) |
-| **por** Portugal | `pikemanpor` _Pikeman, 17th century_ (Light Infantry, HP=100)<br>`jagerpor` _Volunteer_ (Rifleman, HP=50) |
-| **pru** Prussia | `hussarpru` _Hussar_ (Light Cavalry, HP=240)<br>`grenadierpru` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18pru` _Musketeer, 18th century_ (Shooter, HP=100) |
-| **eng** Russia | `vityaz` _Vityaz_ (Heavy cavalry, HP=380)<br>`cossackdon` _Don Cossack_ (Heavy cavalry, HP=220)<br>`officerrus` _Commander_ (Light Infantry, HP=125)<br>`drummerrus` _Drummer, 17th century_ (Light Infantry, HP=100)<br>`pikemanrus` _Spearman_ (Light Infantry, HP=85)<br>`strelet` _Strelets_ (Rifleman, HP=85)<br>`pearus` _Serf_ (Peasant, HP=50) |
-| **sax** Saxony | `guardcavalrysax` _Cavalry Guard_ (Heavy cavalry, HP=320)<br>`grenadiersax` _Grenadier_ (Grenadier, HP=100)<br>`musketeer18sax` _Musketeer, 18th century_ (Shooter, HP=90) |
-| **sco** Scotland | `framegun` _Frame gun_ (Cannon, HP=3000)<br>`lancersco` _Lancer_ (Heavy cavalry, HP=320)<br>`raidersco` _Raider_ (Light cavalry, HP=280)<br>`swordsmansco` _Sword Clansman_ (Light infantry, HP=180)<br>`archersco` _Bow Clansman_ (Archer, HP=150)<br>`officersco` _Officer_ (Light infantry, HP=150)<br>`pikemansco` _Covenanter pikeman_ (Light infantry, HP=100)<br>`musketeersco` _Covenanter musketeer_ (Rifleman, HP=90)<br>`peasco` _Peasant_ (Peasant, HP=60) |
-| **spa** Spain | `pikemanspa` _Coselete_ (Light Infantry, HP=100)<br>`musketeerspa` _Musketeer, 17th century_ (Rifleman, HP=85) |
-| **swe** Sweden | `reiterswe` _Swedish Reiter_ (Heavy cavalry, HP=300)<br>`hackapell` _Hakkapeliitta_ (Light cavalry, HP=245)<br>`pikeman18swe` _Pikeman, 18th century_ (Light Infantry, HP=110) |
-| **swi** Switzerland | `hussarswi` _Mounted Jaeger_ (Light cavalry, HP=265)<br>`pikemanswi` _Pikeman, 17th century_ (Light infantry, HP=90)<br>`jagerswi` _Chasseur_ (Shooter, HP=65) |
-| **tur** Turkey | `yachttur` _Yacht_ (Yacht, HP=35000)<br>`sipahi` _Heavy Sipahi_ (Heavy cavalry, HP=360)<br>`spakh` _Light Sipahi_ (Heavy cavalry, HP=230)<br>`tatar` _Tatar_ (Archer, HP=185)<br>`archertur` _Turkish archer_ (Archer, HP=65)<br>`jannisary` _Janissary_ (Shooter, HP=65) |
-| **ukr** Ukraine | `chaika` _chaika_ (Yacht, HP=25000)<br>`hetman` _Hetman_ (Heavy cavalry, HP=320)<br>`cossackregister` _Register Cossack_ (Heavy cavalry, HP=250)<br>`cossacksich` _Sich Cossack_ (Light cavalry, HP=250)<br>`serdiuk` _Serdiuk_ (Rifleman, HP=85)<br>`peaukr` _Peasant_ (Peasant, HP=75) |
+| **Algeria** (`alg`) | `mameluke` _Mameluke_ (Heavy cavalry, HP=280)<br>`archer` _Archer_ (Archer, HP=40) |
+| **Austria** (`aus`) | `croat` _Croat_ (Light cavalry, HP=260)<br>`roundshier` _Roundshier_ (Light infantry, HP=100)<br>`pandur` _Pandur_ (Shooter, HP=85)<br>`musketeeraus` _Musketeer, 17th century_ (Shooter, HP=55) |
+| **Bavaria** (`bav`) | `grenadierbav` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18bav` _Musketeer, 18th century_ (Gunner, HP=100) |
+| **Denmark** (`den`) | `grenadierden` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18den` _Musketeer, 18th century_ (Gunner, HP=100) |
+| **England** (`eng`) | `highlander` _Highlander_ (Shooter, HP=130) |
+| **France** (`fra`) | `kingmusketeer` _King's Musketeer_ (Horse Rifleman, HP=280)<br>`dragoon18fra` _Dragoon, 18th century_ (Horse Rifleman, HP=140)<br>`chasseur` _Chasseur_ (Shooter, HP=75) |
+| **Hungary** (`hun`) | `hussarhun` _Hussar_ (Light Cavalry, HP=250)<br>`lightcavalry` _Light cavalry_ (Horse Rifleman, HP=175)<br>`grenadierhun` _Grenadier_ (Grenadier, HP=125)<br>`pandurhun` _Szekely_ (Gunner, HP=75)<br>`gauduk` _Hajduk_ (Shooter, HP=60) |
+| **Netherlands** (`net`) | `dragoon18net` _Dragoon, 18th century_ (Horse Rifleman, HP=320)<br>`musketeernet` _Musketeer, 17th century_ (Rifleman, HP=65) |
+| **Piedmont** (`pie`) | `dragoon18pie` _Dragoon, 18th century_ (Horse Rifleman, HP=200)<br>`padre` _Padre_ (Light Infantry, HP=90) |
+| **Poland** (`pol`) | `wingedhussar` _Winged Hussar_ (Light cavalry, HP=225)<br>`reiterpol` _Light Reiter_ (Heavy cavalry, HP=190)<br>`dragoonpol` _Pospolite ruszenie_ (Horse Rifleman, HP=185)<br>`pikemanpol` _Pikeman, 17th century_ (Light Infantry, HP=90)<br>`musketeerpol` _Musketeer, 17th century_ (Shooter, HP=70) |
+| **Portugal** (`por`) | `pikemanpor` _Pikeman, 17th century_ (Light Infantry, HP=100)<br>`jagerpor` _Volunteer_ (Rifleman, HP=50) |
+| **Prussia** (`pru`) | `hussarpru` _Hussar_ (Light Cavalry, HP=240)<br>`grenadierpru` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18pru` _Musketeer, 18th century_ (Shooter, HP=100) |
+| **Russia** (`rus`) | `vityaz` _Vityaz_ (Heavy cavalry, HP=380)<br>`cossackdon` _Don Cossack_ (Heavy cavalry, HP=220)<br>`officerrus` _Commander_ (Light Infantry, HP=125)<br>`drummerrus` _Drummer, 17th century_ (Light Infantry, HP=100)<br>`pikemanrus` _Spearman_ (Light Infantry, HP=85)<br>`strelet` _Strelets_ (Rifleman, HP=85)<br>`pearus` _Serf_ (Peasant, HP=50) |
+| **Saxony** (`sax`) | `guardcavalrysax` _Cavalry Guard_ (Heavy cavalry, HP=320)<br>`grenadiersax` _Grenadier_ (Grenadier, HP=100)<br>`musketeer18sax` _Musketeer, 18th century_ (Shooter, HP=90) |
+| **Scotland** (`sco`) | `framegun` _Frame gun_ (Cannon, HP=3000)<br>`lancersco` _Lancer_ (Heavy cavalry, HP=320)<br>`raidersco` _Raider_ (Light cavalry, HP=280)<br>`swordsmansco` _Sword Clansman_ (Light infantry, HP=180)<br>`archersco` _Bow Clansman_ (Archer, HP=150)<br>`officersco` _Officer_ (Light infantry, HP=150)<br>`pikemansco` _Covenanter pikeman_ (Light infantry, HP=100)<br>`musketeersco` _Covenanter musketeer_ (Rifleman, HP=90)<br>`peasco` _Peasant_ (Peasant, HP=60) |
+| **Spain** (`spa`) | `pikemanspa` _Coselete_ (Light Infantry, HP=100)<br>`musketeerspa` _Musketeer, 17th century_ (Rifleman, HP=85) |
+| **Sweden** (`swe`) | `reiterswe` _Swedish Reiter_ (Heavy cavalry, HP=300)<br>`hackapell` _Hakkapeliitta_ (Light cavalry, HP=245)<br>`pikeman18swe` _Pikeman, 18th century_ (Light Infantry, HP=110) |
+| **Switzerland** (`swi`) | `hussarswi` _Mounted Jaeger_ (Light cavalry, HP=265)<br>`pikemanswi` _Pikeman, 17th century_ (Light infantry, HP=90)<br>`jagerswi` _Chasseur_ (Shooter, HP=65) |
+| **Turkey** (`tur`) | `yachttur` _Yacht_ (Yacht, HP=35000)<br>`sipahi` _Heavy Sipahi_ (Heavy cavalry, HP=360)<br>`spakh` _Light Sipahi_ (Heavy cavalry, HP=230)<br>`tatar` _Tatar_ (Archer, HP=185)<br>`archertur` _Turkish archer_ (Archer, HP=65)<br>`jannisary` _Janissary_ (Shooter, HP=65) |
+| **Ukraine** (`ukr`) | `chaika` _chaika_ (Yacht, HP=25000)<br>`hetman` _Hetman_ (Heavy cavalry, HP=320)<br>`cossackregister` _Register Cossack_ (Heavy cavalry, HP=250)<br>`cossacksich` _Sich Cossack_ (Light cavalry, HP=250)<br>`serdiuk` _Serdiuk_ (Rifleman, HP=85)<br>`peaukr` _Peasant_ (Peasant, HP=75) |
 
 **No unique non-mercenary units:** **ven** Venice - use only the general roster.
 
 <a id="4-стат-аномалии-на-одинаковых-юнитах"></a>
+<a id="4-отличия-характеристик-похожих-юнитов"></a>
 ## §4. Stat anomalies on “identical” units
 
 The same unit class (`usage_short`) may have different HP/damage/armor among different nations - these are hidden balance differences. Here are categories where the spread of HP between nations is ≥ 20%.
 
 | Class | Min HP (nation · sid) | Max HP (nation · sid) | Scatter |
 | --- | --- | --- | ---: |
-| Archer | **alg** Algeria · `archer` (40) | **tur** Turkey · `tatar` (185) | +362% |
-| Light Infantry | **alg** Algeria · `drummertur` (50) | **sco** Scotland · `swordsmansco` (180) | +260% |
-| Cannon | **sco** Scotland · `framegun` (3000) | **ven** Venice · `cannon` (9000) | +200% |
-| Shooter | **por** Portugal · `jagerpor` (50) | **eng** England · `highlander` (130) | +160% |
-| Horse Rifleman | **fra** France · `dragoon18fra` (140) | **net** Netherlands · `dragoon18net` (320) | +129% |
-| Heavy Cavalry | **pol** Poland · `reiterpol` (190) | **eng** Russia · `vityaz` (380) | +100% |
-| Yacht | **ukr** Ukraine · `chaika` (25000) | **tur** Turkey · `yachttur` (35000) | +40% |
-| Frigate | **aus** Austria · `frigate` (50000) | **tur** Turkey · `xebec` (65000) | +30% |
-| Grenadier | **sax** Saxony · `grenadiersax` (100) | **pru** Prussia · `grenadierpru` (125) | +25% |
-| Light Cavalry | **pol** Poland · `wingedhussar` (225) | **sco** Scotland · `raidersco` (280) | +24% |
+| Archer | **Algeria** (`alg`) | **Turkey** (`tur`) | +362% |
+| Light Infantry | **Algeria** (`alg`) | **Scotland** (`sco`) | +260% |
+| Cannon | **Scotland** (`sco`) | **Venice** (`ven`) | +200% |
+| Shooter | **Portugal** (`por`) | **England** (`eng`) | +160% |
+| Horse Rifleman | **France** (`fra`) | **Netherlands** (`net`) | +129% |
+| Heavy Cavalry | **Poland** (`pol`) | **Russia** (`rus`) · `vityaz` (380) | +100% |
+| Yacht | **Ukraine** (`ukr`) | **Turkey** (`tur`) | +40% |
+| Frigate | **Austria** (`aus`) | **Turkey** (`tur`) | +30% |
+| Grenadier | **Saxony** (`sax`) | **Prussia** (`pru`) | +25% |
+| Light Cavalry | **Poland** (`pol`) | **Scotland** (`sco`) | +24% |
 
 <a id="5-доступные-наёмники-через-дипломатический-центр"></a>
 ## §5. Available mercenaries (via diplomatic center)
@@ -131,12 +139,13 @@ Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `
 | `lightcavalrydip` | Shooter | 100 | 18 | ✅ | all 21 nations |
 
 <a id="6-вариант-рынка"></a>
+<a id="6-архитектурные-варианты-рынка"></a>
 ## §6. Market option
 Market - common building (see [03_buildings/README.md → mar](../../reference/03_buildings/README.md#mar--market)). For 21 nations there are 4 building options (`eurmar` / `rusmar` / `spamar` / `turmar`), differing in HP, price and construction time. These are **building options only** - market rates are global and the same for all players in the match, regardless of which `mar` is built (see [06_market/README.md](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
 
 | Cluster | Nations |
 | --- | --- |
-| `eurmar` | **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France, **hun** Hungary, **net** Netherlands, **pie** Piedmont, **pol** Poland, **pru** Prussia, **sax** Saxony, **sco** Scotland, **swe** Sweden, **swi** Switzerland, **ven** Venice |
-| `rusmar` | **rus** Russia, **ukr** Ukraine |
-| `spamar` | **por** Portugal, **spa** Spain |
-| `turmar` | **alg** Algeria, **tur** Turkey |
+| `eurmar` | **Austria** (`aus`) |
+| `rusmar` | **Russia** (`rus`) |
+| `spamar` | **Portugal** (`por`) |
+| `turmar` | **Algeria** (`alg`) |

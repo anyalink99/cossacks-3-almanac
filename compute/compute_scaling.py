@@ -31,7 +31,8 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from citations import Citations
-from config import PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR, REPORTS_ECONOMY_DIR
+from config import (PLAYABLE_NATIONS, DATA_JSON, REPORTS_DIR,
+                    REPORTS_ECONOMY_DIR, nation_ru)
 
 # Module-level citations registry — populated by header_block(), drained by write_md().
 cites = Citations()
@@ -41,8 +42,8 @@ MD_PATH = REPORTS_ECONOMY_DIR / "scaling_prices.md"
 
 MAX_N = 6
 RES_KEYS = ("food", "wood", "stone", "gold", "iron", "coal")
-RES_LETTER = {"food": "F", "wood": "W", "stone": "S",
-              "gold": "G", "iron": "I", "coal": "C"}
+RES_LETTER = {"food": "Е", "wood": "Д", "stone": "К",
+              "gold": "З", "iron": "Ж", "coal": "У"}
 
 # Per-nation building suffix categories — ordered for output.
 PER_NAT_SUF = [
@@ -113,7 +114,7 @@ def fmt_cost(prices: dict) -> str:
 def note_for(b: dict) -> str:
     cp = b.get("costpercent") or 0
     if cp == 0 or cp == 100:
-        return "не масштабируется (`costpercent` = 0/100)"
+        return "цена постоянна"
     mult = cp / 100.0
     if mult == int(mult):
         return f"×{int(mult)} за каждый уже построенный"
@@ -123,48 +124,45 @@ def note_for(b: dict) -> str:
 def header_block() -> list[str]:
     """Lines for the explanatory header common to md output."""
     L = []
-    L.append("# Cossacks 3 — Цены зданий по N-му экземпляру")
+    L.append("# Цена каждого следующего здания")
     L.append("")
-    L.append("**Производный** файл (расчётный, не извлечение). Считается из "
-             "`data.json` скриптом "
-             "[`compute/compute_scaling.py`](../../../compute/compute_scaling.py).")
+    L.append("[← Таблицы и расчёты](../README.md)")
+    L.append("")
+    L.append("Многие здания дорожают с каждым уже построенным экземпляром. "
+             "Здесь показана цена первых шести зданий одного типа.")
     L.append("")
     L.append("## Формула")
     L.append("")
     formula_cite = cites.cite("lib/unit.script:5650-5689",
                               label="`_unit_GetCostByID` — расчёт цены N-го экземпляра")
-    L.append(f"Расчёт цены — в `_unit_GetCostByID` {formula_cite}:")
+    L.append(f"Цена умножается на коэффициент здания за каждый уже построенный "
+             f"экземпляр {formula_cite}:")
     L.append("")
-    L.append("```")
-    L.append("costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока")
-    L.append("final_price[r] = floor(base_price[r] * costmodifier)   // отдельно для F/W/S/G/I/C")
+    L.append("```text")
+    L.append("цена следующего = базовая цена × коэффициент ^ число построенных")
     L.append("```")
     L.append("")
     inc_cite = cites.cite("lib/unit.script:3847",
                           label="инкремент `counter.all[cid][unitID]` при создании")
     dec_cite = cites.cite("lib/unit.script:3969",
                           label="декремент `counter.all[cid][unitID]` при разрушении")
-    L.append(f"Где `count` — это `gPlayer[plInd].counter.all[cid][unitID]`. "
-             f"Счётчик инкрементируется при создании {inc_cite} и **декрементируется** "
-             f"при разрушении {dec_cite} — снесли центр, следующий снова дешевле.")
+    L.append(f"Счётчик увеличивается при создании {inc_cite} и уменьшается при "
+             f"разрушении {dec_cite}. Поэтому после потери городского центра "
+             f"следующий центр снова становится дешевле.")
     L.append("")
     L.append("## Особые случаи")
     L.append("")
-    L.append("- `costpercent = 0` или `100` → масштабирования нет, цена постоянная.")
-    L.append("- Для **наёмников** (`bmercenary=True`) счётчик объединяется с парным юнитом "
-             "(`archerdip ↔ archerturdip`, `dragoon18dip ↔ lightcavalrydip`), и модификатор "
-             "ограничен сверху значением **×2**. В этой таблице наёмников нет — только здания.")
-    L.append("- Для не-наёмников модификатор ограничен сверху значением **×20000**. "
-             "На N≤6 этот предел никогда не срабатывает (даже у казарм с `costpercent=500`: "
-             "5⁵ = 3125 < 20000).")
-    L.append("- **Округление вниз (floor)** для каждого ресурса независимо. Для дорогих зданий с "
-             "`costpercent=104` это даёт ступенчатый рост, а не плавный.")
+    L.append("- Если коэффициент равен единице, цена остаётся постоянной.")
+    L.append("- Каждый ресурс округляется вниз отдельно, поэтому небольшой рост "
+             "иногда происходит ступенями.")
+    L.append("- В таблице перечислены только здания. Для наёмников действуют "
+             "отдельные правила и предел удвоенной базовой цены.")
     L.append("")
-    L.append(f"## Колонки N=1..{MAX_N}")
+    L.append(f"## Как читать таблицы")
     L.append("")
-    L.append("`N=1` — стоимость **первого** экземпляра (count=0, модификатор=1, цена = базовая). "
-             "`N=2` — второго (count=1) и т.д. Каждая ячейка — суммарная стоимость в формате "
-             "`F<food> W<wood> S<stone> G<gold> I<iron> C<coal>` (нулевые ресурсы скрыты).")
+    L.append("«1-е» — цена первого экземпляра, «2-е» — второго и так далее. "
+             "Ресурсы сокращены: Е — еда, Д — дерево, К — камень, З — золото, "
+             "Ж — железо, У — уголь.")
     L.append("")
     return L
 
@@ -177,9 +175,13 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
     A(f"### {title}")
     A("")
     if show_nation:
-        head = ["Нация", "sid", "Имя", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
+        head = ["Нация", "Здание", "Код", "Коэффициент, %"] + [
+            f"{i}-е" for i in range(1, MAX_N+1)
+        ] + ["Примечание"]
     else:
-        head = ["sid", "Используют нации", "Имя", "cost%"] + [f"N={i}" for i in range(1, MAX_N+1)] + ["Примечание"]
+        head = ["Здание", "Код", "Используют нации", "Коэффициент, %"] + [
+            f"{i}-е" for i in range(1, MAX_N+1)
+        ] + ["Примечание"]
     A("| " + " | ".join(head) + " |")
     align = ["---"] * len(head)
     align[3] = "---:"  # cost%
@@ -189,9 +191,9 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
     if show_nation:
         for b in rows:
             cells = [
-                b["nation"],
-                f"`{b['sid']}`",
+                nation_ru(b["nation"]),
                 name_ru_en(b),
+                f"`{b['sid']}`",
                 str(b.get("costpercent") if b.get("costpercent") is not None else "—"),
             ]
             for n in range(1, MAX_N+1):
@@ -201,11 +203,11 @@ def section_md(title: str, rows: list[dict], show_nation: bool, lines: list[str]
     else:
         for sid, group in rows:
             b = group[0]
-            nats = ", ".join(sorted(g["nation"] for g in group))
+            nats = ", ".join(nation_ru(nat) for nat in sorted(g["nation"] for g in group))
             cells = [
+                name_ru_en(b),
                 f"`{sid}`",
                 nats,
-                name_ru_en(b),
                 str(b.get("costpercent") if b.get("costpercent") is not None else "—"),
             ]
             for n in range(1, MAX_N+1):
@@ -219,10 +221,10 @@ def write_md(data: dict):
     out: list[str] = header_block()
     A = out.append
 
-    A("## 1. Постройки по нациям")
+    A("## Национальные варианты зданий")
     A("")
-    A("Каждая нация имеет свой набор. sid формируется как `<nat><suffix>`. "
-      "Сгруппировано по типу здания, все 21 нация в одной таблице на тип.")
+    A("Сгруппировано по типу здания, чтобы варианты всех 21 нации можно было "
+      "сравнить рядом.")
     A("")
 
     by_suffix_per: dict[str, list[dict]] = defaultdict(list)
@@ -234,7 +236,7 @@ def write_md(data: dict):
 
     for suf, label in PER_NAT_SUF:
         rows = sorted(by_suffix_per.get(suf, []), key=lambda x: x["nation"])
-        section_md(f"1.{PER_NAT_SUF.index((suf, label))+1} `{suf}` — {label}",
+        section_md(f"{label} (`{suf}`)",
                    rows, show_nation=True, lines=out)
 
     # Per-nation buildings not in our pretty list
@@ -244,10 +246,10 @@ def write_md(data: dict):
             rows = sorted(by_suffix_per[suf], key=lambda x: x["nation"])
             section_md(f"`{suf}` — (прочее)", rows, show_nation=True, lines=out)
 
-    A("## 2. Общие постройки (по кластерам)")
+    A("## Общие варианты зданий")
     A("")
-    A("sid формируется как `<cluster><suffix>` — общий для группы наций. "
-      "Один sid обычно используется несколькими нациями — они перечислены в столбце.")
+    A("Некоторые варианты одинаковы сразу у нескольких наций. Эти нации "
+      "перечислены в отдельном столбце.")
     A("")
 
     by_suffix_com: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
@@ -262,7 +264,7 @@ def write_md(data: dict):
         if not groups:
             continue
         rows = sorted(groups.items())
-        section_md(f"2.{COMMON_SUF.index((suf, label))+1} `{suf}` — {label}",
+        section_md(f"{label} (`{suf}`)",
                    rows, show_nation=False, lines=out)
 
     other_com = [s for s in by_suffix_com if s not in {x[0] for x in COMMON_SUF}]
@@ -272,15 +274,6 @@ def write_md(data: dict):
             section_md(f"`{suf}` — (прочее)", rows, show_nation=False, lines=out)
 
     out.extend(cites.render())
-    # Footer with derivation note
-    A("---")
-    A("")
-    A("Сгенерировано из `data.json`. Для перегенерации:")
-    A("")
-    A("```")
-    A("python compute/compute_scaling.py")
-    A("```")
-
     MD_PATH.write_text("\n".join(out), encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes, {len(out):,} lines)")
 

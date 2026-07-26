@@ -28,7 +28,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from citations import Citations
 from config import (DATA_JSON, REPORTS_COMBAT_DIR, MELEE_SWING_FALLBACK_SEC,
-                    MELEE_SWING_FALLBACK_FRAMES, melee_swing_sec)
+                    MELEE_SWING_FALLBACK_FRAMES, melee_swing_sec, nation_ru)
 
 
 MD_PATH = REPORTS_COMBAT_DIR / "counter_matrix.md"
@@ -131,20 +131,20 @@ def render_matrix(roster_units: list[tuple[str, dict]]) -> list[str]:
     @ fast-speed for one attacker to kill one defender, no movement, no shield/squad."""
     L = []
     A = L.append
-    A("## Time-to-kill matrix (real-sec @ fast)")
+    A("## Время победы в поединке")
     A("")
-    A("**Cell (row=attacker, col=defender)** = сколько секунд **одному** атакующему "
-      "нужно чтобы убить **одного** защитника, считая игровое время × 1.4 (fast). "
-      "Учитывает protection, **не** учитывает shield/бонусы отряда/перемещение/дальность. "
-      "Для артиллерии (cannon/mortar): один снаряд может зацепить нескольких — здесь "
+    A("Ячейка показывает, сколько реальных секунд на скорости «Быстро» нужно "
+      "**одному** атакующему, чтобы победить **одного** защитника. "
+      "Учитывается защита от типа оружия, но не учитываются щит отряда, "
+      "перемещение и дальность. Для артиллерии один снаряд может зацепить нескольких — здесь "
       "считаем урон только по одной цели.")
     A("")
-    A("**Чтение:** меньше — лучше для атакующего. `m̃` = ближний бой (pause=0, "
-      f"swing-rate из `attack0` в .aaf для каждого юнита; fallback ≈ {MELEE_SWING_FALLBACK_SEC} g-sec). "
-      "`—` = недоступно (нет оружия / hp).")
+    A("**Как читать:** меньше — лучше для атакующего. Знак `m̃` отмечает "
+      "ближний бой, где темп зависит от анимации удара. `—` означает, что "
+      "у юнита нет подходящего оружия или запаса здоровья.")
     A("")
     short_labels = [f"D{i+1}" for i in range(len(roster_units))]
-    head_cells = ["#", "Attacker"] + short_labels
+    head_cells = ["№", "Атакующий"] + short_labels
     A("| " + " | ".join(head_cells) + " |")
     sep = ["---", "---"] + ["---:" for _ in short_labels]
     A("| " + " | ".join(sep) + " |")
@@ -168,9 +168,9 @@ def render_matrix(roster_units: list[tuple[str, dict]]) -> list[str]:
         A("| " + " | ".join(cells) + " |")
     A("")
     # Legend table — explains short labels
-    A("**Legend** (D# = defender column = same unit as A# row):")
+    A("**Обозначения:** D# — столбец защитника с тем же номером, что строка A#.")
     A("")
-    A("| # | Unit | sid · nation | HP | armor (pike/sword/bullet/cannister/arrow/cannonball) |")
+    A("| № | Юнит | Код · нация | Здоровье | Защита: пика / меч / пуля / картечь / стрела / ядро |")
     A("| ---: | --- | --- | ---: | --- |")
     for i, (label, u) in enumerate(roster):
         sid = u.get("sid") if u else "—"
@@ -180,7 +180,7 @@ def render_matrix(roster_units: list[tuple[str, dict]]) -> list[str]:
             armor = "/".join(str(u.get(f"prot_{k}") or 0) for k in PROT_KINDS)
         else:
             armor = "—"
-        A(f"| {i+1} | {label} | `{sid}` · {nat} | {hp} | {armor} |")
+        A(f"| {i+1} | {label} | `{sid}` · {nation_ru(nat)} | {hp} | {armor} |")
     A("")
     return L
 
@@ -189,19 +189,17 @@ def render_dps_against(roster_units: list[tuple[str, dict]]) -> list[str]:
     """Effective DPS (real-sec @ fast): attacker DPS *after* defender protection."""
     L = []
     A = L.append
-    A("## Матрица эффективного DPS (real-sec @ fast)")
+    A("## Урон в секунду по каждому защитнику")
     A("")
     A("Сколько урона **в секунду реального времени** атакующий наносит защитнику "
-      "после вычета protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. "
-      "Ближний бой — деление на длительность `attack0` из .aaf (per-unit; "
-      f"fallback ≈ {MELEE_SWING_FALLBACK_SEC} g-sec).")
+      "после вычета защиты. Для ближнего боя используется длительность "
+      "анимации удара конкретного юнита.")
     A("")
-    A("Таблица **симметрична** по форме относительно TTK выше: TTK = HP / DPS, "
-      "так что эта таблица позволяет быстро прикинуть «есть ли вообще шанс» (DPS близко к 1 "
-      "= protection почти полностью съедает урон).")
+    A("Таблица позволяет увидеть, насколько защита цели поглощает атаку. "
+      "Значение около единицы означает, что почти весь базовый урон нейтрализован.")
     A("")
     short_labels = [f"D{i+1}" for i in range(len(roster_units))]
-    A("| Attacker | " + " | ".join(short_labels) + " |")
+    A("| Атакующий | " + " | ".join(short_labels) + " |")
     A("| --- | " + " | ".join("---:" for _ in short_labels) + " |")
     for i, (label_a, u_a) in enumerate(roster_units):
         w_a = primary_weapon(u_a)
@@ -238,31 +236,27 @@ def render_notes(cites: Citations) -> list[str]:
     A = L.append
     A("## Оговорки")
     A("")
-    A("- **Бонусы отряда/формации** проигнорированы: `fAddDamage` (агрессивная "
-      "стойка) до +50%, `fAddShieldHold` (стеновой режим) до +50 EHP.")
-    A("- **Дальность** не учтена. Стрелок может бить 15 тайлов, кавалерист 1 — но "
-      "матрица считает «привезли друг к другу и стреляют из позиции». Реальный "
-      "исход боя зависит от `searchradius` (когда видит) против `radiusmax` (когда "
-      "бьёт).")
-    A("- **Перемещение.** Для танковых «шкафов» (cuirassier 300hp) дешёвый раш "
-      "мушкетёров может убить за 4 сек/шт., но времени перезарядки мушкетёра "
-      "достаточно, чтобы cuirassier подъехал и зарубил в ближнем бою. Этого "
-      "симулятор не учитывает.")
-    A(f"- **Melee swing rate** — длительность `attack0` из `data/animations/aaf/<sid>.aaf` "
-      "(per-unit, разброс 11-33 кадров). Если файл отсутствует, fallback = "
-      f"{MELEE_SWING_FALLBACK_FRAMES} кадров = {MELEE_SWING_FALLBACK_SEC} g-sec (медиана 84 melee-юнитов). "
-      "Все melee TTK помечены `m̃`.")
-    A("- **Оружие по нескольким целям** (cannon, mortar) считает урон по одному "
-      "юниту. В реальности cannonball пробивает линию — в плотном строю ×3-5 "
-      "эффективнее.")
-    A(f"- **Нанесение урона:** `applied = max(1, base_dmg + squad_bonus - prot[kind])` "
+    A("- **Бонусы построения** не учитываются. Агрессивный строй может увеличить "
+      "урон до 50%, а оборонительный — добавить до 50 единиц защиты.")
+    A("- **Дальность** не учитывается. Стрелок часто начинает бой раньше "
+      "кавалериста, поэтому исход настоящей стычки зависит не только от чисел "
+      "в таблице.")
+    A("- **Перемещение** не моделируется. Тяжёлый кавалерист может успеть "
+      "сблизиться с мушкетёром во время перезарядки и полностью изменить исход "
+      "поединка.")
+    A(f"- **Темп ближнего боя** берётся из анимации удара каждого юнита "
+      f"(обычно 11–33 кадра). Если точных данных нет, используется медиана: "
+      f"{MELEE_SWING_FALLBACK_FRAMES} кадров, или {MELEE_SWING_FALLBACK_SEC} игровой секунды. "
+      "Такие значения помечены `m̃`.")
+    A("- **Оружие по площади** здесь поражает только одну цель. В настоящем "
+      "плотном строю ядро или взрыв мортиры могут задеть нескольких юнитов.")
+    A(f"- **Нанесение урона:** `итог = максимум(1, урон + бонус строя − защита)` "
       f"{cites.cite('lib/miscext2.script:380, 434', label='`_misc_DoDamage` — нанесение урона')}. "
-      f"Минимум 1 даже если protection > damage — то есть **никакая броня "
-      f"не делает юнита бессмертным** против пик-копий, но TTK взрывается "
-      f"до сотен секунд.")
-    A("- **Юниты 18 в. (musketeer18, pikeman18, grenadier 18)** требуют исследования "
-      "century18 + соответствующего здания. Включены для сравнения, но появляются "
-      "только после длительного развития экономики.")
+      f"Минимум 1 действует даже тогда, когда защита выше урона: броня не "
+      f"делает юнита бессмертным, но бой может растянуться на сотни секунд.")
+    A("- **Юниты XVIII века** требуют перехода в новую эпоху и соответствующего "
+      "здания. Они включены для сравнения, хотя появляются только после "
+      "длительного развития экономики.")
     A("")
     return L
 
@@ -277,7 +271,11 @@ def main():
         u = find_unit(units, sid, nat)
         if u is None:
             missing.append((label, sid, nat))
-        roster.append((label, u))
+        reader_label = (
+            u.get("name_ru") or u.get("name_en") or label
+            if u is not None else label
+        )
+        roster.append((reader_label, u))
     if missing:
         print("WARNING: missing roster units:", missing)
 
@@ -285,36 +283,30 @@ def main():
     cites = Citations()
     L = []
     A = L.append
-    A("# Cossacks 3 — Counter-unit matrix")
+    A("# Кто кого побеждает")
     A("")
-    A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`data.json` скриптом "
-      "[`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).")
+    A("[← Таблицы и расчёты](../README.md)")
+    A("")
+    A("Приблизительное сравнение выбранных типичных юнитов в поединке один на один. "
+      "Это расчёт по характеристикам, а не симуляция движения целых отрядов.")
     A("")
     A("## Метод")
     A("")
-    A("```")
-    A("effective_damage = max(1, attacker.damage − defender.protection[attacker.kind])")
-    A("game_dps         = effective_damage / attacker.pause_sec       # melee: / attack0_sec from .aaf")
-    A("real_dps_fast    = game_dps × 1.4")
-    A("ttk_real_fast    = defender.hp / real_dps_fast")
+    A("```text")
+    A("урон после защиты = максимум(1, базовый урон − защита от типа оружия)")
+    A("урон в секунду = урон после защиты / длительность цикла атаки")
+    A("время победы = здоровье защитника / урон в секунду")
     A("```")
     A("")
     A(f"Источник формулы — `_misc_DoDamage` "
       f"{cites.cite('lib/miscext2.script:380, 434', label='`_misc_DoDamage` — нанесение урона')}. "
-      f"FAST = `gc_settings_gamespeed_2 = 14` → ×1.4 от game-time. Подробности и оговорки в §Оговорки.")
+      f"Результат пересчитан в реальное время на скорости «Быстро» (×1,4). "
+      f"Подробности и ограничения перечислены ниже.")
     A("")
     L.extend(render_matrix(roster))
     L.extend(render_dps_against(roster))
     L.extend(render_notes(cites))
     L.extend(cites.render())
-    A("---")
-    A("")
-    A("Сгенерировано из `data.json`. Для перегенерации:")
-    A("")
-    A("```")
-    A("python compute/compute_counter_matrix.py")
-    A("```")
     MD_PATH.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")
 

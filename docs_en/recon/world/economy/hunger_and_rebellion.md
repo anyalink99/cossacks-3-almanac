@@ -1,5 +1,8 @@
 <a id="recon-голод-и-бунт"></a>
-# Recon: Hunger and Riot
+<a id="голод-и-бунт-наёмников"></a>
+# Famine and Mercenary Rebellion
+
+[← How the game works](../../README.md)
 
 Deep analysis: under what conditions does a player’s flags go up?
 `bfamine` (hunger) and `brebellion` (rebellion), what exactly does this mean?

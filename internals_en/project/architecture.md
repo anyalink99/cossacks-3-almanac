@@ -187,7 +187,7 @@ read before adding a new report or editing the generator.
    (`combat / economy / tech / map / nations`) - write to
    `docs/reports/<section>/<name>.md`. If it’s a new section, create a folder and
    add to `docs/reports/README.md`.
-4. If the report needs to be shown in [`docs/README.md`](README.md), enter it in
+4. If the report needs to be shown in [`docs/README.md`](../../docs_en/README.md), enter it in
    list (this file is not auto-gen).
 
 <a id="добавить-новый-json-датасет"></a>

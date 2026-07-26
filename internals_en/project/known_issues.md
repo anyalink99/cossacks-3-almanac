@@ -41,7 +41,7 @@ reminder for parser.
 battles) - not included in the pipeline. All the facts about Wonder, `endgame_win`,
 scenario-actions were extracted manually.
 
-**Where to look with your hands:** [`docs/recon/systems/victory_conditions.md`](recon/systems/victory_conditions.md) §3.
+**Where to inspect it:** [`docs/recon/systems/victory_conditions.md`](../../docs_en/recon/systems/victory_conditions.md) §3.
 
 ---
 
@@ -59,7 +59,7 @@ does not match external material - we trust the files in this repo.
 | Cost `Manufacture agricultural equipment` (blacksmith) | W400/G100 | **not found in blacksmith** | `country.script` | In the current forge - only per-unit damage / protection. Perhaps there was such an upgrade in Cossacks 1, and in C3 it moved to the academy (`aca.X`). |
 
 Additionally: in the new chapter [02_combat → “Confirmed simplifications of combat
-formulas"](reference/02_combat/README.md) describes five mechanics from other RTS, which
+formulas"](../../docs_en/reference/02_combat/README.md) describes five mechanics from other RTS, which
 in C3 **no** (charge bonus, anti-cavalry multiplier, drummer aura, special
 grenade trajectory, stealth). These are also forms of divergence - players often expect
 these effects are similar to AoE/Total War.
@@ -87,7 +87,7 @@ these effects are similar to AoE/Total War.
 - **`farmused` for defeat does not fall to 0** while there is a peasant **or**
   Town Hall. You can live with one peasant and one mill and not
   lose. Details -
-  [`docs/recon/systems/victory_conditions.md`](recon/systems/victory_conditions.md) §4.
+  [`docs/recon/systems/victory_conditions.md`](../../docs_en/recon/systems/victory_conditions.md) §4.
 - **Vision formula 20 + 4 × vision (tiles)** gives a minimum of 20 t even with
   `vision = 0`. Default The unit does not have “0 review”, but 20 tiles.
 - **Pop cap = `cen × 100 + bar × 150 + ba2 × 250 + hou × 25`** - but always
@@ -108,7 +108,8 @@ in-game measurements. Listed by recon documents - each section indicates where
 you can actually dig.
 
 <a id="добыча-и-экономика--reconworldeconomypeasantextractionmdreconworldeconomypeasantextractionmd-9"></a>
-### Mining and economics - [`recon/world/economy/peasant_extraction.md`](recon/world/economy/peasant_extraction.md) §9
+<a id="добыча-и-экономика--reconworldeconomypeasantextractionmddocsreconworldeconomypeasantextractionmd-9"></a>
+### Mining and economics - [`recon/world/economy/peasant_extraction.md`](../../docs_en/recon/world/economy/peasant_extraction.md) §9
 
 - Exact `loss_factor` (proportion of time lost on walking to the warehouse) at different
   map layouts.
@@ -120,7 +121,8 @@ you can actually dig.
   5–10 runs of map gen + env parsing.
 
 <a id="ии--reconsystemsaibehaviormdreconsystemsaibehaviormd-открытые-вопросы"></a>
-### AI - [`recon/systems/ai_behavior.md`](recon/systems/ai_behavior.md) §“Open questions”
+<a id="ии--reconsystemsaibehaviormddocsreconsystemsaibehaviormd-открытые-вопросы"></a>
+### AI - [`recon/systems/ai_behavior.md`](../../docs_en/recon/systems/ai_behavior.md) §“Open questions”
 
 - Replenishment rate of the agressor pool (`aiData.agressors.Add` - where?).
 - Activation of the `bhumanai` flag - the setter was not found in the scripts. Perhaps
@@ -133,7 +135,8 @@ you can actually dig.
   verify in game.
 
 <a id="захват--reconworldeconomycapturemechanicsmdreconworldeconomycapturemechanicsmd-9"></a>
-### Capture — [`recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md) §9
+<a id="захват--reconworldeconomycapturemechanicsmddocsreconworldeconomycapturemechanicsmd-9"></a>
+### Capture — [`recon/world/economy/capture_mechanics.md`](../../docs_en/recon/world/economy/capture_mechanics.md) §9
 
 - Exact position of `(px, py)` at the building when checking: model center, bbox center
   or anchor-point? Empirically measured: build a barracks, bring
@@ -144,7 +147,8 @@ you can actually dig.
   peasants and art can “break” the wall through the capture mechanism. Check
   empirically.
 
-### Pathfinding — [`recon/world/combat/pathfinding.md`](recon/world/combat/pathfinding.md) §9
+<a id="pathfinding--reconworldcombatpathfindingmddocsreconworldcombatpathfindingmd-9"></a>
+### Pathfinding — [`recon/world/combat/pathfinding.md`](../../docs_en/recon/world/combat/pathfinding.md) §9
 
 - The pathfinding algorithm itself lives in the native engine (C++): A*? Flow
   field? Wave propagation? Not visible to scripts.
@@ -154,14 +158,16 @@ you can actually dig.
   repath. Does the unit stop silently?
 
 <a id="rng--детерминизм--internalsenginedeterminismauditmdinternalsenginedeterminismauditmd"></a>
-### RNG / determinism - [`../internals/engine/determinism_audit.md`](../internals_en/engine/determinism_audit.md)
+<a id="генератор-случайных-чисел-и-детерминизм--determinismauditmdenginedeterminismauditmd"></a>
+### Random-number generation and determinism - [`determinism_audit.md`](../engine/determinism_audit.md)
 
 - Global state PRNG (`random`-cursor) - is it saved in save? Rather
   everything, no.
 - Pathfinding tie-breaking (engine, not available to the script).
 - Variable timestep (engine).
 
-### Map generation — [`recon/world/map/map_generation_pipeline.md`](recon/world/map/map_generation_pipeline.md) §13
+<a id="генерация-карты--reconworldmapmapgenerationpipelinemddocsreconworldmapmapgenerationpipelinemd-13"></a>
+### Map generation — [`recon/world/map/map_generation_pipeline.md`](../../docs_en/recon/world/map/map_generation_pipeline.md) §13
 
 - Bounded enumeration of unique cards: 230 basic forms × K randkey variations.
   K unknown (probably ≤ 10⁹, but actual range of user seeds

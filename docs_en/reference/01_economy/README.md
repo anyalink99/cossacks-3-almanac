@@ -1,179 +1,179 @@
-#01. Economics
+<a id="экономика"></a>
+# Economy
 
-[← Index](README.md)
-
-> **Deep Research for this chapter:**
->
-> - [`../../recon/world/economy/peasant_extraction.md`](../../recon/world/economy/peasant_extraction.md) - complete analysis of the peasant cycle, animation frames, walk speed, fieldlife regeneration, formulas and open empirical questions (see §9)
-> - [`../../recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) - what appears on the map (forests, stones, mines) and where exactly
-> - [`../../reports/map/map_resources.md`](../../reports/map/map_resources.md) - counting resources on the standard map Tiny + Highlands + Rich (~109 large trees, ~33 stones, up to 12 mines / player)
+[← Quick reference](../README.md)
 
 <a id="резюме"></a>
 ## Summary
 
-One peasant per trip brings `delivered = (portion × eff) / 100`. `eff` starts at 100, upgrades accumulate additively. The mines work according to a different scheme: each peasant inside adds 13 to `gPlayer.counter.resincome`, the real speed is 1.664 resources per game second.
+A peasant chops wood, mines stone, or harvests food in small portions, then
+carries the accumulated load to a storehouse. Gathering upgrades are additive:
+bonuses of +40% and +140%, for example, turn the base 100% efficiency into
+280%.
 
-<a id="глобальные-константы"></a>
-## Global constants
+Mines work differently. A peasant inside a mine continuously produces about
+**1.664 gold, iron, or coal per game second**. Mine upgrades do not make an
+individual worker faster; they provide room for more workers.
 
-| Parameter | Meaning | Source |
-|---|---:|---|
-| `gc_time_to_frames` | 32 | dmscript.global:175 |
-| `gc_pixels_to_tile` | 53.3333 | dmscript.global:172 |
-| `gc_settings_gamespeed_0` (slow) | 7 ticks/sec | dmscript.global:1027 |
-| `gc_settings_gamespeed_1` (normal) | 10 | dmscript.global:1028 |
-| `gc_settings_gamespeed_2` (fast) | 14 | dmscript.global:1029 |
-| `gc_MaxObjCount` | 32000 | dmscript.global:110 |
-| `gc_MaxPlayerCount` | 12 | dmscript.global:97 |
-| `gc_FieldMaxHP` | 25000 | dmscript.global:128 |
-| `gc_obj_foodperunit` | 30 food/unit | dmscript.global:808 |
-| Default `eff` | 100% | player.script:109 |
+<a id="сколько-крестьянин-приносит-за-рейс"></a>
+## Amount gathered per trip
 
-All lobby options (starting resources, peace time, population limit, advance to the 18th century, AI difficulty, etc.) - tables in [`docs/reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md), engine behavior - in [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
-
-<a id="базовые-порции-и-hits"></a>
-## Basic portions and hits
-
-| Resource | Basic portion | Hits | Source |
-|---|---:|---:|---|
-| food | **45** | 22 | dmscript.global:799,804 |
-| wood | **28** | 14 | dmscript.global:800,805 |
-| stone | **40** | 20 | dmscript.global:801,806 |
-| gold/iron/coal/other | **20** | n/a | unit.script:9551 (hardcode) |
+| Resource | Base amount | Work cycles before delivery |
+|---|---:|---:|
+| Food | **45** | 22 |
+| Wood | **28** | 14 |
+| Stone | **40** | 20 |
+| Gold, iron, or coal | **20** | gathered inside a mine |
 
 <a id="формула-добычи"></a>
-## Extraction formula
+## Gathering formula
+
+```text
+delivered amount = base amount × efficiency / 100
 ```
-delivered = (base_portion × eff) / 100   # integer division
+
+Example: +40% and +140% upgrades produce 280% efficiency. A peasant delivers
+`45 × 280 / 100 = 126` food per trip instead of the base 45.
+
+All available bonuses are listed in [Upgrades](../05_upgrades/README.md).
+
+<a id="шахты"></a>
+## Mines
+
+Gold, iron, and coal mines work in the same way. A basic mine holds
+**5 peasants**, costs 100 wood and 100 stone, and takes about 9.38 game seconds
+to build.
+
+```text
+one peasant = 1.664 resources per game second
+             ≈ 100 resources per game minute
 ```
-Example: with upgrades academy.1 (+40% food) and mill.1 (+140% food) → `eff = 100 + 40 + 140 = 280`. Peasant brings `45 × 280 / 100 = 126` food per flight (instead of the base 45).
 
-All efficiency upgrades are applied in one branch `_player_ApplyUpgrade` [^1]; their complete list is in [05_upgrades/README.md](../05_upgrades/README.md#economy-eff).
+**Fully upgrading one mine** adds six capacity upgrades:
 
-<a id="источники"></a>
-## Sources
+| Upgrade | Additional slots | Food | Gold | Total slots |
+|---|---:|---:|---:|---:|
+| **Extend the mine and build a branching rail network (+5)** `eurgol.1` | +5 | 1,000 | 1,250 | 10 |
+| **Extend the mine and build a branching rail network (+8)** `eurgol.2` | +8 | 5,250 | 4,950 | 18 |
+| **Extend the mine and build a branching rail network (+10)** `eurgol.3` | +10 | 12,500 | 9,250 | 28 |
+| **Extend the mine and build a branching rail network (+12)** `eurgol.4` | +12 | 15,800 | 18,500 | 40 |
+| **Extend the mine and build a branching rail network (+15)** `eurgol.5` | +15 | 19,800 | 21,050 | 55 |
+| **Extend the mine and build a branching rail network (+40)** `eurgol.6` | +40 | 50,200 | 25,950 | 95 |
 
-[^1]: Applying `gc_upg_type_effect*perc` to `resefficiency[res]` - `lib/player.script:1813-1828`.
+The base 5 slots plus all upgrades allow **95 peasants in one mine**, producing
+up to 158.1 resources per game second, or 9,485 per game minute.
 
-<a id="шахты-goldironcoal"></a>
-## Mines (gold/iron/coal)
+All upgrades for one mine cost 104,550 food and 80,950 gold.
 
-Mine: HP = 2500, `buildtime` = 300 frames = 9.38 g-sec, price W100 / S100, `peasantabsorber = 5` (5 peasants max. base). Each peasant inside adds 13 to `produce[restype]`.
+<a id="поля-и-запас-еды"></a>
+## Fields and food capacity
 
-**Calculation:**
-```
-bank_per_sec = 13 × 32 = 416       # per peasant per game second
-real_per_sec = 416 / 250 ≈ 1.664   # resources per game second
-real_per_min = 99.84               # ≈ 100 resources per game minute per peasant
-```
-**Full pumping of one mine** (6 upgrades):
+A field has **25,000 health**. Durability upgrades increase the number of
+harvesting cycles it survives and therefore the total amount of food it can
+produce.
 
-| Level | +workers | F | G | Cumulatively |
-|---:|---:|---:|---:|---:|
-| eurgol.1 | +5 | 1000 | 1250 | 10 |
-| eurgol.2 | +8 | 5250 | 4950 | 18 |
-| eurgol.3 | +10 | 12500 | 9250 | 28 |
-| eurgol.4 | +12 | 15800 | 18500 | 40 |
-| eurgol.5 | +15 | 19800 | 21050 | 55 |
-| eurgol.6 | +40 | 50200 | 25950 | 95 |
-
-**Total:** 5 basic + 6 upgrades = **95 peasants/mine = 158.1 resource per g-sec = 9485 per g-min**.
-
-**Cost of full pumping of one mine:** F104,550 + G80,950.
-
-<a id="поле-food-fieldlife-регенерация"></a>
-## Field (food, fieldlife, regeneration)
-
-HP fields = `gc_FieldMaxHP = 25000`. Field damage per hit: `resdec = max(1, floor(100 / (1 + fieldlife / 100)))`.
-
-| fieldlife | resdec/strike | Max. blows | Max. food at eff=100 |
+| Durability bonus | Damage to the field per cycle | Maximum cycles | Food without gathering upgrades |
 |---:|---:|---:|---:|
 | 0 | 100 | 250 | 511 |
-| 100 | 50 | 500 | 1022 |
-| 200 | 33 | 757 | 1548 |
-| 300 | 25 | 1000 | 2045 |
-| 500 | 16 | 1562 | 3195 |
+| 100 | 50 | 500 | 1,022 |
+| 200 | 33 | 757 | 1,548 |
+| 300 | 25 | 1,000 | 2,045 |
+| 500 | 16 | 1,562 | 3,195 |
 
-Fieldlife upgrades: `aca.4` (+200), `bla.1` (+100). Amount = 300 → ~2045 food / field.
+The two standard durability upgrades provide a combined bonus of 300. A fully
+worked field then produces about **2,045 food**, rather than the base 495.
 
-<a id="корабли--fishing"></a>
-## Ships - fishing
+<a id="рыбалка"></a>
+## Fishing
 
-`fishboat`: HP = 300, price W600, `fishingmax = 1000` (base), `fishingspeed = 50/4 = 12` ticks per fish. Upgrade `aca.5` (`+100% boat efficiency`) doubles the carrying capacity → **2000 food / flight**. The upgrade `aca.7` (`-85% fishing boat cost`) reduces the cost of construction.
+A Fishing Boat has 300 health, costs 600 wood, and carries **1,000 food**.
+One upgrade doubles its capacity to **2,000 food per trip**; another reduces
+the boat’s construction cost by 85%.
 
-The full list of ships is in [compare/units/ships.md](../compare/units/ships.md).
+See [Ship comparisons](../compare/units/ships.md) for the full fleet.
 
-<a id="голод-и-бунт--таблицы-upkeep"></a>
-## Hunger and Riot - upkeep tables
+<a id="содержание-армии-голод-и-бунт"></a>
+## Army upkeep, famine, and rebellion
 
-> **Full analysis of the mechanics:** [`../../recon/world/economy/hunger_and_rebellion.md`](../../recon/world/economy/hunger_and_rebellion.md) (RNG difficulty thresholds, virtual mercenary player, defensive strategies). Diplomatic Center and mercenaries as a **system** - [`../../recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
+A normal army continuously consumes food. When food runs out, famine begins
+and may be followed by rebellion. Buildings and mercenaries do not consume
+food.
 
-<a id="расход-food--g-сек-на-одного-юнита"></a>
-### Food consumption / g-sec per unit
+<a id="расход-еды-одним-юнитом"></a>
+### Food consumption per unit
 
-Formula: `food_per_g_sec = (consume.food + 30) × 32 / 20000`, if
-`bnohungry = False`. Constant `gc_obj_foodperunit = 30` —
-additional portion for each eating unit.
+The values below are per game second:
 
-| Unit | `consume.food` | + 30 | total | food/g-sec |
-|---|---:|---:|---:|---:|
-| peasant (aus / pol / spa / eng / ukr / sco) | 32 | +30 | 62 | 0.0992 |
-| peasant `peatur` / `peaalg` | 28 | +30 | 58 | 0.0928 |
-| peasant `pearus` | 26 | +30 | 56 | 0.0896 |
-| infantry without explicit `consume.food` | 0 | +30 | 30 | 0.0480 |
+| Unit | Food per second |
+|---|---:|
+| Peasant of most European nations | 0.0992 |
+| Ottoman or Algerian Peasant | 0.0928 |
+| Russian Peasant | 0.0896 |
+| Ordinary infantry without a special rate | 0.0480 |
 
-**Sanity-check (verified empirically 2026-04-29):** 18 Austrian peasants are idle for 2 game minutes:
-`sum = 18 × 62 = 1116` → `1116 × 32 / 20000 = 1.786 food/game sec` → **for 120 g-sec ≈ 214 food** ✓
-
-The exact value of `bnohungry` for each unit is in [`data.json`](../../../data.json), field `bnohungry`. Briefly: buildings and mercenaries (`bmercenary = True`) - `True`; peasants, regular infantry/cavalry, officers/drummers/priests - `False`.
+For example, 18 Austrian Peasants consume about **214 food** over two game
+minutes.
 
 <a id="дипломатический-центр"></a>
 ### Diplomatic Center
 
-Mid-game building, requires **Academy** + Town Hall.
+The Diplomatic Center is a mid-game building that requires an Academy and a
+Town Hall. Each player may have only one.
 
-| Deep Center | Nations | HP | Wood | Stone | Gold |
-| --- | --- | ---: | ---: | ---: | ---: |
-| **Diplomatic Center** `ausdip` (default) | aus, fra, eng, spa, pol… (+12) | 4500 | 4900 | 1700 | 0 |
-| **Diplomatic Center** `rusdip` (rus) | rus | 6500 | 7900 | 3700 | 0 |
-| **Diplomatic Center** `ukrdip` (ukr) | ukr | 5000 | 3900 | 2700 | 0 |
-| **Diplomatic Center** `turdip` (tur/alg) | tur, alg | 5500 | 4600 | 2020 | 0 |
+| Variant | Nations | Health | Wood | Stone | Gold |
+|---|---|---:|---:|---:|---:|
+| **Diplomatic Center** `ausdip` | Austria, France, England, Spain, Poland … (+12) | 4,500 | 4,900 | 1,700 | 0 |
+| **Diplomatic Center** `rusdip` | Russia | 6,500 | 7,900 | 3,700 | 0 |
+| **Diplomatic Center** `ukrdip` | Ukraine | 5,000 | 3,900 | 2,700 | 0 |
+| **Diplomatic Center** `turdip` | Turkey, Algeria | 5,500 | 4,600 | 2,020 | 0 |
 
-For everyone: `buildtime = 1000` frames = **312.5 g-sec**, `costpercent = 100`, `bcapture = False`. According to localization - “you can only build one Diplomatic Center per player” (GUI limitation, not `costpercent`).
+All variants take **312.5 game seconds** to build and cannot be captured.
 
-<a id="каталог-наёмников"></a>
-### Mercenary Catalog
-8 sid, the roster is the same for **all 21 nations**. Price and upkeep in gold; `bnohungry = True` (food is not consumed).
+<a id="наёмники"></a>
+### Mercenaries
 
-| Mercenary | HP | bt, g-sec | gold (price) | gold/tick upkeep | costpercent | Weapons |
-| --- | ---: | ---: | ---: | ---: | ---: | --- |
-| **Light Infantryman (mercenary)** `lightinfantrydip` | 50 | 1.25 | **4** | 4 | 100 | sword 16 |
-| **Roundshier (mercenary)** `roundshierdip` | 75 | 1.5 | **12** | 20 | 100 | sword 6 |
-| **Archer (mercenary)** `archerdip` | 20 | 1.25 | **15** | 16 | 100.5 | arrow 25 (range 13.13 t) / firearrow 100 (range 14.06 t) |
-| **Turkish archer (mercenary)** `archerturdip` | 20 | 1.25 | **15** | 16 | 100.5 | arrow 25 (range 13.13 t) / firearrow 100 (range 14.06 t) |
-| **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | **25** | 60 | 100.5 | pike 30 / bullet 16 (range 15.0 t) / mortarball 200 (range 7.5 t) |
-| **Sich Cossack (mercenary)** `cossacksichdip` | 150 | 2.5 | **60** | 150 | 100.5 | sword 8 |
-| **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | **120** | 120 | 102 | bullet 18 (range 15.0 t) |
-| **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | **120** | 120 | 102 | bullet 18 (range 15.0 t) |
+The same eight mercenaries are available to all 21 nations. They consume no
+food, but require continuous gold upkeep.
 
-The gold-upkeep formula is the same as food: `Σ(consume.gold) × 32 / 20000`. For example, 50 `dragoon18dip` → `50 × 120 × 0.0016 = 9.6 gold/game sec ≈ 576 gold/game min`.
+| Mercenary | Health | Training time, game seconds | Gold | Gold upkeep | Weapon |
+|---|---:|---:|---:|---:|---|
+| **Light Infantry (mercenary)** `lightinfantrydip` | 50 | 1.25 | **4** | 4 | sword 16 |
+| **Roundshier (mercenary)** `roundshierdip` | 75 | 1.5 | **12** | 20 | sword 6 |
+| **Archer (mercenary)** `archerdip` | 20 | 1.25 | **15** | 16 | arrows: 25, range 13.13 / fire arrow: 100, range 14.06 |
+| **Ottoman Archer (mercenary)** `archerturdip` | 20 | 1.25 | **15** | 16 | arrows: 25, range 13.13 / fire arrow: 100, range 14.06 |
+| **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | **25** | 60 | pike 30 / bullet: 16, range 15.0 / mortar blast: 200, range 7.5 |
+| **Sich Cossack (mercenary)** `cossacksichdip` | 150 | 2.5 | **60** | 150 | sword 8 |
+| **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | **120** | 120 | bullet: 18, range 15.0 |
+| **Light Cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | **120** | 120 | bullet: 18, range 15.0 |
 
-**Price scaling:** general rule `cost(N) = floor(base × (costpercent/100)^(N−1))`, but the ceiling for mercenaries is **2×** (instead of 20000× for regular units). Paired counters:
-- `archerdip` ↔ `archerturdip` - general counter in price calculation.
-- `dragoon18dip` ↔ `lightcavalrydip` - similar.
+Fifty mercenary Dragoons, for example, consume about **9.6 gold per game
+second**, or **576 gold per game minute**.
 
-**Card mode `marketdip = expensivemercs`** includes `gc_gameplay_expensivemercskoef = 3` - mercenaries are three times more expensive in gold.
+Each additional mercenary of the same type costs more, up to twice the base
+price. European and Ottoman Archers share one price counter; the mercenary
+Dragoon and Light Cavalry share another. The “Expensive mercenaries” match
+rule triples their price.
 
-<a id="расход-gold-юнитами"></a>
-### Gold consumption by units
+<a id="другие-постоянные-расходы-золота"></a>
+### Other continuous gold expenses
 
-`consume[gold]` occurs in:
-- **Towers** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 per g-minute) - a constant tax regardless of the battle. See [`../../recon/world/combat/towers.md` §2](../../recon/world/combat/towers.md).
-- **Mercenaries** via `consume.gold` - permanent upkeep of all 8 sid.
-- **Shooting units** - only per shot through `weapon.cost[gold]`, not idle.
+- A **Tower** continuously consumes 0.8 gold per game second, or 48 per game
+  minute, even when it is not firing.
+- **Mercenaries** consume gold according to the table above.
+- **Ranged units** pay for individual shots but consume nothing while idle.
 
-Normal pikemen and musketeers **do not consume gold when idle**.
+Ordinary Pikemen and Musketeers do **not** consume gold while idle.
 
-## Sanity
+The probability of rebellion and difficulty-specific behavior are covered in
+[Famine and mercenary rebellion](../../recon/world/economy/hunger_and_rebellion.md).
+Diplomatic Center rules are covered in
+[Mercenaries and the Diplomatic Center](../../recon/systems/mercenaries_diplomacy.md).
 
-Sanity checks: **112/112** PASS. See xlsx → sheet `Sanity_checks`.
+<a id="если-нужны-все-подробности"></a>
+## Further reading
+
+- [The full peasant work cycle](../../recon/world/economy/peasant_extraction.md):
+  work cycles, carrying, travel to a storehouse, and gathering upgrades.
+- [How the map generator places resources](../../recon/world/map/map_generation_pipeline.md):
+  forests, stones, and mines around players.
+- [Estimated resources on a typical map](../../reports/map/map_resources.md).

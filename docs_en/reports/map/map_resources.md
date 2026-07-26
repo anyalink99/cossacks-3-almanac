@@ -1,13 +1,26 @@
 <a id="оценка-ресурсов-карты--tiny-256256--highlands--шахты-rich"></a>
-# Map resource assessment - Tiny (256×256) + Highlands + Rich mines
+<a id="сколько-ресурсов-появляется-на-карте"></a>
+# Map resources
 
-**Derived** document. Counted from `compute/compute_map_resources.py`. Regeneration: `python compute/compute_map_resources.py`.
+[← Tables and calculations](../README.md)
 
-Per-type placement rates **empirically calibrated** for 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. See also [recon/world/map/map_generation_pipeline.md §14](../../recon/world/map/map_generation_pipeline.md).
+An approximate count of forests, stone deposits, and mines for one commonly
+used set of match settings. Natural-object counts are estimates: uneven ground
+and occupied points prevent some objects from being placed.
 
-**Settings:** `mapsize = 3` (Tiny, 256 × 256 = 65536 tiles), `relieftype = 3` (Highlands), `resourcemines = 2` (Rich), `foreststype = 0`. Decoding of meanings and canonical Russian names - [`lobby_settings.md`](lobby_settings.md). The engine behavior for each option is [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
+## Settings used
+
+| Setting | Selected value |
+|---|---|
+| Map size | **Tiny**, 256×256 tiles |
+| Relief | **Highlands** |
+| Resource deposits | **Rich** |
+| Terrain type | Land |
+
+See [Match settings](lobby_settings.md) for the other available values.
 
 <a id="1-модификаторы-вероятности-паттернов-оценка"></a>
+<a id="настройки-расчёта"></a>
 ## 1. Pattern probability modifiers (evaluation)
 
 Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water (Land terrain - almost open field):
@@ -22,6 +35,7 @@ Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water
 ⚠ The simulation assumes that the water is one contiguous block, rather than scattered pixels.
 
 <a id="2-плотности-после-умножения-на-вероятность"></a>
+<a id="оценка-лесов-и-камней"></a>
 ## 2. Densities after multiplication by probability
 
 | Var | base | ×prob | final density | needed = floor(area × density) |
@@ -33,6 +47,7 @@ Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water
 | stn2 | 0.000120 | × probsmall = 1.853 | 0.000222 | 14 |
 
 <a id="3-запросы-паттернов-на-вызов"></a>
+<a id="запасы-древесины-и-камня"></a>
 ## 3. Pattern requests (per call)
 
 Each forest density is distributed into N different forest types (foreststype=0 → 4 big / 3 mid / 2 small types). Column **placement rate** — empirically calibrated per-type (for homogeneous Tiny+Land+Highlands bucket); for unknown types - fallback default `placement_success`.
@@ -54,6 +69,7 @@ Each forest density is distributed into N different forest types (foreststype=0 
 **Where are placement rates taken from:** empirically from 10 replay samples (Tiny+Land+Highlands+4pl_nowater bucket). The size of the pattern footprint (mask cells) is the main factor: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. Methodology and complete table - `recon/map_generation_pipeline.md` §14. For non-Tiny/non-Highlands settings the numbers should be different - calibration is not extrapolated.
 
 <a id="4-всего-кластеров-оценка"></a>
+<a id="месторождения-у-каждого-игрока"></a>
 ## 4. Total clusters (estimate)
 
 - Big forest clusters: **~25**
@@ -131,7 +147,7 @@ Distances from start (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):
 
 **What is empirically validated (replay-based, 2026-04-29):**
 - Per-type placement rates — calibrated for 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket). Bucket ratios actual/predicted = 0.96-1.04 for all major types (forests_pine_*, stones, mng/mni/mnc).
-- Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. Output: `docs/reports/map/map_predictions_validation.md`.
+- Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. Output: `internals_en/data/map_predictions_validation.md`.
 - Player count is derived from mng count for Land terrain (the formula is reversible).
 
 **What is assessed/not validated:**

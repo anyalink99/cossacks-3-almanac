@@ -87,7 +87,7 @@ Setting `attackmaxdelay := 9999` effectively blocks the unit for 9999 g-sec -
 he stops attacking completely. The field is not suitable for storing arbitrary
 flags.
 
-It's similarly dangerous to overuse `attackdelay` values ​​>> for a weapon's normal pause.
+It's similarly dangerous to overuse `attackdelay` values >> for a weapon's normal pause.
 
 ---
 

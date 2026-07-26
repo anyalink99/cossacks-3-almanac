@@ -71,7 +71,7 @@ string class name (one of the listed ones).
 
 <a id="3-ai-регионы-txairegion-5-классов"></a>
 ## 3. AI regions (`TXAIRegion*`, 5 classes)
-Spatial AI mechanics. Each area of ​​interest is a separate object.
+Spatial AI mechanics. Each area of interest is a separate object.
 
 | Class | What |
 |---|---|
@@ -149,7 +149,7 @@ This is the engine part. Script wrapper - `gScenario` and
 | `TXStateMachineLibrary` | Loading ready-made FSMs from `.parser` files. |
 | `TXStateMachineProperty` | State property. |
 | `TXStateMachineStack`, `TXStateMachineStackItem` | State stack (nested FSMs). |
-| `TXStateMachineProgressOption`, `TXStateMachineProgressChildrenOption` | Tick ​​options (how to continue progress on child FSMs). |
+| `TXStateMachineProgressOption`, `TXStateMachineProgressChildrenOption` | Tick options (how to continue progress on child FSMs). |
 | `TFormStateMachines` | FSM editor (UI form in editor.exe). |
 
 FSM in Cossacks 3 is also **unit behavior** (idle → walk → work

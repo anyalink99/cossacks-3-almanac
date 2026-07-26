@@ -1,7 +1,7 @@
 <a id="пикинёры-18-в"></a>
 # Pikemen (18th century)
 
-[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Late pikemen with improved armor.
 
@@ -12,20 +12,20 @@ Late pikemen with improved armor.
 
 | Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Pikeman, 18th century** `pikeman18` | aus | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | bav | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | den | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | eng | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | fra | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | hun | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | net | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | pie | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | pol | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | por | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | pru | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | rus | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | sax | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | spa | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | swi | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18` | ven | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
-| **Pikeman, 18th century** `pikeman18swe` | swe | **110** | **1.5** | **40** | **3** | 0 | — | — | 32 | **11** | 1.88 | 0.0 | — | — | — | — | — | — | unique |
+| **Pikeman, 18th century** `pikeman18` | Austria | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Bavaria | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Denmark | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | England | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | France | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Hungary | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Netherlands | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Piedmont | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Poland | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Portugal | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Prussia | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Russia | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Saxony | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Spain | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Switzerland | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18` | Venice | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
+| **Pikeman, 18th century** `pikeman18swe` | Sweden | **110** | **1.5** | **40** | **3** | 0 | — | — | 32 | **11** | 1.88 | 0.0 | — | — | — | — | — | — | unique |

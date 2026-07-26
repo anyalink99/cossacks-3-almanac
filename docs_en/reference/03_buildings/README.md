@@ -1,92 +1,81 @@
-#03. Buildings
+<a id="здания"></a>
+# Buildings
 
-[← Index](README.md)
+[← Quick reference](../README.md)
 
-Buildings are divided into **per-nation** (`<nat>+suffix`, for example `auscen` = Austrian Town Hall) and **common** (`<cluster>+suffix`, common to a group of nations: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).
+Some buildings have a separate national variant; others use an architectural
+set shared by several nations. The canonical localized name is shown first.
+The internal code beside it is only for exact identification.
 
-The prices below are for the **first** copy. Price of the Nth building of the same type = `floor(base × (costpercent/100)^(N-1))`. Ready tables N=1..6 for all buildings - in [`../../reports/economy/scaling_prices.md`](../../reports/economy/scaling_prices.md), generator - [`compute/compute_scaling.py`](../../../compute/compute_scaling.py).
+Prices below are for the **first** copy. Each additional building of the same
+type may cost more. The first six prices are listed in
+[Scaling building prices](../../reports/economy/scaling_prices.md).
 
 <a id="расшифровка-колонок"></a>
-## Column decoding
+## Column guide
 
 | Column | Meaning |
 |---|---|
-| **Building** | Localized name + `sid` |
-| **Nation / Nations** | Which nations have this building (for common clusters - a list) |
-| **HP** | Health points of a completed building |
-| **Time (g-sec)** | `buildtime` to game seconds. For buildings it is stored with the multiplier `gc_buildtime_modifier = 10`, i.e. `frames × 10/32`. With N builders real time = `time × 1.13 / N`. See [recon/world/economy/building_mechanics.md](../../recon/world/economy/building_mechanics.md). |
-| **cost%** | `costpercent` is the price multiplier for each subsequent instance. 100 = same, 300 = ×3 for the second. 0 = no scaling. |
-| **F / W / S / G / I / C** | Price in resources: **Food / Wood / Stone / Gold / Iron / Coal**. |
-| **farm** | `farm` - by how many units this building raises the population limit. |
-| **produces** | List of `sid` units that the building can create. |
-| **Extra** | Other: tower weapons, garrison, mine income. |
+| **Building** | Canonical name and internal code |
+| **Nation / Nations** | Nations that can build this variant |
+| **Health** | Health of the completed building |
+| **Construction time** | Game seconds with one builder. Additional peasants reduce it; see [Construction and repair](../../recon/world/economy/building_mechanics.md). |
+| **Price growth** | How much each additional copy costs. 100% means the same price; 300% means three times the previous price. |
+| **Food / Wood / Stone / Gold / Iron / Coal** | Cost of the first copy |
+| **Population** | Amount added to the population limit |
+| **Produces** | Canonical names of units created by the building |
+| **Notes** | Weapons, capacity, gathering, and other special properties |
 
-**Bold** in the tables below are deviations from the base value (column mode) to quickly see how a nation differs from the majority.
+Bold values differ from the most common value in that column.
 
-<a id="жизненный-цикл-здания--кратко"></a>
-## Life cycle of a building - briefly
+<a id="строительство-и-ремонт"></a>
+## Construction and repair
 
-A complete analysis of construction, repair, cancellation and destruction - in
-[`../../recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md).
-Here is a table of key constants for a quick overview.
+The full mechanics are covered in
+[Building construction, repair, and destruction](../../recon/world/economy/building_mechanics.md).
 
-| Stage | Key value | Note |
-|---|---:|---|
-| Construction progress in one peasant blow | `delta = 0.359 / buildtime` | animation `construct` = 13 frames |
-| Construction time with N builders | `buildtime × 1.13 / N` | 13% coordination overhead |
-| Simultaneous builder limit | `bbox_cols + bbox_rows` | Manhattan-perimeter |
-| Restore HP in one repair-strike | `gc_gameplay_repairhp = 20` | animation `workfood` = 22 frames ≈ 0.69 g-sec |
-| HP speed of one repairman | ~ 29 HP / g-sec ≈ 41 HP / real-sec @ fast | there is no fine 1.13× for N repairmen |
-| Shield in construction | `shield / 3` | building vulnerable before completion |
-| Capture in construction | possible for **any** sid | even the tower is captured while it is being built |
-| `gc_building_deathtime_0/1` | 30 g-sec per stage | 60 for mines |
-| Refund upon cancellation Foundation | **100%** | via GUI-handler `_misc_GUICancelBuilding` |
-| Refund when canceling a unit order | **100%** of written-off | via `_unit_CancelUnitProduction` |
-| Refund when OnDeath of a running building | queue of orders scrolls back | paid units and upgrades are returned |
+- Additional builders speed up construction almost proportionally, but only a
+  limited number can stand around each building.
+- An unfinished building has only one third of its normal protection.
+- Any building under construction can be captured, including a Tower.
+- One peasant repairs about 29 health per game second.
+- Canceling construction or an order refunds its full paid cost.
+- Destroying a working building refunds paid orders still in its queue.
 
-<a id="эпохальный-переход-17--18-век--таблица"></a>
-## Epochal transition: 17th → 18th century - table
+<a id="переход-в-xviii-век"></a>
+## Advancing to the 18th century
 
-A complete analysis of the prerequisites, construction chain and strategy is in
-[`../../recon/world/economy/upgrades_application.md` §7.5](../../recon/world/economy/upgrades_application.md).
-Here is a table of prices `<nat>cen.1` by nation.
+The advance is researched in the Town Hall after building an Academy, a
+Cathedral, and an Artillery Depot.
 
-<a id="цена-cen1-апгрейд-перехода-в-18-век"></a>
-### Price `<nat>cen.1` (upgrade to the 18th century)
+<a id="цена-перехода"></a>
+### Cost of the advance
 
-| Nation | Food | Gold | Iron | Coal | Prerequisites |
+| Nation | Food | Gold | Iron | Coal | Required buildings |
 |---|---:|---:|---:|---:|---|
-| Most (standard) | 30,000 | 5,000 | 2,000 | 2,000 | aca + tem + art |
-| `fra` France | 40,000 | 3,500 | 4,000 | 2,000 | aca + tem + art |
-| `eng` England | 25,000 | 5,000 | 5 500 | 2,000 | aca + tem + art |
-| `pol` Poland | 30,000 | 4 800 | 2 200 | 2,000 | aca + tem + art |
-| `ukr` / `tur` / `alg` | 30,000 | 5,000 | 2,000 | 2,000 | these nations do not have a full set of buildings → `ba2` is not available |
+| Most nations | 30,000 | 5,000 | 2,000 | 2,000 | Academy, Cathedral, Artillery Depot |
+| France | 40,000 | 3,500 | 4,000 | 2,000 | Academy, Cathedral, Artillery Depot |
+| England | 25,000 | 5,000 | 5,500 | 2,000 | Academy, Cathedral, Artillery Depot |
+| Poland | 30,000 | 4,800 | 2,200 | 2,000 | Academy, Cathedral, Artillery Depot |
+| Ukraine, Turkey, Algeria | — | — | — | — | Advance unavailable |
 
-`buildtime = 9.38 game sec` (≈ 6.7 real-sec @ fast) - the upgrade itself
-fast. Bottleneck - collect **Academy + Cathedral + Artillery
-depot** (~ 7,000 wood + 4,000 stone + 1,000 gold + ~36 real-min at
-one builder per building). Full table of all upgrades -
-in [05_upgrades/README.md → cen — Town Hall](../05_upgrades/README.md#cen--городской центр-переход-эпохи).
-
-**Locked in the 17th century** (no `<nat>ba2`): `tur`, `alg`, `ukr` - y
-they are missing `musketeer18`, `grenadier`, `dragoon18`. They
-They compensate for this with unique 17th century units. (Janissaries, Mamelukes,
-Cossacks, etc.).
+The research itself takes 9.38 game seconds. Ukraine, Turkey, and Algeria
+remain in the 17th century and compensate with unique troops.
 
 <a id="содержание"></a>
 ## Contents
 
 **[Buildings by nation](#постройки-по-нациям)**
-  - [cen — Town Hall](#cen--городской-центр)
-  - [hou - Housing](#hou--дом)
-  - [bar — Barracks 17th century](#bar--казарма-17-в)
-  - [ba2 - Barracks 18th century](#ba2--казарма-18-в)
-  - [bla — Blacksmith](#bla--кузница)
-  - [sta — Stable](#sta--конюшня)
-  - [tem — Cathedral](#tem--собор)
-  - [aca - Academy](#aca--академия)
-  - [art — Artillery Depot](#art--артиллерийское-депо)
-  - [dip - Diplomatic Center](#dip--дипломатический-центр)
+  - [Town Hall (`cen`)](#cen--городской-центр)
+  - [Housing (`hou`)](#hou--дом)
+  - [Barracks, 17th century (`bar`)](#bar--казарма-17-в)
+  - [Barracks, 18th century (`ba2`)](#ba2--казарма-18-в)
+  - [Blacksmith (`bla`)](#bla--кузница)
+  - [Stable (`sta`)](#sta--конюшня)
+  - [Cathedral (`tem`)](#tem--собор)
+  - [Academy (`aca`)](#aca--академия)
+  - [Artillery Depot (`art`)](#art--артиллерийское-депо)
+  - [Diplomatic Center (`dip`)](#dip--дипломатический-центр)
 **[General buildings (by clusters)](#общие-постройки-по-кластерам)**
   - [mil - Mill](#mil--мельница)
   - [sto — Storehouse](#sto--склад)
@@ -108,325 +97,193 @@ Cossacks, etc.).
 Summary: for each type of building - parameters for all nations (where they exist). **Bold**—deviations from the base value (column mode).
 
 <a id="cen--городской-центр"></a>
-### cen — Town Hall
+<a id="городской-центр-cen"></a>
+### Town Hall (`cen`)
 
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Town Hall** `algcen` | alg | **5500** | 156.25 | 300 | 0 | **450** | 700 | 0 | 0 | 0 | **50** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `auscen` | aus | 4000 | **46.88** | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `bavcen` | bav | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `dencen` | den | **4030** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `engcen` | eng | **4030** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `fracen` | fra | **4500** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `huncen` | hun | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `netcen` | net | **4950** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `piecen` | pie | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `polcen` | pol | **4300** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `porcen` | por | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `prucen` | pru | **4200** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `ruscen` | rus | **4050** | 156.25 | 300 | 0 | **680** | 700 | 0 | 0 | 0 | **75** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `saxcen` | sax | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `scocen` | sco | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `spacen` | spa | **4250** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `swecen` | swe | **5000** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `swicen` | swi | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `turcen` | tur | 4000 | 156.25 | 300 | 0 | **600** | **500** | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `ukrcen` | ukr | **5300** | 156.25 | **400** | 0 | 700 | **0** | 0 | 0 | 0 | **200** | peaaus, peaeng, peapol, pearus, peasco (+3) |
-| **Town Hall** `vencen` | ven | **5100** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | peaaus, peaeng, peapol, pearus, peasco (+3) |
+| **Town Hall** `algcen` | Algeria | **5500** | 156.25 | 300 | 0 | **450** | 700 | 0 | 0 | 0 | **50** | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `auscen` | Austria | 4000 | **46.88** | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `bavcen` | Bavaria | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `dencen` | Denmark | **4030** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `engcen` | England | **4030** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `fracen` | France | **4500** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `huncen` | Hungary | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `netcen` | Netherlands | **4950** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `piecen` | Piedmont | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `polcen` | Poland | **4300** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `porcen` | Portugal | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `prucen` | Prussia | **4200** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `ruscen` | Russia | **4050** | 156.25 | 300 | 0 | **680** | 700 | 0 | 0 | 0 | **75** | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `saxcen` | Saxony | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `scocen` | Scotland | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `spacen` | Spain | **4250** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `swecen` | Sweden | **5000** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `swicen` | Switzerland | 4000 | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `turcen` | Turkey | 4000 | 156.25 | 300 | 0 | **600** | **500** | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `ukrcen` | Ukraine | **5300** | 156.25 | **400** | 0 | 700 | **0** | 0 | 0 | 0 | **200** | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
+| **Town Hall** `vencen` | Venice | **5100** | 156.25 | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
 
 <a id="hou--дом"></a>
-### hou — Housing
+<a id="дом-hou"></a>
+### Housing (`hou`)
 
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Housing** `alghou` | alg | **4300** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `aushou` | aus | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `bavhou` | bav | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `denhou` | den | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `enghou` | eng | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `frahou` | fra | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `hunhou` | hun | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `nethou` | net | **4500** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `piehou` | pie | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `polhou` | pol | **4100** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `porhou` | por | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `pruhou` | pru | **4500** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Izba** `rushou` | rus | **5000** | 31.25 | 104 | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
-| **Housing** `saxhou` | sax | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `scohou` | sco | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `spahou` | spa | **4200** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `swehou` | swe | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `swihou` | swi | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Housing** `turhou` | tur | 4000 | 31.25 | **106** | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
-| **Hut** `ukrhou` | ukr | **4150** | 31.25 | **105** | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
-| **Housing** `venhou` | ven | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `alghou` | Algeria | **4300** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `aushou` | Austria | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `bavhou` | Bavaria | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `denhou` | Denmark | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `enghou` | England | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `frahou` | France | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `hunhou` | Hungary | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `nethou` | Netherlands | **4500** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `piehou` | Piedmont | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `polhou` | Poland | **4100** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `porhou` | Portugal | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `pruhou` | Prussia | **4500** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Izba** `rushou` | Russia | **5000** | 31.25 | 104 | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
+| **Housing** `saxhou` | Saxony | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `scohou` | Scotland | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `spahou` | Spain | **4200** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `swehou` | Sweden | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `swihou` | Switzerland | 4000 | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Housing** `turhou` | Turkey | 4000 | 31.25 | **106** | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
+| **Hut** `ukrhou` | Ukraine | **4150** | 31.25 | **105** | 0 | **120** | **0** | 0 | 0 | 0 | 25 | — |
+| **Housing** `venhou` | Venice | **5000** | 31.25 | 104 | 0 | 100 | 100 | 0 | 0 | 0 | 25 | — |
 
 <a id="bar--казарма-17-в"></a>
-### bar - Barracks 17th century.
+<a id="казарма-17-в-bar"></a>
+### Barracks, 17th century (`bar`)
 
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Barracks** `algbar` | alg | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `ausbar` | aus | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `bavbar` | bav | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `denbar` | den | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `engbar` | eng | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `frabar` | fra | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `hunbar` | hun | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `netbar` | net | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `piebar` | pie | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `polbar` | pol | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `porbar` | por | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `prubar` | pru | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Strelets Barracks** `rusbar` | rus | **25000** | **78.12** | **300** | 0 | **200** | **20** | **0** | 0 | 0 | **25** | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `saxbar` | sax | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `scobar` | sco | **30000** | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, bagpiper, drummer, drummerrus (+25) |
-| **Barracks, 17th century** `spabar` | spa | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `swebar` | swe | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `swibar` | swi | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks** `turbar` | tur | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Cossack House** `ukrbar` | ukr | **20000** | 93.75 | **300** | 0 | **150** | **150** | **0** | 0 | 0 | **75** | archer, archertur, drummer, drummerrus, drummertur (+24) |
-| **Barracks, 17th century** `venbar` | ven | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | archer, archertur, drummer, drummerrus, drummertur (+24) |
+| **Barracks** `algbar` | Algeria | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `ausbar` | Austria | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `bavbar` | Bavaria | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `denbar` | Denmark | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `engbar` | England | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `frabar` | France | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `hunbar` | Hungary | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `netbar` | Netherlands | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `piebar` | Piedmont | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `polbar` | Poland | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `porbar` | Portugal | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `prubar` | Prussia | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Strelets Barracks** `rusbar` | Russia | **25000** | **78.12** | **300** | 0 | **200** | **20** | **0** | 0 | 0 | **25** | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `saxbar` | Saxony | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `scobar` | Scotland | **30000** | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Bagpiper (`bagpiper`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), +25 more |
+| **Barracks, 17th century** `spabar` | Spain | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `swebar` | Sweden | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `swibar` | Switzerland | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks** `turbar` | Turkey | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Cossack House** `ukrbar` | Ukraine | **20000** | 93.75 | **300** | 0 | **150** | **150** | **0** | 0 | 0 | **75** | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
+| **Barracks, 17th century** `venbar` | Venice | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
 
 <a id="ba2--казарма-18-в"></a>
-### ba2 — Barracks 18th century.
+<a id="казарма-18-в-ba2"></a>
+### Barracks, 18th century (`ba2`)
 
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Barracks, 18th century** `ausba2` | aus | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `bavba2` | bav | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `denba2` | den | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `engba2` | eng | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `fraba2` | fra | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `hunba2` | hun | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `netba2` | net | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `pieba2` | pie | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `polba2` | pol | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `porba2` | por | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `pruba2` | pru | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `rusba2` | rus | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `saxba2` | sax | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Castle** `scoba2` | sco | **40000** | **625.0** | **250** | 0 | **640** | **2400** | **2400** | 0 | 0 | **150** | archersco, chasseur, drummer18, grenadier, grenadierbav (+18) |
-| **Barracks, 18th century** `spaba2` | spa | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `sweba2` | swe | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `swiba2` | swi | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-| **Barracks, 18th century** `venba2` | ven | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | archersco, bagpiper, chasseur, drummer18, grenadier (+19) |
-
-<a id="bla--кузница"></a>
-### bla — Blacksmith
-
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Blacksmith** `algbla` | alg | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `ausbla` | aus | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `bavbla` | bav | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `denbla` | den | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `engbla` | eng | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `frabla` | fra | 5500 | 93.75 | **600** | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `hunbla` | hun | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `netbla` | net | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `piebla` | pie | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `polbla` | pol | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `porbla` | por | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `prubla` | pru | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `rusbla` | rus | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `saxbla` | sax | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `scobla` | sco | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `spabla` | spa | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `swebla` | swe | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `swibla` | swi | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `turbla` | tur | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `ukrbla` | ukr | **4500** | **62.5** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-| **Blacksmith** `venbla` | ven | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
-
-###sta — Stable
-
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Stable** `algsta` | alg | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `aussta` | aus | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `bavsta` | bav | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `densta` | den | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `engsta` | eng | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `frasta` | fra | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `hunsta` | hun | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+26) |
-| **Stable** `netsta` | net | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `piesta` | pie | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `polsta` | pol | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `porsta` | por | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `prusta` | pru | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `russta` | rus | **25000** | **375.0** | 200 | 0 | **7950** | **0** | **550** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `saxsta` | sax | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `scosta` | sco | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `spasta` | spa | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `swesta` | swe | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `swista` | swi | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `tursta` | tur | **55000** | **156.25** | **700** | 0 | **1000** | **2600** | **0** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `ukrsta` | ukr | **10000** | **156.25** | **300** | 0 | **3200** | **850** | **850** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-| **Stable** `vensta` | ven | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
-
-<a id="tem--собор"></a>
-<a id="sta--конюшня"></a>
-### tem — Cathedral
-
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mosque** `algtem` | alg | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `austem` | aus | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `bavtem` | bav | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `dentem` | den | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `engtem` | eng | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `fratem` | fra | **6000** | **312.5** | 300 | 0 | **1100** | **2000** | 0 | **600** | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `huntem` | hun | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `nettem` | net | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `pietem` | pie | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `poltem` | pol | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `portem` | por | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `prutem` | pru | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Orthodox Cathedral** `rustem` | rus | **4500** | 156.25 | 300 | 0 | **1150** | **1650** | **100** | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `saxtem` | sax | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `scotem` | sco | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `spatem` | spa | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `swetem` | swe | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `switem` | swi | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Mosque** `turtem` | tur | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-| **Orthodox Cathedral** `ukrtem` | ukr | **5300** | 156.25 | 300 | 0 | **1100** | **1400** | 0 | **300** | 0 | 0 | mullah, padre, pope, priest |
-| **Cathedral** `ventem` | ven | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
-
-<a id="aca--академия"></a>
-### aca - Academy
-
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Minaret** `algaca` | alg | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `ausaca` | aus | **65000** | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `bavaca` | bav | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `denaca` | den | 63000 | 625.0 | 300 | 0 | **1450** | **900** | 0 | 0 | 0 | 0 | — |
-| **Academy** `engaca` | eng | 63000 | 625.0 | 300 | 0 | **1150** | **1200** | 0 | 0 | 0 | 0 | — |
-| **Academy** `fraaca` | fra | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `hunaca` | hun | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `netaca` | net | 63000 | 625.0 | 300 | 0 | **1050** | **1230** | 0 | 0 | 0 | 0 | — |
-| **Academy** `pieaca` | pie | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `polaca` | pol | 63000 | 625.0 | 300 | 0 | **950** | **800** | 0 | 0 | 0 | 0 | — |
-| **Academy** `poraca` | por | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `pruaca` | pru | 63000 | 625.0 | 300 | 0 | **1200** | **1150** | 0 | 0 | 0 | 0 | — |
-| **Academy** `rusaca` | rus | **65000** | **843.75** | 300 | 0 | 1250 | **1300** | 0 | 0 | 0 | 0 | — |
-| **Academy** `saxaca` | sax | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `scoaca` | sco | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `spaaca` | spa | 63000 | 625.0 | 300 | 0 | **1350** | **1000** | 0 | 0 | 0 | 0 | — |
-| **Academy** `sweaca` | swe | 63000 | 625.0 | 300 | 0 | **1350** | **1000** | 0 | 0 | 0 | 0 | — |
-| **Academy** `swiaca` | swi | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
-| **Minaret** `turaca` | tur | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
-| **Academy** `ukraca` | ukr | **65000** | **46.88** | 300 | 0 | **1350** | **1200** | 0 | 0 | 0 | 0 | — |
-| **Academy** `venaca` | ven | 63000 | 625.0 | 300 | 0 | **1090** | **1260** | 0 | 0 | 0 | 0 | — |
-
-<a id="art--артиллерийское-депо"></a>
-### art — Artillery Depot
-
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Artillery Depot** `algart` | alg | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `ausart` | aus | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `bavart` | bav | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `denart` | den | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `engart` | eng | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `fraart` | fra | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `hunart` | hun | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `netart` | net | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `pieart` | pie | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `polart` | pol | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `porart` | por | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `pruart` | pru | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `rusart` | rus | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `saxart` | sax | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `scoart` | sco | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `spaart` | spa | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `sweart` | swe | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `swiart` | swi | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `turart` | tur | 40000 | 245.94 | 200 | 0 | **500** | **1200** | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `ukrart` | ukr | 40000 | 245.94 | 200 | 0 | **4250** | **4400** | **100** | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
-| **Artillery Depot** `venart` | ven | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | cannon, framegun, howitzer, mortar, multicannon |
+| **Barracks, 18th century** `ausba2` | Austria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`), +19 more |
+| **Bar…5522 tokens truncated…megun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `saxart` | Saxony | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `scoart` | Scotland | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `spaart` | Spain | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `sweart` | Sweden | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `swiart` | Switzerland | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `turart` | Turkey | 40000 | 245.94 | 200 | 0 | **500** | **1200** | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `ukrart` | Ukraine | 40000 | 245.94 | 200 | 0 | **4250** | **4400** | **100** | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `venart` | Venice | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 
 <a id="dip--дипломатический-центр"></a>
-### dip — Diplomatic Center
+<a id="кузница-bla"></a>
+### Diplomatic Center (`dip`)
 
-| Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Diplomatic Center** `algdip` | alg | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `ausdip` | aus | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `bavdip` | bav | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `dendip` | den | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `engdip` | eng | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `fradip` | fra | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `hundip` | hun | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `netdip` | net | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `piedip` | pie | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `poldip` | pol | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `pordip` | por | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `prudip` | pru | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `rusdip` | rus | **6500** | 312.5 | 100 | 0 | **7900** | **3700** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `saxdip` | sax | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `scodip` | sco | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `spadip` | spa | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `swedip` | swe | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `swidip` | swi | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `turdip` | tur | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `ukrdip` | ukr | **5000** | 312.5 | 100 | 0 | **3900** | **2700** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
-| **Diplomatic Center** `vendip` | ven | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
+| **Diplomatic Center** `algdip` | Algeria | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `ausdip` | Austria | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `bavdip` | Bavaria | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `dendip` | Denmark | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `engdip` | England | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `fradip` | France | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `hundip` | Hungary | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `netdip` | Netherlands | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `piedip` | Piedmont | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `poldip` | Poland | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `pordip` | Portugal | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `prudip` | Prussia | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `rusdip` | Russia | **6500** | 312.5 | 100 | 0 | **7900** | **3700** | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `saxdip` | Saxony | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `scodip` | Scotland | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `spadip` | Spain | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `swedip` | Sweden | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `swidip` | Switzerland | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `turdip` | Turkey | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `ukrdip` | Ukraine | **5000** | 312.5 | 100 | 0 | **3900** | **2700** | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
+| **Diplomatic Center** `vendip` | Venice | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
 
 <a id="общие-постройки-по-кластерам"></a>
+<a id="общие-постройки-по-архитектурным-группам"></a>
 ## Common buildings (by cluster)
 
 <a id="mil--мельница"></a>
-### mil — Mill
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+<a id="мельница-mil"></a>
+### Mill (`mil`)
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mill** `eurmil` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | 20000 | 93.75 | 200 | 0 | 30 | 150 | 0 | 0 | 0 | — |
-| **Mill** `rusmil` | rus, ukr | 15000 | 93.75 | 200 | 0 | 210 | 0 | 0 | 0 | 0 | — |
-| **Mill** `turmil` | alg, tur | 20000 | 93.75 | 200 | 0 | 30 | 150 | 0 | 0 | 0 | — |
+| **Mill** `eurmil` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 20000 | 93.75 | 200 | 0 | 30 | 150 | 0 | 0 | 0 | — |
+| **Mill** `rusmil` | Russia, Ukraine | 15000 | 93.75 | 200 | 0 | 210 | 0 | 0 | 0 | 0 | — |
+| **Mill** `turmil` | Algeria, Turkey | 20000 | 93.75 | 200 | 0 | 30 | 150 | 0 | 0 | 0 | — |
 
 <a id="sto--склад"></a>
-### sto — Storehouse
+<a id="склад-sto"></a>
+### Storehouse (`sto`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Storehouse** `eursto` | aus, bav, den, eng, fra, hun, net, pie, pru, sax, sco, swe, swi, ven | 10000 | 31.25 | 150 | 0 | 50 | 20 | 0 | 0 | 0 | — |
-| **Storehouse** `russto` | pol, rus, ukr | 10000 | 31.25 | 200 | 0 | 50 | 20 | 0 | 0 | 0 | — |
-| **Storehouse** `spasto` | por, spa | 10000 | 31.25 | 150 | 0 | 20 | 20 | 0 | 0 | 0 | — |
-| **Storehouse** `tursto` | alg, tur | 10000 | 31.25 | 200 | 0 | 30 | 10 | 0 | 0 | 0 | — |
+| **Storehouse** `eursto` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | 10000 | 31.25 | 150 | 0 | 50 | 20 | 0 | 0 | 0 | — |
+| **Storehouse** `russto` | Poland, Russia, Ukraine | 10000 | 31.25 | 200 | 0 | 50 | 20 | 0 | 0 | 0 | — |
+| **Storehouse** `spasto` | Portugal, Spain | 10000 | 31.25 | 150 | 0 | 20 | 20 | 0 | 0 | 0 | — |
+| **Storehouse** `tursto` | Algeria, Turkey | 10000 | 31.25 | 200 | 0 | 30 | 10 | 0 | 0 | 0 | — |
 
 <a id="mar--рынок"></a>
-### mar — Market
+<a id="рынок-mar"></a>
+### Market (`mar`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Market** `eurmar` | aus, bav, den, eng, fra, hun, net, pie, pol, pru, sax, sco, swe, swi, ven | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
-| **Market** `rusmar` | rus, ukr | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
-| **Market** `spamar` | por, spa | 4000 | 156.25 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
-| **Bazaar** `turmar` | alg, tur | 4500 | 234.38 | 1500 | 0 | 450 | 150 | 0 | 0 | 0 | — |
+| **Market** `eurmar` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
+| **Market** `rusmar` | Russia, Ukraine | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
+| **Market** `spamar` | Portugal, Spain | 4000 | 156.25 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
+| **Bazaar** `turmar` | Algeria, Turkey | 4500 | 234.38 | 1500 | 0 | 450 | 150 | 0 | 0 | 0 | — |
 
 <a id="por--порт"></a>
-### por — Shipyard
+<a id="порт-por"></a>
+### Shipyard (`por`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Shipyard** `eurpor` | aus, bav, den, eng, fra, hun, net, pie, pol, pru, sax, sco, spa, swe, swi, ven | 50000 | 1562.5 | 150 | 0 | 1600 | 800 | 0 | 400 | 0 | — |
-| **Shipyard** `porpor` | por | 50000 | 1562.5 | 150 | 0 | 1600 | 800 | 0 | 400 | 0 | damage 1000; far 28.1t; content {"gold": 250} |
-| **Shipyard** `ruspor` | rus | 45000 | 1562.5 | 150 | 0 | 1200 | 800 | 0 | 400 | 0 | — |
-| **Shipyard** `turpor` | alg, tur | 40000 | 1562.5 | 150 | 0 | 800 | 800 | 0 | 400 | 0 | — |
-| **Shipyard** `ukrpor` | ukr | 45000 | 1562.5 | 150 | 0 | 2000 | 0 | 0 | 0 | 0 | — |
+| **Shipyard** `eurpor` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 50000 | 1562.5 | 150 | 0 | 1600 | 800 | 0 | 400 | 0 | — |
+| **Shipyard** `porpor` | Portugal | 50000 | 1562.5 | 150 | 0 | 1600 | 800 | 0 | 400 | 0 | damage 1000; range 28.1t; gold upkeep 250 |
+| **Shipyard** `ruspor` | Russia | 45000 | 1562.5 | 150 | 0 | 1200 | 800 | 0 | 400 | 0 | — |
+| **Shipyard** `turpor` | Algeria, Turkey | 40000 | 1562.5 | 150 | 0 | 800 | 800 | 0 | 400 | 0 | — |
+| **Shipyard** `ukrpor` | Ukraine | 45000 | 1562.5 | 150 | 0 | 2000 | 0 | 0 | 0 | 0 | — |
 
 <a id="tow--башня"></a>
-### tow — Tower
+<a id="башня-tow"></a>
+### Tower (`tow`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Tower** `eurtow` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | 20000 | 1230.31 | 120 | 0 | 100 | 100 | 150 | 0 | 0 | damage 1000; far 28.1t; content {"gold": 500} |
-| **Tower** `rustow` | rus | 21000 | 1476.56 | 125 | 0 | 100 | 100 | 150 | 0 | 0 | damage 1000; far 28.1t; content {"gold": 500} |
-| **Tower** `turtow` | alg, tur | 22500 | 984.38 | 125 | 0 | 150 | 90 | 100 | 0 | 0 | damage 1200; far 30.0t; content {"gold": 500} |
+| **Tower** `eurtow` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 20000 | 1230.31 | 120 | 0 | 100 | 100 | 150 | 0 | 0 | damage 1000; range 28.1t; gold upkeep 500 |
+| **Tower** `rustow` | Russia | 21000 | 1476.56 | 125 | 0 | 100 | 100 | 150 | 0 | 0 | damage 1000; range 28.1t; gold upkeep 500 |
+| **Tower** `turtow` | Algeria, Turkey | 22500 | 984.38 | 125 | 0 | 150 | 90 | 100 | 0 | 0 | damage 1200; range 30.0t; gold upkeep 500 |
 
 <a id="башня--кратко"></a>
-#### Tower - briefly
+#### Tower summary
 
 A complete analysis of shooting, review, garrison and strategy - in
 [`../../recon/world/combat/towers.md`](../../recon/world/combat/towers.md).
@@ -449,59 +306,67 @@ Brief parameters of the basic European tower (`eurtow`):
 × 0.467 from base → fire frequency **× 2.14**. The full list is in
 [05_upgrades/README.md → tow](../05_upgrades/README.md#tow--башня-скорость-перезарядки).
 <a id="gol--золотая-шахта"></a>
-### gol - Gold Mine
+<a id="золотая-шахта-gol"></a>
+### Gold Mine (`gol`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mine** `eurgol` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"gold": 13}; peasants 5 |
+| **Mine** `eurgol` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces gold; capacity 5 peasants |
 
 <a id="iro--железная-шахта"></a>
-### iro - Iron Mine
+<a id="железная-шахта-iro"></a>
+### Iron Mine (`iro`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mine** `euriro` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"iron": 13}; peasants 5 |
+| **Mine** `euriro` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces iron; capacity 5 peasants |
 
 <a id="coa--угольная-шахта"></a>
-### coa - Coal mine
+<a id="угольная-шахта-coa"></a>
+### Coal Mine (`coa`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mine** `eurcoa` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"coal": 13}; peasants 5 |
+| **Mine** `eurcoa` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces coal; capacity 5 peasants |
 
 <a id="swa--каменная-стена"></a>
-### swa — Stone wall
+<a id="каменная-стена-swa"></a>
+### Stone Wall (`swa`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Wall** `eurswa` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | 50000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | content {"stone": 250} |
-| **Wall** `russwa` | rus | 50000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 200} |
-| **Wall** `turswa` | alg, tur | 50000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 150} |
+| **Wall** `eurswa` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 50000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | stone upkeep 250 |
+| **Wall** `russwa` | Russia | 50000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 200 |
+| **Wall** `turswa` | Algeria, Turkey | 50000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 150 |
 
 <a id="sga--каменные-ворота"></a>
-### sga — Gate
+<a id="каменные-ворота-sga"></a>
+### Stone Gate (`sga`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Gate** `eursga` | aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, sax, sco, spa, swe, swi, ven | 32000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | content {"stone": 250} |
-| **Gate** `russga` | rus | 32000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 200} |
-| **Gate** `tursga` | alg, tur | 32000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 150} |
+| **Gate** `eursga` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 32000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | stone upkeep 250 |
+| **Gate** `russga` | Russia | 32000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 200 |
+| **Gate** `tursga` | Algeria, Turkey | 32000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 150 |
 
 <a id="wga--деревянные-ворота"></a>
-### wga - Gate
+<a id="деревянные-ворота-wga"></a>
+### Wooden Gate (`wga`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Gate** `ukrwga` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
+| **Gate** `ukrwga` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | wood upkeep 32 |
 
 <a id="wwa--палисад"></a>
-### wwa - Palisade
+<a id="палисад-wwa"></a>
+### Palisade (`wwa`)
 
-| Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Palisade** `ukrwwa` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
+| **Palisade** `ukrwwa` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | wood upkeep 32 |
 
 <a id="шахты--апгрейды-golirocoa"></a>
+<a id="улучшения-шахт"></a>
 ## Mines - upgrades (gol/iro/coa)
 
 Each mine starts with `peasantabsorber=5`. 6 upgrades cumulatively bring up to **95 peasants** per mine.

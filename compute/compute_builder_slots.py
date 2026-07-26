@@ -32,7 +32,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR, REPORTS_ECONOMY_DIR
+from config import (GAME_ROOT, OUTPUT_DIR, DERIVED_DIR, REPORTS_DIR,
+                    REPORTS_ECONOMY_DIR, DATA_JSON, nation_ru)
 from citations import Citations
 
 BUILDINGS_DIR = GAME_ROOT / "data" / "objects" / "buildings"
@@ -371,83 +372,58 @@ def main():
                   f"comps={info['n_components']} linear={info['all_linear']} "
                   f"method={info['method']} → slots={info['slots']}")
 
+    data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
+    buildings_by_sid: dict[str, dict] = {}
+    nations_by_sid: dict[str, set[str]] = {}
+    for building in data.get("buildings", []):
+        sid = building.get("sid")
+        if not sid:
+            continue
+        buildings_by_sid.setdefault(sid, building)
+        nations_by_sid.setdefault(sid, set()).add(building.get("nation"))
+
     cites = Citations()
     L = []
-    L.append("# Cossacks 3 — Слоты строителей у зданий")
+    L.append("# Максимальное число строителей")
     L.append("")
-    L.append("Сколько крестьян могут одновременно строить здание. Считается из "
-             "`collisionmaskproperty.Mask` каждого `.prop` файла в "
-             "`data/objects/buildings/` по правилу, эмпирически согласованному с игрой.")
+    L.append("[← Таблицы и расчёты](../README.md)")
     L.append("")
-    L.append("**Формула** (см. [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md), "
-             "раздел про слоты):")
+    L.append("У каждого здания есть предел крестьян, которые могут одновременно "
+             "участвовать в строительстве или ремонте. Лишние рабочие не ускоряют "
+             "процесс. Предел зависит от формы и размера здания, поэтому национальные "
+             "варианты одной постройки иногда различаются.")
     L.append("")
-    L.append(f"- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "
-             f"{cites.cite('lib/unit.script:8702-9006', label='`_unit_CalcBuilderPoints`')} "
-             f"по верхне-левой компоненте collision mask. Для выпуклых форм результат "
-             f"равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex "
-             f"(арки, кресты) walker даёт больше.")
-    L.append("- Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — "
-             "движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. "
-             "Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).")
-    L.append("- Жёсткий лимит движка: `gc_MaxBuilderCount = 30`.")
+    L.append("Игра никогда не допускает больше **30** одновременных строителей. "
+             "Расчёт ниже повторяет расстановку рабочих по периметру здания "
+             f"{cites.cite('lib/unit.script:8702-9006', label='расстановка строителей')}. "
+             "Основные значения дополнительно проверены непосредственно в игре.")
     L.append("")
-    L.append("**Эмпирически подтверждено** (счёт крестьян в игре):")
+    L.append("Ворота создаются мгновенным преобразованием выбранного сегмента стены. "
+             "Указанный для них предел нужен только при ремонте.")
     L.append("")
-    L.append("| sid | предсказание | в игре | примечание |")
-    L.append("|---|---|---|---|")
-    L.append("| `polcen` (польский ГЦ) | 18 | 18 ✓ | выпуклый ромб |")
-    L.append("| `ruscen` (русский ГЦ) | 24 | 24 ✓ | выпуклый |")
-    L.append("| `swecen` (шведский ГЦ) | **27** | **27 ✓** | **non-convex** (арка с двумя ногами) |")
-    L.append("| `eurmil` (европейская мельница) | 10 | 10 ✓ | выпуклый |")
-    L.append("| `rusmil` (русская мельница) | 7 | 7 ✓ | выпуклый |")
-    L.append("| `polbla` (польская кузница) | 18 | 18 ✓ | выпуклый |")
-    L.append("| `polba2` (польская казарма 18 в.) | 25 | 25 ✓ | выпуклый |")
-    L.append("| `tursto` (турецкий склад) | 8 | 8 ✓ | walker по большой компоненте |")
-    L.append("| `spasto` (испанский склад) | 7 | 7 ✓ | walker по большой компоненте, орфан игнорируется (видна пустая левая сторона) |")
-    L.append("| `russto` (русский склад) | 8 | 8 ✓ | правило bbox_union для линейных опор |")
-    L.append("| `eursto` (европейский склад) | 9 | 8 | известное расхождение −1 |")
-    L.append("")
-    L.append("**Walker корректен и на non-convex** (`swecen` подтвердил это эмпирически: 27 = walker, "
-             "не 24 = bbox_perim). Movement по внутренним вмятинам арки добавляет +3 слота относительно "
-             "выпуклого bbox. Всего 5 single-component non-convex зданий: `scocen` (+4), `swecen` (+3), "
-             "`portem` (+2), `bavhou` (+1), `ukrtem` (+1) — для них walker даёт больше слотов, чем bbox-perim.")
-    L.append("")
-    L.append("**Колонки таблиц:**")
-    L.append("")
-    L.append("- `bbox` — размеры прямоугольника, охватывающего все заполненные ячейки маски (в half-tile клетках).")
-    L.append("- `cells` — общее число заполненных ячеек.")
-    L.append("- `комп.` — число несвязанных компонент в маске (для большинства = 1).")
-    L.append("- `метод` — `walker` (точный обход) или `bbox_union` (правило для линейных «опор»).")
-    L.append("- `слоты` — итоговое число одновременных строителей (после cap=30).")
-    L.append("")
-    L.append("**Ворота** (`*sga`, `*wga`, `*sga_*`, `*wga_*`) появляются как **моментальный** "
-             "индивидуальный апгрейд `gc_upg_type_single_buildgate` на выбранном сегменте "
-             "стены: новый объект ворот сразу становится `bbuilt = True, hp = maxhp` через "
-             "fast-path `if (bwall) and (upglevel>0) then hp := maxhp` в "
-             "`_unit_ControlBuildProgress`. Крестьяне в постройку ворот не вовлечены. Слоты "
-             "в таблицах ниже относятся к самим сегментам стены и используются для их ремонта.")
+    L.append("Практическое время с разным числом рабочих приведено в "
+             "[таблице строительства и ремонта](construction_times.md).")
     L.append("")
 
     suffix_groups = {
-        "Городские центры (cen)": "cen",
-        "Склады (sto)": "sto",
-        "Мельницы (mil)": "mil",
-        "Дома (hou)": "hou",
-        "Конюшни (sta)": "sta",
-        "Базары (mar)": "mar",
-        "Дипломатические центры (dip)": "dip",
-        "Храмы (tem)": "tem",
-        "Казармы 17 в. (bar)": "bar",
-        "Казармы 18 в. (ba2)": "ba2",
-        "Кузницы (bla)": "bla",
-        "Академии (aca)": "aca",
-        "Артиллерийские депо (art)": "art",
-        "Порты (por)": "por",
-        "Башни (tow)": "tow",
-        "Шахты (gol/iro/coa)": ("gol", "iro", "coa"),
-        "Стены (swa/wwa)": ("swa", "wwa"),
-        "Ворота (sga/wga)": ("sga", "wga"),
+        "Городские центры": "cen",
+        "Склады": "sto",
+        "Мельницы": "mil",
+        "Дома": "hou",
+        "Конюшни": "sta",
+        "Рынки": "mar",
+        "Дипломатические центры": "dip",
+        "Храмы": "tem",
+        "Казармы XVII века": "bar",
+        "Казармы XVIII века": "ba2",
+        "Кузницы": "bla",
+        "Академии": "aca",
+        "Артиллерийские депо": "art",
+        "Порты": "por",
+        "Башни": "tow",
+        "Шахты": ("gol", "iro", "coa"),
+        "Стены": ("swa", "wwa"),
+        "Ворота": ("sga", "wga"),
     }
 
     by_suffix: dict[str, list[tuple[str, dict]]] = {}
@@ -456,14 +432,17 @@ def main():
         by_suffix.setdefault(sfx, []).append((sid, info))
 
     def render_table(rows_data):
-        out = ["| sid | bbox | cells | комп. | метод | слоты |",
-               "|---|---|---:|---:|---|---:|"]
+        out = ["| Здание | Код | Нации | Максимум строителей |",
+               "|---|---|---|---:|"]
         for sid, info in rows_data:
-            method = info["method"]
-            method_label = "walker" if method == "walker" else ("bbox_union" if method == "bbox_union" else method)
-            out.append(f"| `{sid}` | {info['bbox_cols']}×{info['bbox_rows']} | "
-                       f"{info['cells_total']} | {info['n_components']} | "
-                       f"{method_label} | **{info['slots']}** |")
+            building = buildings_by_sid.get(sid) or {}
+            name = building.get("name_ru") or building.get("name_en") or "Здание"
+            nation_codes = sorted(n for n in nations_by_sid.get(sid, set()) if n)
+            nation_text = "все 21" if len(nation_codes) == 21 else ", ".join(
+                nation_ru(nation) for nation in nation_codes
+            )
+            out.append(f"| {name} | `{sid}` | {nation_text or '—'} | "
+                       f"**{info['slots']}** |")
         return out
 
     for label, suffixes in suffix_groups.items():

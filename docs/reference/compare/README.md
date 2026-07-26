@@ -1,55 +1,59 @@
 # Сравнения
 
-[← Index](../README.md)
+[English](../../../docs_en/reference/compare/README.md) · **Русский**
 
-Параллельные таблицы по всем нациям. Базовые значения (мода по столбцу) — над таблицей в каждом файле; отклонения выделены **жирным**.
+[← Краткий справочник](../README.md)
 
-## [units/](units/README.md) — сравнения юнитов
+Здесь похожие юниты и здания разных наций можно сопоставить строка к строке.
+Наиболее распространённое значение считается базовым, а отличия выделяются
+**жирным**.
 
-| Файл | Что сравнивает |
+## [Юниты](units/README.md)
+
+| Сравнение | Что внутри |
 |---|---|
-| [units/pikemen.md](units/pikemen.md) | Все 17 в. пикинеры |
-| [units/pikemen18.md](units/pikemen18.md) | Все 18 в. пикинеры |
-| [units/light_infantry.md](units/light_infantry.md) | Лёгкая пехота / мечники |
-| [units/musketeers17.md](units/musketeers17.md) | Все 17 в. мушкетёры (Мушкетер / Стрелец / Янычар) |
-| [units/musketeers18.md](units/musketeers18.md) | Все 18 в. мушкетёры |
-| [units/special_infantry_18c.md](units/special_infantry_18c.md) | Особая пехота 18 в. — Хайлендер, Пандур, Секей, Шассёр, Йегер |
-| [units/grenadiers.md](units/grenadiers.md) | Гренадёры |
-| [units/archers.md](units/archers.md) | Лучники |
-| [units/light_cavalry.md](units/light_cavalry.md) | Лёгкая кавалерия (Гусар, Лансир, Козак) |
-| [units/dragoons.md](units/dragoons.md) | Драгуны |
-| [units/heavy_cavalry.md](units/heavy_cavalry.md) | Тяжёлая кавалерия |
-| [units/siege.md](units/siege.md) | Артиллерия (пушки, мортиры) |
-| [units/ships.md](units/ships.md) | Корабли (рыбачьи, военные, транспортные) |
-| [units/peasants.md](units/peasants.md) | 8 типов крестьян |
-| [units/officers.md](units/officers.md) | Офицеры — 5 национальных вариантов |
-| [units/drummers.md](units/drummers.md) | Барабанщики и волынщик |
-| [units/priests.md](units/priests.md) | Жрецы — `priest`/`pope`/`mullah`/`padre` с heal-специфичной таблицей (радиус и сила хила) |
+| [Пикинёры XVII века](units/pikemen.md) | Все национальные варианты |
+| [Пикинёры XVIII века](units/pikemen18.md) | Все национальные варианты |
+| [Лёгкая пехота](units/light_infantry.md) | Лёгкая пехота и мечники |
+| [Мушкетёры XVII века](units/musketeers17.md) | Мушкетёры, стрельцы, янычары и другие варианты |
+| [Мушкетёры XVIII века](units/musketeers18.md) | Все национальные варианты |
+| [Особая пехота XVIII века](units/special_infantry_18c.md) | Хайлендер, Пандур, Секей, Шассёр, Йегер |
+| [Гренадёры](units/grenadiers.md) | Все национальные варианты |
+| [Лучники](units/archers.md) | Все национальные варианты |
+| [Лёгкая кавалерия](units/light_cavalry.md) | Гусары, лансиры, казаки и другие варианты |
+| [Драгуны](units/dragoons.md) | Все национальные варианты |
+| [Тяжёлая кавалерия](units/heavy_cavalry.md) | Рейтары, кирасиры, витязи и другие варианты |
+| [Артиллерия](units/siege.md) | Пушки, гаубицы и мортиры |
+| [Корабли](units/ships.md) | Рыбацкие, военные и транспортные суда |
+| [Крестьяне](units/peasants.md) | Восемь национальных типов |
+| [Офицеры](units/officers.md) | Пять национальных вариантов |
+| [Барабанщики и волынщик](units/drummers.md) | Музыканты для построений |
+| [Священники](units/priests.md) | Дальность и сила лечения, стоимость и содержание |
 
-## [buildings/](buildings/README.md) — сравнения зданий
+## [Здания](buildings/README.md)
 
-| Файл | Что сравнивает |
+| Сравнение | Что внутри |
 |---|---|
-| [buildings/town_halls.md](buildings/town_halls.md) | Городские центры по всем нациям |
-| [buildings/barracks.md](buildings/barracks.md) | Казармы 17 и 18 в. |
-| [buildings/academies.md](buildings/academies.md) | Академии (апгрейды общего профиля) |
-| [buildings/artillery_depots.md](buildings/artillery_depots.md) | Артиллерийские депо |
-| [buildings/blacksmiths.md](buildings/blacksmiths.md) | Кузницы |
-| [buildings/diplomatic_centers.md](buildings/diplomatic_centers.md) | Дип-центры (наёмники) |
-| [buildings/houses.md](buildings/houses.md) | Дома (population cap) |
-| [buildings/stables.md](buildings/stables.md) | Конюшни |
-| [buildings/temples.md](buildings/temples.md) | Соборы / Церкви / Мечети |
-| [buildings/mills.md](buildings/mills.md) | Мельницы (cluster-вариации: eur/rus/tur/ukr/sco) |
-| [buildings/markets.md](buildings/markets.md) | Рынки |
-| [buildings/storehouses.md](buildings/storehouses.md) | Склады |
-| [buildings/ports.md](buildings/ports.md) | Порты |
-| [buildings/towers.md](buildings/towers.md) | Башни |
-| [buildings/mines.md](buildings/mines.md) | Шахты (coa/gol/iro × cluster) |
+| [Городские центры](buildings/town_halls.md) | Варианты всех наций |
+| [Казармы](buildings/barracks.md) | Казармы XVII и XVIII веков |
+| [Академии](buildings/academies.md) | Общие исследования |
+| [Артиллерийские депо](buildings/artillery_depots.md) | Производство и лимиты артиллерии |
+| [Кузницы](buildings/blacksmiths.md) | Улучшения оружия и защиты |
+| [Дипломатические центры](buildings/diplomatic_centers.md) | Наёмники |
+| [Дома](buildings/houses.md) | Увеличение предела населения |
+| [Конюшни](buildings/stables.md) | Производство кавалерии |
+| [Соборы, церкви и мечети](buildings/temples.md) | Производство священников |
+| [Мельницы](buildings/mills.md) | Архитектурные варианты |
+| [Рынки](buildings/markets.md) | Архитектурные варианты |
+| [Склады](buildings/storehouses.md) | Архитектурные варианты |
+| [Порты](buildings/ports.md) | Архитектурные варианты |
+| [Башни](buildings/towers.md) | Архитектурные варианты |
+| [Шахты](buildings/mines.md) | Угольные, золотые и железные шахты |
 
-## [weapons/](weapons/README.md) — каталоги оружия и снарядов
+## [Оружие и снаряды](weapons/README.md)
 
-Это не «сравнение по нациям», а каталог типов снарядов (projectile-level), привязанных к юнитам.
+Типы снарядов, привязанные к использующим их юнитам.
 
-| Файл | Что внутри |
+| Справка | Что внутри |
 |---|---|
-| [weapons/projectiles.md](weapons/projectiles.md) | `weaponsid` каталог — снаряды, стрелы, ядра, гранаты с характеристиками (kind, dispersion, projectile-id) и списком юнитов-носителей |
+| [Снаряды](weapons/projectiles.md) | Стрелы, ядра и гранаты: тип урона, разброс, скорость и список использующих их юнитов. Внутренние коды приведены вторым планом. |

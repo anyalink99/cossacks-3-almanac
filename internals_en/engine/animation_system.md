@@ -220,11 +220,11 @@ two modes: `…idle` (in place) and `…walk` (in motion).
 walk animation frame** (that is, for `1/32` g-sec). `TrackPointTurnStep`
 — rotation angle per frame (in degrees).
 
-Speed ​​in tiles per second:
+Speed in tiles per second:
 ```
 tiles_per_g_sec = TrackPointMoveStep × 32
 ```
-| Class | Speed ​​(tiles/g-sec) |
+| Class | Speed (tiles/g-sec) |
 |---|---:|
 | infantry | 0.96 |
 | peasant | 1.20 |

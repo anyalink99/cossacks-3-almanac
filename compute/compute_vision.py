@@ -23,7 +23,8 @@ from collections import defaultdict
 
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DATA_JSON, REPORTS_DIR, PLAYABLE_NATIONS, REPORTS_COMBAT_DIR
+from config import (DATA_JSON, REPORTS_DIR, PLAYABLE_NATIONS, REPORTS_COMBAT_DIR,
+                    USAGE_RU, nation_ru, unit_ru)
 from citations import Citations
 
 MD_PATH = REPORTS_COMBAT_DIR / "vision_radii.md"
@@ -44,21 +45,20 @@ def render_legend(cites: Citations) -> list[str]:
     A("## Формула")
     A("")
     cite = cites.cite("lib/unit.script:11565", label="`_unit_GetVision`")
-    A(f"Радиус обзора в тайлах = `floor(20 + 4 × vision)`, где `vision` — "
-      f"поле в `objprop`, ЦЕЛОЕ число (обычно 0..8); вычисление — "
-      f"в `_unit_GetVision` {cite}.")
+    A(f"Радиус обзора = **20 + 4 × внутренний уровень обзора** {cite}. "
+      f"Уровень обычно лежит в диапазоне от 0 до 8.")
     A("")
-    A("| `vision` | tiles | Кто типичный носитель |")
+    A("| Внутренний уровень | Радиус, тайлов | Типичный пример |")
     A("| ---: | ---: | --- |")
     rows = [
-        (0, "Default minimum (peasant fallback)"),
+        (0, "Базовый минимум"),
         (1, "Бо́льшая часть пехоты, артиллерия, башня без апгрейдов"),
         (2, "Лёгкая пехота, конница средней зоркости"),
         (3, "Драгуны, средняя кавалерия, башня с апгрейдом"),
-        (4, "Скауты, разведка, ukr-крестьянин"),
-        (5, "Hussar prussian, dragoon18 piedmontese"),
-        (7, "Hetman (топ-обзор среди тяжёлой кавалерии)"),
-        (8, "Drummer/Bagpiper, корабли (Battleship/Frigate)"),
+        (4, "Разведчики и украинский крестьянин"),
+        (5, "Прусский гусар и пьемонтский драгун XVIII века"),
+        (7, "Гетман — лучший обзор среди сухопутной кавалерии"),
+        (8, "Барабанщик, волынщик, линейный корабль и фрегат"),
     ]
     for v, who in rows:
         A(f"| {v} | **{vision_tiles(v)}** | {who} |")
@@ -69,10 +69,11 @@ def render_legend(cites: Citations) -> list[str]:
 def render_unit_table(units: list[dict]) -> list[str]:
     L = []
     A = L.append
-    A("## §1. Полная таблица: vision (FOW) и searchradius (target acquisition) по юнитам")
+    A("## Обзор и автоматическое обнаружение целей у юнитов")
     A("")
-    A("Группировка: одна строка на уникальный набор `(sid, vision, searchradius_tiles)`. "
-      "Колонка **searchradius** — pause `weapon[0].radiusmax_tiles` (или 0 если оружие нет / melee=0).")
+    A("Радиус обзора показывает, какая часть карты открывается вокруг юнита. "
+      "Радиус автообнаружения показывает, насколько близко должен подойти враг, "
+      "чтобы юнит самостоятельно выбрал его целью.")
     A("")
     seen: dict[tuple, list[str]] = defaultdict(list)
     for u in units:
@@ -81,19 +82,21 @@ def render_unit_table(units: list[dict]) -> list[str]:
         sr_tile = u.get("searchradius_tiles") or 0
         sr_px = u.get("searchradius_px") or 0
         usg = u.get("usage_short") or "?"
-        key = (usg, sid, v, sr_tile, sr_px)
+        name = unit_ru(sid, u.get("name_ru") or USAGE_RU.get(usg, usg))
+        key = (name, sid, v, sr_tile, sr_px)
         seen[key].append(u.get("nation"))
     rows = []
     for key, nats in seen.items():
-        usg, sid, v, sr_tile, sr_px = key
-        rows.append((-vision_tiles(v), usg, sid, v, sr_tile, sr_px, sorted(set(nats))))
+        name, sid, v, sr_tile, sr_px = key
+        rows.append((-vision_tiles(v), name, sid, v, sr_tile, sr_px, sorted(set(nats))))
     rows.sort()
-    A("| usage | sid | vision | fov tiles | searchradius (tiles) | nations |")
-    A("| --- | --- | ---: | ---: | ---: | --- |")
-    for _, usg, sid, v, sr_tile, sr_px, nats in rows:
-        nat_str = "all" if len(nats) == len(PLAYABLE_NATIONS) else (
-            ", ".join(nats[:6]) + (f" … (+{len(nats)-6})" if len(nats) > 6 else ""))
-        A(f"| {usg} | `{sid}` | {v} | **{vision_tiles(v)}** | "
+    A("| Юнит | Код | Обзор, тайлов | Автообнаружение, тайлов | Нации |")
+    A("| --- | --- | ---: | ---: | --- |")
+    for _, name, sid, v, sr_tile, sr_px, nats in rows:
+        nat_names = [nation_ru(nat) for nat in nats]
+        nat_str = "все 21" if len(nats) == len(PLAYABLE_NATIONS) else (
+            ", ".join(nat_names[:6]) + (f" … (+{len(nats)-6})" if len(nats) > 6 else ""))
+        A(f"| {name} | `{sid}` | **{vision_tiles(v)}** | "
           f"{sr_tile if sr_tile else '—'} | {nat_str} |")
     A("")
     return L
@@ -102,11 +105,10 @@ def render_unit_table(units: list[dict]) -> list[str]:
 def render_building_table(buildings: list[dict]) -> list[str]:
     L = []
     A = L.append
-    A("## §2. Vision у зданий")
+    A("## Обзор у зданий")
     A("")
-    A("В отличие от юнитов, у большинства зданий `vision=0` или поле не "
-      "задано — обзор обеспечивается «врезкой» из FOW callback'а на самом "
-      "здании (engine native). Здесь — те, у кого vision явно прописан.")
+    A("У большинства зданий нет отдельного уровня обзора: их видимая область "
+      "задаётся движком. Ниже перечислены исключения с явно заданным значением.")
     A("")
     rows = []
     for b in buildings:
@@ -117,17 +119,17 @@ def render_building_table(buildings: list[dict]) -> list[str]:
         rows.append((usg, b.get("sid"), v, b.get("nation")))
     rows.sort()
     if not rows:
-        A("_Здания с явным `vision>0` не найдены — все используют default._")
+        A("_Здания с отдельным уровнем обзора не найдены._")
         A("")
         return L
-    A("| usage | sid | vision | fov tiles | nation |")
-    A("| --- | --- | ---: | ---: | --- |")
+    A("| Здание | Код | Радиус обзора, тайлов | Нация |")
+    A("| --- | --- | ---: | --- |")
     seen = set()
     for usg, sid, v, nat in rows:
         if (sid, v) in seen:
             continue
         seen.add((sid, v))
-        A(f"| {usg} | `{sid}` | {v} | **{vision_tiles(v)}** | {nat} |")
+        A(f"| {usg} | `{sid}` | **{vision_tiles(v)}** | {nation_ru(nat)} |")
     A("")
     return L
 
@@ -135,20 +137,17 @@ def render_building_table(buildings: list[dict]) -> list[str]:
 def render_notes() -> list[str]:
     L = []
     A = L.append
-    A("## §3. Замечания")
+    A("## Что важно учитывать")
     A("")
-    A("- **Vision > searchradius** для всех юнитов кроме мортир (mortar/super "
-      "mortar) и башен с пустым `searchradius`. Это значит: юнит **видит** "
-      "врага раньше, чем может **обнаружить как цель**.")
-    A("- **Default `vision=0`** даёт всё ещё 20 тайлов обзора — минимальный "
-      "круг, чтобы юнит вообще видел окружение.")
-    A("- **Drummer/Bagpiper** имеют `vision=8` ⇒ **52 тайла обзора**, при "
-      "этом не атакуют (`searchradius=0`). Это лучший «чистый скаут» в игре.")
-    A("- **Корабли** (Battleship/Frigate) `vision=8` — нужен для морских "
-      "патрулей, далеко за пределы artillery range.")
-    A("- **Hetman** (Ukraine) `vision=7` — самый зоркий конный юнит на берегу.")
-    A("- **Vision не апгрейдится.** В `efficiency_upgrades.md` нет записи на "
-      "`visionperc` или `+vision`.")
+    A("- Почти каждый юнит **видит врага раньше**, чем самостоятельно выбирает "
+      "его целью. Исключение составляют некоторые мортиры.")
+    A("- Даже минимальный внутренний уровень даёт **20 тайлов обзора**, а не ноль.")
+    A("- **Барабанщик и волынщик** открывают 52 тайла, но не атакуют. Это "
+      "отличные чистые разведчики.")
+    A("- **Линейный корабль и фрегат** также открывают 52 тайла, что полезно "
+      "для морского патрулирования.")
+    A("- **Гетман** — самый зоркий сухопутный кавалерист.")
+    A("- Улучшений радиуса обзора в игре нет.")
     A("")
     return L
 
@@ -162,27 +161,21 @@ def main() -> None:
     cites = Citations()
     L = []
     A = L.append
-    A("# Cossacks 3 — Vision и searchradius")
+    A("# Радиус обзора и обнаружения целей")
     A("")
-    A("**Производный** отчёт. Считается из `data.json` скриптом "
-      "[`compute/compute_vision.py`](../../../compute/compute_vision.py).")
+    A("[← Таблицы и расчёты](../README.md)")
     A("")
-    A("Cossacks 3 имеет два концентрических радиуса «осведомлённости»:")
+    A("У каждого юнита есть два разных расстояния:")
     A("")
-    A("- **vision** — радиус развёртывания fog-of-war (FOW). Сколько тайлов "
-      "вокруг юнита открыты на миникарте и игровом экране для владельца.")
-    A("- **searchradius** — радиус **обнаружения цели для авто-атаки**. "
-      "Используется в `bartprepare` / `_unit_SearchTarget`. Пехота "
-      "**не атакует** врага вне этого круга, даже если он виден через FOW.")
+    A("- **радиус обзора** — насколько далеко вокруг юнита открывается карта;")
+    A("- **радиус автоматического обнаружения** — насколько близко должен "
+      "подойти видимый враг, чтобы юнит сам начал атаку.")
     A("")
     L.extend(render_legend(cites))
     L.extend(render_unit_table(units))
     L.extend(render_building_table(buildings))
     L.extend(render_notes())
     L.extend(cites.render())
-    A("---")
-    A("")
-    A("Перегенерация: `python compute/compute_vision.py`")
     MD_PATH.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")
 

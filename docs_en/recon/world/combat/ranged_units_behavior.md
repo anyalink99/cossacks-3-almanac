@@ -1,5 +1,8 @@
 <a id="recon-поведение-стрелковых-юнитов"></a>
-# Recon: behavior of shooting units
+<a id="как-ведут-себя-стрелковые-юниты"></a>
+# Ranged-Unit Behavior
+
+[← How the game works](../../README.md)
 
 In-depth analysis: shooter attack modes (standground, bartprepare,
 RunAway), range penalty when moving, range bonus when

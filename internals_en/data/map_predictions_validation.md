@@ -1,6 +1,10 @@
-# Map predictions vs replay ground truth
+<a id="проверка-расчётной-модели-ресурсов-карты-по-реплеям"></a>
+# Replay-based validation of the map resource model
 
-Comparison of `compute_map_resources.compute_counts(...)` with actual cluster counts from replay and save files (`derived/replay_ground_truth.json`). See [`lobby_settings.md`](lobby_settings.md) for the meaning of `mapsize`, `relieftype`, `terraintype`, and `season`.
+Comparison of `compute_map_resources.compute_counts(...)` with actual cluster
+counts from replay and save files (`derived/replay_ground_truth.json`). See the
+[match settings reference](../../docs_en/reports/map/lobby_settings.md) for the
+meaning of `mapsize`, `relieftype`, `terraintype`, and `season`.
 
 **Replays processed:** 23
 

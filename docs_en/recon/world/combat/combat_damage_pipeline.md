@@ -1,5 +1,8 @@
 <a id="recon-конвейер-урона"></a>
-# Recon: damage pipeline
+<a id="как-рассчитывается-урон"></a>
+# How Damage Is Calculated
+
+[← How the game works](../../README.md)
 
 Detailed analysis: what exactly happens between the moment when the unit
 fires a projectile, and the moment when the target's health decreases.

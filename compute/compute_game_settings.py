@@ -246,30 +246,17 @@ def build_settings():
 
 def _intro_lines(cites: Citations) -> list[str]:
     """Top-of-document text. Uses module-level `cites` for the one citation."""
-    settings_cite = cites.cite("lib/classes.script:85-88",
-                                label="определение `TMapSettings` (`gMap.settings`)")
     return [
-        "# Настройки лобби — справочник значений",
+        "# Настройки матча",
         "",
-        "**Производный отчёт.** Считается из локали игры и `dmscript.global` скриптом",
-        "[`compute/compute_game_settings.py`](../../../compute/compute_game_settings.py).",
-        "Регенерация: `python compute/compute_game_settings.py`.",
+        "[← Таблицы и расчёты](../README.md)",
         "",
-        "Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,",
-        "`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже",
-        "«Высокогорье». Машинная версия для редакторов и инструментов —",
-        "[`derived/game_settings.json`](../../../derived/game_settings.json).",
+        "Канонические русские названия всех параметров лобби и краткое описание",
+        "их действия. Внутренний номер нужен только для сопоставления с реплеями",
+        "и файлами игры; английское название показано вторым.",
         "",
-        "Поведение каждой опции в движке (что происходит после выбора) — в",
-        "[`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).",
-        "",
-        "## Структура",
-        "",
-        f"Все опции лобби живут в `gMap.settings` {settings_cite}:",
-        "",
-        "- `gMap.settings.gen` — параметры **генератора карты** (как карта рисуется).",
-        "- `gMap.settings.additional` — **правила игры** (peacetime, лимит населения,",
-        "  захват, скорость и т. д.).",
+        "Подробное объяснение скрытого поведения находится в статье",
+        "[«Как настройки влияют на игру»](../../recon/world/map/game_settings.md).",
     ]
 
 
@@ -307,40 +294,38 @@ def render_lobby_md(settings: dict) -> list[str]:
     L.append("")
 
     # ─── gen ───────────────────────────────────────────────────────────────
-    L += ["## Генератор карты — `gMap.settings.gen`", ""]
+    L += ["## Карта и природные ресурсы", ""]
     L += _section(
-        "`mapsize` — размер карты",
+        "Размер карты (`mapsize`)",
         "mapsize", settings,
         columns=[("Значение", "value"), ("Размер, тайлы", "tiles"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     mapsize_cite = cites.cite("lib/miscext2.script:19-26",
                               label="хардкод размеров `mapsize` в тайлах")
     L += [
-        f"Размер карты — квадрат `tiles × tiles`. UI игры лейблов не "
-        f"показывает (значения зашиты {mapsize_cite}).",
+        f"Карта всегда квадратная; размер в тайлах задан непосредственно игрой "
+        f"{mapsize_cite}.",
         "",
     ]
     L += _section(
-        "`terraintype` — тип ландшафта и воды",
+        "Тип ландшафта и воды (`terraintype`)",
         "terraintype", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     maritime_cite = cites.cite("lib/misc.script:5466",
                                label="`_misc_HasMaritime` — проверка terrain-морских опций")
     L += [
-        f"Лейблы из `gui.txt @randommap.terraintype.*`. Значения `2..4` "
-        f"(`Полуострова` / `Острова` / `Континенты`) проверяются движком "
-        f"в `_misc_HasMaritime` {maritime_cite} — на этих картах есть "
-        f"«морские» воды, доступ к ним требует порта.",
+        f"На полуостровах, островах и континентах есть морская вода, доступ "
+        f"к которой требует порта {maritime_cite}.",
         "",
     ]
     L += _section(
-        "`relieftype` — рельеф",
+        "Рельеф (`relieftype`)",
         "relieftype", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     initmap29_cite = cites.cite("common.inc/initmap.inc:29",
                                  label="дефолт `relieftype = 3` (Highlands)")
@@ -349,24 +334,24 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
     L += _section(
-        "`resourcestart` — стартовые ресурсы у игроков",
+        "Стартовые ресурсы (`resourcestart`)",
         "resourcestart", settings,
         columns=[("Значение", "value"), ("На каждый ресурс", "amount"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     initmap30_cite = cites.cite("common.inc/initmap.inc:30",
                                  label="дефолт `resourcestart = 2` (Thousands)")
     L += [
-        f"Все 6 ресурсов (food / wood / stone / gold / iron / coal) получают "
+        f"Еда, дерево, камень, золото, железо и уголь получают "
         f"одинаковое стартовое количество. По умолчанию = 2 («Тысячи», 5 000 "
         f"каждого) {initmap30_cite}.",
         "",
     ]
     L += _section(
-        "`resourcemines` — плотность месторождений",
+        "Количество месторождений (`resourcemines`)",
         "resourcemines", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     initmap31_cite = cites.cite("common.inc/initmap.inc:31",
                                  label="дефолт `resourcemines = 1` (Medium)")
@@ -378,48 +363,41 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
     L += _section(
-        "`season` — сезон",
+        "Сезон (`season`)",
         "season", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     desert_cite = cites.cite("common.inc/dogenerate.inc:4",
                               label="форсирование `bDesert := True` при `season = 3`")
     L += [
-        f"Лейблов в `gui.txt` нет — UI хардкодит. Единственный механический "
-        f"эффект — `season = 3` («Пустыня») форсит `bDesert = True` "
-        f"{desert_cite}; engine использует другой набор pattern-типов "
-        f"(`desert_*` вместо обычных лесов и камней).",
+        f"Вариант «Пустыня» использует отдельный набор пустынных лесов и камней "
+        f"{desert_cite}.",
         "",
     ]
 
     # ─── additional ────────────────────────────────────────────────────────
-    L += ["## Правила игры — `gMap.settings.additional`", ""]
+    L += ["## Правила партии", ""]
 
     L += _section(
-        "`startingunits` — стартовая армия",
+        "Стартовая армия (`startingunits`)",
         "startingunits", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     csp_cite = cites.cite("common.inc/dogenerate.inc:1231-1281",
                            label="`CreateStartPointPeasants` — расстановка 18 крестьян 6×3")
     L += [
-        f"Конкретный набор юнитов на каждый вариант — в "
-        f"`data/game/var/startingsettings.cfg` (`addresources`, `countries`).",
-        "",
-        f"> Независимо от выбора движок всегда вызывает "
-        f"`CreateStartPointPeasants` {csp_cite} и размещает **18 крестьян** "
-        f"в сетке 6×3 вокруг стартовой точки. Даже на `startingunits = 0` "
-        f"(«По умолчанию») у игрока сразу 18 крестьян.",
+        f"> Независимо от выбора игрок получает **18 крестьян** сеткой 6×3 "
+        f"вокруг стартовой точки {csp_cite}.",
         "",
     ]
 
     L += _section(
-        "`balloon` — монгольфьеры",
+        "Монгольфьеры (`balloon`)",
         "balloon", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
         "Монгольфьер — особый юнит, открывающий обзор на большой высоте.",
@@ -427,10 +405,10 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     L += _section(
-        "`cannons` — пушки, башни и стены",
+        "Пушки, башни и стены (`cannons`)",
         "cannons", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
         "Опция «Дорогие пушки» поднимает цены пушек через апгрейд — точные "
@@ -439,17 +417,16 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     L += _section(
-        "`peacetime` — время мира",
+        "Время мира (`peacetime`)",
         "peacetime", settings,
         columns=[("Значение", "value"), ("Минут (игр.)", "minutes_g"),
                  ("g-секунд", "gsec"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "Минуты — **игровые**. На скорости fast (`gamespeed = 2`, ×1.4) одна "
+        "Минуты — **игровые**. На скорости «Быстро» (×1,4) одна "
         "игровая минута = 60 / 1.4 ≈ 42.9 реальных секунд: 10-минутный мир "
-        "длится ≈ 7 реальных минут. Значение `value = 11` (15 минут) лежит "
-        "между `1` и `2` — историческая неровность; movement к концу таблицы.",
+        "длится примерно 7 реальных минут.",
         "",
         "Подробности механики (как движок блокирует поиск врагов, ничейные "
         "ячейки, переход от мира к войне) — в "
@@ -458,22 +435,22 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     L += _section(
-        "`century18` — переход в 18 век",
+        "Переход в XVIII век (`century18`)",
         "century18", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "На 17 в.-only нациях (Украина, Турция, Алжир) опция «Сразу» бесполезна — "
-        "у них нет апгрейда `<nat>cen.1` («Переход в 18 век»).",
+        "Для Украины, Турции и Алжира вариант «Сразу» ничего не меняет: "
+        "эти нации не могут перейти в XVIII век.",
         "",
     ]
 
     L += _section(
-        "`capture` — правила захвата",
+        "Правила захвата (`capture`)",
         "capture", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
         "Геометрия захвата (радиусы, кто захватывается, кто нет) — в "
@@ -482,23 +459,22 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     L += _section(
-        "`marketdip` — рынок и дипцентр",
+        "Рынок и дипломатический центр (`marketdip`)",
         "marketdip", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "Опция `value = 4` («Дорогие наёмники») умножает цену найма в дипцентре "
-        "на `gc_gameplay_expensivemercskoef = 3`. Подробности про наёмников — в "
+        "Вариант «Дорогие наёмники» утраивает цену найма. Подробности — в "
         "[`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).",
         "",
     ]
 
     L += _section(
-        "`teams` — расположение союзников",
+        "Расположение союзников (`teams`)",
         "teams", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
         "При `teams = 1` команда стартует в соседних позициях, а не "
@@ -507,38 +483,36 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     L += _section(
-        "`limit` — лимит населения",
+        "Лимит населения (`limit`)",
         "limit", settings,
         columns=[("Значение", "value"), ("Юнитов", "units"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "Это **глобальный потолок поверх** локального лимита, считаемого по "
-        "зданиям: `pop_cap = cen × 100 + bar × 150 + ba2 × 250 + hou × 25`. "
-        "Глобальный потолок никогда не превышается, даже если ферм-бонус "
+        "Это общий потолок поверх мест населения, которые дают городские центры, "
+        "казармы и дома. Потолок никогда не превышается, даже если здания "
         "позволяет больше.",
         "",
     ]
 
     L += _section(
-        "`gamespeed` — скорость партии",
+        "Скорость партии (`gamespeed`)",
         "gamespeed", settings,
         columns=[("Значение", "value"), ("Тиков/реальная секунда", "ticks_per_sec"),
                  ("Множитель к норме", "factor"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "`gc_time_to_frames = 32` для всех скоростей (32 кадра в одной игровой "
-        "секунде) — меняется только real-time-фактор. Слот `value = 3` (×2.0) "
-        "был, но в текущей версии закомментирован.",
+        "Одна игровая секунда всегда содержит 32 кадра симуляции; меняется "
+        "только её длительность в реальном времени.",
         "",
     ]
 
     L += _section(
-        "`adviserassistant` — помощник",
+        "Помощник (`adviserassistant`)",
         "adviserassistant", settings,
         columns=[("Значение", "value"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
         "Контекстные подсказки в углу экрана. Не влияет на симуляцию — только UI.",
@@ -546,24 +520,23 @@ def render_lobby_md(settings: dict) -> list[str]:
     ]
 
     # ─── difficulty ────────────────────────────────────────────────────────
-    L += ["## Сложность ИИ — `gc_player_difficulty_*`", ""]
+    L += ["## Сложность компьютера", ""]
     L += _section(
-        "`difficulty` — сложность",
+        "Сложность (`difficulty`)",
         "difficulty", settings,
         columns=[("Значение", "value"), ("Множитель скорости", "koef"),
-                 ("Английский лейбл", "label_en"), ("Русский лейбл", "label_ru")],
+                 ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [
-        "Только AI-игроки. «Преимущество» сложности — это множитель к скорости "
-        "постройки/найма (`koef`), стартовых ресурсов AI **не получает** ни на "
-        "какой сложности. Поведение AI разобрано в "
+        "Сложность меняет скорость строительства и найма компьютерного игрока. "
+        "Дополнительных стартовых ресурсов он не получает. Поведение компьютера разобрано в "
         "[`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).",
         "",
     ]
 
     # ─── defaults ──────────────────────────────────────────────────────────
     defaults = settings.get("defaults") or {}
-    if defaults:
+    if False and defaults:
         defaults_cite = cites.cite("common.inc/initmap.inc:29-31",
                                     label="дефолты блока `gen` (relieftype, resourcestart, resourcemines)")
         L += [

@@ -1,5 +1,8 @@
 <a id="recon-применение-апгрейдов"></a>
-# Recon: applying upgrades
+<a id="как-применяются-улучшения"></a>
+# How Upgrades Are Applied
+
+[← How the game works](../../README.md)
 
 Deep dive: exactly how the upgrade is **applied** to units and
 buildings after research. Where do the effects live, is it interrupted?

@@ -10,7 +10,7 @@ Tiny + Land + Highlands + 4pl_mask_nowater. Bucket ratios actual/predicted
 all fall in 0.96-1.04 for forests_pine_*, stones, mng/mni/mnc.
 Validation pipeline:
   parser/parse_replay_aggregates.py → derived/replay_ground_truth.json
-  compute/validate_map_predictions.py  → docs/reports/map/map_predictions_validation.md
+  compute/validate_map_predictions.py  → internals/data/map_predictions_validation.md
 Full guide: recon/map_generation_pipeline.md §14.
 
 ⚠ Calibration is *setting-specific*. On Huge maps / non-Highlands relief /
@@ -427,7 +427,7 @@ def compute_counts(mapsize_tag: int, relieftype: int, resourcemines: int,
 
 # ---------- Reporting ----------
 
-def write_report(r: dict, settings: dict) -> str:
+def write_report_legacy(r: dict, settings: dict) -> str:
     L = []
     L.append(f"# Оценка ресурсов карты — {r['map_name']} ({r['dim']}×{r['dim']}) "
              f"+ {r['relief_name']} + шахты {r['mine_density_name']}")
@@ -631,7 +631,7 @@ def write_report(r: dict, settings: dict) -> str:
              "(Tiny+Land+Highlands+4pl_nowater bucket). Bucket ratios actual/predicted = 0.96-1.04 "
              "для всех major types (forests_pine_*, stones, mng/mni/mnc).")
     L.append("- Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. "
-             "Output: `docs/reports/map/map_predictions_validation.md`.")
+             "Output: `internals/data/map_predictions_validation.md`.")
     L.append("- Player count выводится из mng count для Land terrain (формула обратима).")
     L.append("")
     L.append("**Что оценено / не валидировано:**")
@@ -653,6 +653,98 @@ def write_report(r: dict, settings: dict) -> str:
     L.append("**Предел точности (Tiny+Land+Highlands):** ±5% по predicted cluster counts для "
              "covered types. По total wood pool / stones — ±30-50% (TREE_CHOPABLE_RATIO не валидирован).")
     L.extend(cites.render())
+    return "\n".join(L)
+
+
+def write_report(r: dict, settings: dict) -> str:
+    """Render a player-facing estimate; keep calibration detail in Internals."""
+    map_names = {
+        "Tiny": "Очень маленькая",
+        "Normal": "Обычная",
+        "Large": "Большая",
+        "Huge": "Огромная",
+    }
+    relief_names = {
+        "Flat": "Равнина",
+        "Lowlands": "Низменность",
+        "Plains": "Плоскогорье",
+        "Highlands": "Нагорье",
+        "Mountains": "Горы",
+        "Random": "Случайный",
+    }
+    density_names = {"Poor": "Мало", "Medium": "Средне", "Rich": "Много"}
+    map_name = map_names.get(r["map_name"], r["map_name"])
+    relief_name = relief_names.get(r["relief_name"], r["relief_name"])
+    density_name = density_names.get(r["mine_density_name"], r["mine_density_name"])
+
+    L: list[str] = []
+    A = L.append
+    A("# Сколько ресурсов появляется на карте")
+    A("")
+    A("[← Таблицы и расчёты](../README.md)")
+    A("")
+    A("Приблизительное количество лесов, камней и месторождений для одного "
+      "часто используемого набора настроек. Значения для природы являются "
+      "оценкой: неровный рельеф и занятые точки мешают разместить часть объектов.")
+    A("")
+    A("## Настройки расчёта")
+    A("")
+    A("| Параметр | Выбрано |")
+    A("| --- | --- |")
+    A(f"| Размер карты | **{map_name}**, {r['dim']}×{r['dim']} тайлов |")
+    A(f"| Рельеф | **{relief_name}** |")
+    A(f"| Месторождения | **{density_name}** |")
+    A("| Тип местности | Суша |")
+    A("")
+    A("Названия остальных вариантов приведены в "
+      "[справочнике по настройкам матча](lobby_settings.md).")
+    A("")
+    A("## Оценка лесов и камней")
+    A("")
+    A("| Объекты | Примерное количество на всей карте |")
+    A("| --- | ---: |")
+    A(f"| Крупные участки леса | **{r['big_real']}** |")
+    A(f"| Средние участки леса | **{r['mid_real']}** |")
+    A(f"| Малые участки леса | **{r['small_real']}** |")
+    A(f"| Каменные россыпи | **{r['stone_real']}** |")
+    A(f"| Отдельные деревья | около **{r['total_trees']:,}** |".replace(",", " "))
+    A(f"| Отдельные камни | около **{r['total_stones']:,}** |".replace(",", " "))
+    A("")
+    A("Количество отдельных деревьев и камней менее надёжно, чем число участков: "
+      "оно оценивается по типичному наполнению шаблонов карты.")
+    A("")
+    A("## Запасы древесины и камня")
+    A("")
+    A("В текущей логике игры **дерево фактически бесконечно**: после исчерпания "
+      "здоровья дерево превращается в пень, но крестьяне могут продолжать рубить "
+      "его с прежней скоростью. Камни также имеют настолько большой запас "
+      "здоровья, что на практике не исчерпываются.")
+    A("")
+    A("Поэтому главное ограничение — не общий запас, а число удобных точек добычи, "
+      "расстояние до склада и число крестьян, которые могут работать рядом.")
+    A("")
+    A("## Месторождения у каждого игрока")
+    A("")
+    A(f"При выбранной настройке генератор делает **{r['effective_rounds']} "
+      "раунда размещения**. В каждом раунде он старается поставить по одному "
+      "месторождению золота, железа и угля.")
+    A("")
+    A(f"Максимум на игрока: **{r['deposits_per_resource']} золотых + "
+      f"{r['deposits_per_resource']} железных + {r['deposits_per_resource']} "
+      f"угольных = {r['deposits_per_player_max']} месторождений**. Если рельеф "
+      "не позволяет найти свободное место, фактическое число может быть меньше.")
+    A("")
+    A("| Раунд | Обычное расстояние от старта |")
+    A("| ---: | ---: |")
+    A("| 1 | 14–22 тайла |")
+    A("| 2 | 32–42 тайла |")
+    A("| 3 | 70–82 тайла |")
+    A("| 4 | 22–38 тайлов |")
+    A("")
+    A("Подробное описание алгоритма находится в статье "
+      "[«Как создаётся карта»](../../recon/world/map/map_generation_pipeline.md), "
+      "а калибровка модели по реплеям — в "
+      "[технической документации](../../../internals/data/map_predictions_validation.md).")
     return "\n".join(L)
 
 

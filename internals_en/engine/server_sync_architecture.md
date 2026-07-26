@@ -193,7 +193,7 @@ When the server changes `TimeSpeedFactor`:
 2. `WriteRes` continues to send every 0.1 real-sec.
 3. Between two `WriteRes`, `0.1 × speedfactor/10` has accumulated on the server
    game-time mining.
-4. The client applies the received values ​​after 0.1 real-sec.
+4. The client applies the received values after 0.1 real-sec.
 
 **But the client is also ticking its progress-loop at this time**:
 `_res_ProcessEconomy(deltatime)` is launched on the client from the same shared

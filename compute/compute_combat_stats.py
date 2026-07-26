@@ -91,9 +91,9 @@ def fmt_w(w: dict | None) -> str:
     d = w.get("damage")
     p = w.get("pause_sec")
     r = w.get("radiusmax_tiles")
-    k = w.get("kind") or "?"
-    p_disp = f"{p}s" if p and p > 0 else "0 (melee)"
-    return f"{d}d / {p_disp} / {r}t [{k}]"
+    k = kind_ru(w.get("kind"))
+    p_disp = f"{p} с" if p and p > 0 else "ближний бой"
+    return f"{d} урона / {p_disp} / {r} тайла / {k}"
 
 
 def fmt_protection(u: dict) -> str:
@@ -101,9 +101,9 @@ def fmt_protection(u: dict) -> str:
     for k in PROT_KINDS:
         v = u.get(f"prot_{k}")
         if v is not None and v != 0:
-            parts.append(f"{k}={v}")
+            parts.append(f"{kind_ru(k)}={v}")
     if u.get("shield"):
-        parts.append(f"shield={u['shield']}")
+        parts.append(f"общая броня={u['shield']}")
     return ", ".join(parts) if parts else "—"
 
 
@@ -176,18 +176,17 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
     A = L.append
     A("## §1. Сводная таблица боевых юнитов")
     A("")
-    A("Группировка: одна строка на каждый уникальный набор статов. Колонка "
-      "**Нации** — где этот юнит с этими статами доступен (`все 21` = во всех). "
+    A("Одна строка соответствует одному уникальному набору характеристик. "
+      "Колонка **Нации** показывает, где доступен этот вариант. "
       "Если у юнита разные значения у разных наций (например `pikemanpol` имеет "
       "половину брони от стандарта) — это разные строки.")
     A("")
-    A("Колонки: HP, скорость (px на игровую секунду; 32 = крестьянин), "
-      "основное оружие (урон / пауза / дальность / тип), DPS в игровых "
-      "секундах, DPS в реальных секундах (×1.4 на скорости fast), защиты "
-      "(только ненулевые) и щит. У юнита может быть несколько оружий — "
+    A("Показаны здоровье, внутренняя скорость, основное оружие, урон в "
+      "игровую и реальную секунду на скорости «Быстро», защиты от разных "
+      "типов оружия и общая броня. У юнита может быть несколько видов оружия — "
       "показано **сильнейшее по соотношению урон/пауза**.")
     A("")
-    A("| `sid` | Нации | Класс | HP | Скорость | Основное оружие | DPS, g-сек | DPS, real (fast) | Защиты |")
+    A("| Юнит | Нации | Роль | Здоровье | Скорость | Основное оружие | Урон/игр. с | Урон/реал. с на «Быстро» | Защиты |")
     A("| --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- |")
     sorted_groups = sorted(groups, key=lambda g: _row_key(g[0]))
     for u, nats in sorted_groups:
@@ -197,7 +196,7 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
         d_g = dps_g_sec(w)
         d_r = round(d_g * FAST_SPEED_MULT, 2) if d_g is not None else None
         cells = [
-            f"`{u['sid']}`",
+            f"**{u.get('name_ru') or u.get('name_en') or u['sid']}** (`{u['sid']}`)",
             fmt_nation_list(nats),
             usg_ru(u.get("usage_short")),
             str(u.get("hp") or "—"),
@@ -215,12 +214,11 @@ def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:
 def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
     L = []
     A = L.append
-    A("## §2. Рейтинг DPS — боевые юниты")
+    A("## §2. Рейтинг урона в секунду")
     A("")
-    A("Все combat-юниты с `pause > 0` (melee с `pause = 0` исключены — урон у "
-      "них привязан к анимационному циклу, см. §4). DPS считается в game-sec; "
-      "колонка \"DPS real (fast)\" — ×1.4 для удобства сравнения с тем, что "
-      "видно в реальном времени.")
+    A("Включены боевые юниты с дистанционным оружием. Ближний бой вынесен из "
+      "рейтинга, потому что его темп задаётся анимацией удара. Реальное "
+      "значение на скорости «Быстро» в 1,4 раза выше игрового.")
     A("")
     rows = []
     for u, nats in groups:
@@ -232,12 +230,13 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
             continue
         rows.append((u, nats, w, d_g))
     rows.sort(key=lambda x: -x[3])
-    A("| # | sid | нации | usage | HP | weapon kind | урон | пауза, с | дальн., тайл. | DPS g-s | DPS real |")
+    A("| # | Юнит | Нации | Роль | Здоровье | Тип оружия | Урон | Перезарядка (с) | Дальность (тайлы) | Урон/игр. с | Урон/реал. с |")
     A("| ---: | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |")
     for i, (u, nats, w, d_g) in enumerate(rows, 1):
-        A(f"| {i} | `{u['sid']}` | {fmt_nation_list(nats)} | "
-          f"{u.get('usage_short') or '—'} | {u.get('hp') or '—'} | "
-          f"{w.get('kind') or '—'} | {w.get('damage') or '—'} | "
+        name = u.get("name_ru") or u.get("name_en") or u["sid"]
+        A(f"| {i} | **{name}** (`{u['sid']}`) | {fmt_nation_list(nats)} | "
+          f"{usg_ru(u.get('usage_short'))} | {u.get('hp') or '—'} | "
+          f"{kind_ru(w.get('kind'))} | {w.get('damage') or '—'} | "
           f"{w.get('pause_sec')} | {w.get('radiusmax_tiles')} | "
           f"{d_g} | {round(d_g * FAST_SPEED_MULT, 2)} |")
     A("")
@@ -247,29 +246,28 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
 def render_ehp_table(groups: list[tuple[dict, list[str]]], cites: Citations) -> list[str]:
     L = []
     A = L.append
-    A(f"## §3. Effective HP — против эталонной атаки {REF_DAMAGE} единиц урона по типу")
+    A(f"## §3. Живучесть против атаки силой {REF_DAMAGE}")
     A("")
-    A(f"`EHP_vs_X = HP / max(1, {REF_DAMAGE} - prot[X])` — сколько ударов выдержит юнит "
-      f"если по нему бьёт оружие типа X с базовым уроном {REF_DAMAGE}. Для атак с "
-      f"бо́льшим/меньшим уроном делите/умножайте пропорционально (формула линейна "
-      f"если урон > prot). Если `damage <= prot`, движок гарантирует минимум 1 "
-      f"урон/удар {cites.cite('lib/miscext2.script:381', label='правило min damage = 1')} — "
-      f"поэтому EHP не бесконечный против пик у пикинёра с prot_pike=3, "
-      f"а ровно `HP / max(1, dmg-prot)`.")
+    A(f"Таблица показывает, сколько ударов выдержит юнит, если по нему бьёт "
+      f"оружие определённого типа с базовым уроном {REF_DAMAGE}. Для атак с "
+      f"бо́льшим или меньшим уроном результат меняется пропорционально, пока "
+      f"урон выше защиты. Даже если защита полностью поглощает атаку, движок "
+      f"всё равно снимает минимум единицу здоровья "
+      f"{cites.cite('lib/miscext2.script:381', label='минимальный урон равен единице')}.")
     A("")
-    A("Включены только юниты, у которых хоть одно значение protection ≠ 0 (фильтр "
-      "исключает типичных «голых» юнитов вроде стрельцов/мушкетёров без брони).")
+    A("Включены только юниты, у которых есть ненулевая защита хотя бы от "
+      "одного типа оружия.")
     A("")
-    A("| sid | нации | usage | HP | shield | EHP pike | sword | bullet | cannister | arrow | cannonball |")
+    A("| Юнит | Нации | Роль | Здоровье | Общая броня | Пика | Меч | Пуля | Картечь | Стрела | Ядро |")
     A("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     sorted_groups = sorted(groups, key=lambda g: _row_key(g[0]))
     for u, nats in sorted_groups:
         if not any(u.get(f"prot_{k}") for k in PROT_KINDS):
             continue
         cells = [
-            f"`{u['sid']}`",
+            f"**{u.get('name_ru') or u.get('name_en') or u['sid']}** (`{u['sid']}`)",
             fmt_nation_list(nats),
-            (u.get("usage_short") or "—"),
+            usg_ru(u.get("usage_short")),
             str(u.get("hp") or "—"),
             str(u.get("shield") or "—"),
         ]
@@ -285,28 +283,28 @@ def render_notes(cites: Citations) -> list[str]:
     A = L.append
     A("## §4. Замечания и оговорки")
     A("")
-    A("- **Оружие ближнего боя (pause = 0)** — DPS не считается. В коде урон melee "
+    A("- **Ближний бой** — урон в секунду здесь не считается. Урон "
       "наносится по триггеру анимационного кадра (`onaclanimationreachedwork`), "
-      "цикл ~25-32 кадра ≈ 1 удар/g-sec. Точное значение требует эмпирического "
+      "цикл ~25–32 кадра ≈ 1 удар за игровую секунду. Точное значение требует "
       "замера (FPS анимаций не подтверждён эмпирически).")
     A("- **Бонусы отряда** проигнорированы. `fAddDamage` (наступательный) и "
       "`fAddShield`/`fAddShieldHold` (стеновой режим) могут добавлять до +50% "
-      "к damage и до +50 EHP — но они зависят от формации/состояния, а не "
+      "к урону и до +50 к защите — но они зависят от построения и состояния, а не "
       "от юнита. Сравнение в этой таблице — базовые статы против базовых.")
-    A("- **`mortarball` / `firearrow`** — отдельные значения kind, без "
-      "соответствующего поля protection. Входят в DPS, но в §3 EHP не "
+    A("- **Миномётная бомба и огненная стрела** — отдельные типы оружия без "
+      "собственного показателя защиты. Они входят в расчёт урона, но в §3 не "
       "показаны (защиты нет).")
     A("- **Оружие `heal`** у священника исключено из всех расчётов — это "
       "неагрессивная способность.")
-    A(f"- **Speed = 32** на пехоте — это `gc_obj_speed_default`. Реальная скорость "
+    A(f"- **Скорость 32** на пехоте — это базовое значение движка. Реальная скорость "
       f"крестьянина (`gc_obj_speed_peasant=40`) **закомментирована** "
       f"{cites.cite('lib/unit.script:1192', label='закомментированное `objbase.speed := gc_obj_speed_peasant`')}, "
-      f"по умолчанию применяется `objbase.speed:=1`. Числа в столбце speed — "
+      f"по умолчанию применяется `objbase.speed:=1`. Числа в столбце скорости — "
       f"таблица констант "
       f"{cites.cite('dmscript.global:603-620', label='таблица `gc_obj_speed_*`')}, "
       f"то есть _декларированные_ значения, не верифицированные эмпирически.")
-    A("- **Реальное время.** Если играете на скорости fast (×1.4) — умножьте все "
-      "DPS из колонки g-sec на 1.4. На default (×1.0) — не умножайте.")
+    A("- **Реальное время.** На скорости «Быстро» умножьте урон за игровую "
+      "секунду на 1,4. На скорости «Нормально» значение не меняется.")
     A("")
     return L
 
@@ -319,11 +317,9 @@ def main():
     cites = Citations()
     L = []
     A = L.append
-    A("# Cossacks 3 — DPS / EHP / armor metrics")
+    A("# Боевые характеристики")
     A("")
-    A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "`data.json` скриптом "
-      "[`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).")
+    A("[← Таблицы и расчёты](../README.md)")
     A("")
     A("## Формула урона")
     A("")
@@ -331,28 +327,22 @@ def main():
         "lib/miscext2.script:380, 434",
         label="`_misc_DoDamage` — вычитание защиты и срабатывание хедшота",
     )
-    A(f"Расчёт урона делается в `_misc_DoDamage` {formula_cite}. Кратко:")
+    A(f"Игра вычитает из базового урона броню и защиту от конкретного типа "
+      f"оружия {formula_cite}. Итог никогда не бывает меньше единицы:")
     A("")
     A("```")
-    A("applied_damage = max(1, base_damage + squad_bonus - target.protection[weapon_kind])")
-    A("target.hp     -= applied_damage")
+    A("итоговый урон = max(1, базовый урон + бонус построения − защита цели)")
+    A("здоровье цели = здоровье цели − итоговый урон")
     A("```")
     A("")
-    A(f"`gc_settings_gamespeed_2 = 14` (fast). Game-time → real-time: `×{FAST_SPEED_MULT}`. ")
-    A("Реальный DPS = game-DPS × game_speed.")
+    A(f"На скорости «Быстро» реальный урон в секунду в {FAST_SPEED_MULT} раза "
+      "выше урона за игровую секунду.")
     A("")
     groups = group_by_fingerprint(units)
     L.extend(render_unit_sheet(groups))
     L.extend(render_dps_ranking(groups))
     L.extend(render_ehp_table(groups, cites))
     L.extend(render_notes(cites))
-    A("---")
-    A("")
-    A("Сгенерировано из `data.json`. Для перегенерации:")
-    A("")
-    A("```")
-    A("python compute/compute_combat_stats.py")
-    A("```")
     L.extend(cites.render())
     MD_PATH.write_text("\n".join(L), encoding="utf-8")
     print(f"Wrote {MD_PATH} ({MD_PATH.stat().st_size:,} bytes)")

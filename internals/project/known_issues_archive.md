@@ -15,8 +15,8 @@
 `unit.script` для юнитов с суффиксом `dip` (8 sid × 21 нация = 168 строк).
 
 **Фикс:** добавлены `BMERCENARY_SIDS` и `find_bmercenary_block_body()` в
-[`parse_units.py`](../parser/parse_units.py); `_compute_effective_unit()` в
-[`build_data.py`](../parser/build_data.py) применяет merc-override для sid'ов
+[`parse_units.py`](../../parser/parse_units.py); `_compute_effective_unit()` в
+[`build_data.py`](../../parser/build_data.py) применяет merc-override для sid'ов
 из `BMERCENARY_SIDS`. Параллельно добавлен парсинг `objprop.costpercent := X;`
 для unit-веток (3 не-merc юнита тоже его имели: 1867, 1889, 2018 в
 unit.script).
@@ -24,7 +24,7 @@ unit.script).
 **Подтверждено:** 8 dip-sid × 21 нация = 168 строк теперь имеют правильные
 merc-статы — HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = True`,
 `costpercent` (100 / 100.5 / 102) совпадают с
-[`recon/systems/mercenaries_diplomacy.md`](recon/systems/mercenaries_diplomacy.md) §2.2. Стат
+[`recon/systems/mercenaries_diplomacy.md`](../../docs/recon/systems/mercenaries_diplomacy.md) §2.2. Стат
 идентичен между нациями (nation-independent). 112 / 112 sanity checks PASS.
 
 ### Ценовые проценты `priceperc` апгрейдов не извлекались
@@ -39,7 +39,7 @@ merc-статы — HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = 
 шаблонами (`csid + 'art.' + member + ...`).
 
 **Фикс:** добавлен handler в `walk_sim`'s `assign` branch
-([`simulate_upgrades.py:870-887`](../parser/simulate_upgrades.py)) —
+([`simulate_upgrades.py:870-887`](../../parser/simulate_upgrades.py)) —
 `_SARR2_RES_LHS_RE` распознаёт LHS, парсит RHS как процент и присваивает
 `state["last_upgrade"]["resource_pcts"][resource]`. AST уже трактовал эти
 assigns правильно — handler их игнорировал.
@@ -58,7 +58,7 @@ assigns правильно — handler их игнорировал.
 - **«Захват юнитов работает с 5%-шансом за тик»** — было неверно. Захват чисто
   **геометрический**, проверка раз в 1.9 игровых секунды (0.5 для
   артиллерии). См.
-  [`docs/recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md).
+  [`docs/recon/world/economy/capture_mechanics.md`](../../docs/recon/world/economy/capture_mechanics.md).
 - **«Украинские/шотландские крестьяне иммунны к захвату»** — было неверно. Все
   8 sid'ов крестьян имеют `bcapture = True` (`unit.script:1199`); в стандартном
   Deathmatch / Historical Battle захват крестьян отключён картой через

@@ -1,7 +1,7 @@
 <a id="офицеры"></a>
 # Officers
 
-[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Officer - squad leader, hired in the barracks. Five national options (`officer` / `officer18` / `officerrus` / `officersco` / `officertur`); stats differ noticeably in cost, recruitment time and damage.
 
@@ -12,40 +12,40 @@ Officer - squad leader, hired in the barracks. Five national options (`officer` 
 
 | Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Officer, 17th century** `officer` | aus | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | bav | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | den | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | eng | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | fra | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | hun | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | net | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | pie | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | pol | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | por | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | pru | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | sax | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | spa | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | swe | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | swi | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
-| **Officer, 17th century** `officer` | ven | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared (16n) |
-| **Officer, 18th century** `officer18` | aus | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | bav | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | den | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | eng | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | fra | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | hun | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | net | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | pie | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | pol | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | por | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | pru | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | rus | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | sax | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | spa | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | swe | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | swi | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Officer, 18th century** `officer18` | ven | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
-| **Commander** `officerrus` | rus | 125 | **12.5** | **100** | **125** | **5** | — | 0.0960 (60) | 32 | **40** | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
-| **Officer** `officersco` | sco | **150** | 10.0 | **130** | **130** | 10 | — | 0.1120 (70) | 32 | **40** | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
-| **Officer** `officertur` | alg | 125 | **7.5** | 50 | **100** | **0** | — | 0.0800 (50) | 32 | 30 | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | semi-unique (2n) |
-| **Officer** `officertur` | tur | 125 | **7.5** | 50 | **100** | **0** | — | 0.0800 (50) | 32 | 30 | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | semi-unique (2n) |
+| **Officer, 17th century** `officer` | Austria | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Bavaria | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Denmark | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | England | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | France | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Hungary | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Netherlands | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Piedmont | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Poland | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Portugal | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Prussia | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Saxony | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Spain | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Sweden | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Switzerland | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
+| **Officer, 17th century** `officer` | Venice | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared (16n) |
+| **Officer, 18th century** `officer18` | Austria | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Bavaria | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Denmark | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | England | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | France | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Hungary | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Netherlands | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Piedmont | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Poland | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Portugal | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Prussia | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Russia | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Saxony | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Spain | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Sweden | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Switzerland | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Officer, 18th century** `officer18` | Venice | 125 | **6.0** | 50 | 200 | 10 | — | 0.1440 (90) | 32 | **50** | 1.22 | 0.0 | — | — | — | — | — | — | shared (17n) |
+| **Commander** `officerrus` | Russia | 125 | **12.5** | **100** | **125** | **5** | — | 0.0960 (60) | 32 | **40** | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
+| **Officer** `officersco` | Scotland | **150** | 10.0 | **130** | **130** | 10 | — | 0.1120 (70) | 32 | **40** | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
+| **Officer** `officertur` | Algeria | 125 | **7.5** | 50 | **100** | **0** | — | 0.0800 (50) | 32 | 30 | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | semi-unique (2n) |
+| **Officer** `officertur` | Turkey | 125 | **7.5** | 50 | **100** | **0** | — | 0.0800 (50) | 32 | 30 | 1.22 | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | semi-unique (2n) |

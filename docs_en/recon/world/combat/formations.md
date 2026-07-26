@@ -1,5 +1,8 @@
 <a id="recon-формации"></a>
-# Recon: formations
+<a id="построения-и-их-боевые-бонусы"></a>
+# Formations and Their Combat Bonuses
+
+[← How the game works](../../README.md)
 
 In-depth analysis: what formations are there, where bonuses are set, how
 it is the squad that receives an increase in damage and shield, what is the difference between
@@ -329,6 +332,7 @@ Sea battle has its own characteristics (see.
 ---
 
 <a id="8-влияние-формации-на-pathfinding"></a>
+<a id="8-влияние-построения-на-движение"></a>
 ## 8. Influence of formation on pathfinding
 
 Within one squad:

@@ -17,8 +17,8 @@ commit or PR (if any).
 `unit.script` for units with the suffix `dip` (8 sid × 21 nations = 168 lines).
 
 **Fix:** added `BMERCENARY_SIDS` and `find_bmercenary_block_body()` to
-[`parse_units.py`](../parser/parse_units.py); `_compute_effective_unit()` in
-[`build_data.py`](../parser/build_data.py) applies merc-override to sids
+[`parse_units.py`](../../parser/parse_units.py); `_compute_effective_unit()` in
+[`build_data.py`](../../parser/build_data.py) applies merc-override to sids
 from `BMERCENARY_SIDS`. At the same time, parsing `objprop.costpercent := X;` was added
 for unit branches (3 non-merc units also had it: 1867, 1889, 2018
 unit.script).
@@ -26,7 +26,7 @@ unit.script).
 **Confirmed:** 8 dip-sid × 21 nations = 168 lines now have correct
 merc stats - HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = True`,
 `costpercent` (100 / 100.5 / 102) match
-[`recon/systems/mercenaries_diplomacy.md`](recon/systems/mercenaries_diplomacy.md) §2.2. Stat
+[`recon/systems/mercenaries_diplomacy.md`](../../docs_en/recon/systems/mercenaries_diplomacy.md) §2.2. Stat
 identical between nations (nation-independent). 112 / 112 sanity checks PASS.
 
 <a id="ценовые-проценты-priceperc-апгрейдов-не-извлекались"></a>
@@ -42,7 +42,7 @@ tried to re-resolve sid from text position and couldn't cope with per-nation
 templates (`csid + 'art.' + member + ...`).
 
 **Fix:** added handler to `walk_sim`'s `assign` branch
-([`simulate_upgrades.py:870-887`](../parser/simulate_upgrades.py)) —
+([`simulate_upgrades.py:870-887`](../../parser/simulate_upgrades.py)) —
 `_SARR2_RES_LHS_RE` recognizes LHS, parses RHS as a percentage and assigns
 `state["last_upgrade"]["resource_pcts"][resource]`. AST has already treated these
 assigns are correct - the handler ignored them.
@@ -62,7 +62,7 @@ If you are reading old versions of files or external forks, check:
 - **"Capture units work with a 5% chance per tick"** - was incorrect. Capture pure
   **geometric**, check every 1.9 game seconds (0.5 for
   artillery). See
-  [`docs/recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md).
+  [`docs/recon/world/economy/capture_mechanics.md`](../../docs_en/recon/world/economy/capture_mechanics.md).
 - **"Ukrainian/Scottish peasants are immune to capture"** - was incorrect. All
   8 peasant sids have `bcapture = True` (`unit.script:1199`); in standard
   Deathmatch / Historical Battle capture of peasants is disabled by the map via

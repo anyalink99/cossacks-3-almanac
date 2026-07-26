@@ -22,7 +22,7 @@ from collections import defaultdict
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
 from config import (DATA_JSON, REPORTS_DIR, PLAYABLE_NATIONS, REPORTS_NATIONS_DIR,
-                    NATION_NAMES_RU, USAGE_RU, nation_ru)
+                    NATION_NAMES_RU, USAGE_RU, nation_ru, unit_ru)
 
 MD_PATH = REPORTS_NATIONS_DIR / "overview.md"
 
@@ -43,19 +43,17 @@ STD_BUILDING_USAGES = [
 
 
 def nat_cell(nat: str) -> str:
-    """Render a nation cell for tables: `**aus** Австрия`."""
-    return f"**{nat}** {nation_ru(nat)}"
+    """Render the canonical nation name first and its code second."""
+    return f"**{nation_ru(nat)}** (`{nat}`)"
 
 
 def render_roster_size(units: list[dict]) -> list[str]:
     L = []
     A = L.append
-    A("## §1. Размер ростера и эпохальный доступ")
+    A("## §1. Размер армии и доступ к XVIII веку")
     A("")
-    A("Сколько разных юнит-sid'ов доступно нации (`?` — мисс / тест-юниты, "
-      "Drummer/Officer/Priest и т.п. отнесены отдельно). Колонка **18c** — "
-      "есть ли у нации Barracks 18-в. (`<nat>ba2`); если нет — нация заперта "
-      "в 17-в. эпохе.")
+    A("Сколько разных юнитов доступно нации и есть ли у неё Казарма XVIII века. "
+      "Сценарные и тестовые объекты в боевые категории не включаются.")
     A("")
     nat_units = defaultdict(list)
     nat_18c = defaultdict(bool)
@@ -93,7 +91,7 @@ def render_building_coverage(buildings: list[dict]) -> list[str]:
     A = L.append
     A("## §2. Покрытие стандартных построек")
     A("")
-    A("`✅` = у нации есть это здание, `❌` = у нации его нет. Полный каталог "
+    A("`✅` = у нации есть это здание, `❌` = у нации его нет. Полный справочник "
       "зданий — [03_buildings/README.md](../../reference/03_buildings/README.md).")
     A("")
     nat_have = defaultdict(set)
@@ -127,9 +125,8 @@ def render_unique_units(units: list[dict]) -> list[str]:
     A = L.append
     A("## §3. Уникальные юниты по нациям")
     A("")
-    A("Юниты с `sid`, который встречается только у одной нации (без учёта "
-      "наёмников из `<nat>dip`). Это «фишечные» отряды, с которыми нация "
-      "ассоциируется. Наёмничьи sid (`<unit>dip`) — отдельно в §5.")
+    A("Юниты, доступные только одной нации, без учёта наёмников. "
+      "Внутренний код приведён после канонического названия.")
     A("")
     sid_to_nations = defaultdict(set)
     sid_to_unit = {}
@@ -144,7 +141,7 @@ def render_unique_units(units: list[dict]) -> list[str]:
         if len(nats) == 1:
             nat = next(iter(nats))
             by_nation[nat].append(sid_to_unit[sid])
-    A("| Нация | Уникальные `sid` (класс · HP) |")
+    A("| Нация | Уникальные юниты (роль · здоровье) |")
     A("| --- | --- |")
     for nat in sorted(by_nation):
         items = sorted(by_nation[nat], key=lambda u: -(u.get("hp") or 0))
@@ -153,8 +150,8 @@ def render_unique_units(units: list[dict]) -> list[str]:
             sid = u.get("sid")
             usg = USAGE_RU.get(u.get("usage_short") or "", u.get("usage_short") or "?")
             hp = u.get("hp")
-            name = u.get("name_ru") or u.get("name_en") or sid
-            cells.append(f"`{sid}` _{name}_ ({usg}, HP={hp})")
+            name = unit_ru(sid, u.get("name_ru") or u.get("name_en") or sid)
+            cells.append(f"**{name}** (`{sid}`; {usg}, здоровье {hp})")
         A(f"| {nat_cell(nat)} | " + "<br>".join(cells) + " |")
     A("")
     no_unique = sorted(set(NATION_NAMES_RU) - set(by_nation))
@@ -169,11 +166,10 @@ def render_unique_units(units: list[dict]) -> list[str]:
 def render_stat_anomalies(units: list[dict]) -> list[str]:
     L = []
     A = L.append
-    A("## §4. Стат-аномалии на «одинаковых» юнитах")
+    A("## §4. Отличия характеристик похожих юнитов")
     A("")
-    A("Один и тот же класс юнита (`usage_short`) у разных наций может иметь "
-      "разные HP / урон / броню — это скрытые балансовые отличия. Здесь — "
-      "категории, где разброс HP между нациями ≥ 20%.")
+    A("Один и тот же класс у разных наций может иметь разные здоровье, урон "
+      "и защиту. Здесь показаны категории, где разница здоровья достигает 20% и более.")
     A("")
     by_usage_nation = defaultdict(lambda: defaultdict(list))
     for u in units:
@@ -183,7 +179,7 @@ def render_stat_anomalies(units: list[dict]) -> list[str]:
         if u.get("bmercenary"):
             continue  # mercenaries are nation-agnostic
         by_usage_nation[usg][u["nation"]].append(u)
-    A("| Класс | Min HP (нация · sid) | Max HP (нация · sid) | Разброс |")
+    A("| Класс | Минимальное здоровье | Максимальное здоровье | Разница |")
     A("| --- | --- | --- | ---: |")
     rows = []
     for usg in sorted(by_usage_nation):
@@ -192,7 +188,9 @@ def render_stat_anomalies(units: list[dict]) -> list[str]:
             for u in lst:
                 hp = u.get("hp") or 0
                 if hp > 0:
-                    all_units.append((hp, nat, u.get("sid")))
+                    sid = u.get("sid")
+                    all_units.append((hp, nat, sid,
+                                      unit_ru(sid, u.get("name_ru") or u.get("name_en") or sid)))
         if len(all_units) < 2:
             continue
         all_units.sort()
@@ -207,8 +205,8 @@ def render_stat_anomalies(units: list[dict]) -> list[str]:
     rows.sort(key=lambda r: -r[0])
     for spread, usg, mn, mx in rows:
         A(f"| {USAGE_RU.get(usg, usg)} "
-          f"| **{mn[1]}** {nation_ru(mn[1])} · `{mn[2]}` ({mn[0]}) | "
-          f"**{mx[1]}** {nation_ru(mx[1])} · `{mx[2]}` ({mx[0]}) | +{round(spread*100)}% |")
+          f"| {mn[3]} (`{mn[2]}`), {nation_ru(mn[1])}: {mn[0]} | "
+          f"{mx[3]} (`{mx[2]}`), {nation_ru(mx[1])}: {mx[0]} | +{round(spread*100)}% |")
     A("")
     return L
 
@@ -218,13 +216,10 @@ def render_mercenaries(units: list[dict]) -> list[str]:
     A = L.append
     A("## §5. Доступные наёмники (через дипломатический центр)")
     A("")
-    A("Юниты, обучаемые в `<nat>dip` (Дипломатический центр). У большинства "
-      "суффикс `dip` в `sid`. В стоимости только золото (без еды/дерева/камня), "
-      "тренируются без барачных пререквизитов. Все наёмники потребляют "
-      "gold-upkeep (`consume.gold > 0`); юниты с флагом `bmercenary=True` "
-      "(в текущем балансе только `battleship`) при этом подвержены Rebellion "
-      "при `gold=0` (см. "
-      "[01_economy/README.md](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).")
+    A("Юниты, которых можно нанять в Дипломатическом центре. Они оплачиваются "
+      "золотом и не требуют обычной цепочки казарм. При нехватке золота "
+      "наёмники могут поднять бунт; подробности — в "
+      "[главе об экономике](../../reference/01_economy/README.md).")
     A("")
     dip_to_nations = defaultdict(set)
     dip_to_unit = {}
@@ -234,7 +229,7 @@ def render_mercenaries(units: list[dict]) -> list[str]:
             if tr.endswith("dip"):
                 dip_to_nations[u["sid"]].add(u["nation"])
                 dip_to_unit[u["sid"]] = u
-    A("| `sid` | Класс | HP | макс. урон | merc? | Нации |")
+    A("| Наёмник | Класс | Здоровье | Максимальный урон | Подвержен бунту | Нации |")
     A("| --- | --- | ---: | ---: | :---: | --- |")
     rows = []
     for sid, nats in dip_to_nations.items():
@@ -242,18 +237,19 @@ def render_mercenaries(units: list[dict]) -> list[str]:
         weapons = u.get("weapons") or []
         dmg = max((w.get("damage") or 0) for w in weapons) if weapons else 0
         is_merc = u.get("bmercenary") or False
-        rows.append((u.get("usage_short") or "?", sid, u.get("hp"), dmg, is_merc, sorted(nats)))
-    for usg, sid, hp, dmg, is_merc, nats in sorted(rows):
+        name = unit_ru(sid, u.get("name_ru") or u.get("name_en") or sid)
+        rows.append((u.get("usage_short") or "?", sid, name, u.get("hp"), dmg, is_merc, sorted(nats)))
+    for usg, sid, name, hp, dmg, is_merc, nats in sorted(rows):
         if len(nats) == len(PLAYABLE_NATIONS):
             nat_str = "все 21 нация"
         else:
             shown = nats[:6]
-            nat_str = ", ".join(f"**{n}** {nation_ru(n)}" for n in shown)
+            nat_str = ", ".join(nation_ru(n) for n in shown)
             if len(nats) > 6:
                 nat_str += f" … (+{len(nats)-6})"
         merc_mark = "✅" if is_merc else "—"
         usg_ru = USAGE_RU.get(usg, usg)
-        A(f"| `{sid}` | {usg_ru} | {hp} | {dmg} | {merc_mark} | {nat_str} |")
+        A(f"| **{name}** (`{sid}`) | {usg_ru} | {hp} | {dmg} | {merc_mark} | {nat_str} |")
     A("")
     return L
 
@@ -261,14 +257,11 @@ def render_mercenaries(units: list[dict]) -> list[str]:
 def render_market_cluster(buildings: list[dict]) -> list[str]:
     L = []
     A = L.append
-    A("## §6. Вариант рынка")
+    A("## §6. Архитектурные варианты рынка")
     A("")
-    A("Рынок — общее здание (см. [03_buildings/README.md → mar](../../reference/03_buildings/README.md#mar--market)). "
-      "На 21 нацию приходится 4 варианта здания (`eurmar` / `rusmar` / `spamar` / "
-      "`turmar`), отличающиеся HP, ценой и временем постройки. Это **только "
-      "варианты здания** — курсы рынка глобальные и одинаковые для всех игроков "
-      "в матче, независимо от того, какой `mar` построен (см. "
-      "[06_market/README.md](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).")
+    A("У рынка четыре архитектурных варианта, которые отличаются здоровьем, "
+      "ценой и временем строительства. Курсы обмена при этом общие для всех "
+      "игроков матча и не зависят от внешнего вида рынка.")
     A("")
     nat_to_cluster = {}
     for b in buildings:
@@ -278,7 +271,7 @@ def render_market_cluster(buildings: list[dict]) -> list[str]:
     by_cluster = defaultdict(list)
     for nat, cl in nat_to_cluster.items():
         by_cluster[cl].append(nat)
-    A("| Кластер | Нации |")
+    A("| Вариант рынка | Нации |")
     A("| --- | --- |")
     for cl in sorted(by_cluster):
         nats = sorted(by_cluster[cl])
@@ -295,14 +288,14 @@ def main() -> None:
 
     L = []
     A = L.append
-    A("# Сравнение наций — общий обзор")
+    A("# Сравнение наций")
     A("")
-    A("**Производный отчёт.** Считается из [`data.json`](../../../data.json) "
-      "скриптом [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). "
-      "Регенерация: `python compute/compute_nations_overview.py`.")
+    A("[← Таблицы и расчёты](../README.md)")
     A("")
-    A("Side-by-side сравнение всех 21 наций. Для подробностей по конкретной "
-      "нации — [`reference/nations/<nat>.md`](../../reference/nations/README.md).")
+    A("Сводное сравнение всех 21 наций: доступ к XVIII веку, здания, "
+      "уникальные войска, заметные отличия характеристик и наёмники. "
+      "Подробные страницы находятся в [справочнике по нациям]"
+      "(../../reference/nations/README.md).")
     A("")
     L.extend(render_roster_size(units))
     L.extend(render_building_coverage(buildings))

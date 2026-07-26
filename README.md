@@ -36,7 +36,7 @@
 - [`editor/`](editor/) — браузерный редактор билдов (HTML + JS + Pyodide), запускает симулятор прямо в браузере
 - [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
-**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список актуальных парсерных пробелов, расхождений с внешними гайдами и открытых эмпирических вопросов. Закрытые проблемы, включая прежнюю ошибку со статами наёмников, перенесены в [`docs/known_issues_archive.md`](docs/known_issues_archive.md).
+**Перед началом работы с `data.json`:** [`internals/project/known_issues.md`](internals/project/known_issues.md) — список актуальных парсерных пробелов, расхождений с внешними гайдами и открытых эмпирических вопросов. Закрытые проблемы, включая прежнюю ошибку со статами наёмников, перенесены в [`internals/project/known_issues_archive.md`](internals/project/known_issues_archive.md).
 
 **Моды** — изменения игровой логики через C3 mod-loader:
 

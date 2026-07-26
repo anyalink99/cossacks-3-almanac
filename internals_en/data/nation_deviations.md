@@ -1,13 +1,19 @@
 <a id="национальные-отклонения--здания-и-юниты"></a>
-# National deviations - buildings and units
+# National deviations — buildings and units
 
-**Derived** file (calculated, not extracted). Counted from [`data.json`](../../../data.json) as script [`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).
+[← Technical documentation](../README.md)
+
+This calculated report is built from [`data.json`](../../data.json) by
+[`compute/compute_nation_deviations.py`](../../compute/compute_nation_deviations.py).
 
 The goal is to collect in one place ALL the places where a particular nation has a stat value for a building or a general unit that differs from what the majority have. The source of the deltas is `case i of nation:` branches in `unit.script`, which overwrite `SetObjBuildingProperties` / `SetObjBaseWeapon` for individual nations.
 
 Format: for each family (for example, `<nat>cen` - Town Hall) 21 nations are grouped by “fingerprint” - a tuple of significant stats. The majority group is considered the base case; smaller groups are listed as outliers, with an explicit indication of how exactly they differ.
 
-This report **does not duplicate**, but complements [`reports/nations/overview.md`](overview.md). overview gives an overview of “who has what” (roster size, building coverage, market clusters) and top-10 stat-anomalies by HP spread. Full stat fingerprints are also listed here.
+This report complements the reader-facing
+[nation comparison](../../docs_en/reports/nations/overview.md), which summarizes
+roster size, building coverage, market groups, and the largest stat differences.
+The full stat fingerprints are listed here.
 
 Contents:
 
@@ -17,7 +23,7 @@ Contents:
 <a id="1-здания-общего-класса"></a>
 ## §1. General class buildings
 
-For each building family - `<nat>` + suffix - records of all nations that have that building are collected. Nations are then grouped by stat fingerprint identity: values ​​that are read in the script by `SetObjBuildingProperties` / `SetObjBuildingExtProperties`. If a nation does not have this building (for example, Ukraine without Towers and stone walls - see [`overview.md` §2](overview.md)), it does not appear in this group.
+For each building family - `<nat>` + suffix - records of all nations that have that building are collected. Nations are then grouped by stat fingerprint identity: values read by `SetObjBuildingProperties` / `SetObjBuildingExtProperties`. If a nation does not have this building (for example, Ukraine has no towers or stone walls; see the [nation comparison](../../docs_en/reports/nations/overview.md)), it does not appear in this group.
 
 Fingerprint type: HP · buildtime · costpercent · price · score · vision · farm · peasantabsorber · consume · weapon (damage/pause/radiusmax) · produces.
 
@@ -452,7 +458,7 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
 <a id="2-юниты-общие-для-нескольких-наций"></a>
 ## §2. Units common to several nations
 
-Each sid of a unit is taken that has a record in at least two nations (if one has a unique unit, it is described in [`reports/nations/overview.md`](overview.md) §3). Entries are grouped by stat fingerprint (HP / buildtime / price / shield / speed / defense / consume / weapon set). Units with the same fingerprint merge into one group.
+Each unit `sid` with records in at least two nations is included; units unique to one nation are covered by the [nation comparison](../../docs_en/reports/nations/overview.md). Entries are grouped by stat fingerprint (HP / build time / price / armor / speed / defense / upkeep / weapon set). Units with the same fingerprint are merged into one group.
 
 If a sid has one group for all available nations, there are no deviations, and he is not shown here. If different, the base option (majority) and deviations are listed.
 

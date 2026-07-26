@@ -248,7 +248,7 @@ if we want to **bit-accurately** reproduce the loot from a given save:
    `SetRandomKey` just before.
 
 This is the plan for the Level C simulator
-[`project_level_c_simulator_plan.md`](../../docs_en/architecture.md)
+[`project_level_c_simulator_plan.md`](../project/architecture.md)
 (if the simulator ever aims for bit-perfect
 reproducibility rather than statistical accuracy).
 
@@ -259,7 +259,7 @@ reproducibility rather than statistical accuracy).
 |---|---|
 | **Exact implementation of `RandomExt`** | **Closed.** 64-bit LCG on a separate 64-bit seed cell (not the same one as `Random`). See §3, §8 and private `cossacks-deep/findings/rng_implementation.md`. |
 | **Relationship `SetRandomKey` and `Random`** | **Closed.** `SetRandomKey` controls an extended seed (= seed `RandomExt`), not the standard `RandSeed`. Despite the name, `Random()` does not depend on `SetRandomKey` - see §3. |
-| **Algorithms `MapGenerator` / `GlobalMapGenerator`** | Partially. Seed storages are confirmed to be separate (see §8). The algorithms themselves for generating values ​​have not been analyzed; will be passed when we take on `_DoGenerate`. |
+| **Algorithms `MapGenerator` / `GlobalMapGenerator`** | Partially. Seed storages are confirmed to be separate (see §8). The algorithms themselves for generating values have not been analyzed; will be passed when we take on `_DoGenerate`. |
 | **`PlayerCubeRandomValue`** | Partially. No RNG-seed mutates - it is a **pre-computed per-player nonce**, generated in advance (probably when the player connects) and stable throughout the match. The exact moment of initialization has not been confirmed. More details: private `findings/rng_implementation.md`. |
 | **Does `_DoGenerate` use the regular `Random()`** (which would silently mutate `System.RandSeed` during map generation) | Open. Next step on the RNG topic. |
 | **Is `System.RandSeed` synchronized over the network** at the start of the match | Open. Candidates are package handlers `EconomyPackage`/sync. |

@@ -1,5 +1,8 @@
 <a id="cossacks-3--время-постройки-и-ремонта"></a>
+<a id="время-строительства-и-ремонта"></a>
 # Cossacks 3 - Time to build and repair
+
+[← Tables and calculations](../README.md)
 
 Construction time (from scratch, new building) and repair (totally damaged → full HP) for each building. It is calculated for different numbers of peasants.
 
@@ -16,12 +19,12 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 - Walls/gates: **4** slots per segment (value from `wallcustom.cfg`, for sids not in `builder_slots.json`).
 - Hard engine limit: `gc_MaxBuilderCount = 30`.
 
-**Columns:** time in `<g-sec>g (<real-sec>r fast)` format. For long-term values ​​- in minutes.
+**Columns:** time in `<g-sec>g (<real-sec>r fast)` format. For long-term values - in minutes.
 
 <a id="alg--algeria-алжир"></a>
-## ALG - Algeria
-
-###Building from scratch
+<a id="алжир-alg"></a>
+## Algeria (`alg`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -48,6 +51,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
 <a id="постройка-с-нуля"></a>
+<a id="полный-ремонт"></a>
 ### Full repair (0 → max HP)
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -74,9 +78,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="aus--austria-австрия"></a>
-## AUS - Austria
-
-###Building from scratch
+<a id="австрия-aus"></a>
+## Austria (`aus`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -132,9 +136,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="bav--bavaria-бавария"></a>
-## BAV - Bavaria
-
-###Building from scratch
+<a id="бавария-bav"></a>
+## Bavaria (`bav`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -190,9 +194,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="den--denmark-дания"></a>
-## DEN - Denmark
-
-###Building from scratch
+<a id="дания-den"></a>
+## Denmark (`den`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -248,9 +252,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="eng--england-англия"></a>
-## ENG — England
-
-###Building from scratch
+<a id="англия-eng"></a>
+## England (`eng`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -306,9 +310,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="fra--france-франция"></a>
-## FRA - France
-
-###Building from scratch
+<a id="франция-fra"></a>
+## France (`fra`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -364,9 +368,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="hun--hungary-венгрия"></a>
-## HUN - Hungary
-
-###Building from scratch
+<a id="венгрия-hun"></a>
+## Hungary (`hun`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -422,9 +426,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="net--netherlands-нидерланды"></a>
-## NET - Netherlands
-
-###Building from scratch
+<a id="нидерланды-net"></a>
+## Netherlands (`net`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -480,9 +484,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="pie--piedmont-пьемонт"></a>
-## PIE - Piedmont
-
-###Building from scratch
+<a id="пьемонт-pie"></a>
+## Piedmont (`pie`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -538,9 +542,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="pol--poland-польша"></a>
-## POL - Poland
-
-###Building from scratch
+<a id="польша-pol"></a>
+## Poland (`pol`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -596,9 +600,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="por--portugal-португалия"></a>
-## POR - Portugal
-
-###Building from scratch
+<a id="португалия-por"></a>
+## Portugal (`por`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -654,9 +658,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="pru--prussia-пруссия"></a>
-## PRU - Prussia
-
-###Building from scratch
+<a id="пруссия-pru"></a>
+## Prussia (`pru`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -712,9 +716,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="rus--russia-россия"></a>
-## RUS — Russia
-
-###Building from scratch
+<a id="россия-rus"></a>
+## Russia (`rus`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -770,9 +774,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="sax--saxony-саксония"></a>
-## SAX - Saxony
-
-###Building from scratch
+<a id="саксония-sax"></a>
+## Saxony (`sax`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -828,9 +832,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="sco--scotland-шотландия"></a>
-## SCO - Scotland
-
-###Building from scratch
+<a id="шотландия-sco"></a>
+## Scotland (`sco`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -886,9 +890,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="spa--spain-испания"></a>
-## SPA – Spain
-
-###Building from scratch
+<a id="испания-spa"></a>
+## Spain (`spa`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -944,9 +948,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="swe--sweden-швеция"></a>
-## SWE - Sweden
-
-###Building from scratch
+<a id="швеция-swe"></a>
+## Sweden (`swe`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -1002,9 +1006,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="swi--switzerland-швейцария"></a>
-## SWI - Switzerland
-
-###Building from scratch
+<a id="швейцария-swi"></a>
+## Switzerland (`swi`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -1060,9 +1064,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="tur--turkey-турция"></a>
-## TUR – Turkey
-
-###Building from scratch
+<a id="турция-tur"></a>
+## Turkey (`tur`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -1116,9 +1120,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
 
 <a id="ukr--ukraine-украина"></a>
-## UKR - Ukraine
-
-###Building from scratch
+<a id="украина-ukr"></a>
+## Ukraine (`ukr`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|
@@ -1166,9 +1170,9 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 2500 | 4 | 51g (36r) | 25g (18r) | 13g (9r) | 13g (9r) | 13g (9r) |
 
 <a id="ven--venice-венеция"></a>
-## VEN - Venice
-
-###Building from scratch
+<a id="венеция-ven"></a>
+## Venice (`ven`)
+### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|

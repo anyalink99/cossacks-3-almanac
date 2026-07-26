@@ -1,8 +1,12 @@
+<a id="улучшения-добычи-по-нациям"></a>
 # Cossacks 3 — Efficiency upgrades per nation
+
+[← Tables and calculations](../README.md)
 
 **Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_efficiency_upgrades.py`](../../../compute/compute_efficiency_upgrades.py).
 
 <a id="что-это"></a>
+<a id="как-складываются-бонусы"></a>
 ## What is this
 
 Each upgrade `gc_upg_type_effect{food,wood,stone}[perc]` **additively** adds `value` to `resefficiency[res]` [^1]. Base = 100. The formula for loot per hit is: `delivered = floor(portion × eff / 100)`, where `portion` = 45/28/40 for food/wood/stone [^2].
@@ -10,33 +14,34 @@ Each upgrade `gc_upg_type_effect{food,wood,stone}[perc]` **additively** adds `va
 `gc_upg_type_fieldlifeperc` additively adds fields to `objbase.fieldlife`. Reduces field damage/impact by `100 / (1 + fieldlife/100)` - increases output per cycle and reduces restart frequency.
 
 <a id="сводка-по-нациям-кумулятивные-пики"></a>
+<a id="максимальный-бонус-по-нациям"></a>
 ## Summary by nation (cumulative peaks)
 
 The sum of all values in the line = the peak for the nation, if you examine ALL relevant upgrades. In practice, some upgrades are exclusive (one building with .1..6 steps), but the script summarizes everything - this is the **upper limit**.
 
 | Nation | food eff % | wood eff % | stone eff % | fieldlife % | Σ upgrades |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| alg | +280 | +100 | +300 | +300 | 9 |
-| aus | +460 | +100 | +300 | +300 | 10 |
-| bav | +460 | +100 | +300 | +300 | 10 |
-| den | +460 | +100 | +300 | +300 | 10 |
-| eng | +460 | +100 | +300 | +300 | 10 |
-| fra | +460 | +100 | +300 | +300 | 10 |
-| hun | +460 | +100 | +300 | +300 | 10 |
-| net | +460 | +100 | +300 | +300 | 10 |
-| pie | +460 | +100 | +300 | +300 | 10 |
-| pol | +460 | +100 | +300 | +300 | 10 |
-| por | +460 | +100 | +300 | +300 | 10 |
-| pru | +460 | +100 | +300 | +300 | 10 |
-| rus | +460 | +100 | +300 | +300 | 10 |
-| sax | +460 | +100 | +300 | +300 | 10 |
-| sco | +460 | +100 | +300 | +300 | 10 |
-| spa | +460 | +100 | +300 | +300 | 10 |
-| swe | +460 | +100 | +300 | +300 | 10 |
-| swi | +460 | +100 | +300 | +300 | 10 |
-| tur | +280 | +100 | +300 | +300 | 9 |
-| ukr | +460 | +100 | +300 | +300 | 10 |
-| ven | +460 | +100 | +300 | +300 | 10 |
+| Algeria | +280 | +100 | +300 | +300 | 9 |
+| Austria | +460 | +100 | +300 | +300 | 10 |
+| Bavaria | +460 | +100 | +300 | +300 | 10 |
+| Denmark | +460 | +100 | +300 | +300 | 10 |
+| England | +460 | +100 | +300 | +300 | 10 |
+| France | +460 | +100 | +300 | +300 | 10 |
+| Hungary | +460 | +100 | +300 | +300 | 10 |
+| Netherlands | +460 | +100 | +300 | +300 | 10 |
+| Piedmont | +460 | +100 | +300 | +300 | 10 |
+| Poland | +460 | +100 | +300 | +300 | 10 |
+| Portugal | +460 | +100 | +300 | +300 | 10 |
+| Prussia | +460 | +100 | +300 | +300 | 10 |
+| Russia | +460 | +100 | +300 | +300 | 10 |
+| Saxony | +460 | +100 | +300 | +300 | 10 |
+| Scotland | +460 | +100 | +300 | +300 | 10 |
+| Spain | +460 | +100 | +300 | +300 | 10 |
+| Sweden | +460 | +100 | +300 | +300 | 10 |
+| Switzerland | +460 | +100 | +300 | +300 | 10 |
+| Turkey | +280 | +100 | +300 | +300 | 9 |
+| Ukraine | +460 | +100 | +300 | +300 | 10 |
+| Venice | +460 | +100 | +300 | +300 | 10 |
 
 **Top picks for all nations:**
 - Food efficiency: **+460** — aus, bav, den, … (19 nations tied)
@@ -48,37 +53,39 @@ The sum of all values in the line = the peak for the nation, if you examine ALL 
 
 | Nation | total gold | total food | total wood |
 | --- | ---: | ---: | ---: |
-| **alg** Algeria | 1947 | 600 | 1840 |
-| **tur** Turkey | 1947 | 600 | 3000 |
-| **sco** Scotland | 3400 | 6350 | 6200 |
-| **ukr** Ukraine | 3400 | 6350 | 6200 |
-| **fra** France | 5390 | 26350 | 6190 |
-| **aus** Austria | 5400 | 26350 | 6200 |
-| **bav** Bavaria | 5400 | 26350 | 6200 |
-| **den** Denmark | 5400 | 26350 | 6200 |
-| **eng** England | 5400 | 26350 | 6200 |
-| **hun** Hungary | 5400 | 26350 | 6200 |
-| **net** Netherlands | 5400 | 26350 | 6200 |
-| **pie** Piedmont | 5400 | 26350 | 6200 |
-| **pol** Poland | 5400 | 26350 | 6200 |
-| **por** Portugal | 5400 | 26350 | 6200 |
-| **pru** Prussia | 5400 | 26350 | 6200 |
-| **eng** Russia | 5400 | 26350 | 6200 |
-| **sax** Saxony | 5400 | 26350 | 6200 |
-| **spa** Spain | 5400 | 26350 | 6200 |
-| **swe** Sweden | 5400 | 26350 | 6200 |
-| **swi** Switzerland | 5400 | 26350 | 6200 |
-| **ven** Venice | 5400 | 26350 | 6200 |
+| **Algeria** (`alg`) | 1947 | 600 | 1840 |
+| **Turkey** (`tur`) | 1947 | 600 | 3000 |
+| **Scotland** (`sco`) | 3400 | 6350 | 6200 |
+| **Ukraine** (`ukr`) | 3400 | 6350 | 6200 |
+| **France** (`fra`) | 5390 | 26350 | 6190 |
+| **Austria** (`aus`) | 5400 | 26350 | 6200 |
+| **Bavaria** (`bav`) | 5400 | 26350 | 6200 |
+| **Denmark** (`den`) | 5400 | 26350 | 6200 |
+| **England** (`eng`) | 5400 | 26350 | 6200 |
+| **Hungary** (`hun`) | 5400 | 26350 | 6200 |
+| **Netherlands** (`net`) | 5400 | 26350 | 6200 |
+| **Piedmont** (`pie`) | 5400 | 26350 | 6200 |
+| **Poland** (`pol`) | 5400 | 26350 | 6200 |
+| **Portugal** (`por`) | 5400 | 26350 | 6200 |
+| **Prussia** (`pru`) | 5400 | 26350 | 6200 |
+| **Russia** (`rus`) | 5400 | 26350 | 6200 |
+| **Saxony** (`sax`) | 5400 | 26350 | 6200 |
+| **Spain** (`spa`) | 5400 | 26350 | 6200 |
+| **Sweden** (`swe`) | 5400 | 26350 | 6200 |
+| **Switzerland** (`swi`) | 5400 | 26350 | 6200 |
+| **Venice** (`ven`) | 5400 | 26350 | 6200 |
 
 <a id="подробно-по-нациям"></a>
+<a id="стоимость-всей-цепочки-улучшений-еды"></a>
 ## Detail by nation
 
 Each cost cell is the cost of **this** upgrade (not total).
 
 <a id="alg--algeria-алжир"></a>
-### ALG - Algeria
-
+<a id="алжир-alg"></a>
+### Algeria (`alg`)
 <a id="эффективность-еды"></a>
+<a id="добыча-еды"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -90,6 +97,7 @@ Each cost cell is the cost of **this** upgrade (not total).
 
 _Cumulative peak: +280_
 
+<a id="добыча-дерева"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -98,6 +106,7 @@ _Cumulative peak: +280_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -118,8 +127,8 @@ _Cumulative peak: +300_
 
 
 <a id="aus--austria-австрия"></a>
-### AUS - Austria
-
+<a id="австрия-aus"></a>
+### Austria (`aus`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -160,8 +169,8 @@ _Cumulative peak: +300_
 
 
 <a id="bav--bavaria-бавария"></a>
-### BAV - Bavaria
-
+<a id="бавария-bav"></a>
+### Bavaria (`bav`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -202,8 +211,8 @@ _Cumulative peak: +300_
 
 
 <a id="den--denmark-дания"></a>
-### DEN - Denmark
-
+<a id="дания-den"></a>
+### Denmark (`den`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -245,8 +254,8 @@ _Cumulative peak: +300_
 
 
 <a id="eng--england-англия"></a>
-### ENG — England
-
+<a id="англия-eng"></a>
+### England (`eng`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -290,8 +299,8 @@ _Cumulative peak: +300_
 
 
 <a id="fra--france-франция"></a>
-### FRA - France
-
+<a id="франция-fra"></a>
+### France (`fra`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -335,8 +344,8 @@ _Cumulative peak: +300_
 
 
 <a id="hun--hungary-венгрия"></a>
-### HUN - Hungary
-
+<a id="венгрия-hun"></a>
+### Hungary (`hun`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -379,8 +388,8 @@ _Cumulative peak: +300_
 
 
 <a id="net--netherlands-нидерланды"></a>
-### NET - Netherlands
-
+<a id="нидерланды-net"></a>
+### Netherlands (`net`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -421,8 +430,8 @@ _Cumulative peak: +300_
 
 
 <a id="pie--piedmont-пьемонт"></a>
-### PIE - Piedmont
-
+<a id="пьемонт-pie"></a>
+### Piedmont (`pie`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -463,8 +472,8 @@ _Cumulative peak: +300_
 
 
 <a id="pol--poland-польша"></a>
-### POL - Poland
-
+<a id="польша-pol"></a>
+### Poland (`pol`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -504,8 +513,8 @@ _Cumulative peak: +300_
 
 
 <a id="por--portugal-португалия"></a>
-### POR - Portugal
-
+<a id="португалия-por"></a>
+### Portugal (`por`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -549,8 +558,8 @@ _Cumulative peak: +300_
 
 
 <a id="pru--prussia-пруссия"></a>
-### PRU - Prussia
-
+<a id="пруссия-pru"></a>
+### Prussia (`pru`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -594,8 +603,8 @@ _Cumulative peak: +300_
 
 
 <a id="rus--russia-россия"></a>
-### RUS — Russia
-
+<a id="россия-rus"></a>
+### Russia (`rus`)
 <a id="эффективность-еды"></a>
 #### Food efficiency
 
@@ -639,8 +648,8 @@ _Cumulative peak: +300_
 
 
 <a id="sax--saxony-саксония"></a>
-### SAX - Saxony
-
+<a id="саксония-sax"></a>
+### Saxony (`sax`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -681,8 +690,8 @@ _Cumulative peak: +300_
 
 
 <a id="sco--scotland-шотландия"></a>
-### SCO - Scotland
-
+<a id="шотландия-sco"></a>
+### Scotland (`sco`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -723,8 +732,8 @@ _Cumulative peak: +300_
 
 
 <a id="spa--spain-испания"></a>
-### SPA - Spain
-
+<a id="испания-spa"></a>
+### Spain (`spa`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -764,8 +773,8 @@ _Cumulative peak: +300_
 
 
 <a id="swe--sweden-швеция"></a>
-### SWE - Sweden
-
+<a id="швеция-swe"></a>
+### Sweden (`swe`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -806,8 +815,8 @@ _Cumulative peak: +300_
 
 
 <a id="swi--switzerland-швейцария"></a>
-### SWI - Switzerland
-
+<a id="швейцария-swi"></a>
+### Switzerland (`swi`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -848,8 +857,8 @@ _Cumulative peak: +300_
 
 
 <a id="tur--turkey-турция"></a>
-### TUR – Turkey
-
+<a id="турция-tur"></a>
+### Turkey (`tur`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -888,8 +897,8 @@ _Cumulative peak: +300_
 
 
 <a id="ukr--ukraine-украина"></a>
-### UKR - Ukraine
-
+<a id="украина-ukr"></a>
+### Ukraine (`ukr`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -930,8 +939,8 @@ _Cumulative peak: +300_
 
 
 <a id="ven--venice-венеция"></a>
-### VEN - Venice
-
+<a id="венеция-ven"></a>
+### Venice (`ven`)
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -980,10 +989,3 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^1]: Applying `gc_upg_type_effect*perc` to `resefficiency[res]` - `lib/player.script:1812+`.
 
 [^2]: formula `delivered = floor(portion × eff / 100)` - `lib/unit.script:9551-9555`.
-
----
-
-Generated from `data.json`. For regeneration:
-```
-python compute/compute_efficiency_upgrades.py
-```

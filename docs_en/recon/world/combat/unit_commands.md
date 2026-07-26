@@ -1,5 +1,8 @@
 <a id="recon-команды-юнитам"></a>
-# Recon: commands to units
+<a id="приказы-юнитам"></a>
+# Unit Orders
+
+[← How the game works](../../README.md)
 
 Deep analysis: what commands can be given to a unit, how they are stored
 in the queue, how the attack and position holding modes work, where he lives
@@ -95,6 +98,7 @@ fires from there. This gives the artillery a “range advantage” - it
 is not distracted by infantry.
 
 <a id="31-конусный-поиск-при-attack-move"></a>
+<a id="31-конусный-поиск-при-атаке-с-движением"></a>
 ### 3.1. Cone search during attack-move
 
 When attack-move, the unit searches for enemies **only in a 30° cone ahead**

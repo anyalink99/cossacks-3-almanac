@@ -1,7 +1,7 @@
 <a id="гренадёры"></a>
 # Grenadiers
 
-[← units/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Grenades plus a musket. Effective against buildings and towers.
 
@@ -12,42 +12,42 @@ Grenades plus a musket. Effective against buildings and towers.
 
 | Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Grenadier** `grenadier` | aus | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | eng | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | fra | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | net | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | pie | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | pol | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | por | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | pru | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | rus | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | spa | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | swe | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | swi | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadier` | ven | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
-| **Grenadier** `grenadierbav` | bav | **125** | **6.0** | **95** | **70** | **40** | 0.0576 (36) | — | 32 | **19** | **16.88** | **5.31** | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierden` | den | **125** | **6.5** | **100** | **90** | **40** | 0.0576 (36) | — | 32 | **19** | **16.88** | **5.94** | — | — | — | — | — | — | unique |
-| **Grenadier (mercenary)** `grenadierdip` | alg | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | aus | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | bav | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | den | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | eng | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | fra | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | hun | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | net | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pie | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pol | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | por | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | pru | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | rus | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | sax | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | sco | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | spa | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | swe | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | swi | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | tur | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | ukr | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier (mercenary)** `grenadierdip` | ven | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
-| **Grenadier** `grenadierhun` | hun | **125** | **6.5** | **90** | **80** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadierpru` | pru | **125** | **7.0** | **90** | **100** | **45** | 0.0576 (36) | — | 32 | 16 | **16.88** | **4.38** | — | — | — | — | — | — | unique |
-| **Grenadier** `grenadiersax` | sax | **100** | **6.0** | **50** | **60** | **40** | 0.0480 (30) | — | 32 | **19** | **17.81** | **5.31** | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadier` | Austria | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | England | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | France | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Netherlands | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Piedmont | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Poland | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Portugal | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Prussia | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Russia | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Spain | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Sweden | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Switzerland | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadier` | Venice | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
+| **Grenadier** `grenadierbav` | Bavaria | **125** | **6.0** | **95** | **70** | **40** | 0.0576 (36) | — | 32 | **19** | **16.88** | **5.31** | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierden` | Denmark | **125** | **6.5** | **100** | **90** | **40** | 0.0576 (36) | — | 32 | **19** | **16.88** | **5.94** | — | — | — | — | — | — | unique |
+| **Grenadier (mercenary)** `grenadierdip` | Algeria | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Austria | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Bavaria | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Denmark | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | England | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | France | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Hungary | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Netherlands | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Piedmont | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Poland | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Portugal | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Prussia | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Russia | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Saxony | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Scotland | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Spain | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Sweden | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Switzerland | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Turkey | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Ukraine | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier (mercenary)** `grenadierdip` | Venice | 30 | 1.5 | 0 | 25 | 0 | 0.0576 (36) | 0.0960 (60) | 32 | 16 | 15.0 | 4.69 | — | — | — | — | — | — | common |
+| **Grenadier** `grenadierhun` | Hungary | **125** | **6.5** | **90** | **80** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadierpru` | Prussia | **125** | **7.0** | **90** | **100** | **45** | 0.0576 (36) | — | 32 | 16 | **16.88** | **4.38** | — | — | — | — | — | — | unique |
+| **Grenadier** `grenadiersax` | Saxony | **100** | **6.0** | **50** | **60** | **40** | 0.0480 (30) | — | 32 | **19** | **17.81** | **5.31** | — | — | — | — | — | — | unique |

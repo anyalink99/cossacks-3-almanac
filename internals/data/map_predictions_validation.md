@@ -1,6 +1,8 @@
-# Map predictions vs replay ground truth
+# Проверка расчётной модели ресурсов карты по реплеям
 
-Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими cluster counts из replay / save файлов (`derived/replay_ground_truth.json`). Расшифровка значений `mapsize` / `relieftype` / `terraintype` / `season` — [`lobby_settings.md`](lobby_settings.md).
+Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими
+данными реплеев и сохранений (`derived/replay_ground_truth.json`). Расшифровка
+параметров — в [справочнике по настройкам матча](../../docs/reports/map/lobby_settings.md).
 
 **Replays processed:** 23
 

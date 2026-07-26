@@ -1,32 +1,26 @@
 <a id="настройки-лобби--справочник-значений"></a>
-# Lobby settings - value reference
+<a id="настройки-матча"></a>
+# Match settings
 
-**Derived report.** Considered from the game locale and `dmscript.global` script
-[`compute/compute_game_settings.py`](../../../compute/compute_game_settings.py).
-Regeneration: `python compute/compute_game_settings.py`.
+[← Tables and calculations](../README.md)
 
-All option names are **from the game locale** (`data/locale/ru/gui.txt`,
-`data/locale/en/gui.txt`). If the game says “Highlands” - here too
-"Highlands." Machine version for editors and tools -
-[`derived/game_settings.json`](../../../derived/game_settings.json).
+Canonical names for every lobby setting, together with a short explanation of
+what it changes. Internal values are included only to match settings against
+replays and game files.
 
-The behavior of each option in the engine (what happens after selection) - in
-[`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
+For the hidden behavior behind these options, see
+[How Match Settings Affect the Game](../../recon/world/map/game_settings.md).
 
 <a id="структура"></a>
-## Structure
-
-All lobby options live in `gMap.settings` [^1]:
-
-- `gMap.settings.gen` — parameters of the **map generator** (how the map is drawn).
-- `gMap.settings.additional` — **game rules** (peacetime, population limit,
-  grip, speed, etc.).
+<a id="карта-и-природные-ресурсы"></a>
+## Map and natural resources
 
 <a id="генератор-карты--gmapsettingsgen"></a>
-## Map generator - `gMap.settings.gen`
-
+<a id="правила-партии"></a>
 <a id="mapsize--размер-карты"></a>
-### `mapsize` - card size
+<a id="стартовая-армия-startingunits"></a>
+<a id="размер-карты-mapsize"></a>
+### Map size (`mapsize`)
 
 | Meaning | Size, tiles | English label | Russian label |
 | :---: | --- | --- | --- |
@@ -35,10 +29,12 @@ All lobby options live in `gMap.settings` [^1]:
 | 2 | 640 | Huge | Huge |
 | 3 | 256 | Tiny | Little |
 
-The card size is square `tiles × tiles`. The game UI does not show labels (the values ​​are protected by [^2]).
+The map is square `tiles × tiles`. The game UI does not show labels (the values are protected by [^2]).
 
 <a id="terraintype--тип-ландшафта-и-воды"></a>
-### `terraintype` - type of terrain and water
+<a id="монгольфьеры-balloon"></a>
+<a id="тип-ландшафта-и-воды-terraintype"></a>
+### Terrain and water (`terraintype`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -53,10 +49,12 @@ The card size is square `tiles × tiles`. The game UI does not show labels (the 
 | 8 | Rivers | Rivers |
 | 9 | Without water | Without water |
 
-Labels from `gui.txt @randommap.terraintype.*`. The values ​​of `2..4` (`Peninsulas` / `Islands` / `Continents`) are checked by the engine in `_misc_HasMaritime` [^3] - these maps have “sea” waters, access to them requires a port.
+Labels from `gui.txt @randommap.terraintype.*`. The values of `2..4` (`Peninsulas` / `Islands` / `Continents`) are checked by the engine in `_misc_HasMaritime` [^3] - these maps have “sea” waters, access to them requires a port.
 
 <a id="relieftype--рельеф"></a>
-### `relieftype` - relief
+<a id="пушки-башни-и-стены-cannons"></a>
+<a id="рельеф-relieftype"></a>
+### Relief (`relieftype`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -70,7 +68,9 @@ Labels from `gui.txt @randommap.terraintype.*`. The values ​​of `2..4` (`Pen
 Default `relieftype = 3` (“Highlands”) [^4].
 
 <a id="resourcestart--стартовые-ресурсы-у-игроков"></a>
-### `resourcestart` - starting resources for players
+<a id="время-мира-peacetime"></a>
+<a id="стартовые-ресурсы-resourcestart"></a>
+### Starting resources (`resourcestart`)
 
 | Meaning | For each resource | English label | Russian label |
 | :---: | --- | --- | --- |
@@ -82,7 +82,9 @@ Default `relieftype = 3` (“Highlands”) [^4].
 All 6 resources (food / wood / stone / gold / iron / coal) receive the same starting amount. Default = 2 (“Thousands”, 5,000 each) [^5].
 
 <a id="resourcemines--плотность-месторождений"></a>
-### `resourcemines` — density of deposits
+<a id="переход-в-xviii-век-century18"></a>
+<a id="количество-месторождений-resourcemines"></a>
+### Resource deposits (`resourcemines`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -93,7 +95,9 @@ All 6 resources (food / wood / stone / gold / iron / coal) receive the same star
 Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines per level are in [`map_resources.md`](map_resources.md) and in [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).
 
 <a id="season--сезон"></a>
-### `season` - season
+<a id="правила-захвата-capture"></a>
+<a id="сезон-season"></a>
+### Season (`season`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -105,10 +109,12 @@ Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines p
 There are no labels in `gui.txt` - the UI is hardcoded. The only mechanical effect is `season = 3` (“Desert”) force `bDesert = True` [^7]; engine uses a different set of pattern types (`desert_*` instead of the usual forests and stones).
 
 <a id="правила-игры--gmapsettingsadditional"></a>
-## Rules of the game - `gMap.settings.additional`
+<a id="сложность-компьютера"></a>
+## Match rules
 
 <a id="startingunits--стартовая-армия"></a>
-### `startingunits` - starting army
+<a id="сложность-difficulty"></a>
+### Starting army (`startingunits`)
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
 | 0 | Default | Default |
@@ -131,7 +137,7 @@ A specific set of units for each option is in `data/game/var/startingsettings.cf
 > Regardless of the choice, the engine always calls `CreateStartPointPeasants` [^8] and places **18 peasants** in a 6x3 grid around the starting point. Even on `startingunits = 0` (“Default”) the player has 18 peasants at once.
 
 <a id="balloon--монгольфьеры"></a>
-### `balloon` — hot air balloons
+### Balloons (`balloon`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -142,7 +148,7 @@ A specific set of units for each option is in `data/game/var/startingsettings.cf
 A hot air balloon is a special unit that provides visibility at high altitudes.
 
 <a id="cannons--пушки-башни-и-стены"></a>
-### `cannons` - guns, towers and walls
+### Cannons, towers, and walls (`cannons`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -153,7 +159,7 @@ A hot air balloon is a special unit that provides visibility at high altitudes.
 The option “Expensive Cannons” increases the prices of guns through an upgrade - read the exact multipliers in `country.script` (artillery upgrades section).
 
 <a id="peacetime--время-мира"></a>
-### `peacetime` — peace time
+### Peace time (`peacetime`)
 
 | Meaning | Minutes (game) | g-seconds | English label | Russian label |
 | :---: | --- | --- | --- | --- |
@@ -174,7 +180,7 @@ Minutes are **game minutes**. At fast speed (`gamespeed = 2`, ×1.4) one game mi
 Details of the mechanics (how the engine blocks the search for enemies, unoccupied cells, the transition from peace to war) are in [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
 
 <a id="century18--переход-в-18-век"></a>
-### `century18` — advance to the 18th century
+### Advancing to the 18th century (`century18`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -185,7 +191,7 @@ Details of the mechanics (how the engine blocks the search for enemies, unoccupi
 On 17th century-only nations (Ukraine, Turkey, Algeria) the option “Immediately” is useless - they do not have the `<nat>cen.1` upgrade (“Transition to the 18th century”).
 
 <a id="capture--правила-захвата"></a>
-### `capture` - capture rules
+### Capture rules (`capture`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -197,7 +203,8 @@ On 17th century-only nations (Ukraine, Turkey, Algeria) the option “Immediatel
 Capture geometry (radii, who is captured and who is not) - in [`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).
 
 <a id="marketdip--рынок-и-дипцентр"></a>
-### `marketdip` - market and diplomatic center
+<a id="рынок-и-дипломатический-центр-marketdip"></a>
+### Market and Diplomatic Center (`marketdip`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -210,7 +217,8 @@ Capture geometry (radii, who is captured and who is not) - in [`recon/world/econ
 Option `value = 4` (“Dear Mercenaries”) multiplies the hiring price in the deep center by `gc_gameplay_expensivemercskoef = 3`. Details about mercenaries are in [`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
 
 <a id="teams--расположение-союзников"></a>
-### `teams` - location of allies
+<a id="расположение-союзников-teams"></a>
+### Ally placement (`teams`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -220,7 +228,8 @@ Option `value = 4` (“Dear Mercenaries”) multiplies the hiring price in the d
 With `teams = 1`, the team starts in neighboring positions, and not scattered across the map.
 
 <a id="limit--лимит-населения"></a>
-### `limit` - population limit
+<a id="лимит-населения-limit"></a>
+### Population limit (`limit`)
 
 | Meaning | Units | English label | Russian label |
 | :---: | --- | --- | --- |
@@ -237,7 +246,8 @@ With `teams = 1`, the team starts in neighboring positions, and not scattered ac
 This is the **global ceiling on top of** the local building-by-building limit: `pop_cap = cen × 100 + bar × 150 + ba2 × 250 + hou × 25`. The global cap is never exceeded, even if the farm bonus allows more.
 
 <a id="gamespeed--скорость-партии"></a>
-### `gamespeed` - batch speed
+<a id="скорость-партии-gamespeed"></a>
+### Game speed (`gamespeed`)
 
 | Meaning | Ticks/real second | Multiplier to norm | English label | Russian label |
 | :---: | --- | --- | --- | --- |
@@ -248,7 +258,8 @@ This is the **global ceiling on top of** the local building-by-building limit: `
 `gc_time_to_frames = 32` for all speeds (32 frames in one game second) - only the real-time factor changes. Slot `value = 3` (×2.0) existed, but is commented out in the current version.
 
 <a id="adviserassistant--помощник"></a>
-### `adviserassistant` - assistant
+<a id="помощник-adviserassistant"></a>
+### Adviser assistant (`adviserassistant`)
 
 | Meaning | English label | Russian label |
 | :---: | --- | --- |
@@ -258,12 +269,12 @@ This is the **global ceiling on top of** the local building-by-building limit: `
 Contextual clues in the corner of the screen. Does not affect the simulation - only UI.
 
 <a id="сложность-ии--gcplayerdifficulty"></a>
-## AI difficulty - `gc_player_difficulty_*`
+## Computer opponent
 
 <a id="difficulty--сложность"></a>
-### `difficulty` - difficulty
+### Difficulty (`difficulty`)
 
-| Meaning | Speed ​​Multiplier | English label | Russian label |
+| Meaning | Speed Multiplier | English label | Russian label |
 | :---: | --- | --- | --- |
 | 0 | 0.3 | Easy | Easy |
 | 1 | 0.5 | Normal | Normal |

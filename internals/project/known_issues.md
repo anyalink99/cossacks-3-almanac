@@ -37,7 +37,7 @@
 битвы) — не входит в pipeline. Все факты про Wonder, `endgame_win`,
 scenario-action'ы извлечены вручную.
 
-**Где смотреть руками:** [`docs/recon/systems/victory_conditions.md`](recon/systems/victory_conditions.md) §3.
+**Где смотреть руками:** [`docs/recon/systems/victory_conditions.md`](../../docs/recon/systems/victory_conditions.md) §3.
 
 ---
 
@@ -54,7 +54,7 @@ scenario-action'ы извлечены вручную.
 | Стоимость `Manufacture agricultural equipment` (blacksmith) | W400 / G100 | **не найден в blacksmith** | `country.script` | В текущей кузнице — только per-unit damage / protection. Возможно, в Cossacks 1 был такой апгрейд, и в C3 он переехал в академию (`aca.X`). |
 
 Дополнительно: в новой главе [02_combat → «Подтверждённые упрощения боевой
-формулы»](reference/02_combat/README.md) описаны пять механик из других RTS, которых
+формулы»](../../docs/reference/02_combat/README.md) описаны пять механик из других RTS, которых
 в C3 **нет** (charge bonus, anti-cavalry multiplier, drummer aura, специальная
 траектория гранат, stealth). Это тоже формы расхождения — игроки часто ожидают
 эти эффекты по аналогии с AoE / Total War.
@@ -81,7 +81,7 @@ scenario-action'ы извлечены вручную.
 - **`farmused` для defeat не падает в 0** пока есть крестьянин **или**
   Городской центр. Можно жить с одним крестьянином и одной мельницей и не
   проигрывать. Подробности —
-  [`docs/recon/systems/victory_conditions.md`](recon/systems/victory_conditions.md) §4.
+  [`docs/recon/systems/victory_conditions.md`](../../docs/recon/systems/victory_conditions.md) §4.
 - **Vision-формула 20 + 4 × vision (тайлы)** даёт минимум 20 t даже при
   `vision = 0`. По умолчанию у юнита не «0 обзора», а 20 тайлов.
 - **Pop cap = `cen × 100 + bar × 150 + ba2 × 250 + hou × 25`** — но всегда
@@ -101,7 +101,7 @@ scenario-action'ы извлечены вручную.
 замера в игре. Перечислены по recon-документам — каждый раздел указывает, где
 именно можно копать.
 
-### Добыча и экономика — [`recon/world/economy/peasant_extraction.md`](recon/world/economy/peasant_extraction.md) §9
+### Добыча и экономика — [`recon/world/economy/peasant_extraction.md`](../../docs/recon/world/economy/peasant_extraction.md) §9
 
 - Точный `loss_factor` (доля времени, теряемая на ходьбу к складу) на разных
   раскладках карты.
@@ -112,7 +112,7 @@ scenario-action'ы извлечены вручную.
   откалиброван на small = 10 / big = 50, но точный коэффициент требует
   5–10 запусков map gen + парсинг env.
 
-### ИИ — [`recon/systems/ai_behavior.md`](recon/systems/ai_behavior.md) §«Открытые вопросы»
+### ИИ — [`recon/systems/ai_behavior.md`](../../docs/recon/systems/ai_behavior.md) §«Открытые вопросы»
 
 - Скорость пополнения agressor-пула (`aiData.agressors.Add` — где?).
 - Активация флага `bhumanai` — сеттер не найден в скриптах. Возможно,
@@ -124,7 +124,7 @@ scenario-action'ы извлечены вручную.
   одинаковые константы; отличается только скорость постройки. Стоит
   верифицировать в игре.
 
-### Захват — [`recon/world/economy/capture_mechanics.md`](recon/world/economy/capture_mechanics.md) §9
+### Захват — [`recon/world/economy/capture_mechanics.md`](../../docs/recon/world/economy/capture_mechanics.md) §9
 
 - Точная позиция `(px, py)` у здания при проверке: центр модели, центр bbox
   или anchor-point? Эмпирически измеряется: построить казарму, подвести
@@ -135,7 +135,7 @@ scenario-action'ы извлечены вручную.
   крестьяне и арт могут «ломать» стену через capture-механизм. Проверить
   эмпирически.
 
-### Pathfinding — [`recon/world/combat/pathfinding.md`](recon/world/combat/pathfinding.md) §9
+### Pathfinding — [`recon/world/combat/pathfinding.md`](../../docs/recon/world/combat/pathfinding.md) §9
 
 - Алгоритм самого pathfinding'а живёт в нативном движке (C++): A*? Flow
   field? Wave propagation? Скриптам не виден.
@@ -144,14 +144,14 @@ scenario-action'ы извлечены вручную.
 - Поведение при появлении нового препятствия на маршруте: не нашлось вызова
   repath. Юнит молча останавливается?
 
-### RNG / детерминизм — [`../internals/engine/determinism_audit.md`](../internals/engine/determinism_audit.md)
+### Генератор случайных чисел и детерминизм — [`determinism_audit.md`](../engine/determinism_audit.md)
 
 - Глобальное состояние PRNG (`random`-курсор) — сохраняется ли в save? Скорее
   всего, нет.
 - Pathfinding tie-breaking (engine, недоступно скрипту).
 - Variable timestep (engine).
 
-### Map generation — [`recon/world/map/map_generation_pipeline.md`](recon/world/map/map_generation_pipeline.md) §13
+### Генерация карты — [`recon/world/map/map_generation_pipeline.md`](../../docs/recon/world/map/map_generation_pipeline.md) §13
 
 - Bounded enumeration уникальных карт: 230 базовых форм × K randkey-вариаций.
   K неизвестно (вероятно ≤ 10⁹, но реальный диапазон пользовательских seed'ов

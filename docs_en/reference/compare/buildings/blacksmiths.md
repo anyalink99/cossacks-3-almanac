@@ -1,7 +1,7 @@
 <a id="кузницы"></a>
 # Forges
 
-[← buildings/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
+[← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
 Blacksmith - upgrades for infantry and weapon protection. Costs and times vary markedly across nations.
 
@@ -10,24 +10,24 @@ Blacksmith - upgrades for infantry and weapon protection. Costs and times vary m
 
 | Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| **Blacksmith** `algbla` | alg | **6500** | **109.38** | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `ausbla` | aus | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `bavbla` | bav | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `denbla` | den | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `engbla` | eng | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `frabla` | fra | 5500 | 93.75 | **600** | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `hunbla` | hun | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `netbla` | net | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `piebla` | pie | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `polbla` | pol | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `porbla` | por | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `prubla` | pru | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `rusbla` | rus | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `saxbla` | sax | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `scobla` | sco | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `spabla` | spa | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `swebla` | swe | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `swibla` | swi | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `turbla` | tur | **6500** | **109.38** | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `ukrbla` | ukr | **4500** | **62.5** | 400 | 100 | 30 | 0 | 0 | — |
-| **Blacksmith** `venbla` | ven | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `algbla` | Algeria | **6500** | **109.38** | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `ausbla` | Austria | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `bavbla` | Bavaria | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `denbla` | Denmark | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `engbla` | England | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `frabla` | France | 5500 | 93.75 | **600** | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `hunbla` | Hungary | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `netbla` | Netherlands | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `piebla` | Piedmont | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `polbla` | Poland | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `porbla` | Portugal | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `prubla` | Prussia | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `rusbla` | Russia | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `saxbla` | Saxony | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `scobla` | Scotland | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `spabla` | Spain | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `swebla` | Sweden | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `swibla` | Switzerland | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `turbla` | Turkey | **6500** | **109.38** | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `ukrbla` | Ukraine | **4500** | **62.5** | 400 | 100 | 30 | 0 | 0 | — |
+| **Blacksmith** `venbla` | Venice | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |
