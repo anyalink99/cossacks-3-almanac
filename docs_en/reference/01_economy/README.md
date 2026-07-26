@@ -93,6 +93,7 @@ the boat’s construction cost by 85%.
 See [Ship comparisons](../compare/units/ships.md) for the full fleet.
 
 <a id="содержание-армии-голод-и-бунт"></a>
+<a id="famine-голод-и-rebellion-восстание"></a>
 ## Army upkeep, famine, and rebellion
 
 A normal army continuously consumes food. When food runs out, famine begins

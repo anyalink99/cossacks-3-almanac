@@ -281,7 +281,7 @@ if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm
 ```
 Key: **alarm is triggered only if the object is NOT in frustum**
 cameras. That is, if a player physically looks at his base and
-at this moment she is being attacked - there will be no notification** because
+at this moment she is being attacked - there will be no notification because
 the player sees it that way.
 
 <a id="62-лимит-частоты"></a>
@@ -339,7 +339,7 @@ struct.end
 | `Key` | Main key or combination (`A`, `Ctrl+A`, `Ctrl+Alt+A`, `Shift+Z`, etc.). None means that the hotkey is not assigned by default. |
 | `AlternativeKey` | Spare combination (optional). |
 | `Action` | Description of the action in the format `<type>\|<parameter>`. |
-| `Repeat` | If `True`, pressing again cycles through the options (e.g. `select|allunits` → next highlighted unit of the same type). |
+| `Repeat` | If `True`, pressing again cycles through the options (e.g. `select\|allunits` → next highlighted unit of the same type). |
 | `Up` | If `True`, the action is triggered by releasing the key, not by pressing it. |
 
 <a id="72-шесть-типов-action"></a>

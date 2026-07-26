@@ -24,6 +24,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="alg--algeria-алжир"></a>
 <a id="алжир-alg"></a>
 ## Algeria (`alg`)
+<a id="постройка-с-нуля"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -50,7 +51,6 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="постройка-с-нуля"></a>
 <a id="полный-ремонт"></a>
 ### Full repair (0 → max HP)
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -80,6 +80,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="aus--austria-австрия"></a>
 <a id="австрия-aus"></a>
 ## Austria (`aus`)
+<a id="постройка-с-нуля-1"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -108,6 +109,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
 <a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-1"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -138,6 +140,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="bav--bavaria-бавария"></a>
 <a id="бавария-bav"></a>
 ## Bavaria (`bav`)
+<a id="постройка-с-нуля-2"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -165,7 +168,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-1"></a>
+<a id="полный-ремонт-2"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -196,6 +200,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="den--denmark-дания"></a>
 <a id="дания-den"></a>
 ## Denmark (`den`)
+<a id="постройка-с-нуля-3"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -223,7 +228,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-2"></a>
+<a id="полный-ремонт-3"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -254,6 +260,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="eng--england-англия"></a>
 <a id="англия-eng"></a>
 ## England (`eng`)
+<a id="постройка-с-нуля-4"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -281,7 +288,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-3"></a>
+<a id="полный-ремонт-4"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -312,6 +320,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="fra--france-франция"></a>
 <a id="франция-fra"></a>
 ## France (`fra`)
+<a id="постройка-с-нуля-5"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -339,7 +348,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-4"></a>
+<a id="полный-ремонт-5"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -370,6 +380,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="hun--hungary-венгрия"></a>
 <a id="венгрия-hun"></a>
 ## Hungary (`hun`)
+<a id="постройка-с-нуля-6"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -397,7 +408,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-5"></a>
+<a id="полный-ремонт-6"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -428,6 +440,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="net--netherlands-нидерланды"></a>
 <a id="нидерланды-net"></a>
 ## Netherlands (`net`)
+<a id="постройка-с-нуля-7"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -455,7 +468,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-6"></a>
+<a id="полный-ремонт-7"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -486,6 +500,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="pie--piedmont-пьемонт"></a>
 <a id="пьемонт-pie"></a>
 ## Piedmont (`pie`)
+<a id="постройка-с-нуля-8"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -513,7 +528,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-7"></a>
+<a id="полный-ремонт-8"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -544,6 +560,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="pol--poland-польша"></a>
 <a id="польша-pol"></a>
 ## Poland (`pol`)
+<a id="постройка-с-нуля-9"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -571,7 +588,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-8"></a>
+<a id="полный-ремонт-9"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -602,6 +620,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="por--portugal-португалия"></a>
 <a id="португалия-por"></a>
 ## Portugal (`por`)
+<a id="постройка-с-нуля-10"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -629,7 +648,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-9"></a>
+<a id="полный-ремонт-10"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -660,6 +680,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="pru--prussia-пруссия"></a>
 <a id="пруссия-pru"></a>
 ## Prussia (`pru`)
+<a id="постройка-с-нуля-11"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -687,7 +708,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-10"></a>
+<a id="полный-ремонт-11"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -718,6 +740,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="rus--russia-россия"></a>
 <a id="россия-rus"></a>
 ## Russia (`rus`)
+<a id="постройка-с-нуля-12"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -745,7 +768,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-11"></a>
+<a id="полный-ремонт-12"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -776,6 +800,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="sax--saxony-саксония"></a>
 <a id="саксония-sax"></a>
 ## Saxony (`sax`)
+<a id="постройка-с-нуля-13"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -803,7 +828,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-12"></a>
+<a id="полный-ремонт-13"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -834,6 +860,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="sco--scotland-шотландия"></a>
 <a id="шотландия-sco"></a>
 ## Scotland (`sco`)
+<a id="постройка-с-нуля-14"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -861,7 +888,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-13"></a>
+<a id="полный-ремонт-14"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -892,6 +920,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="spa--spain-испания"></a>
 <a id="испания-spa"></a>
 ## Spain (`spa`)
+<a id="постройка-с-нуля-15"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -919,7 +948,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-14"></a>
+<a id="полный-ремонт-15"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -950,6 +980,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="swe--sweden-швеция"></a>
 <a id="швеция-swe"></a>
 ## Sweden (`swe`)
+<a id="постройка-с-нуля-16"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -977,7 +1008,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-15"></a>
+<a id="полный-ремонт-16"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1008,6 +1040,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="swi--switzerland-швейцария"></a>
 <a id="швейцария-swi"></a>
 ## Switzerland (`swi`)
+<a id="постройка-с-нуля-17"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1035,7 +1068,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-16"></a>
+<a id="полный-ремонт-17"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1066,6 +1100,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="tur--turkey-турция"></a>
 <a id="турция-tur"></a>
 ## Turkey (`tur`)
+<a id="постройка-с-нуля-18"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1092,7 +1127,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-17"></a>
+<a id="полный-ремонт-18"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1122,6 +1158,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="ukr--ukraine-украина"></a>
 <a id="украина-ukr"></a>
 ## Ukraine (`ukr`)
+<a id="постройка-с-нуля-19"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1145,7 +1182,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 8g | 13 | 9g (7r) | 5g (3r) | 2g (1r) | 1g (1r) | 1g (1r) |
 | `ukrwwa` | Palisade | 8g | 4 | 9g (7r) | 5g (3r) | 2g (2r) | 2g (2r) | 2g (2r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-18"></a>
+<a id="полный-ремонт-19"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1172,6 +1210,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="ven--venice-венеция"></a>
 <a id="венеция-ven"></a>
 ## Venice (`ven`)
+<a id="постройка-с-нуля-20"></a>
 ### Building from scratch
 
 | sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
@@ -1199,7 +1238,8 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `vensta` | Stable | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
 | `ventem` | Cathedral | 156g | 30 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
 
-<a id="полный-ремонт-0--max-hp"></a>
+<a id="полный-ремонт-0--max-hp-19"></a>
+<a id="полный-ремонт-20"></a>
 ### Full repair (0 → max HP)
 
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |

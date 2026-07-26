@@ -173,7 +173,10 @@ function headingSlug(value) {
     .trim()
     .toLocaleLowerCase(ENGLISH ? "en" : "ru")
     .replace(/[^\p{L}\p{N}\s_-]/gu, "")
-    .replace(/\s+/g, "-");
+    // Match the GitHub-style fragments already used by generated tables:
+    // punctuation is removed first, so spaces on both sides of an em dash
+    // deliberately become two hyphens.
+    .replace(/\s/g, "-");
 }
 
 function assignHeadingIds(container) {
@@ -698,6 +701,29 @@ function findHashTarget(id) {
   const direct = document.getElementById(id)
     || document.querySelector(`[name="${CSS.escape(id)}"]`);
   if (direct) return direct;
+
+  // A translated TOC can temporarily retain an older source-language slug.
+  // Its visible label still matches the translated heading, so use that
+  // relationship as a safe fallback when both sides are unique.
+  const matchingLinks = [...document.querySelectorAll('#md-content a[href*="#"]')]
+    .filter((link) => {
+      const href = link.getAttribute("href") || "";
+      const fragment = href.split("#", 2)[1];
+      if (!fragment) return false;
+      try {
+        return decodeURIComponent(fragment) === id;
+      } catch {
+        return fragment === id;
+      }
+    });
+  if (matchingLinks.length === 1) {
+    const labelSlug = headingSlug(matchingLinks[0].textContent);
+    const matchingHeadings = [...document.querySelectorAll(
+      "#md-content h1, #md-content h2, #md-content h3, " +
+      "#md-content h4, #md-content h5, #md-content h6"
+    )].filter((heading) => headingSlug(heading.textContent) === labelSlug);
+    if (matchingHeadings.length === 1) return matchingHeadings[0];
+  }
 
   // Old published links occasionally contain a one-character slug typo.
   // Resolve only a unique, very close match; never guess between headings.

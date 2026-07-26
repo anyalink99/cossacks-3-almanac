@@ -35,7 +35,7 @@
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Controls and Player Feedback",
-      "size": 23283,
+      "size": 23280,
       "lines": 533
     },
     {
@@ -53,8 +53,8 @@
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "How Damage Is Calculated",
-      "size": 20330,
-      "lines": 467
+      "size": 20151,
+      "lines": 465
     },
     {
       "path": "recon/world/combat/formations.md",
@@ -83,7 +83,7 @@
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Target Selection and Attack-Move",
-      "size": 35615,
+      "size": 35612,
       "lines": 747
     },
     {
@@ -119,7 +119,7 @@
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "How Buildings and Units Are Captured",
-      "size": 29787,
+      "size": 29790,
       "lines": 593
     },
     {
@@ -143,26 +143,26 @@
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "How Upgrades Are Applied",
-      "size": 21363,
+      "size": 21364,
       "lines": 505
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "How Match Settings Affect the Game",
-      "size": 17502,
-      "lines": 369
+      "size": 17553,
+      "lines": 370
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "How a Random Map Is Generated",
-      "size": 36280,
-      "lines": 588
+      "size": 36304,
+      "lines": 589
     },
     {
       "path": "reference/01_economy/README.md",
       "title": "Economy",
-      "size": 7704,
-      "lines": 180
+      "size": 7765,
+      "lines": 181
     },
     {
       "path": "reference/02_combat/README.md",
@@ -173,8 +173,8 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Buildings",
-      "size": 38128,
-      "lines": 382
+      "size": 59975,
+      "lines": 531
     },
     {
       "path": "reference/04_units/README.md",
@@ -185,8 +185,8 @@
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Upgrades",
-      "size": 224760,
-      "lines": 1617
+      "size": 224859,
+      "lines": 1618
     },
     {
       "path": "reference/06_market/README.md",
@@ -299,8 +299,8 @@
     {
       "path": "reference/compare/README.md",
       "title": "Comparisons",
-      "size": 3227,
-      "lines": 62
+      "size": 3347,
+      "lines": 64
     },
     {
       "path": "reference/compare/units/archers.md",
@@ -569,8 +569,8 @@
     {
       "path": "reports/combat/attack_rates.md",
       "title": "Attack speed",
-      "size": 16437,
-      "lines": 200
+      "size": 16372,
+      "lines": 196
     },
     {
       "path": "reports/combat/combat_stats.md",
@@ -581,14 +581,14 @@
     {
       "path": "reports/combat/counter_matrix.md",
       "title": "Cossacks 3 - Counter-unit matrix",
-      "size": 14724,
-      "lines": 129
+      "size": 14722,
+      "lines": 128
     },
     {
       "path": "reports/combat/vision_radii.md",
       "title": "Cossacks 3 – Vision and searchradius",
-      "size": 11975,
-      "lines": 194
+      "size": 11917,
+      "lines": 191
     },
     {
       "path": "reports/economy/builder_slots.md",
@@ -599,26 +599,26 @@
     {
       "path": "reports/economy/construction_times.md",
       "title": "Cossacks 3 - Time to build and repair",
-      "size": 110337,
-      "lines": 1229
+      "size": 112187,
+      "lines": 1269
     },
     {
       "path": "reports/economy/efficiency_upgrades.md",
       "title": "Cossacks 3 — Efficiency upgrades per nation",
-      "size": 31961,
-      "lines": 993
+      "size": 35321,
+      "lines": 1075
     },
     {
       "path": "reports/economy/production_rates.md",
       "title": "Cossacks 3 - Production Rate",
-      "size": 126258,
-      "lines": 2114
+      "size": 132645,
+      "lines": 2334
     },
     {
       "path": "reports/economy/scaling_prices.md",
       "title": "Cossacks 3 – Building prices for the Nth instance",
-      "size": 52979,
-      "lines": 447
+      "size": 52977,
+      "lines": 446
     },
     {
       "path": "reports/map/lobby_settings.md",
@@ -628,9 +628,9 @@
     },
     {
       "path": "reports/map/map_resources.md",
-      "title": "Map resource assessment - Tiny (256×256) + Highlands + Rich mines",
-      "size": 10898,
-      "lines": 170
+      "title": "Map resources",
+      "size": 10494,
+      "lines": 179
     },
     {
       "path": "reports/map/starting_layout.md",

@@ -151,10 +151,8 @@ Headshot triggers **before** step 4, but does not displace it. Terms [^5]:
 
 If all four are true - `damage := damage + floor(target.uniqrnd × 500)` [^10].
 
-`uniqrnd` ∈ `[0, 1)` is fixed when the unit spawns and is no longer
-changes (see
-[`reference/02_combat/README.md` § uniqrnd](../../../reference/02_combat/README.md#uniqrnd--индивидуальное-случайное-число-юнита)
-or [`internals/engine/rng_implementation.md`](../../../../internals_en/engine/rng_implementation.md)).
+`uniqrnd` ∈ `[0, 1)` is fixed when the unit spawns and does not change
+(see [`internals/engine/rng_implementation.md`](../../../../internals_en/engine/rng_implementation.md)).
 That is, the same unit **always** gives the same bonus
 headshots are part of sync's deterministic model.
 
@@ -408,7 +406,7 @@ neighbors. See details in
 [^4]: `data.json`, array `unit.protection[7]` or
       `building.protection[7]` by indexes
       `gc_obj_weapon_kind_*` (see also
-      [`reference/02_combat/README.md` § Weapon Types](../../../reference/02_combat/README.md#типы-оружия-gc_obj_weapon_kind_)).
+      [`reference/02_combat/README.md` § Damage calculation](../../../reference/02_combat/README.md#как-считается-урон)).
 
 [^5]: `data/scripts/lib/miscext2.script:_misc_DoDamage`, branch
       `if (bCanHeadShot) and (random < 0.05) then ...`.

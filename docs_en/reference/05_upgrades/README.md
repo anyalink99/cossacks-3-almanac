@@ -42,6 +42,7 @@ The canonical localized name is shown first; the internal code is secondary.
 - [Ferry (`ferry`)](#ferry--транспорт-вместимость)
 
 <a id="математика-применения-апгрейдов"></a>
+<a id="математика-применения-порядок-и-комбинирование"></a>
 <a id="как-складываются-улучшения"></a>
 ## How upgrades combine
 

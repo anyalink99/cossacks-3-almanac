@@ -510,7 +510,7 @@ Only for **artillery**:
 - `aca.27` (“Develop mathematics”): **−35%** (accumulates from
   `aca.20`).
 
-For musketeers and archers there is **no** direct** dispersion upgrade.
+For musketeers and archers there is **no direct** dispersion upgrade.
 
 ---
 

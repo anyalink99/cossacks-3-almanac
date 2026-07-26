@@ -1,10 +1,16 @@
+import tempfile
 import unittest
+from pathlib import Path
 
 from compute.build_md_manifest import markdown_search_text
 from scripts.build_english_docs import (
+    Protector,
     apply_manual_fenced_translations,
     ensure_heading_aliases,
     fenced_block_key,
+    markdown_structure,
+    sha256,
+    translation_artifact_errors,
 )
 
 
@@ -38,6 +44,47 @@ class HeadingAliases(unittest.TestCase):
         translated = '<a id="юниты"></a>\n# Units\n'
         repaired = ensure_heading_aliases(source, translated)
         self.assertEqual(repaired.count('id="юниты"'), 1)
+
+    def test_numbers_duplicate_source_heading_aliases(self):
+        source = "## Прочность полей\n\n## Прочность полей\n"
+        translated = "## Field durability\n\n## Field durability\n"
+        repaired = ensure_heading_aliases(source, translated)
+        self.assertIn('<a id="прочность-полей"></a>', repaired)
+        self.assertIn('<a id="прочность-полей-1"></a>', repaired)
+
+
+class TranslationIntegrity(unittest.TestCase):
+    def test_hash_ignores_checkout_line_endings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            lf = Path(directory) / "lf.md"
+            crlf = Path(directory) / "crlf.md"
+            lf.write_bytes(b"# Title\n\nBody\n")
+            crlf.write_bytes(b"# Title\r\n\r\nBody\r\n")
+            self.assertEqual(sha256(lf), sha256(crlf))
+
+    def test_protector_rejects_missing_or_duplicated_markers(self):
+        protector = Protector([])
+        protected = protector.protect("Use `unit.sid` here")
+        marker = next(iter(protector.restore))
+        with self.assertRaises(RuntimeError):
+            protector.unprotect(protected.replace(marker, ""))
+
+        protector = Protector([])
+        protected = protector.protect("Use `unit.sid` here")
+        marker = next(iter(protector.restore))
+        with self.assertRaises(RuntimeError):
+            protector.unprotect(protected.replace(marker, marker + marker))
+
+    def test_detects_truncation_and_translation_placeholders(self):
+        errors = translation_artifact_errors(
+            "Body …5522 tokens truncated… ZXX00037"
+        )
+        self.assertTrue(any("truncation marker" in error for error in errors))
+        self.assertTrue(any("protector artifacts" in error for error in errors))
+
+    def test_detects_malformed_heading(self):
+        structure = markdown_structure("# Good\n\n###Broken\n")
+        self.assertEqual(structure["malformed_headings"], [3])
 
 
 class ManualFencedTranslations(unittest.TestCase):

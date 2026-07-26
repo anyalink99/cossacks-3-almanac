@@ -1,9 +1,9 @@
-#Contribution
+# Contributing
 
-[English] (CONTRIBUTING.en.md) · **Russian**
+**English** · [Русский](CONTRIBUTING.md)
 
 This document is a short cheat sheet on how the repository is arranged and where
-What to touch. If you just came, start with [`internals/project/architecture.md`] (internals/project/architecture.md).
+What to touch. If you just came, start with [`internals/project/architecture.md`](internals/project/architecture.md).
 There is a data flow chart and principles. This file responds to specific
 "like me..." questions.
 
@@ -20,20 +20,22 @@ python scripts/regen.py sanity   # parser + 112 automatic checks
 CI for each PR runs smoke tests, checks that `canonical_terms.json`
 `data.json` is not broken and that `parser/config.py` is imported.
 
-Where to touch what
+<a id="где-трогать-что"></a>
+## What to edit where
 
 | I want to... | Going to... |
 |---|---|
 | **Pope Love Russian label nation/buildings/options** | NO. It's from the locale of the game. Pope either locale (if you have your own mod) or run `python parser/build_canonical_terms.py` after the game patch. |
 | **Pope Compare formula/number in reference** | Find source: parser (if from `data.json`), compute script (if calculated), template (if manual prose in reference/). Do not edit the generated md in `docs/reference/` or `docs/reports/` - it will be rewritten. |
-| **Add a new section to reference** | Template to [`writers/templates/reference/<chapter>/`](writers/templates/reference/). The render logic is in [`writers/write_md_tree.py`] (writers/write_md_tree.py). |
+| **Add a new section to reference** | Template to [`writers/templates/reference/<chapter>/`](writers/templates/reference/). The render logic is in [`writers/write_md_tree.py`](writers/write_md_tree.py). |
 | **Add a new report** | Create a `compute/compute_<тема>.py` modeled after the neighbors. Issue in `docs/reports/<section>/<name>.md`. Register with `scripts/regen.py` (`reports-*` target). If a new partition is added to `docs/reports/` and mentioned in `docs/reports/README.md`. |
-| **Add a new JSON dataset** | Parser to `parser/parse_<X>.py` (if reading game files) or `compute/compute_<X>.py` (if counting from `data.json`). Issued in `derived/<name>.json`. Describe in [`derived/README.md`] (derived/README.md). |
+| **Add a new JSON dataset** | Parser to `parser/parse_<X>.py` (if reading game files) or `compute/compute_<X>.py` (if counting from `data.json`). Issued in `derived/<name>.json`. Describe in [`derived/README.md`](derived/README.md). |
 | **Pope Like prose in recon** | Right in the `docs/recon/*.md` files - they're handwritten. |
 | **Pope Explore the prose in reference** | Templates in `writers/templates/reference/<chapter>/*.md`. Regenerate: `python writers/write_md_tree.py`. |
 | **Add test** | New file in `tests/test_<тема>.py`. Standard `unittest`, no dependencies. |
 
-#
+<a id="правила"></a>
+## Rules
 
 1. **The source of truth is the game files. ** No manual translations
 or numbers. If it differs from the external guide, trust the game code.
@@ -67,7 +69,7 @@ Documentation of the engine / scripts / `data/` directory.
 6. **No emoji in code/documents unless requested. C   for behavior
 The engine can be emoji (ах/ах in tables) - but not everywhere.
 
-<a id="где-трогать-что"></a>
+<a id="как-делается-изменение"></a>
 ## How to make a change
 ```bash
 # 1. Edit the source: parser, compute script, template, or handwritten Markdown.
@@ -85,7 +87,7 @@ python scripts/regen.py sanity    # 112/112 PASS
 git add <files>
 git commit -m "<concise message>"
 ```
-<a id="правила"></a>
+<a id="стиль-коммитов"></a>
 ## Commit style
 
 `<type>(<scope>): <message>` (soft convention, no hard linter):
@@ -100,9 +102,10 @@ git commit -m "<concise message>"
 Body Commit – What and Why Has Changed If you change several files in one
 In addition, list the main ones.
 
-# When in doubt
+<a id="когда-сомневаешься"></a>
+## When in doubt
 
-Architecture and data flows — [`internals/project/architecture.md`] (internals/project/architecture.md).
+Architecture and data flows — [`internals/project/architecture.md`](internals/project/architecture.md).
 Canonical terms - [`derived/canonical_terms.json`](derived/canonical_terms.json)
 [`parser/config.py`](parser/config.py).
 Known gaps are [`internals/project/known_issues.md`](internals_en/project/known_issues.md).

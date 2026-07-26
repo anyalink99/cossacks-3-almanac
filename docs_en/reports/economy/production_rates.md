@@ -22,32 +22,33 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="содержание"></a>
 ## Contents
 
-- **[ALG - Algeria](#alg--algeria-алжир)** - [`algart`](#algart--артиллерийское-депо), [`algbar`](#algbar--казарма), [`algcen`](#algcen--городской-центр), [`algdip`](#algdip--дипломатический-центр), [`algsta`](#algsta--конюшня), [`algtem`](#algtem--мечеть), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт)
-- **[AUS - Austria](#aus--austria-австрия)** - [`ausart`](#ausart--артиллерийское-депо), [`ausba2`](#ausba2--казарма-18в), [`ausbar`](#ausbar--казарма-17в), [`auscen`](#auscen--городской-центр), [`ausdip`](#ausdip--дипломатический-центр), [`aussta`](#aussta--конюшня), [`austem`](#austem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[BAV - Bavaria](#bav--bavaria-бавария)** - [`bavart`](#bavart--артиллерийское-депо), [`bavba2`](#bavba2--казарма-18в), [`bavbar`](#bavbar--казарма-17в), [`bavcen`](#bavcen--городской-центр), [`bavdip`](#bavdip--дипломатический-центр), [`bavsta`](#bavsta--конюшня), [`bavtem`](#bavtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[DEN - Denmark](#den--denmark-дания)** - [`denart`](#denart--артиллерийское-депо), [`denba2`](#denba2--казарма-18в), [`denbar`](#denbar--казарма-17в), [`dencen`](#dencen--городской-центр), [`dendip`](#dendip--дипломатический-центр), [`densta`](#densta--конюшня), [`dentem`](#dentem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[ENG - England](#eng--england-англия)** - [`engart`](#engart--артиллерийское-депо), [`engba2`](#engba2--казарма-18в), [`engbar`](#engbar--казарма-17в), [`engcen`](#engcen--городской-центр), [`engdip`](#engdip--дипломатический-центр), [`engsta`](#engsta--конюшня), [`engtem`](#engtem--собор), [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт)
-- **[FRA - France](#fra--france-франция)** - [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`fraart`](#fraart--артиллерийское-депо), [`fraba2`](#fraba2--казарма-18в), [`frabar`](#frabar--казарма-17в), [`fracen`](#fracen--городской-центр), [`fradip`](#fradip--дипломатический-центр), [`frasta`](#frasta--конюшня), [`fratem`](#fratem--собор)
-- **[HUN - Hungary](#hun--hungary-венгрия)** - [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`hunart`](#hunart--артиллерийское-депо), [`hunba2`](#hunba2--казарма-18в), [`hunbar`](#hunbar--казарма-17в), [`huncen`](#huncen--городской-центр), [`hundip`](#hundip--дипломатический-центр), [`hunsta`](#hunsta--конюшня), [`huntem`](#huntem--собор)
-- **[NET — Netherlands](#net--netherlands-нидерланды)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`netart`](#netart--артиллерийское-депо), [`netba2`](#netba2--казарма-18в), [`netbar`](#netbar--казарма-17в), [`netcen`](#netcen--городской-центр), [`netdip`](#netdip--дипломатический-центр), [`netsta`](#netsta--конюшня), [`nettem`](#nettem--собор)
-- **[PIE — Piedmont](#pie--piedmont-пьемонт)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pieart`](#pieart--артиллерийское-депо), [`pieba2`](#pieba2--казарма-18в), [`piebar`](#piebar--казарма-17в), [`piecen`](#piecen--городской-центр), [`piedip`](#piedip--дипломатический-центр), [`piesta`](#piesta--конюшня), [`pietem`](#pietem--собор)
-- **[POL — Poland](#pol--poland-польша)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`polart`](#polart--артиллерийское-депо), [`polba2`](#polba2--казарма-18в), [`polbar`](#polbar--казарма-17в), [`polcen`](#polcen--городской-центр), [`poldip`](#poldip--дипломатический-центр), [`polsta`](#polsta--конюшня), [`poltem`](#poltem--собор)
-- **[POR — Portugal](#por--portugal-португалия)** — [`eurmil`](#eurmil--мельница), [`porart`](#porart--артиллерийское-депо), [`porba2`](#porba2--казарма-18в), [`porbar`](#porbar--казарма-17в), [`porcen`](#porcen--городской-центр), [`pordip`](#pordip--дипломатический-центр), [`porpor`](#porpor--порт), [`porsta`](#porsta--конюшня), [`portem`](#portem--собор)
-- **[PRU — Prussia](#pru--prussia-пруссия)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`pruart`](#pruart--артиллерийское-депо), [`pruba2`](#pruba2--казарма-18в), [`prubar`](#prubar--казарма-17в), [`prucen`](#prucen--городской-центр), [`prudip`](#prudip--дипломатический-центр), [`prusta`](#prusta--конюшня), [`prutem`](#prutem--собор)
-- **[RUS — Russia](#rus--russia-россия)** — [`rusart`](#rusart--артиллерийское-депо), [`rusba2`](#rusba2--казарма-18в), [`rusbar`](#rusbar--стрелецкая-казарма), [`ruscen`](#ruscen--городской-центр), [`rusdip`](#rusdip--дипломатический-центр), [`rusmil`](#rusmil--мельница), [`ruspor`](#ruspor--порт), [`russta`](#russta--конюшня), [`rustem`](#rustem--православная-церковь)
-- **[SAX — Saxony](#sax--saxony-саксония)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`saxart`](#saxart--артиллерийское-депо), [`saxba2`](#saxba2--казарма-18в), [`saxbar`](#saxbar--казарма-17в), [`saxcen`](#saxcen--городской-центр), [`saxdip`](#saxdip--дипломатический-центр), [`saxsta`](#saxsta--конюшня), [`saxtem`](#saxtem--собор)
-- **[SCO — Scotland](#sco--scotland-шотландия)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`scoart`](#scoart--артиллерийское-депо), [`scoba2`](#scoba2--замок), [`scobar`](#scobar--казарма-17в), [`scocen`](#scocen--городской-центр), [`scodip`](#scodip--дипломатический-центр), [`scosta`](#scosta--конюшня), [`scotem`](#scotem--собор)
-- **[SPA — Spain](#spa--spain-испания)** — [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`spaart`](#spaart--артиллерийское-депо), [`spaba2`](#spaba2--казарма-18в), [`spabar`](#spabar--казарма-17в), [`spacen`](#spacen--городской-центр), [`spadip`](#spadip--дипломатический-центр), [`spasta`](#spasta--конюшня), [`spatem`](#spatem--собор)
-- **[SWE - Sweden](#swe--sweden-швеция)** - [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`sweart`](#sweart--артиллерийское-депо), [`sweba2`](#sweba2--казарма-18в), [`swebar`](#swebar--казарма-17в), [`swecen`](#swecen--городской-центр), [`swedip`](#swedip--дипломатический-центр), [`swesta`](#swesta--конюшня), [`swetem`](#swetem--собор)
-- **[SWI - Switzerland](#swi--switzerland-швейцария)** - [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`swiart`](#swiart--артиллерийское-депо), [`swiba2`](#swiba2--казарма-18в), [`swibar`](#swibar--казарма-17в), [`swicen`](#swicen--городской-центр), [`swidip`](#swidip--дипломатический-центр), [`swista`](#swista--конюшня), [`switem`](#switem--собор)
-- **[TUR - Turkey](#tur--turkey-турция)** - [`turart`](#turart--артиллерийское-депо), [`turbar`](#turbar--казарма), [`turcen`](#turcen--городской-центр), [`turdip`](#turdip--дипломатический-центр), [`turmil`](#turmil--мельница), [`turpor`](#turpor--порт), [`tursta`](#tursta--конюшня), [`turtem`](#turtem--мечеть)
-- **[UKR - Ukraine](#ukr--ukraine-украина)** - [`rusmil`](#rusmil--мельница), [`ukrart`](#ukrart--артиллерийское-депо), [`ukrbar`](#ukrbar--козацкий-дом), [`ukrcen`](#ukrcen--городской-центр), [`ukrdip`](#ukrdip--дипломатический-центр), [`ukrpor`](#ukrpor--порт), [`ukrsta`](#ukrsta--конюшня), [`ukrtem`](#ukrtem--православная-церковь)
-- **[VEN - Venice](#ven--venice-венеция)** - [`eurmil`](#eurmil--мельница), [`eurpor`](#eurpor--порт), [`venart`](#venart--артиллерийское-депо), [`venba2`](#venba2--казарма-18в), [`venbar`](#venbar--казарма-17в), [`vencen`](#vencen--городской-центр), [`vendip`](#vendip--дипломатический-центр), [`vensta`](#vensta--конюшня), [`ventem`](#ventem--собор)
+- **[ALG - Algeria](#alg--algeria-алжир)** - [`algart`](#production-alg-algart), [`algbar`](#production-alg-algbar), [`algcen`](#production-alg-algcen), [`algdip`](#production-alg-algdip), [`algsta`](#production-alg-algsta), [`algtem`](#production-alg-algtem), [`turmil`](#production-alg-turmil), [`turpor`](#production-alg-turpor)
+- **[AUS - Austria](#aus--austria-австрия)** - [`ausart`](#production-aus-ausart), [`ausba2`](#production-aus-ausba2), [`ausbar`](#production-aus-ausbar), [`auscen`](#production-aus-auscen), [`ausdip`](#production-aus-ausdip), [`aussta`](#production-aus-aussta), [`austem`](#production-aus-austem), [`eurmil`](#production-aus-eurmil), [`eurpor`](#production-aus-eurpor)
+- **[BAV - Bavaria](#bav--bavaria-бавария)** - [`bavart`](#production-bav-bavart), [`bavba2`](#production-bav-bavba2), [`bavbar`](#production-bav-bavbar), [`bavcen`](#production-bav-bavcen), [`bavdip`](#production-bav-bavdip), [`bavsta`](#production-bav-bavsta), [`bavtem`](#production-bav-bavtem), [`eurmil`](#production-bav-eurmil), [`eurpor`](#production-bav-eurpor)
+- **[DEN - Denmark](#den--denmark-дания)** - [`denart`](#production-den-denart), [`denba2`](#production-den-denba2), [`denbar`](#production-den-denbar), [`dencen`](#production-den-dencen), [`dendip`](#production-den-dendip), [`densta`](#production-den-densta), [`dentem`](#production-den-dentem), [`eurmil`](#production-den-eurmil), [`eurpor`](#production-den-eurpor)
+- **[ENG - England](#eng--england-англия)** - [`engart`](#production-eng-engart), [`engba2`](#production-eng-engba2), [`engbar`](#production-eng-engbar), [`engcen`](#production-eng-engcen), [`engdip`](#production-eng-engdip), [`engsta`](#production-eng-engsta), [`engtem`](#production-eng-engtem), [`eurmil`](#production-eng-eurmil), [`eurpor`](#production-eng-eurpor)
+- **[FRA - France](#fra--france-франция)** - [`eurmil`](#production-fra-eurmil), [`eurpor`](#production-fra-eurpor), [`fraart`](#production-fra-fraart), [`fraba2`](#production-fra-fraba2), [`frabar`](#production-fra-frabar), [`fracen`](#production-fra-fracen), [`fradip`](#production-fra-fradip), [`frasta`](#production-fra-frasta), [`fratem`](#production-fra-fratem)
+- **[HUN - Hungary](#hun--hungary-венгрия)** - [`eurmil`](#production-hun-eurmil), [`eurpor`](#production-hun-eurpor), [`hunart`](#production-hun-hunart), [`hunba2`](#production-hun-hunba2), [`hunbar`](#production-hun-hunbar), [`huncen`](#production-hun-huncen), [`hundip`](#production-hun-hundip), [`hunsta`](#production-hun-hunsta), [`huntem`](#production-hun-huntem)
+- **[NET — Netherlands](#net--netherlands-нидерланды)** — [`eurmil`](#production-net-eurmil), [`eurpor`](#production-net-eurpor), [`netart`](#production-net-netart), [`netba2`](#production-net-netba2), [`netbar`](#production-net-netbar), [`netcen`](#production-net-netcen), [`netdip`](#production-net-netdip), [`netsta`](#production-net-netsta), [`nettem`](#production-net-nettem)
+- **[PIE — Piedmont](#pie--piedmont-пьемонт)** — [`eurmil`](#production-pie-eurmil), [`eurpor`](#production-pie-eurpor), [`pieart`](#production-pie-pieart), [`pieba2`](#production-pie-pieba2), [`piebar`](#production-pie-piebar), [`piecen`](#production-pie-piecen), [`piedip`](#production-pie-piedip), [`piesta`](#production-pie-piesta), [`pietem`](#production-pie-pietem)
+- **[POL — Poland](#pol--poland-польша)** — [`eurmil`](#production-pol-eurmil), [`eurpor`](#production-pol-eurpor), [`polart`](#production-pol-polart), [`polba2`](#production-pol-polba2), [`polbar`](#production-pol-polbar), [`polcen`](#production-pol-polcen), [`poldip`](#production-pol-poldip), [`polsta`](#production-pol-polsta), [`poltem`](#production-pol-poltem)
+- **[POR — Portugal](#por--portugal-португалия)** — [`eurmil`](#production-por-eurmil), [`porart`](#production-por-porart), [`porba2`](#production-por-porba2), [`porbar`](#production-por-porbar), [`porcen`](#production-por-porcen), [`pordip`](#production-por-pordip), [`porpor`](#production-por-porpor), [`porsta`](#production-por-porsta), [`portem`](#production-por-portem)
+- **[PRU — Prussia](#pru--prussia-пруссия)** — [`eurmil`](#production-pru-eurmil), [`eurpor`](#production-pru-eurpor), [`pruart`](#production-pru-pruart), [`pruba2`](#production-pru-pruba2), [`prubar`](#production-pru-prubar), [`prucen`](#production-pru-prucen), [`prudip`](#production-pru-prudip), [`prusta`](#production-pru-prusta), [`prutem`](#production-pru-prutem)
+- **[RUS — Russia](#rus--russia-россия)** — [`rusart`](#production-rus-rusart), [`rusba2`](#production-rus-rusba2), [`rusbar`](#production-rus-rusbar), [`ruscen`](#production-rus-ruscen), [`rusdip`](#production-rus-rusdip), [`rusmil`](#production-rus-rusmil), [`ruspor`](#production-rus-ruspor), [`russta`](#production-rus-russta), [`rustem`](#production-rus-rustem)
+- **[SAX — Saxony](#sax--saxony-саксония)** — [`eurmil`](#production-sax-eurmil), [`eurpor`](#production-sax-eurpor), [`saxart`](#production-sax-saxart), [`saxba2`](#production-sax-saxba2), [`saxbar`](#production-sax-saxbar), [`saxcen`](#production-sax-saxcen), [`saxdip`](#production-sax-saxdip), [`saxsta`](#production-sax-saxsta), [`saxtem`](#production-sax-saxtem)
+- **[SCO — Scotland](#sco--scotland-шотландия)** — [`eurmil`](#production-sco-eurmil), [`eurpor`](#production-sco-eurpor), [`scoart`](#production-sco-scoart), [`scoba2`](#production-sco-scoba2), [`scobar`](#production-sco-scobar), [`scocen`](#production-sco-scocen), [`scodip`](#production-sco-scodip), [`scosta`](#production-sco-scosta), [`scotem`](#production-sco-scotem)
+- **[SPA — Spain](#spa--spain-испания)** — [`eurmil`](#production-spa-eurmil), [`eurpor`](#production-spa-eurpor), [`spaart`](#production-spa-spaart), [`spaba2`](#production-spa-spaba2), [`spabar`](#production-spa-spabar), [`spacen`](#production-spa-spacen), [`spadip`](#production-spa-spadip), [`spasta`](#production-spa-spasta), [`spatem`](#production-spa-spatem)
+- **[SWE - Sweden](#swe--sweden-швеция)** - [`eurmil`](#production-swe-eurmil), [`eurpor`](#production-swe-eurpor), [`sweart`](#production-swe-sweart), [`sweba2`](#production-swe-sweba2), [`swebar`](#production-swe-swebar), [`swecen`](#production-swe-swecen), [`swedip`](#production-swe-swedip), [`swesta`](#production-swe-swesta), [`swetem`](#production-swe-swetem)
+- **[SWI - Switzerland](#swi--switzerland-швейцария)** - [`eurmil`](#production-swi-eurmil), [`eurpor`](#production-swi-eurpor), [`swiart`](#production-swi-swiart), [`swiba2`](#production-swi-swiba2), [`swibar`](#production-swi-swibar), [`swicen`](#production-swi-swicen), [`swidip`](#production-swi-swidip), [`swista`](#production-swi-swista), [`switem`](#production-swi-switem)
+- **[TUR - Turkey](#tur--turkey-турция)** - [`turart`](#production-tur-turart), [`turbar`](#production-tur-turbar), [`turcen`](#production-tur-turcen), [`turdip`](#production-tur-turdip), [`turmil`](#production-tur-turmil), [`turpor`](#production-tur-turpor), [`tursta`](#production-tur-tursta), [`turtem`](#production-tur-turtem)
+- **[UKR - Ukraine](#ukr--ukraine-украина)** - [`rusmil`](#production-ukr-rusmil), [`ukrart`](#production-ukr-ukrart), [`ukrbar`](#production-ukr-ukrbar), [`ukrcen`](#production-ukr-ukrcen), [`ukrdip`](#production-ukr-ukrdip), [`ukrpor`](#production-ukr-ukrpor), [`ukrsta`](#production-ukr-ukrsta), [`ukrtem`](#production-ukr-ukrtem)
+- **[VEN - Venice](#ven--venice-венеция)** - [`eurmil`](#production-ven-eurmil), [`eurpor`](#production-ven-eurpor), [`venart`](#production-ven-venart), [`venba2`](#production-ven-venba2), [`venbar`](#production-ven-venbar), [`vencen`](#production-ven-vencen), [`vendip`](#production-ven-vendip), [`vensta`](#production-ven-vensta), [`ventem`](#production-ven-ventem)
 
 <a id="alg--algeria-алжир"></a>
 <a id="алжир"></a>
 ## Algeria (`alg`)
 <a id="algart--артиллерийское-депо"></a>
+<a id="production-alg-algart"></a>
 <a id="артиллерийское-депо--algart"></a>
 ### `algart` — Artillery Depot
 
@@ -58,6 +59,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
 <a id="algbar--казарма"></a>
+<a id="production-alg-algbar"></a>
 <a id="казарма--algbar"></a>
 ### `algbar` — Barracks
 
@@ -70,6 +72,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemantur` | Ottoman Pikeman | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
 
 <a id="algcen--городской-центр"></a>
+<a id="production-alg-algcen"></a>
 <a id="городской-центр--algcen"></a>
 ### `algcen` — Town Hall
 
@@ -78,6 +81,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peatur` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
 
 <a id="algdip--дипломатический-центр"></a>
+<a id="production-alg-algdip"></a>
 <a id="дипломатический-центр--algdip"></a>
 ### `algdip` — Diplomatic Center
 
@@ -93,6 +97,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="algsta--конюшня"></a>
+<a id="production-alg-algsta"></a>
 <a id="конюшня--algsta"></a>
 ### `algsta` — Stable
 
@@ -101,6 +106,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mameluke` | Mameluke | 12.00 | 5.0 | **7.0** | 100 | 8 | 0 | 1 | 60 |
 
 <a id="algtem--мечеть"></a>
+<a id="production-alg-algtem"></a>
 <a id="мечеть--algtem"></a>
 ### `algtem` — Mosque
 
@@ -108,12 +114,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `mullah` | Mullah | 15.00 | 4.0 | **5.6** | 30 | 10 | 0 | 1 | — |
 
+<a id="production-alg-turmil"></a>
 <a id="мельница--turmil"></a>
 ### `turmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
+<a id="production-alg-turpor"></a>
 <a id="порт--turpor"></a>
 ### `turpor` — Shipyard
 
@@ -131,6 +139,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="австрия"></a>
 ## Austria (`aus`)
 <a id="ausart--артиллерийское-депо"></a>
+<a id="production-aus-ausart"></a>
 <a id="артиллерийское-депо--ausart"></a>
 ### `ausart` — Artillery Depot
 
@@ -142,6 +151,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="ausba2--казарма-18в"></a>
+<a id="production-aus-ausba2"></a>
 <a id="казарма-18в--ausba2"></a>
 ### `ausba2` — Barracks, 18th century
 
@@ -155,6 +165,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="ausbar--казарма-17в"></a>
+<a id="production-aus-ausbar"></a>
 <a id="казарма-17в--ausbar"></a>
 ### `ausbar` — Barracks, 17th century
 
@@ -166,6 +177,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 | `roundshier` | Roundshier | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
 <a id="auscen--городской-центр"></a>
+<a id="production-aus-auscen"></a>
 <a id="городской-центр--auscen"></a>
 ### `auscen` — Town Hall
 
@@ -174,6 +186,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="ausdip--дипломатический-центр"></a>
+<a id="production-aus-ausdip"></a>
 <a id="дипломатический-центр--ausdip"></a>
 ### `ausdip` — Diplomatic Center
 
@@ -189,6 +202,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="aussta--конюшня"></a>
+<a id="production-aus-aussta"></a>
 <a id="конюшня--aussta"></a>
 ### `aussta` — Stable
 
@@ -202,6 +216,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="austem--собор"></a>
+<a id="production-aus-austem"></a>
 <a id="собор--austem"></a>
 ### `austem` — Cathedral
 
@@ -209,12 +224,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `priest` | Priest | 20.00 | 3.0 | **4.2** | 60 | 25 | 0 | 1 | — |
 
+<a id="production-aus-eurmil"></a>
 <a id="мельница--eurmil"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
+<a id="production-aus-eurpor"></a>
 <a id="порт--eurpor"></a>
 ### `eurpor` — Shipyard
 
@@ -233,6 +250,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="бавария"></a>
 ## Bavaria (`bav`)
 <a id="bavart--артиллерийское-депо"></a>
+<a id="production-bav-bavart"></a>
 <a id="артиллерийское-депо--bavart"></a>
 ### `bavart` — Artillery Depot
 
@@ -244,6 +262,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="bavba2--казарма-18в"></a>
+<a id="production-bav-bavba2"></a>
 <a id="казарма-18в--bavba2"></a>
 ### `bavba2` — Barracks, 18th century
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -255,6 +274,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="bavbar--казарма-17в"></a>
+<a id="production-bav-bavbar"></a>
 <a id="казарма-17в--bavbar"></a>
 ### `bavbar` — Barracks, 17th century
 
@@ -266,6 +286,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="bavcen--городской-центр"></a>
+<a id="production-bav-bavcen"></a>
 <a id="городской-центр--bavcen"></a>
 ### `bavcen` — Town Hall
 
@@ -274,6 +295,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="bavdip--дипломатический-центр"></a>
+<a id="production-bav-bavdip"></a>
 <a id="дипломатический-центр--bavdip"></a>
 ### `bavdip` — Diplomatic Center
 
@@ -289,6 +311,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="bavsta--конюшня"></a>
+<a id="production-bav-bavsta"></a>
 <a id="конюшня--bavsta"></a>
 ### `bavsta` — Stable
 
@@ -301,6 +324,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="bavtem--собор"></a>
+<a id="production-bav-bavtem"></a>
 <a id="собор--bavtem"></a>
 ### `bavtem` — Cathedral
 
@@ -309,12 +333,16 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `priest` | Priest | 20.00 | 3.0 | **4.2** | 60 | 25 | 0 | 1 | — |
 
 <a id="eurmil--мельница"></a>
+<a id="production-bav-eurmil"></a>
+<a id="мельница--eurmil-1"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
 <a id="eurpor--порт"></a>
+<a id="production-bav-eurpor"></a>
+<a id="порт--eurpor-1"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -332,6 +360,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="дания"></a>
 ## Denmark (`den`)
 <a id="denart--артиллерийское-депо"></a>
+<a id="production-den-denart"></a>
 <a id="артиллерийское-депо--denart"></a>
 ### `denart` — Artillery Depot
 
@@ -343,6 +372,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="denba2--казарма-18в"></a>
+<a id="production-den-denba2"></a>
 <a id="казарма-18в--denba2"></a>
 ### `denba2` — Barracks, 18th century
 
@@ -355,6 +385,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="denbar--казарма-17в"></a>
+<a id="production-den-denbar"></a>
 <a id="казарма-17в--denbar"></a>
 ### `denbar` — Barracks, 17th century
 
@@ -366,6 +397,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="dencen--городской-центр"></a>
+<a id="production-den-dencen"></a>
 <a id="городской-центр--dencen"></a>
 ### `dencen` — Town Hall
 
@@ -374,6 +406,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="dendip--дипломатический-центр"></a>
+<a id="production-den-dendip"></a>
 <a id="дипломатический-центр--dendip"></a>
 ### `dendip` — Diplomatic Center
 
@@ -389,6 +422,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="densta--конюшня"></a>
+<a id="production-den-densta"></a>
 <a id="конюшня--densta"></a>
 ### `densta` — Stable
 
@@ -401,6 +435,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="dentem--собор"></a>
+<a id="production-den-dentem"></a>
 <a id="собор--dentem"></a>
 ### `dentem` — Cathedral
 
@@ -408,13 +443,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `priest` | Priest | 20.00 | 3.0 | **4.2** | 60 | 25 | 0 | 1 | — |
 
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-1"></a>
+<a id="production-den-eurmil"></a>
+<a id="мельница--eurmil-2"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-1"></a>
+<a id="production-den-eurpor"></a>
+<a id="порт--eurpor-2"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -432,6 +471,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="англия"></a>
 ## England (`eng`)
 <a id="engart--артиллерийское-депо"></a>
+<a id="production-eng-engart"></a>
 <a id="артиллерийское-депо--engart"></a>
 ### `engart` — Artillery Depot
 
@@ -443,6 +483,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="engba2--казарма-18в"></a>
+<a id="production-eng-engba2"></a>
 <a id="казарма-18в--engba2"></a>
 ### `engba2` — Barracks, 18th century
 
@@ -456,6 +497,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="engbar--казарма-17в"></a>
+<a id="production-eng-engbar"></a>
 <a id="казарма-17в--engbar"></a>
 ### `engbar` — Barracks, 17th century
 
@@ -467,6 +509,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="engcen--городской-центр"></a>
+<a id="production-eng-engcen"></a>
 <a id="городской-центр--engcen"></a>
 ### `engcen` — Town Hall
 
@@ -475,6 +518,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="engdip--дипломатический-центр"></a>
+<a id="production-eng-engdip"></a>
 <a id="дипломатический-центр--engdip"></a>
 ### `engdip` — Diplomatic Center
 
@@ -490,6 +534,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="engsta--конюшня"></a>
+<a id="production-eng-engsta"></a>
 <a id="конюшня--engsta"></a>
 ### `engsta` — Stable
 
@@ -502,6 +547,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="engtem--собор"></a>
+<a id="production-eng-engtem"></a>
 <a id="собор--engtem"></a>
 ### `engtem` — Cathedral
 
@@ -509,13 +555,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `priest` | Priest | 20.00 | 3.0 | **4.2** | 60 | 25 | 0 | 1 | — |
 
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-2"></a>
+<a id="production-eng-eurmil"></a>
+<a id="мельница--eurmil-3"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-2"></a>
+<a id="production-eng-eurpor"></a>
+<a id="порт--eurpor-3"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -532,13 +582,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="fra--france-франция"></a>
 <a id="франция"></a>
 ## France (`fra`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-3"></a>
+<a id="production-fra-eurmil"></a>
+<a id="мельница--eurmil-4"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-3"></a>
+<a id="production-fra-eurpor"></a>
+<a id="порт--eurpor-4"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -551,6 +605,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="fraart--артиллерийское-депо"></a>
+<a id="production-fra-fraart"></a>
 <a id="артиллерийское-депо--fraart"></a>
 ### `fraart` — Artillery Depot
 
@@ -562,6 +617,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="fraba2--казарма-18в"></a>
+<a id="production-fra-fraba2"></a>
 <a id="казарма-18в--fraba2"></a>
 ### `fraba2` — Barracks, 18th century
 
@@ -575,6 +631,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="frabar--казарма-17в"></a>
+<a id="production-fra-frabar"></a>
 <a id="казарма-17в--frabar"></a>
 ### `frabar` — Barracks, 17th century
 
@@ -586,6 +643,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="fracen--городской-центр"></a>
+<a id="production-fra-fracen"></a>
 <a id="городской-центр--fracen"></a>
 ### `fracen` — Town Hall
 
@@ -594,6 +652,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="fradip--дипломатический-центр"></a>
+<a id="production-fra-fradip"></a>
 <a id="дипломатический-центр--fradip"></a>
 ### `fradip` — Diplomatic Center
 
@@ -609,6 +668,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="frasta--конюшня"></a>
+<a id="production-fra-frasta"></a>
 <a id="конюшня--frasta"></a>
 ### `frasta` — Stable
 
@@ -622,6 +682,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="fratem--собор"></a>
+<a id="production-fra-fratem"></a>
 <a id="собор--fratem"></a>
 ### `fratem` — Cathedral
 
@@ -634,11 +695,15 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="hun--hungary-венгрия"></a>
 <a id="венгрия"></a>
 ## Hungary (`hun`)
+<a id="production-hun-eurmil"></a>
+<a id="мельница--eurmil-5"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
+<a id="production-hun-eurpor"></a>
+<a id="порт--eurpor-5"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -651,6 +716,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="hunart--артиллерийское-депо"></a>
+<a id="production-hun-hunart"></a>
 <a id="артиллерийское-депо--hunart"></a>
 ### `hunart` — Artillery Depot
 
@@ -662,6 +728,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="hunba2--казарма-18в"></a>
+<a id="production-hun-hunba2"></a>
 <a id="казарма-18в--hunba2"></a>
 ### `hunba2` — Barracks, 18th century
 
@@ -675,6 +742,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="hunbar--казарма-17в"></a>
+<a id="production-hun-hunbar"></a>
 <a id="казарма-17в--hunbar"></a>
 ### `hunbar` — Barracks, 17th century
 
@@ -686,6 +754,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="huncen--городской-центр"></a>
+<a id="production-hun-huncen"></a>
 <a id="городской-центр--huncen"></a>
 ### `huncen` — Town Hall
 
@@ -694,6 +763,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peapol` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="hundip--дипломатический-центр"></a>
+<a id="production-hun-hundip"></a>
 <a id="дипломатический-центр--hundip"></a>
 ### `hundip` — Diplomatic Center
 
@@ -709,6 +779,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="hunsta--конюшня"></a>
+<a id="production-hun-hunsta"></a>
 <a id="конюшня--hunsta"></a>
 ### `hunsta` — Stable
 
@@ -721,6 +792,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="huntem--собор"></a>
+<a id="production-hun-huntem"></a>
 <a id="собор--huntem"></a>
 ### `huntem` — Cathedral
 
@@ -733,11 +805,15 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="net--netherlands-нидерланды"></a>
 <a id="нидерланды"></a>
 ## Netherlands (`net`)
+<a id="production-net-eurmil"></a>
+<a id="мельница--eurmil-6"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
+<a id="production-net-eurpor"></a>
+<a id="порт--eurpor-6"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -750,6 +826,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="netart--артиллерийское-депо"></a>
+<a id="production-net-netart"></a>
 <a id="артиллерийское-депо--netart"></a>
 ### `netart` — Artillery Depot
 
@@ -761,6 +838,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="netba2--казарма-18в"></a>
+<a id="production-net-netba2"></a>
 <a id="казарма-18в--netba2"></a>
 ### `netba2` — Barracks, 18th century
 
@@ -773,6 +851,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="netbar--казарма-17в"></a>
+<a id="production-net-netbar"></a>
 <a id="казарма-17в--netbar"></a>
 ### `netbar` — Barracks, 17th century
 
@@ -784,6 +863,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="netcen--городской-центр"></a>
+<a id="production-net-netcen"></a>
 <a id="городской-центр--netcen"></a>
 ### `netcen` — Town Hall
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -791,6 +871,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="netdip--дипломатический-центр"></a>
+<a id="production-net-netdip"></a>
 <a id="дипломатический-центр--netdip"></a>
 ### `netdip` — Diplomatic Center
 
@@ -806,6 +887,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="netsta--конюшня"></a>
+<a id="production-net-netsta"></a>
 <a id="конюшня--netsta"></a>
 ### `netsta` — Stable
 
@@ -818,6 +900,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="nettem--собор"></a>
+<a id="production-net-nettem"></a>
 <a id="собор--nettem"></a>
 ### `nettem` — Cathedral
 
@@ -830,13 +913,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="pie--piedmont-пьемонт"></a>
 <a id="пьемонт"></a>
 ## Piedmont (`pie`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-4"></a>
+<a id="production-pie-eurmil"></a>
+<a id="мельница--eurmil-7"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-4"></a>
+<a id="production-pie-eurpor"></a>
+<a id="порт--eurpor-7"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -849,6 +936,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="pieart--артиллерийское-депо"></a>
+<a id="production-pie-pieart"></a>
 <a id="артиллерийское-депо--pieart"></a>
 ### `pieart` — Artillery Depot
 
@@ -860,6 +948,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="pieba2--казарма-18в"></a>
+<a id="production-pie-pieba2"></a>
 <a id="казарма-18в--pieba2"></a>
 ### `pieba2` — Barracks, 18th century
 
@@ -872,6 +961,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="piebar--казарма-17в"></a>
+<a id="production-pie-piebar"></a>
 <a id="казарма-17в--piebar"></a>
 ### `piebar` — Barracks, 17th century
 
@@ -883,6 +973,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="piecen--городской-центр"></a>
+<a id="production-pie-piecen"></a>
 <a id="городской-центр--piecen"></a>
 ### `piecen` — Town Hall
 
@@ -891,6 +982,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="piedip--дипломатический-центр"></a>
+<a id="production-pie-piedip"></a>
 <a id="дипломатический-центр--piedip"></a>
 ### `piedip` — Diplomatic Center
 
@@ -906,6 +998,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="piesta--конюшня"></a>
+<a id="production-pie-piesta"></a>
 <a id="конюшня--piesta"></a>
 ### `piesta` — Stable
 
@@ -918,6 +1011,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="pietem--собор"></a>
+<a id="production-pie-pietem"></a>
 <a id="собор--pietem"></a>
 ### `pietem` — Cathedral
 
@@ -930,13 +1024,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="pol--poland-польша"></a>
 <a id="польша"></a>
 ## Poland (`pol`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-5"></a>
+<a id="production-pol-eurmil"></a>
+<a id="мельница--eurmil-8"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-5"></a>
+<a id="production-pol-eurpor"></a>
+<a id="порт--eurpor-8"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -949,6 +1047,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="polart--артиллерийское-депо"></a>
+<a id="production-pol-polart"></a>
 <a id="артиллерийское-депо--polart"></a>
 ### `polart` — Artillery Depot
 
@@ -960,6 +1059,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="polba2--казарма-18в"></a>
+<a id="production-pol-polba2"></a>
 <a id="казарма-18в--polba2"></a>
 ### `polba2` — Barracks, 18th century
 
@@ -972,6 +1072,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="polbar--казарма-17в"></a>
+<a id="production-pol-polbar"></a>
 <a id="казарма-17в--polbar"></a>
 ### `polbar` — Barracks, 17th century
 
@@ -983,6 +1084,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemanpol` | Pikeman, 17th century | 3.00 | 20.0 | **28.0** | 25 | 1 | 0 | 1 | — |
 
 <a id="polcen--городской-центр"></a>
+<a id="production-pol-polcen"></a>
 <a id="городской-центр--polcen"></a>
 ### `polcen` — Town Hall
 
@@ -991,6 +1093,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peapol` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="poldip--дипломатический-центр"></a>
+<a id="production-pol-poldip"></a>
 <a id="дипломатический-центр--poldip"></a>
 ### `poldip` — Diplomatic Center
 
@@ -1006,6 +1109,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="polsta--конюшня"></a>
+<a id="production-pol-polsta"></a>
 <a id="конюшня--polsta"></a>
 ### `polsta` — Stable
 
@@ -1020,6 +1124,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `wingedhussar` | Winged Hussar | 26.00 | 2.3 | **3.2** | 130 | 30 | 25 | 1 | 75 |
 
 <a id="poltem--собор"></a>
+<a id="production-pol-poltem"></a>
 <a id="собор--poltem"></a>
 ### `poltem` — Cathedral
 
@@ -1032,13 +1137,16 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="por--portugal-португалия"></a>
 <a id="португалия"></a>
 ## Portugal (`por`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-6"></a>
+<a id="production-por-eurmil"></a>
+<a id="мельница--eurmil-9"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
 <a id="porart--артиллерийское-депо"></a>
+<a id="production-por-porart"></a>
 <a id="артиллерийское-депо--porart"></a>
 ### `porart` — Artillery Depot
 
@@ -1050,6 +1158,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="porba2--казарма-18в"></a>
+<a id="production-por-porba2"></a>
 <a id="казарма-18в--porba2"></a>
 ### `porba2` — Barracks, 18th century
 
@@ -1063,6 +1172,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="porbar--казарма-17в"></a>
+<a id="production-por-porbar"></a>
 <a id="казарма-17в--porbar"></a>
 ### `porbar` — Barracks, 17th century
 
@@ -1074,6 +1184,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemanpor` | Pikeman, 17th century | 4.00 | 15.0 | **21.0** | 40 | 4 | 5 | 1 | — |
 
 <a id="porcen--городской-центр"></a>
+<a id="production-por-porcen"></a>
 <a id="городской-центр--porcen"></a>
 ### `porcen` — Town Hall
 
@@ -1082,6 +1193,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="pordip--дипломатический-центр"></a>
+<a id="production-por-pordip"></a>
 <a id="дипломатический-центр--pordip"></a>
 ### `pordip` — Diplomatic Center
 
@@ -1097,6 +1209,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="porpor--порт"></a>
+<a id="production-por-porpor"></a>
 <a id="порт--porpor"></a>
 ### `porpor` — Shipyard
 
@@ -1110,6 +1223,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="porsta--конюшня"></a>
+<a id="production-por-porsta"></a>
 <a id="конюшня--porsta"></a>
 ### `porsta` — Stable
 
@@ -1122,6 +1236,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="portem--собор"></a>
+<a id="production-por-portem"></a>
 <a id="собор--portem"></a>
 ### `portem` — Cathedral
 
@@ -1134,13 +1249,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="pru--prussia-пруссия"></a>
 <a id="пруссия"></a>
 ## Prussia (`pru`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-7"></a>
+<a id="production-pru-eurmil"></a>
+<a id="мельница--eurmil-10"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-6"></a>
+<a id="production-pru-eurpor"></a>
+<a id="порт--eurpor-9"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1153,6 +1272,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="pruart--артиллерийское-депо"></a>
+<a id="production-pru-pruart"></a>
 <a id="артиллерийское-депо--pruart"></a>
 ### `pruart` — Artillery Depot
 
@@ -1164,6 +1284,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="pruba2--казарма-18в"></a>
+<a id="production-pru-pruba2"></a>
 <a id="казарма-18в--pruba2"></a>
 ### `pruba2` — Barracks, 18th century
 
@@ -1177,6 +1298,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="prubar--казарма-17в"></a>
+<a id="production-pru-prubar"></a>
 <a id="казарма-17в--prubar"></a>
 ### `prubar` — Barracks, 17th century
 
@@ -1188,6 +1310,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="prucen--городской-центр"></a>
+<a id="production-pru-prucen"></a>
 <a id="городской-центр--prucen"></a>
 ### `prucen` — Town Hall
 
@@ -1196,6 +1319,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="prudip--дипломатический-центр"></a>
+<a id="production-pru-prudip"></a>
 <a id="дипломатический-центр--prudip"></a>
 ### `prudip` — Diplomatic Center
 
@@ -1211,6 +1335,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="prusta--конюшня"></a>
+<a id="production-pru-prusta"></a>
 <a id="конюшня--prusta"></a>
 ### `prusta` — Stable
 
@@ -1223,6 +1348,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="prutem--собор"></a>
+<a id="production-pru-prutem"></a>
 <a id="собор--prutem"></a>
 ### `prutem` — Cathedral
 
@@ -1236,6 +1362,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="россия"></a>
 ## Russia (`rus`)
 <a id="rusart--артиллерийское-депо"></a>
+<a id="production-rus-rusart"></a>
 <a id="артиллерийское-депо--rusart"></a>
 ### `rusart` — Artillery Depot
 
@@ -1247,6 +1374,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="rusba2--казарма-18в"></a>
+<a id="production-rus-rusba2"></a>
 <a id="казарма-18в--rusba2"></a>
 ### `rusba2` — Barracks, 18th century
 
@@ -1259,6 +1387,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="rusbar--стрелецкая-казарма"></a>
+<a id="production-rus-rusbar"></a>
 <a id="стрелецкая-казарма--rusbar"></a>
 ### `rusbar` — Strelets Barracks
 
@@ -1270,6 +1399,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `strelet` | Strelets | 8.50 | 7.1 | **9.9** | 70 | 7 | 9 | 1 | — |
 
 <a id="ruscen--городской-центр"></a>
+<a id="production-rus-ruscen"></a>
 <a id="городской-центр--ruscen"></a>
 ### `ruscen` — Town Hall
 
@@ -1278,6 +1408,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pearus` | Serf | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 26 |
 
 <a id="rusdip--дипломатический-центр"></a>
+<a id="production-rus-rusdip"></a>
 <a id="дипломатический-центр--rusdip"></a>
 ### `rusdip` — Diplomatic Center
 
@@ -1293,6 +1424,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="rusmil--мельница"></a>
+<a id="production-rus-rusmil"></a>
 <a id="мельница--rusmil"></a>
 ### `rusmil` — Mill
 
@@ -1300,6 +1432,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
 <a id="ruspor--порт"></a>
+<a id="production-rus-ruspor"></a>
 <a id="порт--ruspor"></a>
 ### `ruspor` — Shipyard
 
@@ -1313,6 +1446,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="russta--конюшня"></a>
+<a id="production-rus-russta"></a>
 <a id="конюшня--russta"></a>
 ### `russta` — Stable
 
@@ -1325,6 +1459,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `vityaz` | Vityaz | 25.50 | 2.4 | **3.3** | 160 | 13 | 25 | 1 | 75 |
 
 <a id="rustem--православная-церковь"></a>
+<a id="production-rus-rustem"></a>
 <a id="православная-церковь--rustem"></a>
 ### `rustem` — Orthodox Cathedral
 
@@ -1337,13 +1472,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="sax--saxony-саксония"></a>
 <a id="саксония"></a>
 ## Saxony (`sax`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-8"></a>
+<a id="production-sax-eurmil"></a>
+<a id="мельница--eurmil-11"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-7"></a>
+<a id="production-sax-eurpor"></a>
+<a id="порт--eurpor-10"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1356,6 +1495,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="saxart--артиллерийское-депо"></a>
+<a id="production-sax-saxart"></a>
 <a id="артиллерийское-депо--saxart"></a>
 ### `saxart` — Artillery Depot
 
@@ -1367,6 +1507,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="saxba2--казарма-18в"></a>
+<a id="production-sax-saxba2"></a>
 <a id="казарма-18в--saxba2"></a>
 ### `saxba2` — Barracks, 18th century
 
@@ -1379,6 +1520,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="saxbar--казарма-17в"></a>
+<a id="production-sax-saxbar"></a>
 <a id="казарма-17в--saxbar"></a>
 ### `saxbar` — Barracks, 17th century
 
@@ -1390,6 +1532,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="saxcen--городской-центр"></a>
+<a id="production-sax-saxcen"></a>
 <a id="городской-центр--saxcen"></a>
 ### `saxcen` — Town Hall
 
@@ -1398,6 +1541,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="saxdip--дипломатический-центр"></a>
+<a id="production-sax-saxdip"></a>
 <a id="дипломатический-центр--saxdip"></a>
 ### `saxdip` — Diplomatic Center
 
@@ -1413,6 +1557,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="saxsta--конюшня"></a>
+<a id="production-sax-saxsta"></a>
 <a id="конюшня--saxsta"></a>
 ### `saxsta` — Stable
 
@@ -1426,6 +1571,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="saxtem--собор"></a>
+<a id="production-sax-saxtem"></a>
 <a id="собор--saxtem"></a>
 ### `saxtem` — Cathedral
 
@@ -1438,13 +1584,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="sco--scotland-шотландия"></a>
 <a id="шотландия"></a>
 ## Scotland (`sco`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-9"></a>
+<a id="production-sco-eurmil"></a>
+<a id="мельница--eurmil-12"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-8"></a>
+<a id="production-sco-eurpor"></a>
+<a id="порт--eurpor-11"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1456,6 +1606,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="scoart--артиллерийское-депо"></a>
+<a id="production-sco-scoart"></a>
 <a id="артиллерийское-депо--scoart"></a>
 ### `scoart` — Artillery Depot
 
@@ -1467,6 +1618,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
 <a id="scoba2--замок"></a>
+<a id="production-sco-scoba2"></a>
 <a id="замок--scoba2"></a>
 ### `scoba2` — Castle
 
@@ -1476,6 +1628,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `swordsmansco` | Sword Clansman | 7.00 | 8.6 | **12.0** | 110 | 10 | 0 | 1 | 45 |
 
 <a id="scobar--казарма-17в"></a>
+<a id="production-sco-scobar"></a>
 <a id="казарма-17в--scobar"></a>
 ### `scobar` — Barracks, 17th century
 
@@ -1487,6 +1640,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemansco` | Covenanter pikeman | 4.00 | 15.0 | **21.0** | 35 | 2 | 0 | 1 | — |
 
 <a id="scocen--городской-центр"></a>
+<a id="production-sco-scocen"></a>
 <a id="городской-центр--scocen"></a>
 ### `scocen` — Town Hall
 
@@ -1495,6 +1649,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peasco` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="scodip--дипломатический-центр"></a>
+<a id="production-sco-scodip"></a>
 <a id="дипломатический-центр--scodip"></a>
 ### `scodip` — Diplomatic Center
 
@@ -1510,6 +1665,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | 45 |
 
 <a id="scosta--конюшня"></a>
+<a id="production-sco-scosta"></a>
 <a id="конюшня--scosta"></a>
 ### `scosta` — Stable
 
@@ -1519,6 +1675,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `raidersco` | Raider | 22.50 | 2.7 | **3.7** | 130 | 8 | 2 | 1 | 75 |
 
 <a id="scotem--собор"></a>
+<a id="production-sco-scotem"></a>
 <a id="собор--scotem"></a>
 ### `scotem` — Cathedral
 
@@ -1531,13 +1688,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="spa--spain-испания"></a>
 <a id="испания"></a>
 ## Spain (`spa`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-10"></a>
+<a id="production-spa-eurmil"></a>
+<a id="мельница--eurmil-13"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-9"></a>
+<a id="production-spa-eurpor"></a>
+<a id="порт--eurpor-12"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1550,6 +1711,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="spaart--артиллерийское-депо"></a>
+<a id="production-spa-spaart"></a>
 <a id="артиллерийское-депо--spaart"></a>
 ### `spaart` — Artillery Depot
 
@@ -1561,6 +1723,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="spaba2--казарма-18в"></a>
+<a id="production-spa-spaba2"></a>
 <a id="казарма-18в--spaba2"></a>
 ### `spaba2` — Barracks, 18th century
 
@@ -1573,6 +1736,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="spabar--казарма-17в"></a>
+<a id="production-spa-spabar"></a>
 <a id="казарма-17в--spabar"></a>
 ### `spabar` — Barracks, 17th century
 
@@ -1585,6 +1749,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemanspa` | Coselete | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
 
 <a id="spacen--городской-центр"></a>
+<a id="production-spa-spacen"></a>
 <a id="городской-центр--spacen"></a>
 ### `spacen` — Town Hall
 
@@ -1593,6 +1758,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="spadip--дипломатический-центр"></a>
+<a id="production-spa-spadip"></a>
 <a id="дипломатический-центр--spadip"></a>
 ### `spadip` — Diplomatic Center
 
@@ -1608,6 +1774,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="spasta--конюшня"></a>
+<a id="production-spa-spasta"></a>
 <a id="конюшня--spasta"></a>
 ### `spasta` — Stable
 
@@ -1620,6 +1787,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="spatem--собор"></a>
+<a id="production-spa-spatem"></a>
 <a id="собор--spatem"></a>
 ### `spatem` — Cathedral
 
@@ -1632,11 +1800,15 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="swe--sweden-швеция"></a>
 <a id="швеция"></a>
 ## Sweden (`swe`)
+<a id="production-swe-eurmil"></a>
+<a id="мельница--eurmil-14"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
+<a id="production-swe-eurpor"></a>
+<a id="порт--eurpor-13"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1648,6 +1820,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 <a id="sweart--артиллерийское-депо"></a>
+<a id="production-swe-sweart"></a>
 <a id="артиллерийское-депо--sweart"></a>
 ### `sweart` — Artillery Depot
 
@@ -1659,6 +1832,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="sweba2--казарма-18в"></a>
+<a id="production-swe-sweba2"></a>
 <a id="казарма-18в--sweba2"></a>
 ### `sweba2` — Barracks, 18th century
 
@@ -1671,6 +1845,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18swe` | Pikeman, 18th century | 1.50 | 40.0 | **56.0** | 40 | 3 | 0 | 1 | — |
 
 <a id="swebar--казарма-17в"></a>
+<a id="production-swe-swebar"></a>
 <a id="казарма-17в--swebar"></a>
 ### `swebar` — Barracks, 17th century
 
@@ -1682,6 +1857,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="swecen--городской-центр"></a>
+<a id="production-swe-swecen"></a>
 <a id="городской-центр--swecen"></a>
 ### `swecen` — Town Hall
 
@@ -1690,6 +1866,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="swedip--дипломатический-центр"></a>
+<a id="production-swe-swedip"></a>
 <a id="дипломатический-центр--swedip"></a>
 ### `swedip` — Diplomatic Center
 
@@ -1705,6 +1882,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="swesta--конюшня"></a>
+<a id="production-swe-swesta"></a>
 <a id="конюшня--swesta"></a>
 ### `swesta` — Stable
 
@@ -1718,6 +1896,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiterswe` | Swedish Reiter | 22.50 | 2.7 | **3.7** | 130 | 7 | 20 | 1 | 75 |
 
 <a id="swetem--собор"></a>
+<a id="production-swe-swetem"></a>
 <a id="собор--swetem"></a>
 ### `swetem` — Cathedral
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1729,13 +1908,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="swi--switzerland-швейцария"></a>
 <a id="швейцария"></a>
 ## Switzerland (`swi`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-11"></a>
+<a id="production-swi-eurmil"></a>
+<a id="мельница--eurmil-15"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-10"></a>
+<a id="production-swi-eurpor"></a>
+<a id="порт--eurpor-14"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1748,6 +1931,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="swiart--артиллерийское-депо"></a>
+<a id="production-swi-swiart"></a>
 <a id="артиллерийское-депо--swiart"></a>
 ### `swiart` — Artillery Depot
 
@@ -1759,6 +1943,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="swiba2--казарма-18в"></a>
+<a id="production-swi-swiba2"></a>
 <a id="казарма-18в--swiba2"></a>
 ### `swiba2` — Barracks, 18th century
 
@@ -1772,6 +1957,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="swibar--казарма-17в"></a>
+<a id="production-swi-swibar"></a>
 <a id="казарма-17в--swibar"></a>
 ### `swibar` — Barracks, 17th century
 
@@ -1783,6 +1969,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemanswi` | Pikeman, 17th century | 5.00 | 12.0 | **16.8** | 40 | 6 | 20 | 1 | — |
 
 <a id="swicen--городской-центр"></a>
+<a id="production-swi-swicen"></a>
 <a id="городской-центр--swicen"></a>
 ### `swicen` — Town Hall
 
@@ -1791,6 +1978,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="swidip--дипломатический-центр"></a>
+<a id="production-swi-swidip"></a>
 <a id="дипломатический-центр--swidip"></a>
 ### `swidip` — Diplomatic Center
 
@@ -1806,6 +1994,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="swista--конюшня"></a>
+<a id="production-swi-swista"></a>
 <a id="конюшня--swista"></a>
 ### `swista` — Stable
 
@@ -1818,6 +2007,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="switem--собор"></a>
+<a id="production-swi-switem"></a>
 <a id="собор--switem"></a>
 ### `switem` — Cathedral
 
@@ -1831,6 +2021,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="турция"></a>
 ## Turkey (`tur`)
 <a id="turart--артиллерийское-депо"></a>
+<a id="production-tur-turart"></a>
 <a id="артиллерийское-депо--turart"></a>
 ### `turart` — Artillery Depot
 
@@ -1841,6 +2032,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
 <a id="turbar--казарма"></a>
+<a id="production-tur-turbar"></a>
 <a id="казарма--turbar"></a>
 ### `turbar` — Barracks
 
@@ -1854,6 +2046,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikemantur` | Ottoman Pikeman | 5.50 | 10.9 | **15.3** | 55 | 5 | 0 | 1 | — |
 
 <a id="turcen--городской-центр"></a>
+<a id="production-tur-turcen"></a>
 <a id="городской-центр--turcen"></a>
 ### `turcen` — Town Hall
 
@@ -1862,6 +2055,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peatur` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 28 |
 
 <a id="turdip--дипломатический-центр"></a>
+<a id="production-tur-turdip"></a>
 <a id="дипломатический-центр--turdip"></a>
 ### `turdip` — Diplomatic Center
 
@@ -1877,12 +2071,16 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="turmil--мельница"></a>
+<a id="production-tur-turmil"></a>
+<a id="мельница--turmil-1"></a>
 ### `turmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
 <a id="turpor--порт"></a>
+<a id="production-tur-turpor"></a>
+<a id="порт--turpor-1"></a>
 ### `turpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1895,6 +2093,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yachttur` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="tursta--конюшня"></a>
+<a id="production-tur-tursta"></a>
 <a id="конюшня--tursta"></a>
 ### `tursta` — Stable
 
@@ -1905,6 +2104,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `tatar` | Tatar | 11.25 | 5.3 | **7.5** | 70 | 6 | 0 | 1 | 60 |
 
 <a id="turtem--мечеть"></a>
+<a id="production-tur-turtem"></a>
 <a id="мечеть--turtem"></a>
 ### `turtem` — Mosque
 
@@ -1917,13 +2117,16 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="ukr--ukraine-украина"></a>
 <a id="украина"></a>
 ## Ukraine (`ukr`)
-<a id="rusmil--мельница"></a>
+<a id="rusmil--мельница-1"></a>
+<a id="production-ukr-rusmil"></a>
+<a id="мельница--rusmil-1"></a>
 ### `rusmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
 <a id="ukrart--артиллерийское-депо"></a>
+<a id="production-ukr-ukrart"></a>
 <a id="артиллерийское-депо--ukrart"></a>
 ### `ukrart` — Artillery Depot
 
@@ -1934,6 +2137,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 
 <a id="ukrbar--козацкий-дом"></a>
+<a id="production-ukr-ukrbar"></a>
 <a id="козацкий-дом--ukrbar"></a>
 ### `ukrbar` — Cossack House
 
@@ -1942,6 +2146,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `serdiuk` | Serdiuk | 11.00 | 5.5 | **7.6** | 60 | 11 | 5 | 1 | — |
 
 <a id="ukrcen--городской-центр"></a>
+<a id="production-ukr-ukrcen"></a>
 <a id="городской-центр--ukrcen"></a>
 ### `ukrcen` — Town Hall
 
@@ -1950,6 +2155,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaukr` | Peasant | 11.25 | 5.3 | **7.5** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="ukrdip--дипломатический-центр"></a>
+<a id="production-ukr-ukrdip"></a>
 <a id="дипломатический-центр--ukrdip"></a>
 ### `ukrdip` — Diplomatic Center
 
@@ -1965,6 +2171,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="ukrpor--порт"></a>
+<a id="production-ukr-ukrpor"></a>
 <a id="порт--ukrpor"></a>
 ### `ukrpor` — Shipyard
 
@@ -1976,6 +2183,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 
 <a id="ukrsta--конюшня"></a>
+<a id="production-ukr-ukrsta"></a>
 <a id="конюшня--ukrsta"></a>
 ### `ukrsta` — Stable
 
@@ -1986,6 +2194,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `hetman` | Hetman | 16.50 | 3.6 | **5.1** | 150 | 150 | 10 | 1 | 90 |
 
 <a id="ukrtem--православная-церковь"></a>
+<a id="production-ukr-ukrtem"></a>
 <a id="православная-церковь--ukrtem"></a>
 ### `ukrtem` — Orthodox Cathedral
 
@@ -1998,13 +2207,17 @@ Grouped by nations. For each building there is a list of units that it can produ
 <a id="ven--venice-венеция"></a>
 <a id="венеция"></a>
 ## Venice (`ven`)
-<a id="eurmil--мельница"></a>
+<a id="eurmil--мельница-12"></a>
+<a id="production-ven-eurmil"></a>
+<a id="мельница--eurmil-16"></a>
 ### `eurmil` — Mill
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 
-<a id="eurpor--порт"></a>
+<a id="eurpor--порт-11"></a>
+<a id="production-ven-eurpor"></a>
+<a id="порт--eurpor-15"></a>
 ### `eurpor` — Shipyard
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -2017,6 +2230,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
 <a id="venart--артиллерийское-депо"></a>
+<a id="production-ven-venart"></a>
 <a id="артиллерийское-депо--venart"></a>
 ### `venart` — Artillery Depot
 
@@ -2028,6 +2242,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
 <a id="venba2--казарма-18в"></a>
+<a id="production-ven-venba2"></a>
 <a id="казарма-18в--venba2"></a>
 ### `venba2` — Barracks, 18th century
 
@@ -2040,6 +2255,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
 <a id="venbar--казарма-17в"></a>
+<a id="production-ven-venbar"></a>
 <a id="казарма-17в--venbar"></a>
 ### `venbar` — Barracks, 17th century
 
@@ -2051,6 +2267,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
 <a id="vencen--городской-центр"></a>
+<a id="production-ven-vencen"></a>
 <a id="городской-центр--vencen"></a>
 ### `vencen` — Town Hall
 
@@ -2059,6 +2276,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
 <a id="vendip--дипломатический-центр"></a>
+<a id="production-ven-vendip"></a>
 <a id="дипломатический-центр--vendip"></a>
 ### `vendip` — Diplomatic Center
 
@@ -2074,6 +2292,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
 <a id="vensta--конюшня"></a>
+<a id="production-ven-vensta"></a>
 <a id="конюшня--vensta"></a>
 ### `vensta` — Stable
 
@@ -2086,6 +2305,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
 <a id="ventem--собор"></a>
+<a id="production-ven-ventem"></a>
 <a id="собор--ventem"></a>
 ### `ventem` — Cathedral
 

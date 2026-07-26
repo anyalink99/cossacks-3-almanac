@@ -392,6 +392,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 ---
 
+<a id="12-seed-space"></a>
 ## 12. Что определяет уникальную карту
 
 При фиксированных параметрах (terrain + mapsize + relief + mines + players) карта однозначно задаётся парой `(inputbitmap, randkey0/randkey1)`:

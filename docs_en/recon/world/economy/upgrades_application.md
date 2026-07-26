@@ -304,7 +304,7 @@ Academy "+25% damage"). This is different from naive arithmetic, where
 The reason is the implementation of `_player_ApplyUpgrade` [^om1]: every
 upgrade accumulates its term in a **separate field** of the object
 (`damagestatic`, `damagepercent`, `protection[kind]`, `shield`,
-`resefficiency[*]`, ...), and the final value ** is recalculated from
+`resefficiency[*]`, ...), and the final value **is recalculated from the
 unchanged base** (`damageinit`) using a formula that takes only
 summary state, not previous value. Accumulative chain
 “one step → next step” is not here.

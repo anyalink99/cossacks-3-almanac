@@ -55,7 +55,7 @@ Of all 26 folders they actually parse:
   units/upgrades.
 - `maps/` - ready-made `.map` for Historical Battles (binary).
 
-##scripts/
+## scripts/
 
 The most important folder for us. Completely disassembled
 [`../scripts/structure.md`](../scripts/structure.md). Key
@@ -67,7 +67,6 @@ files:
 - `units/<sid>/*.parser` - per-unit configs.
 - `gui/*.aix` - UI descriptions.
 
-<a id="scripts"></a>
 ## objects/
 
 Contains `.parser` object configs (1,290 files). Structure:
@@ -82,7 +81,6 @@ Each GameObject class in C3 has a `.objects` config with a list
 behavior, animations, materials. Parses the engine via
 `ParserLoadFromFile` (native function, available in RTTI).
 
-<a id="objects"></a>
 ## animations/
 
 Animation tracks. Files:
@@ -97,7 +95,7 @@ Parses in [`../../parser/parse_animations.py`](../../parser/parse_animations.py)
 → [`../../derived/animations.json`](../../derived/animations.json).
 1,382 anim tracks from 194 .aaf files.
 
-##pattern/
+## pattern/
 
 Binary brushes for placing groups of objects on the map. 711 files.
 Used by the map generator.
@@ -108,7 +106,6 @@ and
 [`../../parser/parse_patterns.py`](../../parser/parse_patterns.py)
 → [`../../derived/pattern_inventory.json`](../../derived/pattern_inventory.json).
 
-<a id="animations"></a>
 ## gen/
 
 Map generation pipeline. Contains:
@@ -121,7 +118,6 @@ Map generation pipeline. Contains:
 
 Parses in `parser/parse_generator_cfg.py`.
 
-<a id="pattern"></a>
 ## locale/
 
 Localization. For each language - a folder with `.lng`/`.loc` files:
@@ -137,13 +133,13 @@ locale/
 Parses in `parser/parse_locale.py` → `derived/canonical_terms.json`.
 In `data.json`, each name is in the `name_ru` (Russian) field.
 
-##maps/
+## maps/
 
 Ready-made maps (Historical Battles, campaign missions). 68 files,
 1.7 GiB. Binary format `.map` - not yet **parsed**. Plans for
 There is no parsing either (maps for skirmish are generated procedurally).
 
-##actors/
+## actors/
 
 3D models of units and buildings. 5,220 files, ~900 MiB. Binary
 formats:
@@ -154,18 +150,15 @@ formats:
 
 Can't be parsed - we don't work with 3D data.
 
-<a id="gen"></a>
 ## materials/
 
 Materials (shaders + textures). 2.9 GiB. `.mat` files configure
 binding textures to shaders. `.dds` - actual textures.
 
-<a id="locale"></a>
 ## sounds/
 
 Sound effects. OGG format. 330 files, 282 MiB.
 
-<a id="maps"></a>
 ## DLC
 
 In addition to `data/`, in the root of the game there is:
@@ -177,7 +170,7 @@ dlcs/
 DLC **do not contain** override rules - only additional ones
 cards. All units/nations/upgrades - mostly `data/`.
 
-<a id="actors"></a>
+<a id="что-не-парсится-и-не-планируется"></a>
 ## What is not parsed (and is not planned)
 
 - 3D models (`actors/`, `materials/`).
@@ -187,7 +180,7 @@ cards. All units/nations/upgrades - mostly `data/`.
 - HUD textures (`hud/`).
 - Maps (`maps/.map` files).
 
-<a id="materials"></a>
+<a id="где-у-нас-точки-парсинга"></a>
 ## Where are our parsing points?
 
 | Parser | What does |

@@ -1,146 +1,706 @@
 {
-  "schema": 1,
-  "note": "SHA-256 of each Russian source used for the committed English translation.",
+  "schema": 2,
+  "note": "Normalized-LF SHA-256 of each Russian source and its committed English mirror.",
   "sources": {
-    "CONTRIBUTING.md": "fc4ec1ccd1694808722e759ba3348f85d67f7fd0d11fce879c19df3e54a3280a",
-    "README.md": "c3ce96e7cb31e16504a6e1a3ff2fff4bfa7191e79c47555cc487f7121e73b002",
-    "derived/README.md": "92eb588f7b035b68347911e8ccf832a8ef6f9b0235f8a0fda4e93174b290248b",
-    "docs/README.md": "f1f46093ae5fab85b4dd365601792dd10a8e2b098a45e99caef10ec578f75c52",
-    "docs/recon/README.md": "b84479d860ab4593a01130bae46701496f8d0ffe0fcb3366a504134b9110155c",
-    "docs/recon/systems/ai_behavior.md": "96bd53597e118eecf182f1fafbdefb42895e93eb3327c18d23a964dedb3332d4",
-    "docs/recon/systems/mercenaries_diplomacy.md": "634a9788a8489ca57034616ab3ff97bea5eccd634d07c21ba145b15f2646670d",
-    "docs/recon/systems/scenarios_and_triggers.md": "8cdf31b531a642a46e0e31868e4f3028d8b5fb124a845f76d118ab35df57a57c",
-    "docs/recon/systems/ui_input_and_feedback.md": "ecae9ebc16bd2e118381ffea2514dbfbf28c574eb9907242e795464ff079cdff",
-    "docs/recon/systems/victory_conditions.md": "3cd7251f5488d337ad4676e5eccd2237fd5cd32ce6faf21268fce0edbf9ebca4",
-    "docs/recon/world/combat/artillery_specifics.md": "ebd3a48db9214d5a01105b1e6cecfd2d01dd1d59a117e60a607869f9e62ebda7",
-    "docs/recon/world/combat/combat_damage_pipeline.md": "211d2ce2fe36ff15614b4deaa7731cc647db0e75f0fa364509217ad3dd4723a9",
-    "docs/recon/world/combat/formations.md": "a31c3098f998c4a02008fd0731f3453119ff413c3a136ae72f9b152915c18a9a",
-    "docs/recon/world/combat/naval_combat.md": "8cc1ec40351ef2ded084b83c561e07c797e3b6f27cbff2a9cee9c5c7cd22f508",
-    "docs/recon/world/combat/pathfinding.md": "b658a1e60afb8f0d2573c731e96a939582d704cb0a05f448b7cfb6aa8ae47646",
-    "docs/recon/world/combat/ranged_units_behavior.md": "996ccdc01fd9e3636b2b24af17cbfeb7bce534bafb3d82fb24b682cd3fcd781b",
-    "docs/recon/world/combat/target_selection.md": "f3f15105fa58b5db8617a06445c676f4c8b71fbd035f2ead8102f98cf5c8735e",
-    "docs/recon/world/combat/towers.md": "90cc34b4e2595134b0b009383f50f8df9dca87ffefad8e8a9e63e3df18bb1676",
-    "docs/recon/world/combat/unit_commands.md": "62b51b96cfdcbe5a72431001a8e49bcc024973531173c43d7758ee41199db91b",
-    "docs/recon/world/combat/vision_and_fow.md": "c6137ade5edcaf2e4c79e62f1efdf83fa2f9b969430feff09314ca2360652763",
-    "docs/recon/world/combat/walls_and_gates.md": "3384f74ebbc8e1f8a850ea12ddff9778aaafe8182af7aa671f62ecc7ddaa6e40",
-    "docs/recon/world/economy/building_mechanics.md": "9073d2e4f31accf3a68e4a9c8c4c3f8f01251b68ba8028b45646f5aa2fd12d1c",
-    "docs/recon/world/economy/capture_mechanics.md": "ec6bafe4ac159f59e71a378cfad807b07362b11527af0111925ca527e5944f09",
-    "docs/recon/world/economy/hunger_and_rebellion.md": "42ab00529167fafbdbceebc4e576026c17d18819f174b31474de3250ccafec29",
-    "docs/recon/world/economy/peasant_extraction.md": "8dd2bb743a0d6126a1d3decaab4bb18a2914181245123bffa7e822a1be338a64",
-    "docs/recon/world/economy/production_queue.md": "a2314afe3d8f5a29d575e89722d73391eaa9a30df1a9d876f8667fb187a1d3bb",
-    "docs/recon/world/economy/upgrades_application.md": "fcd7b490833743193745d898518501dcfb905d3a57e7989ba852a99d3dd90ab0",
-    "docs/recon/world/map/game_settings.md": "c04f4ad79a6d01dee73640511764fcda2ebe0775a5216f5d6ed1e00654e5626a",
-    "docs/recon/world/map/map_generation_pipeline.md": "3c5b0a68f393e25883d0b68a66cecc6a708ac0f624459c4ebe4a30427c504401",
-    "docs/reference/01_economy/README.md": "746b80a23f2c72cd8d077d85929e477d0cca327a23f4fccd4d1a2b0d3c39278c",
-    "docs/reference/02_combat/README.md": "71bbd288dfa839568664776f5cf10cd0b25c7c608beb78bb45240f8d641d5e96",
-    "docs/reference/03_buildings/README.md": "eeaba9529e56a4815173817a3686f55e471a5b0716a6fb5aa3065b6a87d75549",
-    "docs/reference/04_units/README.md": "42ff7b92eb9d6dc02082191d14b2751ef135ab0f3747959d87377674a4134c07",
-    "docs/reference/05_upgrades/README.md": "c9054736ac85d879c723e1f9d1eed448fd9915bef385c477d9ec6945727c5834",
-    "docs/reference/06_market/README.md": "c4a2134e6514671cda9334f8f0b0c8757145cb2f9ada66103c4098fead846fc8",
-    "docs/reference/07_naval/README.md": "a769f8b428a69eb99640bdce106a52c846b463c44be281c2c948d576a42e2f9d",
-    "docs/reference/README.md": "5a53c84aa6baf98158f3127804a3b5855fcdc4b2a04093e9d4f5c768f6f2c050",
-    "docs/reference/compare/README.md": "e044b7590306820ae19cf0a5b411eea244f40f58f824ecd65e9e09bbdaec4deb",
-    "docs/reference/compare/buildings/README.md": "6c17dfbbe5ee3c5f154544f624ec43f126de93c6f4b4effd3ba8ce3c688e9cb2",
-    "docs/reference/compare/buildings/academies.md": "fc90a2f9f41640d32dfbb8a47be332b64356f16d46afc778e2943b9bc8c3a3ce",
-    "docs/reference/compare/buildings/artillery_depots.md": "ab3bb0eeb583a4d4206d88d1526f23960f1a882940d253617dccf57135ae4d52",
-    "docs/reference/compare/buildings/barracks.md": "2b38b6d57c3bd1d1bba4a2a8f5a0b121a1b9729273cd4b81cecb650482c6e517",
-    "docs/reference/compare/buildings/blacksmiths.md": "47abd3120510dae839c35238f4ba4ebdd17aa72f42871ec1849fc6cc29b601aa",
-    "docs/reference/compare/buildings/diplomatic_centers.md": "4d0601268fd843dddabb1a33de51cb6e77af49e1a5cd804ab7588cd1eca0d862",
-    "docs/reference/compare/buildings/houses.md": "d892bf70e22385b6d3f7d7ecb7c93c8cae8985ff0248d796122cc05afbec7013",
-    "docs/reference/compare/buildings/markets.md": "377c57cc037d38b0b93e43cf2843505ab8bea70c4f58620a1e6e92f2fea9457f",
-    "docs/reference/compare/buildings/mills.md": "6ddb8b22c9294c5cb5f26f15ce897b0b725978cf77702859982ac05a8c275e7a",
-    "docs/reference/compare/buildings/mines.md": "b98426e472ea92599b974fe0acd5de5295c0d1a90915e5794da28782ce48eec1",
-    "docs/reference/compare/buildings/ports.md": "862414182850b5f03d604e1ec892f7ac3a65dc4b4a9bc9febba9e9d6fef9414f",
-    "docs/reference/compare/buildings/stables.md": "6bced504f54098aaef5dbe14e24de6f4eff99996f7a629eb83abad853f496714",
-    "docs/reference/compare/buildings/storehouses.md": "b5bf79199b34c6d07cf421700d8083cb5655aa0b24480903b4200b8a704593df",
-    "docs/reference/compare/buildings/temples.md": "4bae2dab59bca6fa2f720a80d14a16f25f168c245331f04407f0014cb2855ac6",
-    "docs/reference/compare/buildings/towers.md": "587da73c702dfe52de912e7f007b7409df9abb464e6de470fbbd51aa818ba879",
-    "docs/reference/compare/buildings/town_halls.md": "a3de212e6760a2a35a454c66542046bb06a5996a7c4fcf38b535fb0bc13d9be9",
-    "docs/reference/compare/units/README.md": "9eb23a9c3501e7f3c269fc433f0709de7df40831a3c0173d02e200e72fce33dd",
-    "docs/reference/compare/units/archers.md": "e8105ad54d500e11919e9780690b76e42ff437819370e7ac57594a72c3578726",
-    "docs/reference/compare/units/dragoons.md": "181251ae8b5855f0055fa76f6d1ee4ead8207a9a55fece2b9e0ca38a917eb4cd",
-    "docs/reference/compare/units/drummers.md": "7ed5c450910cfef18ea8c09999cec123494a5b6aa5f34c7e377f7bc80697e56c",
-    "docs/reference/compare/units/grenadiers.md": "d3d5e29fff880ec66be4078456c1007b29f97f284dbfbda4b4174317de794dd5",
-    "docs/reference/compare/units/heavy_cavalry.md": "9dcc474a5da4cc094d3d3a32485b83bbbd1a725fb96397c876c8fbdd92dd16ab",
-    "docs/reference/compare/units/light_cavalry.md": "e43f73cbe520a32bdcc4f28e836703ee4807d377f0e5bc7282cca60d88516d9d",
-    "docs/reference/compare/units/light_infantry.md": "6409ec773880df12a44a16e65f0b08db9c40fcdfd1d576a6fd53bc7bcb69d0ba",
-    "docs/reference/compare/units/musketeers17.md": "e1aabcd2e3aa59fbd5806810a1b0bb650a0be16b6bd287bd401061b85ffa008e",
-    "docs/reference/compare/units/musketeers18.md": "ec10eaa5120496be3625ecca0e430c7e4207c1d5f542a606ffb94c63ac524459",
-    "docs/reference/compare/units/officers.md": "3a3c8bfda64f5085e22bd2ca293aeafe5338c8771c17e7311d6fc4874e8d4878",
-    "docs/reference/compare/units/peasants.md": "4aa8568a594be9ba51305edc8bfcdfca7798340287aebb5e8f0c4c467d334c46",
-    "docs/reference/compare/units/pikemen.md": "87256a3aa3d421223248687f29cb41a6ea8bcb2551d8e3751160be95eeb174ba",
-    "docs/reference/compare/units/pikemen18.md": "6c06a3a17ed96e5f3983b4e206081661dd3aa80110f024cf1689451f73d04bac",
-    "docs/reference/compare/units/priests.md": "31e3dc2515f470ed78abae0cb3b05f07e5c2149bd62f55e2a67a035526ef5ef5",
-    "docs/reference/compare/units/ships.md": "e5aa99217d849c74bcd48ab9ab89dc69fb5c396c9bcf9f8a2be8e9b41d573b2a",
-    "docs/reference/compare/units/siege.md": "b540e7ce25689816b051e5b99270150d06a6e0c29b19d0e6cda6d3378a03f554",
-    "docs/reference/compare/units/special_infantry_18c.md": "07d6c5597ff7e286c1cdbb4c335a48e00511af3dc015369cb0ccb23da4242f2e",
-    "docs/reference/compare/weapons/README.md": "39b8e6c8635328c49d5f549d0b6ae732ef923069b5493c9e231bebf47c72db32",
-    "docs/reference/compare/weapons/projectiles.md": "369248fcb22241dc27b4b5cc7dfb7203b903b8df37a812b5f2501262717c8e08",
-    "docs/reference/nations/README.md": "5c81f5ea90997248c4a366096c70c26a4aefc2fd67bb357ec6930a7609bc1090",
-    "docs/reference/nations/alg.md": "2a03025f8492a9d9b051102fd4db2879c1258f23948d83e6220a846dc4b946ce",
-    "docs/reference/nations/aus.md": "8fffdeeb882127e434294116addc030b0e2dd9925e5d03167995c1e68f02b127",
-    "docs/reference/nations/bav.md": "b2fbbbfd3e10c45e392631510a0c5e7ba5054b324772127c9cce4bd1e8302730",
-    "docs/reference/nations/den.md": "3cc46e4c8c6ba12729fbc4beb04488e6594a670e9f1cbd70c4beee1f83a2967d",
-    "docs/reference/nations/eng.md": "2854e9354192b4e2412d075f1b48bd28cfa1f9a1237acbdfaf59cd6f82502fff",
-    "docs/reference/nations/fra.md": "bfae2c9dc74cf8687bb84b6959a4fb579a5ce8110e68e70d0c64c2d64e145b02",
-    "docs/reference/nations/hun.md": "76dde7bfa9676e401ef8aa36fa06814bec442c643d8732ed9fad85e27711de9c",
-    "docs/reference/nations/net.md": "c3f1971b3c6881b45bf2b8b6efbb7df07847d0146a1da0bebd1659a5f65d7d6b",
-    "docs/reference/nations/pie.md": "60759dff324c0c1c9baafcc701455a84152922f11d46567ba659b157c6f76522",
-    "docs/reference/nations/pol.md": "c7480d99e413f1d118ea180f3b03e5d6c06017a8c6c24ec73d6d2a2a3afe1a17",
-    "docs/reference/nations/por.md": "46fabb6dcd115269826d43bbdbb495e61a0cad548e8f3cc357389c24ddaa862d",
-    "docs/reference/nations/pru.md": "8dc92c485a3302ba16d1eef530813298b133e8703cf6824c9320a8b892664d85",
-    "docs/reference/nations/rus.md": "33fd795dfe3b3645b1bee155326675c68d6d5bd070dcffe18dcae4566310bb93",
-    "docs/reference/nations/sax.md": "06e959db1da4bc1b531da75e068b2ceae12eeb7ffbaa92465124c10a57cbb1ff",
-    "docs/reference/nations/sco.md": "59206088fa54693715ecdd558d98b178904247ed023c5d9cbf809b0a2f3ba80d",
-    "docs/reference/nations/spa.md": "3c29f171acfbf0b524b5e3b013f6e03bd8bb5fb4da1f8d0e948157050171bd57",
-    "docs/reference/nations/swe.md": "b4fb327bd0110bb451fea94bb118dec801da72d6d41cb93f68bbff684f3599a6",
-    "docs/reference/nations/swi.md": "cf7bc5ed4e8a373bcb5312cdfb8dad65f8bd3e09273e913561bc38486ba30407",
-    "docs/reference/nations/tur.md": "36d87bec7155c5ac59e555e60e297ee0647e78b0f01e560b8cfa8e0cf31291df",
-    "docs/reference/nations/ukr.md": "5920683a1975c1ea19d28644ab2ac0c937be7742fec1092e6754a5302f5c7427",
-    "docs/reference/nations/ven.md": "326a79f118add84dd70fd8694d6eb35e1caf2170ac2ffb05b625e33da69bd6a1",
-    "docs/reports/README.md": "ed966dc5f81051fefd3e9a35e67925907592c440c743f51dc1eb11a11140792c",
-    "docs/reports/combat/artillery.md": "3f5e629510a7ff4e96535dfa2df85274e995c4ce31a52cea2888d518d8616e3b",
-    "docs/reports/combat/attack_rates.md": "44b11beb2f1a06720d873b05b365decefdbf7acebec0d063e73ef26101c3fc79",
-    "docs/reports/combat/combat_stats.md": "c9e89d4ebb6f20ffd647fa4da7d1380618c6faf9959619a724f04dd1cf85c8b2",
-    "docs/reports/combat/counter_matrix.md": "22f9afafc0746d49e9131ca8ff7f72471f281c702a79467f297f32219743e8d0",
-    "docs/reports/combat/vision_radii.md": "38c2befe0dc0a4e8d9a8bcbc08ef887f07ad541afe7cc0a7b0042e38b68ef871",
-    "docs/reports/economy/builder_slots.md": "d6d757e73faa45ac6b014e17ad42d7144deb4aeb74ded697f883ad27700ba251",
-    "docs/reports/economy/construction_times.md": "514dff1fe0d011af7d557e50333905949103f037f9b4e1ec13b0fdfdd88bf2d0",
-    "docs/reports/economy/efficiency_upgrades.md": "7e3a17e9a712413c249c8f0fa30f8664074169a1d696a231d4643bfcf7351f0a",
-    "docs/reports/economy/production_rates.md": "ccba7242be9f86fc210b2f255bf2022c8d3d445acc5754df1b90af99c334213d",
-    "docs/reports/economy/scaling_prices.md": "315951823ff4514e0eaf64eddaca1324b744733ccc7ca7493bc2399399effd5d",
-    "docs/reports/map/lobby_settings.md": "5bb33a265d9c7bdfad81d8596ccce6ff36f74ebf3473782489d613f5a03653dd",
-    "docs/reports/map/map_resources.md": "2cae6ff3b649b0843d8474926e12a7f1996f7fe4ce34f9164082bb5cce87074d",
-    "docs/reports/map/starting_layout.md": "f9ec44a531bb00a52360f088ebc690b1661a3c5b77e19f1a9dc73a04f0b727dc",
-    "docs/reports/nations/overview.md": "3b871676ad3bb4c84c5970407d2f4e81804b05bbe8f11ce7a0edcf8a83e08374",
-    "docs/reports/tech/tech_tree.md": "4e686ca57f59c91f635932b83219b828201de89c092410f393f097c063d36b83",
-    "editor/README.md": "af400c206bb82663165246de6d1cab84e900096e9ebf3c8d1f8a1737706e0eab",
-    "internals/README.md": "74ebd4dc759b40b30b8b94fef2c845cd9e5b7dd2020ad52a4f5fc82ac5655385",
-    "internals/data/file_formats.md": "1090fb1155af5e666a2fc6ad29c2a095d9ec6e61e7522c17f04c57c9568c9ae1",
-    "internals/data/game_fields_glossary.md": "86820bee817eeb2c05463058a2e7e936beeed495234c4e492d536afc099cf190",
-    "internals/data/layout.md": "b6691b2205cf151c136d73c68b849fed3add687e70b0fe72d36284434f984ba1",
-    "internals/data/map_predictions_validation.md": "c57a56344dd78b86e539e1d30e7d2a1106b1e9afdc110dd5979daf0f53d79ac5",
-    "internals/data/nation_deviations.md": "b5d05a5ed9bf2f5ad1df9e024542e9387c5b6187537f5595ac745e5f09919f8d",
-    "internals/data/replay_format.md": "1cb4970b1b329a9d68f53b2853551fc96bca28f537cde9a64d1be2cff8bf39bf",
-    "internals/engine/animation_system.md": "342f0ba02a3b73c21007a5ee6e8e3ee2a681c36f44c0e68c66cdeba539c492e9",
-    "internals/engine/determinism_audit.md": "52e465abb07847eaa12386bf43bfe97d9a7b79e9d4f7af741eda4435c2beb8be",
-    "internals/engine/native_api.md": "abd171f6b17f4e3fa0ce8af5a1d7d5eaf46c7f95ea2207c708d595a866229333",
-    "internals/engine/native_primitives.md": "41e66f1c4b3651ee29c82d2871c3903d71ca3f249baa2938e94f0f2544ba8e2c",
-    "internals/engine/rng_implementation.md": "3d677c9a19e4aa15d5692c0daaa72e7c9e057c359ee39925bed0fe9cf4c4195f",
-    "internals/engine/rtti_class_map.md": "f818e9afc5cc41b1df4dad35a6277c061be51d07806f2cd1f0783be0bd70d6bd",
-    "internals/engine/script_modding_constraints.md": "7d15ebb45bdb64a8b31de49010c0cbd563623c5dab7d5be251c6b868220df3b1",
-    "internals/engine/server_sync_architecture.md": "f9acd39d966eafebf697ae5f056c45aa9d7d2c4043856299939f7f24eef60cc4",
-    "internals/engine/server_sync_packet_format.md": "38197f2b59dfd201ecda7b60b258e09879937a0e03768da0ca198d7227ee9da3",
-    "internals/engine/ticks_and_subticks.md": "650d4a639c8ce83c84747f695cfc92eaa396b937e010173ed81b84a402312b3e",
-    "internals/project/README.md": "7ccf3b0b9a57d9fc13efb6d6b48b30c31ffecdcf5e10af86648bda37a1e6bf6e",
-    "internals/project/architecture.md": "9d5fe31cd9db6bdee6389cfeb65edc2f32e9b32ff777eb0b3bf1899ef389e1fd",
-    "internals/project/known_issues.md": "95c72d2cc18a8803a1123f229ab925d4f1412583f5dc19b764f38c6d9f6d84f6",
-    "internals/project/known_issues_archive.md": "1e5908801e6d96da5c35d35a4df94d9ced2526988ad43f0764c15ad5bad9d78d",
-    "internals/scripts/structure.md": "60ebea7f69ca36643c0307d195ff1d69a1a9b2d55248d69ad529a0d95275817f",
-    "mods/Deterministic Cossacks/README.md": "8718b0cc535fcf4dca8a1aa26ac57d0a6a0fbe2f5d151382b974d7693d9297a4",
-    "mods/README.md": "cef429bb9408c3463f714e4291d6444e2577aeca1c8ae2b1a504828064a3f06b",
-    "parser/README.md": "0f0098ea18d91319c0bd03741089723f6864ce6dd50195ef5f5e4f1a22c28967",
-    "writers/templates/README.md": "82e6b9162e95ce54921a304fbfb973e8294c8a2eca2bfd59f240a9f9f54b0f5e",
-    "writers/templates/reference/compare/README.md": "e5ee622d6614c98ff7403f7b01e2c4bd506ae10ce29d42b41bec0449d24a27ff"
+    "CONTRIBUTING.md": {
+      "source_sha256": "68cdefbd785acce2b7917490b62e0a10d497fb758bcc2d3c483547fe5a6bed52",
+      "target": "CONTRIBUTING.en.md",
+      "target_sha256": "af31bca519aba015f3f4e1fcc5f97f7bb93c50ba5eee3d340dd178e47319130b"
+    },
+    "README.md": {
+      "source_sha256": "44202b993db3151fc41a34724f314447e4f4bcf1fcbabdcf42ed8ea4ba660096",
+      "target": "README.en.md",
+      "target_sha256": "3043fc09683410a488ad461fa65a4da70160129e74d0101c836ca43e9e723b32"
+    },
+    "derived/README.md": {
+      "source_sha256": "92eb588f7b035b68347911e8ccf832a8ef6f9b0235f8a0fda4e93174b290248b",
+      "target": "derived/README.en.md",
+      "target_sha256": "d750574d7bb666213638bca028a2bc5ccdf6235186b53651f7632827a1245d40"
+    },
+    "docs/README.md": {
+      "source_sha256": "4017ac26cf2cd979fe96f20c433dc590ffe739d89d1c74eef1b4d577327af238",
+      "target": "docs_en/README.md",
+      "target_sha256": "b84adee8c6650b809025b3afd96b671939076b23d17c9258d1c7c183e250df40"
+    },
+    "docs/recon/README.md": {
+      "source_sha256": "b84479d860ab4593a01130bae46701496f8d0ffe0fcb3366a504134b9110155c",
+      "target": "docs_en/recon/README.md",
+      "target_sha256": "37716b031d51662dd5950f58b62e4c0e427714e24657d6f427ccd0ab7ec86de9"
+    },
+    "docs/recon/systems/ai_behavior.md": {
+      "source_sha256": "92fae3bc5e21cfc165ecc0984cb015f0cf01482cf721965347029d9c7e4fb9a1",
+      "target": "docs_en/recon/systems/ai_behavior.md",
+      "target_sha256": "2ae92512fe6dab8c944bf39b5e5032cf80756de2f286d8ca0d5e43f621165c3b"
+    },
+    "docs/recon/systems/mercenaries_diplomacy.md": {
+      "source_sha256": "9152b297fdcdff03474de7056f734dcdf9f6f25b087976408bb62b39724d2055",
+      "target": "docs_en/recon/systems/mercenaries_diplomacy.md",
+      "target_sha256": "59c024aeaa6bfa5f21139a7426ee76f895b6a4240293e7e8ace99b738f4b6dfd"
+    },
+    "docs/recon/systems/scenarios_and_triggers.md": {
+      "source_sha256": "80f4508152cf20e1fa5176dd535de751ea1d8a0a445c4a4663d6e3062b9c81a3",
+      "target": "docs_en/recon/systems/scenarios_and_triggers.md",
+      "target_sha256": "ecb6db28baa6858afb8cc5c206de7d866cfbcd9da494f62a11d0744f8dc1f586"
+    },
+    "docs/recon/systems/ui_input_and_feedback.md": {
+      "source_sha256": "ecae9ebc16bd2e118381ffea2514dbfbf28c574eb9907242e795464ff079cdff",
+      "target": "docs_en/recon/systems/ui_input_and_feedback.md",
+      "target_sha256": "5e36e3b22f489e520fe5106b7bbe789312a7bd4f0cced639ce934a1ce9db1057"
+    },
+    "docs/recon/systems/victory_conditions.md": {
+      "source_sha256": "9c7408103f8c7a2b0535b190e5be21be83c919221d98384facdaa5bd87acacd1",
+      "target": "docs_en/recon/systems/victory_conditions.md",
+      "target_sha256": "35c0c708eb4a77a948bcdd7aa715530d4d94daf180a6696d956fe045e10186ff"
+    },
+    "docs/recon/world/combat/artillery_specifics.md": {
+      "source_sha256": "80b45a38774b350ad244304fc18c8f9598e895bd62a54ecc6eb682de694a0e14",
+      "target": "docs_en/recon/world/combat/artillery_specifics.md",
+      "target_sha256": "f130dfb08a53d35e76e6dea97f133efa5e769c7e110f011bb2515fb7f78fa0cc"
+    },
+    "docs/recon/world/combat/combat_damage_pipeline.md": {
+      "source_sha256": "6e0656bcc4f9f8286f3f3f0b9590b4de15017231076152bcf0c153405b91b4cc",
+      "target": "docs_en/recon/world/combat/combat_damage_pipeline.md",
+      "target_sha256": "a69dfba70e87b79a84b1f29c4c01e6f16783149efaf8c7f73e3800c18f81ab74"
+    },
+    "docs/recon/world/combat/formations.md": {
+      "source_sha256": "69486c2dd3fb62fdb6815c6fb6bbb8ce212ebcc80d7eecf4fa7f41ac6299519b",
+      "target": "docs_en/recon/world/combat/formations.md",
+      "target_sha256": "573f59d8e8a16743d1db5a962b7f840cb226674867b1dfaa2e52ce5165aaca5c"
+    },
+    "docs/recon/world/combat/naval_combat.md": {
+      "source_sha256": "ffbacda0fd9c022db53d55e22d3aa1f7472a44985e6e40f95a1f5f894c5de8ec",
+      "target": "docs_en/recon/world/combat/naval_combat.md",
+      "target_sha256": "bd80e89bf15e325c02245eb7c5413cb695f047a7ede4e8cc093bdd4a80ae32e9"
+    },
+    "docs/recon/world/combat/pathfinding.md": {
+      "source_sha256": "53f58270adb740b32defd9776f8265ce19103eb66496481d06f1f95c39a28830",
+      "target": "docs_en/recon/world/combat/pathfinding.md",
+      "target_sha256": "cb6f98f5f68d2a06aae1e66432c4499a384b42e893c0ee032e76d8a731bd17f7"
+    },
+    "docs/recon/world/combat/ranged_units_behavior.md": {
+      "source_sha256": "996ccdc01fd9e3636b2b24af17cbfeb7bce534bafb3d82fb24b682cd3fcd781b",
+      "target": "docs_en/recon/world/combat/ranged_units_behavior.md",
+      "target_sha256": "1845e040626b4b2856e7926811c6c4ae1ae662d05f9ec007e5ee33e14deb51fc"
+    },
+    "docs/recon/world/combat/target_selection.md": {
+      "source_sha256": "f3f15105fa58b5db8617a06445c676f4c8b71fbd035f2ead8102f98cf5c8735e",
+      "target": "docs_en/recon/world/combat/target_selection.md",
+      "target_sha256": "7d9e805d187d714840e99d8685fa4ab847ef674ed13c5dab1952a250dd2b3555"
+    },
+    "docs/recon/world/combat/towers.md": {
+      "source_sha256": "a1037bb4d7d70e17cb9ddf38adeca66c880fe947a59964e5507dc0aef0ddc142",
+      "target": "docs_en/recon/world/combat/towers.md",
+      "target_sha256": "8c8510c00566fdcdcda7555312a2084372b9b0cbe6d4a369067d2845b094e85a"
+    },
+    "docs/recon/world/combat/unit_commands.md": {
+      "source_sha256": "c43226b7d5771a0cea3f64eefd35f54e13e1aab428119845265946075b1b7d4e",
+      "target": "docs_en/recon/world/combat/unit_commands.md",
+      "target_sha256": "3f23cbc7a4cb908114e41a95fd6b97c805b1812b66d8721054892219fe60731b"
+    },
+    "docs/recon/world/combat/vision_and_fow.md": {
+      "source_sha256": "e413e9808cd2ee52d52688737510a8acb34a5fb94064a2bc5f3ee37fac3f0f68",
+      "target": "docs_en/recon/world/combat/vision_and_fow.md",
+      "target_sha256": "388335e4e634c4da5a7a914111f41a4cc87813ccce5a35243c573cba2e65dbc4"
+    },
+    "docs/recon/world/combat/walls_and_gates.md": {
+      "source_sha256": "da1e7842c2846e97f9c9c17df699ca96932b42fa8e7f73ae935437c4567672a7",
+      "target": "docs_en/recon/world/combat/walls_and_gates.md",
+      "target_sha256": "82a44ed68a01f0c783ccaef98f966b8301ac4403b4e1766b5250681b503921c4"
+    },
+    "docs/recon/world/economy/building_mechanics.md": {
+      "source_sha256": "9073d2e4f31accf3a68e4a9c8c4c3f8f01251b68ba8028b45646f5aa2fd12d1c",
+      "target": "docs_en/recon/world/economy/building_mechanics.md",
+      "target_sha256": "b7b8ec6cd999fb8ec8617ec0278f3680874ef83ffa97247a7e2c1f592cebc50d"
+    },
+    "docs/recon/world/economy/capture_mechanics.md": {
+      "source_sha256": "bb3ef65dc0baa18277dee8a1f8db1fcc90c52a4fe94de18551151ac7942967b8",
+      "target": "docs_en/recon/world/economy/capture_mechanics.md",
+      "target_sha256": "e82be33f19072029f42787049d03dcae9b4ccaa7d92d219d4f48354c6ece90ef"
+    },
+    "docs/recon/world/economy/hunger_and_rebellion.md": {
+      "source_sha256": "b2b9721f9e4a77f16c21bdedfa42192093c622d30a44a3bc781d2676e655ca34",
+      "target": "docs_en/recon/world/economy/hunger_and_rebellion.md",
+      "target_sha256": "07354f47e75132c7d2937a913745496a0d2d66892c7a2e197723605fb86a22a4"
+    },
+    "docs/recon/world/economy/peasant_extraction.md": {
+      "source_sha256": "80bbe87d2bc176e537760528cf0b1b47db39d399f34a6e777166379e556cf3ca",
+      "target": "docs_en/recon/world/economy/peasant_extraction.md",
+      "target_sha256": "ae5331ec20fd00c50761855079acb8a942d9d325be6b8cddf0c61ea909956fb5"
+    },
+    "docs/recon/world/economy/production_queue.md": {
+      "source_sha256": "e0751a74f53f065b92dc3b827a1efee2f69cbe79a220d62e3f9bb64dd1dc36a7",
+      "target": "docs_en/recon/world/economy/production_queue.md",
+      "target_sha256": "9153568a726bc7ce53c74bde6607b11512512d0bf4a1173a5fb87b7d4946b88d"
+    },
+    "docs/recon/world/economy/upgrades_application.md": {
+      "source_sha256": "0c198e2ab3903cb38491b93691f66621568456746d947733914ac3ae1ab6a8d3",
+      "target": "docs_en/recon/world/economy/upgrades_application.md",
+      "target_sha256": "88f8573f807a552b9700c33a83f70c85c30620f8379517a25297b908c42dc7f9"
+    },
+    "docs/recon/world/map/game_settings.md": {
+      "source_sha256": "8db8ba3eee9ac7ba666d683cc7af452164880435e34950f7b3b3b83708468c09",
+      "target": "docs_en/recon/world/map/game_settings.md",
+      "target_sha256": "9344f4da91d04bc8da44fab231951061ba21bc4aea1f61a75aa63a4f90670727"
+    },
+    "docs/recon/world/map/map_generation_pipeline.md": {
+      "source_sha256": "85c57561964837f9835995c38859e7d55b58c1a389efa961574a80575fd91814",
+      "target": "docs_en/recon/world/map/map_generation_pipeline.md",
+      "target_sha256": "9341518818fc8210e136c868063945e500422d4ad66f7d2f0109d3af767ba59c"
+    },
+    "docs/reference/01_economy/README.md": {
+      "source_sha256": "64c291d6d0105c2ee24e7369fb4438a641cd7cafc8775741e8a056d07ca5896e",
+      "target": "docs_en/reference/01_economy/README.md",
+      "target_sha256": "bf6166757c86d4d2ab42a8465c8f98be89102a5876d9b4ed568b134504cabdb2"
+    },
+    "docs/reference/02_combat/README.md": {
+      "source_sha256": "50e1aa623651ef39a984548fbb59e6eef19e7ce3420624bea1ffdfb18caf4686",
+      "target": "docs_en/reference/02_combat/README.md",
+      "target_sha256": "63be5ef1b63cf4eb27bed9cd95b0a927013584413bba96e31bc5e72a79ce7e52"
+    },
+    "docs/reference/03_buildings/README.md": {
+      "source_sha256": "84be8199d8204b62141bbca594bb8fc3a5ad5fa0cd906c1ed7fd68c15f22e72e",
+      "target": "docs_en/reference/03_buildings/README.md",
+      "target_sha256": "2065cfc2229292d295ac35bc90a25dde2f678e8c5af05539fb40208eaf73038c"
+    },
+    "docs/reference/04_units/README.md": {
+      "source_sha256": "f1fa9809cf24b52ffaa26d113ae84da471cefe07bd58736c00f3ccb7e3f15d06",
+      "target": "docs_en/reference/04_units/README.md",
+      "target_sha256": "5204fa3cbf0a876099722e8c013a6a32f995f651d62e251a5b5ebbf6dae6669c"
+    },
+    "docs/reference/05_upgrades/README.md": {
+      "source_sha256": "6f1c3a8ccf9e3d13d31120fb7ad7cf4d56a68e6d1659f8aa73823e542b7a1643",
+      "target": "docs_en/reference/05_upgrades/README.md",
+      "target_sha256": "78a014b5764ddb1330472ee302c7ff753cc1f646f3365de5bff949acffcb3f28"
+    },
+    "docs/reference/06_market/README.md": {
+      "source_sha256": "77309720ca221bd1ae032773f88b4912bc01908242a7591e0ecbafd08ec3cd0d",
+      "target": "docs_en/reference/06_market/README.md",
+      "target_sha256": "f0ea60a308eb6dabec6dd3652d2ae7e028adca0e9ba16a093d7843bd66844613"
+    },
+    "docs/reference/07_naval/README.md": {
+      "source_sha256": "71f4e1cb218df72ab126270c6bf38e243d696081153163ec6a1864fb749e0988",
+      "target": "docs_en/reference/07_naval/README.md",
+      "target_sha256": "7a982daa9534d9f4cde4cafc076e435ffb49881f583419450a0347a2d344cd86"
+    },
+    "docs/reference/README.md": {
+      "source_sha256": "edcaaa6ad1cc715ffed601048addbce36ac91b20b46775872ad1dd44ea072542",
+      "target": "docs_en/reference/README.md",
+      "target_sha256": "77e9ba2cc04271a88cd03ed5ad82056c96f22cb520c63521db4b2522338a90e7"
+    },
+    "docs/reference/compare/README.md": {
+      "source_sha256": "e8678230d4f1d889f129d2269e89b5f64ebead52654db774a2983b05ea5dddd4",
+      "target": "docs_en/reference/compare/README.md",
+      "target_sha256": "2421a199e0bb4ed96024a854b3740007e37bbca07d1757bb49c296edcff96a5c"
+    },
+    "docs/reference/compare/buildings/README.md": {
+      "source_sha256": "fec073bc01f0de3cbf7b96c1fa3487589dea928d39483c4015e256a110eacdcc",
+      "target": "docs_en/reference/compare/buildings/README.md",
+      "target_sha256": "e1543e6cbaf0009004400f8713d40e95993a853e4b61fac536ecbf7a810b9951"
+    },
+    "docs/reference/compare/buildings/academies.md": {
+      "source_sha256": "720760bbcc700e35f1aabfc2cdee540e08867cd681f66b0bf7c9e15c27ca728c",
+      "target": "docs_en/reference/compare/buildings/academies.md",
+      "target_sha256": "0294884be984ba7a7af7f4ac7440d56fcd9794d848decc4f99d37df47f10f8a9"
+    },
+    "docs/reference/compare/buildings/artillery_depots.md": {
+      "source_sha256": "12ad4499805a8d5d55418c7d2dbfac00f50e0581bf50b2045c87fde206516874",
+      "target": "docs_en/reference/compare/buildings/artillery_depots.md",
+      "target_sha256": "c76fbb495bf17952cceefe23f8dddfc02141b909b45587175ad3fffc9c1a9a8a"
+    },
+    "docs/reference/compare/buildings/barracks.md": {
+      "source_sha256": "c41c76a254f8e44b8c02f0b5eda63acc206a2ece2782ec96f5011c07654b232d",
+      "target": "docs_en/reference/compare/buildings/barracks.md",
+      "target_sha256": "a7ae48be105f52446e894ff8dacac121d2763d84750b519757f201f5a5b26006"
+    },
+    "docs/reference/compare/buildings/blacksmiths.md": {
+      "source_sha256": "a05af84e1f0327af9af797d52955913bd477d1b18c67d97bfe3b6d47fa0c76fd",
+      "target": "docs_en/reference/compare/buildings/blacksmiths.md",
+      "target_sha256": "cc347112c09709538fb452bcc00208f7472a94b2d8e2b0e51587996b57e910f5"
+    },
+    "docs/reference/compare/buildings/diplomatic_centers.md": {
+      "source_sha256": "1ccdcc642b91e8cdee181f9e34ff6b807096c141385b68ba2babc9d61dce7a7f",
+      "target": "docs_en/reference/compare/buildings/diplomatic_centers.md",
+      "target_sha256": "3285e028925b7484e4a0b550973a567564959ce98684314d89a84c20a3263170"
+    },
+    "docs/reference/compare/buildings/houses.md": {
+      "source_sha256": "318dfbaadf2e2ee9ba6b970c7f7681dbb03d3fe2be85cc5aa119d0628ecef556",
+      "target": "docs_en/reference/compare/buildings/houses.md",
+      "target_sha256": "46b4ab419d5f571528a23f8263d5a2089d1337237b8bcbf08b7b98c0fb979d21"
+    },
+    "docs/reference/compare/buildings/markets.md": {
+      "source_sha256": "efcc1fa75930cd4d19a8c76cba186814cd90961081c93669e3ee54cae8f408c1",
+      "target": "docs_en/reference/compare/buildings/markets.md",
+      "target_sha256": "19ae49c6fd0ded41e902424d33eea8c3e4183510bc85cb1387e0232bfcb1197d"
+    },
+    "docs/reference/compare/buildings/mills.md": {
+      "source_sha256": "4e2f610ffb6cdbfd66d6ad8b694147a25bb93e7605f43dc9a7d28025e281810c",
+      "target": "docs_en/reference/compare/buildings/mills.md",
+      "target_sha256": "a4a38c04bfd189e449268cd62b779fb3e13b60b930f142521abd0dcf45f3c0fb"
+    },
+    "docs/reference/compare/buildings/mines.md": {
+      "source_sha256": "4d7f3e560bc279db5859e89934fa7fc20de756b1c92088f6fe3685abaa3371dd",
+      "target": "docs_en/reference/compare/buildings/mines.md",
+      "target_sha256": "81c3fe8ef5460a7eb4d4d9a2f3d49e7639a8ab84221d5447ca05706432deccb1"
+    },
+    "docs/reference/compare/buildings/ports.md": {
+      "source_sha256": "4f9d31743a87e03c3c797ee912d1973672b0dbbaf6bcef723fa87ca3e10d14bc",
+      "target": "docs_en/reference/compare/buildings/ports.md",
+      "target_sha256": "f3235a9e8f38f23fd357f11bcd94ef0165e2fbb577c5f1ce00b58fd6113e0770"
+    },
+    "docs/reference/compare/buildings/stables.md": {
+      "source_sha256": "ff683afb6a271fb443228a7b756898e8eed3ebb06583d1d7eb0ac485bfe3321a",
+      "target": "docs_en/reference/compare/buildings/stables.md",
+      "target_sha256": "688db1c9764cb598a4f10e786bfa2aed18b065bddd41cad5fc85534c70f0a250"
+    },
+    "docs/reference/compare/buildings/storehouses.md": {
+      "source_sha256": "b6169b5164e374ff80506d4a09a384e25918882fc51d37c0343e5bcc5d7a2111",
+      "target": "docs_en/reference/compare/buildings/storehouses.md",
+      "target_sha256": "55f71daac6110d575110d7d1d2a15a2737ce5269f5f74ca5bdeedf63831d16b4"
+    },
+    "docs/reference/compare/buildings/temples.md": {
+      "source_sha256": "bffa7b7c787f33500177cfca2008a1d43fe6037bf231450fc23dcd57caecd6cd",
+      "target": "docs_en/reference/compare/buildings/temples.md",
+      "target_sha256": "8f6dad103608804f9af2845c69efb0fb111119236d0c123456ac5b5e7b9213ba"
+    },
+    "docs/reference/compare/buildings/towers.md": {
+      "source_sha256": "e4d6f5d43ea9628637760856b896853f6724dd888c4c53991fdae9c46747d4c2",
+      "target": "docs_en/reference/compare/buildings/towers.md",
+      "target_sha256": "af82313e242906affeaf04666453b738602995ce0acf0d3f45f97cbf36bae93f"
+    },
+    "docs/reference/compare/buildings/town_halls.md": {
+      "source_sha256": "19abb9723e3c65d38a9136b89f5e6c6f8a37b212d21992f16828f511337a266a",
+      "target": "docs_en/reference/compare/buildings/town_halls.md",
+      "target_sha256": "572ee481d4d319446d05bb71f25f3259d32ab0ab215321c557d51be96db247b2"
+    },
+    "docs/reference/compare/units/README.md": {
+      "source_sha256": "90d4fa9c5d559ceefeefc51eb72995b3ba601e397fb9695a3a6cb9c8f853bf26",
+      "target": "docs_en/reference/compare/units/README.md",
+      "target_sha256": "b5d9702c648a687e1cc3ceb7eed76ec3035356ea0da798d42ade8c0cf1c1f61b"
+    },
+    "docs/reference/compare/units/archers.md": {
+      "source_sha256": "98d795d10524a2adb4b3d8e879a9271cc09fe9fbd4e389d578e7af0aaa5e1626",
+      "target": "docs_en/reference/compare/units/archers.md",
+      "target_sha256": "689fdd916c0e245f1bdeab1c4334dfb2d85b1c7c6a35f46ac8d810b968252ee7"
+    },
+    "docs/reference/compare/units/dragoons.md": {
+      "source_sha256": "9b83ca17aab559bb26e38ea1184a4abade88cf8349720f8525ee4dafeec43d66",
+      "target": "docs_en/reference/compare/units/dragoons.md",
+      "target_sha256": "bde118c5b6b106f3a6fa66615dc7d6d10efd37f8d0949eb030fb1cc56a1fb573"
+    },
+    "docs/reference/compare/units/drummers.md": {
+      "source_sha256": "5becfaf739af9e1f02699317cc4e48268b7fb1011f9ae98f6dce18e020284c77",
+      "target": "docs_en/reference/compare/units/drummers.md",
+      "target_sha256": "dbd4408c18456d7825b7f56089aeba261751f74af9848ea356a58d219936bda6"
+    },
+    "docs/reference/compare/units/grenadiers.md": {
+      "source_sha256": "b93adcd65e25c68730e308d373635a776d6163b1e28127057d771f21dc92cd7d",
+      "target": "docs_en/reference/compare/units/grenadiers.md",
+      "target_sha256": "0b59f1156250522e364afbdf8c8160e59059f9a9e3f2f4f0d09e861fb1974e16"
+    },
+    "docs/reference/compare/units/heavy_cavalry.md": {
+      "source_sha256": "212024a99f177b8e1b24eee21b16a84fc8e3dac583b12b924b3b7c59288fe93d",
+      "target": "docs_en/reference/compare/units/heavy_cavalry.md",
+      "target_sha256": "34d24db45396e7e654d6e0e5ce01b421d02c57df62b92e76fe5664adef36ef4f"
+    },
+    "docs/reference/compare/units/light_cavalry.md": {
+      "source_sha256": "568eebb16adf7dfc9eba14d5f059c17c612c180098662cb4d105b13cee12ceb1",
+      "target": "docs_en/reference/compare/units/light_cavalry.md",
+      "target_sha256": "8458c9ee557fc81d71c3be548a38414b989f41b8c4dd273dd7d0ad52d7048c00"
+    },
+    "docs/reference/compare/units/light_infantry.md": {
+      "source_sha256": "620746a7b2cceac23fbe0bffa7a28189f066a71504828918d728a2743189db03",
+      "target": "docs_en/reference/compare/units/light_infantry.md",
+      "target_sha256": "e337320799973ea06a9c8717b72cdb2b3a5441dd8a201f24bb527addb82a7cd8"
+    },
+    "docs/reference/compare/units/musketeers17.md": {
+      "source_sha256": "43bb7856841434daa72e57bf1096b6a840b92ba3948a51766cbad15d863905cd",
+      "target": "docs_en/reference/compare/units/musketeers17.md",
+      "target_sha256": "ab89496681e3da8b5cd664701bf6519681c6ffcfd82a0ba181a53d2f75990b12"
+    },
+    "docs/reference/compare/units/musketeers18.md": {
+      "source_sha256": "e082db3a1f343df0789d9953258788fdca8b62bedb346cf9da23db9ac83d064b",
+      "target": "docs_en/reference/compare/units/musketeers18.md",
+      "target_sha256": "d88569aacfde9ed680a688fde88ad4b4aa79e5f8422acb089a0e607a69dc67e7"
+    },
+    "docs/reference/compare/units/officers.md": {
+      "source_sha256": "1ab317d822bc2cbf522ad69b14053288b26c61c461ca292bb41cf4b2dc3d982b",
+      "target": "docs_en/reference/compare/units/officers.md",
+      "target_sha256": "45d635ef30a0a2fd7f3ac879166087d0f83aa1142f5f11c1809fbbe18f66bd55"
+    },
+    "docs/reference/compare/units/peasants.md": {
+      "source_sha256": "98354a502bb70c1961504934c6692027cd1c3a30b377650cf3030d6bc785c911",
+      "target": "docs_en/reference/compare/units/peasants.md",
+      "target_sha256": "5663776f308399c799597af2b8a4ff06a9d41babbf95f12d2299844aebab96ef"
+    },
+    "docs/reference/compare/units/pikemen.md": {
+      "source_sha256": "50f56c87a242ca49f831e2d7d558afe52a82d5bef3a3e5fec4fc59491adea569",
+      "target": "docs_en/reference/compare/units/pikemen.md",
+      "target_sha256": "71b2f40ef77ee8d3813e80cde7397f530a4727e881dbb67ffbf4f84198a2ca58"
+    },
+    "docs/reference/compare/units/pikemen18.md": {
+      "source_sha256": "42fc9faaf1b1eaed37cd569167b06bc2d50f532abf3f392cddf2561a0ea06094",
+      "target": "docs_en/reference/compare/units/pikemen18.md",
+      "target_sha256": "a865f85ec2b9d20e83ee0f61c2bf26be6c2e3593dc2083d11662435be4603a17"
+    },
+    "docs/reference/compare/units/priests.md": {
+      "source_sha256": "556c78f988f9d045eb66b4dd6cf4e86542c43029eb19adc414b4280828197787",
+      "target": "docs_en/reference/compare/units/priests.md",
+      "target_sha256": "46b99512add0883ca2536e03a44e47baced7c4bf9cb43fe87009827adb89d601"
+    },
+    "docs/reference/compare/units/ships.md": {
+      "source_sha256": "254427332e4fd444db644025fc2714c0f4fca46d4ead93c966ec3e26a7864056",
+      "target": "docs_en/reference/compare/units/ships.md",
+      "target_sha256": "e242f2c6fa96a55e83dac056c9d9c1cea28e354a4d24bb2463a9cad0884bafc7"
+    },
+    "docs/reference/compare/units/siege.md": {
+      "source_sha256": "024ad0f34131ddc87641e46aacca29fe03fbb429200c2be79c223f143ebb3c35",
+      "target": "docs_en/reference/compare/units/siege.md",
+      "target_sha256": "fa0cfd070c817a3cd06bae40c2272cb23732051d66b9c57e87eada5a47549cea"
+    },
+    "docs/reference/compare/units/special_infantry_18c.md": {
+      "source_sha256": "91f3017de8bd6231fa25a79c67ba6e2a7c0ac75883eed5563b7fca5379eec3ca",
+      "target": "docs_en/reference/compare/units/special_infantry_18c.md",
+      "target_sha256": "1e777c8da455d42687314efa51b8923c125d0ee8468fb11b64489ea1171fc808"
+    },
+    "docs/reference/compare/weapons/README.md": {
+      "source_sha256": "c0511c57376dfc6199e7fd37d7887d03e3cc476ec9d383724f8e45af71583a5b",
+      "target": "docs_en/reference/compare/weapons/README.md",
+      "target_sha256": "3c18980403ee2973687195721ffa7ab585591c63923b61e8d125d5ceaa620a55"
+    },
+    "docs/reference/compare/weapons/projectiles.md": {
+      "source_sha256": "a7eff3281200872098abd7d46bb4e307df9f1239b898bcaf6adf5ea0db74abbb",
+      "target": "docs_en/reference/compare/weapons/projectiles.md",
+      "target_sha256": "0710ea288e53c9f61d86b03543d2f306f873dc4d4cc5b166d20e47d650c76c87"
+    },
+    "docs/reference/nations/README.md": {
+      "source_sha256": "5d5976cc282d25354bd8c390e30b3d8e9fc806b9d91b574a22acb2dd468e350b",
+      "target": "docs_en/reference/nations/README.md",
+      "target_sha256": "97131214b7c1f9ff811832c6a31820b2e9a84eec425cbd4c92e1a45d570f669b"
+    },
+    "docs/reference/nations/alg.md": {
+      "source_sha256": "42864dc2f59921c5697fe45cc1c323faacc649321c2039a167fc80581c1050ce",
+      "target": "docs_en/reference/nations/alg.md",
+      "target_sha256": "3f04911b6485212fedef1feba1447d57654111a018116eb75eda52ff93a438a5"
+    },
+    "docs/reference/nations/aus.md": {
+      "source_sha256": "34459e5d5f9358257741ba6c471475edcfbddc6446a6a7814d6599fabc714d6d",
+      "target": "docs_en/reference/nations/aus.md",
+      "target_sha256": "4b1224720b5c8ff4c3e0ed0b5ee8aae4c5b117e5db19432e4c54b07db0aa8dbd"
+    },
+    "docs/reference/nations/bav.md": {
+      "source_sha256": "00beb818d0e048fded34e393d02809f7b09e150c9ae10f549482b96a749f7b21",
+      "target": "docs_en/reference/nations/bav.md",
+      "target_sha256": "78c672c01a8c5f06f121bea021f71b078ef4a6d55f69507ee754b4e2bec03c5f"
+    },
+    "docs/reference/nations/den.md": {
+      "source_sha256": "34cd0ee6b90f05812ce9261dee4c5e94f3d3f777b9e834af437c4a175255221f",
+      "target": "docs_en/reference/nations/den.md",
+      "target_sha256": "6e57cb2a3bba802e0b182a0312fce2f7221cb3a85cea7c3e6952e1165c3a4500"
+    },
+    "docs/reference/nations/eng.md": {
+      "source_sha256": "cea19e7b219b71450ab59d9408c1a66a765f314f33c444ac046a8911b83dc1e0",
+      "target": "docs_en/reference/nations/eng.md",
+      "target_sha256": "97fb5c24d0ae5546669d00290164a8a864a47a4972adecce0727ac8b6acb923a"
+    },
+    "docs/reference/nations/fra.md": {
+      "source_sha256": "6083e6c8ca1dcdf7d6b54cf1a10f7e884f86bdc9d1d1ced8b4c464f8b0ba9235",
+      "target": "docs_en/reference/nations/fra.md",
+      "target_sha256": "d7ad19240029958273acf69ad864d67f9e0fd0b9cf4f7ce7be8963b102063eba"
+    },
+    "docs/reference/nations/hun.md": {
+      "source_sha256": "b14a3ae8c28e96ce9a9e9c8b8e2d08e3845ea305273924adb39d7eb05fea7045",
+      "target": "docs_en/reference/nations/hun.md",
+      "target_sha256": "1c48ceca33faeecdc09b3a5f703c312d0874e57842f7859659456945da41a19b"
+    },
+    "docs/reference/nations/net.md": {
+      "source_sha256": "e0ee5b50a47c9845612964239e06fae47491f01be81ee9d622aead0dcfd7b9aa",
+      "target": "docs_en/reference/nations/net.md",
+      "target_sha256": "0facb0372d83602b61738971bbfcd0f5a5b86349b7b753f13909a50f05f18bb1"
+    },
+    "docs/reference/nations/pie.md": {
+      "source_sha256": "77e43c1868c79b189772e08724493794259b9e07c10ae30e3abc066f64759197",
+      "target": "docs_en/reference/nations/pie.md",
+      "target_sha256": "aca3a945ee430baa94bd882654cef8cc6bb8bb6f299510184e20ce4656258f0b"
+    },
+    "docs/reference/nations/pol.md": {
+      "source_sha256": "91ec717efe53d18e6f44c22a65d84dc0c38636a96d4e3b7df2b67b0dcaf941fe",
+      "target": "docs_en/reference/nations/pol.md",
+      "target_sha256": "6a3c708876c1b88ea4ecdbe3fc12c8e5be05eabe52e74e8e9fdf1b06813f39c7"
+    },
+    "docs/reference/nations/por.md": {
+      "source_sha256": "2148e770ab861a1de73bfe56ccd28aa20009f94f667222513b59b13d3a9add80",
+      "target": "docs_en/reference/nations/por.md",
+      "target_sha256": "9924468ee4a51b9acec538ffa2471d36e71839803325c235464dab1bf4691d34"
+    },
+    "docs/reference/nations/pru.md": {
+      "source_sha256": "2360a854faa60db5b8f19e605eaa0304738735bf4f94ddc64e60716f69f15241",
+      "target": "docs_en/reference/nations/pru.md",
+      "target_sha256": "d785eb146dad9c2d2c513978fb2a91e58bdd03aceeb0018b6dde6d8903311a90"
+    },
+    "docs/reference/nations/rus.md": {
+      "source_sha256": "ec9f0128e60f5e1bd7445ba3cdab5547d4b3f3aa34479a92fe0734d39f66a0df",
+      "target": "docs_en/reference/nations/rus.md",
+      "target_sha256": "1eeb49ebeb82691e8f41231b2c0c8079ef774a23f21a0ef78af8da7b75e9f8ca"
+    },
+    "docs/reference/nations/sax.md": {
+      "source_sha256": "69869e3f6e76b37873a51afcbd5c9288000d77c257019c2483d4f66588f2d6c1",
+      "target": "docs_en/reference/nations/sax.md",
+      "target_sha256": "8278801bb8ee89442a924afc9373c313783ce483b2952885ea99cfa39870fe28"
+    },
+    "docs/reference/nations/sco.md": {
+      "source_sha256": "285fb1cc8d86113bceaa7903c23c4cb6f97335840ae3d7faf0ec1d4357b24310",
+      "target": "docs_en/reference/nations/sco.md",
+      "target_sha256": "6368c88a579c5f0b4affaf584b169a7a836c6e9bbd3b506eef718324bf6f4495"
+    },
+    "docs/reference/nations/spa.md": {
+      "source_sha256": "333f3a5fb799c10cfd96f916c125ed05ce9721940751bac47932d0f3cf98527d",
+      "target": "docs_en/reference/nations/spa.md",
+      "target_sha256": "d9628ab31d13c2ac87e171ef610c80aa2619519964d17b5ed5f0f90db1c483ba"
+    },
+    "docs/reference/nations/swe.md": {
+      "source_sha256": "cd4f7f3bc0e27ee705e24fbd05a6a9e1c1ff9a371a1dc97ae7490280915b26f6",
+      "target": "docs_en/reference/nations/swe.md",
+      "target_sha256": "6f4af806694ea4de942fd851620a3eaff47c0e23800e84a151105c2b8fb0ad8a"
+    },
+    "docs/reference/nations/swi.md": {
+      "source_sha256": "a4acfdfdd3b042589e3d5484795790aaf8712284404428e5a902265c0fe030fc",
+      "target": "docs_en/reference/nations/swi.md",
+      "target_sha256": "f394adc8e59f26775329844cb5c4d6fec9b2589fefcb512bd587f92fdde6dad1"
+    },
+    "docs/reference/nations/tur.md": {
+      "source_sha256": "8c09d767d54e9ed6e18cf46faf43786ffb1695fd4d69b64fe2dc8f0aee449e4b",
+      "target": "docs_en/reference/nations/tur.md",
+      "target_sha256": "2e63d2df48b4f4b5c465089690a547da95e2e46f96c3429254b8d7ebbd82504e"
+    },
+    "docs/reference/nations/ukr.md": {
+      "source_sha256": "7b7adff3678781e9bd5294ac090b9fbfa070f970c2a4fb1423033f79c9193002",
+      "target": "docs_en/reference/nations/ukr.md",
+      "target_sha256": "31c2cd59d8f3a0e7aab2d65104dca032dbc9acaea0fe7cfa217cd603d6b834d8"
+    },
+    "docs/reference/nations/ven.md": {
+      "source_sha256": "1e20330c4c08ff5831631bac11252d834572437fa11db71dddc61f91f689988e",
+      "target": "docs_en/reference/nations/ven.md",
+      "target_sha256": "4e572b4b49152ec5ba6ac3edbd4f21b98426c46271da2f207223f637103e8f38"
+    },
+    "docs/reports/README.md": {
+      "source_sha256": "ed966dc5f81051fefd3e9a35e67925907592c440c743f51dc1eb11a11140792c",
+      "target": "docs_en/reports/README.md",
+      "target_sha256": "73064b3d29e3e364a458b3796b6caad34f2cf6cc7f386b4154b73917582329ce"
+    },
+    "docs/reports/combat/artillery.md": {
+      "source_sha256": "d0fb9fb049a8ba2244a032a037afb0f5bb6d197f2fd2f8955131b719e36e3a6f",
+      "target": "docs_en/reports/combat/artillery.md",
+      "target_sha256": "6f1aef3bced47079e2e79a3d9bb059cd1b5174ba9204f668871d11d07a132eeb"
+    },
+    "docs/reports/combat/attack_rates.md": {
+      "source_sha256": "a0cb09a0d229a60617e05c4a120cc50192e32ecea6e91c06108fb33f38ea932f",
+      "target": "docs_en/reports/combat/attack_rates.md",
+      "target_sha256": "283677c4af14d0427452b76b423b10a76eed36ab8d53732e2c2d5db07c11a52c"
+    },
+    "docs/reports/combat/combat_stats.md": {
+      "source_sha256": "fb532565dfa4ca49495aaf562b36e90365cf73d795669f99510d81b160a0485f",
+      "target": "docs_en/reports/combat/combat_stats.md",
+      "target_sha256": "b779cb2cf32378387b0e1c597eb5bedea8a6e8cf25257508e4bd2f0e6abd8735"
+    },
+    "docs/reports/combat/counter_matrix.md": {
+      "source_sha256": "6fbf4c3177a7af3499ad4b567b8d2da521077d7d0221b54f19834da3b5fb0c40",
+      "target": "docs_en/reports/combat/counter_matrix.md",
+      "target_sha256": "7b23b953ecbf439deefe94acb39e4d2bf84eb305231b611582cd6c58100421b5"
+    },
+    "docs/reports/combat/vision_radii.md": {
+      "source_sha256": "6b8723c4f53a7cab65533251808333ca2fff081f1bea8c897eacfa2cc5ab2b21",
+      "target": "docs_en/reports/combat/vision_radii.md",
+      "target_sha256": "00df5cd5ae8abe3341ded756f6e2f760d491ccf139b85da98afb41012da72a86"
+    },
+    "docs/reports/economy/builder_slots.md": {
+      "source_sha256": "8834b19fa4d64fd21f8bec3153a33f049cab09ed3231b5dc7aa415276582eef1",
+      "target": "docs_en/reports/economy/builder_slots.md",
+      "target_sha256": "17e458b43c754d28499a5f99e517080de63927d2e6e76c074cda940b41575c1f"
+    },
+    "docs/reports/economy/construction_times.md": {
+      "source_sha256": "d1ba344a4b810dba301cca49be7b646366f1f89f46b77533a496ddcb11224b1c",
+      "target": "docs_en/reports/economy/construction_times.md",
+      "target_sha256": "f22bfbaa696a928522e65b174c9db67747d8dd3f5b53d8683fec60c802be7a14"
+    },
+    "docs/reports/economy/efficiency_upgrades.md": {
+      "source_sha256": "c9973523f8a4657984c403c216d2bef306c4547da483bc3a47fa31f7f1860db4",
+      "target": "docs_en/reports/economy/efficiency_upgrades.md",
+      "target_sha256": "e2e8b744a2ffd1695db13cec6b06d659506ac31634784f77100a78b81ff38756"
+    },
+    "docs/reports/economy/production_rates.md": {
+      "source_sha256": "1fee2b2190a8259aee46c50f2cc1f91484ec3539a17d08e9baa796905d6fa2e2",
+      "target": "docs_en/reports/economy/production_rates.md",
+      "target_sha256": "a1449fa92c1b27cee8393385cad7747353a3965c612fca84a5810d94f1a2ab7e"
+    },
+    "docs/reports/economy/scaling_prices.md": {
+      "source_sha256": "cfcf7c00fe79be255d5edcbf356ab1bffe52f558428a6bfce45eb207e7982596",
+      "target": "docs_en/reports/economy/scaling_prices.md",
+      "target_sha256": "8fc4217a67d2cdd76307a58bd503e03318569d52c3fa5365cbd052b3f38b4db1"
+    },
+    "docs/reports/map/lobby_settings.md": {
+      "source_sha256": "bcb7cc142c9507366bd8157c15687cffa0701ad2e75efb676bd8e07885dacfbf",
+      "target": "docs_en/reports/map/lobby_settings.md",
+      "target_sha256": "b8e4743bc88247e165d2961255ba800481a41e549102f3e02c7ceca38e88777b"
+    },
+    "docs/reports/map/map_resources.md": {
+      "source_sha256": "b7151a9061c1f7eb9c0c70c214fd3f67c620df2c67e71eb81437f08cc73b8a94",
+      "target": "docs_en/reports/map/map_resources.md",
+      "target_sha256": "1dc733f8e9438e04f1d8b7c3f3e0b640228775223856d146da87e3dc43f77aa0"
+    },
+    "docs/reports/map/starting_layout.md": {
+      "source_sha256": "34022978119f8685efdc1c9867f752558e9c1ebbd2822e3aa6960db121052cb0",
+      "target": "docs_en/reports/map/starting_layout.md",
+      "target_sha256": "925a253ddcd3b5e72006b273f12eb654a76221743be33e3cc5a524c90470e99c"
+    },
+    "docs/reports/nations/overview.md": {
+      "source_sha256": "0124866945cc10a0d3cb1990bdf7527ada9c7eda7b60e6a3453db26954ada96b",
+      "target": "docs_en/reports/nations/overview.md",
+      "target_sha256": "453ce67d4062e37a67f210d307b30cd26a3c1190b061511f55af296afa6c6fe7"
+    },
+    "docs/reports/tech/tech_tree.md": {
+      "source_sha256": "23002a53a7468c562f3963fc85ba13b2576c81396177c3b1d066ab66bdd8fca3",
+      "target": "docs_en/reports/tech/tech_tree.md",
+      "target_sha256": "17abd734d6e606a43f11fdd84867e108b2d17db7834bd810633252702a9789d8"
+    },
+    "editor/README.md": {
+      "source_sha256": "0fb93bb4cca12f5e78a586db5dd593e7df5037335554f01b31be23bc782bbc08",
+      "target": "editor/README.en.md",
+      "target_sha256": "d75081d04768b2db4f7958a1be5b80adde05b7732ff7ac931dead869dd9ad692"
+    },
+    "internals/README.md": {
+      "source_sha256": "74ebd4dc759b40b30b8b94fef2c845cd9e5b7dd2020ad52a4f5fc82ac5655385",
+      "target": "internals_en/README.md",
+      "target_sha256": "1db073113f93e6dd0cd724a4b57ecb10013fa1e00fecaf025febf1bd4d769514"
+    },
+    "internals/data/file_formats.md": {
+      "source_sha256": "1090fb1155af5e666a2fc6ad29c2a095d9ec6e61e7522c17f04c57c9568c9ae1",
+      "target": "internals_en/data/file_formats.md",
+      "target_sha256": "3e33055554be5ae7bae1c39aa4055a0b80a6dd798915552447292ceebeae6ac2"
+    },
+    "internals/data/game_fields_glossary.md": {
+      "source_sha256": "86820bee817eeb2c05463058a2e7e936beeed495234c4e492d536afc099cf190",
+      "target": "internals_en/data/game_fields_glossary.md",
+      "target_sha256": "633057d373e90cd9a0da709f43451369801b225745af104502011ee8135e82a2"
+    },
+    "internals/data/layout.md": {
+      "source_sha256": "8371495fe1187cb45b89542f79447907b4c795c2f4dcb92004e822db43b99585",
+      "target": "internals_en/data/layout.md",
+      "target_sha256": "31b2c0134fc8c38949dad1690a8886fa3c9df40a988ab7e6333847d13ef5fd19"
+    },
+    "internals/data/map_predictions_validation.md": {
+      "source_sha256": "eb6850559318243ce5aba4f39d37a9ec39cfddb69d9ba3de3b774b0fd8775b81",
+      "target": "internals_en/data/map_predictions_validation.md",
+      "target_sha256": "716e59ecf8161d8dbf964283121893c22179a002841f0d10ced3d5b5888a83ab"
+    },
+    "internals/data/nation_deviations.md": {
+      "source_sha256": "77c5e942495ba3465cd5778fed8e934c4539474959f98a21d9287cb1266b329e",
+      "target": "internals_en/data/nation_deviations.md",
+      "target_sha256": "6f85dca84f6ce247ec58d7a3cabc723a20a13d27e84a6b57813bbdf680609eef"
+    },
+    "internals/data/replay_format.md": {
+      "source_sha256": "1cb4970b1b329a9d68f53b2853551fc96bca28f537cde9a64d1be2cff8bf39bf",
+      "target": "internals_en/data/replay_format.md",
+      "target_sha256": "7c9db2f77efef62e52c7843020b68b25daa36d4eae0a7b37836eb52efb7ce117"
+    },
+    "internals/engine/animation_system.md": {
+      "source_sha256": "c4e18c060331f7282b377d88799df7587c3b8cd7c81fb909d81b27429f5f0888",
+      "target": "internals_en/engine/animation_system.md",
+      "target_sha256": "04df20f15cb5cb57eebd3ce26f031173d6ad6b6075c5b06b874c9cc4c01b444d"
+    },
+    "internals/engine/determinism_audit.md": {
+      "source_sha256": "ad393afc92e94d27db5badb4de147808f6ec96c4790ead0e84b04eb824750a1a",
+      "target": "internals_en/engine/determinism_audit.md",
+      "target_sha256": "81d31ccf5cdc5028be9ab9477dd150c03d1f049ee09cd18025aa41d38f14ac11"
+    },
+    "internals/engine/native_api.md": {
+      "source_sha256": "62ac2ad41259d6012727a23b793ed5c1d10551f5a4b90f53eda35d0f74b2d4bf",
+      "target": "internals_en/engine/native_api.md",
+      "target_sha256": "8a910f38cdcd778f50a6e4bf8870fa4f8b8f9d558d0bdf537072197eb15d44ba"
+    },
+    "internals/engine/native_primitives.md": {
+      "source_sha256": "679777826c0f4e5a9e63e12a8b71a7eecee87d235801cf51552fa8f3ab32e613",
+      "target": "internals_en/engine/native_primitives.md",
+      "target_sha256": "df8848a1bd8f6690388f0f43e42b1d5c518f41901a52909343438a5daa38a897"
+    },
+    "internals/engine/rng_implementation.md": {
+      "source_sha256": "d8dce6e9d9798f232bd0a5e9262bf6e75419b7f1c90824f5f89cb0991e5c440f",
+      "target": "internals_en/engine/rng_implementation.md",
+      "target_sha256": "400e3d00bd9a4fe57790b562fdf17294f24988a65664e071459e9d47bd249681"
+    },
+    "internals/engine/rtti_class_map.md": {
+      "source_sha256": "f818e9afc5cc41b1df4dad35a6277c061be51d07806f2cd1f0783be0bd70d6bd",
+      "target": "internals_en/engine/rtti_class_map.md",
+      "target_sha256": "5c844132828d312e802d920ff0b5a03df989e7cbb94bfff31efed763730d47b7"
+    },
+    "internals/engine/script_modding_constraints.md": {
+      "source_sha256": "7d15ebb45bdb64a8b31de49010c0cbd563623c5dab7d5be251c6b868220df3b1",
+      "target": "internals_en/engine/script_modding_constraints.md",
+      "target_sha256": "b19e3ad71307609a8b49603b88282bf201fda6ca0082bc030e782011c0f29dc7"
+    },
+    "internals/engine/server_sync_architecture.md": {
+      "source_sha256": "39d806f6a5b7c87b7ece5674574f56b7e471c96baa7149fdf9303dd5bf09dcc8",
+      "target": "internals_en/engine/server_sync_architecture.md",
+      "target_sha256": "c32573d7ce5c92544dd5b68322e2abafdfde862d49d70408539690c6db4cfef0"
+    },
+    "internals/engine/server_sync_packet_format.md": {
+      "source_sha256": "38197f2b59dfd201ecda7b60b258e09879937a0e03768da0ca198d7227ee9da3",
+      "target": "internals_en/engine/server_sync_packet_format.md",
+      "target_sha256": "a5f810bba031d9ff3977a5444b775095b7031e1840ce5079209c561ce0ca00d4"
+    },
+    "internals/engine/ticks_and_subticks.md": {
+      "source_sha256": "746bb074e6f1578e12c06ed8af9f8b4261f8557b651af384343569d3b857b659",
+      "target": "internals_en/engine/ticks_and_subticks.md",
+      "target_sha256": "2fdf2024bbce38d3bc5df90c4ed84933432781a9b0b95a27b7fddf114d8a9b6c"
+    },
+    "internals/project/README.md": {
+      "source_sha256": "7ccf3b0b9a57d9fc13efb6d6b48b30c31ffecdcf5e10af86648bda37a1e6bf6e",
+      "target": "internals_en/project/README.md",
+      "target_sha256": "6e0ff3e5debc93bdc99e0110987a3f62db0742d87fddaabd2933f9b004ec91f0"
+    },
+    "internals/project/architecture.md": {
+      "source_sha256": "acc0100c44f154590c61c3ae0a52396934e25f9bfe464928df7e806ec907d19f",
+      "target": "internals_en/project/architecture.md",
+      "target_sha256": "a3a83750031e0286492bb40716938de5016038cd9c24d3f0ffc09e8dbf293b6e"
+    },
+    "internals/project/known_issues.md": {
+      "source_sha256": "4d4b4dd070f262c093e9ff6cc45633530138f34984421ab4e66530ac9278fda5",
+      "target": "internals_en/project/known_issues.md",
+      "target_sha256": "e4c1ddfce7c4125f321e1a36a16776ca4972e58f42d02f3aab5846a0df9536ce"
+    },
+    "internals/project/known_issues_archive.md": {
+      "source_sha256": "5a251309e52dbc45450c8c10c43370e5949e5729cdc006108e4ba599b9180799",
+      "target": "internals_en/project/known_issues_archive.md",
+      "target_sha256": "e5106706dda63cae0341f9eef0598233c1269d1776071c7cac27a0811fd2e6b6"
+    },
+    "internals/scripts/structure.md": {
+      "source_sha256": "42d3d20d7db87fbf867bfb0bc8a52627330a8ba223288eee1b80c12570b44567",
+      "target": "internals_en/scripts/structure.md",
+      "target_sha256": "65d3eefa8dda1e16c0a292673af5e6d23571309f706a215e42eda38166b27007"
+    },
+    "mods/Deterministic Cossacks/README.md": {
+      "source_sha256": "8718b0cc535fcf4dca8a1aa26ac57d0a6a0fbe2f5d151382b974d7693d9297a4",
+      "target": "mods/Deterministic Cossacks/README.en.md",
+      "target_sha256": "830cf7100fa92de17e65cd3d57639face92669943cea06777fd6ade8009fba3f"
+    },
+    "mods/README.md": {
+      "source_sha256": "cef429bb9408c3463f714e4291d6444e2577aeca1c8ae2b1a504828064a3f06b",
+      "target": "mods/README.en.md",
+      "target_sha256": "40e66395b0b601a9ba05744101a092a479434a9ac586422ad82df3163f0cd190"
+    },
+    "parser/README.md": {
+      "source_sha256": "09d5087c0d08cecd74123a1be4cf8139069af96b6e7c9e5f5563a19605943f8a",
+      "target": "parser/README.en.md",
+      "target_sha256": "599e8517f80335996045145c40a9bc65075a22157f373a172c5cde2a07cef7f2"
+    },
+    "writers/templates/README.md": {
+      "source_sha256": "55986cf376a44cf3899d49f543c9a0ee93719dd8e692c0842078f4328efc3b36",
+      "target": "writers/templates/README.en.md",
+      "target_sha256": "908e38b90859340916206cd35fbe216d53e090645acabe40ec488d74b6033c77"
+    },
+    "writers/templates/reference/compare/readme.md": {
+      "source_sha256": "e5ee622d6614c98ff7403f7b01e2c4bd506ae10ce29d42b41bec0449d24a27ff",
+      "target": "writers/templates/reference/compare/README.en.md",
+      "target_sha256": "9c19671e73b1931ff9cdd8b084c6bb1aa4d5caca2db6a10d04d166afb71a08b1"
+    }
   }
 }

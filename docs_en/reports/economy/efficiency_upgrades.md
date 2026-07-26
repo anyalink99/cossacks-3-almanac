@@ -51,6 +51,9 @@ The sum of all values in the line = the peak for the nation, if you examine ALL 
 
 **Cheapest food-eff progression (total gold for ALL food-eff upgrades):**
 
+<a id="стоимость-всей-цепочки-улучшений-еды"></a>
+## Total cost of the food-upgrade chain
+
 | Nation | total gold | total food | total wood |
 | --- | ---: | ---: | ---: |
 | **Algeria** (`alg`) | 1947 | 600 | 1840 |
@@ -76,7 +79,6 @@ The sum of all values in the line = the peak for the nation, if you examine ALL 
 | **Venice** (`ven`) | 5400 | 26350 | 6200 |
 
 <a id="подробно-по-нациям"></a>
-<a id="стоимость-всей-цепочки-улучшений-еды"></a>
 ## Detail by nation
 
 Each cost cell is the cost of **this** upgrade (not total).
@@ -116,7 +118,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -129,6 +132,7 @@ _Cumulative peak: +300_
 <a id="aus--austria-австрия"></a>
 <a id="австрия-aus"></a>
 ### Austria (`aus`)
+<a id="добыча-еды-1"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -141,6 +145,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-1"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -149,6 +154,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-1"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -158,7 +164,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-1"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -171,6 +178,7 @@ _Cumulative peak: +300_
 <a id="bav--bavaria-бавария"></a>
 <a id="бавария-bav"></a>
 ### Bavaria (`bav`)
+<a id="добыча-еды-2"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -183,6 +191,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-2"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -191,6 +200,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-2"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -200,7 +210,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-2"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -213,6 +224,7 @@ _Cumulative peak: +300_
 <a id="den--denmark-дания"></a>
 <a id="дания-den"></a>
 ### Denmark (`den`)
+<a id="добыча-еды-3"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -225,6 +237,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +460_
 
 <a id="эффективность-дерева"></a>
+<a id="добыча-дерева-3"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -234,6 +247,7 @@ _Cumulative peak: +460_
 _Cumulative peak: +100_
 
 <a id="эффективность-камня"></a>
+<a id="добыча-камня-3"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -243,7 +257,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-3"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -256,7 +271,8 @@ _Cumulative peak: +300_
 <a id="eng--england-англия"></a>
 <a id="англия-eng"></a>
 ### England (`eng`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-1"></a>
+<a id="добыча-еды-4"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -269,7 +285,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-1"></a>
+<a id="добыча-дерева-4"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -278,7 +295,8 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
-<a id="эффективность-камня"></a>
+<a id="эффективность-камня-1"></a>
+<a id="добыча-камня-4"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -288,7 +306,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-4"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -301,7 +320,8 @@ _Cumulative peak: +300_
 <a id="fra--france-франция"></a>
 <a id="франция-fra"></a>
 ### France (`fra`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-2"></a>
+<a id="добыча-еды-5"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -314,7 +334,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-2"></a>
+<a id="добыча-дерева-5"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -323,7 +344,8 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
-<a id="эффективность-камня"></a>
+<a id="эффективность-камня-2"></a>
+<a id="добыча-камня-5"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -333,7 +355,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-5"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -346,7 +369,8 @@ _Cumulative peak: +300_
 <a id="hun--hungary-венгрия"></a>
 <a id="венгрия-hun"></a>
 ### Hungary (`hun`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-3"></a>
+<a id="добыча-еды-6"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -359,7 +383,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-3"></a>
+<a id="добыча-дерева-6"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -368,6 +393,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-6"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -377,7 +403,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-6"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -390,6 +417,7 @@ _Cumulative peak: +300_
 <a id="net--netherlands-нидерланды"></a>
 <a id="нидерланды-net"></a>
 ### Netherlands (`net`)
+<a id="добыча-еды-7"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -402,6 +430,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-7"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -410,6 +439,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-7"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -419,7 +449,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-7"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -432,6 +463,7 @@ _Cumulative peak: +300_
 <a id="pie--piedmont-пьемонт"></a>
 <a id="пьемонт-pie"></a>
 ### Piedmont (`pie`)
+<a id="добыча-еды-8"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -444,6 +476,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-8"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -452,6 +485,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-8"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -461,7 +495,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-8"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -474,6 +509,7 @@ _Cumulative peak: +300_
 <a id="pol--poland-польша"></a>
 <a id="польша-pol"></a>
 ### Poland (`pol`)
+<a id="добыча-еды-9"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -486,6 +522,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-9"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -494,6 +531,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-9"></a>
 #### Efficiency of the stone
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -502,7 +540,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-9"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -515,7 +554,8 @@ _Cumulative peak: +300_
 <a id="por--portugal-португалия"></a>
 <a id="португалия-por"></a>
 ### Portugal (`por`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-4"></a>
+<a id="добыча-еды-10"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -528,7 +568,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-4"></a>
+<a id="добыча-дерева-10"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -537,7 +578,8 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
-<a id="эффективность-камня"></a>
+<a id="эффективность-камня-3"></a>
+<a id="добыча-камня-10"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -547,7 +589,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-10"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -560,7 +603,8 @@ _Cumulative peak: +300_
 <a id="pru--prussia-пруссия"></a>
 <a id="пруссия-pru"></a>
 ### Prussia (`pru`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-5"></a>
+<a id="добыча-еды-11"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -573,7 +617,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-5"></a>
+<a id="добыча-дерева-11"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -582,7 +627,8 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
-<a id="эффективность-камня"></a>
+<a id="эффективность-камня-4"></a>
+<a id="добыча-камня-11"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -592,7 +638,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-11"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -605,7 +652,8 @@ _Cumulative peak: +300_
 <a id="rus--russia-россия"></a>
 <a id="россия-rus"></a>
 ### Russia (`rus`)
-<a id="эффективность-еды"></a>
+<a id="эффективность-еды-6"></a>
+<a id="добыча-еды-12"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -618,7 +666,8 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
-<a id="эффективность-дерева"></a>
+<a id="эффективность-дерева-6"></a>
+<a id="добыча-дерева-12"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -627,7 +676,8 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
-<a id="эффективность-камня"></a>
+<a id="эффективность-камня-5"></a>
+<a id="добыча-камня-12"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -637,7 +687,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-12"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -650,6 +701,7 @@ _Cumulative peak: +300_
 <a id="sax--saxony-саксония"></a>
 <a id="саксония-sax"></a>
 ### Saxony (`sax`)
+<a id="добыча-еды-13"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -662,6 +714,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-13"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -670,6 +723,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-13"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -679,7 +733,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-13"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -692,6 +747,7 @@ _Cumulative peak: +300_
 <a id="sco--scotland-шотландия"></a>
 <a id="шотландия-sco"></a>
 ### Scotland (`sco`)
+<a id="добыча-еды-14"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -704,6 +760,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-14"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -712,6 +769,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-14"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -721,7 +779,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-14"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -734,6 +793,7 @@ _Cumulative peak: +300_
 <a id="spa--spain-испания"></a>
 <a id="испания-spa"></a>
 ### Spain (`spa`)
+<a id="добыча-еды-15"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -746,6 +806,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-15"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -754,6 +815,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-15"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -763,7 +825,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-15"></a>
+#### Field durability
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
 | `spaaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
@@ -775,6 +838,7 @@ _Cumulative peak: +300_
 <a id="swe--sweden-швеция"></a>
 <a id="швеция-swe"></a>
 ### Sweden (`swe`)
+<a id="добыча-еды-16"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -787,6 +851,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-16"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -795,6 +860,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-16"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -804,7 +870,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-16"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -817,6 +884,7 @@ _Cumulative peak: +300_
 <a id="swi--switzerland-швейцария"></a>
 <a id="швейцария-swi"></a>
 ### Switzerland (`swi`)
+<a id="добыча-еды-17"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -829,6 +897,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-17"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -837,6 +906,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-17"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -846,7 +916,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-17"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -859,6 +930,7 @@ _Cumulative peak: +300_
 <a id="tur--turkey-турция"></a>
 <a id="турция-tur"></a>
 ### Turkey (`tur`)
+<a id="добыча-еды-18"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -870,6 +942,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +280_
 
+<a id="добыча-дерева-18"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -878,6 +951,7 @@ _Cumulative peak: +280_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-18"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -887,7 +961,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-18"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -899,6 +974,7 @@ _Cumulative peak: +300_
 <a id="ukr--ukraine-украина"></a>
 <a id="украина-ukr"></a>
 ### Ukraine (`ukr`)
+<a id="добыча-еды-19"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -911,6 +987,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-19"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -919,6 +996,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-19"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -928,7 +1006,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-19"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |
@@ -941,6 +1020,7 @@ _Cumulative peak: +300_
 <a id="ven--venice-венеция"></a>
 <a id="венеция-ven"></a>
 ### Venice (`ven`)
+<a id="добыча-еды-20"></a>
 #### Food efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -953,6 +1033,7 @@ _Cumulative peak: +300_
 
 _Cumulative peak: +460_
 
+<a id="добыча-дерева-20"></a>
 #### Tree efficiency
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -961,6 +1042,7 @@ _Cumulative peak: +460_
 
 _Cumulative peak: +100_
 
+<a id="добыча-камня-20"></a>
 #### Efficiency of the stone
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
@@ -970,7 +1052,8 @@ _Cumulative peak: +100_
 
 _Cumulative peak: +300_
 
-####HP fields (fieldlife)
+<a id="прочность-полей-20"></a>
+#### Field durability
 
 | sid | lvl | +value | time (g-s) | cost | prereqs |
 | --- | ---: | ---: | ---: | --- | --- |

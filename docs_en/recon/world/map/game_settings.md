@@ -72,6 +72,7 @@ drummer, `O` = officer, `Q`/`W` = mission buildings, etc.).
 > by default” the player has 18 peasants at once.
 
 <a id="32-peacetime--как-устроен-мир"></a>
+<a id="peacetime--как-устроен-мир"></a>
 ### 3.2 `peacetime` - how the world works
 
 Function `_misc_GetPeaceTime` decodes the index into game minutes and multiplies by

@@ -250,6 +250,10 @@ def write_production_rates_md(data: dict) -> None:
     L.append("")
 
     nations = sorted(set(b["nation"] for b in data["buildings"]))
+
+    def production_anchor(nation: str, building_sid: str) -> str:
+        return f"production-{nation}-{building_sid}"
+
     L.append("## Содержание")
     L.append("")
     for nat in nations:
@@ -257,7 +261,7 @@ def write_production_rates_md(data: dict) -> None:
         if not bldgs:
             continue
         bld_links = ", ".join(
-            f"[{name_ru_en(b)}](#{heading_anchor(name_ru_en(b) + ' — ' + b['sid'])})"
+            f"[{name_ru_en(b)}](#{production_anchor(nat, b['sid'])})"
             for b in sorted(bldgs, key=lambda x: x["sid"])
         )
         anchor = heading_anchor(nation_ru(nat))
@@ -273,6 +277,7 @@ def write_production_rates_md(data: dict) -> None:
             L.append("")
             continue
         for b in sorted(bldgs, key=lambda x: x["sid"]):
+            L.append(f'<a id="{production_anchor(nat, b["sid"])}"></a>')
             L.append(f"### {name_ru_en(b)} — `{b['sid']}`")
             L.append("")
             L.append("| Юнит | Время найма, игр. с | За игровую минуту | "

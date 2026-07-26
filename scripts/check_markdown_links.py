@@ -1,12 +1,13 @@
-"""Validate relative file links in the repository's published Markdown.
+"""Validate relative file links and anchors in published Markdown.
 
 The writer templates are intentionally excluded: their links are relative to
 the generated destination under ``docs/reference/``, not to the template file.
-External URLs and same-document anchors are outside this check's scope.
+External URLs are outside this check's scope.
 """
 from __future__ import annotations
 
 import argparse
+import html
 import re
 import sys
 from pathlib import Path
@@ -30,6 +31,8 @@ ROOT_MARKDOWN = (
 # Inline Markdown links. Image links are harmless to validate with the same
 # rules, so the optional leading ``!`` is deliberately outside the capture.
 LINK_RE = re.compile(r"!?\[[^\]]*]\(([^)]+)\)")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+EXPLICIT_ID_RE = re.compile(r'<(?:a|span)\s+[^>]*\bid="([^"]+)"', re.IGNORECASE)
 EXTERNAL_PREFIXES = ("http://", "https://", "mailto:", "data:")
 
 
@@ -41,8 +44,8 @@ def published_markdown() -> list[Path]:
     return sorted(files)
 
 
-def link_target(raw: str) -> str:
-    """Return the path part of a Markdown destination.
+def link_destination(raw: str) -> tuple[str, str]:
+    """Return the decoded path and fragment of a Markdown destination.
 
     Destinations may be wrapped in ``<>`` and may have an optional quoted
     title after whitespace. Paths in this repository contain no literal
@@ -53,25 +56,69 @@ def link_target(raw: str) -> str:
         value = value[1:value.index(">")]
     elif " \"" in value:
         value = value.split(" \"", 1)[0]
-    return unquote(value.split("#", 1)[0].strip())
+    path, separator, fragment = value.partition("#")
+    return unquote(path.strip()), unquote(fragment.strip()) if separator else ""
+
+
+def heading_slug(value: str) -> str:
+    """Match ``headingSlug`` in ``assets/js/md-viewer.js``."""
+    value = re.sub(r"<[^>]+>", "", value)
+    value = re.sub(r"!\[([^\]]*)]\([^)]+\)", r"\1", value)
+    value = re.sub(r"\[([^\]]+)]\([^)]+\)", r"\1", value)
+    value = re.sub(r"[`*_~]", "", html.unescape(value)).strip().lower()
+    value = re.sub(r"[^\w\s-]", "", value, flags=re.UNICODE)
+    return re.sub(r"\s", "-", value)
+
+
+def document_ids(path: Path) -> set[str]:
+    """Return IDs available after the Markdown reader renders a document."""
+    text = path.read_text(encoding="utf-8")
+    ids = set(EXPLICIT_ID_RE.findall(text))
+    in_fence = False
+    for line in text.splitlines():
+        if re.match(r"^\s*(```|~~~)", line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if not match:
+            continue
+        base = heading_slug(match.group(2))
+        if not base:
+            continue
+        candidate = base
+        suffix = 1
+        while candidate in ids:
+            candidate = f"{base}-{suffix}"
+            suffix += 1
+        ids.add(candidate)
+    return ids
 
 
 def broken_links() -> list[tuple[Path, int, str]]:
     broken: list[tuple[Path, int, str]] = []
+    ids_by_path: dict[Path, set[str]] = {}
     for source in published_markdown():
         text = source.read_text(encoding="utf-8")
         for line_no, line in enumerate(text.splitlines(), 1):
             for match in LINK_RE.finditer(line):
-                target = link_target(match.group(1))
-                if not target or target.lower().startswith(EXTERNAL_PREFIXES):
+                target, fragment = link_destination(match.group(1))
+                if target.lower().startswith(EXTERNAL_PREFIXES):
                     continue
                 # Absolute local paths are never portable published links.
                 if Path(target).is_absolute() or re.match(r"^[A-Za-z]:[/\\]", target):
                     broken.append((source, line_no, target))
                     continue
-                resolved = (source.parent / target).resolve()
+                resolved = (source.parent / target).resolve() if target else source.resolve()
                 if not resolved.exists():
                     broken.append((source, line_no, target))
+                    continue
+                if fragment and resolved.is_file() and resolved.suffix.lower() == ".md":
+                    ids = ids_by_path.setdefault(resolved, document_ids(resolved))
+                    if fragment not in ids:
+                        destination = f"{target}#{fragment}" if target else f"#{fragment}"
+                        broken.append((source, line_no, destination))
     return broken
 
 

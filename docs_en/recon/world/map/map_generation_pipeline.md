@@ -412,6 +412,7 @@ For **non-Land** (`terraintype != 0`) the formula does not work (the engine logi
 
 <a id="12-seed-space--что-определяет-уникальную-карту"></a>
 <a id="12-что-определяет-уникальную-карту"></a>
+<a id="12-seed-space"></a>
 ## 12. Seed space - what determines a unique map
 
 With fixed parameters (terrain + mapsize + relief + mines + players), the map is uniquely specified by the pair `(inputbitmap, randkey0/randkey1)`:

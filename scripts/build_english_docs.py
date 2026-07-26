@@ -18,6 +18,7 @@ marked as such. The translation source hashes are committed in
 from __future__ import annotations
 
 import argparse
+import collections
 import concurrent.futures as futures
 import hashlib
 import html
@@ -51,6 +52,23 @@ HTML_TAG_RE = re.compile(r"</?[^>\r\n]+>")
 URL_RE = re.compile(r"https?://[^\s)>]+")
 FOOTNOTE_RE = re.compile(r"\[\^[^\]]+]")
 MARKER_RE = re.compile(r"ZXQ[A-Z]+\d{5}QXZ")
+PROTECTOR_ARTIFACT_RE = re.compile(r"\b(?:ZXQ|ZXX)[A-Z0-9]*\d+[A-Z0-9]*\b")
+EXPLICIT_ID_RE = re.compile(
+    r'<(?:a|span)\s+[^>]*\bid="([^"]+)"',
+    re.IGNORECASE,
+)
+MALFORMED_ATX_RE = re.compile(r"^#{1,6}[^#\s]")
+MALFORMED_LINK_RE = re.compile(
+    r"\]\s+\((?:\.{0,2}/|[A-Za-z0-9_.-]+/|"
+    r"[A-Za-z0-9_.-]+\.(?:md|json|py|html)\b)"
+)
+TRUNCATION_MARKERS = (
+    "tokens truncated",
+    "characters truncated",
+    "output truncated",
+    "content omitted",
+    "<snip>",
+)
 TRANSLATION_CLEANUPS = {
     "#Switzerland": "# Switzerland",
     "#Scotland": "# Scotland",
@@ -158,7 +176,9 @@ TRANSLATION_CLEANUPS = {
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    """Hash text reproducibly regardless of checkout line endings."""
+    normalized = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(normalized).hexdigest()
 
 
 def translation_pairs() -> dict[Path, Path]:
@@ -170,7 +190,12 @@ def translation_pairs() -> dict[Path, Path]:
         for source in source_root.rglob("*.md"):
             pairs[source] = target_root / source.relative_to(source_root)
 
-    for source in ROOT.rglob("README.md"):
+    # Use a wildcard and compare the discovered filename case-insensitively.
+    # ``rglob("README.md")`` changes behaviour between Windows and Linux for
+    # the tracked lowercase ``reference/compare/readme.md``.
+    for source in ROOT.rglob("*.md"):
+        if source.name.casefold() != "readme.md":
+            continue
         if any(part in {
             ".git", ".pytest_cache", ".codex_probe",
             "docs", "docs_en", "internals", "internals_en",
@@ -263,12 +288,22 @@ class Protector:
     def unprotect(self, text: str) -> str:
         for marker, value in reversed(self.restore.items()):
             shortened = marker[:-1]
-            if marker not in text and shortened in text:
+            full_count = text.count(marker)
+            shortened_count = text.count(shortened)
+            if full_count == 0 and shortened_count == 1:
                 text = text.replace(shortened, marker)
-            text = text.replace(marker, value)
-        missing = MARKER_RE.findall(text)
-        if missing:
-            raise RuntimeError(f"translation returned unknown markers: {missing[:3]}")
+                full_count = 1
+            if full_count != 1:
+                raise RuntimeError(
+                    f"translation changed protected marker {marker}: "
+                    f"expected once, found {full_count}"
+                )
+            text = text.replace(marker, value, 1)
+        artifacts = PROTECTOR_ARTIFACT_RE.findall(text)
+        if artifacts:
+            raise RuntimeError(
+                f"translation returned unknown markers: {artifacts[:3]}"
+            )
         return text
 
 
@@ -484,6 +519,7 @@ def write_manual_fenced_translations(
 def markdown_headings(text: str) -> list[tuple[int, str, int]]:
     """Return (level, slug, line index) for headings outside fenced blocks."""
     headings: list[tuple[int, str, int]] = []
+    used: set[str] = set()
     in_fence = False
     for index, line in enumerate(text.splitlines()):
         if FENCE_RE.match(line):
@@ -493,9 +529,16 @@ def markdown_headings(text: str) -> list[tuple[int, str, int]]:
             continue
         match = HEADING_RE.match(line)
         if match:
-            slug = github_slug(match.group(2))
-            if slug:
-                headings.append((len(match.group(1)), slug, index))
+            base = github_slug(match.group(2))
+            if not base:
+                continue
+            slug = base
+            suffix = 1
+            while slug in used:
+                slug = f"{base}-{suffix}"
+                suffix += 1
+            used.add(slug)
+            headings.append((len(match.group(1)), slug, index))
     return headings
 
 
@@ -825,24 +868,183 @@ def rewrite_translated_links(
     return LINK_TARGET_RE.sub(replace, text)
 
 
-def load_manifest() -> dict[str, str]:
+def load_manifest() -> dict[str, dict[str, str]]:
     if not MANIFEST_PATH.is_file():
         return {}
-    return json.loads(MANIFEST_PATH.read_text(encoding="utf-8")).get("sources", {})
+    payload = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    sources = payload.get("sources", {})
+    if payload.get("schema") == 1:
+        return {
+            path: {"source_sha256": digest}
+            for path, digest in sources.items()
+        }
+    return {
+        path: value
+        for path, value in sources.items()
+        if isinstance(value, dict)
+    }
 
 
 def write_manifest(pairs: dict[Path, Path]) -> None:
     manifest = {
-        "schema": 1,
-        "note": "SHA-256 of each Russian source used for the committed English translation.",
+        "schema": 2,
+        "note": (
+            "Normalized-LF SHA-256 of each Russian source and its committed "
+            "English mirror."
+        ),
         "sources": {
-            source.relative_to(ROOT).as_posix(): sha256(source)
-            for source in pairs
+            source.relative_to(ROOT).as_posix(): {
+                "source_sha256": sha256(source),
+                "target": target.relative_to(ROOT).as_posix(),
+                "target_sha256": sha256(target),
+            }
+            for source, target in pairs.items()
         },
     }
     MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
+    )
+
+
+def markdown_structure(text: str) -> dict[str, object]:
+    """Return translation-preserved Markdown structure outside fences."""
+    heading_levels: list[int] = []
+    table_rows = 0
+    footnotes: list[str] = []
+    malformed_headings: list[int] = []
+    in_fence = False
+    fence_count = 0
+    for line_number, line in enumerate(text.splitlines(), 1):
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            fence_count += 1
+            continue
+        if in_fence:
+            continue
+        if MALFORMED_ATX_RE.match(line):
+            malformed_headings.append(line_number)
+        heading = HEADING_RE.match(line)
+        if heading:
+            heading_levels.append(len(heading.group(1)))
+        if line.lstrip().startswith("|"):
+            table_rows += 1
+        footnote = re.match(r"^\[\^([^\]]+)\]:", line)
+        if footnote:
+            footnotes.append(footnote.group(1))
+    return {
+        "heading_levels": heading_levels,
+        "table_rows": table_rows,
+        "footnotes": footnotes,
+        "fence_count": fence_count,
+        "unclosed_fence": in_fence,
+        "malformed_headings": malformed_headings,
+    }
+
+
+def translation_artifact_errors(text: str) -> list[str]:
+    errors: list[str] = []
+    lowered = text.lower()
+    for marker in TRUNCATION_MARKERS:
+        if marker in lowered:
+            errors.append(f"contains forbidden truncation marker {marker!r}")
+    artifacts = PROTECTOR_ARTIFACT_RE.findall(text)
+    if artifacts:
+        errors.append(f"contains protector artifacts {artifacts[:3]}")
+    malformed_links = len(MALFORMED_LINK_RE.findall(text))
+    if malformed_links:
+        errors.append(f"contains {malformed_links} malformed '] (' link(s)")
+    ids = EXPLICIT_ID_RE.findall(text)
+    duplicate_ids = [
+        value
+        for value, count in collections.Counter(ids).items()
+        if count > 1
+    ]
+    if duplicate_ids:
+        errors.append(f"contains duplicate explicit IDs {duplicate_ids[:5]}")
+    return errors
+
+
+def validate_pair_text(
+    source: Path,
+    target: Path,
+    source_text: str,
+    target_text: str,
+    *,
+    strict: bool = False,
+) -> list[str]:
+    """Validate that an English mirror has not lost Markdown structure."""
+    rel = source.relative_to(ROOT).as_posix()
+    source_structure = markdown_structure(source_text)
+    target_structure = markdown_structure(target_text)
+    errors = [
+        f"{rel}: {message}"
+        for message in translation_artifact_errors(target_text)
+    ]
+    if target_structure["unclosed_fence"]:
+        errors.append(f"{rel}: target has an unclosed fenced block")
+    malformed = target_structure["malformed_headings"]
+    if malformed:
+        errors.append(f"{rel}: malformed ATX heading(s) at lines {malformed[:5]}")
+
+    source_levels = source_structure["heading_levels"]
+    target_levels = target_structure["heading_levels"]
+    if strict:
+        if target_levels != source_levels:
+            errors.append(
+                f"{rel}: heading levels differ: "
+                f"{source_levels} source, {target_levels} target"
+            )
+        for key, label in (
+            ("table_rows", "table row"),
+            ("footnotes", "footnote"),
+            ("fence_count", "fence delimiter"),
+        ):
+            if target_structure[key] != source_structure[key]:
+                errors.append(
+                    f"{rel}: {label} structure differs: "
+                    f"{source_structure[key]} source, "
+                    f"{target_structure[key]} target"
+                )
+    else:
+        if len(target_levels) < len(source_levels):
+            errors.append(
+                f"{rel}: headings were lost: "
+                f"{len(source_levels)} source, {len(target_levels)} target"
+            )
+        if target_structure["table_rows"] < source_structure["table_rows"]:
+            errors.append(
+                f"{rel}: table rows were lost: "
+                f"{source_structure['table_rows']} source, "
+                f"{target_structure['table_rows']} target"
+            )
+
+    target_ids = set(EXPLICIT_ID_RE.findall(target_text))
+    target_ids.update(slug for _, slug, _ in markdown_headings(target_text))
+    missing_aliases = [
+        slug
+        for _, slug, _ in markdown_headings(source_text)
+        if slug not in target_ids
+    ]
+    if missing_aliases:
+        errors.append(
+            f"{rel}: missing source heading aliases {missing_aliases[:5]}"
+        )
+    return errors
+
+
+def validate_pair(
+    source: Path,
+    target: Path,
+    *,
+    strict: bool = False,
+) -> list[str]:
+    return validate_pair_text(
+        source,
+        target,
+        source.read_text(encoding="utf-8"),
+        target.read_text(encoding="utf-8"),
+        strict=strict,
     )
 
 
@@ -863,8 +1065,15 @@ def check(pairs: dict[Path, Path]) -> list[str]:
         if not target.is_file():
             errors.append(f"missing translation: {target.relative_to(ROOT)}")
             continue
-        if manifest.get(rel) != sha256(source):
+        entry = manifest.get(rel, {})
+        if entry.get("source_sha256") != sha256(source):
             errors.append(f"stale translation: {rel}")
+        expected_target = target.relative_to(ROOT).as_posix()
+        if entry.get("target") != expected_target:
+            errors.append(f"manifest target differs for {rel}: {entry.get('target')}")
+        if entry.get("target_sha256") != sha256(target):
+            errors.append(f"target changed without manifest update: {expected_target}")
+        errors.extend(validate_pair(source, target))
         source_blocks = fenced_blocks(source.read_text(encoding="utf-8"))
         target_blocks = fenced_blocks(target.read_text(encoding="utf-8"))
         if len(source_blocks) != len(target_blocks):
@@ -974,6 +1183,14 @@ def main() -> int:
             for target in missing:
                 print(f"missing translation: {target.relative_to(ROOT)}", file=sys.stderr)
             return 1
+        validation_errors = [
+            error
+            for source, target in pairs.items()
+            for error in validate_pair(source, target)
+        ]
+        if validation_errors:
+            print("\n".join(validation_errors), file=sys.stderr)
+            return 1
         write_manifest(pairs)
         print(f"Adopted {len(pairs)} existing translations")
         return 0
@@ -1007,6 +1224,15 @@ def main() -> int:
             if cleaned != current:
                 target.write_text(cleaned, encoding="utf-8")
                 changed_count += 1
+        validation_errors = [
+            error
+            for source, target in pairs.items()
+            for error in validate_pair(source, target)
+        ]
+        if validation_errors:
+            print("\n".join(validation_errors), file=sys.stderr)
+            return 1
+        write_manifest(pairs)
         print(f"Cleaned {changed_count} existing translations")
         return 0
 
@@ -1018,7 +1244,9 @@ def main() -> int:
         for source, target in pairs.items()
         if args.force
         or not target.is_file()
-        or previous.get(source.relative_to(ROOT).as_posix()) != sha256(source)
+        or previous.get(source.relative_to(ROOT).as_posix(), {}).get(
+            "source_sha256"
+        ) != sha256(source)
     ]
     print(
         f"Translating {len(changed)} of {len(pairs)} files "
@@ -1045,6 +1273,15 @@ def main() -> int:
             and target.name != "README.md"
         ):
             translated = clean_reader_report(translated)
+        strict_errors = validate_pair_text(
+            source,
+            target,
+            source_text,
+            translated,
+            strict=True,
+        )
+        if strict_errors:
+            raise RuntimeError("\n".join(strict_errors))
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(translated, encoding="utf-8")
         return source, target

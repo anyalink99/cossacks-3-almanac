@@ -5,8 +5,8 @@
     {
       "path": "data/file_formats.md",
       "title": "File formats in `data/`",
-      "size": 8929,
-      "lines": 242
+      "size": 9017,
+      "lines": 245
     },
     {
       "path": "data/game_fields_glossary.md",
@@ -17,8 +17,8 @@
     {
       "path": "data/layout.md",
       "title": "Structure `data/` in Cossacks 3",
-      "size": 8105,
-      "lines": 204
+      "size": 8048,
+      "lines": 197
     },
     {
       "path": "data/map_predictions_validation.md",

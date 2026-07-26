@@ -73,6 +73,7 @@ unit/building tracks. Each track is a range of frames.
 Format: `"track_name", start_frame, end_frame`. 1 frame = 1/32 game
 seconds (`gc_time_to_frames = 32`).
 
+<a id="парсер-1"></a>
 ### Parser
 
 [`parser/parse_animations.py`](../../parser/parse_animations.py) →
@@ -87,7 +88,8 @@ in g-seconds.
 “Stamp” brushes for the map generator: forest, rock formations, fields,
 scenery groups. 711 files in `data/pattern/`.
 
-###Format
+<a id="формат"></a>
+### Format
 
 Complete disassembly at the beginning
 [`parser/parse_patterns.py`](../../parser/parse_patterns.py). Briefly:
@@ -103,7 +105,7 @@ offset    layout
                                      //   f32 reserved, u32 flags
 ...       u8[cells*16] reserved
 ```
-<a id="формат"></a>
+<a id="парсер-2"></a>
 ### Parser
 
 [`parser/parse_patterns.py`](../../parser/parse_patterns.py) +
@@ -191,6 +193,7 @@ end;
 ```
 `.lng` - wrapper for `.loc` (old format, inherited from Cossacks 1).
 
+<a id="парсер-3"></a>
 ### Parser
 
 [`parser/parse_locale.py`](../../parser/parse_locale.py) →

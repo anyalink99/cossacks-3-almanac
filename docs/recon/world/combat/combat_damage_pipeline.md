@@ -141,9 +141,7 @@
 Если все четыре истины — `damage := damage + floor(target.uniqrnd × 500)` [^10].
 
 `uniqrnd` ∈ `[0, 1)` фиксируется при спавне юнита и больше не
-меняется (см.
-[`reference/02_combat/README.md` § uniqrnd](../../../reference/02_combat/README.md#uniqrnd--индивидуальное-случайное-число-юнита)
-или [`internals/engine/rng_implementation.md`](../../../../internals/engine/rng_implementation.md)).
+меняется (см. [`internals/engine/rng_implementation.md`](../../../../internals/engine/rng_implementation.md)).
 То есть один и тот же юнит **всегда** даёт один и тот же бонус
 хедшота — это часть детерминированной модели sync'а.
 
@@ -389,7 +387,7 @@ Multiplayer этот механизм не срабатывает.
 [^4]: `data.json`, массив `unit.protection[7]` или
       `building.protection[7]` по индексам
       `gc_obj_weapon_kind_*` (см. также
-      [`reference/02_combat/README.md` § Типы оружия](../../../reference/02_combat/README.md#типы-оружия-gc_obj_weapon_kind_)).
+      [`reference/02_combat/README.md` § «Как считается урон»](../../../reference/02_combat/README.md#как-считается-урон)).
 
 [^5]: `data/scripts/lib/miscext2.script:_misc_DoDamage`, ветка
       `if (bCanHeadShot) and (random < 0.05) then ...`.

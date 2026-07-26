@@ -8,6 +8,7 @@ side. The most common value is treated as the baseline; differences are shown
 in **bold**.
 
 <a id="юнитыunitsreadmemd"></a>
+<a id="unitsreadmemd--сравнения-юнитов"></a>
 ## [Units](units/README.md)
 
 | Comparison | What it covers |
@@ -31,6 +32,7 @@ in **bold**.
 | [Priests](units/priests.md) | Healing range and power, price, and upkeep |
 
 <a id="зданияbuildingsreadmemd"></a>
+<a id="buildingsreadmemd--сравнения-зданий"></a>
 ## [Buildings](buildings/README.md)
 
 | Comparison | What it covers |

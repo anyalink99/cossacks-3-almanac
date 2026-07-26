@@ -379,6 +379,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     # ─── additional ────────────────────────────────────────────────────────
     L += ["## Правила партии", ""]
 
+    L += ['<a id="startingunits--стартовая-армия"></a>']
     L += _section(
         "Стартовая армия (`startingunits`)",
         "startingunits", settings,
@@ -416,6 +417,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
 
+    L += ['<a id="peacetime--время-мира"></a>']
     L += _section(
         "Время мира (`peacetime`)",
         "peacetime", settings,
@@ -446,6 +448,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
 
+    L += ['<a id="capture--правила-захвата"></a>']
     L += _section(
         "Правила захвата (`capture`)",
         "capture", settings,
@@ -458,6 +461,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
 
+    L += ['<a id="marketdip--рынок-и-дипцентр"></a>']
     L += _section(
         "Рынок и дипломатический центр (`marketdip`)",
         "marketdip", settings,
@@ -495,6 +499,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
     ]
 
+    L += ['<a id="gamespeed--скорость-партии"></a>']
     L += _section(
         "Скорость партии (`gamespeed`)",
         "gamespeed", settings,
@@ -521,6 +526,7 @@ def render_lobby_md(settings: dict) -> list[str]:
 
     # ─── difficulty ────────────────────────────────────────────────────────
     L += ["## Сложность компьютера", ""]
+    L += ['<a id="difficulty--сложность"></a>']
     L += _section(
         "Сложность (`difficulty`)",
         "difficulty", settings,

@@ -53,8 +53,8 @@
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Как рассчитывается урон",
-      "size": 26745,
-      "lines": 451
+      "size": 26578,
+      "lines": 449
     },
     {
       "path": "recon/world/combat/formations.md",
@@ -149,14 +149,14 @@
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Как настройки матча влияют на игру",
-      "size": 21829,
-      "lines": 370
+      "size": 21881,
+      "lines": 371
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Как создаётся случайная карта",
-      "size": 42108,
-      "lines": 574
+      "size": 42135,
+      "lines": 575
     },
     {
       "path": "reference/01_economy/README.md",
@@ -185,8 +185,8 @@
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Улучшения",
-      "size": 277471,
-      "lines": 1593
+      "size": 277572,
+      "lines": 1594
     },
     {
       "path": "reference/06_market/README.md",
@@ -611,8 +611,8 @@
     {
       "path": "reports/economy/production_rates.md",
       "title": "Скорость производства юнитов",
-      "size": 143571,
-      "lines": 1759
+      "size": 148626,
+      "lines": 1945
     },
     {
       "path": "reports/economy/scaling_prices.md",
@@ -623,8 +623,8 @@
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Настройки матча",
-      "size": 13569,
-      "lines": 267
+      "size": 13870,
+      "lines": 273
     },
     {
       "path": "reports/map/map_resources.md",

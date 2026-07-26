@@ -186,8 +186,156 @@ Summary: for each type of building - parameters for all nations (where they exis
 
 | Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Barracks, 18th century** `ausba2` | Austria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`), +19 more |
-| **Bar…5522 tokens truncated…megun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Barracks, 18th century** `ausba2` | Austria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `bavba2` | Bavaria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `denba2` | Denmark | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `engba2` | England | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `fraba2` | France | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `hunba2` | Hungary | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `netba2` | Netherlands | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `pieba2` | Piedmont | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `polba2` | Poland | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `porba2` | Portugal | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `pruba2` | Prussia | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `rusba2` | Russia | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `saxba2` | Saxony | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Castle** `scoba2` | Scotland | **40000** | **625.0** | **250** | 0 | **640** | **2400** | **2400** | 0 | 0 | **150** | Bow Clansman (`archersco`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`), Grenadier (`grenadierbav`) (+18) |
+| **Barracks, 18th century** `spaba2` | Spain | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `sweba2` | Sweden | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `swiba2` | Switzerland | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+| **Barracks, 18th century** `venba2` | Venice | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
+
+<a id="bla--кузница"></a>
+<a id="кузница-bla"></a>
+### Blacksmith (`bla`)
+
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| **Blacksmith** `algbla` | Algeria | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `ausbla` | Austria | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `bavbla` | Bavaria | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `denbla` | Denmark | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `engbla` | England | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `frabla` | France | 5500 | 93.75 | **600** | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `hunbla` | Hungary | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `netbla` | Netherlands | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `piebla` | Piedmont | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `polbla` | Poland | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `porbla` | Portugal | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `prubla` | Prussia | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `rusbla` | Russia | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `saxbla` | Saxony | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `scobla` | Scotland | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `spabla` | Spain | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `swebla` | Sweden | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `swibla` | Switzerland | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `turbla` | Turkey | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `ukrbla` | Ukraine | **4500** | **62.5** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+| **Blacksmith** `venbla` | Venice | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
+
+<a id="sta--конюшня"></a>
+<a id="конюшня-sta"></a>
+### Stable (`sta`)
+
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| **Stable** `algsta` | Algeria | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `aussta` | Austria | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `bavsta` | Bavaria | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `densta` | Denmark | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `engsta` | England | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `frasta` | France | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `hunsta` | Hungary | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+26) |
+| **Stable** `netsta` | Netherlands | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `piesta` | Piedmont | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `polsta` | Poland | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `porsta` | Portugal | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `prusta` | Prussia | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `russta` | Russia | **25000** | **375.0** | 200 | 0 | **7950** | **0** | **550** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `saxsta` | Saxony | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `scosta` | Scotland | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `spasta` | Spain | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `swesta` | Sweden | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `swista` | Switzerland | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `tursta` | Turkey | **55000** | **156.25** | **700** | 0 | **1000** | **2600** | **0** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `ukrsta` | Ukraine | **10000** | **156.25** | **300** | 0 | **3200** | **850** | **850** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+| **Stable** `vensta` | Venice | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
+
+<a id="tem--собор"></a>
+<a id="собор-tem"></a>
+### Cathedral (`tem`)
+
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| **Mosque** `algtem` | Algeria | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `austem` | Austria | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `bavtem` | Bavaria | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `dentem` | Denmark | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `engtem` | England | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `fratem` | France | **6000** | **312.5** | 300 | 0 | **1100** | **2000** | 0 | **600** | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `huntem` | Hungary | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `nettem` | Netherlands | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `pietem` | Piedmont | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `poltem` | Poland | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `portem` | Portugal | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `prutem` | Prussia | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Orthodox Cathedral** `rustem` | Russia | **4500** | 156.25 | 300 | 0 | **1150** | **1650** | **100** | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `saxtem` | Saxony | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `scotem` | Scotland | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `spatem` | Spain | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `swetem` | Sweden | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `switem` | Switzerland | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Mosque** `turtem` | Turkey | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Orthodox Cathedral** `ukrtem` | Ukraine | **5300** | 156.25 | 300 | 0 | **1100** | **1400** | 0 | **300** | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+| **Cathedral** `ventem` | Venice | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | Mullah (`mullah`), Padre (`padre`), Pope (`pope`), Priest (`priest`) |
+
+<a id="aca--академия"></a>
+<a id="академия-aca"></a>
+### Academy (`aca`)
+
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| **Minaret** `algaca` | Algeria | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `ausaca` | Austria | **65000** | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `bavaca` | Bavaria | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `denaca` | Denmark | 63000 | 625.0 | 300 | 0 | **1450** | **900** | 0 | 0 | 0 | 0 | — |
+| **Academy** `engaca` | England | 63000 | 625.0 | 300 | 0 | **1150** | **1200** | 0 | 0 | 0 | 0 | — |
+| **Academy** `fraaca` | France | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `hunaca` | Hungary | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `netaca` | Netherlands | 63000 | 625.0 | 300 | 0 | **1050** | **1230** | 0 | 0 | 0 | 0 | — |
+| **Academy** `pieaca` | Piedmont | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `polaca` | Poland | 63000 | 625.0 | 300 | 0 | **950** | **800** | 0 | 0 | 0 | 0 | — |
+| **Academy** `poraca` | Portugal | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `pruaca` | Prussia | 63000 | 625.0 | 300 | 0 | **1200** | **1150** | 0 | 0 | 0 | 0 | — |
+| **Academy** `rusaca` | Russia | **65000** | **843.75** | 300 | 0 | 1250 | **1300** | 0 | 0 | 0 | 0 | — |
+| **Academy** `saxaca` | Saxony | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `scoaca` | Scotland | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `spaaca` | Spain | 63000 | 625.0 | 300 | 0 | **1350** | **1000** | 0 | 0 | 0 | 0 | — |
+| **Academy** `sweaca` | Sweden | 63000 | 625.0 | 300 | 0 | **1350** | **1000** | 0 | 0 | 0 | 0 | — |
+| **Academy** `swiaca` | Switzerland | 63000 | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |
+| **Minaret** `turaca` | Turkey | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
+| **Academy** `ukraca` | Ukraine | **65000** | **46.88** | 300 | 0 | **1350** | **1200** | 0 | 0 | 0 | 0 | — |
+| **Academy** `venaca` | Venice | 63000 | 625.0 | 300 | 0 | **1090** | **1260** | 0 | 0 | 0 | 0 | — |
+
+<a id="art--артиллерийское-депо"></a>
+<a id="артиллерийское-депо-art"></a>
+### Artillery Depot (`art`)
+
+| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| **Artillery Depot** `algart` | Algeria | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `ausart` | Austria | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `bavart` | Bavaria | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `denart` | Denmark | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `engart` | England | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `fraart` | France | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `hunart` | Hungary | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `netart` | Netherlands | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `pieart` | Piedmont | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `polart` | Poland | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `porart` | Portugal | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `pruart` | Prussia | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
+| **Artillery Depot** `rusart` | Russia | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 | **Artillery Depot** `saxart` | Saxony | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 | **Artillery Depot** `scoart` | Scotland | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 | **Artillery Depot** `spaart` | Spain | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
@@ -198,7 +346,7 @@ Summary: for each type of building - parameters for all nations (where they exis
 | **Artillery Depot** `venart` | Venice | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 
 <a id="dip--дипломатический-центр"></a>
-<a id="кузница-bla"></a>
+<a id="дипломатический-центр-dip"></a>
 ### Diplomatic Center (`dip`)
 
 | Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
@@ -250,6 +398,7 @@ Summary: for each type of building - parameters for all nations (where they exis
 | **Storehouse** `tursto` | Algeria, Turkey | 10000 | 31.25 | 200 | 0 | 30 | 10 | 0 | 0 | 0 | — |
 
 <a id="mar--рынок"></a>
+<a id="mar--market"></a>
 <a id="рынок-mar"></a>
 ### Market (`mar`)
 

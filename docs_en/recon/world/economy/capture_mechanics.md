@@ -239,7 +239,7 @@ They cannot be captured at all.
 - Peasant (any nation, sid=`pea*`).
 - Artillery: `cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`.
 
-This is all. Infantry, cavalry, ships - cannot be captured** (only killed).
+This is all. Infantry, cavalry, and ships **cannot be captured** (only killed).
 
 ### Who captures the unit
 Any `bcancapture && not bbuilding && not peasant` ⇒ all normal
