@@ -17,6 +17,7 @@ Upgrades are grouped by **location** of research: academy / blacksmith / mill / 
 - `eurgol.N` / `euriro.N` / `eurcoa.N` - mine upgrades (same for
   of all nations).
 
+<a id="расшифровка-колонок"></a>
 ## Column decoding
 
 | Column | Meaning |
@@ -34,6 +35,7 @@ Upgrades are grouped by **location** of research: academy / blacksmith / mill / 
 > override via `_country_ModifyUpgrade` - it is issued
 > on a separate line.
 
+<a id="содержание"></a>
 ## Contents
 
 - [Application Mathematics: Order and Combination](#математика-применения-порядок-и-комбинирование)
@@ -52,6 +54,7 @@ Upgrades are grouped by **location** of research: academy / blacksmith / mill / 
 - [por — Shipyard (treatment)](#por--порт-лечение)
 - [ferry - Ferry (capacity)](#ferry--транспорт-вместимость)
 
+<a id="математика-применения-апгрейдов"></a>
 ## Mathematics of applying upgrades
 
 **The main thing:** in Cossacks 3 the order of researching upgrades **is not
@@ -788,6 +791,7 @@ Universal for all nations (sid does not depend on nation). 6 levels × 3 types o
 | **Stable wingedhussar protection +2 (lvl 6)** `polsta.wingedhussar.2.5` | pol | protection | 2 | — | 2200 | 0 | 0 | 150 | 700 | 0 | 15.62 |
 | **Stable wingedhussar protection +2 (lvl 7)** `polsta.wingedhussar.2.6` | pol | protection | 2 | — | 17150 | 0 | 0 | 1200 | 4600 | 0 | 15.62 |
 
+<a id="bar--казарма-17-в-по-юнитам"></a>
 ## bar — Barracks 17th century. (by units)
 | Upgrade | Nations | itype | val | % by resources | F | W | S | G | I | C | Time |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|

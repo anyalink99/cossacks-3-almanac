@@ -1,6 +1,10 @@
 /* Markdown viewer chrome — pulled in by docs/index.html
    and internals/index.html on top of cossacks-theme.css. */
 
+html {
+  scroll-padding-top: 84px;
+}
+
 .md-layout {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
@@ -30,6 +34,115 @@
   margin: 0 0 12px;
 }
 .md-sidebar h2::before { content: "◆ "; color: var(--ember); }
+
+/* ── Section search ── */
+.md-search {
+  margin: 0 0 18px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.md-search-field {
+  position: relative;
+}
+
+.md-search-field input {
+  width: 100%;
+  height: 38px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.34);
+  color: var(--text-bright);
+  font: 12px/1.4 "Inter", "Segoe UI", sans-serif;
+  box-shadow: inset 3px 0 0 var(--ember-deep);
+}
+
+.md-search-field input::placeholder {
+  color: var(--text-mute);
+}
+
+.md-search-field input:focus {
+  border-color: var(--brass);
+  box-shadow: inset 3px 0 0 var(--ember), 0 0 0 2px rgba(154, 120, 54, 0.12);
+}
+
+.md-search-status {
+  margin-top: 6px;
+  color: var(--text-mute);
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.md-search-status:empty {
+  display: none;
+}
+
+.md-search-results {
+  display: grid;
+  gap: 1px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-dim);
+}
+
+.md-search-results[hidden] {
+  display: none;
+}
+
+.md-search-result {
+  display: grid;
+  gap: 3px;
+  padding: 10px 8px 11px 11px;
+  border: 0;
+  border-bottom: 1px solid var(--border-dim);
+  border-left: 2px solid transparent;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.md-search-result:hover,
+.md-search-result:focus-visible {
+  border-left-color: var(--ember);
+  background: rgba(154, 120, 54, 0.08);
+  outline: none;
+}
+
+.md-search-result strong {
+  color: var(--text-bright);
+  font-family: "Cinzel", serif;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.md-search-result-path {
+  overflow: hidden;
+  color: var(--brass);
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  font-size: 9px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.md-search-result-snippet {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-dim);
+  font-size: 10px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.md-search-result mark {
+  padding: 0 1px;
+  background: rgba(212, 130, 58, 0.2);
+  color: var(--gold-bright);
+}
 
 .md-main {
   padding: 30px 44px 80px;
@@ -272,7 +385,7 @@
   color: var(--text-dim);
 }
 #md-content .footnotes::before {
-  content: "Примечания";
+  content: "Notes";
   display: block;
   font-family: "Cinzel", serif;
   font-size: 11px;
@@ -281,6 +394,7 @@
   color: var(--brass);
   margin-bottom: 10px;
 }
+html:lang(ru) #md-content .footnotes::before { content: "Примечания"; }
 #md-content .footnotes ol {
   padding-left: 24px;
   list-style: decimal;

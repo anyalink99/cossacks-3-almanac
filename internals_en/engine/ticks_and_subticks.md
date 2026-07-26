@@ -1,3 +1,4 @@
+<a id="recon-тики-сабтики-время"></a>
 # Recon: ticks, subtics, time
 
 Time model in Cossacks 3: main progress-loop, sub-tick intervals
@@ -30,6 +31,7 @@ Pascal blocks are collected in the [Sources](#sources) section at the end of the
 
 ---
 
+<a id="1-три-временных-шкалы"></a>
 ## 1. Three time scales
 
 Three different “times” coexist in the code:
@@ -64,12 +66,14 @@ additionally divide by `TimeSpeedFactor/10`.
 
 ---
 
+<a id="2-главный-progress-loop"></a>
 ## 2. Main progress-loop
 
 The heart of the simulation lives in `progress/progress.inc/nothing.inc` (745 lines). This
 The “progress” state machine is a separate “player” in the Cossacks 3 architecture, which
 ticks every time the engine calls state `Nothing`.
 
+<a id="21-структура-одного-тика"></a>
 ### 2.1 Single tick structure
 
 In one tick progress-loop reads `gametime`, considers `deltatime` relative
@@ -80,6 +84,7 @@ periodic events according to timestamps and adaptation of game speed according t
 FPS At the end of the tick, `gProgress.progresstick` is incremented and
 `gProgress.lastprogresstime` is updated to the current `gametime` [^2].
 
+<a id="22-что-progress-loop-не-делает"></a>
 ### 2.2 What progress-loop does NOT do
 
 It **doesn't tick every unit** directly. Units are separate state machines with
@@ -96,10 +101,12 @@ depending on their class** (see §3).
 
 ---
 
+<a id="3-state-machine-intervals--сабтики-на-классах-юнитов"></a>
 ## 3. State-machine intervals - subtics on unit classes
 
 Here is the main mechanism of sub-tick behavior.
 
+<a id="31-базовые-интервалы"></a>
 ### 3.1 Basic intervals
 
 Constants `gc_statemachine_interval_units = 100` and
@@ -120,6 +127,7 @@ must be "updated" within `interval` ms. `cycles` — how many ticks
 progress-loop will be in time before the next mandatory section update. These numbers
 adapt to actual load.
 
+<a id="33-импликации-сабтиков"></a>
 ### 3.3 Subtik implications
 
 1. **Peasants make decisions less often than soldiers.** Reaction time to “found /
@@ -136,6 +144,7 @@ adapt to actual load.
 
 ---
 
+<a id="4-периодические-события-mod-n--timed"></a>
 ## 4. Periodic events (mod-N + timed)
 Inside the progress-loop, different subsystems are triggered according to two patterns.
 
@@ -330,6 +339,7 @@ on save/load granularity.
 | `restype`, `resamount` (what it carries now) | `TObj.*` | YES |
 | Current Resource Purpose | `TObj.sto` | YES (handle is saved) |
 
+<a id="72-где-sub-tick-state-создаёт-расхождение"></a>
 ### 7.2 Where sub-tick state creates divergence
 
 After Load, all sub-tick fields are **either restored** or **reset to
@@ -352,8 +362,10 @@ minutes of simulation** until there is a noticeable difference in production.
 
 ---
 
+<a id="8-сводная-картина-почему-симуляция-расходится"></a>
 ## 8. The big picture: why the simulation diverges
 
+<a id="81-причины-на-одном-хосте-разные-запуски-одного-сейва"></a>
 ### 8.1 Reasons **on the same host**, different launches of the same save
 
 | Source | Influence |
@@ -364,6 +376,7 @@ minutes of simulation** until there is a noticeable difference in production.
 | Adaptive speed depends on the current system load | Different real game-time for equal real-time |
 | Progress section batch boundary starts from scratch | Units first tick with a “fresh pack” |
 
+<a id="82-дополнительные-причины-между-хостами"></a>
 ### 8.2 Additional reasons **between hosts**
 
 | Source | Influence |
@@ -372,6 +385,7 @@ minutes of simulation** until there is a noticeable difference in production.
 | Different Float serialization between x87/SSE/FMA | Micro-discrepancies in physics and geometry |
 | Different initialization `random` for `gProgress.last*time`, if the game starts from scratch (not Load) | Different phase of periodic events |
 
+<a id="83-что-детерминировано-при-save--load"></a>
 ### 8.3 What is deterministic during Save / Load
 
 - HP of all resources and units (integers).
@@ -383,6 +397,7 @@ minutes of simulation** until there is a noticeable difference in production.
 
 ---
 
+<a id="9-связь-с-моделью-добычи"></a>
 ## 9. Link to the mining model
 
 **In the analytical model** (see.
@@ -423,6 +438,7 @@ simulations.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

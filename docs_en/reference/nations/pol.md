@@ -140,6 +140,7 @@ _Poland_
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 | **Pospolite ruszenie** `dragoonpol` | 185 | 13.5 | 70 | 5 | 4 | 13 | 15.94 | 5.0 | unique |
 
+<a id="тяжёлая-кавалерия"></a>
 ### Heavy Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -149,6 +150,7 @@ _Poland_
 | **Light Reiter** `reiterpol` | 190 | 8.25 | 60 | 5 | 2 | 9 | 1.22 | 0.0 | unique |
 | **Winged Hussar** `wingedhussar` | 225 | 26.0 | 130 | 30 | 25 | 14 | 1.88 | 0.0 | unique |
 
+<a id="пушки"></a>
 ### Cannons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -156,6 +158,7 @@ _Poland_
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 | **Multi-barrelled Cannon** `multicannon` | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | shared(17n) |
 
+<a id="мортиры"></a>
 ### Mortars
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -163,12 +166,14 @@ _Poland_
 | **Howitzer** `howitzer` | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | common |
 | **Bombard** `mortar` | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | common |
 
+<a id="рыбацкие-лодки"></a>
 ### Fishing boats
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Boat** `fishboat` | 300 | 40.0 | 0 | 0 | 0 | — | — | — | common |
 
+<a id="военные-корабли"></a>
 ### Warships
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -179,6 +184,7 @@ _Poland_
 | **Galley** `galley` | 35000 | 50.0 | 0 | 900 | 800 | 1000 | 58.13 | 1.56 | common |
 | **Yacht** `yacht` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | common |
 
+<a id="офицеры"></a>
 ### Officers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -186,6 +192,7 @@ _Poland_
 | **Officer, 17th century** `officer` | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | shared(16n) |
 | **Officer, 18th century** `officer18` | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | shared(17n) |
 
+<a id="барабанщики-и-волынщики"></a>
 ### Drummer, 17th century and bagpipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -193,6 +200,7 @@ _Poland_
 | **Drummer, 17th century** `drummer` | 75 | 5.0 | 60 | 20 | 0 | — | — | — | shared(16n) |
 | **Drummer, 18th century** `drummer18` | 100 | 6.0 | 50 | 30 | 0 | — | — | — | shared(16n) |
 
+<a id="священники"></a>
 ### Priests
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|

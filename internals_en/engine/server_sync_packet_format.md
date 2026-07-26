@@ -1,3 +1,4 @@
+<a id="формат-сетевых-пакетов-c3-через-анализ-скриптовых-вызовов"></a>
 # C3 network packet format (via script call analysis)
 
 Bit-layout of synchronization packages, restored **without decompilation
@@ -8,6 +9,7 @@ exe** - only through analysis of native API calls in scripts
 > (general model) and [`native_api.md`](native_api.md) (full list
 > serialization primitives in exe).
 
+<a id="1-двойная-система-сериализации"></a>
 ## 1. Double serialization system
 
 C3 is home to **two different state recording systems** using
@@ -25,6 +27,7 @@ old code), and really active calls are only in
 (29 ParserSet calls in `AddUnitInfoToParser`) uses
 parser-format.
 
+<a id="почему-так"></a>
 ### Why so
 
 The binary is compact (1–18 bytes per packet), the parser format is
@@ -33,32 +36,35 @@ C3 selects the format based on the criterion “how often it is sent”: what is
 **each game-tick** is a binary; what is sent **for an event** or for
 save - parser-text.
 
+<a id="2-бинарный-пакет-economypackage"></a>
 ## 2. Binary package: `EconomyPackage`
 
 The hottest sync package in C3 is economic synchronization
 player indicators. Source:
 `data/scripts/lib/classes.script` → `TLanSyncPlayerData.WriteEconomyPackage`.
 
+<a id="21-структура"></a>
 ### 2.1. Structure
 
 Full bit-layout (read top-to-bottom):
 ```
 struct EconomyPackage {
-    Byte   economyfieldstosync;   // битовая маска: какие поля
-                                  // изменились с прошлого тика
+    Byte   economyfieldstosync;   // bitmask: fields changed
+                                  // since the previous tick
     if (economyfieldstosync > 0) {
-        Byte plind;               // индекс игрока (0..11)
-        if (mask bit 0) Word idlepeasants;     // незанятые крестьяне
-        if (mask bit 1) Word idlemines;        // пустые шахты
-        if (mask bit 2) Word workers_food;     // на еде
-        if (mask bit 3) Word workers_wood;     // на дереве
-        if (mask bit 4) Word workers_stone;    // на камне
-        if (mask bit 5) Word workers_gold;     // на золоте
-        if (mask bit 6) Word workers_iron;     // на железе
-        if (mask bit 7) Word workers_coal;     // на угле
+        Byte plind;               // player index (0..11)
+        if (mask bit 0) Word idlepeasants;     // idle peasants
+        if (mask bit 1) Word idlemines;        // empty mines
+        if (mask bit 2) Word workers_food;     // gathering food
+        if (mask bit 3) Word workers_wood;     // gathering wood
+        if (mask bit 4) Word workers_stone;    // gathering stone
+        if (mask bit 5) Word workers_gold;     // gathering gold
+        if (mask bit 6) Word workers_iron;     // gathering iron
+        if (mask bit 7) Word workers_coal;     // gathering coal
     }
 };
 ```
+<a id="22-размеры"></a>
 ### 2.2. Dimensions
 
 | Script | Package Size |
@@ -67,6 +73,7 @@ struct EconomyPackage {
 | 1 indicator has changed | 1 + 1 + 2 = **4 bytes** |
 | All 8 economic fields | 1 + 1 + 8×2 = **18 bytes** |
 
+<a id="23-воспроизведение"></a>
 ### 2.3. Playback
 ```pascal
 // classes.script:
@@ -84,18 +91,19 @@ type TLanSyncPlayerData = class
             RecordCustomWriteByte(plind);
             if ((economyfieldstosync and (1 shl 0)) <> 0) then
                 RecordCustomWriteWord(idlepeasants);
-            // ... остальные 7 полей с похожей маской
+            // ... the other 7 fields use the same mask pattern
         end;
     end;
 end;
 ```
+<a id="24-полный-пакет"></a>
 ### 2.4. Complete package
 
 The scripts also have a covering type:
 ```pascal
 type TLanSyncData = class
-    playerstosync : Word;                                    // битмаска: какие игроки в пакете
-    economyfieldstosync : array [0..11] of Byte;             // ... и какие поля у каждого
+    playerstosync : Word;                                    // bitmask: players included in the packet
+    economyfieldstosync : array [0..11] of Byte;             // fields included for each player
     netplayer : array [0..11] of TLanSyncPlayerData;
 end;
 ```
@@ -104,12 +112,14 @@ That is, full economy-snapshot = `Word`-player mask + 12 packages
 map (everything with everything). In reality, changes are rare, and the package is usually
 weighs 5–30 bytes.
 
+<a id="3-parser-формат-unit-state-snapshots"></a>
 ## 3. Parser format: unit state snapshots
 
 Source: `data/scripts/lib/miscext2.script` →
 `AddUnitInfoToParser(pSync, syncuid : Integer)`. Unit fields
 are written as `key=value` in parser-handle:
 
+<a id="31-список-полей-29-штук"></a>
 ### 3.1. List of fields (29 pieces)
 
 Group | Key | Type | What |
@@ -137,6 +147,7 @@ Group | Key | Type | What |
 (field `angle` is present in the code, but **commented out** - that is
 angle is not synchronized through this channel.)
 
+<a id="32-формат-на-проводе"></a>
 ### 3.2. Format on wire
 
 A package is a serialized parser-handle that turns into
@@ -168,6 +179,7 @@ back. Paired `Get*ValueByKeyByHandle` allows you to read any field
 without knowing the order - therefore the format is version tolerant (new
 fields can be added without breaking compatibility).
 
+<a id="33-размер"></a>
 ### 3.3. Size
 
 One unit ≈ **400–600 bytes** in text form (plus/minus, depends
@@ -180,6 +192,7 @@ text: delta between ticks is small (most units do not move
 every tick), and a full snapshot is rarely sent (only when connecting
 new client and with ON-DEMAND synchronization).
 
+<a id="4-что-мы-не-нашли-в-скриптах"></a>
 ## 4. What we didn't find in the scripts
 
 There is an API in the exe, but it is **not called in scripts**:
@@ -198,6 +211,7 @@ There is an API in the exe, but it is **not called in scripts**:
   exe, but the scripts don't call them. Again, the engine can decode
   packages without a script (if the structure is hardwired).
 
+<a id="5-что-это-меняет-в-существующем-serversyncarchitecturemd"></a>
 ## 5. What does this change in the existing `server_sync_architecture.md`
 
 Document
@@ -214,16 +228,18 @@ Now we know:
 Net I/O (network sending itself) - Indy 10, not available to scripts.
 The scripts only prepare **payload** in one of two formats.
 
+<a id="6-воспроизведение-результатов"></a>
 ## 6. Reproduction of results
 
 All this data is obtained statically. To repeat:
 ```powershell
-# Какие нативные функции синхронизации вообще доступны
+# List the available native synchronization functions
 python -c "import json; d=json.load(open('derived/dws_native_signatures.json',encoding='utf-8')); print('\n'.join(s['raw'] for s in d['signatures'] if 'record' in s['name'].lower() or 'serial' in s['name'].lower()))"
 
-# Где и как они вызываются скриптами
+# Find where and how scripts call them
 grep -rn -E 'RecordCustom|ParserSet.*ValueByKey' "C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts"
 ```
+<a id="7-что-осталось-закопанным"></a>
 ## 7. What remains buried
 
 1. **Exact semantics of `Word playerstosync`** - bit order: bit 0

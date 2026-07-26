@@ -1,3 +1,4 @@
+<a id="настройки-лобби--справочник-значений"></a>
 # Lobby settings - value reference
 
 **Derived report.** Considered from the game locale and `dmscript.global` script
@@ -12,6 +13,7 @@ All option names are **from the game locale** (`data/locale/ru/gui.txt`,
 The behavior of each option in the engine (what happens after selection) - in
 [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
+<a id="структура"></a>
 ## Structure
 
 All lobby options live in `gMap.settings` [^1]:
@@ -20,8 +22,10 @@ All lobby options live in `gMap.settings` [^1]:
 - `gMap.settings.additional` — **game rules** (peacetime, population limit,
   grip, speed, etc.).
 
+<a id="генератор-карты--gmapsettingsgen"></a>
 ## Map generator - `gMap.settings.gen`
 
+<a id="mapsize--размер-карты"></a>
 ### `mapsize` - card size
 
 | Meaning | Size, tiles | English label | Russian label |
@@ -33,6 +37,7 @@ All lobby options live in `gMap.settings` [^1]:
 
 The card size is square `tiles × tiles`. The game UI does not show labels (the values ​​are protected by [^2]).
 
+<a id="terraintype--тип-ландшафта-и-воды"></a>
 ### `terraintype` - type of terrain and water
 
 | Meaning | English label | Russian label |
@@ -50,6 +55,7 @@ The card size is square `tiles × tiles`. The game UI does not show labels (the 
 
 Labels from `gui.txt @randommap.terraintype.*`. The values ​​of `2..4` (`Peninsulas` / `Islands` / `Continents`) are checked by the engine in `_misc_HasMaritime` [^3] - these maps have “sea” waters, access to them requires a port.
 
+<a id="relieftype--рельеф"></a>
 ### `relieftype` - relief
 
 | Meaning | English label | Russian label |
@@ -63,6 +69,7 @@ Labels from `gui.txt @randommap.terraintype.*`. The values ​​of `2..4` (`Pen
 
 Default `relieftype = 3` (“Highlands”) [^4].
 
+<a id="resourcestart--стартовые-ресурсы-у-игроков"></a>
 ### `resourcestart` - starting resources for players
 
 | Meaning | For each resource | English label | Russian label |
@@ -74,6 +81,7 @@ Default `relieftype = 3` (“Highlands”) [^4].
 
 All 6 resources (food / wood / stone / gold / iron / coal) receive the same starting amount. Default = 2 (“Thousands”, 5,000 each) [^5].
 
+<a id="resourcemines--плотность-месторождений"></a>
 ### `resourcemines` — density of deposits
 
 | Meaning | English label | Russian label |
@@ -84,6 +92,7 @@ All 6 resources (food / wood / stone / gold / iron / coal) receive the same star
 
 Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines per level are in [`map_resources.md`](map_resources.md) and in [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).
 
+<a id="season--сезон"></a>
 ### `season` - season
 
 | Meaning | English label | Russian label |
@@ -95,8 +104,10 @@ Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines p
 
 There are no labels in `gui.txt` - the UI is hardcoded. The only mechanical effect is `season = 3` (“Desert”) force `bDesert = True` [^7]; engine uses a different set of pattern types (`desert_*` instead of the usual forests and stones).
 
+<a id="правила-игры--gmapsettingsadditional"></a>
 ## Rules of the game - `gMap.settings.additional`
 
+<a id="startingunits--стартовая-армия"></a>
 ### `startingunits` - starting army
 | Meaning | English label | Russian label |
 | :---: | --- | --- |

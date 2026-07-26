@@ -228,6 +228,7 @@ protects the grouping from instant destruction by one grenade.
 
 ---
 
+<a id="6-мирное-время-gboolpeacemode"></a>
 ## 6. Peacetime (`gbool_peacemode`)
 
 If the global flag `gbool_peacemode = True` (peace-time is on
@@ -251,6 +252,7 @@ the usual six-step scheme.
 
 ---
 
+<a id="65-aoe-damage-cap--как-кучкование-защищает"></a>
 ## 6.5. AoE damage cap - how clustering protects
 
 Explosions (cannon ball, mortar bomb, grenade, buckshot) hit
@@ -276,6 +278,7 @@ Fire Arrow Attack (`barrow`) work on another branch: `(listcount
 distance checks. If **300 or less** - you need `dist < r`.
 The cap `count` is not used in this thread.
 
+<a id="66-дружественный-огонь"></a>
 ## 6.6. Friendly fire
 
 In `_misc_DoDamage` **no check for side/owner** [^13] -
@@ -306,6 +309,7 @@ damage is applied to any object along the trajectory.
 `DIMMORT2KOR` - that is, all arrows, musket bullets and almost all
 artillery.
 
+<a id="67-подтверждённые-упрощения-формулы"></a>
 ## 6.7. Confirmed formula simplifications
 
 Several mechanics familiar from other RTS are not present in Cossacks 3 **
@@ -335,6 +339,7 @@ armor" - this is all combat mathematics.
 
 ---
 
+<a id="7-сценарная-неуязвимость"></a>
 ## 7. Scenario invulnerability
 
 Units with `hp >= gc_gameplay_infinitehp` (∞ HP) or with

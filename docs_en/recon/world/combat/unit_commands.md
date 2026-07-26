@@ -94,6 +94,7 @@ encountered enemy; artillery - travels to a specific point and
 fires from there. This gives the artillery a “range advantage” - it
 is not distracted by infantry.
 
+<a id="31-конусный-поиск-при-attack-move"></a>
 ### 3.1. Cone search during attack-move
 
 When attack-move, the unit searches for enemies **only in a 30° cone ahead**
@@ -107,6 +108,7 @@ regular idle (no order). Idle units are searched in a full 360° radius.
 
 ---
 
+<a id="4-stand-mode-fholdmode--стоять-насмерть"></a>
 ## 4. Stand mode (`fHoldMode`) - stand to death
 
 Enabled via UI or hotkey. Effect:
@@ -126,6 +128,7 @@ There is a separate `fHoldFire` for this.
 
 ---
 
+<a id="5-hold-fire-fholdfire--не-открывать-огонь"></a>
 ## 5. Hold-fire (`fHoldFire`) - do not open fire
 
 Separate squad flag. When `fHoldFire = True`:
@@ -169,6 +172,7 @@ mines, warehouses, artillery in the rear.
 
 ---
 
+<a id="8-auto-respond-реакция-на-удар"></a>
 ## 8. Auto-respond (reaction to impact)
 
 When any unit in the squad is hit (`_misc_DoDamage`), a separate

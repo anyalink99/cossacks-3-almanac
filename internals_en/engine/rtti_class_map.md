@@ -1,3 +1,4 @@
+<a id="карта-delphi-классов-движка-rtti"></a>
 # Delphi engine class map (RTTI)
 
 Structured overview of `cossacks.exe` subsystems through names
@@ -12,6 +13,7 @@ classes found in RTTI.
 > field `delphi_class_names`. Extractor -
 > [`../../parser/engine_recon/dump_exe_strings.py`](../../parser/engine_recon/dump_exe_strings.py).
 
+<a id="ключевые-префиксы"></a>
 ## Key prefixes
 
 | Prefix | Qty | What is this |
@@ -24,6 +26,7 @@ classes found in RTTI.
 | `TXAIX*` | 4 | Editor of the `.aix` format (see §10). |
 | `T*OSW*Mod*` | 3 | Mod loader. |
 
+<a id="1-игровые-объекты-txgameobject"></a>
 ## 1. Game objects (`TXGameObject*`)
 
 The root class of all “things on the map” is `TXGameObject`.
@@ -40,6 +43,7 @@ The root class of all “things on the map” is `TXGameObject`.
 All 715 ECS-API functions (`Get*ByHandle` / `Set*ByHandle` - see.
 [`native_api.md` §2.1](native_api.md)) work with `TXGameObject`.
 
+<a id="2-behaviour-компоненты-txbehaviour-22-класса"></a>
 ## 2. Behavior components (`TXBehaviour*`, ~22 classes)
 
 ECS style: each GameObject can carry several Behavior objects.
@@ -65,6 +69,7 @@ Created via native `BehaviourCreate(gohnd, classname)` - see.
 [`native_api.md` §2.5](native_api.md). The name in `BehaviourCreate` is
 string class name (one of the listed ones).
 
+<a id="3-ai-регионы-txairegion-5-классов"></a>
 ## 3. AI regions (`TXAIRegion*`, 5 classes)
 Spatial AI mechanics. Each area of ​​interest is a separate object.
 
@@ -251,6 +256,7 @@ Used by external `modman.exe` (see also
 | `TOSWSoundVolumeGroup` | Group mixer. |
 | `TXSoundCollection`, `TXSoundInterface`, `TXSoundItem`, `TXSoundLibrary*`, `TXSoundManager`, `TXSoundProperty`, `TXSoundVolume*` | Game-side wrappers. |
 
+<a id="14-render-25-классов-и-шейдеры"></a>
 ## 14. Render (~25 classes) and shaders
 
 | Class | What |
@@ -263,12 +269,14 @@ Used by external `modman.exe` (see also
 
 It's not critical for gameplay - it's a 3D stack.
 
+<a id="15-партиклы-27-классов"></a>
 ## 15. Particles (27 classes)
 
 `TXParticle*`, `TXSourcePFX*` - particle system (fire, smoke, blood,
 explosions). Not critical for gameplay logic, but interesting for
 visual modding.
 
+<a id="16-aix-формат-taix-4-класса"></a>
 ## 16. AIX format (`TAIX*`, 4 classes)
 
 | Class | What |
@@ -284,6 +292,7 @@ That is, the `.aix` format editor is built into `editor.exe`. This means:
 - If you ever need to parse `.aix`, the entry point is RVA class
   `TAIXEditorState` in exe (method names in RTTI are visible).
 
+<a id="17-ui-формы-25"></a>
 ## 17. UI forms (25+)
 
 `TForm*` classes are editor windows:
@@ -297,6 +306,7 @@ That is, the `.aix` format editor is built into `editor.exe`. This means:
 | `TFormHelloScreen` | Game start screen. |
 | Other `TForm*` | Editor/settings/mod manager UI. |
 
+<a id="ограничения-этого-обзора"></a>
 ## Limitations of this review
 
 1. **Not all 1779 classes are listed** - only subsystems
@@ -313,9 +323,10 @@ That is, the `.aix` format editor is built into `editor.exe`. This means:
 Nevertheless, names provide a **structural map**: you understand which
 entities live in the engine and in which subsystem.
 
+<a id="воспроизведение"></a>
 ## Play
 ```powershell
 cd c:\projects\other\cossacks
 python parser\engine_recon\dump_exe_strings.py
-# → derived/exe_strings.json (поле delphi_class_names)
+# → derived/exe_strings.json (delphi_class_names field)
 ```

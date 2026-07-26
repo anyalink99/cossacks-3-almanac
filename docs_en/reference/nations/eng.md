@@ -3,20 +3,24 @@ _England_
 
 [← Index](../README.md) · [← All nations](README.md)
 
+<a id="кластер"></a>
 ## Cluster
 
 - **Shared cluster:** `eur` (mill/sto/mar/tow use the suffix `eur+`)
 - **Peasant:** `peaeng`
 - **Cluster infantry:** cluster `eur`
 
+<a id="уникальные-юниты-1"></a>
 ## Unique units (1)
 
 | Unit | role | HP | damage | recharge | far (tile) |
 |---|---|---:|---:|---:|---:|
 | **Highlander** `highlander` | Shooter | 130 | 16 | 5.0 | 15.94 |
 
+<a id="здания"></a>
 ## Buildings
 
+<a id="уникальные-для-нации-10"></a>
 ### Unique to the nation (10)
 
 > **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
@@ -34,6 +38,7 @@ _England_
 | **Stable** `engsta` | **25000** | **375.0** | 200 | 0 | **2350** | **0** | **800** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
 | **Cathedral** `engtem` | 4200 | 156.25 | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
 
+<a id="общий-кластер-12"></a>
 ### Shared cluster (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
@@ -51,6 +56,7 @@ _England_
 | **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 | **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 
+<a id="юниты-по-классам"></a>
 ## Units by class
 <a id="крестьяне"></a>
 ### Peasants

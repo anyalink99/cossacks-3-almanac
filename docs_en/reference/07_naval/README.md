@@ -13,6 +13,7 @@
 
 - [`../../recon/world/combat/naval_combat.md`](../../recon/world/combat/naval_combat.md) - sea battle, regions, transport, battleship, real-DPS @ fast by class, special units (`chaika` / `xebec` / `yachttur`), strategic conclusions.
 
+<a id="содержание"></a>
 ## Contents
 
 - [Shipyard](#порт-clusterpor)
@@ -21,6 +22,7 @@
 - [Ferry](#транспорт-ferry)
 - [Fishing Boat](#рыбачья-лодка-fishboat)
 
+<a id="порт-por"></a>
 ## Shipyard (`<cluster>por`)
 
 The Shipyard parameters are defined in one branch of the `commonsid+'por'` parsing of [^n1].
@@ -39,6 +41,7 @@ The Shipyard parameters are defined in one branch of the `commonsid+'por'` parsi
 
 **Cost of the second Shipyard:** `1600 × 1.5 = 2400 W` + `800 × 1.5 = 1200 S` + `400 × 1.5 = 600 I` (rule `costpercent` see [01_economy/README.md](../01_economy/README.md)). Third: 3600 / 1800 / 900.
 
+<a id="каталог-кораблей"></a>
 ## Ship catalog
 
 7 naval units + 2 ukr/tur variants. Names are from the game locale; parameters extracted from [`data.json`](../../../data.json).
@@ -57,6 +60,7 @@ The Shipyard parameters are defined in one branch of the `commonsid+'por'` parsi
 
 **Speed scale** for understanding the numbers: peasant = 32, mounted warrior = 80–96, light infantry = 32. Ships — from 16 to 55.
 
+<a id="боевые-статы"></a>
 ## Combat stats
 
 The cost of one shot (`weapon[i].cost`) is written off at the moment of the salvo: with each shot, `iron + coal` leaves the treasury.
@@ -74,31 +78,34 @@ The cost of one shot (`weapon[i].cost`) is written off at the moment of the salv
 
 **Real-DPS @ fast and analysis of combat effectiveness by class** - in [`../../recon/world/combat/naval_combat.md` §5.1](../../recon/world/combat/naval_combat.md). Full attack speed tables are in [`reports/combat/attack_rates.md`](../../reports/combat/attack_rates.md).
 
+<a id="транспорт-ferry"></a>
 ## Ferry (`ferry`)
 ```
 HP        = 62000
 speed     = 28
-transport = 120    (количество «слотов» под пехоту/кавалерию)
-buildtime = 56.0 game sec (40.0 real-сек @ fast)
+transport = 120    (infantry/cavalry capacity slots)
+buildtime = 56.0 game sec (40.0 real sec @ fast)
 cost      = 300 W / 50 G / 100 I
-оружие    = нет (не атакует)
+weapon    = none (cannot attack)
 vision    = 24 t
 ```
 **What does `transport = 120` mean:** one Ferry can hold up to **120 population units** (farm slots). Most infantry occupy 1 slot, cavalry - 2-3, artillery - 5+. Therefore, Ferry transports approximately 100 musketeers or 40 reiters.
 
 Details (behavior during loading, vulnerability, escort) are in [`../../recon/world/combat/naval_combat.md` §4](../../recon/world/combat/naval_combat.md).
 
+<a id="рыбачья-лодка-fishboat"></a>
 ## Fishing boat (`fishboat`)
 ```
 HP            = 300
 speed         = 16
-fishingmax    = 1000    (ёмкость накопителя food)
-fishingspeed  = 12      (frames на единицу food)
+fishingmax    = 1000    (food storage capacity)
+fishingspeed  = 12      (frames per food unit)
 buildtime     = 40.0 game sec
 cost          = 600 W
 ```
 Fishing cycle, `fishingperc` upgrades, vulnerability and strategy - in [`../../recon/world/combat/naval_combat.md` §6](../../recon/world/combat/naval_combat.md).
 
+<a id="источники"></a>
 ## Sources
 
 [^n1]: Parameters Shipyard (`<cluster>por`) - `lib/unit.script:2148-2206` (common block plus `commonpor` / `commonrus` / `commontur` / `ukr`-overrides).

@@ -42,6 +42,7 @@ Derivative calculations based on [`../../data.json`](../../data.json) - somethin
 | [map/starting_layout.md](map/starting_layout.md) | Starting layout: 18 peasants in a 6x3 grid near the City Center, location `cen` / `sto` / mines. | `compute/compute_starting_layout.py` |
 | [map/map_predictions_validation.md](map/map_predictions_validation.md) | Validation of the `compute_map_resources` model against the ground truth replay (10 homogeneous replays Small + Land + Highlands). | `compute/validate_map_predictions.py` |
 
+<a id="нации-nationsnations"></a>
 ## Nations ([`nations/`](nations/))
 
 | File | What's inside | Generator |
@@ -49,12 +50,14 @@ Derivative calculations based on [`../../data.json`](../../data.json) - somethin
 | [nations/overview.md](nations/overview.md) | Side-by-side comparison of all 21 nations: roster size, access to the 18th century, unique units, stat anomalies, mercenaries, market cluster. | `compute/compute_nations_overview.py` |
 | [nations/deviations.md](nations/deviations.md) | Full stat fingerprints of common buildings (`<nat>cen`, `<nat>aca`, `<nat>art`, etc.) and common units: which nations deviate from the base case and in what ways. Complements overview.md in detail. | `compute/compute_nation_deviations.py` |
 
+<a id="связанные-данные"></a>
 ## Linked data
 
 - [`../reference/`](../reference/README.md) - canonical help (chapters 01–07, `nations/`, `compare/`). The reports above are built on top of it.
 - [`../recon/`](../recon/README.md) - deep research into the mechanics on which these reports are based.
 - [`../../derived/`](../../derived/) - machine-readable JSON datasets (`tech_tree.json`, `builder_slots.json`, `pattern_*.json`, `animations.json`).
 
+<a id="регенерация"></a>
 ## Regeneration
 
 After updating `data.json`:

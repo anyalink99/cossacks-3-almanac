@@ -188,6 +188,7 @@ The mod attacks the cascade from several sides:
 
 ---
 
+<a id="как-собрать"></a>
 ## How to assemble
 ```bash
 cd c:/projects/other/cossacks
@@ -201,6 +202,7 @@ python "mods/Deterministic Cossacks/build.py" --install
 ```
 Additionally, copies to `<game>/mods/` and writes to `mods.ini`.
 
+<a id="если-патч-не-находит-строку"></a>
 ### If the patch does not find the line
 
 If the game has been updated and the lines have shifted, `build.py` will display
@@ -209,6 +211,7 @@ Update `expected_line` and `original` to `PATCHES` to `build.py`.
 
 ---
 
+<a id="ограничения"></a>
 ## Limitations
 
 - **Async pathfinding** (`PathDataThread*`) - not available to the script, residual
@@ -220,6 +223,7 @@ Update `expected_line` and `original` to `PATCHES` to `build.py`.
 
 ---
 
+<a id="откат"></a>
 ## Rollback
 
 - In `<game>/mods/mods.ini` put `dis = True`, or
@@ -229,6 +233,7 @@ The original scripts in `<game>/data/scripts/` are not touched.
 
 ---
 
+<a id="структура"></a>
 ## Structure
 ```
 mods/Deterministic Cossacks/
@@ -244,6 +249,7 @@ mods/Deterministic Cossacks/
             ├── miscext2.script
             └── unit.script
 ```
+<a id="дополнительно"></a>
 ## Additional
 
 - [internals/engine/script_modding_constraints.md](../../internals_en/engine/script_modding_constraints.md) —

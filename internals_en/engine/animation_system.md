@@ -1,3 +1,4 @@
+<a id="animation-system-тайминги-циклы-точка-удара"></a>
 # Animation system: timings, cycles, impact point
 
 What are `.aaf` and `.acl` files, how are frames converted to g-seconds,
@@ -42,6 +43,7 @@ units. All links to the code are in [Sources](#sources).
 
 ---
 
+<a id="1-frame-time-и-gctimetoframes--32"></a>
 ## 1. Frame-time and `gc_time_to_frames = 32`
 
 `gc_time_to_frames = 32` is the fundamental time constant in
@@ -64,6 +66,7 @@ See also
 
 ---
 
+<a id="2-файлы-и-форматы"></a>
 ## 2. Files and formats
 
 ### 2.1. `.aaf` – Actor Animation File
@@ -178,6 +181,7 @@ struct.end
 ref\refspeed.acl; refkey=.cannonidle` means “insert here
 entry `cannonidle` from `refspeed.acl`." Analogue of `#include` in C.
 
+<a id="23-action-типы-в-acl"></a>
 ### 2.3. Action types in `.acl`
 
 | Action | What does |
@@ -192,6 +196,7 @@ Main `ExecuteStateName`:
 - `OnAclAnimationReachedAttackEnd` - end of attack animation.
 - `OnAclAnimationStarted`, `OnAclAnimationFinished` - start / end.
 
+<a id="24-refspeedacl--таблица-скоростей-движения"></a>
 ### 2.4. `refspeed.acl` - table of movement speeds
 
 In `data/animations/ref/refspeed.acl` - general config with steps
@@ -245,6 +250,7 @@ the same as for infantry, but `walk` is special.”
 
 ---
 
+<a id="3-native-api-для-анимаций"></a>
 ## 3. Native API for animations
 
 `derived/dws_native_signatures.json` contains **600+ functions**
@@ -257,6 +263,7 @@ working with animations. Key groups:
 | `GetGameObjectFrameAnimationDataByHandle(gohnd, animname, var sf, ef): Boolean` | Get start/end animation frames `animname` for an object. Used in `_unit_ApplyAttackPause` to calculate pauses. |
 | `GetGameObjectDeferredFramesByHandle(gohnd, var defcurrentframe, defframes)` | The current frame and the total number of frames of the deferred loop. |
 
+<a id="32-switch--blend"></a>
 ### 3.2. Switch/blend
 
 | Function | What |
@@ -277,6 +284,7 @@ working with animations. Key groups:
 
 ---
 
+<a id="4-fsm-юнита-и-её-связь-с-анимациями"></a>
 ## 4. Unit FSM and its connection with animations
 
 Each unit is an FSM, states are stored as a bitmask
@@ -303,12 +311,14 @@ Specific FSM transition handlers - in
 
 ---
 
+<a id="5-onaclanimationreachedattack--момент-удара--выстрела"></a>
 ## 5. `OnAclAnimationReachedAttack` - moment of impact / shot
 
 This is the **main callback** of the animal system: the moment in the frame when
 damage is applied to the target or a projectile is fired. Fully described in
 `data/scripts/units/unit.inc/onaclanimationreachedattack.inc`.
 
+<a id="51-где-задаётся-точный-кадр"></a>
 ### 5.1. Where is the exact frame set?
 
 In the `.acl` attack file (`attack0` / `attack1` / `attack2`)
@@ -317,37 +327,39 @@ callback will work. Standard structure:
 ```
 items:
   [0] actExecuteState 'OnAclAnimationReachedAttack'    ← swing point
-  [1] actAnimation 'attack0' (NumberCycle = 1)         ← полная анимация
-  [2] actExecuteState 'OnAclAnimationReachedAttackEnd' ← завершение
+  [1] actAnimation 'attack0' (NumberCycle = 1)         ← complete animation
+  [2] actExecuteState 'OnAclAnimationReachedAttackEnd' ← completion
 ```
 `actExecuteState` is triggered when `actAnimation`
 will reach the corresponding mark. That is, `swing-point` is built in
 **into the animation itself** via `.acl`-config - for different units it
 may be at the beginning, middle or end of the attack cycle.
 
+<a id="52-что-callback-делает"></a>
 ### 5.2. What does callback do?
 
 Pseudocode (`onaclanimationreachedattack.inc`):
 ```
-1. Если юнит мёртв — выход.
-2. weapind := номер оружия из statetag (gc_statetag_weapon_0/1/2 → 0/1/2).
-3. _unit_ApplyWeaponCost(myHnd, weapind)        ← списание iron/coal/gold за выстрел
-4. _unit_ApplyAttackPause(myHnd, weapind)        ← пауза до следующего цикла
+1. If the unit is dead, exit.
+2. weapind := weapon index from statetag (gc_statetag_weapon_0/1/2 → 0/1/2).
+3. _unit_ApplyWeaponCost(myHnd, weapind)        ← deduct iron/coal/gold for the shot
+4. _unit_ApplyAttackPause(myHnd, weapind)        ← pause until the next cycle
 5. weaponid := objprop.weapon[weapind].weaponid
-   trgHnd := GetGameObjectSTOHandleByHandle(myHnd)  ← кэш найденной цели
-6. Если trgHnd ≠ 0:
-   а) weaponid == 0 (рукопашный):
-      - Звук удара (sword/sabre/pike) через _unit_RequestPlaySound
-      - _misc_DoDamage(myHnd, trgHnd, damage, weapind, kind) ← урон сразу
-   б) propagation == immediate (картечь, lightning):
-      - _misc_DoDamage сразу
-      - Звук выстрела
-      - Spawn fxshot-эффекта (вспышка, дым)
-   в) обычный снаряд:
-      - Spawn projectile через CreatePlayerGameObjectHandleByHandle
-      - Полётом снаряда занимается отдельная FSM проектиля
-      - _misc_DoDamage применится на event '_OnTargetReached'
+   trgHnd := GetGameObjectSTOHandleByHandle(myHnd)  ← cached target
+6. If trgHnd ≠ 0:
+   a) weaponid == 0 (melee):
+      - Play the impact sound (sword/sabre/pike) via _unit_RequestPlaySound
+      - _misc_DoDamage(myHnd, trgHnd, damage, weapind, kind) ← immediate damage
+   b) propagation == immediate (canister, lightning):
+      - Apply _misc_DoDamage immediately
+      - Play the shot sound
+      - Spawn the fxshot effect (flash, smoke)
+   c) normal projectile:
+      - Spawn a projectile via CreatePlayerGameObjectHandleByHandle
+      - A separate projectile FSM handles its flight
+      - _misc_DoDamage runs on the '_OnTargetReached' event
 ```
+<a id="53-семантика-для-разных-типов-оружия"></a>
 ### 5.3. Semantics for different types of weapons
 
 | Type `weaponid` | What's at the moment of swing |
@@ -356,6 +368,7 @@ Pseudocode (`onaclanimationreachedattack.inc`):
 | Rifle with `propagation = immediate` (buckshot, lightning) | Immediate damage + sound + fxshot. The AoE radius is applied here too. |
 | Regular projectile (arrow, bullet, cannonball) | A `projectile` object spawns and flies towards the target. Damage is applied at the moment the projectile **arrives** (event `_OnTargetReached`), and not at the moment of swing. This gives "flight time" for arrows and cannonballs. |
 
+<a id="54-rng-фильтр-звуков-выстрела"></a>
 ### 5.4. RNG filter for gunshot sounds
 
 If the object is **not in frustum** of the camera and
@@ -370,6 +383,7 @@ sound is skipped often (background gunfire out of sight).
 
 ---
 
+<a id="6-unitapplyattackpause--следующий-цикл"></a>
 ## 6. `_unit_ApplyAttackPause` - next cycle
 
 After each swing there is a pause until the next one
@@ -377,7 +391,7 @@ attack cycle [^2]:
 ```
 attpause := objbase.weapon[weapind].pause
 if individual.benabled and attpause > 0:
-    attpause *= individual.attackrate    ← апгрейды-перцент
+    attpause *= individual.attackrate    ← percentage upgrades
 ```
 The specific number `pause` is stored in the unit data. For the musketeer
 17th century — `pause ≈ 150` frames = 4.69 g-sec. With upgrades
@@ -392,6 +406,7 @@ will fire before the next cycle `.acl`).
 
 ---
 
+<a id="7-unitapplyweaponcost--стоимость-выстрела"></a>
 ## 7. `_unit_ApplyWeaponCost` - cost of a shot
 
 With each swing, `weapon[weapind].cost[restype]` is debited for
@@ -402,7 +417,7 @@ for i := 0 to gc_ResCount-1:
       if gPlayer[plInd].res[i] >= weapon[weapind].cost[i]:
          res[i] -= weapon[weapind].cost[i]
       else:
-         res[i] := 0  ← если ресурса меньше, списывается остаток
+         res[i] := 0  ← if the player has less, deduct the remainder
 ```
 That is, if the player runs out of `iron` or `coal`, tower/cannon
 **still shoots** (writes off the remainder to zero), but then without
@@ -415,6 +430,7 @@ Full table of shot prices for each unit - in
 
 ---
 
+<a id="8-ключевые-тайминги-сводка"></a>
 ## 8. Key timings (summary)
 
 From 1,382 tracks in `derived/animations.json`:
@@ -441,6 +457,7 @@ frames (0.469 g-sec).
 
 ---
 
+<a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
 1. **Exact refspeed values for all classes.** I have listed
@@ -460,6 +477,7 @@ frames (0.469 g-sec).
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 [^1]: `data/scripts/units/unit.inc/onaclanimationreachedattack.inc`

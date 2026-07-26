@@ -3,12 +3,14 @@ _Ukraine_
 
 [← Index](../README.md) · [← All nations](README.md)
 
+<a id="кластер"></a>
 ## Cluster
 
 - **Shared cluster:** `rus` (mill/sto/mar/tow use the suffix `rus+`)
 - **Peasant:** `peaukr`
 - **Cluster infantry:** cluster `rus`
 
+<a id="уникальные-юниты-6"></a>
 ## Unique units (6)
 
 | Unit | role | HP | damage | recharge | far (tile) |
@@ -20,8 +22,10 @@ _Ukraine_
 | **Peasant** `peaukr` | Peasant | 75 | 20 | 0.0 | 1.22 |
 | **Serdiuk** `serdiuk` | Shooter | 85 | 12 | 4.06 | 16.88 |
 
+<a id="здания"></a>
 ## Buildings
 
+<a id="уникальные-для-нации-9"></a>
 ### Unique to the nation (9)
 
 > **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
@@ -38,6 +42,7 @@ _Ukraine_
 | **Stable** `ukrsta` | **10000** | **156.25** | **300** | 0 | **3200** | **850** | **850** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
 | **Orthodox Cathedral** `ukrtem` | **5300** | 156.25 | 300 | 0 | **1100** | **1400** | 0 | **300** | 0 | 0 | mullah, padre, pope, priest |
 
+<a id="общий-кластер-9"></a>
 ### Shared cluster (9)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
@@ -52,8 +57,10 @@ _Ukraine_
 | **Gate** `ukrwga` | 2500 | 8.12 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | content {"wood": 40} |
 | **Palisade** `ukrwwa` | 2500 | 8.12 | 0 | 0 | 12 | 0 | 0 | 0 | 0 | content {"wood": 40} |
 
+<a id="юниты-по-классам"></a>
 ## Units by class
 
+<a id="крестьяне"></a>
 ### Peasants
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -120,6 +127,7 @@ _Ukraine_
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 
 <a id="мортиры"></a>
+<a id="пушки"></a>
 ### Mortars
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |

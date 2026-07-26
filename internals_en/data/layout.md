@@ -1,8 +1,10 @@
+<a id="структура-data-в-cossacks-3"></a>
 # Structure `data/` in Cossacks 3
 
 What is in each subfolder of the game directory (`Steam/steamapps/
 common/Cossacks 3/data/`), what format is there and who parses it.
 
+<a id="сводка"></a>
 ## Summary
 
 | Folder | Files | Size | What's inside |
@@ -36,6 +38,7 @@ common/Cossacks 3/data/`), what format is there and who parses it.
 
 **Total:** ~7.7 GiB. Data = ~94% game size.
 
+<a id="что-нас-интересует-для-парсинга"></a>
 ## What we are interested in for parsing
 
 Of all 26 folders they actually parse:
@@ -64,20 +67,22 @@ files:
 - `units/<sid>/*.parser` - per-unit configs.
 - `gui/*.aix` - UI descriptions.
 
+<a id="scripts"></a>
 ## objects/
 
 Contains `.parser` object configs (1,290 files). Structure:
 ```
 objects/
-├── *.objects       Корневые конфиги классов
-├── *.lib           Индексы
-├── *.prop          Свойства
+├── *.objects       Root class configs
+├── *.lib           Indexes
+├── *.prop          Properties
 └── ...
 ```
 Each GameObject class in C3 has a `.objects` config with a list
 behavior, animations, materials. Parses the engine via
 `ParserLoadFromFile` (native function, available in RTTI).
 
+<a id="objects"></a>
 ## animations/
 
 Animation tracks. Files:
@@ -103,6 +108,7 @@ and
 [`../../parser/parse_patterns.py`](../../parser/parse_patterns.py)
 → [`../../derived/pattern_inventory.json`](../../derived/pattern_inventory.json).
 
+<a id="animations"></a>
 ## gen/
 
 Map generation pipeline. Contains:
@@ -115,14 +121,15 @@ Map generation pipeline. Contains:
 
 Parses in `parser/parse_generator_cfg.py`.
 
+<a id="pattern"></a>
 ## locale/
 
 Localization. For each language - a folder with `.lng`/`.loc` files:
 ```
 locale/
 ├── english/
-│   ├── units.txt        Названия юнитов и зданий
-│   ├── upgrades.txt     Названия апгрейдов
+│   ├── units.txt        Unit and building names
+│   ├── upgrades.txt     Upgrade names
 │   └── ...
 ├── russian/
 └── ...
@@ -147,26 +154,30 @@ formats:
 
 Can't be parsed - we don't work with 3D data.
 
+<a id="gen"></a>
 ## materials/
 
 Materials (shaders + textures). 2.9 GiB. `.mat` files configure
 binding textures to shaders. `.dds` - actual textures.
 
+<a id="locale"></a>
 ## sounds/
 
 Sound effects. OGG format. 330 files, 282 MiB.
 
+<a id="maps"></a>
 ## DLC
 
 In addition to `data/`, in the root of the game there is:
 ```
 dlcs/
-├── summer/        Летняя карта (Map data only)
-└── winter/        Зимняя карта
+├── summer/        Summer map (map data only)
+└── winter/        Winter map
 ```
 DLC **do not contain** override rules - only additional ones
 cards. All units/nations/upgrades - mostly `data/`.
 
+<a id="actors"></a>
 ## What is not parsed (and is not planned)
 
 - 3D models (`actors/`, `materials/`).
@@ -176,6 +187,7 @@ cards. All units/nations/upgrades - mostly `data/`.
 - HUD textures (`hud/`).
 - Maps (`maps/.map` files).
 
+<a id="materials"></a>
 ## Where are our parsing points?
 
 | Parser | What does |

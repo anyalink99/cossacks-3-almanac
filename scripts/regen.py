@@ -164,7 +164,7 @@ def help_text() -> str:
             "reports-nations": "docs/reports/nations/",
             "tech":            "tech_tree.md + production_rates.md + tech_tree.json",
             "derived":         "animations, patterns, replay aggregates → derived/",
-            "manifests":       "Markdown navigation manifests for both languages",
+            "manifests":       "Markdown navigation manifests and search indexes for both languages",
         }[name]
         lines.append(f"  {name:<18} {descr}")
     lines.append("")

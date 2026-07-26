@@ -341,6 +341,7 @@ resources under the fog beyond what his own units discovered:
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
@@ -418,7 +419,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^22]: Target ba17 - `progresseconomicai.inc:2771`:
     ```pascal
     _ai_TryUnit(plind, cid, gc_ai_unit_ba17, 8, False)
-    // для России — 6
+    // 6 for Russia
     ```
 
 [^23]: Towers — `progresseconomicai.inc:2926-2929`:
@@ -470,7 +471,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     myForce := _ai_GetArmyForce(pArmy);
     if (uCount > 200) or (myForce > 3800) then
        myForce := 100000;
-    // иначе myForce *= 8 (heavy) или *= 2 (light)
+    // otherwise myForce *= 8 (heavy) or *= 2 (light)
     if (enForce > myForce) then ...retreat...
     ```
 [^39]: Installation `gbool_peacemode` - `dogenerate.inc:2060-2064`.

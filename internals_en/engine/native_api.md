@@ -1,3 +1,4 @@
+<a id="native-api-движка-cossacks-3-delphi--dws"></a>
 # Native API of the Cossacks 3 engine (Delphi + DWS)
 
 Reverse engineering of the native engine layer through static analysis
@@ -28,8 +29,10 @@ Machine-readable artifacts:
 - `docs/derived/exe_strings.json` - 61,595 ASCII + 15,615 Pascal
   ShortString with offsets (if ever needed for xref).
 
+<a id="1-методология"></a>
 ## 1. Methodology
 
+<a id="11-идентификация-движка"></a>
 ### 1.1. Engine identification
 
 The lines `cossacks.exe` confirm:
@@ -43,6 +46,7 @@ The lines `cossacks.exe` confirm:
 | `EId*` exceptions (Indy 10) | The network part is Indy Internet Direct, also open-source. |
 | `TFormHelloScreen` | UI on standard Delphi VCL/FMX forms. |
 
+<a id="12-извлечение-сигнатур"></a>
 ### 1.2. Signature extraction
 
 The DWS function is registered in Delphi code as:
@@ -63,8 +67,10 @@ leading space in the record part) and parses it as a Pascal declaration.
 
 This is enough: **100% of script-callable primitives** were found by name.
 
+<a id="2-что-говорят-4-856-сигнатур-про-устройство-движка"></a>
 ## 2. What 4,856 signatures say about the engine design
 
+<a id="21-ecs-на-handleах"></a>
 ### 2.1. ECS on handles
 
 The vast majority of the API is operations on `gohandle: Integer`
@@ -95,6 +101,7 @@ camera, AI regional scans. Of these, approximately 4× more functions than
 the script calls is an API for the editor (`editor.exe` is a separate binary,
 but fumbling around the same DWS environment) and asset pipeline.
 
+<a id="22-server-sync--что-это-такое-технически"></a>
 ### 2.2. Server sync - what is it technically?
 
 In [server_sync_architecture.md](server_sync_architecture.md) we
@@ -146,6 +153,7 @@ small even in big battles.
 `RecordSynch*`/`RecordCustom*` all inside `cossacks.exe` (Indy 10 +
 Steam wrapper).
 
+<a id="23-pathfinding--на-отдельном-потоке"></a>
 ### 2.3. Pathfinding - on a separate thread
 
 Found 14 functions `PathDataThread*`:
@@ -180,6 +188,7 @@ paths) are not separate `Find*` functions, but commands through
 `Set*ByHandle` (for example, `MoveTo`-style); the search itself is asynchronous and
 the script just waits for the next tick.
 
+<a id="24-rng--глубже-чем-мы-думали"></a>
 ### 2.4. RNG - deeper than we thought
 
 In the existing `determinism_audit.md` we fixed `random`,
@@ -222,6 +231,7 @@ simulate Delphi `RandSeed`. If there is `SetRandomKey + RandomExt` -
 simulate an extended seed and its LCG. Map RNG and weather are independent
 storages do not affect the extraction chain.
 
+<a id="25-поведенческие-компоненты-behaviour"></a>
 ### 2.5. Behavioral components (Behaviour)
 
 `BehaviourCreate`, `BehaviourCreateWithKey`, `BehaviourDestroy` plus
@@ -243,6 +253,7 @@ mirror, surface bounce): built-in **physical simulation of inertia**
 for flying/throwable objects (for example, cannonballs, cavalry in
 gallop).
 
+<a id="26-ai--региональная-архитектура"></a>
 ### 2.6. AI - regional architecture
 
 All AI primitives (10 functions) are built around
@@ -262,6 +273,7 @@ own list of objects. AI requests zone update
 solutions. This beats `recon/ai.md` (if there is one) and closes the issue
 "how AI searches for targets."
 
+<a id="27-скриптовая-среда--dws-со-своими-расширениями"></a>
 ### 2.7. Scripting environment - DWS with its extensions
 
 `EvaluateCodeThread(const code: String): Integer` and
@@ -275,6 +287,7 @@ scripts have access to function pointers. This suggests that part
 gameplay logic is passed as callbacks (for example, handlers
 script triggers).
 
+<a id="3-топ-50-самых-частых-нативных-вызовов"></a>
 ## 3. Top 50 most common native calls
 
 (Generated in `native_primitives.md` nearby, here is a condensed TOP 30 for reference.)
@@ -305,6 +318,7 @@ state-machines. Considering that there is `TFormStateMachines` in RTTI and
 `MachineLibrary*` in API, behavioral level script logic
 is organized as an FSM, and `SwitchTo` is a transition between states.
 
+<a id="4-где-хранится-остальное-что-не-в-скриптах"></a>
 ## 4. Where is the rest stored (what is not in scripts)
 
 Of the 4,856 native functions in the exe, the script calls only 884. The rest
@@ -325,6 +339,7 @@ Of the 4,856 native functions in the exe, the script calls only 884. The rest
 If you ever need to dig into the editor or network stack - all names
 yes, RVA in `dws_native_signatures.json`.
 
+<a id="5-что-закрыто-этим-документом"></a>
 ## 5. What is covered by this document
 
 | Question | Where was opened | Answer |
@@ -365,6 +380,7 @@ scripts or RTTI; “❌” really requires RE.
 | `parser/engine_recon/dump_exe_strings.py` | Dump all ASCII (61k) and Pascal ShortString (15k) from `cossacks.exe` with RVA. |
 | `parser/engine_recon/extract_dws_signatures.py` | Main: scans the AnsiString table, extracts 4,856 DWS signatures, cross-reference with script → 100% coverage. |
 
+<a id="8-воспроизведение"></a>
 ## 8. Playback
 ```powershell
 cd c:\projects\other\cossacks
@@ -375,6 +391,7 @@ python parser\engine_recon\extract_dws_signatures.py
 Artifacts appear in `derived/*.json` and update the report in
 `native_primitives.md` (adjacent file in the same folder).
 
+<a id="9-если-всё-таки-понадобится-декомпилятор"></a>
 ## 9. If you still need a decompiler
 
 `dws_native_signatures.json` contains the RVA of each signature - period

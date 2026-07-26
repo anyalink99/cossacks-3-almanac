@@ -1,9 +1,11 @@
+<a id="сравнение-наций--общий-обзор"></a>
 # Comparison of nations - general overview
 
 **Derived report.** Counted from [`data.json`](../../../data.json) by script [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). Regeneration: `python compute/compute_nations_overview.py`.
 
 Side-by-side comparison of all 21 nations. For details on a specific nation - [`reference/nations/<nat>.md`](../../reference/nations/README.md).
 
+<a id="1-размер-ростера-и-эпохальный-доступ"></a>
 ## §1. Roster size and Mythic access
 
 How many different unit-sids are available to the nation (`?` - miss/test units, Drummer/Officer/Priest, etc. are classified separately). Column **18c** - Does the nation have 18th-century Barracks? (`<nat>ba2`); if not, the nation is locked in the 17th century. era.
@@ -32,6 +34,7 @@ How many different unit-sids are available to the nation (`?` - miss/test units,
 | **ukr** Ukraine | 22 | 16 | 3 | 4 | 1 | 4 | ❌ |
 | **ven** Venice | 35 | 27 | 4 | 6 | 2 | 6 | ✅ |
 
+<a id="2-покрытие-стандартных-построек"></a>
 ## §2. Covering standard buildings
 
 `✅` = nation has this building, `❌` = nation does not have it. Full catalog of buildings - [03_buildings/README.md](../../reference/03_buildings/README.md).
@@ -64,6 +67,7 @@ How many different unit-sids are available to the nation (`?` - miss/test units,
 
 - **ukr** Ukraine - no: Tower, Stone wall/gate
 
+<a id="3-уникальные-юниты-по-нациям"></a>
 ## §3. Unique units by nation
 Units with `sid`, which is found only in one nation (excluding mercenaries from `<nat>dip`). These are “feature” units with which the nation is associated. Mercenary sid (`<unit>dip`) - separately in §5.
 
@@ -92,6 +96,7 @@ Units with `sid`, which is found only in one nation (excluding mercenaries from 
 
 **No unique non-mercenary units:** **ven** Venice - use only the general roster.
 
+<a id="4-стат-аномалии-на-одинаковых-юнитах"></a>
 ## §4. Stat anomalies on “identical” units
 
 The same unit class (`usage_short`) may have different HP/damage/armor among different nations - these are hidden balance differences. Here are categories where the spread of HP between nations is ≥ 20%.
@@ -109,6 +114,7 @@ The same unit class (`usage_short`) may have different HP/damage/armor among dif
 | Grenadier | **sax** Saxony · `grenadiersax` (100) | **pru** Prussia · `grenadierpru` (125) | +25% |
 | Light Cavalry | **pol** Poland · `wingedhussar` (225) | **sco** Scotland · `raidersco` (280) | +24% |
 
+<a id="5-доступные-наёмники-через-дипломатический-центр"></a>
 ## §5. Available mercenaries (via diplomatic center)
 
 Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `sid`. The cost is only gold (without food/wood/stone), they train without barracks prerequisites. All mercenaries consume gold-upkeep (`consume.gold > 0`); units with the flag `bmercenary=True` (in the current balance only `battleship`) are subject to Rebellion at `gold=0` (see [01_economy/README.md](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).
@@ -124,6 +130,7 @@ Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `
 | `dragoon18dip` | Shooter | 100 | 18 | ✅ | all 21 nations |
 | `lightcavalrydip` | Shooter | 100 | 18 | ✅ | all 21 nations |
 
+<a id="6-вариант-рынка"></a>
 ## §6. Market option
 Market - common building (see [03_buildings/README.md → mar](../../reference/03_buildings/README.md#mar--market)). For 21 nations there are 4 building options (`eurmar` / `rusmar` / `spamar` / `turmar`), differing in HP, price and construction time. These are **building options only** - market rates are global and the same for all players in the match, regardless of which `mar` is built (see [06_market/README.md](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
 

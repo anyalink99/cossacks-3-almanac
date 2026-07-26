@@ -110,6 +110,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Serdiuk** `serdiuk` | ukr | 85 | 11.0 | 60 | 11 | 5 | 12 | 16.88 | 4.06 | — | — | — | — | — | — |
 | **Strelets** `strelet` | rus | 85 | 8.5 | 70 | 7 | 9 | 12 | 13.13 | 4.69 | — | — | — | — | — | — |
 
+<a id="мушкетёры-18-в-5-вариантов"></a>
 ## Musketeers (18th century) (5 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -120,6 +121,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Musketeer, 18th century** `musketeer18pru` | pru | 100 | 6.0 | 70 | 80 | 40 | 22 | 17.81 | 4.69 | — | — | — | — | — | — |
 | **Musketeer, 18th century** `musketeer18sax` | sax | 90 | 4.5 | 40 | 45 | 40 | 19 | 16.88 | 4.38 | — | — | — | — | — | — |
 
+<a id="гренадёры-7-вариантов"></a>
 ## Grenadiers (7 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -132,6 +134,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Grenadier** `grenadierpru` | pru | 125 | 7.0 | 90 | 100 | 45 | 16 | 16.88 | 4.38 | — | — | — | — | — | — |
 | **Grenadier** `grenadiersax` | sax | 100 | 6.0 | 50 | 60 | 40 | 19 | 17.81 | 5.31 | — | — | — | — | — | — |
 
+<a id="лучники-5-вариантов"></a>
 ## Archer (5 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -142,6 +145,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Turkish archer** `archertur` | tur | 65 | 3.0 | 45 | 4 | 0 | 150 | 16.88 | 4.38 | — | — | — | — | — | — |
 | **Turkish archer (mercenary)** `archerturdip` | all | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | — | — | — | — | — | — |
 
+<a id="особая-пехота-18-в-6-вариантов"></a>
 ## Special infantry (18th century) (6 options)
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -204,6 +208,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Vityaz** `vityaz` | rus | 380 | 25.5 | 160 | 13 | 25 | 14 | 1.22 | 0.0 | 2 | 4 | 3 | 160 | 17 | 40 |
 | **Winged Hussar** `wingedhussar` | pol | 225 | 26.0 | 130 | 30 | 25 | 14 | 1.88 | 0.0 | 1 | 2 | 5 | 160 | 10 | 30 |
 
+<a id="пушки-3-варианта"></a>
 ## Cannons (3 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -212,6 +217,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Frame gun** `framegun` | sco | 3000 | 50.0 | 0 | 300 | 150 | 500 | 33.75 | 2.81 | — | — | — | — | — | — |
 | **Multi-barrelled Cannon** `multicannon` | aus,bav,den,eng,fra,hun,net,pie,pol,por,pru,rus,sax,spa,swe,swi,ven | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | — | — | — | — | — | — |
 
+<a id="мортиры-2-варианта"></a>
 ## Mortars (2 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -219,12 +225,14 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Howitzer** `howitzer` | all | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | — | — | — | — | — | — |
 | **Bombard** `mortar` | all | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | — | — | — | — | — | — |
 
+<a id="рыбацкие-лодки-1-вариант"></a>
 ## Fishing boats (1 option)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | **Boat** `fishboat` | all | 300 | 40.0 | 0 | 0 | 0 | — | — | — | — | — | — | — | — | — |
 
+<a id="военные-корабли-8-вариантов"></a>
 ## Warships (8 options)
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -237,6 +245,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Yacht** `yacht` | all | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | — | — | — | — | — | — |
 | **Yacht** `yachttur` | tur | 35000 | 48.0 | 0 | 450 | 150 | 0 | 30.94 | 21.88 | — | — | — | — | — | — |
 
+<a id="офицеры-5-вариантов"></a>
 ## Officers (5 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -247,6 +256,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Officer** `officersco` | sco | 150 | 10.0 | 130 | 130 | 10 | 40 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | **Officer** `officertur` | alg,tur | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
+<a id="барабанщики-и-волынщики-5-вариантов"></a>
 ## Drummer, 17th century and bagpipers (5 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |
@@ -257,6 +267,7 @@ All units are grouped by class. For side-by-side comparison within a class, see 
 | **Drummer, 17th century** `drummerrus` | rus | 100 | 6.0 | 90 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 | **Drummer, 17th century** `drummertur` | alg,tur | 50 | 4.0 | 30 | 15 | 0 | — | — | — | — | — | — | — | — | — |
 
+<a id="священники-4-варианта"></a>
 ## Priests (4 options)
 
 | Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |

@@ -62,6 +62,7 @@ The contents of `data/`: directories, formats, and parsing rules.
 | [data/layout.md](data/layout.md) | Full review of `data/`: 26 subfolders and what's in each. |
 | [data/file_formats.md](data/file_formats.md) | File formats: `.parser` (text configs), `.pattern` (brush maps), `.aaf` (animations), `.tga`/`.dds` (textures). |
 
+<a id="чем-это-отличается-от-docsrecon"></a>
 ## How is this different from `docs/recon/`
 
 | `docs/recon/` (for player) | `internals/` (for developer/modder) |
@@ -74,6 +75,7 @@ The boundary is practical: native function names, binary formats, and
 byte-level executable details belong here. Game values and behavior observable
 during a match belong in [`docs_en/`](../docs_en/).
 
+<a id="связанные-машинные-дампы"></a>
 ## Related machine dumps
 
 All JSON datasets generated from these documents or from a binary are in
@@ -85,6 +87,7 @@ All JSON datasets generated from these documents or from a binary are in
 - Other datasets (`game_settings`, `tech_tree`, `builder_slots`, and so on)
   support the player-facing reference.
 
+<a id="инструменты"></a>
 ## Tools
 
 All extractors are in [`../parser/engine_recon/`](../parser/engine_recon/):

@@ -1,3 +1,4 @@
+<a id="replay--save-rep-map--формат-oswmap13"></a>
 # Replay / Save (`.rep`, `.map`) - format `OSWMap13`
 
 Cossacks 3 writes replays and saves in one binary format
@@ -22,27 +23,28 @@ Parsers in this project:
 
 ---
 
+<a id="1-общая-разметка-файла"></a>
 ## 1. General file markup
 ```
-+--- Header (~168 КБ) -------------------------------------+
++--- Header (~168 KB) -------------------------------------+
 | OSWMap13 + Build.Ver[X.Y.Z.NNNN] + UID                   |
 | GameMapSnapShotBegin                                     |
-|   [BMP, ~145 КБ — превью карты]                          |
+|   [BMP, ~145 KB — map preview]                           |
 | GameMapSnapShotEnd                                       |
 | GameMapRecordBegin                                       |
-|   <key,value> пары в текстовом формате:                  |
+|   <key,value> pairs in text format:                      |
 |     maskname, mapsize, relieftype, randkey0, randkey1,   |
 |     terraintype, season, gamespeed, resourcemines,       |
 |     limit, ver, ...                                      |
 +--- Body ---------------------------------------------- ---+
-| Поток entry'ев с timestamp'ом и payload'ом:              |
-|   entry[0]:   ts=0,         payload = снимок стартового  |
-|                              мира (юниты, ресурсы)       |
-|   entry[1+]:  ts > 0 ticks, payload = один или несколько |
-|                              sub-package'ей              |
+| Entry stream with timestamps and payloads:               |
+|   entry[0]:   ts=0,         payload = initial-world      |
+|                              snapshot (units, resources) |
+|   entry[1+]:  ts > 0 ticks, payload = one or more        |
+|                              sub-packages                |
 | GameMapRecordEnd                                         |
 +----------------------------------------------------------+
-| GameMapBegin + f64 elapsed_raw_s + metadata карты        |
+| GameMapBegin + f64 elapsed_raw_s + map metadata          |
 | map_file + width/height + init-state + GameMapEnd         |
 +----------------------------------------------------------+
 ```
@@ -53,15 +55,17 @@ A confirmed footer diagram is given in §7.5.
 
 ---
 
+<a id="2-entry-18-байтовый-заголовок-и-payload"></a>
 ## 2. Entry: 18-byte header and payload
 ```
-offset  size  поле                                    замечание
+offset  size  field                                   note
 ---------------------------------------------------------------------
-+0      4B    float ts                                ticks; см. §2.1
-+4      4B    u32 payload_size LE                     размер payload
-+8     10B    entry-маркер                            см. §2.2
++0      4B    float ts                                ticks; see §2.1
++4      4B    u32 payload_size LE                     payload size
++8     10B    entry marker                            see §2.2
 +18    N      payload                                  N = payload_size
 ```
+<a id="21-семантика-ts"></a>
 ### 2.1 Semantics `ts`
 
 `ts` are game ticks in increments of 0.1 g-sec:
@@ -82,18 +86,19 @@ The values of `ts` are fractional (for example, 14.130 instead of 14.1) because
 the engine writes `GetCurrentTime × GetTimeSpeedFactor` with full
 float precision, rather than rounding to a whole tick.
 
+<a id="22-десятибайтовый-entry-маркер--два-варианта"></a>
 ### 2.2 Ten-byte entry marker - two options
 
 Each entry in body is preceded by a 10-byte sequence.
 TWO options are observed; separates their middle-word state:
 ```
-вариант A (saves, локальные replay'и):
+variant A (saves and local replays):
   b0 04 00 00 00 00 00 00 00 00
 
-вариант B (rated/online матчи):
+variant B (rated/online matches):
   b0 04 <4B signature> 00 00 00 00
-                       ^^^^^^^^^^^ хвост остаётся нулевым
-         ^^^^^^^^^^^^^ ненулевое слово, КОНСТАНТНОЕ для одного файла
+                       ^^^^^^^^^^^ tail remains zero
+         ^^^^^^^^^^^^^ nonzero word, CONSTANT within one file
 ```
 Invariants that walker relies on:
 
@@ -115,6 +120,7 @@ structs (`RecordCustomBegin` → channel-table).
 
 ---
 
+<a id="3-sub-package-внутренняя-структура-payloadа"></a>
 ## 3. Sub-package: internal payload structure
 
 One entry contains one or more sub-packages
@@ -123,14 +129,15 @@ each sub-package is wrapped in a pair `RecordCustomBegin(stateName) /
 RecordCustomEnd`; when reading, the engine dispatches the package to the FSM section
 with the name `stateName` through `SwitchTo(stateName)`.
 
+<a id="31-class0x00-default-channel--формат"></a>
 ### 3.1 Class=0x00 (default channel) - format
 ```
-offset  size  поле                                    замечание
+offset  size  field                                   note
 ---------------------------------------------------------------------
-+0      4B    [class=0x00, sub=0x03, pid, state_id]   4-байтовый header
-+4      1B    0x00                                    begin-marker
-+5      ?B    typed body                              типизированный поток
-+?      1B    0x01                                    end-marker
++0      4B    [class=0x00, sub=0x03, pid, state_id]   4-byte header
++4      1B    0x00                                    begin marker
++5      ?B    typed body                              typed stream
++?      1B    0x01                                    end marker
 ```
 This format is used for player commands (build, produce, move,
 trade, ...) and for engine-progress events (see §3.5). Channel ID 0x03
@@ -146,22 +153,24 @@ trade, ...) and for engine-progress events (see §3.5). Channel ID 0x03
 | 14 | `gc_playerind_progress` – engine progress events |
 | 15 | `gc_playerind_pool` |
 
+<a id="32-class0x09-tagobject-state-sync-stream--формат"></a>
 ### 3.2 Class=0x09 (TagObject state-sync stream) - format
 
 Channel per-object state-sync (`RecordCustomBeginTagObject @ 0x685c6c`)
 written in a different scheme:
 ```
-offset  size  поле
+offset  size  field
 ------------------------------------------------------
 +0      1B    0x09                       — class
-+1      3B    u24 LE — global sequence counter (монотонный)
-+4      4B    u32 LE — count записей
-+8      ?B    count записей переменного размера
++1      3B    u24 LE — global sequence counter (monotonic)
++4      4B    u32 LE — record count
++8      ?B    count variable-size records
 ```
 The record size varies from 8 to 23 bytes in increments of ~3 bytes. Basic
 part `[u32 uid][u32 statestag]` (8 bytes) is always present;
 extensions are added by bits `statestag`.
 
+<a id="three-way-dispatch--три-подформата-записи"></a>
 #### Three-way dispatch - three record subformats
 
 Decompilation of `RecordCustomBeginTagObject` (private recon-workspace
@@ -192,20 +201,22 @@ records, the body cannot be decoded” - almost the entire useful signal lies
 in class=0x00 commands, and the sync stream is gigantic (millions of records in
 long batch) and its decomposition slows down the parser by an order of magnitude.
 
+<a id="33-типизированные-recordcustomread-примитивы"></a>
 ### 3.3 Typed `RecordCustomRead*` primitives
 ```
-RecordCustomReadBoolean   — 1 байт (любое ненулевое = true)
-RecordCustomReadByte      — 1 байт
-RecordCustomReadWord      — 2 байта LE
-RecordCustomReadSmallInt  — 2 байта LE signed
-RecordCustomReadInt24     — 3 байта LE signed
-RecordCustomReadInteger   — 4 байта LE signed
-RecordCustomReadFloat     — 4 байта LE IEEE-754
+RecordCustomReadBoolean   — 1 byte (any nonzero value = true)
+RecordCustomReadByte      — 1 byte
+RecordCustomReadWord      — 2 bytes LE
+RecordCustomReadSmallInt  — 2 bytes LE signed
+RecordCustomReadInt24     — 3 bytes LE signed
+RecordCustomReadInteger   — 4 bytes LE signed
+RecordCustomReadFloat     — 4 bytes LE IEEE-754
 RecordCustomReadString    — [u16 len LE][bytes]
 RecordCustomReadShortString — [u8 len][bytes]
-RecordCustomReadPackedFloat — 2 байта uint16 LE; decode = min + (raw/65535)*(max-min); min/max не в потоке, подразумеваются контекстом записи (см. ниже)
-RecordCustomReadBit + RecordCustomBeginReadBitFields — для bit-stream'ов
+RecordCustomReadPackedFloat — 2-byte uint16 LE; decode = min + (raw/65535)*(max-min); min/max are not in the stream and come from the record context (see below)
+RecordCustomReadBit + RecordCustomBeginReadBitFields — for bit streams
 ```
+<a id="packedfloat--2-байта-uint16"></a>
 #### `PackedFloat` - 2 bytes uint16
 
 Confirmed by decompilation `_Stream_WritePackedFloat @ 0x5b46e0`
@@ -228,6 +239,7 @@ constants. To correctly decode a specific PackedFloat field,
 the parser must know what range was used when recording.
 In practice, this means the table “state X, field Y → min=N, max=M”.
 
+<a id="строки"></a>
 #### Lines
 
 `String` is just `[u16 len LE][bytes]`, no prefix. For example,
@@ -236,6 +248,7 @@ sid `"auscen"` in payload looks like:
 06 00                          u16 len = 6
 61 75 73 63 65 6e              "auscen"
 ```
+<a id="bitfield-order--lsb-first"></a>
 #### Bitfield order - LSB-first
 
 Inside the bit-pack (`BeginBitFields … WriteBit × N … EndBitFields`)
@@ -243,7 +256,7 @@ bits are packed LSB-first. Decompilation
 `_Stream_WriteBit @ 0x5b4874` (private recon-workspace
 `cossacks-deep/decompiled/record.c:728-745`):
 ```c
-*(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR в текущий байт по маске
+*(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR the mask into the current byte
 *(byte *)(stream + 0x15) <<= 1;                         // mask <<= 1
 ```
 Mask starts from the value `0x01` and shifts to the left after each
@@ -273,6 +286,7 @@ for the created construction dummy. Command `ReadProduce` to deep center
 generates several nested `ReadNew` for each
 mercenary candidate.
 
+<a id="35-engine-progress-события-pid14"></a>
 ### 3.5 Engine-progress events (pid=14)
 
 When pid=14 (`gc_playerind_progress`) state_ids are used as
@@ -292,6 +306,7 @@ The decoder SHOULD skip the body of such events, marking them as
 
 ---
 
+<a id="4-карта-stateid--handler"></a>
 ## 4. Map state_id → handler
 
 **Source:** `data/scripts/units/global.aix`
@@ -376,6 +391,7 @@ associated with the handler.
 The signatures of all `Read*`-handlers are read from
 `data/scripts/units/global.inc/read*.inc`.
 
+<a id="41-сигнатуры-тел-ключевых-handlerов"></a>
 ### 4.1 Body signatures of key handlers
 
 Parameters in order of recording. Types are `RecordCustomRead*` primitives
@@ -383,8 +399,8 @@ from §3.3. These six handlers cover almost all command analysis
 player.
 ```
 ReadConstruct   (0x21)  Bool bFromServer
-                        Int  cid                 ← country index игрока
-                        Str  sid                 ← sid здания
+                        Int  cid                 ← player's country index
+                        Str  sid                 ← building sid
                         Float posx, posz
                         Bool clrord
                         Int  count
@@ -394,7 +410,7 @@ ReadNew         (0x0d)  Bool bFromServer
                         Str  race, base
                         Float posx, posz
                         Int  cid                 ← cid≤0 → -cid = country;
-                                                   cid>0 → uid здания-производителя
+                                                   cid>0 → producing-building uid
                         Int  uid, num
 
 ReadNewP        (0x2d)  Bool bFromServer
@@ -402,22 +418,22 @@ ReadNewP        (0x2d)  Bool bFromServer
                         Float posx, posz, roll
                         Int  plind, id, uid, num
 
-ReadOrder       (0x17)  Int  ordtyp              ← см. §5
+ReadOrder       (0x17)  Int  ordtyp              ← see §5
                         Int  taruid
                         Bool clrord, locktrg
                         Int  number
-                        Float posx, posz         ← только при ordtyp ∈ {5,6}
+                        Float posx, posz         ← only when ordtyp ∈ {5,6}
                         Int[number] unit-uids
 
-ReadProduce     (0x1b)  Int  proid               ← индекс в country.members[]
-                        Int  prcid               ← country index юнита
+ReadProduce     (0x1b)  Int  proid               ← index in country.members[]
+                        Int  prcid               ← unit's country index
                         Int  amount              ← -1 = infinite queue
                         Bool state               ← start / cancel
                         Int  count
                         Int[count] building-uids
 
 ReadUpgrade     (0x19)  Bool bFromServer
-                        Int  upgid               ← индекс в gCountry[cid].upgrade[]
+                        Int  upgid               ← index in gCountry[cid].upgrade[]
                         Bool state               ← start / cancel
                         Int  count
                         Int[count] building-uids
@@ -447,6 +463,7 @@ Semantic notes:
 
 ---
 
+<a id="5-gcobjordertype--типы-приказов-в-readorder"></a>
 ## 5. `gc_obj_order_type_*` - types of orders in `ReadOrder`
 
 Values from `dmscript.global:630-650`:
@@ -485,6 +502,7 @@ separate handler `ReadMove` (state_id=`0x0b`). `ordtyp=1 (move)` in
 
 ---
 
+<a id="6-каналы-записи"></a>
 ## 6. Recording channels
 
 The Native API exports five channel variants `RecordCustomBegin*`.
@@ -517,6 +535,7 @@ Reference addresses in `cossacks.exe` for further research:
 `WriteBytes = 0x5b4620`, channel-tables `0x789980` (Map),
 `0x7c3160`, `0x7af5e8`.
 
+<a id="current-write-stream--проверка-парности"></a>
 #### Current write stream + parity check
 
 The layout of the `RecordManager` structure was revealed by decompilation of record.c
@@ -529,7 +548,7 @@ to the current buffer at:
                  │              │     │
                  │              │     └── current write stream (ptr)
                  │              └──────── RecordManager
-                 └─────────────────────── главный sub-manager
+                 └─────────────────────── main sub-manager
 ```
 If `+0x118` is NULL, the write operation silently writes nothing.
 This means that the **valid replay stream must contain paired
@@ -554,6 +573,7 @@ Applied consequences for the parser:
 
 ---
 
+<a id="7-что-хранится-в-headerе"></a>
 ## 7. What is stored in the header
 
 ### 7.1 Lobby settings
@@ -568,6 +588,7 @@ all party rules (`peacetime`, `century18`, `capture`, `marketdip`,
 `maskname`, `randkey0`, `randkey1`, `brating`, `bbattle`, `dlcs`,
 `autosave`, `adviserassistant`, `teams`).
 
+<a id="72-per-player-tmapplayer-блоки"></a>
 ### 7.2 Per-player TMapPlayer blocks
 
 Header contains 12 (= `gc_MaxPlayerCount`) consecutive blocks
@@ -585,6 +606,7 @@ existing slots and determines the engine runtime `pid` of each
 player - **this is the position in the bexists-filtered list, NOT the value
 fields `id`**. See §11.1.
 
+<a id="73-bmp-превью-и-стартовый-снимок"></a>
 ### 7.3 BMP preview and start shot
 
 - BMP map preview (~145 KB) between `GameMapSnapShotBegin/End`.
@@ -597,6 +619,7 @@ fields `id`**. See §11.1.
   16 bytes) was not reproduced in a sample of 25 replays. Canonical
   it is not considered a starting shot scheme.
 
+<a id="74-patternlist-имена-и-координаты-размещённых-паттернов"></a>
 ### 7.4 PatternList: names and coordinates of placed patterns
 
 After the LP marker `PatternList` there are successive text kv-triples:
@@ -614,6 +637,7 @@ The scheme was confirmed on 25 replays: from 62 entries on a 256x256 card to
 1291 on a 640x640 card. `parser/parse_replay.py` returns them via
 `extract_pattern_placements()` and JSON field `pattern_placements`.
 
+<a id="75-футер-после-gamemaprecordend"></a>
 ### 7.5 Footer after GameMapRecordEnd
 
 In all 25 tested replays, immediately after the end of the entry stream there is
@@ -622,17 +646,17 @@ same frame:
 [LP]  "GameMapRecordEnd"
 [LP]  "GameMapBegin"
 [f64] elapsed_raw_s
-[u32] reserved0                  // 0 в проверенной выборке
+[u32] reserved0                  // 0 in the verified sample
 [LP]  project_name               // "cossacks"
 [LP]  project_path               // data\projects\project.main.prj
-[...] padding / непрочитанные поля
+[...] padding / unread fields
 [LP]  map_file                   // game_v....map
 [LP]  "Default"
 [LP]  "Default"
 [u32] map_width
 [u32] map_height
 [u32] map_flags
-[...] непрочитанные поля
+[...] unread fields
 [LP]  menu_config                // .\data\gui\menu.cfg
 [LP]  light                      // light0
 [LP]  "InitMapGen"
@@ -653,10 +677,12 @@ The leads on `PatternList` and the footer frame were checked against
 after which they were independently tested on a local sample. Code from external
 the repository was not migrated; snapshot's unconfirmed hypothesis is rejected.
 
+<a id="76-поток-событий"></a>
 ### 7.6 Event flow
 
 Full log of client commands and server state-sync packages - see §3.
 
+<a id="77-что-не-хранится"></a>
 ### 7.7 What is NOT stored
 
 - Chat and voice (possibly going through `ReadPackage`, but in observable
@@ -665,6 +691,7 @@ Full log of client commands and server state-sync packages - see §3.
 
 ---
 
+<a id="8-закрытые-tbd"></a>
 ## 8. Closed TBDs
 
 | TBD | Closed as |
@@ -688,6 +715,7 @@ Full log of client commands and server state-sync packages - see §3.
 | PatternList placement records | adjacent LP-kv triples `n`/`x`/`y`; see §7.4 |
 | replay footer frame | `GameMapBegin` → map metadata → `GameMapEnd`; see §7.5 |
 
+<a id="9-открытые-tbd"></a>
 ## 9. Open TBDs
 
 - Semantics of the middle-word of the alternative entry marker (option B

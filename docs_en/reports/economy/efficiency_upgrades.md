@@ -117,6 +117,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="aus--austria-австрия"></a>
 ### AUS - Austria
 
 #### Food efficiency
@@ -158,6 +159,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="bav--bavaria-бавария"></a>
 ### BAV - Bavaria
 
 #### Food efficiency
@@ -199,6 +201,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="den--denmark-дания"></a>
 ### DEN - Denmark
 
 #### Food efficiency
@@ -375,6 +378,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="net--netherlands-нидерланды"></a>
 ### NET - Netherlands
 
 #### Food efficiency
@@ -416,6 +420,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="pie--piedmont-пьемонт"></a>
 ### PIE - Piedmont
 
 #### Food efficiency
@@ -457,6 +462,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="pol--poland-польша"></a>
 ### POL - Poland
 
 #### Food efficiency
@@ -632,6 +638,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="sax--saxony-саксония"></a>
 ### SAX - Saxony
 
 #### Food efficiency
@@ -673,6 +680,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="sco--scotland-шотландия"></a>
 ### SCO - Scotland
 
 #### Food efficiency
@@ -714,6 +722,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="spa--spain-испания"></a>
 ### SPA - Spain
 
 #### Food efficiency
@@ -754,6 +763,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="swe--sweden-швеция"></a>
 ### SWE - Sweden
 
 #### Food efficiency
@@ -795,6 +805,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="swi--switzerland-швейцария"></a>
 ### SWI - Switzerland
 
 #### Food efficiency
@@ -836,6 +847,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="tur--turkey-турция"></a>
 ### TUR – Turkey
 
 #### Food efficiency
@@ -875,6 +887,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="ukr--ukraine-украина"></a>
 ### UKR - Ukraine
 
 #### Food efficiency
@@ -916,6 +929,7 @@ _Cumulative peak: +300_
 _Cumulative peak: +300_
 
 
+<a id="ven--venice-венеция"></a>
 ### VEN - Venice
 
 #### Food efficiency
@@ -958,6 +972,7 @@ _Cumulative peak: +300_
 
 
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

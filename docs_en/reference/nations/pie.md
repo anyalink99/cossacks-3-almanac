@@ -136,6 +136,7 @@ _Piedmont_
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 | **Dragoon, 18th century** `dragoon18pie` | 200 | 20.25 | 60 | 65 | 7 | 19 | 16.88 | 5.0 | unique |
 
+<a id="тяжёлая-кавалерия"></a>
 ### Heavy Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -144,6 +145,7 @@ _Piedmont_
 | **Cuirassier** `cuirassier` | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | shared(17n) |
 | **Reiter** `reiter` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared(14n) |
 
+<a id="пушки"></a>
 ### Cannons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -151,6 +153,7 @@ _Piedmont_
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 | **Multi-barrelled Cannon** `multicannon` | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | shared(17n) |
 
+<a id="мортиры"></a>
 ### Mortars
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -158,12 +161,14 @@ _Piedmont_
 | **Howitzer** `howitzer` | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | common |
 | **Bombard** `mortar` | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | common |
 
+<a id="рыбацкие-лодки"></a>
 ### Fishing boats
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Boat** `fishboat` | 300 | 40.0 | 0 | 0 | 0 | — | — | — | common |
 
+<a id="военные-корабли"></a>
 ### Warships
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -174,6 +179,7 @@ _Piedmont_
 | **Galley** `galley` | 35000 | 50.0 | 0 | 900 | 800 | 1000 | 58.13 | 1.56 | common |
 | **Yacht** `yacht` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | common |
 
+<a id="офицеры"></a>
 ### Officers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -181,6 +187,7 @@ _Piedmont_
 | **Officer, 17th century** `officer` | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | shared(16n) |
 | **Officer, 18th century** `officer18` | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | shared(17n) |
 
+<a id="барабанщики-и-волынщики"></a>
 ### Drummer, 17th centuryand pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -188,18 +195,21 @@ _Piedmont_
 | **Drummer, 17th century** `drummer` | 75 | 5.0 | 60 | 20 | 0 | — | — | — | shared(16n) |
 | **Drummer, 18th century** `drummer18` | 100 | 6.0 | 50 | 30 | 0 | — | — | — | shared(16n) |
 
+<a id="священники"></a>
 ### Priests
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Padre** `padre` | 90 | 25.0 | 50 | 40 | 0 | 30 | 7.5 | 0.0 | unique |
 
+<a id="разное-и-миссии"></a>
 ### Miscellaneous and missions
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | `unitbox` | 100 | 3.12 | 100 | 0 | 0 | — | — | — | common |
 
+<a id="офицеры-11-групп"></a>
 ## Officers (11 groups)
 Each officer leads the formation of his units. Standard formations: **LINE / SQUARE / KARE × 15/36/72/120/196/400**.
 

@@ -85,12 +85,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | 48.0 | **67.2** | 0 | 4 | 0 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
+<a id="algsta--конюшня"></a>
 ### `algsta` — Stable
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `mameluke` | Mameluke | 12.00 | 5.0 | **7.0** | 100 | 8 | 0 | 1 | 60 |
 
+<a id="algtem--мечеть"></a>
 ### `algtem` — Mosque
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -114,8 +116,10 @@ Grouped by nations. For each building there is a list of units that it can produ
 
 [↑ to contents](#содержание)
 
+<a id="aus--austria-австрия"></a>
 ## AUS - Austria
 
+<a id="ausart--артиллерийское-депо"></a>
 ### `ausart` — Artillery Depot
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -125,6 +129,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
+<a id="ausba2--казарма-18в"></a>
 ### `ausba2` — Barracks, 18th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -136,6 +141,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pandur` | Pandur | 5.50 | 10.9 | **15.3** | 40 | 15 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
+<a id="ausbar--казарма-17в"></a>
 ### `ausbar` — Barracks, 17th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -145,12 +151,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 | `roundshier` | Roundshier | 4.00 | 15.0 | **21.0** | 20 | 3 | 25 | 1 | — |
+<a id="auscen--городской-центр"></a>
 ### `auscen` — Town Hall
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `peaaus` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
+<a id="ausdip--дипломатический-центр"></a>
 ### `ausdip` — Diplomatic Center
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -164,6 +172,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | 48.0 | **67.2** | 0 | 4 | 0 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
+<a id="aussta--конюшня"></a>
 ### `aussta` — Stable
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -175,6 +184,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | 60 |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
+<a id="austem--собор"></a>
 ### `austem` — Cathedral
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -199,8 +209,10 @@ Grouped by nations. For each building there is a list of units that it can produ
 
 [↑ to contents](#содержание)
 
+<a id="bav--bavaria-бавария"></a>
 ## BAV - Bavaria
 
+<a id="bavart--артиллерийское-депо"></a>
 ### `bavart` — Artillery Depot
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -210,6 +222,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
+<a id="bavba2--казарма-18в"></a>
 ### `bavba2` — Barracks, 18th century
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -588,6 +601,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
+<a id="hunart--артиллерийское-депо"></a>
 ### `hunart` — Artillery Depot
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -597,6 +611,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
+<a id="hunba2--казарма-18в"></a>
 ### `hunba2` — Barracks, 18th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -608,6 +623,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pandurhun` | Szekely | 6.50 | 9.2 | **12.9** | 30 | 25 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
+<a id="hunbar--казарма-17в"></a>
 ### `hunbar` — Barracks, 17th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -617,12 +633,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
+<a id="huncen--городской-центр"></a>
 ### `huncen` — Town Hall
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `peapol` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
+<a id="hundip--дипломатический-центр"></a>
 ### `hundip` — Diplomatic Center
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -636,6 +654,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | 48.0 | **67.2** | 0 | 4 | 0 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
+<a id="hunsta--конюшня"></a>
 ### `hunsta` — Stable
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -646,6 +665,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightcavalry` | Light cavalry | 21.00 | 2.9 | **4.0** | 90 | 50 | 6 | 1 | 60 |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
+<a id="huntem--собор"></a>
 ### `huntem` — Cathedral
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -654,6 +674,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 
 [↑ to contents](#содержание)
 
+<a id="net--netherlands-нидерланды"></a>
 ## NET - Netherlands
 
 ### `eurmil` — Mill
@@ -672,6 +693,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
 
+<a id="netart--артиллерийское-депо"></a>
 ### `netart` — Artillery Depot
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -681,6 +703,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
+<a id="netba2--казарма-18в"></a>
 ### `netba2` — Barracks, 18th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -691,6 +714,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
+<a id="netbar--казарма-17в"></a>
 ### `netbar` — Barracks, 17th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -700,6 +724,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
+<a id="netcen--городской-центр"></a>
 ### `netcen` — Town Hall
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -1430,6 +1455,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18` | Pikeman, 18th century | 1.25 | 48.0 | **67.2** | 30 | 2 | 0 | 1 | — |
 
+<a id="spabar--казарма-17в"></a>
 ### `spabar` — Barracks, 17th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1440,12 +1466,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `pikeman` | Pikeman, 17th century | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
 | `pikemanspa` | Coselete | 5.50 | 10.9 | **15.3** | 35 | 7 | 30 | 1 | — |
 
+<a id="spacen--городской-центр"></a>
 ### `spacen` — Town Hall
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `peaspa` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
+<a id="spadip--дипломатический-центр"></a>
 ### `spadip` — Diplomatic Center
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1459,6 +1487,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | 48.0 | **67.2** | 0 | 4 | 0 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
+<a id="spasta--конюшня"></a>
 ### `spasta` — Stable
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1469,6 +1498,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | 60 |
 | `reiter` | Reiter | 24.00 | 2.5 | **3.5** | 120 | 10 | 40 | 1 | 75 |
 
+<a id="spatem--собор"></a>
 ### `spatem` — Cathedral
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1477,6 +1507,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 
 [↑ to contents](#содержание)
 
+<a id="swe--sweden-швеция"></a>
 ## SWE - Sweden
 
 ### `eurmil` — Mill
@@ -1494,6 +1525,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `frigate` | Frigate | 230.00 | 0.3 | **0.4** | 0 | 1100 | 600 | 1 | — |
 | `galley` | Galley | 50.00 | 1.2 | **1.7** | 0 | 900 | 800 | 1 | — |
 | `yacht` | Yacht | 48.00 | 1.2 | **1.8** | 0 | 450 | 150 | 1 | — |
+<a id="sweart--артиллерийское-депо"></a>
 ### `sweart` — Artillery Depot
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1503,6 +1535,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `mortar` | Bombard | 25.00 | 2.4 | **3.4** | 0 | 75 | 200 | 1 | — |
 | `multicannon` | Multi-barrelled Cannon | 50.00 | 1.2 | **1.7** | 0 | 400 | 250 | 1 | — |
 
+<a id="sweba2--казарма-18в"></a>
 ### `sweba2` — Barracks, 18th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1513,6 +1546,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer18` | Officer, 18th century | 6.00 | 10.0 | **14.0** | 50 | 200 | 10 | 1 | — |
 | `pikeman18swe` | Pikeman, 18th century | 1.50 | 40.0 | **56.0** | 40 | 3 | 0 | 1 | — |
 
+<a id="swebar--казарма-17в"></a>
 ### `swebar` — Barracks, 17th century
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1522,12 +1556,14 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `officer` | Officer, 17th century | 10.00 | 6.0 | **8.4** | 50 | 150 | 30 | 1 | — |
 | `pikeman` | Pikeman, 17th century | 4.50 | 13.3 | **18.7** | 25 | 3 | 20 | 1 | — |
 
+<a id="swecen--городской-центр"></a>
 ### `swecen` — Town Hall
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `peaeng` | Peasant | 12.50 | 4.8 | **6.7** | 100 | 0 | 0 | 1 | 32 |
 
+<a id="swedip--дипломатический-центр"></a>
 ### `swedip` — Diplomatic Center
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1541,6 +1577,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | 48.0 | **67.2** | 0 | 4 | 0 | 1 | — |
 | `roundshierdip` | Roundshier (mercenary) | 1.50 | 40.0 | **56.0** | 0 | 12 | 0 | 1 | — |
 
+<a id="swesta--конюшня"></a>
 ### `swesta` — Stable
 
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
@@ -1552,6 +1589,7 @@ Grouped by nations. For each building there is a list of units that it can produ
 | `hussar` | Hussar | 15.00 | 4.0 | **5.6** | 70 | 20 | 2 | 1 | 60 |
 | `reiterswe` | Swedish Reiter | 22.50 | 2.7 | **3.7** | 130 | 7 | 20 | 1 | 75 |
 
+<a id="swetem--собор"></a>
 ### `swetem` — Cathedral
 | Unit | name | Time (g-sec) | temp (units/g-min) | tempo (units/real-min@fast) | F | G | I | farm | food consumption |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|

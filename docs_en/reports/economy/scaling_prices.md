@@ -1,16 +1,19 @@
+<a id="cossacks-3--цены-зданий-по-n-му-экземпляру"></a>
 # Cossacks 3 – Building prices for the Nth instance
 
 **Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_scaling.py`](../../../compute/compute_scaling.py).
 
+<a id="формула"></a>
 ## Formula
 
 Price calculation - in `_unit_GetCostByID` [^1]:
 ```
-costmodifier   = pow(costpercent / 100, count)         // count = уже у игрока
-final_price[r] = floor(base_price[r] * costmodifier)   // отдельно для F/W/S/G/I/C
+costmodifier   = pow(costpercent / 100, count)         // count = already owned
+final_price[r] = floor(base_price[r] * costmodifier)   // calculated separately for F/W/S/G/I/C
 ```
 Where `count` is `gPlayer[plInd].counter.all[cid][unitID]`. The counter is incremented when [^2] is created and **decremented** when [^3] is destroyed - the center was demolished, the next one is cheaper again.
 
+<a id="особые-случаи"></a>
 ## Special cases
 
 - `costpercent = 0` or `100` → no scaling, price is constant.
@@ -18,14 +21,17 @@ Where `count` is `gPlayer[plInd].counter.all[cid][unitID]`. The counter is incre
 - For non-mercenaries, the modifier is limited from above to **×20000**. At N≤6 this limit never triggers (even for barracks with `costpercent=500`: 5⁵ = 3125 < 20000).
 - **Round down (floor)** for each resource independently. For expensive buildings with `costpercent=104`, this results in stepped growth rather than smooth growth.
 
+<a id="колонки-n16"></a>
 ## Columns N=1..6
 
 `N=1` — cost of the **first** copy (count=0, modifier=1, price = base). `N=2` - second (count=1), etc. Each cell is the total cost in the format `F<food> W<wood> S<stone> G<gold> I<iron> C<coal>` (zero resources are hidden).
 
+<a id="1-постройки-по-нациям"></a>
 ## 1. Buildings by nation
 
 Each nation has its own set. sid is formed as `<nat><suffix>`. Grouped by building type, all 21 nations in one table per type.
 
+<a id="11-cen--городской-центр"></a>
 ### 1.1 `cen` — Town Hall
 
 | Nation | sid | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
@@ -326,6 +332,7 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `spamar` | por, spa | Market | 2000 | W450 | W9000 | W180000 | W3600000 | W9000000 | W9000000 | ×20 for each already built |
 | `turmar` | alg, tur | Bazaar | 1500 | W450 S150 | W6750 S2250 | W101250 S33750 | W1518750 S506250 | W9000000 S3000000 | W9000000 S3000000 | ×15 for each already built |
 
+<a id="24-por--порт"></a>
 ### 2.4 `por` — Shipyard
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
@@ -336,6 +343,7 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `turpor` | alg, tur | Shipyard | 150 | W800 S800 I400 | W1200 S1200 I600 | W1800 S1800 I900 | W2700 S2700 I1350 | W4050 S4050 I2025 | W6075 S6075 I3037 | ×1.5 for each already built |
 | `ukrpor` | ukr | Shipyard | 150 | W2000 | W3000 | W4500 | W6750 | W10125 | W15187 | ×1.5 for each already built |
 
+<a id="25-tow--башня"></a>
 ### 2.5 `tow` — Tower
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
@@ -344,24 +352,28 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `rustow` | rus | Tower | 125 | W100 S100 G150 | W125 S125 G187 | W156 S156 G234 | W195 S195 G292 | W244 S244 G366 | W305 S305 G457 | ×1.25 for each already built |
 | `turtow` | alg, tur | Tower | 125 | W150 S90 G100 | W187 S112 G125 | W234 S140 G156 | W292 S175 G195 | W366 S219 G244 | W457 S274 G305 | ×1.25 for each already built |
 
+<a id="26-gol--золотая-шахта"></a>
 ### 2.6 `gol` - Gold Mine
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
 | `eurgol` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Mine | 0 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | not scalable (`costpercent` = 0/100) |
 
+<a id="27-iro--железная-шахта"></a>
 ### 2.7 `iro` - Iron Mine
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
 | `euriro` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Mine | 0 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | not scalable (`costpercent` = 0/100) |
 
+<a id="28-coa--угольная-шахта"></a>
 ### 2.8 `coa` - Coal mine
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
 | `eurcoa` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Mine | 0 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | W100 S100 | not scalable (`costpercent` = 0/100) |
 
+<a id="29-swa--каменная-стена"></a>
 ### 2.9 `swa` - Stone wall
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
@@ -369,6 +381,7 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `russwa` | rus | Wall | 0 | S60 | S60 | S60 | S60 | S60 | S60 | not scalable (`costpercent` = 0/100) |
 | `turswa` | alg, tur | Wall | 0 | S60 | S60 | S60 | S60 | S60 | S60 | not scalable (`costpercent` = 0/100) |
 
+<a id="210-sga--каменные-ворота"></a>
 ### 2.10 `sga` — Gate
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
@@ -377,12 +390,14 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `russga` | rus | Gate | 0 | S60 | S60 | S60 | S60 | S60 | S60 | not scalable (`costpercent` = 0/100) |
 | `tursga` | alg, tur | Gate | 0 | S60 | S60 | S60 | S60 | S60 | S60 | not scalable (`costpercent` = 0/100) |
 
+<a id="211-wga--деревянные-ворота"></a>
 ### 2.11 `wga` — Gate
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
 | --- | --- | --- | ---: | --- | --- | --- | --- | --- | --- | --- |
 | `ukrwga` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Gate | 0 | W10 | W10 | W10 | W10 | W10 | W10 | not scalable (`costpercent` = 0/100) |
 
+<a id="212-wwa--палисад"></a>
 ### 2.12 `wwa` - Palisade
 
 | sid | Use nations | Name | cost% | N=1 | N=2 | N=3 | N=4 | N=5 | N=6 | Note |
@@ -390,6 +405,7 @@ sid is formed as `<cluster><suffix>` - common for a group of nations. One sid is
 | `ukrwwa` | alg, aus, bav, den, eng, fra, hun, net, pie, pol, por, pru, rus, sax, sco, spa, swe, swi, tur, ukr, ven | Palisade | 0 | W10 | W10 | W10 | W10 | W10 | W10 | not scalable (`costpercent` = 0/100) |
 
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

@@ -6,6 +6,7 @@ A comprehensive reference for the economy, units, buildings, and upgrades in **C
 
 > Every number comes from the installed game files. When an external calculator or guide disagrees, prefer this repository; known discrepancies are documented. The pipeline is idempotent, so a game patch can be handled by regenerating all artifacts.
 
+<a id="что-внутри"></a>
 ## What's inside
 
 **Player reference** — open it directly on GitHub; no local setup is required. The English edition is in [`docs_en/`](docs_en/):
@@ -41,6 +42,7 @@ A comprehensive reference for the economy, units, buildings, and upgrades in **C
 
 - [`mods/`](mods/) - each mod as a subfolder with `build.py` (patcher) and the collected result. See [`mods/README.md`](mods/README.en.md) for convention.
 
+<a id="структура-репозитория"></a>
 ## Repository structure
 ```
 .
@@ -67,8 +69,10 @@ A comprehensive reference for the economy, units, buildings, and upgrades in **C
     ├── scripts/             data/scripts/* load order and entry points
     └── data/                data/ directory layout and file formats
 ```
+<a id="быстрый-старт"></a>
 ## Quick start
 
+<a id="просто-почитать"></a>
 ### Just read
 
 GitHub renders markdown - open the required file. Entry points:
@@ -77,6 +81,7 @@ GitHub renders markdown - open the required file. Entry points:
 - [`docs/recon/README.md`](docs_en/recon/README.md) - deep research index
 - [`docs/reports/README.md`](docs_en/reports/README.md) — index of derived reports
 
+<a id="регенерировать-после-патча-игры"></a>
 ### Regenerate after game patch
 
 Requirements: Python 3.11+ and Cossacks 3 (Steam) installed. Default is searched in `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3` - for another path, set the env variable:
@@ -128,6 +133,7 @@ python parser/parse_pattern_inventory.py        # → derived/pattern_{inventory
 ```
 `parser/build_data.py` is the only script that reads game files. All others consume `data.json` and work for <30 seconds in total.
 
+<a id="diff-снапшотов-после-патча"></a>
 ### Diff snapshots after the patch
 
 One step via make (or manual - three commands below):
@@ -148,6 +154,7 @@ After regeneration in `diff.md`, all stat changes between versions of the game a
 
 `parser/build_data.py` runs **112 automatic checks** on every invocation and fails when a key game invariant changes: time constants, base resource portions, known unit values, the mine-upgrade chain, market rates, and more. [`parser/README.en.md`](parser/README.en.md) lists the covered categories.
 
+<a id="что-сейчас-в-данных"></a>
 ## What's in the data now
 
 - **Nations:** 21 (playable; mis/tat/lit excluded)
@@ -156,6 +163,7 @@ After regeneration in `diff.md`, all stat changes between versions of the game a
 - **Upgrades:** 4,483 rows (with cost, value, `itype`, and prerequisites resolved)
 - **Officers/formations:** 231 groups
 
+<a id="лицензия-и-атрибуция"></a>
 ## License and Attribution
 
 This repository contains **derived data only** from publicly distributed Cossacks 3 game files (GSC Game World). Game resources and trademarks belong to their owners. The scripts in this repository are a separate work and are distributed without a special license (use at your own risk).

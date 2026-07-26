@@ -3,12 +3,14 @@ _Algeria_
 
 [← Index](../README.md) · [← All nations](README.md)
 
+<a id="кластер"></a>
 ## Cluster
 
 - **Shared cluster:** `tur` (mill/sto/mar/tow use the suffix `tur+`)
 - **Peasant:** `peatur`
 - **Cluster infantry:** cluster `tur`
 
+<a id="уникальные-юниты-2"></a>
 ## Unique units (2)
 
 | Unit | role | HP | damage | recharge | far (tile) |
@@ -16,8 +18,10 @@ _Algeria_
 | **Archer** `archer` | Archer | 40 | 15 | 2.34 | 15.0 |
 | **Mameluke** `mameluke` | Heavy Cavalry | 280 | 16 | 0.0 | 1.88 |
 
+<a id="здания"></a>
 ## Buildings
 
+<a id="уникальные-для-нации-9"></a>
 ### Unique to the nation (9)
 
 > **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.
@@ -34,6 +38,7 @@ _Algeria_
 | **Stable** `algsta` | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
 | **Mosque** `algtem` | **5000** | **93.75** | 300 | 0 | 1000 | 1200 | 0 | 500 | 0 | 0 | mullah, padre, pope, priest |
 
+<a id="общий-кластер-12"></a>
 ### Shared cluster (12)
 
 | Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
@@ -51,8 +56,10 @@ _Algeria_
 | **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 | **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 
+<a id="юниты-по-классам"></a>
 ## Units by class
 
+<a id="крестьяне"></a>
 ### Peasants
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|

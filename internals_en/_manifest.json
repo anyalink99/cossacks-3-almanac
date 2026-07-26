@@ -5,38 +5,38 @@
     {
       "path": "data/file_formats.md",
       "title": "File formats in `data/`",
-      "size": 8118,
-      "lines": 224
+      "size": 8929,
+      "lines": 242
     },
     {
       "path": "data/layout.md",
       "title": "Structure `data/` in Cossacks 3",
-      "size": 7876,
-      "lines": 192
+      "size": 8111,
+      "lines": 204
     },
     {
       "path": "data/replay_format.md",
       "title": "Replay / Save (`.rep`, `.map`) - format `OSWMap13`",
-      "size": 38875,
-      "lines": 819
+      "size": 39925,
+      "lines": 847
     },
     {
       "path": "engine/animation_system.md",
       "title": "Animation system: timings, cycles, impact point",
-      "size": 20318,
-      "lines": 482
+      "size": 21113,
+      "lines": 500
     },
     {
       "path": "engine/determinism_audit.md",
       "title": "Recon: determinism of loot and combat (RNG audit)",
-      "size": 26273,
-      "lines": 521
+      "size": 26207,
+      "lines": 522
     },
     {
       "path": "engine/native_api.md",
       "title": "Native API of the Cossacks 3 engine (Delphi + DWS)",
-      "size": 21849,
-      "lines": 395
+      "size": 23021,
+      "lines": 412
     },
     {
       "path": "engine/native_primitives.md",
@@ -47,50 +47,50 @@
     {
       "path": "engine/rng_implementation.md",
       "title": "Implementation of RNG in Cossacks 3",
-      "size": 12180,
-      "lines": 256
+      "size": 12539,
+      "lines": 267
     },
     {
       "path": "engine/rtti_class_map.md",
       "title": "Delphi engine class map (RTTI)",
-      "size": 14693,
-      "lines": 322
+      "size": 15305,
+      "lines": 333
     },
     {
       "path": "engine/script_modding_constraints.md",
       "title": "Scripting restrictions when modding: DoDamage and unit death",
-      "size": 6054,
-      "lines": 143
+      "size": 6544,
+      "lines": 149
     },
     {
       "path": "engine/server_sync_architecture.md",
       "title": "Recon: server architecture and network synchronization",
-      "size": 23091,
-      "lines": 523
+      "size": 23851,
+      "lines": 534
     },
     {
       "path": "engine/server_sync_packet_format.md",
       "title": "C3 network packet format (via script call analysis)",
-      "size": 9930,
-      "lines": 237
+      "size": 10625,
+      "lines": 253
     },
     {
       "path": "engine/ticks_and_subticks.md",
       "title": "Recon: ticks, subtics, time",
-      "size": 24071,
-      "lines": 526
+      "size": 25142,
+      "lines": 542
     },
     {
       "path": "README.md",
       "title": "Cossacks 3 internals",
-      "size": 6066,
-      "lines": 97
+      "size": 6254,
+      "lines": 100
     },
     {
       "path": "scripts/structure.md",
       "title": "Structure of the Cossacks 3 scripting environment",
-      "size": 15086,
-      "lines": 312
+      "size": 15213,
+      "lines": 319
     }
   ]
 }

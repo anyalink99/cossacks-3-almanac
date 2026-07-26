@@ -58,26 +58,31 @@ _Switzerland_
 | **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 | **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 
+<a id="юниты-по-классам"></a>
 ## Units by class
 
+<a id="крестьяне"></a>
 ### Peasants
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Peasant** `peaaus` | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | shared(5n) |
 
+<a id="пикинёры-17-в"></a>
 ### Pikemen (17th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 17th century** `pikemanswi` | 90 | 5.0 | 40 | 6 | 20 | 10 | 1.88 | 0.0 | unique |
 
+<a id="пикинёры-18-в"></a>
 ### Pikemen (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 18th century** `pikeman18` | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | shared(16n) |
 
+<a id="лёгкая-пехота"></a>
 ### Light Infantry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -85,18 +90,21 @@ _Switzerland_
 | **Light Infantryman (mercenary)** `lightinfantrydip` | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | common |
 | **Roundshier (mercenary)** `roundshierdip` | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | common |
 
+<a id="мушкетёры-17-в"></a>
 ### Musketeers (17th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Musketeer, 17th century** `musketeer` | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | shared(11n) |
 
+<a id="мушкетёры-18-в"></a>
 ### Musketeers (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Musketeer, 18th century** `musketeer18` | 100 | 4.5 | 50 | 40 | 40 | 16 | 16.88 | 4.69 | shared(13n) |
 
+<a id="гренадёры"></a>
 ### Grenadiers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -104,6 +112,7 @@ _Switzerland_
 | **Grenadier** `grenadier` | 120 | 6.0 | 80 | 60 | 40 | 16 | 16.88 | 5.31 | shared(13n) |
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
+<a id="лучники"></a>
 ### Archerand
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -111,12 +120,14 @@ _Switzerland_
 | **Archer (mercenary)** `archerdip` | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | common |
 | **Turkish archer (mercenary)** `archerturdip` | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | common |
 
+<a id="особая-пехота-18-в"></a>
 ### Special infantry (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Chasseur** / Jaeger `jagerswi` | 65 | 8.5 | 40 | 70 | 20 | 20 | 22.5 | 6.88 | unique |
 
+<a id="лёгкая-кавалерия"></a>
 ### Light Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -124,6 +135,7 @@ _Switzerland_
 | **Mounted Jaeger** `hussarswi` | 265 | 19.5 | 120 | 30 | 2 | 14 | 1.22 | 0.0 | unique |
 | **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
+<a id="драгуны"></a>
 ### Dragoons
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|

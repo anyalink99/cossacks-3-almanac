@@ -132,6 +132,7 @@ _Russia_
 | **Hussar** `hussar` | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | shared(14n) |
 | **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
+<a id="драгуны"></a>
 ### Dragoons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -139,6 +140,7 @@ _Russia_
 | **Dragoon, 18th century** `dragoon18` | 225 | 22.5 | 70 | 60 | 7 | 19 | 16.88 | 5.31 | shared(13n) |
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
+<a id="тяжёлая-кавалерия"></a>
 ### Heavy Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -148,6 +150,7 @@ _Russia_
 | **Cuirassier** `cuirassier` | 300 | 22.5 | 120 | 35 | 25 | 14 | 1.22 | 0.0 | shared(17n) |
 | **Vityaz** `vityaz` | 380 | 25.5 | 160 | 13 | 25 | 14 | 1.22 | 0.0 | unique |
 
+<a id="пушки"></a>
 ### Cannons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -155,6 +158,7 @@ _Russia_
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 | **Multi-barrelled Cannon** `multicannon` | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | shared(17n) |
 
+<a id="мортиры"></a>
 ### Mortars
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -162,12 +166,14 @@ _Russia_
 | **Howitzer** `howitzer` | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | common |
 | **Bombard** `mortar` | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | common |
 
+<a id="рыбацкие-лодки"></a>
 ### Fishing boats
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Boat** `fishboat` | 300 | 40.0 | 0 | 0 | 0 | — | — | — | common |
 
+<a id="военные-корабли"></a>
 ### Warships
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -178,6 +184,7 @@ _Russia_
 | **Galley** `galley` | 35000 | 50.0 | 0 | 900 | 800 | 1000 | 58.13 | 1.56 | common |
 | **Yacht** `yacht` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | common |
 
+<a id="офицеры"></a>
 ### Officers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -185,6 +192,7 @@ _Russia_
 | **Officer, 18th century** `officer18` | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | shared(17n) |
 | **Commander** `officerrus` | 125 | 12.5 | 100 | 125 | 5 | 40 | 1.22 | 0.0 | unique |
 
+<a id="барабанщики-и-волынщики"></a>
 ### Drummer, 17th centuryand pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -192,6 +200,7 @@ _Russia_
 | **Drummer, 18th century** `drummer18` | 100 | 6.0 | 90 | 15 | 0 | — | — | — | shared(16n) |
 | **Drummer, 17th century** `drummerrus` | 100 | 6.0 | 90 | 15 | 0 | — | — | — | unique |
 
+<a id="священники"></a>
 ### Priests
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|

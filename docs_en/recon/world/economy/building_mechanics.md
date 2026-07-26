@@ -1,3 +1,4 @@
+<a id="recon-механика-зданий"></a>
 # Recon: building mechanics
 
 Deep analysis: footprint, construction and repair by peasants, walls, garrison
@@ -25,6 +26,7 @@ installing Cossacks 3.
 
 ---
 
+<a id="1-building-footprint-форма-и-размер"></a>
 ## 1. Building footprint (shape and size)
 
 **Source:** `collisionmaskproperty.Mask` in `.prop` building file [^2].
@@ -33,8 +35,8 @@ installing Cossacks 3.
 
 **Mask = 2D ASCII grid of 0/1**, where 1 = occupied cell. bavcen example:
 ```
-000110000000          12 cols × 11 rows = 6×5.5 тайлов
-001111000000          ↓ заполненный диамант
+000110000000          12 cols × 11 rows = 6×5.5 tiles
+001111000000          ↓ filled diamond
 011111100000
 111111110000
 011111111000
@@ -55,6 +57,7 @@ Occupied ≈ 57 cells × 0.5² = 14.25 tiles². Visually - a diagonal square.
 
 ---
 
+<a id="2-repair-починка--бесплатно"></a>
 ## 2. Repair - FREE
 
 **Source:** the construct animation end handler checks the order type and
@@ -82,8 +85,10 @@ adds a fixed amount of HP, limited by `maxhp` [^5].
 
 ---
 
+<a id="3-construction-постройка-крестьянами"></a>
 ## 3. Construction (construction by peasants)
 
+<a id="31-прогресс-за-один-удар-молотком"></a>
 ### 3.1 Progress in one “hammer blow”
 
 Calculation of `delta`, `buildprogress` and HP increase - at each completion
@@ -95,6 +100,7 @@ construct animation [^7]:
 
 Where is `gc_buildtime_progressperhit = 10 × 1/32 × 1.15 = 0.359375`.
 
+<a id="32-время-постройки-vs-число-строителей--важно"></a>
 ### 3.2 Construction time vs number of builders - IMPORTANT
 
 **Each peasant builder** independently plays a construct animation (13 frames @ 32 fps = 0.406 g-sec per cycle) and at the end of the cycle gives +1 hit. With N builders in parallel - N hits / 0.406 g-sec.
@@ -128,6 +134,7 @@ The complete table of “time with N peasants” for all buildings of all nation
 
 To avoid confusion: you can interpret `buildtime_sec` as “seconds of work for 1 builder, to accumulate full progress” - at the moment when there are N builders, divide by N.
 
+<a id="33-builder-slots-сколько-крестьян-могут-одновременно-строить"></a>
 ### 3.3 Builder slots (how many peasants can build at the same time)
 
 **Cap:** `gc_MaxBuilderCount = 30` [^8].
@@ -232,12 +239,15 @@ Construction time for one segment with N builders: `bt × 1.13 / N` according to
 
 ---
 
+<a id="5-garrison--inside-units-объекты-внутри-зданий"></a>
 ## 5. Garrison / Inside Units (objects inside buildings)
 
+<a id="51-peasantabsorber--для-шахт"></a>
 ### 5.1 peasantabsorber - for mines
 
 Mines `eurgol/euriro/eurcoa`: `peasantabsorber=5` (base), up to 95 with upgrades. Reviewed in `recon/world/economy/peasant_extraction.md` §5.
 
+<a id="52-transport--для-транспорта"></a>
 ### 5.2 transport - for transport
 
 Carrying capacity for transport units:
@@ -245,6 +255,7 @@ Carrying capacity for transport units:
 - Ferry: `transport = 80+40 = 120` slots [^13].
 - Other transport vessels (`transport`)/ships - TBD
 
+<a id="53-tower--built-in-cannon"></a>
 ### 5.3 Tower - built-in cannon
 
 Tower does NOT have garrison (peasantabsorber=0, transport=0). This is a static cannon building with a built-in weapon. Basic parameters (European version [^14], signature `SetObjBaseWeapon(... index, damage, pause, radiusmin, radiusmax, detectradiusmin, detectradiusmax, kind, bSearchMin)` [^15]):
@@ -384,6 +395,7 @@ When captured:
 | Is Capture radius universal? | Yes. `gc_gameplay_captureradius = 4.0 tiles` [^22]. Per-building override not found. |
 | Refund if construction is canceled | **Unit queue:** `_unit_CancelUnitProduction` [^24] returns `price[k] × costmodifier`, where `costmodifier = pow(costpercent/100, restype)` and `restype` are the counter of built copies saved at the time of order. That is, exactly as much as was written off is returned. **Foundation (cancel by button):** The GUI handler `_misc_GUICancelBuilding` [^25] calls only `GameObjectDestroyByHandle`. There is no mirror `_res_AddResToPlayerByIndex` for foundation cost in the scripts - processing the return of 100% of spent resources is apparently done on the C++ side (behavior in the game has been confirmed). |
 
+<a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
 | # | Question | How to solve |
@@ -393,6 +405,7 @@ When captured:
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

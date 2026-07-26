@@ -1,3 +1,4 @@
+<a id="справочник-по-cossacks-3"></a>
 # Cossacks 3 Guide
 
 _Extracted **2026-05-17 12:33:30** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
@@ -16,6 +17,7 @@ What's inside:
 
 ---
 
+<a id="навигация"></a>
 ## Navigation
 
 **Chapters by topic:**
@@ -48,10 +50,12 @@ What's inside:
 
 ---
 
+<a id="шпаргалка-по-формулам"></a>
 ## Cheat sheet on formulas
 
 Canonical formulas on which all other numbers are based. If anything in the tables below doesn't match your expectations, check this cheat sheet first: the discrepancy in the right column is usually explained by one of the formulas here.
 
+<a id="добыча-ресурсов"></a>
 ### Resource extraction
 
 | Resource | Portion/flight | Strikes to submission | Ideal rate (1 peasant, `eff = 100`, no road) |
@@ -62,14 +66,15 @@ Canonical formulas on which all other numbers are based. If anything in the tabl
 | gold/iron/coal | **20** (hardcode) | n/a | through the mine: 1.664 per peasant in g-sec (without upgrades) |
 `delivered = floor(portion × eff / 100)`. `eff` starts from 100; upgrades (`mill.X`, `aca.X`, `bla.X`) are added **additively**. Details - [chapter “Economy”](01_economy/README.md).
 
+<a id="урон-в-бою"></a>
 ### Damage in battle
 ```
 applied = max(1, weapon.damage
-                 − target.shield                # / 3, если здание ещё строится
+                 − target.shield                # / 3 while the building is under construction
                  − target.protection[weapon.kind]
-                 + бонусы отряда (LINE / SQUARE / KARE: +2..+7)
-                 + HEADSHOT: +floor(uniqrnd × 500), 5% шанс для arrow / bullet
-                                                по не-зданиям, кроме fasthorse в движении)
+                 + formation bonuses (LINE / SQUARE / KARE: +2..+7)
+                 + HEADSHOT: +floor(uniqrnd × 500), 5% chance for arrow / bullet
+                                                against non-buildings except a moving fasthorse)
 ```
 At least 1 HP always passes. Details - [`recon/world/combat/combat_damage_pipeline.md` §3](../recon/world/combat/combat_damage_pipeline.md). Source: `miscext2.script:_misc_DoDamage`.
 

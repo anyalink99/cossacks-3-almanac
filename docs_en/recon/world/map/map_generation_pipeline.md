@@ -1,3 +1,4 @@
+<a id="recon-pipeline-генерации-карты"></a>
 # Recon: map generation pipeline
 
 Full timeline `DoGenerate`. The entry point is `ExecuteState('DoGenerate')` [^1].
@@ -29,6 +30,7 @@ at the end of the document.
 - In phase 4, `CreateStartPointPeasants` is always called - **18
   peasants** in a 6×3 grid, regardless of the `startingunits` option in the lobby.
 
+<a id="1-глобальные-константы-объявлены-до-процедур"></a>
 ## 1. Global constants (declared before procedures)
 
 Declarations of global constants [^3]:
@@ -58,42 +60,44 @@ Also:
 
 ---
 
+<a id="2-pipeline-хронологический-порядок-файлы-от-вершины-dogenerate-вниз"></a>
 ## 2. Pipeline (chronological order, files from the top of DoGenerate down)
 
 General chronology (phases 0–4) - in the diagram:
 ```mermaid
 flowchart TB
-    subgraph P0["Phase 0 — подготовка"]
+    subgraph P0["Phase 0 — preparation"]
         H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]
         Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]
-        Load[LoadPatterns:<br/>все .pattern файлы]
+        Load[LoadPatterns:<br/>all .pattern files]
     end
     subgraph P1["Phase 1 — terrain"]
         Players[plcount = non-spectator players]
-        Tiles[SetupTiledPatterns<br/>~100 размещений на 256×256]
-        Seed[SetRandomKey randkey1<br/>детерминирует RandomExt]
-        Gen[GenerateMap:<br/>heightmap из inputbitmap.tga]
-        Water[Water shore маска<br/>height &lt; −0.1]
+        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]
+        Seed[SetRandomKey randkey1<br/>determines RandomExt]
+        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]
+        Water[Water-shore mask<br/>height &lt; −0.1]
     end
-    subgraph P2["Phase 2 — start positions + ресурсы"]
-        StartPts[RandomStartingPoints:<br/>раздача игроков]
+    subgraph P2["Phase 2 — start positions + resources"]
+        StartPts[RandomStartingPoints:<br/>assign players]
         StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]
-        Mines1[SetupMines round=0<br/>для real-players]
+        Mines1[SetupMines round=0<br/>for real players]
     end
-    subgraph P3["Phase 3 — глобальные ресурсы"]
-        Mines2[SetupMines rounds 1..N<br/>для всех spcount]
-        Forests[Forests / stoneforests<br/>по pattern types]
+    subgraph P3["Phase 3 — global resources"]
+        Mines2[SetupMines rounds 1..N<br/>for every spcount]
+        Forests[Forests / stoneforests<br/>by pattern type]
         Decor[Decoration patterns]
     end
-    subgraph P4["Phase 4 — финализация"]
+    subgraph P4["Phase 4 — finalization"]
         Owner[FillOwnerMap]
-        Borders[SetupBorderObjects:<br/>peacetime walls]
-        Pea[CreateStartPointPeasants × 18<br/>в 6×3 grid]
+        Borders[SetupBorderObjects:<br/>peace-time walls]
+        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]
     end
     P0 --> P1 --> P2 --> P3 --> P4
 ```
 Phase details below.
 
+<a id="phase-0--подготовка"></a>
 ### Phase 0 - preparation
 
 1. Helper-procedures for masks (`FillPatternMaskElipse/Circle/Rectangle/MapBorder`) [^4].
@@ -111,6 +115,7 @@ Phase details below.
 10. If `minesdensity > 2` (random) → `floor(RandomExt*3)` [^13].
 11. `_misc_SetDesert(False, False)` if `bDesert` [^14].
 
+<a id="phase-1--terrain"></a>
 ### Phase 2 - start points
 
 12. Cycle by players: for each with a valid `startx/y` (`>= -mapW/2`) → `arrStartPos[i] := startx, starty`. **The `gMap.players[i].startx/y` coordinates themselves come from the C++ engine** - it calculates them when loading `inputbitmap.tga` (using special markers in the mask). `spcount` = number of players with a valid start [^15].
@@ -121,6 +126,7 @@ Phase details below.
     - `SetupStartingResources(pointx, pointy)` — places ~5–6 clusters around (see §4).
 15. `SetRandomKey(randkey1)` — re-seed (placement details should not affect the following phases) [^18].
 
+<a id="phase-2--старт-поинты"></a>
 ### Phase 3 - relief densities + Phase-2 mines
 
 16. `relieftype` cases: `plt/mnt/hil` are selected. Highlands (=3): `plt=0.000055`, `mnt=0.000120`, `hil=0.000050` [^19].
@@ -133,6 +139,7 @@ Phase details below.
 23. `_misc_SetupPatternsByType` for forests/stones/plain/swamp/lake - here `foreststype` dictates the branch (but always =0, so only `pine/spruce/pinefir` and mixed `pine_big_2`) [^26].
 
 <a id="phase-4--старт-юниты--финализация"></a>
+<a id="phase-3--relief-densities--phase-2-mines"></a>
 ### Phase 4 - starting units + finalization
 
 24. **`for i:=0 to gc_MaxPlayerCount-1 do CreateStartPointPeasants(i, startx, starty)`** (or `CreateUniqueStartingUnits` if `startingunits>default`) [^27].
@@ -206,6 +213,7 @@ For desert replacement: `desert_stoneforests`/`desert_forests_big`/`desert_stone
 
 ---
 
+<a id="5-fillownermapspcount--кому-какая-клетка-принадлежит"></a>
 ## 5. `FillOwnerMap(spCount)` - who owns which cell
 
 Simple BFS [^41]:
@@ -233,6 +241,7 @@ Idea: for each pair of neighboring cells `gScanGrid[i,j]` and `gScanGrid[i+1,j]`
 
 ---
 
+<a id="7-createstartpointpeasantsplind-pointx-pointy--стартовые-крестьяне"></a>
 ## 7. `CreateStartPointPeasants(plInd, pointx, pointy)` - starting peasants
 
 Algorithm [^43]:
@@ -314,6 +323,7 @@ A checklist of what the code `dogenerate.inc` does but we either ignore or appro
 
 **Since 2026-04-29:** there is infrastructure for *empirical* model validation against real save/replay files. This turns §10 from “hypotheses” into “measurements.”
 
+<a id="141-стек"></a>
 ### 14.1 Stack
 
 | Script | What does |
@@ -324,6 +334,7 @@ A checklist of what the code `dogenerate.inc` does but we either ignore or appro
 
 For details about the OSWMap13 format, bucketing methodology and calibration numbers, see §14.2-14.5 below.
 
+<a id="142-формат-oswmap13-карты"></a>
 ### 14.2 OSWMap13 (maps) format
 
 `.rep`/`.map` files are binary contained dump:
@@ -379,6 +390,7 @@ For **non-Land** (`terraintype != 0`) the formula does not work (the engine logi
 
 ---
 
+<a id="11-ключевые-файлы-pipeline"></a>
 ## 11. Key pipeline files
 
 | What | Where | Strings |
@@ -393,6 +405,7 @@ For **non-Land** (`terraintype != 0`) the formula does not work (the engine logi
 
 ---
 
+<a id="12-seed-space--что-определяет-уникальную-карту"></a>
 ## 12. Seed space - what determines a unique map
 
 With fixed parameters (terrain + mapsize + relief + mines + players), the map is uniquely specified by the pair `(inputbitmap, randkey0/randkey1)`:
@@ -426,6 +439,7 @@ For our scope (Land + 4pl) - **230 basic forms** cards.
 
 ---
 
+<a id="13-открытые-вопросы-для-следующих-сессий"></a>
 ## 13. Open questions (for next sessions)
 
 1. **Exact position of arrStartPos in inputbitmap.tga.** The Engine reads the markers in the mask (probably by special RGB pixel codes). Decode `data/gen/terrainmasks/land/4pl_*.tga` by hand - you can build an accurate start-positions map for each preset. Useful for editor-tooling and accurate prediction of distances to resources.
@@ -446,6 +460,7 @@ For our scope (Land + 4pl) - **230 basic forms** cards.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

@@ -1,3 +1,4 @@
+<a id="форматы-файлов-в-data"></a>
 # File formats in `data/`
 
 A quick reference to binary and text formats that
@@ -10,6 +11,7 @@ Text in `cp1251`, Object Pascal syntax with DWS extensions. See
 [`../scripts/structure.md`](../scripts/structure.md) - there is a complete
 information about structure and parsing.
 
+<a id="parser--global--source--inc--текстовый-конфиг"></a>
 ## `.parser` / `.global` / `.source` / `.inc` - text config
 
 Hierarchical key-value format, native parser in exe. Used
@@ -21,6 +23,7 @@ in:
 - `data/objects/*.parser` — config classes of objects.
 - `data/gen/generator.cfg` — map generator parameters.
 
+<a id="синтаксис"></a>
 ### Syntax
 ```
 section.begin
@@ -39,6 +42,7 @@ gameobject begin
    actor = "actors/peasant.actor"
 end;
 ```
+<a id="парсер"></a>
 ### Parser
 
 Native functions in exe (see [`../engine/native_api.md`](../engine/native_api.md)):
@@ -58,6 +62,7 @@ We emulate the native parser completely, only the subsets we need.
 Text (in `data/animations/aaf/*.aaf`) describing the animation
 unit/building tracks. Each track is a range of frames.
 
+<a id="структура"></a>
 ### Structure
 ```
 "walk", 1, 24,
@@ -76,6 +81,7 @@ track from 194 .aaf files. Used to calculate real DPS:
 `melee_swing_sec(sid)` takes the impact point in the attack frames and translates
 in g-seconds.
 
+<a id="pattern--бинарный-шаблон-размещения"></a>
 ## `.pattern` - binary placement template
 
 “Stamp” brushes for the map generator: forest, rock formations, fields,
@@ -87,16 +93,17 @@ Complete disassembly at the beginning
 [`parser/parse_patterns.py`](../../parser/parse_patterns.py). Briefly:
 ```
 offset    layout
-0         u32 width                  // ширина mask'и в углах tiles
+0         u32 width                  // mask width in tile corners
 4         u32 height                 //
-8         u8[w*h] mask               // битмаска размещения объектов
+8         u8[w*h] mask               // object-placement bitmask
 8+C       f32[w*h] heightmap         // hilliness
 ...       padding
-...       rec[cells] (24 байта)      // на каждую занятую ячейку:
+...       rec[cells] (24 bytes)     // for each occupied cell:
                                      //   u32 variant_id, f32 scale_x/y/z,
                                      //   f32 reserved, u32 flags
 ...       u8[cells*16] reserved
 ```
+<a id="формат"></a>
 ### Parser
 
 [`parser/parse_patterns.py`](../../parser/parse_patterns.py) +
@@ -109,6 +116,7 @@ offset    layout
 [`compute/compute_map_resources.py`](../../compute/compute_map_resources.py)
 to estimate the number of trees on the map.
 
+<a id="tga--truevision-targa-терреин-маски"></a>
 ## `.tga` – TrueVision Targa (terrein masks)
 
 Standard 24/32-bit Targa format. In C3 it is used for
@@ -119,6 +127,7 @@ Terrain masks of the map generator:
 
 It is not parsed by us (only the engine is used).
 
+<a id="bmp--windows-bitmap"></a>
 ## `.bmp` - Windows Bitmap
 
 Standard BMP. Used for:
@@ -128,16 +137,19 @@ Standard BMP. Used for:
 
 Doesn't work for us.
 
+<a id="dds--directdraw-surface-текстуры"></a>
 ## `.dds` - DirectDraw Surface (textures)
 
 Standard DDS format (DXT-compressed textures). In `data/materials/`
 and `data/terrain/`. Doesn't parse.
 
+<a id="actor--tlf--3d-модели"></a>
 ## `.actor` / `.tlf` - 3D models
 
 Binary format of the GSC engine. 3D meshes, skeletons, materials. Not
 dismantled by us and is not planned (we do not work with 3D data).
 
+<a id="lib--индексы--манифесты"></a>
 ## `.lib` - indexes / manifests
 
 Universal GSC wrapper format. Contains a list of resources and
@@ -147,6 +159,7 @@ pointers to them. For example:
 
 We don’t disassemble it - we bypass it directly via `rglob('*.aaf')`, etc.
 
+<a id="aix--бинарный-ai-конфиг"></a>
 ## `.aix` - binary AI config
 
 Used in:
@@ -164,6 +177,7 @@ bytes - only decompilation of RTTI methods of these classes.
 Not critical for gameplay: AI logic is described in `lib/ai.script` and
 via `AIRegion*`-API (see [`../engine/native_api.md` §2.6](../engine/native_api.md)).
 
+<a id="lng--loc--локализация"></a>
 ## `.lng` / `.loc` - localization
 
 `.loc` - text “hierarchical” format, analogue of `.parser`:
@@ -183,10 +197,12 @@ end;
 [`derived/canonical_terms.json`](../../derived/canonical_terms.json) and
 fields `name_ru` to `data.json`.
 
+<a id="ogg--snd--звук"></a>
 ## `.ogg` / `.snd` - sound
 
 Standard OGG Vorbis. `.snd` - index. They don't parse.
 
+<a id="map--готовые-карты-historical-battles"></a>
 ## `.map` - ready-made cards (Historical Battles)
 
 GSC binary format. 68 files in `data/maps/`. Not disassembled -
@@ -200,12 +216,14 @@ full description of header, BMP preview, kv settings, entry stream
 (time-stamped net-packets) and the directory `Read*`-handlers with
 decoded formats.
 
+<a id="cfg--текстовые-конфиги"></a>
 ## `.cfg` - text configs
 
 Simple `key = value` format. In `data/game/*.cfg`,
 `data/cameras/*.cfg`, `data/sounds/*.cfg`. Parsed by regex
 place of use.
 
+<a id="сводка-что-мы-парсим-vs-что-нет"></a>
 ## Summary: what we parse vs what we don't
 
 | Format | Parsim | Where | Why |

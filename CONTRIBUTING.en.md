@@ -7,6 +7,7 @@ what to touch. If you just arrived, start with [`docs/architecture.md`](docs_en/
 — there is a data flow diagram and principles. This file answers specific
 “how do I…” questions.
 
+<a id="перед-началом-работы"></a>
 ## Before you start
 
 ```bash
@@ -20,6 +21,7 @@ python scripts/regen.py sanity   # parser + 112 automatic checks
 CI runs smoke tests for each PR, checking that `canonical_terms.json`
 and `data.json` are not broken and that `parser/config.py` is imported.
 
+<a id="где-трогать-что"></a>
 ## Where to touch what
 
 | I want... | I'm going to... |
@@ -33,6 +35,7 @@ and `data.json` are not broken and that `parser/config.py` is imported.
 | **Edit reference prose** | Edit a template under `writers/templates/reference/<chapter>/`, then run `python writers/write_md_tree.py`. |
 | **Add a test** | Add `tests/test_<topic>.py`. Tests use the standard-library `unittest` framework and have no external dependencies. |
 
+<a id="правила"></a>
 ## Rules
 
 1. **The source of truth is the game files.** No manually invented translations
@@ -67,6 +70,7 @@ and `data.json` are not broken and that `parser/config.py` is imported.
 6. **No emoji** in code or documentation unless requested. Status symbols
    such as ✅/❌ may be useful in engine-behavior tables, but use them sparingly.
 
+<a id="как-делается-изменение"></a>
 ## How the change is made
 
 ```bash
@@ -85,6 +89,7 @@ python scripts/regen.py sanity    # 112/112 PASS
 git add <files>
 git commit -m "<concise message>"
 ```
+<a id="стиль-коммитов"></a>
 ## Commit style
 
 `<type>(<scope>): <message>` (soft convention, without hard linter):
@@ -99,6 +104,7 @@ git commit -m "<concise message>"
 Body of the commit - what changed and why. If you change several files of one
 edit - list the main ones.
 
+<a id="когда-сомневаешься"></a>
 ## When in doubt
 
 - Architecture and data flows - [`docs/architecture.md`](docs_en/architecture.md).

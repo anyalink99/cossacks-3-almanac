@@ -201,6 +201,7 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: archer, archertur, bagpiper, drummer, drummerrus, drummertur, gauduk, jannisary, lightinfantry, musketeer, musketeeraus, musketeernet, musketeerpol, musketeersco, musketeerspa, officer, officerrus, officersco, officertur, pikeman, pikemanpol, pikemanpor, pikemanrus, pikemansco, pikemanspa, pikemanswi, pikemantur, roundshier, serdiuk, strelet
 
 
+<a id="ba2--казарма-xviii-в"></a>
 ### `<nat>ba2` — Barracks XVIII century.
 
 - **Basic option** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+12)

@@ -1,7 +1,9 @@
+<a id="cossacks-3--скорость-атаки-per-unit"></a>
 # Cossacks 3 - Attack speed (per-unit)
 
 **Derived** report. Considered from `data.json` + `derived/animations.json` script [`compute/compute_attack_rates.py`](../../../compute/compute_attack_rates.py).
 
+<a id="модель"></a>
 ## Model
 
 Cossacks 3 does not use a common "attack per second" system. Instead:
@@ -13,6 +15,7 @@ attacks_per_real_sec @ fast = 1 / cycle × 1.4
 ```
 For melee, the duration of `attack0` varies 11..33 frames between units (median 15). Source: `data/animations/aaf/<sid>.aaf` → `derived/animations.json`.
 
+<a id="1-скорость-атаки-по-юнитам"></a>
 ## §1. Unit attack speed
 
 One line for a unique set of stats (a unit can be present in several nations with the same parameters - then `nations` = list).
@@ -162,6 +165,7 @@ Sorting: ranged → melee, inside - in descending order of attack frequency.
 | `peatur` | Peasant | sword #0 | 20 | 1.22 | 0.56 | anim | 1.78 | 2.49 | alg, tur |
 | `peaukr` | Peasant | sword #0 | 20 | 1.22 | 0.56 | anim | 1.78 | 2.49 | ukr |
 
+<a id="2-сводка-по-типу-оружия"></a>
 ## §2. Weapon Type Summary
 
 Min / median / max cycle duration for each `kind`. Helps to see “how much slower one crossbow attack is than another” within a class and understand where `attpauseperc` upgrades give the most profit.
@@ -177,6 +181,7 @@ Min / median / max cycle duration for each `kind`. Helps to see “how much slow
 | pike | 41 | 0.28 | 0.44 | 0.56 | 4.98 |
 | sword | 23 | 0.38 | 0.44 | 0.56 | 3.73 |
 
+<a id="3-замечания"></a>
 ## §3. Notes
 - **Pause vs swing.** In Cossacks 3 for remote weapons `pause` is a full cycle (shot animation inside pause). For melee `pause=0` and the cycle is equal to the length of the animation itself `attack0`.
 - **Fallback** for melee = 15 frames (≈ 0.4688 g-sec, median over all units with .aaf). Applies if for a specific `sid` there is no file in `data/animations/aaf/` or there is no track `attack0`.

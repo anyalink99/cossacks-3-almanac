@@ -1,3 +1,4 @@
+<a id="recon-артиллерия"></a>
 # Recon: artillery
 
 In-depth analysis: how artillery differs from ordinary shooters,
@@ -25,6 +26,7 @@ artillery limits per player.
 
 ---
 
+<a id="1-типы-артиллерии-gcobjartind"></a>
 ## 1. Types of artillery (`gc_obj_artind_*`)
 
 `dmscript.global` defines several `artind` indexes [^1]:
@@ -43,12 +45,14 @@ has its own limit and its own art depot.
 
 ---
 
+<a id="2-лимиты-артиллерии"></a>
 ## 2. Artillery limits
 
 `gPlayer[pl].artlimit[gc_MaxArtilleryType]` — array of current limits
 for each type. The limit is **not static** - it grows as
 construction of special buildings.
 
+<a id="21-арт-депо"></a>
 ### 2.1. Art depot
 
 A building with `bartdepo = True` has an array `artdepo[gc_MaxArtilleryType]`,
@@ -61,6 +65,7 @@ If the art depot is destroyed, the limit is reduced back. If the player
 will become 10, but **20 guns already fired** do not disappear; just
 You cannot build new ones until the score decreases through losses.
 
+<a id="22-использование-лимита"></a>
 ### 2.2. Using the limit
 
 When trying to order a new gun `gPlayer[pl].artcount[artind]` is compared
@@ -70,6 +75,7 @@ blocked in the UI. After each death of an artillery unit
 
 ---
 
+<a id="3-приказ-attackpoint--стрельба-по-точке"></a>
 ## 3. Order `attackpoint` - shooting at a point
 
 Unlike `attack(target_handle)` (attack a specific unit),
@@ -91,6 +97,7 @@ artillery uses **`attackpoint(x, z)`** [^3]. Differences:
 
 ---
 
+<a id="4-флаг-bartprepare-и-команда-attack-point"></a>
 ## 4. Flag `bartprepare` and attack-point command
 
 `bartprepare` is the **gate flag** for the command
@@ -108,6 +115,7 @@ The flag is placed at `cannon`, `multicannon`, `mortar`, `howitzer`,
 grapeshots `*sga`-clouds - that is, from heavy artillery. Light
 horse artillery and towers without it.
 
+<a id="41-что-выглядит-как-фаза-подготовки"></a>
 ### 4.1. What does the “preparation phase” look like?
 
 The “preparation” visible in the game (the artillery is stationary, aimed, then
@@ -129,6 +137,7 @@ All three factors together create the impression of a "long shot"; flag
 `bartprepare` is not directly included here, but is usually displayed on
 the same units.
 
+<a id="42-тактическая-роль"></a>
 ### 4.2. Tactical role
 
 Heavy artillery is vulnerable at the moment of firing: long pause +
@@ -138,6 +147,7 @@ it before recharging.
 
 ---
 
+<a id="5-радиус-и-точность"></a>
 ## 5. Radius and accuracy
 
 Artillery has **large `weapon_radiusmax`** (15-25 tiles

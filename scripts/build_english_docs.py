@@ -5,13 +5,15 @@ never depend on a translation service. This script is only a maintainer tool:
 
     python scripts/build_english_docs.py          # refresh changed translations
     python scripts/build_english_docs.py --check  # verify coverage/freshness
+    python scripts/build_english_docs.py --capture-fenced-translations
 
 Canonical game labels are substituted from ``canonical_terms.json`` and
 ``data.json`` before prose is translated. Code, link destinations, and HTML
-tags are preserved; canonical game labels inside fenced examples are updated
-without translating the surrounding source code. The translation source
-hashes are committed in ``translation_sources.json`` so CI can detect stale
-mirrors.
+tags are preserved. Author-written diagrams, tables, and pseudocode inside
+fences use the committed manual translations in
+``manual_fenced_translations.json``; literal game data can be explicitly
+marked as such. The translation source hashes are committed in
+``translation_sources.json`` so CI can detect stale mirrors.
 """
 from __future__ import annotations
 
@@ -37,6 +39,7 @@ if hasattr(sys.stderr, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = ROOT / "translation_sources.json"
+MANUAL_FENCES_PATH = ROOT / "manual_fenced_translations.json"
 TRANSLATE_URL = "https://translate.googleapis.com/translate_a/single"
 TRANSLATION_ENGINE = "google"
 CYRILLIC_RE = re.compile(r"[\u0400-\u04ff]")
@@ -307,7 +310,211 @@ def canonicalize_fenced_blocks(
     return "\n".join(output) + ("\n" if text.endswith("\n") else "")
 
 
-def translate_markdown(text: str, canonical: list[tuple[str, str]]) -> str:
+def fenced_blocks(text: str) -> list[tuple[int, str]]:
+    """Return (opening line number, body) for every fenced Markdown block."""
+    blocks: list[tuple[int, str]] = []
+    body: list[str] = []
+    start_line = 0
+    in_fence = False
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if FENCE_RE.match(line):
+            if in_fence:
+                blocks.append((start_line, "\n".join(body)))
+                body = []
+            else:
+                start_line = line_number
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            body.append(line)
+    return blocks
+
+
+def fenced_block_key(body: str) -> str:
+    return hashlib.sha256(body.encode("utf-8")).hexdigest()
+
+
+def load_manual_fenced_translations() -> dict[str, dict[str, object]]:
+    if not MANUAL_FENCES_PATH.is_file():
+        return {}
+    payload = json.loads(MANUAL_FENCES_PATH.read_text(encoding="utf-8"))
+    return payload.get("blocks", {})
+
+
+def apply_manual_fenced_translations(
+    text: str,
+    translations: dict[str, dict[str, object]],
+) -> str:
+    """Replace source fence bodies with their reviewed English equivalents."""
+    if not translations:
+        return text
+
+    had_final_newline = text.endswith("\n")
+    output: list[str] = []
+    body: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if not FENCE_RE.match(line):
+            if in_fence:
+                body.append(line)
+            else:
+                output.append(line)
+            continue
+
+        if not in_fence:
+            output.append(line)
+            body = []
+            in_fence = True
+            continue
+
+        key = fenced_block_key("\n".join(body))
+        entry = translations.get(key)
+        if entry and not entry.get("literal"):
+            replacement = entry.get("text")
+            if not isinstance(replacement, str):
+                raise ValueError(f"manual fence {key} has no translated text")
+            output.extend(replacement.splitlines())
+        else:
+            output.extend(body)
+        output.append(line)
+        body = []
+        in_fence = False
+
+    if in_fence:
+        output.extend(body)
+    return "\n".join(output) + ("\n" if had_final_newline else "")
+
+
+def capture_manual_fenced_translations(
+    pairs: dict[Path, Path],
+) -> dict[str, dict[str, object]]:
+    """Capture reviewed target fences corresponding to Cyrillic source fences."""
+    captured: dict[str, dict[str, object]] = {}
+    for source, target in pairs.items():
+        if not target.is_file():
+            raise ValueError(f"missing translation: {target.relative_to(ROOT)}")
+        source_blocks = fenced_blocks(source.read_text(encoding="utf-8"))
+        target_blocks = fenced_blocks(target.read_text(encoding="utf-8"))
+        if len(source_blocks) != len(target_blocks):
+            raise ValueError(
+                f"fence count differs for {source.relative_to(ROOT)}: "
+                f"{len(source_blocks)} source, {len(target_blocks)} target"
+            )
+        source_rel = source.relative_to(ROOT).as_posix()
+        for (line_number, source_body), (_, target_body) in zip(
+            source_blocks,
+            target_blocks,
+        ):
+            if not CYRILLIC_RE.search(source_body):
+                continue
+            key = fenced_block_key(source_body)
+            literal = source_body == target_body
+            existing = captured.get(key)
+            translated_body = None if literal else target_body
+            if existing and (
+                existing.get("literal") != literal
+                or existing.get("text") != translated_body
+                or existing.get("literal_cyrillic")
+                != bool(CYRILLIC_RE.search(target_body))
+            ):
+                raise ValueError(
+                    f"one source fence has conflicting translations: "
+                    f"{source_rel}:{line_number}"
+                )
+            if existing:
+                sources = existing.setdefault("sources", [])
+                assert isinstance(sources, list)
+                sources.append(f"{source_rel}:{line_number}")
+                continue
+            captured[key] = {
+                "literal": literal,
+                "literal_cyrillic": bool(CYRILLIC_RE.search(target_body)),
+                "text": translated_body,
+                "sources": [f"{source_rel}:{line_number}"],
+            }
+    return captured
+
+
+def write_manual_fenced_translations(
+    translations: dict[str, dict[str, object]],
+) -> None:
+    payload = {
+        "schema": 1,
+        "note": (
+            "Reviewed English replacements for author-written Cyrillic fenced "
+            "blocks. Keys are SHA-256 hashes of the exact Russian fence body; "
+            "literal=true preserves a whole genuine game-data block, while "
+            "literal_cyrillic=true permits reviewed localization literals "
+            "inside an otherwise translated block."
+        ),
+        "blocks": dict(sorted(translations.items())),
+    }
+    MANUAL_FENCES_PATH.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def markdown_headings(text: str) -> list[tuple[int, str, int]]:
+    """Return (level, slug, line index) for headings outside fenced blocks."""
+    headings: list[tuple[int, str, int]] = []
+    in_fence = False
+    for index, line in enumerate(text.splitlines()):
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if match:
+            slug = github_slug(match.group(2))
+            if slug:
+                headings.append((len(match.group(1)), slug, index))
+    return headings
+
+
+def ensure_heading_aliases(source_text: str, translated_text: str) -> str:
+    """Preserve Russian heading fragments as aliases in the English mirror."""
+    source_headings = markdown_headings(source_text)
+    target_headings = markdown_headings(translated_text)
+    if not source_headings or not target_headings:
+        return translated_text
+
+    existing_ids = set(re.findall(r'<a\s+id="([^"]+)"\s*></a>', translated_text))
+    insertions: dict[int, list[str]] = {}
+    source_cursor = 0
+    for target_level, target_slug, target_line in target_headings:
+        while (
+            source_cursor < len(source_headings)
+            and source_headings[source_cursor][0] != target_level
+        ):
+            source_cursor += 1
+        if source_cursor >= len(source_headings):
+            break
+        _, source_slug, _ = source_headings[source_cursor]
+        source_cursor += 1
+        if source_slug == target_slug or source_slug in existing_ids:
+            continue
+        insertions.setdefault(target_line, []).append(
+            f'<a id="{html.escape(source_slug)}"></a>'
+        )
+        existing_ids.add(source_slug)
+
+    if not insertions:
+        return translated_text
+    had_final_newline = translated_text.endswith("\n")
+    output: list[str] = []
+    for index, line in enumerate(translated_text.splitlines()):
+        output.extend(insertions.get(index, ()))
+        output.append(line)
+    return "\n".join(output) + ("\n" if had_final_newline else "")
+
+
+def translate_markdown(
+    text: str,
+    canonical: list[tuple[str, str]],
+    manual_fences: dict[str, dict[str, object]] | None = None,
+) -> str:
     """Translate Markdown in bounded chunks while preserving source syntax."""
     had_final_newline = text.endswith("\n")
     lines = text.splitlines()
@@ -365,6 +572,7 @@ def translate_markdown(text: str, canonical: list[tuple[str, str]]) -> str:
     # Canonical bilingual cells become duplicates after RU → EN substitution.
     result = re.sub(r"\*\*([^*\n]+)\*\*\s*/\s*\1(?=\s|·|$)", r"**\1**", result)
     result = re.sub(r"\b([^()\n]{2,60})\s+\(\1\)", r"\1", result)
+    result = apply_manual_fenced_translations(result, manual_fences or {})
     result = canonicalize_fenced_blocks(result, canonical)
     result = clean_translation_artifacts(result)
     if had_final_newline:
@@ -434,6 +642,7 @@ def write_manifest(pairs: dict[Path, Path]) -> None:
 
 def check(pairs: dict[Path, Path]) -> list[str]:
     manifest = load_manifest()
+    manual_fences = load_manual_fenced_translations()
     errors: list[str] = []
     expected_keys = {source.relative_to(ROOT).as_posix() for source in pairs}
     if set(manifest) != expected_keys:
@@ -447,8 +656,62 @@ def check(pairs: dict[Path, Path]) -> list[str]:
         rel = source.relative_to(ROOT).as_posix()
         if not target.is_file():
             errors.append(f"missing translation: {target.relative_to(ROOT)}")
+            continue
         if manifest.get(rel) != sha256(source):
             errors.append(f"stale translation: {rel}")
+        source_blocks = fenced_blocks(source.read_text(encoding="utf-8"))
+        target_blocks = fenced_blocks(target.read_text(encoding="utf-8"))
+        if len(source_blocks) != len(target_blocks):
+            errors.append(
+                f"fence count differs for {rel}: "
+                f"{len(source_blocks)} source, {len(target_blocks)} target"
+            )
+            continue
+        for (line_number, source_body), (_, target_body) in zip(
+            source_blocks,
+            target_blocks,
+        ):
+            if not CYRILLIC_RE.search(source_body):
+                continue
+            entry = manual_fences.get(fenced_block_key(source_body))
+            if not entry:
+                continue
+            expected = source_body if entry.get("literal") else entry.get("text")
+            if target_body != expected:
+                errors.append(f"manual fence translation differs: {rel}:{line_number}")
+    expected_fences = {
+        fenced_block_key(body)
+        for source in pairs
+        for _, body in fenced_blocks(source.read_text(encoding="utf-8"))
+        if CYRILLIC_RE.search(body)
+    }
+    missing_fences = sorted(expected_fences - set(manual_fences))
+    stale_fences = sorted(set(manual_fences) - expected_fences)
+    if missing_fences:
+        errors.append(
+            f"manual fence catalog missing {len(missing_fences)} block(s): "
+            f"{missing_fences[:3]}"
+        )
+    if stale_fences:
+        errors.append(
+            f"manual fence catalog has {len(stale_fences)} stale block(s): "
+            f"{stale_fences[:3]}"
+        )
+    untranslated_fences = [
+        key
+        for key, entry in manual_fences.items()
+        if not entry.get("literal")
+        and not entry.get("literal_cyrillic")
+        and (
+            not isinstance(entry.get("text"), str)
+            or CYRILLIC_RE.search(str(entry.get("text")))
+        )
+    ]
+    if untranslated_fences:
+        errors.append(
+            f"manual fence catalog has {len(untranslated_fences)} "
+            f"untranslated block(s): {untranslated_fences[:3]}"
+        )
     return errors
 
 
@@ -466,6 +729,11 @@ def main() -> int:
         action="store_true",
         help="apply deterministic post-translation cleanup to committed targets",
     )
+    parser.add_argument(
+        "--capture-fenced-translations",
+        action="store_true",
+        help="capture reviewed English fence bodies from the current mirrors",
+    )
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument(
         "--engine",
@@ -478,6 +746,15 @@ def main() -> int:
     TRANSLATION_ENGINE = args.engine
 
     pairs = translation_pairs()
+    if args.capture_fenced_translations:
+        try:
+            captured = capture_manual_fenced_translations(pairs)
+        except ValueError as error:
+            print(error, file=sys.stderr)
+            return 1
+        write_manual_fenced_translations(captured)
+        print(f"Captured {len(captured)} reviewed fenced translations")
+        return 0
     if args.check:
         errors = check(pairs)
         if errors:
@@ -497,12 +774,16 @@ def main() -> int:
     if args.cleanup_existing:
         canonical = canonical_dictionary()
         changed_count = 0
-        for target in pairs.values():
+        for source, target in pairs.items():
             if not target.is_file():
                 continue
             current = target.read_text(encoding="utf-8")
             cleaned = clean_translation_artifacts(
                 canonicalize_fenced_blocks(current, canonical)
+            )
+            cleaned = ensure_heading_aliases(
+                source.read_text(encoding="utf-8"),
+                cleaned,
             )
             if cleaned != current:
                 target.write_text(cleaned, encoding="utf-8")
@@ -511,6 +792,7 @@ def main() -> int:
         return 0
 
     canonical = canonical_dictionary()
+    manual_fences = load_manual_fenced_translations()
     previous = load_manifest()
     changed = [
         (source, target)
@@ -527,8 +809,10 @@ def main() -> int:
 
     def process(item: tuple[Path, Path]) -> tuple[Path, Path]:
         source, target = item
-        translated = translate_markdown(source.read_text(encoding="utf-8"), canonical)
+        source_text = source.read_text(encoding="utf-8")
+        translated = translate_markdown(source_text, canonical, manual_fences)
         translated = rewrite_translated_links(source, target, translated, pairs)
+        translated = ensure_heading_aliases(source_text, translated)
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(translated, encoding="utf-8")
         return source, target

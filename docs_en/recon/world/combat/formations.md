@@ -1,3 +1,4 @@
+<a id="recon-формации"></a>
 # Recon: formations
 
 In-depth analysis: what formations are there, where bonuses are set, how
@@ -28,6 +29,7 @@ Pascal - in the [Sources](#sources) section at the end of the document.
 
 ---
 
+<a id="1-каталог-формаций"></a>
 ## 1. Formation catalog
 
 `gFormation[160]` is a global array of records. Each entry stores
@@ -42,6 +44,7 @@ and two Boolean matrices - `mask` for the positions of ordinary units and
 The config is read once when the game starts by the procedure
 `_init_InitializeFormations()` [^3].
 
+<a id="11-семейства"></a>
 ### 1.1. Families
 
 | Prefix | How much | What is this |
@@ -57,6 +60,7 @@ The config is read once when the game starts by the procedure
 | `ALONE` / `ODIN` | 2 | Single unit. |
 | `none` | 1 | Without formation (zero entry). |
 
+<a id="12-бонусы-по-размерам"></a>
 ### 1.2. Bonuses by size
 
 Standard values that a unit receives *in formation*:
@@ -190,6 +194,7 @@ hold for cavalry.
 
 ---
 
+<a id="5-mask-как-юниты-раскладываются-по-строю"></a>
 ## 5. Mask: how units are arranged in formation
 
 In `mask : struct.begin` of each formation there is an ASCII map of positions.
@@ -228,6 +233,7 @@ central or dedicated so that the officer is protected by the rank and file.
 
 ---
 
+<a id="6-когда-меняется-формация"></a>
 ## 6. When the formation changes
 
 The script logic for changing the system is in `lib/squad.script` (functions with
@@ -246,8 +252,10 @@ will switch to `LINE10` (or `LINE9`, depending on the cleanup logic).
 
 ---
 
+<a id="7-создание-и-расформирование-tsquad"></a>
 ## 7. Creation and disbandment of `TSquad`
 
+<a id="71-создание"></a>
 ### 7.1. Creation
 
 `_player_CreateSquad` assembles the system only if
@@ -265,6 +273,7 @@ If at the time of re-arranging the grid there is no longer an officer in `TSquad
 his cell remains `0`, but the fields `fAddDamage / fAddShield` are written
 earlier and **do not depend on the composition of the grid**.
 
+<a id="72-расформирование-disband"></a>
 ### 7.2. Disbandment (`disband`)
 
 On every tick `Progress` is called for every living player
@@ -283,6 +292,7 @@ Parameters:
 That is, formation bonuses disappear **not from the death of an officer**, but from
 a drop in the number of rank and file below 25% of the original `fBaseCount`.
 
+<a id="73-hold-mode-fsm-порог-простоя"></a>
 ### 7.3. Hold-mode FSM (idle threshold)
 
 Hold Multiplier (for LINE/SQUARE/KARE: `+7 dmg / +7 shield` on

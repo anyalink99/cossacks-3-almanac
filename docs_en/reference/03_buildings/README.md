@@ -266,6 +266,7 @@ Summary: for each type of building - parameters for all nations (where they exis
 | **Stable** `vensta` | ven | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | cossackdon, cossackregister, cossacksich, croat, cuirassier (+25) |
 
 <a id="tem--собор"></a>
+<a id="sta--конюшня"></a>
 ### tem — Cathedral
 
 | Building | Nation | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |
@@ -373,8 +374,10 @@ Summary: for each type of building - parameters for all nations (where they exis
 | **Diplomatic Center** `ukrdip` | ukr | **5000** | 312.5 | 100 | 0 | **3900** | **2700** | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
 | **Diplomatic Center** `vendip` | ven | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip (+3) |
 
+<a id="общие-постройки-по-кластерам"></a>
 ## Common buildings (by cluster)
 
+<a id="mil--мельница"></a>
 ### mil — Mill
 | Building (cluster) | Nations | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|

@@ -91,8 +91,10 @@ One peasant's pipeline:
     - Only `brised=True`. Limit of competitive miners per resource:
       food=**3**, wood=**2**, stone=**3**.
 
+<a id="3-константы-extracted"></a>
 ## 3. Constants (extracted)
 
+<a id="анимация--кадры-одного-work-цикла"></a>
 ### Animation - frames of one work cycle
 
 From `data/animations/aaf/peaaus.aaf` (same for all nations except `pearus`):
@@ -113,6 +115,7 @@ frame/g-sec) - confirmed via `parser/parse_animations.py`
 and is consistent with the `refspeed.acl` table `TrackPointMoveStep`. See
 [`internals/engine/animation_system.md`](../../../../internals_en/engine/animation_system.md).
 
+<a id="базовые-числа-добычи"></a>
 ### Base loot numbers
 
 | Parameter | Meaning | Source |
@@ -127,6 +130,7 @@ and is consistent with the `refspeed.acl` table `TrackPointMoveStep`. See
 | Default `eff` | 100 | [^10] |
 | `gc_FieldMaxHP` | 25,000 | [^11] |
 
+<a id="радиусы-и-расстояния"></a>
 ### Radii and distances
 
 | Parameter | Value (tiles) | Destination |
@@ -138,6 +142,7 @@ and is consistent with the `refspeed.acl` table `TrackPointMoveStep`. See
 | `gc_obj_extract_stone_radiusmax` | 0.9375 (=50×0.01875) | stone "impact" range |
 | `gc_gameplay_resourceDropRadiusSqr` | 0.5 (sqrt≈0.707) | delivery radius at the warehouse |
 
+<a id="точки-сдачи-ресурсов-resourcepoint"></a>
 ### Resource delivery points (resourcePoint)
 
 Each building that receives resources has a fixed point in `data/game/var/objcustom.cfg`
@@ -193,6 +198,7 @@ are located on the **north (upper) side** of the building.
 
 Source: `data/game/var/objcustom.cfg` (`_country_initobjcustom` is parsed at startup).
 
+<a id="скорости-движения"></a>
 ### Travel speeds
 
 The actual speed is set in `data/animations/ref/refspeed.acl`
@@ -214,21 +220,24 @@ scripts for AI calculations and simplified relative comparisons. For
 exact real speeds in tiles are taken from here (`refspeed.acl`).
 Details are in [`internals/engine/animation_system.md` §2.4](../../../../internals_en/engine/animation_system.md).
 
+<a id="конкурентные-добытчики-на-одном-ресурсе"></a>
 ### Competitive miners on one resource
 
 `gc_gameplay_resource_maxattackers_*`:
 
 - food = 3, wood = **2**, stone = 3, none = 4
 
+<a id="4-per-resource-математика"></a>
 ## 4. Per-resource mathematics
 
+<a id="41-идеальный-rate-без-хождения"></a>
 ### 4.1 Ideal rate (without walking)
 
 For one peasant, excluding the road to the warehouse, with `eff=100`, `fieldlife=0`:
 ```
-rate_per_trip = portion × eff / 100             # ресурс за поход
+rate_per_trip = portion × eff / 100             # resource per trip
 time_per_trip_game = hitsneeded × t_hit_game    # game seconds
-rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_сек
+rate = rate_per_trip / time_per_trip_game       # resource per game second
 ```
 | Resource | portion | hitneeded | t_hit_game | rate (units/g-sec) | units/g-min |
 |---|---:|---:|---:|---:|---:|
@@ -238,6 +247,7 @@ rate = rate_per_trip / time_per_trip_game       # ресурс/игровая_с
 
 ⚠ This is the **upper limit** - the actual rate is lower due to the road to the warehouse.
 
+<a id="42-wood--большиесредниемелкие-деревья"></a>
 ### 4.2 Wood - large/medium/small trees
 
 When spawning randomly [^14]:
@@ -291,12 +301,14 @@ that the effective zone is ~3-5 tiles of “handicap” to the whole tree above 
 **Hard cap:** with `attcount ≥ maxattackers=2` for wood the resource is completely
 filtered (75% of the time, 25% chance of bypass via `bskipcheck = random>0.75`).
 
+<a id="43-stone--фактически-бесконечный"></a>
 ### 4.3 Stone - virtually endless
 
 HP = 10,000,000 [^17]. One stone holds 10M hits = 500k runs = 20M
 stone Infinite for practical purposes. All calculations for stone - without
 accounting for depletion.
 
+<a id="44-food--поле-с-регенерацией"></a>
 ### 4.4 Food - field with regeneration
 
 **HP fields:** start = 0, with `essential_birth → essential_none`
@@ -328,6 +340,7 @@ set = `gc_FieldMaxHP = 25000` [^18].
   stages: 0→1→2→3). At this time, `brised=False` cannot be mined.
 - Full downtime: 21.875 + 87.5 = **109.375 game seconds**.
 
+<a id="5-шахты-goldironcoal"></a>
 ## 5. Mines (gold/iron/coal)
 
 **Building:** `eurgol`, `euriro`, `eurcoa` (general cluster `eur` for the majority;
@@ -343,7 +356,7 @@ set = `gc_FieldMaxHP = 25000` [^18].
 
 **Mechanics:** peasant enters → `_unit_AddInside` [^22]:
 ```
-gPlayer[pl].counter.resincome[i] += produce[i]   # +13 на каждого вошедшего
+gPlayer[pl].counter.resincome[i] += produce[i]   # +13 for each worker who entered
 ```
 Upon exit/death - corresponding reduction.
 
@@ -351,10 +364,10 @@ Upon exit/death - corresponding reduction.
 ```
 const mult  = 100
 const speed = 256/1.024 = 250
-resincome_eff = resincome × gc_time_to_frames        # =13×32=416 на крестьянина
+resincome_eff = resincome × gc_time_to_frames        # =13×32=416 per peasant
 bank        += resincome_eff × deltatime
 realbank     = bank / speed
-delivered    = floor(realbank)                        # к плательщику
+delivered    = floor(realbank)                        # to the player
 ```
 **Speed per 1 peasant in the mine:**
 
@@ -364,6 +377,7 @@ delivered    = floor(realbank)                        # к плательщик�
 
 - 5 × 1.664 = **8.32 resources/g-sec** ≈ **499/g-min**
 
+<a id="51-mine-upgrades--расширение-вместимости"></a>
 ### 5.1 Mine upgrades - capacity expansion
 
 Each mine has 6 individual upgrades (`<commonName><res>.1`..`.6`,
@@ -389,6 +403,7 @@ Total cost full upgrade of one mine: **F104 550, G80 950** (plus 6 × 9.375 = **
 
 ⚠ Per-mine upgrades, not global. If you have 12 mines, download each one separately.
 
+<a id="6-поля-и-fieldlife--апгрейды"></a>
 ## 6. Fields and fieldlife - upgrades
 
 **Type:** `gc_upg_type_fieldlifeperc` (ID 23). Effect:
@@ -406,6 +421,7 @@ Total for both: fieldlife = **300** → resdec=25 → 1000 hits/field → 2045 f
 ⚠ For non-Latin nations (`rus`, `ukr`, `tur`, `alg`, etc.) there may be
 nuances need to be double-checked (but the basic formula is general).
 
+<a id="7-апгрейды-efficiency-resefficiency"></a>
 ## 7. Upgrades efficiency (resefficiency)
 
 All efficiency upgrades are additively added to
@@ -429,6 +445,7 @@ Observed in `country.script` (mill upgrades - `<csid>mil.X` or `<commonName>mil.
 ⚠ A complete list of 21 nations must be obtained through an existing
 `parser/simulate_upgrades.py`. See §9.
 
+<a id="8-карта-как-вход-для-модели"></a>
 ## 8. Map as input for the model
 
 Complete procedure `DoGenerate` (cCircle1/2/3, SetupStartingResources, phases
@@ -436,6 +453,7 @@ mines, FillOwnerMap, peacetime borders) - in
 [map_generation_pipeline.md](../map/map_generation_pipeline.md). Below is only
 what is needed for extraction formulas.
 
+<a id="81-игровые-параметры-наш-контекст"></a>
 ### 8.1 Game parameters (our context)
 
 | UI label | Code field | Tag | Meaning |
@@ -452,6 +470,7 @@ Sources: `data/gui/menu.inc/showcustomgame.inc`, labels in
 among all reliefs [^28]. Less flat areas for farms/warehouses, more
 Placement attempts fail.
 
+<a id="82-терминология-месторождение-vs-шахта"></a>
 ### 8.2 Terminology: deposit vs mine
 
 *Deposit* - geological deposit placed by the generator (patterns
@@ -631,6 +650,7 @@ stump. But if all the trees are occupied, the peasants go to the stumps.
 **For simulation:** wood pool = effectively infinite. We only consider rate
 (peasants × 3.56 wood/g-sec × eff/100) minus walk_overhead to the warehouse.
 
+<a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
 | # | Question | How to solve |
@@ -650,6 +670,7 @@ list of efficiency upgrades).
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/` in the Cossacks 3 installation.

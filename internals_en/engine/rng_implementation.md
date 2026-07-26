@@ -1,3 +1,4 @@
+<a id="реализация-rng-в-cossacks-3"></a>
 # Implementation of RNG in Cossacks 3
 
 What exactly does `random`, `RandomExt` generate and why `SetRandomKey`
@@ -25,6 +26,7 @@ works the way it works.
 > intermediate iterations; the final picture is here and in `native_api.md` §2.4
 > (4 independent seed storages).
 
+<a id="1-общая-картина"></a>
 ## 1. The big picture
 
 C3 scripts use (in descending frequency):
@@ -41,14 +43,15 @@ registered by DWS engine. This is evidenced by the very fact that DWS is
 Delphi library, not a standalone VM, and it inherits RNG
 from the host.
 
+<a id="2-алгоритм-delphi-random"></a>
 ## 2. Delphi algorithm `Random`
 
 `System.Random` in Delphi - linear congruent generator (LCG):
 ```pascal
 RandSeed := RandSeed * $08088405 + 1;
 // $08088405 = 134775813
-// аддент = 1
-// модуль = 2^32 (естественное переполнение Cardinal)
+// addend = 1
+// modulus = 2^32 (natural Cardinal overflow)
 ```
 Convert to float:
 ```pascal
@@ -65,6 +68,7 @@ Properties:
 This is a **well known** Delphi constant (same as in Borland
 Pascal since the late 80s). Nothing esoteric.
 
+<a id="3-реализация-randomext"></a>
 ## 3. Implementation of `RandomExt`
 
 `RandomExt` is a **64-bit LCG**, not Xorshift. Algorithm:
@@ -97,6 +101,7 @@ to `lib/unit.script`, synchronizes not `random`, but the next call
 Details with addresses and decompilation - in private
 `cossacks-deep/findings/rng_implementation.md` §§ 1–3.
 
+<a id="4-семантика-глобальный-rng"></a>
 ## 4. Semantics of “global RNG”
 
 From `determinism_audit.md` we knew that `random` is global, rummaging around
@@ -123,18 +128,19 @@ Separate named streams with their own state - `AirWeatherRandom`,
 `MakeRandomClouds`-derivatives, map-generators - live completely outside
 both common seed cells.
 
+<a id="5-главный-паттерн-детерминизма-пересев-перед-операцией"></a>
 ## 5. The main pattern of determinism: reseeding before surgery
 
 In scripts `lib/unit.script` 4 calls `SetRandomKey` - all
 made **specifically for synchronization**. Context from code:
 ```pascal
-// unit.script — перед формированием отряда
+// unit.script — before forming a squad
 SetRandomKey(floor(random * gc_MaxInt));
 // needed to sync multiplayer arg.frnd
 arg.frnd := random;
 ```
 ```pascal
-// unit.script — перед расчётом, зависящим от персонального юнита
+// unit.script — before a calculation that depends on an individual unit
 SetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));
 // sync multiplayer
 ```
@@ -152,6 +158,7 @@ the decision itself made on the server and on the client (for example, “what
 formation of units in a squad") will give the same result bit-for-bit, not
 requiring synchronized RNG state.
 
+<a id="6-воспроизводимость-значений"></a>
 ## 6. Reproducibility of values
 
 Taking into account §2 (LCG) - by setting `SetRandomKey(seed)`, you can completely
@@ -163,7 +170,7 @@ def delphi_random_stream(seed):
         s = (s * 134775813 + 1) & 0xFFFFFFFF
         yield s / 0xFFFFFFFF
 
-# Например, для seed=42:
+# Example for seed=42:
 g = delphi_random_stream(42)
 print([next(g) for _ in range(5)])
 # [0.5263867462985266, 0.4017018212098335, 0.7770079020410776, ...]
@@ -173,6 +180,7 @@ any RNG-dependent value** (headshot, projectile spread, target selection
 of equal candidates). The simulator can use this to
 repeating battles from saves.
 
+<a id="7-что-насчёт-mt-19937"></a>
 ## 7. What about MT-19937
 
 The standard DWS (on GitHub) provides **both LCG (`Random`) and
@@ -185,31 +193,32 @@ Therefore, although MT-19937 is available in DWS, it is not available in C3
 used**. `RandomExt` - also not MT, but a 64-bit LCG over **its own
 separate** extended seed (see §3).
 
+<a id="8-связь-с-другими-rng-потоками"></a>
 ## 8. Communication with other RNG streams
 
 The engine has **four independent seed storages**, each with its own
 algorithm from above:
 ```
-Стандартный Delphi RandSeed (32-бит)
+Standard Delphi RandSeed (32-bit)
                         ↑
-                  Random  (Delphi 32-бит LCG: seed = seed * 0x8088405 + 1)
-                        (Randomize / прямая запись System.RandSeed — DWS не выставляет)
+                  Random  (Delphi 32-bit LCG: seed = seed * 0x8088405 + 1)
+                        (Randomize / direct System.RandSeed write — DWS does not expose it)
 
-Расширенный 64-бит seed
+Extended 64-bit seed
                         ↑
-                  RandomExt  (64-бит LCG со своей парой констант)
+                  RandomExt  (64-bit LCG with its own constant pair)
                         ↑
-                  SetRandomKey (sign-extend 32→64), SetRandomExtKey64 (полный 64)
+                  SetRandomKey (sign-extend 32→64), SetRandomExtKey64 (full 64-bit)
 
-MapGenerator seed       (64-бит, отдельное хранилище в state карты)
+MapGenerator seed       (64-bit, separate storage in map state)
                         ↑
                   SetMapGeneratorRandomKey
 
-GlobalMapGenerator seed (64-бит, отдельное хранилище)
+GlobalMapGenerator seed (64-bit, separate storage)
                         ↑
                   SetGlobalMapGeneratorRandomKey
 
-(Отдельные каналы для погоды и облаков — AirWeatherRandom-семейство, не показано)
+(Separate weather and cloud channels use the AirWeatherRandom family; not shown)
 ```
 All four storages are **physically different**: calling any algorithm
 affects only its seed. This explains why the pair `(randkey0,
@@ -221,6 +230,7 @@ and why gameplay-critical paths in scripts turn into
 extended flow regardless of what the UI does with the normal one
 `random`.
 
+<a id="9-что-это-значит-для-симулятора"></a>
 ## 9. What does this mean for the simulator
 
 For the extraction model (see.
@@ -242,6 +252,7 @@ This is the plan for the Level C simulator
 (if the simulator ever aims for bit-perfect
 reproducibility rather than statistical accuracy).
 
+<a id="10-открытое-и-закрытое"></a>
 ## 10. Open and closed
 
 | Item | Status |

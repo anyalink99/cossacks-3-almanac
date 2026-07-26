@@ -1,3 +1,4 @@
+<a id="cossacks-3--время-постройки-и-ремонта"></a>
 # Cossacks 3 - Time to build and repair
 
 Construction time (from scratch, new building) and repair (totally damaged → full HP) for each building. It is calculated for different numbers of peasants.
@@ -17,6 +18,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 
 **Columns:** time in `<g-sec>g (<real-sec>r fast)` format. For long-term values ​​- in minutes.
 
+<a id="alg--algeria-алжир"></a>
 ## ALG - Algeria
 
 ###Building from scratch
@@ -45,6 +47,7 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 | `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
 | `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
 
+<a id="постройка-с-нуля"></a>
 ### Full repair (0 → max HP)
 | sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
 |---|---|---|---|---|---|---|---|---|

@@ -1,0 +1,830 @@
+{
+  "schema": 1,
+  "note": "Reviewed English replacements for author-written Cyrillic fenced blocks. Keys are SHA-256 hashes of the exact Russian fence body; literal=true preserves a whole genuine game-data block, while literal_cyrillic=true permits reviewed localization literals inside an otherwise translated block.",
+  "blocks": {
+    "076a5e35f229bbfb5a4826705d1052e0666d2456fe5daccd137718bd5c53c4e8": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "templates/\n├── README.md                  ← this file\n├── output_readme.md           ← docs/README.md (artifact catalog)\n│\n└── reference/                 ← all blocks used by docs/reference/*\n    ├── readme/                ← main reference README\n    │   └── glossary.md        ← glossary of game tags (sid, eff, bnohungry, …)\n    │\n    ├── 01_economy/            ← blocks used by 01_economy/README.md\n    │   ├── recon_refs.md      ← “In-depth research for this chapter” block\n    │   ├── summary.md         ← summary\n    │   ├── extraction_formula.md\n    │   ├── mines_intro.md     ← introduction + mine-upgrade table heading\n    │   ├── fields_intro.md    ← “Field” section heading\n    │   ├── fishing.md         ← ships and fishing\n    │   └── famine_rebellion.md ← Famine + Rebellion\n    │\n    ├── 02_combat/\n    │   └── main.md            ← chapter introduction, weapon types, recon links\n    │                             (most prose lives in docs/recon/world/combat/)\n    │\n    ├── 03_buildings/\n    │   ├── legend.md          ← building-table column legend\n    │   ├── era_progression.md ← age progression (recon link)\n    │   ├── lifecycle.md       ← construction, repair, and destruction (recon link)\n    │   └── tow_combat.md      ← wall artillery: numeric tower parameters (recon link)\n    │\n    ├── 04_units/\n    │   └── legend.md          ← unit-table column legend\n    │\n    ├── 05_upgrades/\n    │   ├── legend.md          ← sid structure + upgrade-table column legend\n    │   └── order_math.md      ← introduction + recon link (condensed version)\n    │\n    ├── 06_market/\n    │   ├── intro.md           ← heading + TL;DR\n    │   ├── mechanics.md       ← global rates and conversion formulas\n    │   └── strategy.md        ← practical conclusions + sources\n    │\n    ├── 07_naval/\n    │   └── main.md            ← naval chapter introduction (numbers generated from data.json)\n    │\n    ├── compare/\n    │   └── readme.md          ← compare/README.md (side-by-side table index)\n    │\n    └── nations/\n        └── readme_intro.md    ← nations/README.md heading",
+      "sources": [
+        "writers/templates/README.md:21"
+      ]
+    },
+    "08281a3cfc24f58410b65c0de603f2b036a40973ef15b5e6e4478f64dc7cf557": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "// unit.script — before forming a squad\nSetRandomKey(floor(random * gc_MaxInt));\n// needed to sync multiplayer arg.frnd\narg.frnd := random;",
+      "sources": [
+        "internals/engine/rng_implementation.md:135"
+      ]
+    },
+    "087b6b78efd7fb88adc19db00b97d5da5d623591980e9ed1fdf796f9ea5bab3e": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "flowchart TB\n    subgraph P0[\"Phase 0 — preparation\"]\n        H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]\n        Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]\n        Load[LoadPatterns:<br/>all .pattern files]\n    end\n    subgraph P1[\"Phase 1 — terrain\"]\n        Players[plcount = non-spectator players]\n        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]\n        Seed[SetRandomKey randkey1<br/>determines RandomExt]\n        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]\n        Water[Water-shore mask<br/>height &lt; −0.1]\n    end\n    subgraph P2[\"Phase 2 — start positions + resources\"]\n        StartPts[RandomStartingPoints:<br/>assign players]\n        StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]\n        Mines1[SetupMines round=0<br/>for real players]\n    end\n    subgraph P3[\"Phase 3 — global resources\"]\n        Mines2[SetupMines rounds 1..N<br/>for every spcount]\n        Forests[Forests / stoneforests<br/>by pattern type]\n        Decor[Decoration patterns]\n    end\n    subgraph P4[\"Phase 4 — finalization\"]\n        Owner[FillOwnerMap]\n        Borders[SetupBorderObjects:<br/>peace-time walls]\n        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]\n    end\n    P0 --> P1 --> P2 --> P3 --> P4",
+      "sources": [
+        "docs/recon/world/map/map_generation_pipeline.md:65"
+      ]
+    },
+    "097bf61af80a0d14e0e30aefe012de574e6a888579e4ae2809bdadc0dfb310ef": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json",
+      "sources": [
+        "README.md:119"
+      ]
+    },
+    "097da744254397d76c2d719cbf380d406e914d24c290530dfccf2be6026e8a15": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
+      "sources": [
+        "docs/recon/world/economy/building_mechanics.md:36"
+      ]
+    },
+    "0ead5485d6dcca8263e8bb46a83f2f8e0ec0853e8b4657db9504243015683a3d": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py\ncp data.json /tmp/data_old.json\n# … update the game …\npython parser/build_data.py\npython writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md",
+      "sources": [
+        "README.md:155"
+      ]
+    },
+    "0f452ff830ecb95791b2737d7cdd8540466242525c40553595578f5536f225b7": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile = 3.0 tile\ngc_gameplay_captureradius          = 214 / 53.333          ≈ 4.013 tile\ngc_gameplay_protectionradius       = 426 / 53.333          ≈ 7.987 tile\ngc_gameplay_resourceDropRadius     = 3 tile\n*Sqr — the same values squared (for Euclidean comparisons)",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:29"
+      ]
+    },
+    "12d333e92c035cac33ea1086e6606dd1844747c2d7a6cde2a9d422ab0b460c8e": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "RandSeed := RandSeed * $08088405 + 1;\n// $08088405 = 134775813\n// addend = 1\n// modulus = 2^32 (natural Cardinal overflow)",
+      "sources": [
+        "internals/engine/rng_implementation.md:48"
+      ]
+    },
+    "13876c99084e27080aaf8cd8d5e504ea05e5ed2033bd9fcbca5e5f68cef320d5": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "struct EconomyPackage {\n    Byte   economyfieldstosync;   // bitmask: fields changed\n                                  // since the previous tick\n    if (economyfieldstosync > 0) {\n        Byte plind;               // player index (0..11)\n        if (mask bit 0) Word idlepeasants;     // idle peasants\n        if (mask bit 1) Word idlemines;        // empty mines\n        if (mask bit 2) Word workers_food;     // gathering food\n        if (mask bit 3) Word workers_wood;     // gathering wood\n        if (mask bit 4) Word workers_stone;    // gathering stone\n        if (mask bit 5) Word workers_gold;     // gathering gold\n        if (mask bit 6) Word workers_iron;     // gathering iron\n        if (mask bit 7) Word workers_coal;     // gathering coal\n    }\n};",
+      "sources": [
+        "internals/engine/server_sync_packet_format.md:46"
+      ]
+    },
+    "13ffa9d794eb6da0f3281f2b13bf4e0fd4329a68b0d2972534fd68848b23e615": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    gc_settings_gamespeed_count   = 3;\n    gc_settings_gamespeed_default = -1;\n    gc_settings_gamespeed_0       = 7;     // slow   — 7 ticks / real second\n    gc_settings_gamespeed_1       = 10;    // normal — 10 ticks / real second\n    gc_settings_gamespeed_2       = 14;    // fast   — 14 ticks / real second\n    //gc_settings_gamespeed_3 = 20;        // commented out; formerly ultra-fast",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:352"
+      ]
+    },
+    "1561250fb9c35b795e072d57488da84c8f59d2d159c25dad819c872c56966b8b": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "objects/\n├── *.objects       Root class configs\n├── *.lib           Indexes\n├── *.prop          Properties\n└── ...",
+      "sources": [
+        "internals/data/layout.md:71"
+      ]
+    },
+    "194471232449abca4fcac8ddb40bc7a7c3a150db5deaac41b1e8ad45c8f090a9": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "┌─────────────────────────────────────────────────────────────────┐\n│ Cossacks 3 install (read-only):                                 │\n│   data/scripts/*.script, *.global, *.inc       (Pascal-like)    │\n│   data/locale/{ru,en,...}/*.txt                (cp1251)         │\n│   data/animations/aaf/*.aaf                    (animations)     │\n│   data/pattern/*.pattern                       (map patterns)   │\n│   data/game/var/*.cfg                          (formations, …)  │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ parser/ — extraction from game files to JSON                    │\n│                                                                 │\n│   parser/build_data.py            (orchestrator)                │\n│     ├── parse_units.py            → unit / building / weapon    │\n│     ├── parse_country.py          → upgrade / officer / squad   │\n│     ├── parse_locale.py           → name_en / name_ru           │\n│     ├── extract_constants.py      → gc_* constants              │\n│     └── simulate_upgrades.py      → 4,483 upgrades + prereqs    │\n│                                                                 │\n│   parser/build_canonical_terms.py → canonical_terms.json        │\n│   parser/parse_animations.py      → animations.json             │\n│   parser/parse_pattern_inventory  → pattern_*.json              │\n│   parser/parse_replay_aggregates  → replay_ground_truth.json    │\n│   parser/parse_generator_cfg.py   → pattern_types.json          │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ data.json (top-level) + derived/*.json (top-level)              │\n│                                                                 │\n│   data.json              master dataset (~5.7 MB):              │\n│     - 21 nations, 456 buildings, 714 units, 4,483 upgrades      │\n│   derived/*.json         specialized datasets                   │\n│     (see ../derived/README.md)                                  │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n            ┌───────────────┴───────────────┐\n            ▼                               ▼\n┌──────────────────────────┐   ┌──────────────────────────────────┐\n│ writers/ — MD rendering  │   │ compute/ — derived calculations │\n│                          │   │                                   │\n│ write_md_tree.py         │   │ Combat:                          │\n│   → docs/reference/      │   │   compute_combat_stats            │\n│      01_economy/README.md │   │   compute_counter_matrix          │\n│      02_combat/README.md  │   │   compute_attack_rates            │\n│      …                   │   │   compute_vision                  │\n│      nations/×21         │   │   compute_artillery               │\n│      compare/×16         │   │ Economy:                         │\n│   + templates/*.md       │   │   compute_scaling                 │\n│   + docs/README.md       │   │   compute_efficiency_upgrades     │\n│                          │   │   compute_construction_times      │\n│                          │   │   compute_builder_slots           │\n│ diff_snapshots.py        │   │ Technology tree:                 │\n│   → diff.md              │   │   compute_tech_tree              │\n│   compares two data.json │   │     → tech_tree.json + 2 reports│\n│                          │   │ Map:                             │\n│                          │   │   compute_game_settings           │\n│                          │   │     → game_settings.json + md     │\n│                          │   │   compute_map_resources           │\n│                          │   │   compute_starting_layout        │\n│                          │   │   validate_map_predictions        │\n│                          │   │ Nations:                         │\n│                          │   │   compute_nations_overview        │\n└──────────────────────────┘   └──────────────────────────────────┘\n            │                               │\n            └───────────────┬───────────────┘\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ docs/reference/ + docs/reports/ + docs/known_issues.md           │\n│ (human-readable Markdown rendered directly by GitHub)           │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ simulator/ — runtime economy simulator                          │\n│                                                                 │\n│   simulate_economy.py reads data.json + derived/tech_tree.json, │\n│   accepts a build order (JSON), and returns a state timeline.   │\n│   The browser editor runs it through Pyodide.                   │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ editor/ — browser build-order editor                            │\n│                                                                 │\n│   index.html + js/* load data.json + derived/*.json and run     │\n│   the simulator through Pyodide.                                │\n└─────────────────────────────────────────────────────────────────┘\n                            │\n                            ▼\n┌─────────────────────────────────────────────────────────────────┐\n│ internals/ + parser/engine_recon/                                │\n│                                                                  │\n│   parser/engine_recon/{dump_exe_strings, extract_primitives,     │\n│   extract_dws_signatures}.py                                     │\n│     ← read `cossacks.exe` (top-level <game>/cossacks.exe)        │\n│     → derived/{exe_strings, engine_primitives,                   │\n│         engine_primitive_matches, dws_native_signatures}.json    │\n│     → internals/engine/native_primitives.md (auto-gen)           │\n│   internals/engine/*.md — handwritten technical documentation    │\n│     of the engine (RNG, sync, ticks, animation system, RTTI).    │\n└─────────────────────────────────────────────────────────────────┘",
+      "sources": [
+        "docs/architecture.md:8"
+      ]
+    },
+    "1b1a104514ddc1c419bc3c70200c49772cac4dee99002a8abc7f673529c1e617": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "// attacker (pobj / goHnd):\nif (not bSkipOnDeath) and (pobj<>nil) and (TObj(pobj).hp<=0) then begin\n   if (not TObj(pobj).bdead) then\n   GameObjectExecuteStateByHandle(goHnd, 'OnDeath');\n   _unit_SetTagStates(goHnd, gc_statetag_essential_death);\nend;\n\n// target (pobj2 / trgHnd):\nif (TObj(pobj2).hp<=0) then begin\n   GameObjectExecuteStateByHandle(trgHnd, 'OnDeath');\n   _unit_SetTagStates(trgHnd, gc_statetag_essential_death);\nend;",
+      "sources": [
+        "internals/engine/script_modding_constraints.md:23"
+      ]
+    },
+    "1ff7de6f7987ce05c42f838ac9669e5ca2974edf06d7d3ff499258ae3a14d8f2": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "HP            = 300\nspeed         = 16\nfishingmax    = 1000    (food storage capacity)\nfishingspeed  = 12      (frames per food unit)\nbuildtime     = 40.0 game sec\ncost          = 600 W",
+      "sources": [
+        "docs/reference/07_naval/README.md:96"
+      ]
+    },
+    "2192017c9f9b3a62b63b2df42f8550e21a0c790746c0662731e40b9d22af878e": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "offset  size  field                                   note\n---------------------------------------------------------------------\n+0      4B    [class=0x00, sub=0x03, pid, state_id]   4-byte header\n+4      1B    0x00                                    begin marker\n+5      ?B    typed body                              typed stream\n+?      1B    0x01                                    end marker",
+      "sources": [
+        "internals/data/replay_format.md:136"
+      ]
+    },
+    "30cae556f4f2b705446528bb84070b73f84cac10350171c1ec9462ca53055b37": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "offset  size  field                                   note\n---------------------------------------------------------------------\n+0      4B    float ts                                ticks; see §2.1\n+4      4B    u32 payload_size LE                     payload size\n+8     10B    entry marker                            see §2.2\n+18    N      payload                                  N = payload_size",
+      "sources": [
+        "internals/data/replay_format.md:60"
+      ]
+    },
+    "327e1d46b80cc8df51d54b404dd8510216696f5ae870c0f287dbb96c1b5161cc": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "items:\n  [0] actExecuteState 'OnAclAnimationReachedAttack'    ← swing point\n  [1] actAnimation 'attack0' (NumberCycle = 1)         ← complete animation\n  [2] actExecuteState 'OnAclAnimationReachedAttackEnd' ← completion",
+      "sources": [
+        "internals/engine/animation_system.md:324"
+      ]
+    },
+    "34a25c9001f0655e1c613d35e7295c68f02317451f553800939259d4c0db96aa": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // leaver penalty\n    case i of\n       0: if firstleaverind<>1 ...\n       1: if firstleaverind<>0 ...\n       2: if firstleaverind<>3 ...\n       3: if firstleaverind<>2 ...",
+      "sources": [
+        "docs/recon/systems/victory_conditions.md:453"
+      ]
+    },
+    "3bb1daea437c148c09e897faca7ff7c71c4609fe3b3b5bdc693edde6238142c1": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "out.extend(render_template(\"reference/01_economy/famine_rebellion.md\"))\n# Or with variable substitution:\nout.extend(render_template(\"foo.md\", time_to_frames=32, ...))",
+      "sources": [
+        "writers/templates/README.md:11"
+      ]
+    },
+    "3e12588e5ca68231a90830121c7d2fabb77d38a802055865bc2cf28799fba195": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "def delphi_random_stream(seed):\n    s = seed & 0xFFFFFFFF\n    while True:\n        s = (s * 134775813 + 1) & 0xFFFFFFFF\n        yield s / 0xFFFFFFFF\n\n# Example for seed=42:\ng = delphi_random_stream(42)\nprint([next(g) for _ in range(5)])\n# [0.5263867462985266, 0.4017018212098335, 0.7770079020410776, ...]",
+      "sources": [
+        "internals/engine/rng_implementation.md:167"
+      ]
+    },
+    "3eeeae19f9caf4aff15126df05ab0a8090a70aa92bf2a9117f6ccc449d63edda": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py                   # → data.json (source of truth)\npython writers/write_md_tree.py               # → docs/reference/ + docs/README.md\npython compute/compute_scaling.py             # → docs/reports/economy/scaling_prices.md\npython compute/compute_map_resources.py       # → docs/reports/map/map_resources.md\npython parser/build_tech_graph.py             # → derived/tech_tree.json\npython compute/compute_tech_tree.py           # → docs/reports/tech/tech_tree.md + production_rates.md\npython compute/compute_construction_times.py  # → docs/reports/economy/construction_times.md",
+      "sources": [
+        "parser/README.md:84"
+      ]
+    },
+    "404bf735cb63d5c555a93bc8e98a904c750c6fd5b931a38f1f26683b04cf106f": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "*(int*)(*(int*)(root + 0x4c) + 0x6c) + 0x118\n                 │              │     │\n                 │              │     └── current write stream (ptr)\n                 │              └──────── RecordManager\n                 └─────────────────────── main sub-manager",
+      "sources": [
+        "internals/data/replay_format.md:552"
+      ]
+    },
+    "40b15cef6a9dd352ad183c6269ecfec9fe947a7f24eaa49c4b9d3fd69bab2d07": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# 1. Edit the source: parser, compute script, template, or handwritten Markdown.\n# 2. Regenerate its dependants:\npython scripts/regen.py all       # full rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change, without co-authoring.\ngit add <files>\ngit commit -m \"<concise message>\"",
+      "sources": [
+        "CONTRIBUTING.md:73"
+      ]
+    },
+    "43baca2d06c666dca0fd348cde62c7c3aa1a2acafe87fc7f51d7eedd84395ca2": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "applied = max(1, weapon.damage\n                 − target.shield                # / 3 while the building is under construction\n                 − target.protection[weapon.kind]\n                 + formation bonuses (LINE / SQUARE / KARE: +2..+7)\n                 + HEADSHOT: +floor(uniqrnd × 500), 5% chance for arrow / bullet\n                                                against non-buildings except a moving fasthorse)",
+      "sources": [
+        "docs/reference/README.md:65"
+      ]
+    },
+    "43bae04f2279fb4717dbcb21e7c4e78a372edaa92b9d7fc2f1cf942e22a139ef": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "resefficiency[res] := resefficiency[res] + round(value);\n                                          // percentage variants also use += value, not *=",
+      "sources": [
+        "docs/recon/world/economy/upgrades_application.md:336"
+      ]
+    },
+    "4737000a87f8411f23d2256d4df968c145e56fb3f94a9509414c53a55600b534": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "// unit.script retarget gate — safe kill trigger:\nif (pobj<>nil) and (TObj(pobj).hp > 0) and (TObj(pobj).hp < 3)\nand (TObj(pobj).attackdelay > 0) then begin\n   TObj(pobj).hp := 0;\n   _unit_SetTagStates(goHnd, gc_statetag_essential_death);\nend",
+      "sources": [
+        "internals/engine/script_modding_constraints.md:101"
+      ]
+    },
+    "4a167f125a802d574b14eefaac9b9e243dbe5d2995670988812d8b9b2b69040b": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "const mult  = 100\nconst speed = 256/1.024 = 250\nresincome_eff = resincome × gc_time_to_frames        # =13×32=416 per peasant\nbank        += resincome_eff × deltatime\nrealbank     = bank / speed\ndelivered    = floor(realbank)                        # to the player",
+      "sources": [
+        "docs/recon/world/economy/peasant_extraction.md:356"
+      ]
+    },
+    "4a192e5d58b7fb3b387cb0ea15fb16815a756655de7fe4e2db6329807fb293d8": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    _ai_TryUnit(plind, cid, gc_ai_unit_ba17, 8, False)\n    // 6 for Russia",
+      "sources": [
+        "docs/recon/systems/ai_behavior.md:410"
+      ]
+    },
+    "4ad4cb8f071b7ca22c1d8fd4f412ed89125b68b136247dd41cbb61084753ad6c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    type TMapSettings = class\n       gen        : TMapSettingsGen;          // map-generator parameters\n       additional : TMapSettingsAdditional;   // game rules\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:226"
+      ]
+    },
+    "5064e735ec67f7471abd598fd09b820a86db56b6a0cd726a88d97117589d6ae5": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "gc_unit_TimeCheckCapture    = 0.1*19  ≈ 1.9 game sec   (peasants + buildings)\ngc_unit_TimeCheckCaptureArt = 0.1*5   ≈ 0.5 game sec   (artillery — checked more often)",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:38"
+      ]
+    },
+    "53af30edcae9f5532d6784961bbd4614135c9bf129f68a9be8deca46015200ca": {
+      "literal": false,
+      "literal_cyrillic": true,
+      "text": "language begin\n   russian begin\n      muskrussia18 = Мушкетёр (Russia, XVIII в.)\n      ...\n   end;\nend;",
+      "sources": [
+        "internals/data/file_formats.md:179"
+      ]
+    },
+    "54c95e55362e46641460f0663845ca2d22e5ef56857ba2524ff4c561f697e77f": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python scripts/regen.py derived          # all game-data JSON files in this directory\n# Or regenerate individual datasets:\npython parser/build_replay_upgrades.py\npython parser/build_canonical_terms.py\npython parser/parse_animations.py\npython parser/parse_generator_cfg.py\npython parser/parse_pattern_inventory.py\npython parser/parse_replay_aggregates.py\npython compute/compute_game_settings.py\npython parser/build_tech_graph.py\npython compute/compute_builder_slots.py\n\n# Engine reverse-engineering dumps (regenerate only when cossacks.exe changes):\npython parser/engine_recon/dump_exe_strings.py        # → derived/exe_strings.json\npython parser/engine_recon/extract_primitives.py      # → derived/engine_primitives.json + engine_primitive_matches.json\npython parser/engine_recon/extract_dws_signatures.py  # → derived/dws_native_signatures.json + internals/engine/native_primitives.md",
+      "sources": [
+        "derived/README.md:65"
+      ]
+    },
+    "5535760bae68ceedd8c3bae757a78932d565b2afd4d750ba31b4c3d318b2ddaf": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "if (standtime < 0.25) AND (weapon.kind ≠ cannister):\n    if (NOT bArtillery):\n        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles\n    else:\n        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:140"
+      ]
+    },
+    "57569af795c7cb15b7466b92146251e2ab087d04cd01e3545c2deea8e0dea555": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "editor/\n├── index.html\n├── README.md\n├── css/\n│   └── editor.css           # Dark theme with gold accents\n└── js/\n    ├── main.js              # Entry point and UI orchestrator\n    ├── data_loader.js       # fetch data.json + tech_tree.json + builder_slots.json\n    ├── pyodide_runner.js    # Pyodide bootstrap + simulate_in_memory\n    ├── build_order.js       # Model, LocalStorage, import/export\n    └── ui/\n        ├── i18n.js          # Localized names and resource icons\n        ├── catalog.js       # Per-nation building, unit, and upgrade selections\n        ├── action_form.js   # Inline action form\n        ├── action_list.js   # Action cards\n        └── charts.js        # Chart.js wrappers",
+      "sources": [
+        "editor/README.md:43"
+      ]
+    },
+    "599d5fd65082d7de2e5a8174532813d6d24c916dc93545a493f7df9010837733": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "variant A (saves and local replays):\n  b0 04 00 00 00 00 00 00 00 00\n\nvariant B (rated/online matches):\n  b0 04 <4B signature> 00 00 00 00\n                       ^^^^^^^^^^^ tail remains zero\n         ^^^^^^^^^^^^^ nonzero word, CONSTANT within one file",
+      "sources": [
+        "internals/data/replay_format.md:96"
+      ]
+    },
+    "5dd5d1eb84e324ce9ebf03a5a97df273445cf1739fd9ebe8bfcac216882a0698": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "searchdist += goHeight × 2     # ranged units only: minsearchdist > melee_radius",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:257"
+      ]
+    },
+    "5f98561c4dbe72f547e19bf0b46f7cf0365e80bfaf3a9bd6aec98b20c217e1ce": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "graph LR\n    ausaca[\"Academy<br/><code>ausaca</code>\"]\n    ausart[\"Artillery Depot<br/><code>ausart</code>\"]\n    ausba2[\"Barracks 18<br/><code>ausba2</code>\"]\n    ausbar[\"Barracks 17<br/><code>ausbar</code>\"]\n    ausbla[\"Blacksmith<br/><code>ausbla</code>\"]\n    auscen[\"Town Hall<br/><code>auscen</code>\"]\n    ausdip[\"Diplomatic Center<br/><code>ausdip</code>\"]\n    aushou[\"Housing<br/><code>aushou</code>\"]\n    aussta[\"Stable<br/><code>aussta</code>\"]\n    austem[\"Cathedral<br/><code>austem</code>\"]\n    eurcoa[\"Mine (coal)<br/><code>eurcoa</code>\"]\n    eurgol[\"Mine (gold)<br/><code>eurgol</code>\"]\n    euriro[\"Mine (iron)<br/><code>euriro</code>\"]\n    eurmar[\"Market<br/><code>eurmar</code>\"]\n    eurmil[\"Mill<br/><code>eurmil</code>\"]\n    eurpor[\"Shipyard<br/><code>eurpor</code>\"]\n    eursga[\"Gate<br/><code>eursga</code>\"]\n    eursto[\"Storehouse<br/><code>eursto</code>\"]\n    eurswa[\"Wall<br/><code>eurswa</code>\"]\n    eurtow[\"Tower<br/><code>eurtow</code>\"]\n    ukrwga[\"Gate<br/><code>ukrwga</code>\"]\n    ukrwwa[\"Palisade<br/><code>ukrwwa</code>\"]\n    ausbar --> ausaca\n    ausaca --> ausart\n    auscen_1{\"auscen.1<br/>(upgrade)\"}\n    auscen_1 --> ausba2\n    auscen -.-> auscen_1\n    ausbla --> ausbar\n    auscen --> ausbla\n    ausaca --> ausdip\n    auscen --> aushou\n    ausbla --> aussta\n    auscen --> austem\n    eurmil --> eurmar\n    eursto --> eurmar\n    eurmar --> eurpor\n    auscen --> eursto\n    eursto --> eurswa\n    eursto --> eurtow\n    eursto --> ukrwwa",
+      "sources": [
+        "docs/reports/tech/tech_tree.md:14"
+      ]
+    },
+    "601f6611bd9ed0736aae0b0c0ef5695dd968f2fd4fcc69c7895075f6356a07a1": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    if (gbool_peacemode) and (gametime > gfloat_peacetime)\n       and (not _net_IsReplay) and (not _net_IsClient) then\n    begin\n       gbool_peacemode := false;\n       // remove ptborder objects and enter wartime\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:341"
+      ]
+    },
+    "6165a3e99da6381f45af221e7b3d2507279aa348baaf5f5efd7c8f35f07fe369": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "target.hp += weapon.damage              # WITHOUT shield or protection\ntarget.hp := min(target.hp, target.maxhp)",
+      "sources": [
+        "docs/recon/world/combat/target_selection.md:377"
+      ]
+    },
+    "6494665b18ae535bb8eabe6fda2e04811245876ab37ce6c59eda2edb27fd9c56": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py                                       # current\ncp data.json /tmp/data_old.json\n# … patch the game …\npython parser/build_data.py                                       # new\npython writers/diff_snapshots.py /tmp/data_old.json data.json",
+      "sources": [
+        "parser/README.md:103"
+      ]
+    },
+    "663e22f5210ca3ea52edb74337e7e179fe4a630c5e64511f387f263d53efa020": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "ReadConstruct   (0x21)  Bool bFromServer\n                        Int  cid                 ← player's country index\n                        Str  sid                 ← building sid\n                        Float posx, posz\n                        Bool clrord\n                        Int  count\n                        Int[count] builder-uids\n\nReadNew         (0x0d)  Bool bFromServer\n                        Str  race, base\n                        Float posx, posz\n                        Int  cid                 ← cid≤0 → -cid = country;\n                                                   cid>0 → producing-building uid\n                        Int  uid, num\n\nReadNewP        (0x2d)  Bool bFromServer\n                        Str  race, base\n                        Float posx, posz, roll\n                        Int  plind, id, uid, num\n\nReadOrder       (0x17)  Int  ordtyp              ← see §5\n                        Int  taruid\n                        Bool clrord, locktrg\n                        Int  number\n                        Float posx, posz         ← only when ordtyp ∈ {5,6}\n                        Int[number] unit-uids\n\nReadProduce     (0x1b)  Int  proid               ← index in country.members[]\n                        Int  prcid               ← unit's country index\n                        Int  amount              ← -1 = infinite queue\n                        Bool state               ← start / cancel\n                        Int  count\n                        Int[count] building-uids\n\nReadUpgrade     (0x19)  Bool bFromServer\n                        Int  upgid               ← index in gCountry[cid].upgrade[]\n                        Bool state               ← start / cancel\n                        Int  count\n                        Int[count] building-uids\n\nReadApply       (0x23)  Int  plind, uid          ← target\n                        Int  cid, ind            ← gCountry[cid].upgrade[ind]",
+      "sources": [
+        "internals/data/replay_format.md:407"
+      ]
+    },
+    "682fd8707b52dd650fd63d9c79c7290a41cfd0665d6d519c03ebc2ff4f997b31": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "// unit.script — before a calculation that depends on an individual unit\nSetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));\n// sync multiplayer",
+      "sources": [
+        "internals/engine/rng_implementation.md:142"
+      ]
+    },
+    "6cce363cd1ebe9507b33cdcd60ef9e58e3e401f3265d00419d9e374959907a7d": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "RecordCustomReadBoolean   — 1 byte (any nonzero value = true)\nRecordCustomReadByte      — 1 byte\nRecordCustomReadWord      — 2 bytes LE\nRecordCustomReadSmallInt  — 2 bytes LE signed\nRecordCustomReadInt24     — 3 bytes LE signed\nRecordCustomReadInteger   — 4 bytes LE signed\nRecordCustomReadFloat     — 4 bytes LE IEEE-754\nRecordCustomReadString    — [u16 len LE][bytes]\nRecordCustomReadShortString — [u8 len][bytes]\nRecordCustomReadPackedFloat — 2-byte uint16 LE; decode = min + (raw/65535)*(max-min); min/max are not in the stream and come from the record context (see below)\nRecordCustomReadBit + RecordCustomBeginReadBitFields — for bit streams",
+      "sources": [
+        "internals/data/replay_format.md:209"
+      ]
+    },
+    "6ced11c7c49d83ee18d3ef36c6b66956ec8faae9f16d3e3f714657bf6b73e9af": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    procedure _misc_Collided(const hnd: Integer);\n    begin\n       if (_net_IsOffline or _net_IsServer) and not _net_IsReplay\n           and (GetGameObjectPlayableObjectByHandle(hnd)) then begin\n          var trg: integer = GetGameObjectStateCollisionObjectByHandle(hnd);\n          ...\n          if (gObjProp[TObj(pobj).cid][TObj(pobj).id].material = gc_obj_material_body)\n             and (gObjProp[TObj(pobj2).cid][TObj(pobj2).id].material = gc_obj_material_body) then\n          begin\n             if (GetGameObjectTrackPointMovementModeIntByHandle(hnd) <> 0) then\n             begin\n                var res : Integer = _unit_TryAttack(hnd, trg, false);\n                if (res<=gc_result_tryattack_outofrange) then begin\n                   if not isrunaway then begin\n                      if (orders[0].itype=attackobj) and (orders[0].info.trg<>trg) then\n                         _unit_SetOrderTrg(hnd, 0, trg, True)\n                      else\n                         _unit_OrderAttack(hnd, trg, True, False, False);\n                   end;\n                end;\n             end;\n             // and symmetrically for trg → hnd (if trg was also moving)\n          end;\n       end;\n    end;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:701"
+      ]
+    },
+    "6d18d5d28aa8862ba8fe9254d44ee7089379e593b222aa88d3c0f3cfc683674e": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "// classes.script:\ntype TLanSyncPlayerData = class\n    plind : Byte;\n    idlepeasants : Word;\n    idlemines : Word;\n    workersonres : array [0..gc_ResCount-1] of Word;\n\n    procedure WriteEconomyPackage(economyfieldstosync : Word);\n    begin\n        RecordCustomWriteByte(economyfieldstosync);\n        if (economyfieldstosync > 0) then\n        begin\n            RecordCustomWriteByte(plind);\n            if ((economyfieldstosync and (1 shl 0)) <> 0) then\n                RecordCustomWriteWord(idlepeasants);\n            // ... the other 7 fields use the same mask pattern\n        end;\n    end;\nend;",
+      "sources": [
+        "internals/engine/server_sync_packet_format.md:74"
+      ]
+    },
+    "6e5bc9ca60272f505c8aa42f6ced0038c69837d133395b5f8a3202304da65bc8": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "[LP]  \"GameMapRecordEnd\"\n[LP]  \"GameMapBegin\"\n[f64] elapsed_raw_s\n[u32] reserved0                  // 0 in the verified sample\n[LP]  project_name               // \"cossacks\"\n[LP]  project_path               // data\\projects\\project.main.prj\n[...] padding / unread fields\n[LP]  map_file                   // game_v....map\n[LP]  \"Default\"\n[LP]  \"Default\"\n[u32] map_width\n[u32] map_height\n[u32] map_flags\n[...] unread fields\n[LP]  menu_config                // .\\data\\gui\\menu.cfg\n[LP]  light                      // light0\n[LP]  \"InitMapGen\"\n[LP]  player_state               // playerN\n[LP]  \"GameMapEnd\"",
+      "sources": [
+        "internals/data/replay_format.md:652"
+      ]
+    },
+    "6e5c499b6e1e30db453eb5d5a64ad00f392ef5b13180888eb691790389d44e7c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# Option 1 — cross-platform Python runner:\npython scripts/regen.py                         # full regeneration\npython scripts/regen.py reference               # writers only\npython scripts/regen.py reports-combat          # docs/reports/combat only\npython scripts/regen.py help                    # list all targets\n\n# Option 2 — make:\nmake all          # = python scripts/regen.py all\nmake reference\nmake reports\nmake sanity       # parser + 112 sanity checks\nmake help",
+      "sources": [
+        "README.md:102"
+      ]
+    },
+    "6ec986c0a3ea6d6809037a966f9e691429351d944cba81fb34e00f8e5cb86e89": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# Environment: Python 3.11+; the project itself uses only the standard library.\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Verify that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks",
+      "sources": [
+        "CONTRIBUTING.md:12"
+      ]
+    },
+    "76e16e0fbfae62441e54dd23fea2d4d421f7c9bfa7122dae16f4d5ac88a09a7c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    gc_obj_media_land  : quadTree := TopologyGetPathQuadTree;     // 70 (path mode, without buildings?)\n    gc_obj_media_water : quadTree := TopologyGetTopologyQuadTree; // 90 (full-mode)",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:619"
+      ]
+    },
+    "7db46547a7f22e527179b267f237fd59bf3e350a9ae97b0aae1442958c1be1bf": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "costmodifier   = pow(costpercent / 100, count)         // count = already owned\nfinal_price[r] = floor(base_price[r] * costmodifier)   // calculated separately for F/W/S/G/I/C",
+      "sources": [
+        "docs/reports/economy/scaling_prices.md:9"
+      ]
+    },
+    "7fae5156cde2f4806cb93c3bca5dc61863f8fef8c7369cc0a404a08c3e96478c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "offset    layout\n0         u32 width                  // mask width in tile corners\n4         u32 height                 //\n8         u8[w*h] mask               // object-placement bitmask\n8+C       f32[w*h] heightmap         // hilliness\n...       padding\n...       rec[cells] (24 bytes)     // for each occupied cell:\n                                     //   u32 variant_id, f32 scale_x/y/z,\n                                     //   f32 reserved, u32 flags\n...       u8[cells*16] reserved",
+      "sources": [
+        "internals/data/file_formats.md:95"
+      ]
+    },
+    "8074619117b3d6e902b67e933b487b62b041ba40e56f6126f0ad36d66d76ed66": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "dlcs/\n├── summer/        Summer map (map data only)\n└── winter/        Winter map",
+      "sources": [
+        "internals/data/layout.md:167"
+      ]
+    },
+    "811d613141b0da7d707e022b7a9a6e6e0d1960629dd69f0a6991d49097148105": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "maxdisp = dist × disp × 0.0267         # in tiles\nshot_x  = target_x + (1 − random × 2) × maxdisp\nshot_z  = target_z + (1 − random × 2) × maxdisp",
+      "sources": [
+        "docs/recon/world/combat/target_selection.md:444"
+      ]
+    },
+    "87e98535b27027e7efa587d7fadc22a64b104398694a0b445801cf836e3cea30": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    type TMapSettingsAdditional = class\n       activeoption     : Integer;\n       startingunits    : Integer;   // starting unit / building set\n       balloon          : Integer;   // balloons\n       cannons          : Integer;   // cannons / walls / towers\n       peacetime        : Integer;   // peace time\n       century18        : Integer;   // advance to the 18th century\n       capture           : Integer;  // capture rules\n       marketdip        : Integer;   // Market / Diplomatic Center\n       teams            : Integer;   // ally placement\n       autosave         : Integer;\n       limit            : Integer;   // population limit\n       gamespeed        : Integer;   // game speed\n       adviserassistant : Integer;   // adviser\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:253"
+      ]
+    },
+    "881edfa43f8232713189a3b553a9458e1871779211d63ca9f738441f4c44342a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI enabled\n    SetGameObjectCIIntersectRadiusByHandle(colHnd, 0.35);  // 0.35 tiles\n    SetGameObjectCIMovableByHandle(colHnd, false);         // immovable\n    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — effectively infinite\n    SetGameObjectCIMaxDistKoefByHandle(colHnd, 2);\n    SetGameObjectCIDeltaStepByHandle(colHnd, 0.005);\n    SetGameObjectCIRotationSpeedByHandle(colHnd, 5);\n    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // buildings → 5°, units → 0\n    SetGameObjectCIEpsilonAngleByHandle(colHnd, 4);\n    SetGameObjectCIEpsilonShiftByHandle(colHnd, 0.001);\n    SetGameObjectCIEpsilonMoveByHandle(colHnd, 0.02);\n    SetGameObjectCIDistExtPointEpsilonByHandle(colHnd, 0.005);\n    SetGameObjectCIAvoidPointMaxAngleByHandle(colHnd, 120);\n    SetGameObjectCIMaxCollideCounterByHandle(colHnd, 7);",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:672"
+      ]
+    },
+    "8d52ddb566f981837ff526438cb9d6486073dc72333163ae21a0630f98cdfc37": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    for j:=rows-1 downto 0 do\n    for i:=cols-1 downto 0 do begin\n       var gohnd : Integer = GetGroupGameObjectHandleByGridColRow(grhnd, i, j);\n       if gohnd <> 0 then begin\n          // calculate the formation's target cell in world coordinates\n          x := posx + (i-cols/2+0.5) * minx * hdirx - (j+0.5) * miny * dirx;\n          y := posz + (i-cols/2+0.5) * minx * hdirz - (j+0.5) * miny * dirz;\n\n          // random dispersion within the unit radius (jitter)\n          var unitradius : Float = gObjProp[...].radius;\n          var dispradius : Float = unitradius*1.1;\n          var dispx : Float = (0.5-random)*dispradius;\n          VectorRotateY(dispx, dispy, dispz, random*360);\n          x := x+dispx;\n          y := y+dispz;\n\n          if not addord then _unit_ClearOrders(gohnd);\n          var pOrder : Pointer = _unit_OrderMove(gohnd, x, y, dirX, dirZ, mode, dofirst);\n          if (pOrder<>nil) then TOrder(pOrder).info.amount := gPathTag;\n       end;\n    end;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:820"
+      ]
+    },
+    "8dcb3842ca5940bfbb476ca0ffa906bd7b3005081da0e3a399cbcf6c32f4f794": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    var curtime : Float = GetCurrentTime;   // <-- REAL TIME, not game time!\n    if (curtime - gfloat_lan_lastsyncrestime) > 0.1 then\n    begin\n       gfloat_lan_lastsyncrestime := curtime;\n       ExecuteState('WriteRes');\n    end;\n    if (curtime - gfloat_lan_lastsyncstatstime) > 20 then\n    begin\n       gfloat_lan_lastsyncstatstime := curtime;\n       ExecuteState('WriteStats');\n    end;\n    if (curtime - gfloat_lan_lastsyncdatatime) > 0.1 then\n    begin\n       gfloat_lan_lastsyncdatatime := curtime;\n       gbool_net_forcesyncdata := true;\n       ExecuteState('WriteLanSyncData');\n    end;",
+      "sources": [
+        "internals/engine/server_sync_architecture.md:453"
+      ]
+    },
+    "9258fa263181c773cac507d6bdcbd8eb60f3c983b7c2b75f13aef8def9d455f5": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "data/scripts/\n├── dmscript.global           Global constants (.parser format)\n├── dmscript.source           Initial state of global variables\n├── common.aix                AI constants (binary)\n├── common.inc                ?\n├── resource.script           Top level: load locale\n├── env/env.inc               Environment variables\n├── lib/                      29 .script files — logic libraries\n│   ├── unit.script           (534 KB) — unit and building behavior\n│   ├── country.script        (342 KB) — nations, upgrades, roster\n│   ├── classes.script        (242 KB) — record types and helpers\n│   ├── miscext2.script       (198 KB) — advanced miscellaneous helpers\n│   ├── misc.script           (237 KB) — common helpers\n│   ├── gui.script            (162 KB) — UI logic\n│   ├── player.script         (138 KB) — player state\n│   ├── ai.script             ( 90 KB) — AI behavior\n│   ├── serial.script         ( 91 KB) — serialization\n│   ├── weapon.script         ( 66 KB) — weapons/projectiles\n│   ├── miscext.script        ( 70 KB)\n│   ├── movie.script          ( 45 KB) — cutscenes\n│   ├── scenario.script       (200 KB) — scenarios and campaign\n│   ├── control.script        ( 27 KB) — selection/commands\n│   ├── steam.script          ( 27 KB) — Steam wrapper\n│   ├── sound.script          ( 26 KB)\n│   ├── profile.script        ( 26 KB)\n│   ├── squad.script          ( 23 KB) — squads\n│   ├── ui.script             ( 22 KB)\n│   ├── pfx.script            ( 17 KB) — particles\n│   ├── res.script            ( 12 KB) — resources\n│   ├── map.script            ( 11 KB)\n│   ├── miscext3.script       ( 10 KB)\n│   ├── init.script           ( 10 KB) — initialization\n│   ├── scenarioeditor.script ( 10 KB)\n│   ├── net.script            (  6 KB) — multiplayer state\n│   ├── group.script          (  5 KB)\n│   ├── parser.script         (  2 KB) — DWS Parser wrapper\n├── misc/                     Additional .inc files\n├── progress/progress.inc\n├── units/<sid>/              Per-unit `.parser` configs\n├── user/user.inc\n└── env/env.inc",
+      "sources": [
+        "internals/scripts/structure.md:31"
+      ]
+    },
+    "948acd5b7514e7f513a1ccea62cc9314d2d40a367059b68f76a1bc142c047d21": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# Buy amount units of Y:\nweight = amount × 0.00002\nbuycost[Y]  ← (buycost[Y]  + buycostmax[Y]  × weight) / (1 + weight)\nsellcost[Y] ← (sellcost[Y] + sellcostmax[Y] × weight) / (1 + weight)\n\n# Sell amount units of X:\nweight = amount × 0.00002\nsellcost[X] ← (sellcost[X] + sellcostmin[X] × weight) / (1 + weight)\nbuycost[X]  ← (buycost[X]  + buycostmin[X]  × weight) / (1 + weight)",
+      "sources": [
+        "docs/reference/06_market/README.md:49"
+      ]
+    },
+    "95420d87a10e6c65739d064aa29ad2824ed67a6cb8f7ebe0cd97be48fe31bfc1": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    myForce := _ai_GetArmyForce(pArmy);\n    if (uCount > 200) or (myForce > 3800) then\n       myForce := 100000;\n    // otherwise myForce *= 8 (heavy) or *= 2 (light)\n    if (enForce > myForce) then ...retreat...",
+      "sources": [
+        "docs/recon/systems/ai_behavior.md:467"
+      ]
+    },
+    "9685bc8c8108c02a172f5b7894de253eeeb1b65c59ecdf00fd148b4a4cce22b1": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "bank_per_sec = 13 × 32 = 416       # per peasant per game second\nreal_per_sec = 416 / 250 ≈ 1.664   # resources per game second\nreal_per_min = 99.84               # ≈ 100 resources per game minute per peasant",
+      "sources": [
+        "docs/reference/01_economy/README.md:61"
+      ]
+    },
+    "976140b4ad199adae3d0c007f11a18f06459aba464719e943494b88e1f62e95c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "mods/<Mod Name>/\n├── README.md          ← rationale, installation, test protocol, limitations\n├── build.py           ← patcher: reads <game>/data/, applies patches, emits the mod directory\n├── .gitignore         ← at minimum: build/, __pycache__/\n├── src/\n│   └── mod.ini        ← metadata template for the C3 mod loader (not Steam Workshop)\n└── build/             ← generated build output, ignored by Git\n    └── <Mod Name>/\n        ├── mod.ini\n        └── data/...   ← mirrors the <game>/data/ structure",
+      "sources": [
+        "mods/README.md:17"
+      ]
+    },
+    "9c3849eef42018831639de77e2e5a9678cdaf81089fa56261ea66f151dfbed00": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "attpause := objbase.weapon[weapind].pause\nif individual.benabled and attpause > 0:\n    attpause *= individual.attackrate    ← percentage upgrades",
+      "sources": [
+        "internals/engine/animation_system.md:388"
+      ]
+    },
+    "9cee1014314a06e9bbdb38d9a0a9e32a3d790385fd67dcbc646922d23528c05c": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "docs_en/\n├── README.md              ← this catalog\n│\n├── reference/             ← generated canonical game reference\n│   ├── README.md          ← overview, index, and glossary\n│   ├── 01_economy/README.md … 07_naval/README.md  ← 7 topical chapters\n│   ├── nations/           ← 21 nation cheat sheets\n│   └── compare/           ← side-by-side unit and building comparisons\n│\n├── recon/                 ← in-depth, handwritten mechanics research\n│   ├── README.md          ← index and reading guide\n│   ├── world/\n│   │   ├── economy/       gathering, construction, capture, famine, queues, upgrades\n│   │   ├── combat/        damage, formations, target selection, towers, walls,\n│   │   │                  artillery, naval combat, vision, ranged-unit behavior\n│   │   └── map/           map generation and game settings\n│   └── systems/           ai_behavior, mercenaries_diplomacy, victory_conditions,\n│                          scenarios_and_triggers, ui_input_and_feedback\n│\n└── reports/               ← derived calculations grouped by topic\n    ├── README.md\n    ├── combat/            DPS, counter matrix, attack rates, vision, artillery\n    ├── economy/           scaling, builder_slots, construction, production, efficiency\n    ├── tech/              tech tree\n    ├── map/               map resources, starting layout, replay validation\n    └── nations/           overview, deviations",
+      "sources": [
+        "docs/README.md:21"
+      ]
+    },
+    "9df206a60a1f432dab7dba5f7a574d15c8b89675dd8634d800403a321bff4f8e": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "Standard Delphi RandSeed (32-bit)\n                        ↑\n                  Random  (Delphi 32-bit LCG: seed = seed * 0x8088405 + 1)\n                        (Randomize / direct System.RandSeed write — DWS does not expose it)\n\nExtended 64-bit seed\n                        ↑\n                  RandomExt  (64-bit LCG with its own constant pair)\n                        ↑\n                  SetRandomKey (sign-extend 32→64), SetRandomExtKey64 (full 64-bit)\n\nMapGenerator seed       (64-bit, separate storage in map state)\n                        ↑\n                  SetMapGeneratorRandomKey\n\nGlobalMapGenerator seed (64-bit, separate storage)\n                        ↑\n                  SetGlobalMapGeneratorRandomKey\n\n(Separate weather and cloud channels use the AirWeatherRandom family; not shown)",
+      "sources": [
+        "internals/engine/rng_implementation.md:202"
+      ]
+    },
+    "a7595361755edb04fffdac058256820753616191157b3c8c889d22349dbd189a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "offset  size  field\n------------------------------------------------------\n+0      1B    0x09                       — class\n+1      3B    u24 LE — global sequence counter (monotonic)\n+4      4B    u32 LE — record count\n+8      ?B    count variable-size records",
+      "sources": [
+        "internals/data/replay_format.md:164"
+      ]
+    },
+    "aace81293c015c15e81c3b7eb51c201f0fcf7cc554e8121336a6e0f2b12c7dee": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "parser/build_data.py            ← reads the game; emits data.json\nparser/build_canonical_terms.py ← reads locales; emits canonical_terms.json\nparser/parse_animations.py      ← independent (reads .aaf)\nparser/parse_generator_cfg.py   ← independent (reads .cfg)\nparser/parse_pattern_inventory  ← after parse_generator_cfg\nparser/parse_replay_aggregates  ← after parse_pattern_inventory\n\nwriters/write_md_tree.py        ← after data.json + canonical_terms.json\ncompute/compute_*.py            ← after data.json (+ selected derived/*.json)\ncompute/compute_game_settings   ← independent (reads locales directly)\nparser/build_tech_graph.py      ← after data.json (emits tech_tree.json)\ncompute/compute_tech_tree.py    ← after tech_tree.json (emits Markdown)\ncompute/validate_map_predictions← after replay_ground_truth + compute_map_resources\nsimulator/simulate_economy.py   ← after tech_tree.json",
+      "sources": [
+        "docs/architecture.md:205"
+      ]
+    },
+    "ab7d622c81b8fb95587553534bb72e10ba6925c1f09c6f91563faf7dd74f88bd": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    gc_top_TopologyPriority = 90;   // QuadTree priority for blockers (buildings, terrain)\n    gc_top_PathPriority     = 70;   // QuadTree priority for path search (without buildings, or fewer)\n    gc_top_WallPriority     = 95;   // dedicated wall priority\n    gc_top_WallQuadTree     = 2;\n    gc_top_UnitTick         = 50;   // used in gc_unit_TimeTopology\n    gc_top_GlobalTick       = 100;\n    gc_top_EffectDist       = 3;\n    gc_top_MaxUpdateAreas   = 500;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:519"
+      ]
+    },
+    "abc58e745b413ca290428f66957305a7c790ca4ff191fbbf97540c1b0f6e986a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "locale/\n├── english/\n│   ├── units.txt        Unit and building names\n│   ├── upgrades.txt     Upgrade names\n│   └── ...\n├── russian/\n└── ...",
+      "sources": [
+        "internals/data/layout.md:124"
+      ]
+    },
+    "b20a33ebc5b1b8401515ad936ffb2e8dea2aab6f0e82d676d42797a4c6d6e72d": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "1. If the unit is dead, exit.\n2. weapind := weapon index from statetag (gc_statetag_weapon_0/1/2 → 0/1/2).\n3. _unit_ApplyWeaponCost(myHnd, weapind)        ← deduct iron/coal/gold for the shot\n4. _unit_ApplyAttackPause(myHnd, weapind)        ← pause until the next cycle\n5. weaponid := objprop.weapon[weapind].weaponid\n   trgHnd := GetGameObjectSTOHandleByHandle(myHnd)  ← cached target\n6. If trgHnd ≠ 0:\n   a) weaponid == 0 (melee):\n      - Play the impact sound (sword/sabre/pike) via _unit_RequestPlaySound\n      - _misc_DoDamage(myHnd, trgHnd, damage, weapind, kind) ← immediate damage\n   b) propagation == immediate (canister, lightning):\n      - Apply _misc_DoDamage immediately\n      - Play the shot sound\n      - Spawn the fxshot effect (flash, smoke)\n   c) normal projectile:\n      - Spawn a projectile via CreatePlayerGameObjectHandleByHandle\n      - A separate projectile FSM handles its flight\n      - _misc_DoDamage runs on the '_OnTargetReached' event",
+      "sources": [
+        "internals/engine/animation_system.md:340"
+      ]
+    },
+    "b2cf82ebcb5e73749a5c705fbb18f2f83269b243ae868d7413b308f94a0d5d31": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    var bProcess : Boolean = not (_net_IsClient or _net_IsReplay);\n    if (bProcess) then\n    begin\n       // ... reduce resource HP\n       // ... credit the resource to the player\n       // ... calculate and apply damage\n    end;",
+      "sources": [
+        "internals/engine/server_sync_architecture.md:397"
+      ]
+    },
+    "b4703bf3557c4638f32e90450b5186bbcfa54e0be7b708f3f022d8ed2b697312": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    type TMapSettingsGen = class\n       randkey0      : Integer;   // RNG key for placement (mines / forests / stones)\n       randkey1      : Integer;   // RNG key for relief / terrain\n       mapsize       : Integer;   // 0..3 — size\n       terraintype   : Integer;   // 0..9 — terrain / water type\n       relieftype    : Integer;   // 0..5 — relief type\n       resourcestart : Integer;   // 0..3 — starting resources\n       resourcemines : Integer;   // 0..2 — mine density\n       season        : Integer;   // 0..3 — season / decoration\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:238"
+      ]
+    },
+    "bcb29000ad3f21c203db37491e2e609b9745f92fd8e43be6f98a26e8c6efff47": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "type TLanSyncData = class\n    playerstosync : Word;                                    // bitmask: players included in the packet\n    economyfieldstosync : array [0..11] of Byte;             // fields included for each player\n    netplayer : array [0..11] of TLanSyncPlayerData;\nend;",
+      "sources": [
+        "internals/engine/server_sync_packet_format.md:100"
+      ]
+    },
+    "c3590bb98d978f097dfd68a9a68d9f2e6261ed5764674b58af9a9caf0bdf7c8d": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "make diff   # snapshot data.json, regenerate, write diff.md",
+      "sources": [
+        "README.md:149"
+      ]
+    },
+    "c3ad8ca5409e2dddc6a0e81c75076de1fa63c1e0245abd2bab3b5be002c6069f": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    TObj(pobj2).hp <= 0:\n       gPlayer[plInd].counter.scores += TObjProp(pobjprop2).score * 2;\n       // plus all units inside the building (garrison)\n       gPlayer[plInd].counter.scores += gObjProp[..].score * 3;",
+      "sources": [
+        "docs/recon/systems/victory_conditions.md:418"
+      ]
+    },
+    "c4c04ddfc2c3ed2bbfc604b3cfc8659fba2224dbd0a5456f440853656a5154c5": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python scripts/regen.py all              # complete rebuild\npython scripts/regen.py reference        # writers only\npython scripts/regen.py reports-combat   # combat reports only\npython scripts/regen.py help             # all targets",
+      "sources": [
+        "docs/architecture.md:225"
+      ]
+    },
+    "c69ea4595a00970a2d9951225d2c5eed080f77bcda29a364e5ad80fa4e657832": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "mods/Deterministic Cossacks/\n├── README.md\n├── build.py           ← patcher\n├── src/\n│   └── mod.ini        ← metadata\n└── build/             ← generated build output (ignored by Git)\n    └── Deterministic Cossacks/\n        ├── mod.ini\n        └── data/scripts/lib/\n            ├── misc.script\n            ├── miscext2.script\n            └── unit.script",
+      "sources": [
+        "mods/Deterministic Cossacks/README.md:228"
+      ]
+    },
+    "ca97aece3aa84418e9c320b29a694b8a138776829e039c560fea41d861f40fd7": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    addtime := (0.125*plInd)+gc_global_TimeCheckExists*4   // active\n    addtime := (0.125*plInd)+gc_global_TimeCheckExists*12  // inactive\n    ...\n    if (gMap.bbattle) then gPlayer[plind].bexists := True\n    else\n       var farmused := gPlayer[plInd].counter.farmused;\n       if (farmused>0) and (farmused<100) then ...\n       else\n       gPlayer[plind].bexists := (farmused>0);",
+      "sources": [
+        "docs/recon/systems/victory_conditions.md:369"
+      ]
+    },
+    "cd1af067f0af51f809bc66dffb564953e504a6d2b71d43ec05f161aa5663332a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm\n   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // event concerns the player\n      if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum\n         alarm fire",
+      "sources": [
+        "docs/recon/systems/ui_input_and_feedback.md:254"
+      ]
+    },
+    "ce6c5076d6401b539e465d33bd09191dbb24513c9c17206f7f6921c013a3e0a8": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    SetRandomKey(floor(random * gc_MaxInt)); // line 11528 — seed the PRNG with random\n    if (disp > 0) then\n       _weapon_CalcShotDispertion(...);   // uses RandomExt, now reproducible from the seed\n    TPlayerArgs(parg).frnd := RandomExt; // line 11554 — save seed for server replication",
+      "sources": [
+        "internals/engine/determinism_audit.md:522"
+      ]
+    },
+    "ce877727a76c43a13f178be337e648b1a9ccad76b9a8537170ac10fa8f1d7135": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python scripts/regen.py reference        # writers only\npython scripts/regen.py reports-economy  # economy reports only\npython scripts/regen.py sanity           # parser + 112 automatic checks\npython scripts/regen.py help             # list all targets",
+      "sources": [
+        "docs/README.md:87"
+      ]
+    },
+    "d2863d104e88e4efa506d2a0e750a5faaa34b24fba8acbdb3842709a28df9028": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "+--- Header (~168 KB) -------------------------------------+\n| OSWMap13 + Build.Ver[X.Y.Z.NNNN] + UID                   |\n| GameMapSnapShotBegin                                     |\n|   [BMP, ~145 KB — map preview]                           |\n| GameMapSnapShotEnd                                       |\n| GameMapRecordBegin                                       |\n|   <key,value> pairs in text format:                      |\n|     maskname, mapsize, relieftype, randkey0, randkey1,   |\n|     terraintype, season, gamespeed, resourcemines,       |\n|     limit, ver, ...                                      |\n+--- Body ---------------------------------------------- ---+\n| Entry stream with timestamps and payloads:               |\n|   entry[0]:   ts=0,         payload = initial-world      |\n|                              snapshot (units, resources) |\n|   entry[1+]:  ts > 0 ticks, payload = one or more        |\n|                              sub-packages                |\n| GameMapRecordEnd                                         |\n+----------------------------------------------------------+\n| GameMapBegin + f64 elapsed_raw_s + map metadata          |\n| map_file + width/height + init-state + GameMapEnd         |\n+----------------------------------------------------------+",
+      "sources": [
+        "internals/data/replay_format.md:27"
+      ]
+    },
+    "d9085b8285d5fc3848569d498e80d360ce37427cfa4f883e64a45cfb1fcccf56": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# List the available native synchronization functions\npython -c \"import json; d=json.load(open('derived/dws_native_signatures.json',encoding='utf-8')); print('\\n'.join(s['raw'] for s in d['signatures'] if 'record' in s['name'].lower() or 'serial' in s['name'].lower()))\"\n\n# Find where and how scripts call them\ngrep -rn -E 'RecordCustom|ParserSet.*ValueByKey' \"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Cossacks 3\\data\\scripts\"",
+      "sources": [
+        "internals/engine/server_sync_packet_format.md:229"
+      ]
+    },
+    "db4c6d0333645c9a68a30df2ddac4eba2dd21fd23a44e1f59a2667ec1b7c685d": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    procedure _misc_CheckCapture(goHnd):\n      pobj      := target object\n      scangrid  := its scan-grid cell\n      bneutral  := (not gbool_peacemode) or (owner-of-grid <> my pl)\n      if not bneutral: return                          // skip during peace time when the nearby grid is ours\n\n      bwall    := pobjprop.bwall\n      enemyplmask := gPlayer[my pl].enemyplmask\n      rx1 := floor(214/4) + 1 = 54  → scan radius in grid cells\n      capturePlMask := bneutral ? enemyPlMask : myPlMask-of-grid-owner\n\n      // -------- Step 1: find a capturer --------\n      bcapture := False; capturerCount := 0; bblockshot := False\n      for each grid cell within rx1 of scangrid:\n        if the cell contains enemyplmask units:\n          trgHnd := bwall ? _unit_SearchCapturersForWall(...) : _unit_SearchCapturers(...)\n          if trgHnd != 0:\n             pobjprop2 = ObjProp(trgHnd)\n             // Walls accept any enemy non-building (even a peasant);\n             // normal buildings accept only a bcancapture unit that is not on water.\n             if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):\n                distSqr := (px-tx)² + (py-ty)²\n                if distSqr < captureradiusSqr (≈4.013² tile):\n                   bcapture := True\n                   capturerCount += 1\n                   capturerHnd := trgHnd\n                   if distSqr < captureblockshotradiusSqr (3² tile):\n                      bblockshot := True\n\n      // _unit_SearchCapturers finds a unit satisfying:\n      //   not bbuilding && bcancapture && (myplmask & plmask)<>0\n      //                                   && pl <> mercenaryInd\n      // _unit_SearchCapturersForWall is the same WITHOUT the bcancapture requirement\n      //   (that is, any enemy infantry can break, or \"capture,\" a wall);\n      //   capture here effectively means wall death (bDie=True below).\n\n      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------\n      if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):\n\n         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),\n         //     suppress building fire for 100 frames (≈3.125 game sec):\n         if usage<>peasant and bblockshot:\n            attackdelay := max(attackdelay, 100*gc_frames_to_time)\n\n         // 2b. Find protectors within protectionradius (~7.99 tiles)\n         rx2 := floor(426/4) + 1\n         for grid cells within rx2 (only cells containing my myplmask units):\n            trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector\n                                                    && not bbuilding && (myplmask & plmask)=0\n            if trgHnd != 0:\n               if not pobjprop2.bcapture:\n                  if distSqr < protectionradiusSqr:\n                     bcapture := False; protectorsCount += 1; (but the loop continues)\n\n         // 2c. AI artillery logic: when the target is bartillery, pl=AI,\n         //     and there are too many protectors, commit suicide:\n         if gPlayer[my pl].bai and pobjprop.bartillery:\n            if (capCount>=protCount and protCount=1) or\n               (capCount>3 and protCount=2)        or\n               (capCount>7 and protCount=3)        or\n               (capCount>10 and protCount=4):\n               if (not bEasy) or (random>0.5):\n                  SetTagStates(goHnd, essential_death); exit\n\n      // -------- Step 3: apply capture --------\n      if bcapture:\n         statetag := GetGameObjectStatesTag(goHnd)\n         // A visible unit that has not spawned yet (essential_birth) simply dies:\n         if not bbuilding and (essential_birth & statetag) and (not visual_hide):\n            SetTagStates(essential_death); exit\n\n         if (statetag & visual_hide) = 0:\n            if bbuilding or (essential_none & statetag) <> 0:\n               bDie := False; bAutoKill := False  // bAutoKill is not assigned explicitly in the code\n               if bAutoKill or pobjprop.bwall:\n                  bDie := True                    // WALLS always die; they are never transferred\n\n               if not bbuilding:\n                  _unit_Stop(goHnd)\n               else:\n                  cancel produce/upgrade orders;  ClearOrders;  SetSTO=0\n\n               newPlHnd := capturer's player;  newPlInd := that player's index\n\n               // Alarm event for the captured player:\n               if my pl == InterfaceIO_pl:\n                  _misc_DoAlarm(capturerHnd, goHnd, alarmevent_capture)\n\n               // ---- AI capturer: sometimes destroys instead of capturing ----\n               if gPlayer[my pl].bai:        // AI loses the building\n                  if bbuilding:\n                     if random > 0.25:        // 75% chance of entering destruction\n                        if bbuilt and pobjprop.bslowdeath and hp>1999:\n                           hp := 1999 - floor(RandomExt*300)   // slow death\n                        else:\n                           bDie := True\n                  else:                       // peasant/artillery unit\n                     if usage=peasant and not bEasy:\n                        bDie := True          // hard+: AI destroys its peasant before capture\n                     else case usage of\n                        supermortar: if random>0.585     then bDie := True   // ≈41.5% suicide\n                        cannon:      if random>0.391     then bDie := True   // ≈60.9% suicide\n                        mortar:      if random>0.141     then bDie := True   // ≈85.9% suicide\n                        peasant:     if random>0.547     then bDie := True   // ≈45.3% when bEasy\n               else if gPlayer[newPlInd].bai and usage=peasant and not bEasy:\n                  bDie := True                 // inverse case: an AI capturer \"kills\" the peasant on hard\n\n               if bDie: SetTagStates(essential_death)\n               else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:432"
+      ]
+    },
+    "de15f7aa06ab4f1bfa07e68655f6969ca9d51eaf2bfc1b81af4dcfdcf391ec2a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    gc_formation_maxcount      = 160;   // maximum units per squad\n    gc_formation_maskmaxwidth  = 54;\n    gc_formation_maskmaxheight = 24;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:848"
+      ]
+    },
+    "dfb95d833089c29eca3c082096763a743477f23191835c0b908122fc5cf79bce": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "per_unit_resconsume_food = consume.food          # from the case branch in unit.script\n                         + gc_obj_foodperunit    # = 30 when !bnohungry and !bbuilding",
+      "sources": [
+        "docs/recon/world/economy/hunger_and_rebellion.md:123"
+      ]
+    },
+    "e39af67883f64ea4e30882b97b17223c32461b2711fe87eb828061f684672ce6": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)\nReference points:  center to center (game-object position X/Z)\nDistance:          in tiles (1 tile = 53.333 px)\ncaptureradius      ≈ 4.0125 tiles ≈ 1.6 m at game scale (1 tile = 0.5 m? see determinism)\n                   = 214 px game-source units\ncaptureblockshot   = 3.0 tiles    (suppresses the target's fire)\nprotectionradius   ≈ 7.987 tiles  (protector zone; cancels capture)",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:332"
+      ]
+    },
+    "e3a8749067788d267a85bc75ff0c84cbbd6d47bc1c40a9c6ae6db82be693a3da": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "rate_per_trip = portion × eff / 100             # resource per trip\ntime_per_trip_game = hitsneeded × t_hit_game    # game seconds\nrate = rate_per_trip / time_per_trip_game       # resource per game second",
+      "sources": [
+        "docs/recon/world/economy/peasant_extraction.md:227"
+      ]
+    },
+    "e647f174c5a89efb894bc52dcfb3b970ecbc5fc91643098a6e3da9f1b60b229b": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "for i := 0 to gc_ResCount-1:\n   if weapon[weapind].cost[i] > 0:\n      if gPlayer[plInd].res[i] >= weapon[weapind].cost[i]:\n         res[i] -= weapon[weapind].cost[i]\n      else:\n         res[i] := 0  ← if the player has less, deduct the remainder",
+      "sources": [
+        "internals/engine/animation_system.md:412"
+      ]
+    },
+    "e72d57acc455871e922a6ab4a3c8ee20e21dc1e79c1a80eb2af57503a490e4a6": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "0 capture_default            — all eligible objects can be captured (peasants, infantry, artillery)\n1 capture_nopeasants         — peasants cannot be captured (default deathmatch + battles)\n2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured\n3 capture_onlyartillery      — only artillery can be captured",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:49"
+      ]
+    },
+    "e7b064a45f5047258d458e4eb4e45d2764e27084fabd3a270a481ea63ee68a36": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "HP        = 62000\nspeed     = 28\ntransport = 120    (infantry/cavalry capacity slots)\nbuildtime = 56.0 game sec (40.0 real sec @ fast)\ncost      = 300 W / 50 G / 100 I\nweapon    = none (cannot attack)\nvision    = 24 t",
+      "sources": [
+        "docs/reference/07_naval/README.md:80"
+      ]
+    },
+    "e89effa0a00bc96bf949df7d8bfc3f3a4e89dab049e82d5f9d76595d09e4d592": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "Town Hall (cen) built\n    + Academy (<nat>aca) built\n    + Cathedral (<nat>tem) built\n    + Artillery Depot (<nat>art) built\n        ↓\nresearch <nat>cen.1 at the Town Hall\n    cost ≈ 30 000 F + 5 000 G + 2 000 I + 2 000 C\n    time = 9.38 game sec\n        ↓\nyou can now build <nat>ba2 (18th-century Barracks)\n    cost ≈ 1 700 W + 2 950 S + 4 000 G\n    buildtime = 5625 game sec\n        ↓\nba2 produces: musketeer18, pikeman18, grenadier, dragoon18,\n              special 18th-century infantry",
+      "sources": [
+        "docs/recon/world/economy/upgrades_application.md:217"
+      ]
+    },
+    "ea8d41aedc8e35ceb0e4e10dffebb5008a4064244471c040121478b29bc16068": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "cd c:\\projects\\other\\cossacks\npython parser\\engine_recon\\dump_exe_strings.py\n# → derived/exe_strings.json (delphi_class_names field)",
+      "sources": [
+        "internals/engine/rtti_class_map.md:309"
+      ]
+    },
+    "ecf6c324c84e0700ff02578b84b78857fcf801029e9e17c0a765d5c7a0a44222": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "              ┌───────────────────────────┐\n              │  Game files (Steam)       │\n              │  data/scripts/lib/*.script│\n              │  data/scripts/dmscript.*  │\n              │  data/locale/<lang>/*.txt │\n              └──────────────┬────────────┘\n                             │\n                             ▼\n                ┌─────────────────────────┐\n                │  parser/build_data.py   │  ← extracts EVERYTHING\n                │  (orchestrator)         │\n                └────┬────────────────────┘\n                     │\n                     ▼\n              ┌──────────────────┐\n              │  data.json       │  ← single source of truth (~4.7 MB, top-level)\n              └────┬─────────────┘\n                   │\n   ┌───────────────┼─────────────────────────┐\n   ▼               ▼                         ▼\nwriters/        compute/                  simulator/\nwrite_md_tree   compute_scaling           simulate_economy\n                compute_map_resources\n                compute_tech_tree\n                compute_construction_times\n\n  parser/engine_recon/ → ../derived/{dws_native_signatures, engine_primitives, exe_strings}.json\n                       (feeds internals/engine/*; independent of data.json)",
+      "sources": [
+        "parser/README.md:19"
+      ]
+    },
+    "ed3973d396a2e99601757fa1fe039b12736221efc65c278b4e6660b8ff19ec52": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "[wall][wall][wall]   ← a 3-tile line",
+      "sources": [
+        "docs/recon/world/combat/walls_and_gates.md:82"
+      ]
+    },
+    "ee081c54938001255f864e0c675a05e814956685cc78dd82fa81f7c203888327": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "flowchart TD\n    Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}\n    Peace -- yes --> Stop1[exit: check disabled]\n    Peace -- no --> Step1[Step 1: find a capturer]\n    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]\n    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}\n    Found -- no --> Stop2[exit: bcapture = False]\n    Found -- yes --> Step2[Step 2: find protectors]\n    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]\n    Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}\n    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]\n    Prot -- no --> Step3[Step 3: apply capture]\n    Step3 --> Type{Target type}\n    Type -- wall --> Die1[bDie = True<br/>wall is destroyed]\n    Type -- building --> AICheck{AI capturer<br/>and random &gt; 0.25?}\n    AICheck -- yes --> Die2[bDie = True<br/>AI destroys building]\n    AICheck -- no --> Change[ChangePlayer<br/>building + garrison]\n    Type -- unit --> Change\n    Change --> Done[Done]\n    Die1 --> Done\n    Die2 --> Done",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:123"
+      ]
+    },
+    "f1a7f1754665e31daf01e45ad939a4aa5320a596288b20931297170d6aa0dd29": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "gPlayer[pl].counter.resincome[i] += produce[i]   # +13 for each worker who entered",
+      "sources": [
+        "docs/recon/world/economy/peasant_extraction.md:348"
+      ]
+    },
+    "f660d976228ed2f727b51fab2e9d84cfecd08a56446d17b2c09fd8cb6d79e15a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    function _misc_GetPeaceTime(ind : Integer) : Float;\n    begin\n       case ind of\n          0  : Result := 0;     // No peace time\n          1  : Result := 10;    // 10 minutes\n          2  : Result := 20;\n          3  : Result := 30;\n          4  : Result := 45;\n          5  : Result := 60;\n          6  : Result := 90;\n          7  : Result := 120;\n          8  : Result := 180;\n          9  : Result := 240;\n          11 : Result := 15;\n       end;\n       Result := Result * 60;   // convert to game seconds\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:308"
+      ]
+    },
+    "f69bd0574bdb1da70523eb2a339edbc0e29f9109d079ce384f032e33d5189d89": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    117: if (gWaterPathList.GetCount>0) and ((gGOPathList.GetCount=0) or (gProgress.progresstick mod 2=0)) then\n    118:    pList := gWaterPathList; landPath := false;\n    123: else\n    124:    pList := gGOPathList; landPath := true;\n    128:\n    129: var count : Integer = TIntegerList(pList).GetCount;\n    130: if (count>0) then begin\n    131:    TopologyClearPathGameObjects;\n    132:    for i := 0 to count-1 do begin\n    135:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    144:       TopologyAddPathGameObjectByHandle(goHnd);\n    149:       if TObjProp(pObjProp).media = gc_obj_media_land then\n    150:          SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)   // squad id for group cost\n    151:       else\n    152:          SetGameObjectTagFloatByHandle(goHnd, -1);\n    153:    end;\n    155:    _misc_ProfilerBegin('progress.GetPath');\n    157:    if landPath then\n    158:       TopologyGetPath\n    159:    else begin\n    161:       var quadTree : Integer = TopologyGetTopologyQuadTree;\n    162:       TopologyGetPathExt(quadTree, gc_collisiontag_water, gc_TestPriorityOption_Water);\n    163:    end;\n    165:    _misc_ProfilerEnd('progress.GetPath');\n    167:    for i:=0 to count-1 do begin\n    169:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    171:       var noPath : Boolean = (GetGameObjectTrackPointCountByHandle(goHnd) = 0);\n    177:       TObj(pobj).bpathrequested := False;\n           ...     // insert building exit points, turn transport ramps away, etc.\n    307:       DoSetupMoveAnimation(goHnd);\n    308:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 0);\n    309:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 1);\n           ...\n    322:    TIntegerList(pList).Clear;\n    323: end;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:568"
+      ]
+    },
+    "f75b88ac955ec03010573acffb417e2a21d0c6773ac2cb1a6937f4a7382b0bf9": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": ".\n├── data.json                master data (~5.7 MB; downstream source of truth)\n├── derived/                 machine-readable JSON datasets and engine RE dumps\n├── parser/                  game .script parsers → data.json\n│   └── engine_recon/        extractors for the DWS native API, RTTI, and primitives\n├── compute/                 derived calculations → docs/reports/<topic>/\n├── writers/                 data.json → Markdown plus prose templates\n├── simulator/               timeline economy simulator used through Pyodide\n├── editor/                  browser-based build-order editor\n├── mods/                    mods, each with build.py + src/ + build/\n├── scripts/                 pipeline runner (regen.py)\n│\n├── docs/                    Russian player documentation\n├── docs_en/                 English player documentation\n│   ├── reference/           canonical reference, nations, and comparisons\n│   ├── recon/               handwritten mechanics research\n│   └── reports/             generated combat, economy, tech, map, and nation reports\n│\n├── internals/               Russian technical documentation\n└── internals_en/            English technical documentation\n    ├── engine/              cossacks.exe, DWS, RNG, synchronization, ticks, animations\n    ├── scripts/             data/scripts/* load order and entry points\n    └── data/                data/ directory layout and file formats",
+      "sources": [
+        "README.md:47"
+      ]
+    },
+    "f98a2be92044d474d72ab17b0f6c0019bb81c0dc2114dc531c288c70b70920c9": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "*(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR the mask into the current byte\n*(byte *)(stream + 0x15) <<= 1;                         // mask <<= 1",
+      "sources": [
+        "internals/data/replay_format.md:266"
+      ]
+    },
+    "fcea9d294346158acc2bc8762dbea71ec69d9e1435a4bdc9586045a2a681224a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:169"
+      ]
+    },
+    "fd8cc416e0ad40c34535393aa01427be1f2ac514d4ba122ddaa0b46a094018f5": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "sum = 18 × (32 + 30) = 1116\nfood / g-sec = 1116 × 32 / 20000 ≈ 1.786\nover 120 game sec ≈ 214 food   ✓",
+      "sources": [
+        "docs/recon/world/economy/hunger_and_rebellion.md:139"
+      ]
+    }
+  }
+}

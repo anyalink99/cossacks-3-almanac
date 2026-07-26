@@ -77,6 +77,7 @@ Used in **four** mechanics simultaneously:
 Details - in
 [`recon/world/combat/combat_damage_pipeline.md`](../../recon/world/combat/combat_damage_pipeline.md)
 and [`ranged_units_behavior.md`](../../recon/world/combat/ranged_units_behavior.md).
+<a id="скорости-юнитов"></a>
 ## Unit speeds
 
 Basic `gc_obj_speed_*` from `dmscript.global:603-620`. **Abstract units** (not tiles/sec). The actual speed in tiles/sec depends on animation `walkInterval`, `walkintervalfactor` and game speed. Translation requires empirical measurement.
@@ -103,6 +104,7 @@ Basic `gc_obj_speed_*` from `dmscript.global:603-620`. **Abstract units** (not t
 
 **Law:** relative values. fasthorse(96) ≈ ×3 from cannon(20). peasant(40) in the middle. The slowest are battleship/multicannon (16).
 
+<a id="офицеры-и-формации"></a>
 ## Officers and formations
 
 Each nation has N groups of officers. One officer leads the **formation** of certain units (usually infantry/cavalry of the same class). Formations are standard for everyone:
@@ -113,6 +115,7 @@ The larger the formation, the stronger the bonuses (attack, defense, morale).
 
 Full tables of officers → sections in [nations/](../nations/README.md) for each nation.
 
+<a id="матрица-контр-эффективности-приближённый-ttk"></a>
 ## Counter-effectiveness matrix (approximate TTK)
 
 For each pair (attacking class, defending class) - **approximate time to kill** (time-to-kill, TTK) in **game seconds** at 1v1, excluding formations, movement, misses and shield bonuses of units.
@@ -143,6 +146,7 @@ TTK = target.HP / DPS
 | Cannons | `cannon` (Cannon) | 1800 | 10.94 | cannonball | `cannon` (Cannon) | 9000 | 75 |
 | Mortars | `howitzer` (Howitzer) | 4000 | 18.75 | cannonball | `howitzer` (Howitzer) | 3000 | 75 |
 
+<a id="матрица-контр-эффективности--ttk-в-g-сек"></a>
 ### Counter-effectiveness matrix - TTK in g-sec
 
 Strings = **attacker**. Columns = **defending**. Cell = TTK (game-sec). Green/low = attacker kills quickly; red/high = defender stands for a long time.
@@ -165,6 +169,7 @@ Strings = **attacker**. Columns = **defending**. Cell = TTK (game-sec). Green/lo
 
 **Reading:** bold means a quick kill (TTK <1 sec); italics means almost no damage (TTK >100 sec).
 
+<a id="матрица-контр-эффективности-с-поправкой-на-промахи-пулистрелы"></a>
 ### Counter-effectiveness matrix adjusted for misses (bullets/arrows)
 
 For bullet/arrow attackers, the TTK is higher due to **scatter**: at a distance of 15 t, the musketeer hits only ~33% of shots (see section Scatter). Here TTK is multiplied by the miss rate:

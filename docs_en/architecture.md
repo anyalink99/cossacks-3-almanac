@@ -1,8 +1,10 @@
+<a id="архитектура-проекта"></a>
 # Project architecture
 
 How data moves from the game files to the markdown reference. Helpful
 read before adding a new report or editing the generator.
 
+<a id="поток-данных"></a>
 ## Data flow
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -109,6 +111,7 @@ read before adding a new report or editing the generator.
 │     of the engine (RNG, sync, ticks, animation system, RTTI).    │
 └─────────────────────────────────────────────────────────────────┘
 ```
+<a id="принципы"></a>
 ## Principles
 
 1. **One source of truth per level:**
@@ -140,8 +143,10 @@ read before adding a new report or editing the generator.
 5. **Sanity checks.** `parser/build_data.py` runs 112 auto-checks for
    every launch. Any regression after the patch is immediately visible.
 
+<a id="где-что-лежит"></a>
 ## Where is it?
 
+<a id="код"></a>
 ### Code
 
 | Folder | Destination |
@@ -155,6 +160,7 @@ read before adding a new report or editing the generator.
 | `mods/` | Game mods (each - `build.py` patcher + assembly). |
 | `scripts/` | Pipeline-runner (`regen.py`). |
 
+<a id="документация"></a>
 ### Documentation
 
 | Folder | What's inside | Source |
@@ -169,8 +175,10 @@ read before adding a new report or editing the generator.
 | `docs/known_issues*.md` | Parser gaps, discrepancies, open questions. | **Handwritten.** Archive - `known_issues_archive.md`. |
 | `docs/architecture.md` | This file. | **Handwritten.** |
 
+<a id="расширение-pipeline"></a>
 ## Extending the pipeline
 
+<a id="добавить-новый-отчёт"></a>
 ### Add a new report
 
 1. Create `compute/compute_<topic>.py` based on its neighbors (`compute_*.py`).
@@ -182,6 +190,7 @@ read before adding a new report or editing the generator.
 4. If the report needs to be shown in [`docs/README.md`](README.md), enter it in
    list (this file is not auto-gen).
 
+<a id="добавить-новый-json-датасет"></a>
 ### Add a new JSON dataset
 
 1. Create a parser in `parser/parse_<X>.py` or extractor in
@@ -191,6 +200,7 @@ read before adding a new report or editing the generator.
 4. Add to `scripts/regen.py` (target `derived` or corresponding
    `reports-*`).
 
+<a id="добавить-нацию-теоретически"></a>
 ### Add a nation (theoretically)
 
 Not provided: the list of nations is embedded in the game locale (`data/locale/*/units.txt`)
@@ -198,6 +208,7 @@ and in `country.script`. After the patch with the new nation we need to expand
 `PLAYABLE_NATIONS` to `parser/config.py`, rerun
 `parser/build_canonical_terms.py` and `parser/build_data.py`.
 
+<a id="регенерация--порядок-зависимостей"></a>
 ## Regeneration - dependency order
 ```
 parser/build_data.py            ← reads the game; emits data.json

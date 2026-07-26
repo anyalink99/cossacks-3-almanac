@@ -96,6 +96,7 @@ immediately, upgrades to “processes” - only to new ones.
 
 ---
 
+<a id="3-прерывание-апгрейда"></a>
 ## 3. Aborting the upgrade
 
 The player can cancel an ongoing upgrade through the UI of the building where he
@@ -114,6 +115,7 @@ defense
 
 ---
 
+<a id="4-аддитивная-композиция-eff"></a>
 ## 4. Additive composition (`eff`)
 
 Unlike many RTS, Cossacks 3 has effects `efficiency`
@@ -134,6 +136,7 @@ See [`peasant_extraction.md` §4](peasant_extraction.md) for details.
 
 ---
 
+<a id="5-цели-апгрейда-targets"></a>
 ## 5. Upgrade goals (`targets`)
 
 `targets` determines **who** the upgrade applies to. Possible
@@ -157,6 +160,7 @@ parameters:
 
 ---
 
+<a id="6-priceperc-и-buildtimeperc"></a>
 ## 6. `priceperc` and `buildtimeperc`
 
 Two special types of upgrades with an effect on the economy:
@@ -187,6 +191,7 @@ ends with old time.
 
 ---
 
+<a id="7-лимиты-и-переисследование"></a>
 ## 7. Limits and re-examination
 
 In the standard game, each upgrade is researched **once** and forever.
@@ -206,29 +211,31 @@ dragoons" - upgrade for only one sid.
 
 ---
 
+<a id="75-эпохальный-переход-17--18-век"></a>
 ## 7.5. Epochal transition 17th → 18th century
 
 In Cossacks 3 advance to the 18th century is **not a timer and not an “age”
 era in the spirit of AoE**, and one particular upgrade in the City Center with
 heavy prerequisites.
 
+<a id="751-цепочка"></a>
 ### 7.5.1. Chain
 ```
-Town Hall (cen) построена
-    + Academy (<nat>aca) построена
-    + Cathedral (<nat>tem) построен
-    + Artillery Depot (<nat>art) построен
+Town Hall (cen) built
+    + Academy (<nat>aca) built
+    + Cathedral (<nat>tem) built
+    + Artillery Depot (<nat>art) built
         ↓
-исследуй <nat>cen.1 в Городском центре
+research <nat>cen.1 at the Town Hall
     cost ≈ 30 000 F + 5 000 G + 2 000 I + 2 000 C
     time = 9.38 game sec
         ↓
-теперь можно строить <nat>ba2 (Barracks 18 в.)
+you can now build <nat>ba2 (18th-century Barracks)
     cost ≈ 1 700 W + 2 950 S + 4 000 G
     buildtime = 5625 game sec
         ↓
-ba2 производит: musketeer18, pikeman18, grenadier, dragoon18,
-                 особая 18 в. пехота
+ba2 produces: musketeer18, pikeman18, grenadier, dragoon18,
+              special 18th-century infantry
 ```
 **The bottleneck is the building prerequisites**, not the upgrade itself. Urban
 center + Academy + Cathedral + Artillery Depot cost in total
@@ -238,6 +245,7 @@ a total of several thousand game seconds with one builder per
 each building (with a standard team of 6–8 builders
 will be reduced several times).
 
+<a id="752-кто-заперт-в-17-веке"></a>
 ### 7.5.2. Who's locked up in the 17th century
 
 Three nations do not have `<nat>ba2`:
@@ -253,6 +261,7 @@ suffix `18` or `kind = Grenadier` - for these three nations
 **missing**. They compensate for the absence of the 18th century. unique
 units of the 17th century. (Janissaries, Mamelukes, Cossacks, etc.).
 
+<a id="753-что-даёт-cen1-для-апгрейдов-академии"></a>
 ### 7.5.3. What does `<nat>cen.1` give for academy upgrades
 
 After researching `<nat>cen.1`, the academy opens
@@ -262,6 +271,7 @@ for AI: this flag puts the AI opponent into the 18-eternal phase
 production. See [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)
 §“Build order” (phases 7–9).
 
+<a id="754-стратегические-выводы"></a>
 ### 7.5.4. Strategic Conclusions
 
 - **`cen.1` itself is cheap and fast.** The bottleneck is to assemble
@@ -278,6 +288,7 @@ production. See [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)
 
 ---
 
+<a id="76-математика-применения-порядок-и-комбинирование"></a>
 ## 7.6. Application Mathematics: Order and Combination
 
 **Main observation:** in Cossacks 3 the order of upgrade research
@@ -295,6 +306,7 @@ unchanged base** (`damageinit`) using a formula that takes only
 summary state, not previous value. Accumulative chain
 “one step → next step” is not here.
 
+<a id="761-урон-damage-flat-и-damage-"></a>
 ### 7.6.1. Damage (`+damage` flat and `+damage %`)
 
 **three** fields are stored: `damageinit` (base), `damagestatic` (amount
@@ -313,34 +325,39 @@ Example: base 10, bonuses `+5` and `+25 %`. It will work in both orders
 `(10 + 5) × 1.25 = 18.75` vs `(10 × 1.25) + 5 = 17.5` - then
 there is a difference that Cossacks doesn't have.
 
+<a id="762-защита-protection-shield-оба-только-flat"></a>
 ### 7.6.2. Protection (`protection`, `shield`, both flat only)
 
 `protection[kind] += value`; `shield += value`. Net amount -
 the order doesn't matter.
 
+<a id="763-hp-юнита-lifeperc-"></a>
 ### 7.6.3. Unit HP (`lifeperc`, %)
 
 `maxhp = round(maxhp × (1 + value / 100))`. Cumulative multiplication
 commutative (`H · (1 + a) · (1 + b) = H · (1 + b) · (1 + a)`).
 The order is not important (up to rounding, see below).
 
+<a id="764-эффективность-добычи-effectfoodwoodstone--perc"></a>
 ### 7.6.4. Production efficiency (`effectfood/wood/stone` + `…perc`)
 
 The same array `resefficiency[res]` (base = 100). All four
 variants (`flat` / `perc`) do **the same thing**:
 ```
 resefficiency[res] := resefficiency[res] + round(value);
-                                          // перцент-варианты тоже += value, не *=
+                                          // percentage variants also use += value, not *=
 ```
 That is, the sum of all vals, the order does not matter. **Nuance:** flat and %
 here are indistinguishable - both are added. Multiplier `resefficiency / 100`
 then applied in the extraction formula (`_unit_GetPeasantResPortion`).
 
+<a id="765-жизнь-поля-fieldlifeperc-"></a>
 ### 7.6.5. Life of the field (`fieldlifeperc`, %)
 
 `fieldlife += value`. Additive (not multiplicative). Order
 indifferent.
 
+<a id="766-время-постройки-buildtimeperc-"></a>
 ### 7.6.6. Construction time (`buildtimeperc`, %)
 
 `buildtime *= (1 + value / (100 × 100000))` - cumulative
@@ -348,11 +365,13 @@ multiplication, commutative. Strange divisor `100 × 100000`
 explains storing val as `−7500000` for −75% (see note
 about scale at the beginning of the document).
 
+<a id="767-скорострельность--дальность--разлёт-attpauseperc-attrangeperc-attdispertionperc"></a>
 ### 7.6.7. Rate of fire / range / expansion (`attpauseperc`, `attrangeperc`, `attdispertionperc`)
 
 All types `field *= (1 + value / 100)` - cumulative multiplication,
 commutative.
 
+<a id="768-цена-priceperc-"></a>
 ### 7.6.8. Price (`priceperc`, %)
 
 `price[j] = round(price[j] × (1 + value / 100))`. Multiplication
@@ -360,12 +379,14 @@ commutative, but `round()` after each step **may** give
 ±1 difference for different orders. In practice, several `priceperc`
 on one object almost do not intersect.
 
+<a id="769-рыболовство-fishingperc-"></a>
 ### 7.6.9. Fishing (`fishingperc`, %)
 
 `fishingmax = round(fishingmax × (1 + value / 100))` - the same
 situation: theoretically ±1 of the order due to rounding, on
 In practice, there is one upgrade per boat.
 
+<a id="7610-скорость-движения-speedperc---аномалия"></a>
 ### 7.6.10. Movement speed (`speedperc`, %) - **anomaly**
 
 `gc_upg_type_speedperc` [^om4] instead of the usual
@@ -379,6 +400,7 @@ does not appear in the current version only because it exists in the data
 ship speed +40%), it cannot be reapplied
 (`upgstate.done := True` blocks).
 
+<a id="7611-сводная-таблица"></a>
 ### 7.6.11. Pivot table
 
 | `itype` | Accumulation | Does it depend on the order? |
@@ -395,6 +417,7 @@ ship speed +40%), it cannot be reapplied
 | `fishingperc` (%) | `= round(· × (1 + val/100))` | Rounding only (±1) |
 | `speedperc` (%) | `speed = 1 / (speed × (1 + val/100))` | **Yes, but there is only one upgrade in the data** |
 
+<a id="7612-практический-вывод"></a>
 ### 7.6.12. Practical conclusion
 
 **Upgrades can be purchased in any convenient order - final performance characteristics
@@ -414,6 +437,7 @@ researched upgrades, not history.
 
 ---
 
+<a id="8-tech-tree-и-prerequisites"></a>
 ## 8. Tech tree and prerequisites
 Each upgrade has `prerequisites` - what is needed to open
 it in the UI:

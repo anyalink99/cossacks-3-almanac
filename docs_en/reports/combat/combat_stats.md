@@ -2,6 +2,7 @@
 
 **Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).
 
+<a id="формула-урона"></a>
 ## Damage formula
 
 Damage calculation is done in `_misc_DoDamage` [^1]. Briefly:
@@ -12,6 +13,7 @@ target.hp     -= applied_damage
 `gc_settings_gamespeed_2 = 14` (fast). Game-time → real-time: `×1.4`. 
 Real DPS = game-DPS × game_speed.
 
+<a id="1-сводная-таблица-боевых-юнитов"></a>
 ## §1. Summary table of combat units
 
 Grouping: one line for each unique set of stats. Column **Nations** - where this unit with these stats is available (`all 21` = in all). If a unit has different values ​​for different nations (for example, `pikemanpol` has half the armor of the standard) - these are different lines.
@@ -212,6 +214,7 @@ Only units that have at least one protection value ≠ 0 are included (the filte
 | `musketeerspa` | **spa** Spain | Shooter | 85 | — | 12.1 | 10.6 | 17.0 | 85.0 | 28.3 | 85.0 |
 | `musketeeraus` | **aus** Austria | Shooter | 55 | — | 6.9 | 6.9 | 11.0 | 55.0 | 11.0 | 55.0 |
 
+<a id="4-замечания-и-оговорки"></a>
 ## §4. Notes and Disclaimers
 
 - **Melee weapons (pause = 0)** - DPS does not count. In the code, melee damage is dealt by an animation frame trigger (`onaclanimationreachedwork`), cycle ~25-32 frames ≈ 1 hit/g-sec. The exact value requires empirical measurement (FPS of animations has not been empirically confirmed).
@@ -227,6 +230,7 @@ Generated from `data.json`. For regeneration:
 ```
 python compute/compute_combat_stats.py
 ```
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

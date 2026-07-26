@@ -1,3 +1,4 @@
+<a id="cossacks-3--тренажёр-стратегий-v02"></a>
 # Cossacks 3 - Strategy Trainer (v0.2)
 
 **English** · [Русский](README.md)
@@ -9,6 +10,7 @@
 
 Browser build order editor. Loads game data from `data.json` and runs the economy simulator (`simulator/simulate_economy.py`) directly in the browser via Pyodide.
 
+<a id="что-умеет"></a>
 ## What he can do
 
 - ✅ **Completely in Russian.** All UI elements, names of nations/buildings/units/upgrades from the game localization.
@@ -24,6 +26,7 @@ Browser build order editor. Loads game data from `data.json` and runs the econom
 - ✅ **Save/load** in LocalStorage, JSON export/import is CLI compatible.
 - ✅ **Adaptive layout** - on narrow screens, a two-column layout is collapsed into one.
 
+<a id="как-запустить"></a>
 ## How to run
 
 At the root of the repository:
@@ -36,6 +39,7 @@ Open `http://localhost:8000/editor/`.
 
 First load ~5-10 sec (Pyodide ~6MB is cached by the browser). Then instantly.
 
+<a id="структура"></a>
 ## Structure
 ```
 editor/
@@ -57,6 +61,7 @@ editor/
 ```
 `simulator/simulate_economy.py` has the function `simulate_in_memory(build_order, data, tree, slots) → dict`, the same engine as for the CLI, without file IO.
 
+<a id="что-не-работает-план--projectvisualeditorphase1concretemd"></a>
 ## What does NOT work (plan - `project_visual_editor_phase1_concrete.md`)
 
 - ❌ Editing an already added action - for now only deleting + adding again.

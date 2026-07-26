@@ -400,6 +400,7 @@ See separate mod plan document (TBD).
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
@@ -502,10 +503,10 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```
 [^28]: Body `_unit_DoProjectile` (seeding `random` → calculation `RandomExt` → saving seed in `frnd`) - `lib/unit.script:11518-11554`:
     ```pascal
-    SetRandomKey(floor(random * gc_MaxInt)); // line 11528 — сидируем PRNG значением random
+    SetRandomKey(floor(random * gc_MaxInt)); // line 11528 — seed the PRNG with random
     if (disp > 0) then
-       _weapon_CalcShotDispertion(...);   // использует RandomExt, теперь воспроизводимый от seed
-    TPlayerArgs(parg).frnd := RandomExt; // line 11554 — сохраняем seed для серверной репликации
+       _weapon_CalcShotDispertion(...);   // uses RandomExt, now reproducible from the seed
+    TPlayerArgs(parg).frnd := RandomExt; // line 11554 — save seed for server replication
     ```
 [^29]: Init global timers `gProgress.last*time` via `random` - `lib/miscext.script:1891-1898`.
 

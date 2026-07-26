@@ -49,7 +49,16 @@ class NoMixedAlphabet(unittest.TestCase):
                 if path.suffix not in EXTENSIONS or path in SKIP:
                     continue
                 text = path.read_text(encoding="utf-8")
-                for m in WORD_RE.finditer(text):
+                # English mirrors retain source-language heading slugs as
+                # hidden compatibility anchors. A slug such as `writerов`
+                # must stay byte-for-byte compatible with old links and is
+                # not reader-visible prose.
+                visible_text = re.sub(
+                    r'<a\s+id="[^"]*"\s*></a>',
+                    lambda match: " " * len(match.group(0)),
+                    text,
+                )
+                for m in WORD_RE.finditer(visible_text):
                     w = m.group(0)
                     if has_mixed_alphabet(w):
                         line_no = text.count("\n", 0, m.start()) + 1

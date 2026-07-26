@@ -1,3 +1,4 @@
+<a id="артиллерия--сводный-справочник"></a>
 # Artillery - summary reference book
 
 **Derived** file (calculated, not extracted). Counted from [`data.json`](../../../data.json) as script [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
@@ -14,6 +15,7 @@ Contents:
 - [§4. Park limit from the Artillery depot](#4-лимит-парка-от-артиллерийского-депо)
 - [§5. Notes and cross-references](#5-заметки-и-cross-references)
 
+<a id="1-каталог-и-боевые-статы"></a>
 ## §1. Catalog and combat stats
 
 One line for a unique set of stats for the main weapon - if a nation has a different stat, it is placed in a separate line. Column **Preparation** = `bartprepare`: delay animation before each shot, fixed in the script, but the exact duration in `data.json` was not extracted and is not given here. **Pause** - cold reload after a shot (`weapon.pause` in g-sec). **Accuracy** — `weapon.dispertion` in pixels and tiles; less = more accurate. Radius - `weapon.radiusmax` (tiles); `radiusmin` is shown if the unit has a melee deadzone.
@@ -28,6 +30,7 @@ One line for a unique set of stats for the main weapon - if a nation has a diffe
 
 Column **DPS, g-sec** is `damage / pause`, excluding formation bonuses (artillery does not have its own formations), AoE cap and target protection. The real crowd output is usually lower due to `AoE damage cap = floor(1 + (r/0.35)²)` (see [`recon/world/combat/combat_damage_pipeline.md` §6.5](../../recon/world/combat/combat_damage_pipeline.md)).
 
+<a id="2-стоимость-одного-выстрела"></a>
 ## §2. Cost of one shot
 
 `weapon[i].cost[gc_resource_type_*]` - resources that are written off at the moment of the shot (and not for each pause interval). Zero means that a particular resource is not wasted; for mortars the coefficient `coal` is gunpowder, for cannons `iron + coal` is cannonball + gunpowder. `multicannon` (buckshot case) may not have a price, because its barrel is not assigned `weapon.cost` in the script.
@@ -82,6 +85,7 @@ In other words, to roll out a full mortar battalion of 30 pieces, you need three
 | ukr | 40000 | 0 / 4250 / 4400 / 100 / 0 / 1400 | 245.94 | 200 |
 | tur | 40000 | 0 / 500 / 1200 / 0 / 0 / 1400 | 245.94 | 200 |
 
+<a id="5-заметки-и-cross-references"></a>
 ## §5. Notes and cross-references
 
 - **Preparation before shooting.** `bartprepare = True` means that a long animation is played before each shot. The behavior of the engine when issuing a shooting order is `_unit_TryAttackPoint` [^9]. The exact preparation duration is taken from the `.aaf` animation of the `attack0` unit; in `data.json` it is not extracted. For evaluation purposes, we use `weapon.pause` as a “cold reload” on top of any animation delays.
@@ -97,6 +101,7 @@ In other words, to roll out a full mortar battalion of 30 pieces, you need three
 - **`bartprepare` and `attack-move`.** Artillery with `bartprepare = True` receives the order `gc_obj_order_type_attackpoint` through `_player_OrderUnitsToAttackPoint` [^13] - this is shooting at a coordinate, not at a specific target. The behavior for non-artillery units is different - they move with `move_mode_attack`. Details - [`recon/world/target_selection.md`](../../recon/world/combat/target_selection.md) §5.
 
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

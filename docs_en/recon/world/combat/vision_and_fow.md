@@ -1,3 +1,4 @@
+<a id="recon-обзор-и-туман-войны"></a>
 # Recon: review and fog of war
 
 Deep analysis: how is the viewing radius of each unit calculated, how
@@ -28,6 +29,7 @@ general overview of the allies. All links to the code are in
 
 ---
 
+<a id="1-радиус-обзора-каждого-юнита"></a>
 ## 1. View radius of each unit
 
 Source - procedure `_unit_GetVision`, which the engine calls
@@ -65,6 +67,7 @@ opens up a noticeably larger area than her own
 `searchradius = 26.25` tile (see.
 [`towers.md` §2.2](towers.md)).
 
+<a id="2-условия-выдачи-обзора"></a>
 ## 2. Conditions for issuing a review
 
 The object gives an overview only if all conditions are true:
@@ -80,6 +83,7 @@ If any condition is violated - `res := 0`. That is, the construction of a tower
 completed and the defense built inside - 8-vision reveals it
 large space.
 
+<a id="3-снаряды-разведчики-fogreveal"></a>
 ## 3. Scout shells (`fogreveal`)
 
 A special case is shells with the tag `fogreveal` (property

@@ -58,26 +58,31 @@ _France_
 | **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 | **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
 
+<a id="юниты-по-классам"></a>
 ## Units by class
 
+<a id="крестьяне"></a>
 ### Peasants
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Peasant** `peaeng` | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | shared(5n) |
 
+<a id="пикинёры-17-в"></a>
 ### Pikemen (17th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 17th century** `pikeman` | 90 | 4.5 | 25 | 3 | 20 | 8 | 1.88 | 0.0 | shared(13n) |
 
+<a id="пикинёры-18-в"></a>
 ### Pikemen (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 18th century** `pikeman18` | 85 | 1.25 | 30 | 2 | 0 | 9 | 1.88 | 0.0 | shared(16n) |
 
+<a id="лёгкая-пехота"></a>
 ### Light Infantry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -85,18 +90,21 @@ _France_
 | **Light Infantryman (mercenary)** `lightinfantrydip` | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | common |
 | **Roundshier (mercenary)** `roundshierdip` | 75 | 1.5 | 0 | 12 | 0 | 6 | 1.13 | 0.0 | common |
 
+<a id="мушкетёры-17-в"></a>
 ### Musketeers (17th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Musketeer, 17th century** `musketeer` | 70 | 6.0 | 45 | 6 | 5 | 12 | 15.0 | 4.69 | shared(11n) |
 
+<a id="мушкетёры-18-в"></a>
 ### Musketeers (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Musketeer, 18th century** `musketeer18` | 100 | 4.5 | 50 | 40 | 40 | 16 | 16.88 | 4.69 | shared(13n) |
 
+<a id="гренадёры"></a>
 ### Grenadiers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -104,6 +112,7 @@ _France_
 | **Grenadier** `grenadier` | 120 | 6.0 | 80 | 60 | 40 | 16 | 16.88 | 5.31 | shared(13n) |
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
+<a id="лучники"></a>
 ### Archerand
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -111,12 +120,14 @@ _France_
 | **Archer (mercenary)** `archerdip` | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | common |
 | **Turkish archer (mercenary)** `archerturdip` | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | common |
 
+<a id="особая-пехота-18-в"></a>
 ### Special infantry (18th century)
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Chasseur** `chasseur` | 75 | 7.5 | 50 | 45 | 15 | 20 | 19.69 | 5.94 | unique |
 
+<a id="лёгкая-кавалерия"></a>
 ### Light Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -124,6 +135,7 @@ _France_
 | **Hussar** `hussar` | 230 | 15.0 | 70 | 20 | 2 | 12 | 1.22 | 0.0 | shared(14n) |
 | **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
+<a id="драгуны"></a>
 ### Dragoons
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -131,6 +143,7 @@ _France_
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 | **Dragoon, 18th century** `dragoon18fra` | 140 | 15.0 | 50 | 30 | 6 | 10 | 15.0 | 4.69 | unique |
 
+<a id="тяжёлая-кавалерия"></a>
 ### Heavy Cavalry
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -140,6 +153,7 @@ _France_
 | **King's Musketeer** `kingmusketeer` | 280 | 27.0 | 100 | 100 | 8 | 43 | 13.13 | 6.88 | unique |
 | **Reiter** `reiter` | 300 | 24.0 | 120 | 10 | 40 | 15 | 1.22 | 0.0 | shared(14n) |
 
+<a id="пушки"></a>
 ### Cannons
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -147,6 +161,7 @@ _France_
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 | **Multi-barrelled Cannon** `multicannon` | 2000 | 50.0 | 0 | 400 | 250 | 500 | 13.13 | 1.88 | shared(17n) |
 
+<a id="мортиры"></a>
 ### Mortars
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -154,12 +169,14 @@ _France_
 | **Howitzer** `howitzer` | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | common |
 | **Bombard** `mortar` | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | common |
 
+<a id="рыбацкие-лодки"></a>
 ### Fishing boats
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Boat** `fishboat` | 300 | 40.0 | 0 | 0 | 0 | — | — | — | common |
 
+<a id="военные-корабли"></a>
 ### Warships
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -170,6 +187,7 @@ _France_
 | **Galley** `galley` | 35000 | 50.0 | 0 | 900 | 800 | 1000 | 58.13 | 1.56 | common |
 | **Yacht** `yacht` | 31000 | 48.0 | 0 | 450 | 150 | 1000 | 20.63 | 10.94 | common |
 
+<a id="офицеры"></a>
 ### Officers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -177,6 +195,7 @@ _France_
 | **Officer, 17th century** `officer` | 125 | 10.0 | 50 | 150 | 30 | 30 | 1.22 | 0.0 | shared(16n) |
 | **Officer, 18th century** `officer18` | 125 | 6.0 | 50 | 200 | 10 | 50 | 1.22 | 0.0 | shared(17n) |
 
+<a id="барабанщики-и-волынщики"></a>
 ### Drummer, 17th centuryand pipers
 
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
@@ -184,6 +203,7 @@ _France_
 | **Drummer, 17th century** `drummer` | 75 | 5.0 | 60 | 20 | 0 | — | — | — | shared(16n) |
 | **Drummer, 18th century** `drummer18` | 100 | 6.0 | 50 | 30 | 0 | — | — | — | shared(16n) |
 
+<a id="священники"></a>
 ### Priests
 | Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|

@@ -8,10 +8,12 @@
 > - [`../../recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) - what appears on the map (forests, stones, mines) and where exactly
 > - [`../../reports/map/map_resources.md`](../../reports/map/map_resources.md) - counting resources on the standard map Tiny + Highlands + Rich (~109 large trees, ~33 stones, up to 12 mines / player)
 
+<a id="резюме"></a>
 ## Summary
 
 One peasant per trip brings `delivered = (portion × eff) / 100`. `eff` starts at 100, upgrades accumulate additively. The mines work according to a different scheme: each peasant inside adds 13 to `gPlayer.counter.resincome`, the real speed is 1.664 resources per game second.
 
+<a id="глобальные-константы"></a>
 ## Global constants
 
 | Parameter | Meaning | Source |
@@ -29,6 +31,7 @@ One peasant per trip brings `delivered = (portion × eff) / 100`. `eff` starts a
 
 All lobby options (starting resources, peace time, population limit, advance to the 18th century, AI difficulty, etc.) - tables in [`docs/reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md), engine behavior - in [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
+<a id="базовые-порции-и-hits"></a>
 ## Basic portions and hits
 
 | Resource | Basic portion | Hits | Source |
@@ -38,6 +41,7 @@ All lobby options (starting resources, peace time, population limit, advance to 
 | stone | **40** | 20 | dmscript.global:801,806 |
 | gold/iron/coal/other | **20** | n/a | unit.script:9551 (hardcode) |
 
+<a id="формула-добычи"></a>
 ## Extraction formula
 ```
 delivered = (base_portion × eff) / 100   # integer division
@@ -46,19 +50,21 @@ Example: with upgrades academy.1 (+40% food) and mill.1 (+140% food) → `eff = 
 
 All efficiency upgrades are applied in one branch `_player_ApplyUpgrade` [^1]; their complete list is in [05_upgrades/README.md](../05_upgrades/README.md#economy-eff).
 
+<a id="источники"></a>
 ## Sources
 
 [^1]: Applying `gc_upg_type_effect*perc` to `resefficiency[res]` - `lib/player.script:1813-1828`.
 
+<a id="шахты-goldironcoal"></a>
 ## Mines (gold/iron/coal)
 
 Mine: HP = 2500, `buildtime` = 300 frames = 9.38 g-sec, price W100 / S100, `peasantabsorber = 5` (5 peasants max. base). Each peasant inside adds 13 to `produce[restype]`.
 
 **Calculation:**
 ```
-bank_per_sec = 13 × 32 = 416   # на крестьянина в игровую секунду
-real_per_sec = 416 / 250 ≈ 1.664   # ресурса в игровую секунду
-real_per_min = 99.84            # ≈ 100 ресурса в игровую минуту на крестьянина
+bank_per_sec = 13 × 32 = 416       # per peasant per game second
+real_per_sec = 416 / 250 ≈ 1.664   # resources per game second
+real_per_min = 99.84               # ≈ 100 resources per game minute per peasant
 ```
 **Full pumping of one mine** (6 upgrades):
 
@@ -75,6 +81,7 @@ real_per_min = 99.84            # ≈ 100 ресурса в игровую ми�
 
 **Cost of full pumping of one mine:** F104,550 + G80,950.
 
+<a id="поле-food-fieldlife-регенерация"></a>
 ## Field (food, fieldlife, regeneration)
 
 HP fields = `gc_FieldMaxHP = 25000`. Field damage per hit: `resdec = max(1, floor(100 / (1 + fieldlife / 100)))`.
@@ -89,16 +96,19 @@ HP fields = `gc_FieldMaxHP = 25000`. Field damage per hit: `resdec = max(1, floo
 
 Fieldlife upgrades: `aca.4` (+200), `bla.1` (+100). Amount = 300 → ~2045 food / field.
 
+<a id="корабли--fishing"></a>
 ## Ships - fishing
 
 `fishboat`: HP = 300, price W600, `fishingmax = 1000` (base), `fishingspeed = 50/4 = 12` ticks per fish. Upgrade `aca.5` (`+100% boat efficiency`) doubles the carrying capacity → **2000 food / flight**. The upgrade `aca.7` (`-85% fishing boat cost`) reduces the cost of construction.
 
 The full list of ships is in [compare/units/ships.md](../compare/units/ships.md).
 
+<a id="голод-и-бунт--таблицы-upkeep"></a>
 ## Hunger and Riot - upkeep tables
 
 > **Full analysis of the mechanics:** [`../../recon/world/economy/hunger_and_rebellion.md`](../../recon/world/economy/hunger_and_rebellion.md) (RNG difficulty thresholds, virtual mercenary player, defensive strategies). Diplomatic Center and mercenaries as a **system** - [`../../recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
 
+<a id="расход-food--g-сек-на-одного-юнита"></a>
 ### Food consumption / g-sec per unit
 
 Formula: `food_per_g_sec = (consume.food + 30) × 32 / 20000`, if
@@ -117,6 +127,7 @@ additional portion for each eating unit.
 
 The exact value of `bnohungry` for each unit is in [`data.json`](../../../data.json), field `bnohungry`. Briefly: buildings and mercenaries (`bmercenary = True`) - `True`; peasants, regular infantry/cavalry, officers/drummers/priests - `False`.
 
+<a id="дипломатический-центр"></a>
 ### Diplomatic Center
 
 Mid-game building, requires **Academy** + Town Hall.
@@ -130,6 +141,7 @@ Mid-game building, requires **Academy** + Town Hall.
 
 For everyone: `buildtime = 1000` frames = **312.5 g-sec**, `costpercent = 100`, `bcapture = False`. According to localization - “you can only build one Diplomatic Center per player” (GUI limitation, not `costpercent`).
 
+<a id="каталог-наёмников"></a>
 ### Mercenary Catalog
 8 sid, the roster is the same for **all 21 nations**. Price and upkeep in gold; `bnohungry = True` (food is not consumed).
 

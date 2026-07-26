@@ -1,3 +1,4 @@
+<a id="оценка-ресурсов-карты--tiny-256256--highlands--шахты-rich"></a>
 # Map resource assessment - Tiny (256×256) + Highlands + Rich mines
 
 **Derived** document. Counted from `compute/compute_map_resources.py`. Regeneration: `python compute/compute_map_resources.py`.
@@ -6,6 +7,7 @@ Per-type placement rates **empirically calibrated** for 10 sample replays (Tiny+
 
 **Settings:** `mapsize = 3` (Tiny, 256 × 256 = 65536 tiles), `relieftype = 3` (Highlands), `resourcemines = 2` (Rich), `foreststype = 0`. Decoding of meanings and canonical Russian names - [`lobby_settings.md`](lobby_settings.md). The engine behavior for each option is [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
+<a id="1-модификаторы-вероятности-паттернов-оценка"></a>
 ## 1. Pattern probability modifiers (evaluation)
 
 Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water (Land terrain - almost open field):
@@ -19,6 +21,7 @@ Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water
 
 ⚠ The simulation assumes that the water is one contiguous block, rather than scattered pixels.
 
+<a id="2-плотности-после-умножения-на-вероятность"></a>
 ## 2. Densities after multiplication by probability
 
 | Var | base | ×prob | final density | needed = floor(area × density) |
@@ -29,6 +32,7 @@ Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water
 | stn1 | 0.000160 | × probsmall = 1.853 | 0.000296 | 19 |
 | stn2 | 0.000120 | × probsmall = 1.853 | 0.000222 | 14 |
 
+<a id="3-запросы-паттернов-на-вызов"></a>
 ## 3. Pattern requests (per call)
 
 Each forest density is distributed into N different forest types (foreststype=0 → 4 big / 3 mid / 2 small types). Column **placement rate** — empirically calibrated per-type (for homogeneous Tiny+Land+Highlands bucket); for unknown types - fallback default `placement_success`.
@@ -49,6 +53,7 @@ Each forest density is distributed into N different forest types (foreststype=0 
 
 **Where are placement rates taken from:** empirically from 10 replay samples (Tiny+Land+Highlands+4pl_nowater bucket). The size of the pattern footprint (mask cells) is the main factor: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. Methodology and complete table - `recon/map_generation_pipeline.md` §14. For non-Tiny/non-Highlands settings the numbers should be different - calibration is not extrapolated.
 
+<a id="4-всего-кластеров-оценка"></a>
 ## 4. Total clusters (estimate)
 
 - Big forest clusters: **~25**
@@ -56,6 +61,7 @@ Each forest density is distributed into N different forest types (foreststype=0 
 - Small forest clusters: **~13**
 - Stone clusters: **~19**
 
+<a id="5-деревья-и-камни--per-pattern-type"></a>
 ## 5. Trees and stones - per pattern type
 Numbers = median of `mask=1` cells for each pattern type from `derived/pattern_type_stats.json` (parser: `parser/parse_pattern_inventory.py`, mapping pattern→type from `data/game/var/generator.cfg`). Hypothesis: 1 mask cell = 1 tree (confirmed on brushes; for mines mask = footprint, not objects - see caveat).
 

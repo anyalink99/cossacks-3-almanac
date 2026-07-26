@@ -1,3 +1,4 @@
+<a id="recon-настройки-лобби--что-движок-делает-с-каждой-опцией"></a>
 # Recon: lobby settings - what the engine does with each option
 
 This document is **handwritten reverse-engineering** of how the Cossacks 3 engine works
@@ -15,6 +16,7 @@ these values, what flags are set, what game mechanics
 turn on. All links to code and Pascal blocks are collected in the section
 [Sources](#sources) at the end of the document.
 
+<a id="1-структура-tmapsettings"></a>
 ## 1. Structure `TMapSettings`
 
 The root structure contains two fields: `gen` and `additional` [^1]. `gen` decides
@@ -34,6 +36,7 @@ Numerical values and human names - in
 [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md). Here - what
 This is what the engine reads.
 
+<a id="2-что-движок-делает-с-gen-параметрами"></a>
 ## 2. What the engine does with `gen` parameters
 
 | Field | Where is it used | What does |
@@ -50,6 +53,7 @@ This is what the engine reads.
 > `terraintype = 0` (Land) the engine immediately rewrites it as `0` [^13].
 > On non-Land maps the selection works.
 
+<a id="3-что-движок-делает-с-additional-параметрами"></a>
 ## 3. What does the engine do with `additional` parameters
 <a id="31-startingunits--стартовая-армия"></a>
 ### 3.1 `startingunits` - starting army
@@ -154,6 +158,7 @@ game second); only the real-time factor changes.
 | 1 (normal) | 10 | ×1.0 | 1.00 real seconds |
 | 2 (fast) | 14 | ×1.4 | 0.71 real seconds |
 
+<a id="37-limit--лимит-населения"></a>
 ### 3.7 `limit` - population limit
 
 This is the **global ceiling on top** of the local building limit:
@@ -166,10 +171,12 @@ Global ceiling (`limit = 1..8` → 500 / 750 / 1000 / 1500 / 2200 / 3000 /
 UI writes the value via `randommap.settings.limit.custom = "%value% units"` -
 it is substituted by `_misc_GetLimitText`.
 
+<a id="38-adviserassistant--помощник"></a>
 ### 3.8 `adviserassistant` - assistant
 
 Contextual clues in the corner of the screen. Does not affect the simulation - only UI.
 
+<a id="4-сложность-ии--gcplayerdifficulty"></a>
 ## 4. AI difficulty - `gc_player_difficulty_*`
 
 The constants `gc_player_difficulty_*` from `-1` to `4` [^21] are listed:
@@ -191,6 +198,7 @@ See also [`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_di
 hard+ with `brebellion = True` chance of mercenaries moving ≈ 18.31% per tick
 (significantly).
 
+<a id="5-глобальные-константы-партии"></a>
 ## 5. Global batch constants
 
 These are not lobby options, but engine constants that determine the shape of all
@@ -210,6 +218,7 @@ settings [^22].
 | `gc_obj_resource_portion_stone` | 40 | Stone per flight at `eff = 100`. |
 | `gc_obj_speed_peasant` | 40 | The declared speed of the peasant - but in the script the assignment is commented out [^23] (see [`recon/world/economy/peasant_extraction.md`](../economy/peasant_extraction.md) §9). |
 
+<a id="6-победа-и-поражение"></a>
 ## 6. Victory and defeat
 
 See separate document - [`recon/systems/victory_conditions.md`](../../systems/victory_conditions.md).
@@ -219,6 +228,7 @@ center There are no Wonder victories in C3, the score is accumulated only for st
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All references are relative to `data/scripts/` in the Cossacks 3 installation. Line numbers are
@@ -227,8 +237,8 @@ from the current installation files; After the game patch, recheck.
 [^1]: Root structure `TMapSettings` - `lib/classes.script:85-88`:
     ```pascal
     type TMapSettings = class
-       gen        : TMapSettingsGen;          // параметры генератора карты
-       additional : TMapSettingsAdditional;   // правила игры
+       gen        : TMapSettingsGen;          // map-generator parameters
+       additional : TMapSettingsAdditional;   // game rules
     end;
     ```
 [^2]: Serialization of settings to save file - `_misc_SaveLanRoomData` in
@@ -237,14 +247,14 @@ from the current installation files; After the game patch, recheck.
 [^3]: `TMapSettingsGen` — `lib/classes.script:74-83`:
     ```pascal
     type TMapSettingsGen = class
-       randkey0      : Integer;   // RNG-ключ для размещения (mines / forests / stones)
-       randkey1      : Integer;   // RNG-ключ для рельефа / ландшафта
-       mapsize       : Integer;   // 0..3 — размер
-       terraintype   : Integer;   // 0..9 — тип ландшафта / воды
-       relieftype    : Integer;   // 0..5 — тип рельефа
-       resourcestart : Integer;   // 0..3 — стартовые ресурсы
-       resourcemines : Integer;   // 0..2 — плотность шахт
-       season        : Integer;   // 0..3 — сезон / декорации
+       randkey0      : Integer;   // RNG key for placement (mines / forests / stones)
+       randkey1      : Integer;   // RNG key for relief / terrain
+       mapsize       : Integer;   // 0..3 — size
+       terraintype   : Integer;   // 0..9 — terrain / water type
+       relieftype    : Integer;   // 0..5 — relief type
+       resourcestart : Integer;   // 0..3 — starting resources
+       resourcemines : Integer;   // 0..2 — mine density
+       season        : Integer;   // 0..3 — season / decoration
     end;
     ```
 
@@ -252,18 +262,18 @@ from the current installation files; After the game patch, recheck.
     ```pascal
     type TMapSettingsAdditional = class
        activeoption     : Integer;
-       startingunits    : Integer;   // стартовый набор юнитов / зданий
-       balloon          : Integer;   // монгольфьеры
-       cannons          : Integer;   // пушки / стены / башни
+       startingunits    : Integer;   // starting unit / building set
+       balloon          : Integer;   // balloons
+       cannons          : Integer;   // cannons / walls / towers
        peacetime        : Integer;   // peace time
        century18        : Integer;   // advance to the 18th century
-       capture           : Integer;  // правила захвата
-       marketdip        : Integer;   // рынок / дипцентр
-       teams            : Integer;   // расположение союзников
+       capture           : Integer;  // capture rules
+       marketdip        : Integer;   // Market / Diplomatic Center
+       teams            : Integer;   // ally placement
        autosave         : Integer;
-       limit            : Integer;   // лимит населения
-       gamespeed        : Integer;   // скорость партии
-       adviserassistant : Integer;   // помощник
+       limit            : Integer;   // population limit
+       gamespeed        : Integer;   // game speed
+       adviserassistant : Integer;   // adviser
     end;
     ```
 [^5]: Application of `mapsize` - `common.inc/dogenerate.inc:1530-1545`.
@@ -303,7 +313,7 @@ from the current installation files; After the game patch, recheck.
     begin
        case ind of
           0  : Result := 0;     // No peace time
-          1  : Result := 10;    // 10 minут
+          1  : Result := 10;    // 10 minutes
           2  : Result := 20;
           3  : Result := 30;
           4  : Result := 45;
@@ -314,7 +324,7 @@ from the current installation files; After the game patch, recheck.
           9  : Result := 240;
           11 : Result := 15;
        end;
-       Result := Result * 60;   // переводим в game secунды
+       Result := Result * 60;   // convert to game seconds
     end;
     ```
 [^16]: Peacetime initialization during generation - `common.inc/dogenerate.inc:2060`
@@ -334,17 +344,17 @@ from the current installation files; After the game patch, recheck.
        and (not _net_IsReplay) and (not _net_IsClient) then
     begin
        gbool_peacemode := false;
-       // удалить ptborder-объекты, перейти к войне
+       // remove ptborder objects and enter wartime
     end;
     ```
 [^20]: Batch rate constants - `dmscript.global:1025-1029`:
     ```pascal
     gc_settings_gamespeed_count   = 3;
     gc_settings_gamespeed_default = -1;
-    gc_settings_gamespeed_0       = 7;     // slow   — 7 тиков / реальная секунда
-    gc_settings_gamespeed_1       = 10;    // normal — 10 тиков / реальная секунда
-    gc_settings_gamespeed_2       = 14;    // fast   — 14 тиков / реальная секунда
-    //gc_settings_gamespeed_3 = 20;        // (закомментировано — был ultra-fast)
+    gc_settings_gamespeed_0       = 7;     // slow   — 7 ticks / real second
+    gc_settings_gamespeed_1       = 10;    // normal — 10 ticks / real second
+    gc_settings_gamespeed_2       = 14;    // fast   — 14 ticks / real second
+    //gc_settings_gamespeed_3 = 20;        // commented out; formerly ultra-fast
     ```
 [^21]: AI difficulty constants - `dmscript.global:781-786`.
 

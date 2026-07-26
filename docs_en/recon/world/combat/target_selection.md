@@ -326,6 +326,7 @@ if the target is gone. This is convenient for suppression and mortar support beh
 line of sight. But if the enemy ran away, ordinary artillery with the order
 attack-point hammers on an empty space until a new command.
 
+<a id="53-через-gui"></a>
 ### 5.3 Via GUI
 
 The GUI sends a packet that processes `units/global.inc/readorder.inc`.
@@ -344,6 +345,7 @@ described in
 
 ---
 
+<a id="6-что-отсюда-следует-для-микроконтроля"></a>
 ## 6. What follows from here for microcontrol
 
 - **Focus shooting by itself does not work.** Shooters of the same squad
@@ -380,6 +382,7 @@ described in
 
 ---
 
+<a id="7-лечение-священниками--bpriest"></a>
 ## 7. Treatment by priests - `bpriest`
 
 Priests (`priest`, `pope`, `mullah`, `padre`) - special class
@@ -392,7 +395,7 @@ The priest's "attack" is handled in a separate branch
 `_misc_DoDamage` (see [`combat_damage_pipeline.md` §5](combat_damage_pipeline.md))
 with `weapon.kind = gc_obj_weapon_kind_heal` [^32]. Formula:
 ```
-target.hp += weapon.damage              # БЕЗ shield, БЕЗ protection
+target.hp += weapon.damage              # WITHOUT shield or protection
 target.hp := min(target.hp, target.maxhp)
 ```
 `heal pause = 0` - the priest heals every animation cycle
@@ -405,6 +408,7 @@ target.hp := min(target.hp, target.maxhp)
 | Mullah | 15 | 0–500 / **9.4** | Turkey / Algeria (longest range) |
 | Padre | 30 | 0–400 / 7.5 | Spain / Portugal (strongest treatment) |
 
+<a id="71-стратегические-свойства"></a>
 ### 7.1. Strategic properties
 
 - **Healing ignores armor and shield** - restores HP by
@@ -419,6 +423,7 @@ target.hp := min(target.hp, target.maxhp)
 - Priests themselves are vulnerable (low HP, no armor) - priority
   target for raids.
 
+<a id="72-конверсии-нет"></a>
 ### 7.2. No conversion
 
 Unlike AoE2-style missionaries, in Cossacks 3 the priest is
@@ -428,6 +433,7 @@ no scripts. See also [`capture_mechanics.md`](../economy/capture_mechanics.md)
 
 ---
 
+<a id="8-реакция-отряда-на-полученный-удар"></a>
 ## 8. The squad's reaction to the blow received
 
 Any non-artillery unit that takes damage in `_misc_DoDamage`,
@@ -436,6 +442,7 @@ switches its `TSquad.fAgressive := True` and updates
 for any unit in the squad, switches the entire squad to combat mode** -
 all units begin to actively search for the enemy and counterattack.
 
+<a id="81-стратегические-следствия"></a>
 ### 8.1. Strategic Implications
 
 - **AI peck by one archer** activates **entire** squad
@@ -452,12 +459,13 @@ about the same effect from the damage formula.
 
 ---
 
+<a id="9-рассеяние-и-точность-выстрела"></a>
 ## 9. Scattering and shot accuracy
 
 Each projectile shot is scattered relative to the target along
 formula in `_weapon_CalcShotDispertion` [^34]:
 ```
-maxdisp = dist × disp × 0.0267         # в tilesх
+maxdisp = dist × disp × 0.0267         # in tiles
 shot_x  = target_x + (1 − random × 2) × maxdisp
 shot_z  = target_z + (1 − random × 2) × maxdisp
 ```
@@ -465,6 +473,7 @@ shot_z  = target_z + (1 − random × 2) × maxdisp
 (tiles, after `_misc_PixelsToTiles`). **The farther, the more
 scattering**, linear.
 
+<a id="91-базовые-значения-dispertion"></a>
 ### 9.1. Basic dispersion values
 
 | Weapons | dispertion (px/tiles) | At 15 t deviation |
@@ -477,6 +486,7 @@ scattering**, linear.
 | Tower (PPOINTTTOW) | ~100 / 1.88 | ±0.75 t |
 | Yacht / galley (PPOINTTKOR) | 25 / 0.47 | ±0.19 t |
 
+<a id="92-шанс-попасть-в-юнит-размером-11-тайл-на-дистанции-d"></a>
 ### 9.2. Chance to hit a 1x1 tile unit at a distance `d`
 
 - If `2 × maxdisp ≤ 1` → ~100% hit.
@@ -488,6 +498,7 @@ Example: musketeer (`disp = 3.75`) on 15 tiles →
 **1/3 = 33%** in one shot. That is, **TTK for long-range bullets and
 arrows in idealized matrices is underestimated by 3 times**.
 
+<a id="93-апгрейды-на-dispertion"></a>
 ### 9.3. Upgrades to dispersion
 
 Only for **artillery**:
@@ -500,6 +511,7 @@ For musketeers and archers there is **no** direct** dispersion upgrade.
 
 ---
 
+<a id="10-открытые-вопросы"></a>
 ## 10. Open questions
 
 | # | Question | Where to dig |
@@ -511,6 +523,7 @@ For musketeers and archers there is **no** direct** dispersion upgrade.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

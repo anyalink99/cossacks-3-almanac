@@ -76,12 +76,13 @@ the segment costs [^1].
 Specific numbers by nation - in
 [`reference/03_buildings/README.md`](../../../reference/03_buildings/README.md).
 
+<a id="2-footprint-и-кластеры"></a>
 ## 2. Footprint and clusters
 
 The wall segment has a collision-mask of 2 × 2 cells (1 tile). Several
 consecutive segments:
 ```
-[wall][wall][wall]   ← 3 tiles линии
+[wall][wall][wall]   ← a 3-tile line
 ```
 There is no gap between the segments; pathfinding does not allow enemies through
 tight line.
@@ -96,6 +97,7 @@ When a segment dies (HP = 0 or forced death-tag),
 `_unit_OnDeath` calls `gWallSystem.RemoveHandle(pl, goHnd)` -
 removes a cell from the cluster and updates neighbor connections [^13].
 
+<a id="21-wall-variations-и-builder-slots"></a>
 ### 2.1. Wall variations and builder slots
 
 Builder slots of a segment depend on its geometric orientation in
@@ -112,6 +114,7 @@ both branches go through `_unit_OrderBuild` [^3].
 Engine cap - `gc_MaxWallBuilderPointsCount = 16`. Array Contents
 filled in by the parser `data/game/var/wallcustom.cfg` [^14].
 
+<a id="3-постройка-стены-крестьянами"></a>
 ## 3. Construction of a wall by peasants
 
 The player selects the sid of the wall in the UI and draws a line with the mouse; preview
@@ -141,6 +144,7 @@ specific segment until completion can be done using the standard button -
 the unfinished segment is demolished with the return of resources according to the usual formula
 refund.
 
+<a id="4-захват-и-снос-сегмента"></a>
 ## 4. Capture and segment demolition
 
 The standard gripping mechanism goes through `_misc_CheckCapture`: when
@@ -256,6 +260,7 @@ Application technique resulting from the sequence above:
   palisade `ukrwga`). Defender gets direct replacement
   a shabby wall to a fresh one.
 
+<a id="6-стенные-башни"></a>
 ## 6. Wall towers
 
 Some nations have separate sid's of wall towers (`stonewalltower` and
@@ -263,6 +268,7 @@ analogues), which fit into the line of the wall without a gap and shoot like
 ordinary tower. For aiming mechanics and shot costs, see
 [`towers.md`](towers.md).
 
+<a id="7-открытые-эмпирические-вопросы"></a>
 ## 7. Open empirical questions
 
 1. How exactly does `costpercent` apply to wall segments when
@@ -276,6 +282,7 @@ ordinary tower. For aiming mechanics and shot costs, see
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 [^1]: `data/scripts/lib/unit.script:2258-2310` — `commonsid+'swa'` /

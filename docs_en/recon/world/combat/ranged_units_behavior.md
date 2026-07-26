@@ -1,3 +1,4 @@
+<a id="recon-поведение-стрелковых-юнитов"></a>
 # Recon: behavior of shooting units
 
 In-depth analysis: shooter attack modes (standground, bartprepare,
@@ -33,6 +34,7 @@ positions. All links to the code are in [Sources](#sources).
 
 ---
 
+<a id="1-standground-vs-обычный-режим"></a>
 ## 1. Standground vs normal mode
 
 The main mechanism for determining target visibility is different
@@ -52,6 +54,7 @@ maxsearchdist = minsearchdist + 0.375
 That is, **almost melee** - the shooter detects the enemy only when
 he came close.
 
+<a id="11-что-это-значит-на-практике"></a>
 ### 1.1. What does this mean in practice?
 
 | Mode | What's going on |
@@ -64,6 +67,7 @@ he came close.
 look “deaf”: they stand and do not react to the enemy in the far zone,
 open fire only on 1-2 tiles.
 
+<a id="2-bartprepare--режим-артиллерии"></a>
 ## 2. Bartprepare - artillery mode
 
 `bartprepare = True` - flag for artillery, towers (`tow`) and
@@ -87,6 +91,7 @@ Without `bartprepare` (mobile card shooter, musketeer) team
 See also [`artillery_specifics.md`](artillery_specifics.md) §3
 about the order `attackpoint` and the preparation of the shot.
 
+<a id="3-runaway--отход-стрелка-из-мёртвой-зоны"></a>
 ## 3. RunAway - the shooter’s departure from the dead zone
 
 If a shooting unit (`minsearchdist > 0`) has an enemy enter
@@ -94,6 +99,7 @@ If a shooting unit (`minsearchdist > 0`) has an enemy enter
 close to shoot), and the unit is **not in standground** - it retreats
 on `gc_unit_runawaydist = 3.5` tile back [^3].
 
+<a id="31-условия-запуска"></a>
 ### 3.1. Launch conditions
 
 All three must be true:
@@ -107,6 +113,7 @@ All three must be true:
    - **Or** human player on easy / normal difficulty - then
      this gate is skipped.
 
+<a id="32-сложность-и-поведение"></a>
 ### 3.2. Complexity and behavior
 
 | Who's playing | Difficulty | When retreats |
@@ -115,6 +122,7 @@ All three must be true:
 | Human Player | hard / very hard / impossible | Only at moments `standtime = 0` or `> 1.3` (the intermediate “manages to shoot”). |
 | AI | any | Just like hard+ for a person - without concessions. |
 
+<a id="33-стратегические-выводы"></a>
 ### 3.3. Strategic Conclusions
 
 - **Hold the hill** - `standground` is required, otherwise arrows
@@ -125,6 +133,7 @@ All three must be true:
 - **Light Cavalry** catches up with retreating riflemen
   (fasthorse=96 vs default=32 - 3 times faster).
 
+<a id="4-штраф-к-дальности-при-движении-standtime"></a>
 ## 4. Range penalty when moving (`standtime`)
 
 `standtime` — counter “how long the unit stands still.” When
@@ -135,14 +144,15 @@ effective max-range [^4]:
 ```
 if (standtime < 0.25) AND (weapon.kind ≠ cannister):
     if (NOT bArtillery):
-        radiusmax −= 3 × uniqrnd            # пехота: до −3 tiles
+        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles
     else:
-        radiusmax −= 3 × uniqrnd × 0.5      # артиллерия: до −1.5 tiles
+        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles
 ```
 Where is `gc_obj_maxattackradiusdisp = 3` (from `dmscript.global`), and
 `uniqrnd` ∈ `[0, 1)` - the number of each fixed at spawn
 unit.
 
+<a id="41-эффект"></a>
 ### 4.1. Effect
 
 - **A shooter in motion will not shoot at full range** —
@@ -154,18 +164,20 @@ unit.
 - In combination with RunAway creates the pattern **walk away → pause 0.25 →
   shot → retreat**.
 
+<a id="5-бонус-к-дальности-в-покое-addradius"></a>
 ## 5. Bonus to range at rest (`addradius`)
 
 If the unit is in idle state (`statestag` contains
 `gc_statetag_move_idle`), he receives a bonus to
 `weapon.radiusmax` [^5]:
 ```
-rbonus += weapon[i].addradius     # обычно 32 px = ~0.6 tiles
+rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles
 ```
 To whom it is given: musketeers, archers, cannons - everyone
 `addradius = 32 px = 0.6 t`. For weak walls
 (`gc_obj_usage_weakwall`) additional **+0.36 tiles** rbonus.
 
+<a id="51-эффект"></a>
 ### 5.1. Effect
 
 Stationary defense (for example, a garrison on a hill in a standground)
@@ -173,6 +185,7 @@ shoots **~0.6 t further** than the same unit on the move. B
 combination with high-ground (see §7) and elimination of the `standtime` penalty
 This results in a noticeable increase in the defense radius.
 
+<a id="6-переключение-оружия-по-дистанции-multi-weapon"></a>
 ## 6. Switching weapons by distance (multi-weapon)
 
 Many units have **multiple weapon slots** (`weapon[0]`,
@@ -186,8 +199,10 @@ matches `weapon[i].attmask` (armor material), this is a weapon
 priority. Therefore, **fire arrows** are chosen for
 buildings (their `attmask` contains `gc_obj_material_building`).
 
+<a id="61-пары-multi-weapon-юнитов"></a>
 ### 6.1. Pairs of multi-weapon units
 
+<a id="пушка--ядро-против-картечи"></a>
 #### Cannon - cannonball against buckshot
 
 | Slot | Type | dmg | pause | range (px) | When |
@@ -202,6 +217,7 @@ line** so that there are no more than 9 units under the explosion (see.
 [`combat_damage_pipeline.md` §5](combat_damage_pipeline.md) about AoE
 damage cap).
 
+<a id="мушкетёр-18-в--пуля-против-штыка"></a>
 #### Musketeer 18th century. - bullet against bayonet
 
 | Slot | Type | dmg | pause | range (px) | When |
@@ -217,6 +233,7 @@ Bayonet upgrades are separate from bullet upgrades
 (`bla.musketeer18.1.X` increases bullet damage, bayonet remains
 basic).
 
+<a id="лучник--обычная-стрела-против-огненной"></a>
 #### Archer - regular arrow versus fire arrow
 
 | Slot | Type | dmg | pause | range (px) | dispersion | Features |
@@ -230,6 +247,7 @@ accuracy is 14% worse, and **squad damage bonus is not
 applies**. The game automatically switches the archer to
 OSTRELA, when the target is a building / wood / palisade.
 
+<a id="прочие"></a>
 #### Other
 
 - **Janissary** - bullet + saber.
@@ -241,12 +259,13 @@ OSTRELA, when the target is a building / wood / palisade.
 Everywhere the logic is the same: close - a melee weapon, far -
 small arms
 
+<a id="7-high-ground--бонус-с-возвышенности"></a>
 ## 7. High ground - bonus from a hill
 
 If a shooting unit is on high ground (`Y > 0`), it
 **search distance** increases in proportion to the height of [^7]:
 ```
-searchdist += goHeight × 2     # только для ranged юнитов: minsearchdist > melee_radius
+searchdist += goHeight × 2     # ranged units only: minsearchdist > melee_radius
 ```
 `goHeight` — Y-coordinate of the unit in tiles. Bonus **only to radius
 detection**, not to the shot itself. But if the enemy is not yet in the zone
@@ -257,12 +276,14 @@ advancing **earlier** = more shots before close combat.
 Low Mountains are created by the `relief` parameter when generating a map
 (Highlands gives the maximum).
 
+<a id="71-не-работает-на"></a>
 ### 7.1. Doesn't work on
 
 - Melee units (a pikeman on a hill has no advantages
   receives - he is in close combat).
 - Units with `searchradius = 0` (mortar, drummer, etc.).
 
+<a id="8-открытые-эмпирические-вопросы"></a>
 ## 8. Open empirical questions
 
 1. **Exact formula for RunAway direction.** In which direction
@@ -276,6 +297,7 @@ Low Mountains are created by the `relief` parameter when generating a map
    whether the amendment `goHeight × 2` is in the detection of the building, or only
    when searching for units?
 
+<a id="источники"></a>
 ## Sources
 
 [^1]: `data/scripts/lib/unit.script:7259-7286` —

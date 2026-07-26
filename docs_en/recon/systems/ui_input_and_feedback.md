@@ -204,10 +204,12 @@ next to the **camera**, and not to the selected unit or base.
 
 ---
 
+<a id="5-звуки-и-fow--две-независимые-системы"></a>
 ## 5. Sounds and FOW are two independent systems
 
 This is a critical detail that is **often misunderstood**.
 
+<a id="51-как-эмитируется-звук-юнита"></a>
 ### 5.1. How a unit's sound is emitted
 
 When a unit performs an action (shot, step, fight, death), the script
@@ -227,6 +229,7 @@ Emitter parameters:
 The decision whether to play or not is based on **distance from the listener**.
 **There are no FOW checks in these functions.**
 
+<a id="52-что-это-значит"></a>
 ### 5.2. What does this mean
 
 - **Unit in enemy FOW** (you can't see it) **audible** if
@@ -237,6 +240,7 @@ The decision whether to play or not is based on **distance from the listener**.
   determine that the enemy unit has entered the flank, even before
   your scout will see it.
 
+<a id="53-почему-так-сделано"></a>
 ### 5.3. Why is this done
 
 Two technical solutions:
@@ -254,6 +258,7 @@ about the structure of FOW.
 
 ---
 
+<a id="6-alarm-уведомления"></a>
 ## 6. Alarm notifications
 
 `_misc_DoAlarm(goHnd, trgHnd, event)` [^1] - main function for
@@ -263,11 +268,12 @@ about the structure of FOW.
 - The player's building is captured (`gc_gui_alarmevent_capture`).
 - And other events (`gc_gui_alarmevent_*`).
 
+<a id="61-условия-срабатывания"></a>
 ### 6.1. Trigger conditions
 ```pascal
-if (gPlayer[plIO].lastattacktime = 0) then  // не было недавнего alarm
-   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // событие касается игрока
-      if (not gSoundManager.IsObjInFrustum(handle)) then  // объект НЕ в frustum камеры
+if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm
+   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // event concerns the player
+      if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum
          alarm fire
 ```
 Key: **alarm is triggered only if the object is NOT in frustum**
@@ -275,6 +281,7 @@ cameras. That is, if a player physically looks at his base and
 at this moment she is being attacked - there will be no notification** because
 the player sees it that way.
 
+<a id="62-лимит-частоты"></a>
 ### 6.2. Frequency limit
 
 After triggering, alarm is set
@@ -283,6 +290,7 @@ The following events are blocked until the interval expires. Typically
 interval ~5 g-sec, so as not to receive “you are under attack” every tick
 long battle.
 
+<a id="63-что-игрок-видит-и-слышит"></a>
 ### 6.3. What the player sees and hears
 
 | Effect | Source |
@@ -295,6 +303,7 @@ The player can jump the camera to a location through a hotkey (double space
 or Ctrl+W depending on the profile) - this causes
 `MoveCameraToPosition(alarmx, alarmz, ...)`.
 
+<a id="64-не-алармирует"></a>
 ### 6.4. Does not alarm
 
 - **Attacks on non-owner.** `_misc_DoAlarm` checks
@@ -307,6 +316,7 @@ or Ctrl+W depending on the profile) - this causes
 
 ---
 
+<a id="7-hotkey-конфиг"></a>
 ## 7. Hotkey config
 
 Hotkeys are defined in `data/game/var/hotkeys.cfg` -
@@ -318,6 +328,7 @@ parser format with records like:
    Repeat = True
 struct.end
 ```
+<a id="71-структура-записи"></a>
 ### 7.1. Record structure
 
 | Field | What |
@@ -328,6 +339,7 @@ struct.end
 | `Repeat` | If `True`, pressing again cycles through the options (e.g. `select|allunits` → next highlighted unit of the same type). |
 | `Up` | If `True`, the action is triggered by releasing the key, not by pressing it. |
 
+<a id="72-шесть-типов-action"></a>
 ### 7.2. Six types `Action`
 
 | Type | What does | Examples |
@@ -339,6 +351,7 @@ struct.end
 | `interface` | UI effect | `interface\|minimap` (collapse/expand minimap), `interface\|viewcollision` (debug - collision grid). |
 | `event` | Trigger UI-state | `event\|eventmainmenu\|bcampaign` (open campaign), `event\|eventmainmenu\|brandommap`, etc. |
 
+<a id="73-дефолтные-хоткеи-фрагмент"></a>
 ### 7.3. Default hotkeys (fragment)
 
 | Key | Action |
@@ -370,6 +383,7 @@ And a large set of `build|...` (one letter for each building) - `C` = Cen, `H` =
 > and `event|eventmainmenu|bsettings`. Permission context - what
 > GUI state is active (in-game / unit-selected / menu-open).
 
+<a id="8-reserved-keys--нельзя-переназначить"></a>
 ## 8. Reserved keys - cannot be reassigned
 
 The file `data/gui/menu.inc/hotkeysettings.inc` contains two lists
@@ -378,6 +392,7 @@ The file `data/gui/menu.inc/hotkeysettings.inc` contains two lists
 hotkeys - which are not configured through the UI, because they are built into
 game behavior.
 
+<a id="81-одиночные-зарезервированные-клавиши"></a>
 ### 8.1. Single reserved keys
 
 | Key | Reserved for |

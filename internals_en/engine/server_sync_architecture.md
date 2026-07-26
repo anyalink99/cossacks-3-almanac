@@ -1,3 +1,4 @@
+<a id="recon-серверная-архитектура-и-сетевая-синхронизация"></a>
 # Recon: server architecture and network synchronization
 
 Network synchronization model in C3 - who simulates what is transmitted and when
@@ -25,8 +26,10 @@ All links to the code and the Pascal blocks themselves are collected in the sect
 
 ---
 
+<a id="1-главное-c3--server-authoritative-не-lockstep"></a>
 ## 1. Main thing: C3 - server-authoritative, **not** lockstep
 
+<a id="11-что-это-значит"></a>
 ### 1.1 What does this mean?
 
 In classic lockstep RTS (StarCraft, Age of Empires II) **all hosts
@@ -60,6 +63,7 @@ Five network modes [^3]:
 Single-player = `_net_IsOffline` = client-yourself-server. `bProcess`
 always true.
 
+<a id="13-архитектурные-следствия"></a>
 ### 1.3 Architectural implications
 
 - **Why is `random` seeded via `SetRandomKey(uniqrnd*MaxInt)`** [^4]:
@@ -79,6 +83,7 @@ always true.
 
 ---
 
+<a id="2-что-синхронизируется-и-как"></a>
 ## 2. What is synchronized and how
 <a id="21-per-event-пакеты-отправляются-по-факту-события"></a>
 ### 2.1 Per-event packages (sent upon event)
@@ -257,6 +262,7 @@ copies the same save to both hosts - Load in save format
 are the same. But **global state `random` and adaptive speed phase
 vary**.
 
+<a id="34-saveload-чтобы-гарантировать-консистентность-нужны-вещи-которых-в-save-нет"></a>
 ### 3.4 Save/Load: to guarantee consistency you need things that are not in save
 
 From the save format audit ([determinism_audit.md](determinism_audit.md) §2
@@ -289,6 +295,7 @@ When we load a save on the same host, the second time:
 This is the final explanation of “one save, different launches - different
 prey."
 
+<a id="35-между-хостами-в-single-player"></a>
 ### 3.5 Between hosts in single player
 
 In addition to §3.3 and §3.4:
@@ -301,6 +308,7 @@ In addition to §3.3 and §3.4:
 
 ---
 
+<a id="4-сводная-таблица-что-синхронно-что-нет"></a>
 ## 4. Pivot table: what is synchronous and what is not
 
 | State | Single-player Load → Load on one host | Multiplayer between hosts | Single-player on two hosts |
@@ -319,6 +327,7 @@ In addition to §3.3 and §3.4:
 
 ---
 
+<a id="5-чем-server-authoritative-помогает-в-добыче"></a>
 ## 5. How server-authoritative helps in mining
 
 In multiplayer with a server-authoritative model **behavior of a peasant
@@ -343,6 +352,7 @@ always true, no sync lags**. But problems appear 3.4 (save/load).
 
 ---
 
+<a id="6-импликации-для-мод-фикса"></a>
 ## 6. Implications for mod fix
 
 In the context of **single-player determinism** (our task):
@@ -393,6 +403,7 @@ are respected automatically.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
@@ -402,9 +413,9 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     var bProcess : Boolean = not (_net_IsClient or _net_IsReplay);
     if (bProcess) then
     begin
-       // ... уменьшаем HP ресурса
-       // ... начисляем ресурс игроку
-       // ... вычисляем урон и применяем
+       // ... reduce resource HP
+       // ... credit the resource to the player
+       // ... calculate and apply damage
     end;
     ```
 [^2]: Examples of handlers with verification `bProcess`:
@@ -449,7 +460,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^7]: Periodic timers in the main progress loop -
     `progress/progress.inc/nothing.inc:697-713`:
     ```pascal
-    var curtime : Float = GetCurrentTime;   // <-- REAL TIME, не game time!
+    var curtime : Float = GetCurrentTime;   // <-- REAL TIME, not game time!
     if (curtime - gfloat_lan_lastsyncrestime) > 0.1 then
     begin
        gfloat_lan_lastsyncrestime := curtime;

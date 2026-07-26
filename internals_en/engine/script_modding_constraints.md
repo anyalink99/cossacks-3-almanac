@@ -23,14 +23,14 @@ The function is divided into two fundamentally different blocks:
 
 **Block B - death trigger** (`if bProcessLogic`, ~line 510):
 ```pascal
-// для атакующего (pobj / goHnd):
+// attacker (pobj / goHnd):
 if (not bSkipOnDeath) and (pobj<>nil) and (TObj(pobj).hp<=0) then begin
    if (not TObj(pobj).bdead) then
    GameObjectExecuteStateByHandle(goHnd, 'OnDeath');
    _unit_SetTagStates(goHnd, gc_statetag_essential_death);
 end;
 
-// для цели (pobj2 / trgHnd):
+// target (pobj2 / trgHnd):
 if (TObj(pobj2).hp<=0) then begin
    GameObjectExecuteStateByHandle(trgHnd, 'OnDeath');
    _unit_SetTagStates(trgHnd, gc_statetag_essential_death);
@@ -44,6 +44,7 @@ In normal combat it is always `false`.
 
 ---
 
+<a id="2-нельзя-убивать-атакующего-изнутри-miscdodamage"></a>
 ## 2. You cannot kill an attacker from within `_misc_DoDamage`
 
 **Symptom:** `TObj(pobj).hp := 0` inside a kill block (block A) → unit freezes:
@@ -61,6 +62,7 @@ expects this.
 
 ---
 
+<a id="3-рекурсивный-вызов-miscdodamage-вызывает-двойную-смерть"></a>
 ## 3. Recursive call `_misc_DoDamage` causes double death
 
 When trying `_misc_DoDamage(goHnd, goHnd, 9999, weapind, weapkind)` from kill block:
@@ -77,6 +79,7 @@ state machine - the unit gets stuck in an eternal attack animation.
 
 ---
 
+<a id="4-attackmaxdelay-нельзя-использовать-как-флагsentinel"></a>
 ## 4. `attackmaxdelay` cannot be used as a flag/sentinel
 
 `attackmaxdelay` is read by the engine as the maximum cooldown attack time.
@@ -88,6 +91,7 @@ It's similarly dangerous to overuse `attackdelay` values ​​>> for a weapon's
 
 ---
 
+<a id="5-безопасное-место-для-kill-trigger-извне-dodamage"></a>
 ## 5. Safe place for kill-trigger from outside DoDamage
 
 Function `SearchEnemy` / retarget gate (unit.script ~line 8400) is called in
@@ -99,7 +103,7 @@ Pattern: after killing `attackdelay` is set to ≥ 1.5 g-sec. Bye
 `attackdelay > 0` retarget gate is called every tick. This creates a reliable
 window for checking the post-kill state of the attacker without recursion.
 ```pascal
-// unit.script retarget gate — безопасный kill trigger:
+// unit.script retarget gate — safe kill trigger:
 if (pobj<>nil) and (TObj(pobj).hp > 0) and (TObj(pobj).hp < 3)
 and (TObj(pobj).attackdelay > 0) then begin
    TObj(pobj).hp := 0;
@@ -118,6 +122,7 @@ works in DWS (two-pass compilation), but has hardly been tested.
 
 ---
 
+<a id="7-gcargunitstolist--список-атакующих-юнита"></a>
 ## 7. `gc_argunit_stolist` - list of unit attackers
 ```pascal
 var psto : Pointer = _misc_GetObjectArgData(hnd, gc_argunit_stolist);
@@ -128,6 +133,7 @@ handle - both the target and the attacker. Updated by the engine in real time.
 
 ---
 
+<a id="8-порядок-вызовов-при-атаке-юнита"></a>
 ## 8. Order of calls when attacking a unit
 
 Based on observations (exact C++ order unknown):

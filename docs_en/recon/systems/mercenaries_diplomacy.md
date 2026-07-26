@@ -162,6 +162,7 @@ Two consequences:
 
 ---
 
+<a id="3-механика-upkeep--потребление-золота"></a>
 ## 3. Upkeep mechanics - gold consumption
 
 Upkeep is consumed every frame in the same general cycle as food
@@ -179,6 +180,7 @@ Pseudocode:
 - If there is not enough, everything that is is written off and the corresponding one is raised
   flag (`bfamine` for food, `brebellion` for gold).
 
+<a id="скорость-утечки-золота"></a>
 ### Gold Leakage Rate
 
 Same formula as for food upkeep - *`consume.gold` units per game
@@ -191,6 +193,7 @@ That is, one `dragoon18dip` with `consume.gold=120` pumps out
 out of 50 `dragoon18dip` takes away `50 × 0.192 = 9.6 gold/g-sec` ≈ 576 gold/g-min —
 this is only supported by the market+gold mine combination.
 
+<a id="bfamine-vs-brebellion--асимметрия"></a>
 ### `bfamine` vs `brebellion` - asymmetry
 
 Both flags are reset to `False` when the player has the resources to pay.
@@ -207,6 +210,7 @@ the dismissal of all mercenaries immediately ends the rebellion.
 
 ---
 
+<a id="4-триггер-бунта"></a>
 ## 4. Riot trigger
 
 The logic of defection lives in the per-unit Nothing handler
@@ -247,6 +251,7 @@ and 10k of the rest [^17]. This is necessary so that deserted mercenaries can
 pay themselves upkeep before they themselves start a rebellion - but since they are already in
 mercenary slot, it doesn't matter.
 
+<a id="реакция-ai"></a>
 ### AI reaction
 
 Riot status also affects AI defense scoring [^18]: for already captured
@@ -256,6 +261,7 @@ the priority of protecting one's own mercenaries when they are on the verge of d
 
 ---
 
+<a id="5-map-настройка-marketdip"></a>
 ## 5. Map setting `marketdip`
 
 `gMap.settings.additional.marketdip` controls the availability of markets and
@@ -281,6 +287,7 @@ In the lobby with `expensivemercs`, the gold price of mercenaries is tripled
 
 ---
 
+<a id="6-нейтральные-дипцентры--точки-найма"></a>
 ## 6. Neutral deep centers / hiring points
 
 **No.** Search in `data/scripts` for substrings `peasantdip`, `townhalldip`,
@@ -303,6 +310,7 @@ specificity of the content, not the engine.
 
 ---
 
+<a id="7-кросс-национальная-доступность"></a>
 ## 7. Cross-national availability
 
 Since all 8 mercenaries are added via `_country_AddMember` in **each**
@@ -329,8 +337,10 @@ form their own formations without a national officer.
 
 ---
 
+<a id="8-наёмник-vs-обычный-юнит--сравнение"></a>
 ## 8. Mercenary vs regular unit - comparison
 
+<a id="стоимость"></a>
 ### Cost
 
 Mercenaries cost **gold only + construction time**; regular units – food +
@@ -358,6 +368,7 @@ a little slower, but a mercenary of this tier costs 0 food versus 20 and has dam
 - Officers/Royal Musketeers also have `consume.gold` (60–150), but they
   **not** `bmercenary`, so they don’t rebel.
 
+<a id="когда-брать-наёмников-стратегический-профиль"></a>
 ### When to take mercenaries (strategic profile)
 
 The Mercenary Catalog is essentially a **quick deployment army for gold**:
@@ -380,6 +391,7 @@ as `gold` will drop to zero.
 
 ---
 
+<a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
 | # | Question | Where to dig |
@@ -396,6 +408,7 @@ facts in the form of a bulleted list.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

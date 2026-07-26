@@ -112,6 +112,7 @@ with priority 2:1 in favor of land (aquatic is processed only if
 6. After the batch, the script itself inserts building-exit-points (exit from
    barracks or transport) and resets `bpathrequested`.
 
+<a id="23-что-делает-topologygetpath-наблюдаемо"></a>
 ### 2.3 What `TopologyGetPath` does (observable)
 
 From the usage context and class name:
@@ -153,6 +154,7 @@ cells/side).
 
 ---
 
+<a id="3-trackpointы--выход-pathfindingа"></a>
 ## 3. TrackPoints - pathfinding output
 
 After `TopologyGetPath` each unit receives an array of **TrackPoints**
@@ -208,6 +210,7 @@ Behavioral radii (uses `WriteMove` for variance):
 small, units can stand tightly together. Horses receive `unitradius=15`
 (display-radius).
 
+<a id="42-корабли-получают-огромную-ci"></a>
 ### 4.2 Ships get huge CI
 
 Ships summon `SetCustomCollisionInertia` with large [^17] multipliers:
@@ -218,6 +221,7 @@ Ships summon `SetCustomCollisionInertia` with large [^17] multipliers:
 This explains why ships **push** each other and **not themselves
 shift** under the pressure of infantry: mass 32 versus 1 for infantry.
 
+<a id="43-здания--неподвижные-тяжёлые-блокеры"></a>
 ### 4.3 Buildings - stationary heavy blockers
 
 Buildings are initialized with `CollisionInertia=true`,
@@ -231,6 +235,7 @@ Buildings are initialized with `CollisionInertia=true`,
 buildings are being built by `pathfinding`; local collision (CI) only insures that
 The unit did not hit the wall closely.
 
+<a id="44-push-mechanic-между-юнитами-правило-передний--90-fov"></a>
 ### 4.4 Push-mechanic between units: “front + 90° FOV” rule
 
 CI rules are set for three categories - `Fr` (friendly), `En` (enemy),
@@ -515,6 +520,7 @@ empirical tests with target scenarios (see §9).
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All paths are relative to `data/scripts/` in a Cossacks 3 installation.
@@ -533,11 +539,11 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
     ```
 [^2]: Topology constants - `dmscript.global:140-153`:
     ```pascal
-    gc_top_TopologyPriority = 90;   // QuadTree приоритет для блокеров (здания, terrain)
-    gc_top_PathPriority     = 70;   // QuadTree приоритет для path-search (без зданий, или fewer)
-    gc_top_WallPriority     = 95;   // отдельный для стен
+    gc_top_TopologyPriority = 90;   // QuadTree priority for blockers (buildings, terrain)
+    gc_top_PathPriority     = 70;   // QuadTree priority for path search (without buildings, or fewer)
+    gc_top_WallPriority     = 95;   // dedicated wall priority
     gc_top_WallQuadTree     = 2;
-    gc_top_UnitTick         = 50;   // используется в gc_unit_TimeTopology
+    gc_top_UnitTick         = 50;   // used in gc_unit_TimeTopology
     gc_top_GlobalTick       = 100;
     gc_top_EffectDist       = 3;
     gc_top_MaxUpdateAreas   = 500;
@@ -589,7 +595,7 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
     135:       var goHnd : Integer = TIntegerList(pList).Get(i);
     144:       TopologyAddPathGameObjectByHandle(goHnd);
     149:       if TObjProp(pObjProp).media = gc_obj_media_land then
-    150:          SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)   // squad-id для group-cost
+    150:          SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)   // squad id for group cost
     151:       else
     152:          SetGameObjectTagFloatByHandle(goHnd, -1);
     153:    end;
@@ -605,7 +611,7 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
     169:       var goHnd : Integer = TIntegerList(pList).Get(i);
     171:       var noPath : Boolean = (GetGameObjectTrackPointCountByHandle(goHnd) = 0);
     177:       TObj(pobj).bpathrequested := False;
-           ...     // вставка exit-points у зданий, отворачивание трапа у транспортов и т.п.
+           ...     // insert building exit points, turn transport ramps away, etc.
     307:       DoSetupMoveAnimation(goHnd);
     308:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 0);
     309:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 1);
@@ -626,7 +632,7 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
 
 [^12]: TrackPoint smoothing parameters - `units/unit.inc/initial.inc:280-287`:
     ```pascal
-    gc_obj_media_land  : quadTree := TopologyGetPathQuadTree;     // 70 (path-mode, без зданий?)
+    gc_obj_media_land  : quadTree := TopologyGetPathQuadTree;     // 70 (path mode, without buildings?)
     gc_obj_media_water : quadTree := TopologyGetTopologyQuadTree; // 90 (full-mode)
     ```
 
@@ -674,14 +680,14 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
     ```
 [^18]: CI parameters of buildings - `units/building.inc/initial.inc:59-72`:
     ```pascal
-    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI включён
+    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI enabled
     SetGameObjectCIIntersectRadiusByHandle(colHnd, 0.35);  // 0.35 tiles
-    SetGameObjectCIMovableByHandle(colHnd, false);         // не двигается
-    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — фактически бесконечная
+    SetGameObjectCIMovableByHandle(colHnd, false);         // immovable
+    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — effectively infinite
     SetGameObjectCIMaxDistKoefByHandle(colHnd, 2);
     SetGameObjectCIDeltaStepByHandle(colHnd, 0.005);
     SetGameObjectCIRotationSpeedByHandle(colHnd, 5);
-    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // !! здания → 5°, юниты → 0
+    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // buildings → 5°, units → 0
     SetGameObjectCIEpsilonAngleByHandle(colHnd, 4);
     SetGameObjectCIEpsilonShiftByHandle(colHnd, 0.001);
     SetGameObjectCIEpsilonMoveByHandle(colHnd, 0.02);
@@ -721,7 +727,7 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
                    end;
                 end;
              end;
-             // и симметрично для trg → hnd (если trg тоже двигался)
+             // and symmetrically for trg → hnd (if trg was also moving)
           end;
        end;
     end;
@@ -813,11 +819,11 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
     for i:=cols-1 downto 0 do begin
        var gohnd : Integer = GetGroupGameObjectHandleByGridColRow(grhnd, i, j);
        if gohnd <> 0 then begin
-          // вычисляем целевую клетку формации в мировых координатах
+          // calculate the formation's target cell in world coordinates
           x := posx + (i-cols/2+0.5) * minx * hdirx - (j+0.5) * miny * dirx;
           y := posz + (i-cols/2+0.5) * minx * hdirz - (j+0.5) * miny * dirz;
 
-          // случайная дисперсия в пределах unit-radius (jitter)
+          // random dispersion within the unit radius (jitter)
           var unitradius : Float = gObjProp[...].radius;
           var dispradius : Float = unitradius*1.1;
           var dispx : Float = (0.5-random)*dispradius;
@@ -835,7 +841,7 @@ All paths are relative to `data/scripts/` in a Cossacks 3 installation.
 
 [^28]: Formation constants - `dmscript.global:166-168`:
     ```pascal
-    gc_formation_maxcount      = 160;   // макс юнитов в squad
+    gc_formation_maxcount      = 160;   // maximum units per squad
     gc_formation_maskmaxwidth  = 54;
     gc_formation_maskmaxheight = 24;
     ```

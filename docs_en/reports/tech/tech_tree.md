@@ -1,3 +1,4 @@
+<a id="cossacks-3--tech-tree-по-нациям"></a>
 # Cossacks 3 - Tech Tree (by nation)
 
 Dependency graph: what needs to be built or researched before what. Extracted from `_country_AddFixedProduceWithAccessControl` and `_country_AddUpgradeWithAccessControl` (parameters `req0`..`req7`). The source of truth is [`derived/tech_tree.json`](../../../derived/tech_tree.json).
@@ -7,18 +8,19 @@ Dependency graph: what needs to be built or researched before what. Extracted fr
 - `→ X, Y` - to unlock you need X and Y at the same time
 - For buildings the base price is shown (see [`scaling_prices.md`](../economy/scaling_prices.md) for N>1)
 
+<a id="граф-зданий-австрия-как-репрезентативный-пример"></a>
 ## Building graph (Austria as a representative example)
 
 The graph shows the dependence of the construction of one building on another. Solid arrows - `prereqs` from `country.script`, dotted arrows - the connection “building → its upgrade” (for example, `auscen → auscen.1`, advance to the 18th century). For other nations, the graph is structurally identical - only the nation-specific names `<nat>cen`, `<nat>bar`, etc. differ.
 ```mermaid
 graph LR
     ausaca["Academy<br/><code>ausaca</code>"]
-    ausart["Артдепо<br/><code>ausart</code>"]
+    ausart["Artillery Depot<br/><code>ausart</code>"]
     ausba2["Barracks 18<br/><code>ausba2</code>"]
     ausbar["Barracks 17<br/><code>ausbar</code>"]
     ausbla["Blacksmith<br/><code>ausbla</code>"]
-    auscen["Город. центр<br/><code>auscen</code>"]
-    ausdip["Диппцентр<br/><code>ausdip</code>"]
+    auscen["Town Hall<br/><code>auscen</code>"]
+    ausdip["Diplomatic Center<br/><code>ausdip</code>"]
     aushou["Housing<br/><code>aushou</code>"]
     aussta["Stable<br/><code>aussta</code>"]
     austem["Cathedral<br/><code>austem</code>"]
@@ -28,15 +30,15 @@ graph LR
     eurmar["Market<br/><code>eurmar</code>"]
     eurmil["Mill<br/><code>eurmil</code>"]
     eurpor["Shipyard<br/><code>eurpor</code>"]
-    eursga["Кам. ворота<br/><code>eursga</code>"]
+    eursga["Gate<br/><code>eursga</code>"]
     eursto["Storehouse<br/><code>eursto</code>"]
     eurswa["Wall<br/><code>eurswa</code>"]
     eurtow["Tower<br/><code>eurtow</code>"]
-    ukrwga["Дер. ворота<br/><code>ukrwga</code>"]
-    ukrwwa["Палисад<br/><code>ukrwwa</code>"]
+    ukrwga["Gate<br/><code>ukrwga</code>"]
+    ukrwwa["Palisade<br/><code>ukrwwa</code>"]
     ausbar --> ausaca
     ausaca --> ausart
-    auscen_1{"auscen.1<br/>(апгрейд)"}
+    auscen_1{"auscen.1<br/>(upgrade)"}
     auscen_1 --> ausba2
     auscen -.-> auscen_1
     ausbla --> ausbar
@@ -53,6 +55,7 @@ graph LR
     eursto --> eurtow
     eursto --> ukrwwa
 ```
+<a id="содержание"></a>
 ## Contents
 
 | Nation | Buildings | Units | Key upgrades |
@@ -79,8 +82,10 @@ graph LR
 | **[UKR - Ukraine](#ukr--ukraine-украина)** | [buildings](#ukr--здания) | [units](#ukr--юниты) | [upgrades](#ukr--ключевые-апгрейды-с-зависимостями) |
 | **[VEN - Venice](#ven--venice-венеция)** | [buildings](#ven--здания) | [units](#ven--юниты) | [upgrades](#ven--ключевые-апгрейды-с-зависимостями) |
 
+<a id="alg--algeria-алжир"></a>
 ## ALG - Algeria
 
+<a id="alg--здания"></a>
 ### `alg` - buildings
 
 | sid | name | Time (g-sec) | price | farm | requires |
@@ -531,6 +536,7 @@ graph LR
 | `ukrwga` | Gate | 5.6 | W10 | — | — |
 | `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
 
+<a id="den--юниты"></a>
 ### `den` - units
 
 | sid | name | Time (g-sec) | price | trains in | requires |
@@ -571,6 +577,7 @@ graph LR
 | `unitbox` | — | 3.12 | F100 | — | — |
 | `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `denart` |
 
+<a id="den--ключевые-апгрейды-с-зависимостями"></a>
 ### `den` - key upgrades (with dependencies)
 | sid | name | Time (g-sec) | price | requires |
 |---|---|---:|---|---|

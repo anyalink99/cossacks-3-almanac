@@ -1,7 +1,9 @@
+<a id="cossacks-3--starting-layout"></a>
 # Cossacks 3 - Starting layout
 
 **Derived** file (calculated, not extracted). Considered from `data/scripts/common.inc/dogenerate.inc` and `data/game/var/startingsettings.cfg` script [`compute/compute_starting_layout.py`](../../../compute/compute_starting_layout.py).
 
+<a id="1-расстановка-крестьян-режим-default"></a>
 ## §1. Peasant placement (default mode)
 
 The arrangement is done in `CreateStartPointPeasants` [^1].
@@ -14,6 +16,7 @@ The arrangement is done in `CreateStartPointPeasants` [^1].
 
 **In practice:** at the start you have a pile of 18 peasants occupying approximately `5×3` tiles, which fits into the inner clearing circle `cCircle1` (see §2). Nothing else will spawn there - this is a safe “home” for the first minute.
 
+<a id="2-кольца-спавна-ресурсов-вокруг-старт-точки"></a>
 ## §2. Resource spawn rings around the starting point
 
 The arrangement of the rings is done by `SetupStartingResources` [^2].
@@ -39,6 +42,7 @@ The forest type is determined by the `foreststype` parameter in the map generati
 
 Mines (gold / iron / coal) - separate function `SetupMines` [^3]. Mine spawning follows a different logic (in rounds according to distance, see [recon/world/economy/peasant_extraction.md](../../recon/world/economy/peasant_extraction.md) §8.3 + [recon/world/map/map_generation_pipeline.md](../../recon/world/map/map_generation_pipeline.md) §8).
 
+<a id="3-пресеты-стартовых-юнитов"></a>
 ## §3. Starting unit presets
 
 Preset source - `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` [^4]. All 14 presets with canonical Russian names - [`lobby_settings.md`](lobby_settings.md). Engine behavior (how units and resources are added) - [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) §3.1.
@@ -80,6 +84,7 @@ Generated from game files. For regeneration:
 ```
 python compute/compute_starting_layout.py
 ```
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

@@ -97,6 +97,7 @@ For a suitable unit: every tick with RNG probability
 The exact value of `bnohungry` for each unit is in
 [`../../../../data.json`](../../../../data.json), field `bnohungry`.
 
+<a id="22-вероятность-гибели-от-голода"></a>
 ### 2.2. Chance of dying from starvation
 
 The exact formula is an RNG gate per tick with a complexity threshold
@@ -120,13 +121,14 @@ Guide to the actual game:
 - If you manage to restore food (bring it from the field, sell gold
   on the market) - the flag goes out, the death stops.
 
+<a id="23-расход-food-формула-upkeep"></a>
 ### 2.3. Food consumption: upkeep formula
 
 Each unit without `bnohungry = True` accumulates from the player
 `gPlayer.counter.resconsume[food]` via increment when creating [^5]:
 ```
-per_unit_resconsume_food = consume.food          # из case-ветки в unit.script
-                         + gc_obj_foodperunit    # = 30, если !bnohungry и !bbuilding
+per_unit_resconsume_food = consume.food          # from the case branch in unit.script
+                         + gc_obj_foodperunit    # = 30 when !bnohungry and !bbuilding
 ```
 Food consumption per game second (`player.script:_player_ProcessResourceConsume`):
 ```
@@ -139,7 +141,7 @@ game minutes:
 ```
 sum = 18 × (32 + 30) = 1116
 food / g-sec = 1116 × 32 / 20000 ≈ 1.786
-за 120 game sec ≈ 214 food   ✓
+over 120 game sec ≈ 214 food   ✓
 ```
 Consumption of food / g-sec per unit (for `bnohungry = False`):
 
@@ -150,6 +152,7 @@ Consumption of food / g-sec per unit (for `bnohungry = False`):
 | peasant `pearus` | 26 | +30 | 56 | 0.0896 |
 | infantry without explicit `consume.food` | 0 | +30 | 30 | 0.0480 |
 
+<a id="23-связь-с-pop-cap"></a>
 ### 2.3. Pop cap connection
 
 If the player falls below the `farmused` limit (see.
@@ -160,6 +163,7 @@ only real food shortage.
 
 ---
 
+<a id="3-что-происходит-при-бунте"></a>
 ## 3. What happens during a riot
 
 `brebellion = True` applies **only** to mercenaries
@@ -189,6 +193,7 @@ golden upkeep.”
 Details and countermeasures are in
 [`../systems/mercenaries_diplomacy.md` §3-4](../../systems/mercenaries_diplomacy.md).
 
+<a id="31-кто-иммунен-к-бунту"></a>
 ### 3.1. Who is immune to riot
 
 | Type | Rebellious? |
@@ -197,6 +202,7 @@ Details and countermeasures are in
 | Mercenaries from the deep center | Yes. |
 | Buildings | No. |
 
+<a id="32-score-бонус-противнику"></a>
 ### 3.2. Score bonus to opponent
 
 When a mercenary dies in a riot from an enemy blow, the enemy
@@ -206,8 +212,10 @@ important, but in a close game on points it can affect the winner.
 
 ---
 
+<a id="4-защита-от-голода-и-бунта"></a>
 ## 4. Protection from hunger and rebellion
 
+<a id="41-от-голода"></a>
 ### 4.1. From hunger
 
 1. **Place warehouses near the fields** - food arrives faster.
@@ -218,6 +226,7 @@ important, but in a close game on points it can affect the winner.
 4. **Reserve food**, especially before the attack (when the peasants are
    killed) - otherwise a double blow: killed peasants + the onset of famine.
 
+<a id="42-от-бунта"></a>
 ### 4.2. From rebellion
 
 1. **Gold mines with upgrade** - sharply increase income, pay off
@@ -233,6 +242,7 @@ important, but in a close game on points it can affect the winner.
 
 ---
 
+<a id="5-связь-с-другими-флагами"></a>
 ## 5. Connection with other flags
 
 | Flag | Description | File |

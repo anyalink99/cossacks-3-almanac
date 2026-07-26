@@ -1,7 +1,9 @@
+<a id="cossacks-3--counter-unit-matrix"></a>
 # Cossacks 3 - Counter-unit matrix
 
 **Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).
 
+<a id="метод"></a>
 ## Method
 ```
 effective_damage = max(1, attacker.damage − defender.protection[attacker.kind])
@@ -69,6 +71,7 @@ The source of the formula is `_misc_DoDamage` [^1]. FAST = `gc_settings_gamespee
 | 21 | Cannon (eur) | `cannon` · aus | 9000 | 0/0/0/0/0/0 |
 | 22 | Mortar (eur) | `mortar` · aus | 400 | 0/0/0/0/0/0 |
 
+<a id="матрица-эффективного-dps-real-sec--fast"></a>
 ## Effective DPS matrix (real-sec @ fast)
 
 How much damage **per second of real time** does the attacker inflict on the defender after subtracting protection. `effective_dps = max(1, dmg - prot[kind]) / pause_sec × 1.4`. Melee - divided by duration `attack0` from .aaf (per-unit; fallback ≈ 0.4688 g-sec).
@@ -99,6 +102,7 @@ The table is **symmetrical** in shape relative to the TTK above: TTK = HP / DPS,
 | A21 · Cannon (eur) | 225.2 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 230.3 | 220.1 | 225.2 | 230.3 | 222.7 | 230.3 | 230.3 | 230.3 |
 | A22 · Mortar (eur) | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 | 35.9 |
 
+<a id="оговорки"></a>
 ## Disclaimers
 
 - **Squad/formation bonuses** ignored: `fAddDamage` (aggressive stance) up to +50%, `fAddShieldHold` (wall mode) up to +50 EHP.
@@ -110,6 +114,7 @@ The table is **symmetrical** in shape relative to the TTK above: TTK = HP / DPS,
 - **Units of the 18th century. (musketeer18, pikeman18, grenadier 18)** require research century18 + of the corresponding building. Included for comparison, but appear only after a long period of economic development.
 
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.

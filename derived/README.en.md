@@ -24,6 +24,7 @@ next regeneration.
 | [`pattern_type_stats.json`](pattern_type_stats.json) | Per-type aggregates: median / min / max mask cells by pattern type (for calibrating the forest/stone counting model). | [`parser/parse_pattern_inventory.py`](../parser/parse_pattern_inventory.py) |
 | [`replay_ground_truth.json`](replay_ground_truth.json) | Empirical ground truth from replays: for each `.rep`/`.map` - party settings + exact pattern clusters placed by the engine. Used to calibrate [`compute_map_resources`](../compute/compute_map_resources.py) against reality. | [`parser/parse_replay_aggregates.py`](../parser/parse_replay_aggregates.py) |
 
+<a id="engine-reverse-engineering-потребляется-документацией-в-internals"></a>
 ## Engine reverse-engineering (consumed by documentation in `internals/`)
 
 | File | What's inside | From |
@@ -33,8 +34,10 @@ next regeneration.
 | [`engine_primitive_matches.json`](engine_primitive_matches.json) | Same as `engine_primitives.json`, but with RVA locations for each mapping. | [`parser/engine_recon/extract_primitives.py`](../parser/engine_recon/extract_primitives.py) |
 | [`exe_strings.json`](exe_strings.json) | Raw string pool from `cossacks.exe`: ~61 k ASCII + ~15 k Pascal ShortString. The source for all extractors is above. | [`parser/engine_recon/dump_exe_strings.py`](../parser/engine_recon/dump_exe_strings.py) |
 
+<a id="как-использовать"></a>
 ## How to use
 
+<a id="из-редактора-browser"></a>
 ### From the editor (browser)
 ```javascript
 fetch("../data.json").then(r => r.json())
@@ -45,6 +48,7 @@ fetch("../derived/builder_slots.json").then(r => r.json())
 ```
 See [`editor/js/data_loader.js`](../editor/js/data_loader.js).
 
+<a id="из-python-writer--compute--simulator"></a>
 ### From Python (writer/compute/simulator)
 ```python
 import json
@@ -56,6 +60,7 @@ Better - through ready-made utilities in [`parser/config.py`](../parser/config.p
 (`NATION_NAMES_RU`, `USAGE_RU`, `BUILDING_NAMES_RU`, `WEAPON_KIND_RU`,
 `nation_ru()`, `nation_label()`, `usage_ru()`, `decode_upg_type(s, lang='ru')`).
 
+<a id="регенерация"></a>
 ### Regeneration
 
 After the game patch:
@@ -79,6 +84,7 @@ python parser/engine_recon/extract_dws_signatures.py  # → derived/dws_native_s
 ```
 The complete pipeline is `python scripts/regen.py all` (a little more than 4 minutes).
 
+<a id="где-не-лежит"></a>
 ## Where it doesn't lie
 
 - **Raw game data** — [`../data.json`](../data.json), the ~5.7 MB master

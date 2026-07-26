@@ -90,6 +90,7 @@ Price: 0 food / 100 wood / 100 stone / 150 gold / 0 iron / 0 coal.
 | Contents | `consume[gold] = 500` → **0.8 gold / g-sec** (48 / g-min) | formula `consume × 32 / 20000`, the same as for food (see [`../economy/hunger_and_rebellion.md` §2.3](../economy/hunger_and_rebellion.md)) |
 | Capture | `bcapture = False` (after construction) | the tower is **never** captured when completed |
 
+<a id="21-вариации-по-нациям"></a>
 ### 2.1. Variations by nation
 
 - **Russian Tower** (`rustow`) reloads faster: `pause = 300`
@@ -100,6 +101,7 @@ Price: 0 food / 100 wood / 100 stone / 150 gold / 0 iron / 0 coal.
 
 ---
 
+<a id="3-целеуказание-башни"></a>
 ## 3. Tower targeting
 
 Tower is a normal building with weapons, so **uses a common one
@@ -116,6 +118,7 @@ algorithm** `_unit_SearchEnemyScanCells` (see
 That is, the tower always fires at the **nearest** enemy in radius,
 no matter how many other units are already firing at him.
 
+<a id="31-дальность-и-обзор"></a>
 ### 3.1. Range and view
 
 With vision `vision = 3` (32 FOW tiles), the tower **sees further** than
@@ -124,6 +127,7 @@ it is necessary that the tower can “start aiming” as soon as the enemy
 will appear in the viewing area, and open fire as soon as it enters
 shooting zone.
 
+<a id="32-тонкости-поведения"></a>
 ### 3.2. Subtleties of behavior
 
 - **Each shot costs resources.** With zero `iron` or `coal`
@@ -140,6 +144,7 @@ shooting zone.
 
 ---
 
+<a id="4-апгрейды-башни"></a>
 ## 4. Tower upgrades
 
 5 levels `eurtow.1..5`, each one reduces `weapon_pause`
@@ -152,6 +157,7 @@ resources; level 5 – several thousand. See numerical data there.
 
 ---
 
+<a id="5-время-постройки-и-время-сноса"></a>
 ## 5. Construction time and demolition time
 
 `buildtime = 3937 × 10 / 32 = 1230 g-sec`

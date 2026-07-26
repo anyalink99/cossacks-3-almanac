@@ -254,6 +254,7 @@ weight = 2 [^35]. At first glance it’s a paradox, but this is about the **fine
 - For 2v2, pairwise logic “don’t penalize the liver’s partner” is provided
   [^31] - default commands `{0,1}` vs `{2,3}`.
 
+<a id="9-сводка"></a>
 ## 9. Summary
 
 | Topic | Meaning |
@@ -267,6 +268,7 @@ weight = 2 [^35]. At first glance it’s a paradox, but this is about the **fine
 | **Scenario triggers** | `endgame_win = 47`, `endgame_lose = 48`, apply only to `myplind` (per-client). |
 | **Game modes** | `mainmenu` / `game` / `editor` / `spectator` / `replay` / `endgamestatistics`. On top - Random map, Historical Battle (`gMap.bbattle`), Campaign, Custom Scenario, Rated MP (`gMap.brating`). |
 
+<a id="10-открытые-вопросы"></a>
 ## 10. Open questions
 
 | # | Question | Where to dig |
@@ -280,6 +282,7 @@ weight = 2 [^35]. At first glance it’s a paradox, but this is about the **fine
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
@@ -363,8 +366,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```
 [^17]: Sub-tick check `bexists` — `units/global.inc/progress.inc:54-140`:
     ```pascal
-    addtime := (0.125*plInd)+gc_global_TimeCheckExists*4   // активен
-    addtime := (0.125*plInd)+gc_global_TimeCheckExists*12  // не активен
+    addtime := (0.125*plInd)+gc_global_TimeCheckExists*4   // active
+    addtime := (0.125*plInd)+gc_global_TimeCheckExists*12  // inactive
     ...
     if (gMap.bbattle) then gPlayer[plind].bexists := True
     else
@@ -406,7 +409,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```pascal
     TObj(pobj2).hp <= 0:
        gPlayer[plInd].counter.scores += TObjProp(pobjprop2).score * 2;
-       // плюс за всех юнитов внутри здания (гарнизон)
+       // plus all units inside the building (garrison)
        gPlayer[plInd].counter.scores += gObjProp[..].score * 3;
     ```
 [^26]: Accumulation when an object appears - `lib/unit.script:3836-3841`:
@@ -431,7 +434,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^31]: Penalty to the first leaver and 2v2 logic - `lib/miscext2.script:3730-3757`:
     ```pascal
-    if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // штраф ливеру
+    if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // leaver penalty
     case i of
        0: if firstleaverind<>1 ...
        1: if firstleaverind<>0 ...

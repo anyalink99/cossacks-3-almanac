@@ -1,3 +1,4 @@
+<a id="recon-механика-захвата"></a>
 # Recon: capture mechanics
 
 Reverse engineering using `lib/miscext.script` (functions `_misc_CheckCapture`,
@@ -22,6 +23,7 @@ There is no AoE2-like "converter" in Cossacks 3. Capture works clean
 
 ---
 
+<a id="1-константы"></a>
 ## 1. Constants
 
 Capture radii [^1]:
@@ -30,12 +32,12 @@ gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile = 3.0 tile
 gc_gameplay_captureradius          = 214 / 53.333          ≈ 4.013 tile
 gc_gameplay_protectionradius       = 426 / 53.333          ≈ 7.987 tile
 gc_gameplay_resourceDropRadius     = 3 tile
-*Sqr — те же значения в квадрате (для евкл. сравнения)
+*Sqr — the same values squared (for Euclidean comparisons)
 ```
 Ticks [^2]:
 ```
-gc_unit_TimeCheckCapture    = 0.1*19  ≈ 1.9   игрового сек.   (peasant + buildings)
-gc_unit_TimeCheckCaptureArt = 0.1*5   ≈ 0.5   игрового сек.   (артиллерия — чаще)
+gc_unit_TimeCheckCapture    = 0.1*19  ≈ 1.9 game sec   (peasants + buildings)
+gc_unit_TimeCheckCaptureArt = 0.1*5   ≈ 0.5 game sec   (artillery — checked more often)
 ```
 Metric - **Euclidean²** [^3]: `(px, py)` - position of the victim object,
 `(tx, ty)` is the position of the invader candidate. It's **center-to-center**, neither
@@ -44,19 +46,21 @@ one-cell anchor.
 
 Card settings `gMap.settings.additional.capture` [^4]:
 ```
-0 capture_default            — захват разрешён всем (peasant, infantry, art)
-1 capture_nopeasants         — peasant нельзя захватить (default deathmatch + battles)
-2 capture_nocenterspeasants  — peasant нельзя захватить + центр (TC) нельзя
-3 capture_onlyartillery      — только артиллерию можно захватывать
+0 capture_default            — all eligible objects can be captured (peasants, infantry, artillery)
+1 capture_nopeasants         — peasants cannot be captured (default deathmatch + battles)
+2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured
+3 capture_onlyartillery      — only artillery can be captured
 ```
 All 4 values ​​of the `capture` option with canonical Russian names are [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#capture--правила-захвата). Engine behavior (how `capture` interacts with `peacetime` and territory ownership) - [`game_settings.md`](../map/game_settings.md) §3.4.
 
 ---
 
+<a id="2-кто-может-быть-захвачен-bcapture--true"></a>
 ## 2. Who can be captured (`bcapture` = True)
 
 Search for `objprop.bcapture := True` in unit scripts:
 
+<a id="юниты"></a>
 ### Units
 | sid | usage |
 |---|---|
@@ -69,6 +73,7 @@ Search for `objprop.bcapture := True` in unit scripts:
 
 (Other types of units have `bcapture=False` → they cannot be captured, only killed.) [^5]
 
+<a id="здания"></a>
 ### Buildings
 
 In `_unit_InitBase`:
@@ -112,29 +117,30 @@ For non-buildings, the additional setting [^8] applies:
 
 ---
 
+<a id="3-триггер-misccheckcapture--полный-псевдокод"></a>
 ## 3. Trigger `_misc_CheckCapture` - full pseudocode
 
 Source: `_misc_CheckCapture` [^9]. Check logic in three steps:
 ```mermaid
 flowchart TD
-    Tick[Тик каждые 1.9 game sec<br/>0.5 для артиллерии] --> Peace{peacemode<br/>активен?}
-    Peace -- да --> Stop1[exit: проверка отключена]
-    Peace -- нет --> Step1[Шаг 1: ищем захватчика]
-    Step1 --> Scan[Сканируем grid в радиусе 54 cells<br/>от центра жертвы]
-    Scan --> Found{Есть вражеский<br/>bcancapture-юнит<br/>в captureradius² &lt; 4.013t?}
-    Found -- нет --> Stop2[exit: bcapture = False]
-    Found -- да --> Step2[Шаг 2: ищем protector'ов]
-    Step2 --> Scan2[Сканируем grid в protectionradius<br/>≈ 7.99 t от жертвы]
-    Scan2 --> Prot{Есть свой<br/>не-bcapture юнит<br/>в радиусе?}
-    Prot -- да --> Stop3[exit: bcapture отменён,<br/>протекторы блокируют]
-    Prot -- нет --> Step3[Шаг 3: применение]
-    Step3 --> Type{Тип жертвы}
-    Type -- стена --> Die1[bDie = True<br/>стена ломается]
-    Type -- здание --> AICheck{Captureчик AI<br/>и random &gt; 0.25?}
-    AICheck -- да --> Die2[bDie = True<br/>AI ломает здание]
-    AICheck -- нет --> Change[ChangePlayer<br/>здание + гарнизон]
-    Type -- юнит --> Change
-    Change --> Done[Готово]
+    Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}
+    Peace -- yes --> Stop1[exit: check disabled]
+    Peace -- no --> Step1[Step 1: find a capturer]
+    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]
+    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}
+    Found -- no --> Stop2[exit: bcapture = False]
+    Found -- yes --> Step2[Step 2: find protectors]
+    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]
+    Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}
+    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]
+    Prot -- no --> Step3[Step 3: apply capture]
+    Step3 --> Type{Target type}
+    Type -- wall --> Die1[bDie = True<br/>wall is destroyed]
+    Type -- building --> AICheck{AI capturer<br/>and random &gt; 0.25?}
+    AICheck -- yes --> Die2[bDie = True<br/>AI destroys building]
+    AICheck -- no --> Change[ChangePlayer<br/>building + garrison]
+    Type -- unit --> Change
+    Change --> Done[Done]
     Die1 --> Done
     Die2 --> Done
 ```
@@ -210,6 +216,7 @@ They cannot be captured at all.
   owner of all units inside (`pObjInside`) [^11]. Production
   orders are canceled, returning resources.
 
+<a id="триггеры-где-вызывается-misccheckcapture"></a>
 ### Triggers (where `_misc_CheckCapture` is called)
 
 | Source | Condition | Period |
@@ -222,6 +229,7 @@ They cannot be captured at all.
 
 ---
 
+<a id="4-захват-юнитов"></a>
 ## 4. Capture units
 
 ###Who can be captured as a unit
@@ -234,6 +242,7 @@ This is all. Infantry, cavalry, ships - cannot be captured** (only killed).
 Any `bcancapture && not bbuilding && not peasant` ⇒ all normal
 infantry / cavalry / art team (but not peasant and not the target itself).
 
+<a id="кого-можно-захватить-как-юнита"></a>
 ### What happens to the captured
 - Peasant: with default settings and normal conditions → changes player
   (`_misc_ChangePlayer`). Inside, the resource is not dropped, the AI ​​is restarted.
@@ -242,6 +251,7 @@ infantry / cavalry / art team (but not peasant and not the target itself).
 - Squad: the captured unit **leaves the squad** (see `_misc_SquadChangePlayer`);
   if the artillery was in formation, the formation collapses.
 
+<a id="кто-захватывает"></a>
 ### Default in Deathmatch and Historical Battle
 
 Both modes set `capture_nopeasants` [^15], so **in standard
@@ -250,14 +260,17 @@ only possible in skirmish with the `capture_default` setting.
 
 ---
 
+<a id="5-нейтральные-объекты-клады-мерценарий"></a>
 ## 5. Neutral objects, treasures, mercenary
 
+<a id="нейтральные-игроки-gplayeribneutral"></a>
 ### Neutral players (`gPlayer[i].bneutral`)
 - Field `bneutral : Boolean` in TPlayer [^16].
 - Used in **missions/scenarios** [^17] - scripters can
   toggle `bneutral=true/false` for diplomacy. In multiplayer /
   random maps **this flag is not active** for regular players.
 
+<a id="mercenary-player-index--maxplayer-1--особый-виртуальный-игрок"></a>
 ### Mercenary (player index = MaxPlayer-1 = special virtual player)
 - `gc_player_mercenaryind = gc_MaxPlayerCount-1` [^18].
 - Units with `bmercenary=True` (mercenary, recruited to the Diplomatic center)
@@ -267,24 +280,28 @@ only possible in skirmish with the `capture_default` setting.
 - Mercenary units **are not considered captors** [^20] - filter in
   `_unit_SearchCapturers`.
 
+<a id="treasure--chest--clad"></a>
 ### Treasure/chest/clad
 **Not found**. Searches `treasure|chest|clad|gc_obj_usage_treasure|stash`
 do not produce results in scripts. There are no neutral treasures in Cossacks 3
 on the map, like in C1 (Sich Rebellion in C1 had “treasures”, in C3 this mechanic
 removed).
 
+<a id="нейтральные-крестьяне-на-карте"></a>
 ### Neutral peasants on the map
 `SetupStartingResources` (see recon/world/map/map_generation_pipeline.md)
 spawns **18 peasants in a 6x3 grid** at the start of the game - **all of them are already
 belong to the player**, are not neutral. Other neutral units on
 no map.
 
+<a id="нейтральные-здания"></a>
 ### Neutral buildings
 No. All buildings on the map are the property of the players or mercenary-player when
 defect.
 
 ---
 
+<a id="6-захват-башен-специфика"></a>
 ## 6. Capture towers (specifics)
 All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^21].
 
@@ -304,6 +321,7 @@ All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^
 
 ---
 
+<a id="7-конверсия-priest-как-конвертер"></a>
 ## 7. Conversion (priest-as-converter)
 
 **No such mechanics.**
@@ -320,15 +338,16 @@ no conversion.
 
 ---
 
+<a id="8-capture-радиус--точные-числа"></a>
 ## 8. Capture radius - exact numbers
 ```
-Метрика:           Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)
-Точка отсчёта:     центр-к-центру (game-object position X/Z)
-Расстояние:        в tiles (1 tile = 53.333 px)
-captureradius      ≈ 4.0125 tile  ≈ 1.6 m в игровом масштабе (1 tile = 0.5 m? см. determinism)
+Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)
+Reference points:  center to center (game-object position X/Z)
+Distance:          in tiles (1 tile = 53.333 px)
+captureradius      ≈ 4.0125 tiles ≈ 1.6 m at game scale (1 tile = 0.5 m? see determinism)
                    = 214 px game-source units
-captureblockshot   = 3.0 tile     (заглушает огонь жертвы)
-protectionradius   ≈ 7.987 tile   (зона protector'а, отменяет захват)
+captureblockshot   = 3.0 tiles    (suppresses the target's fire)
+protectionradius   ≈ 7.987 tiles  (protector zone; cancels capture)
 ```
 ⇒ To capture a building, an infantry unit needs to approach **an anchor point
 buildings** at a distance of < 4,013 tiles (Euclidean). If the building occupies
@@ -367,6 +386,7 @@ asymmetrical buildings.
 
 ---
 
+<a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
@@ -411,25 +431,25 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^10]: Full pseudocode `_misc_CheckCapture` - `lib/miscext.script:961-1185`:
     ```pascal
     procedure _misc_CheckCapture(goHnd):
-      pobj      := объект-жертва
-      scangrid  := его клетка скан-сетки
-      bneutral  := (not gbool_peacemode) or (owner-of-grid <> мой pl)
-      if not bneutral: return                          // в peacetime + рядом наш  не проверяем
+      pobj      := target object
+      scangrid  := its scan-grid cell
+      bneutral  := (not gbool_peacemode) or (owner-of-grid <> my pl)
+      if not bneutral: return                          // skip during peace time when the nearby grid is ours
 
       bwall    := pobjprop.bwall
       enemyplmask := gPlayer[my pl].enemyplmask
-      rx1 := floor(214/4) + 1 = 54  → радиус сканирования по grid-cells
+      rx1 := floor(214/4) + 1 = 54  → scan radius in grid cells
       capturePlMask := bneutral ? enemyPlMask : myPlMask-of-grid-owner
 
-      // -------- Шаг 1: найти захватчика --------
+      // -------- Step 1: find a capturer --------
       bcapture := False; capturerCount := 0; bblockshot := False
-      for каждой grid-cell в радиусе rx1 от scangrid:
-        if в клетке есть юниты enemyplmask:
+      for each grid cell within rx1 of scangrid:
+        if the cell contains enemyplmask units:
           trgHnd := bwall ? _unit_SearchCapturersForWall(...) : _unit_SearchCapturers(...)
           if trgHnd != 0:
              pobjprop2 = ObjProp(trgHnd)
-             // Стены ловят любого не-здания-врага (даже peasant);
-             // обычные здания — только bcancapture-юнита, и не на воде
+             // Walls accept any enemy non-building (even a peasant);
+             // normal buildings accept only a bcancapture unit that is not on water.
              if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):
                 distSqr := (px-tx)² + (py-ty)²
                 if distSqr < captureradiusSqr (≈4.013² tile):
@@ -439,33 +459,33 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
                    if distSqr < captureblockshotradiusSqr (3² tile):
                       bblockshot := True
 
-      // _unit_SearchCapturers ищет юнита с условиями:
+      // _unit_SearchCapturers finds a unit satisfying:
       //   not bbuilding && bcancapture && (myplmask & plmask)<>0
       //                                   && pl <> mercenaryInd
-      // _unit_SearchCapturersForWall — то же, БЕЗ требования bcancapture
-      //   (т.е. кто угодно из вражеской пехоты ломает стену = «захватывает»),
-      //   фактически здесь захват = смерть стены (bDie=True ниже).
+      // _unit_SearchCapturersForWall is the same WITHOUT the bcancapture requirement
+      //   (that is, any enemy infantry can break, or "capture," a wall);
+      //   capture here effectively means wall death (bDie=True below).
 
-      // -------- Шаг 2: если жертва — здание/арт-юнит у стены, и hp >= maxhp/3 --------
+      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------
       if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):
 
-         // 2a. Если уцель — НЕ peasant, и захватчик ОЧЕНЬ близко (<3 tile),
-         //     заглушаем стрельбу здания на 100 кадров (≈3.125 game sec):
+         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),
+         //     suppress building fire for 100 frames (≈3.125 game sec):
          if usage<>peasant and bblockshot:
             attackdelay := max(attackdelay, 100*gc_frames_to_time)
 
-         // 2b. Найти protector'ов в радиусе protectionradius (~7.99 tile)
+         // 2b. Find protectors within protectionradius (~7.99 tiles)
          rx2 := floor(426/4) + 1
-         for grid-cells в rx2 (только клетки с моими юнитами myplmask):
-            trgHnd := _unit_SearchProtectors(...) — ищет юнита с pobjprop.bprotector
+         for grid cells within rx2 (only cells containing my myplmask units):
+            trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector
                                                     && not bbuilding && (myplmask & plmask)=0
             if trgHnd != 0:
                if not pobjprop2.bcapture:
                   if distSqr < protectionradiusSqr:
-                     bcapture := False; protectorsCount += 1; (но цикл продолжается)
+                     bcapture := False; protectorsCount += 1; (but the loop continues)
 
-         // 2c. AI-арт-логика: если жертва — bartillery и pl=AI,
-         //     и слишком много protector'ов — суицид:
+         // 2c. AI artillery logic: when the target is bartillery, pl=AI,
+         //     and there are too many protectors, commit suicide:
          if gPlayer[my pl].bai and pobjprop.bartillery:
             if (capCount>=protCount and protCount=1) or
                (capCount>3 and protCount=2)        or
@@ -474,48 +494,48 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
                if (not bEasy) or (random>0.5):
                   SetTagStates(goHnd, essential_death); exit
 
-      // -------- Шаг 3: применение захвата --------
+      // -------- Step 3: apply capture --------
       if bcapture:
          statetag := GetGameObjectStatesTag(goHnd)
-         // Юнит, ещё не родившийся (essential_birth) и видимый — просто умирает:
+         // A visible unit that has not spawned yet (essential_birth) simply dies:
          if not bbuilding and (essential_birth & statetag) and (not visual_hide):
             SetTagStates(essential_death); exit
 
          if (statetag & visual_hide) = 0:
             if bbuilding or (essential_none & statetag) <> 0:
-               bDie := False; bAutoKill := False  // (bAutoKill в коде не задаётся явно)
+               bDie := False; bAutoKill := False  // bAutoKill is not assigned explicitly in the code
                if bAutoKill or pobjprop.bwall:
-                  bDie := True                    // СТЕНЫ всегда умирают, не захватываются
+                  bDie := True                    // WALLS always die; they are never transferred
 
                if not bbuilding:
                   _unit_Stop(goHnd)
                else:
-                  отменить produce/upgrade orders;  ClearOrders;  SetSTO=0
+                  cancel produce/upgrade orders;  ClearOrders;  SetSTO=0
 
-               newPlHnd := player захватчика;  newPlInd := его index
+               newPlHnd := capturer's player;  newPlInd := that player's index
 
-               // alarm-event для захваченного игрока:
+               // Alarm event for the captured player:
                if my pl == InterfaceIO_pl:
                   _misc_DoAlarm(capturerHnd, goHnd, alarmevent_capture)
 
-               // ---- AI-захватчик: иногда «ломает» вместо захвата ----
-               if gPlayer[my pl].bai:        // ai теряет здание
+               // ---- AI capturer: sometimes destroys instead of capturing ----
+               if gPlayer[my pl].bai:        // AI loses the building
                   if bbuilding:
-                     if random > 0.25:        // 75% шанс что зайдёт в деструкцию
+                     if random > 0.25:        // 75% chance of entering destruction
                         if bbuilt and pobjprop.bslowdeath and hp>1999:
-                           hp := 1999 - floor(RandomExt*300)   // медленная агония
+                           hp := 1999 - floor(RandomExt*300)   // slow death
                         else:
                            bDie := True
-                  else:                       // юнит peasant/арт
+                  else:                       // peasant/artillery unit
                      if usage=peasant and not bEasy:
-                        bDie := True          // hard+: ai уничтожает своего peasant'а перед захватом
+                        bDie := True          // hard+: AI destroys its peasant before capture
                      else case usage of
                         supermortar: if random>0.585     then bDie := True   // ≈41.5% suicide
                         cannon:      if random>0.391     then bDie := True   // ≈60.9% suicide
                         mortar:      if random>0.141     then bDie := True   // ≈85.9% suicide
-                        peasant:     if random>0.547     then bDie := True   // ≈45.3% (если bEasy)
+                        peasant:     if random>0.547     then bDie := True   // ≈45.3% when bEasy
                else if gPlayer[newPlInd].bai and usage=peasant and not bEasy:
-                  bDie := True                 // обратное: AI-захватчик «убивает» peasant'а в hard
+                  bDie := True                 // inverse case: an AI capturer "kills" the peasant on hard
 
                if bDie: SetTagStates(essential_death)
                else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)

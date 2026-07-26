@@ -1,3 +1,4 @@
+<a id="каталог-оружия-projectile-level"></a>
 # Weapon catalog (projectile-level)
 
 [← weapons/](README.md) · [← compare/](../README.md) · [← Index](../../README.md)
@@ -21,6 +22,7 @@ Column `dmg` shows the **range** of values ​​among carrier units (`min..max`
 | `SHOTMUSKET` | bullet | 9..43 | 2.25..6.88 | 13.13..22.5 | {"coal": 10, "iron": 6}, {"coal": 2, "iron": 1}, {"coal": 3, "iron": 1}, {"coal": 3, "iron": 2}, {"coal": 3, "iron": 3}, {"coal": 4, "iron": 2}, {"coal": 4, "iron": 3}, {"coal": 5, "iron": 2}, {"coal": 5, "iron": 3}, {"coal": 5, "iron": 4}, {"coal": 6, "iron": 3}, {"coal": 7, "iron": 3}, {"coal": 8, "iron": 4}, {"coal": 8, "iron": 5}, {"coal": 9, "iron": 4} | chasseur, dragoon, dragoon18, dragoon18dip, dragoon18fra, dragoon18net (+32) |
 | `STRELA` | arrow | 15..25 | 1.56..3.12 | 13.13..20.63 | {"wood": 1}, {"wood": 2} | archer, archerdip, archersco, archertur, archerturdip, tatar |
 
+<a id="заметки"></a>
 ## Notes
 
 - **`SHOTMUSKET`** - standard musket shot. Used by most musketeers and dragoons. Strelets has more damage (9 vs. 8) with the same projectile.

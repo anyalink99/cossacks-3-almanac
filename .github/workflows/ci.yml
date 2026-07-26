@@ -45,7 +45,9 @@ jobs:
             docs/reference docs/reports \
             docs_en/reports/map/map_predictions_validation.md \
             docs/_manifest.json docs_en/_manifest.json \
-            internals/_manifest.json internals_en/_manifest.json
+            internals/_manifest.json internals_en/_manifest.json \
+            docs/_search.json docs_en/_search.json \
+            internals/_search.json internals_en/_search.json
 
       - name: Verify canonical_terms loads
         run: python -c "import json; d = json.loads(open('derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"

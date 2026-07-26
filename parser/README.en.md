@@ -1,3 +1,4 @@
+<a id="parser--извлечение-данных-из-игры"></a>
 # `parser/` - extract data from the game
 
 **English** · [Русский](README.md)
@@ -45,8 +46,10 @@ write_md_tree   compute_scaling           simulate_economy
   parser/engine_recon/ → ../derived/{dws_native_signatures, engine_primitives, exe_strings}.json
                        (feeds internals/engine/*; independent of data.json)
 ```
+<a id="файлы-parser"></a>
 ## Files (`parser/`)
 
+<a id="парсеры-вход-game-files-выход-json-friendly-dicts"></a>
 ### Parsers (input: game files; output: JSON-friendly dicts)
 
 | File | What does |
@@ -58,6 +61,7 @@ write_md_tree   compute_scaling           simulate_economy
 | **`parse_units.py`** | Text-based balanced-block walker. Parser `_unit_InitBase` - three case blocks (units / common buildings / per-nation buildings) with per-nation / per-cluster overrides. |
 | **`simulate_upgrades.py`** | Symbolic Pascal executor for `_country_InitUnitsUpgrades` and `_country_Init`. Tracks `member`/`upgplace`, inline `SetUpgStruct*` + `AddUpgradePack`, deploys `for i:=1 to 3 do` (mine upgrades). Issue ~3000 fully-resolved upgrade rows. |
 
+<a id="инструменты-replayев"></a>
 ### Replay tools
 
 | File | What does |
@@ -67,14 +71,17 @@ write_md_tree   compute_scaling           simulate_economy
 | **`parse_replay_aggregates.py`** | Builds aggregates according to the replay catalog for empirical verification of the format. |
 | **`replay_to_build_order.py`** | Converts decoded events into a construction/production sequence. |
 
+<a id="orchestrator-вход-парсеры-выход-единый-dict"></a>
 ### Orchestrator (input: parsers; output: single dict)
 
 | File | What does |
 |---|---|
 | **`build_data.py`** | Calls all parsers, merges them into a single `dict`, adds the versioned stamp, market rates, officers, sanity_checks (112 auto-statements). Saves to `data.json`. |
 
+<a id="как-запускать"></a>
 ## How to launch
 
+<a id="после-патча-игры-полная-регенерация"></a>
 ### After the game patch (full regeneration)
 
 All commands are from the project root:
@@ -94,6 +101,7 @@ All writer/compute scripts read only from `data.json` (except `compute/compute_m
 which also goes into game files for map gen densities). Therefore, it is enough to update once
 data.json - then writers are executed in <30 seconds in total.
 
+<a id="diff-между-снапшотами"></a>
 ### Diff between snapshots
 ```bash
 python parser/build_data.py                                       # current
@@ -117,8 +125,10 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json
 
 After the game patch, regressions in the data will be visible through `FAIL` in this list.
 
+<a id="архитектура-парсеров"></a>
 ## Parser architecture
 
+<a id="подход"></a>
 ### Approach
 
 Pascal game scripts are **executable code**, not data. To extract parameters,
@@ -126,6 +136,7 @@ we do **symbolic execution**: parse in AST, evaluate conditions (`if (aus)`,
 `case cid of _aus`) for each nation separately, inline auxiliary procedures
 (`SetUpgStructFoodGold`, `AddUpgradePack`).
 
+<a id="ключевые-трюки"></a>
 ### Key tricks
 
 1. **Pre-substitution** (`_presubstitute`): csid → 'aus', commonName → 'eur',
@@ -144,6 +155,7 @@ we do **symbolic execution**: parse in AST, evaluate conditions (`if (aus)`,
 5. **Last-write-wins dedup**: matches the behavior of the game (`_country_AddUpgrade`
    with the same sid overwrites the previous one).
 
+<a id="каталоги-выходов"></a>
 ## Output directories
 
 - [`../docs/README.md`](../docs_en/README.md) - directory index for the player

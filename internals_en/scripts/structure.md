@@ -1,8 +1,10 @@
+<a id="структура-скриптовой-среды-cossacks-3"></a>
 # Structure of the Cossacks 3 scripting environment
 
 Where is the logic in `data/scripts/`, how do the files get into
 script VM, what are their entry points.
 
+<a id="1-что-такое-скрипт-в-c3"></a>
 ## 1. What is a “script” in C3
 
 Cossacks 3 uses **DWS** (DelphiWebScript, open-source:
@@ -24,45 +26,46 @@ This means: **most of the “rules of the game” are in the scripts**, and the 
 provides ECS-runtime, render, pathfinding, sync and I/O. This
 makes the game very moddable (mod loader `modman.exe`).
 
+<a id="2-файлы-и-форматы-в-datascripts"></a>
 ## 2. Files and formats in `data/scripts/`
 ```
 data/scripts/
-├── dmscript.global           Глобальные константы (.parser-формат)
-├── dmscript.source           Начальное состояние глобальных vars
-├── common.aix                AI-константы (бинарный)
+├── dmscript.global           Global constants (.parser format)
+├── dmscript.source           Initial state of global variables
+├── common.aix                AI constants (binary)
 ├── common.inc                ?
-├── resource.script           Top-level: загрузка локали
+├── resource.script           Top level: load locale
 ├── env/env.inc               Environment variables
-├── lib/                      29 .script-файлов — библиотеки логики
-│   ├── unit.script           (534 KB) — поведение юнитов и зданий
-│   ├── country.script        (342 KB) — нации, апгрейды, ростер
-│   ├── classes.script        (242 KB) — record-типы и helpers
-│   ├── miscext2.script       (198 KB) — продвинутый misc
-│   ├── misc.script           (237 KB) — общие helpers
-│   ├── gui.script            (162 KB) — UI-логика
-│   ├── player.script         (138 KB) — состояние игрока
-│   ├── ai.script             ( 90 KB) — поведение ИИ
-│   ├── serial.script         ( 91 KB) — сериализация
-│   ├── weapon.script         ( 66 KB) — оружие/снаряды
+├── lib/                      29 .script files — logic libraries
+│   ├── unit.script           (534 KB) — unit and building behavior
+│   ├── country.script        (342 KB) — nations, upgrades, roster
+│   ├── classes.script        (242 KB) — record types and helpers
+│   ├── miscext2.script       (198 KB) — advanced miscellaneous helpers
+│   ├── misc.script           (237 KB) — common helpers
+│   ├── gui.script            (162 KB) — UI logic
+│   ├── player.script         (138 KB) — player state
+│   ├── ai.script             ( 90 KB) — AI behavior
+│   ├── serial.script         ( 91 KB) — serialization
+│   ├── weapon.script         ( 66 KB) — weapons/projectiles
 │   ├── miscext.script        ( 70 KB)
-│   ├── movie.script          ( 45 KB) — кат-сцены
-│   ├── scenario.script       (200 KB) — сценарии и кампания
-│   ├── control.script        ( 27 KB) — выделение/команды
+│   ├── movie.script          ( 45 KB) — cutscenes
+│   ├── scenario.script       (200 KB) — scenarios and campaign
+│   ├── control.script        ( 27 KB) — selection/commands
 │   ├── steam.script          ( 27 KB) — Steam wrapper
 │   ├── sound.script          ( 26 KB)
 │   ├── profile.script        ( 26 KB)
-│   ├── squad.script          ( 23 KB) — отряды
+│   ├── squad.script          ( 23 KB) — squads
 │   ├── ui.script             ( 22 KB)
 │   ├── pfx.script            ( 17 KB) — particles
-│   ├── res.script            ( 12 KB) — ресурсы
+│   ├── res.script            ( 12 KB) — resources
 │   ├── map.script            ( 11 KB)
 │   ├── miscext3.script       ( 10 KB)
-│   ├── init.script           ( 10 KB) — инициализация
+│   ├── init.script           ( 10 KB) — initialization
 │   ├── scenarioeditor.script ( 10 KB)
 │   ├── net.script            (  6 KB) — multiplayer state
 │   ├── group.script          (  5 KB)
-│   ├── parser.script         (  2 KB) — обёртка над DWS Parser
-├── misc/                     Дополнительные .inc
+│   ├── parser.script         (  2 KB) — DWS Parser wrapper
+├── misc/                     Additional .inc files
 ├── progress/progress.inc
 ├── units/<sid>/              Per-unit `.parser` configs
 ├── user/user.inc
@@ -77,6 +80,7 @@ data/scripts/
   It is not parsed by DWS, but by the native `Parser*` API.
 - `.aix` - binary AI config.
 
+<a id="3-как-скрипты-попадают-в-vm"></a>
 ## 3. How scripts get into the VM
 
 Unlike Lua/Python with explicit `require/import`, DWS in C3 does not have **
@@ -101,6 +105,7 @@ refer to each other through function names (`_unit_*`, `_misc_*`),
 and the DWS compiler resolves references at the time the entire set is compiled.
 Each `.script` is a **unit library of functions with no explicit imports**.
 
+<a id="4-namespacing-конвенция"></a>
 ## 4. Namespacing convention
 
 C3 uses Pascal-style namespace via underscores:
@@ -130,8 +135,10 @@ C3 uses Pascal-style namespace via underscores:
 In total, ~1,600 functions are defined in scripts (see.
 `derived/engine_primitives.json` field `defined`).
 
+<a id="5-что-в-каждом-главном-файле"></a>
 ## 5. What's in each main file
 
+<a id="libunitscript-534-kb-250-функций--главный"></a>
 ### `lib/unit.script` (534 KB, 250 functions) - main
 
 Behavior of all units and buildings. Contains huge `case sid of`
