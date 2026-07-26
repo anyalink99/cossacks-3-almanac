@@ -1,7 +1,7 @@
 ## Эпохальный переход: 17 → 18 век — таблица
 
 Полный разбор пререквизитов, цепочки строительства и стратегии — в
-[`../recon/world/economy/upgrades_application.md` §7.5](../recon/world/economy/upgrades_application.md).
+[`../../recon/world/economy/upgrades_application.md` §7.5](../../recon/world/economy/upgrades_application.md).
 Здесь — таблица стоимости `<nat>cen.1` по нациям.
 
 ### Цена `<nat>cen.1` (апгрейд перехода в 18 век)
@@ -18,7 +18,7 @@
 быстрый. Узкое место — собрать **Академию + Собор + Артиллерийское
 депо** (~ 7 000 wood + 4 000 stone + 1 000 gold + ~36 real-мин при
 одном строителе на каждое здание). Полная таблица всех апгрейдов —
-в [05_upgrades/README.md → cen — Городской центр](05_upgrades/README.md#cen--городской центр-переход-эпохи).
+в [05_upgrades/README.md → cen — Городской центр](../05_upgrades/README.md#cen--городской центр-переход-эпохи).
 
 **Заперты в 17 веке** (нет `<nat>ba2`): `tur`, `alg`, `ukr` — у
 них отсутствуют `musketeer18`, `grenadier`, `dragoon18`. Они

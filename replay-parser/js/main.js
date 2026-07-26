@@ -1,6 +1,12 @@
 // Main controller: file uploads + result rendering.
 
 import { initPyodide, parseReplay } from "./pyodide_runner.js";
+import translationsEn from "./translations.en.js";
+import {
+  bindToolLanguageSwitch,
+  startAutomaticLocalization,
+  tr,
+} from "../../assets/js/runtime-i18n.js";
 import {
   renderCard,
   renderComparison,
@@ -19,8 +25,11 @@ const clearBtn = $("#clear_btn");
 const openReplays = [];
 let replayId = 0;
 
+startAutomaticLocalization(translationsEn);
+bindToolLanguageSwitch($("#language_switch"));
+
 function setStatus(text, cls = "loading") {
-  status.textContent = text;
+  status.textContent = tr(text);
   status.className = `pill ${cls}`;
 }
 

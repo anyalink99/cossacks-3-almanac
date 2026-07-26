@@ -17,8 +17,8 @@
     {
       "path": "data/replay_format.md",
       "title": "Replay / Save (`.rep`, `.map`) — формат `OSWMap13`",
-      "size": 27732,
-      "lines": 450
+      "size": 51217,
+      "lines": 847
     },
     {
       "path": "engine/animation_system.md",
@@ -29,14 +29,14 @@
     {
       "path": "engine/determinism_audit.md",
       "title": "Recon: детерминизм добычи и боя (RNG audit)",
-      "size": 33466,
-      "lines": 530
+      "size": 34350,
+      "lines": 540
     },
     {
       "path": "engine/native_api.md",
       "title": "Native API движка Cossacks 3 (Delphi + DWS)",
-      "size": 27015,
-      "lines": 392
+      "size": 29113,
+      "lines": 405
     },
     {
       "path": "engine/native_primitives.md",
@@ -47,8 +47,8 @@
     {
       "path": "engine/rng_implementation.md",
       "title": "Реализация RNG в Cossacks 3",
-      "size": 12399,
-      "lines": 221
+      "size": 17319,
+      "lines": 267
     },
     {
       "path": "engine/rtti_class_map.md",
@@ -83,8 +83,8 @@
     {
       "path": "README.md",
       "title": "Internals — техническое устройство Cossacks 3",
-      "size": 7497,
-      "lines": 93
+      "size": 7767,
+      "lines": 95
     },
     {
       "path": "scripts/structure.md",

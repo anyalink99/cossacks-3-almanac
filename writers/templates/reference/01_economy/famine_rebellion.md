@@ -1,6 +1,6 @@
 ## Голод и бунт — таблицы upkeep
 
-> **Полный разбор механики:** [`../recon/world/economy/hunger_and_rebellion.md`](../recon/world/economy/hunger_and_rebellion.md) (RNG-пороги по сложности, виртуальный игрок-наёмник, защитные стратегии). Дипломатический центр и наёмники как **система** — [`../recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md).
+> **Полный разбор механики:** [`../../recon/world/economy/hunger_and_rebellion.md`](../../recon/world/economy/hunger_and_rebellion.md) (RNG-пороги по сложности, виртуальный игрок-наёмник, защитные стратегии). Дипломатический центр и наёмники как **система** — [`../../recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
 
 ### Расход food / g-сек на одного юнита
 
@@ -18,7 +18,7 @@
 **Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян простаивают 2 игровые минуты:
 `sum = 18 × 62 = 1116` → `1116 × 32 / 20000 = 1.786 food/g-сек` → **за 120 g-сек ≈ 214 food** ✓
 
-Точное значение `bnohungry` для каждого юнита — в [`../data.json`](../../data.json), поле `bnohungry`. Кратко: здания и наёмники (`bmercenary = True`) — `True`; крестьяне, обычная пехота / кавалерия, офицеры / барабанщики / священники — `False`.
+Точное значение `bnohungry` для каждого юнита — в [`data.json`](../../../data.json), поле `bnohungry`. Кратко: здания и наёмники (`bmercenary = True`) — `True`; крестьяне, обычная пехота / кавалерия, офицеры / барабанщики / священники — `False`.
 
 ### Дипломатический центр
 
@@ -45,7 +45,7 @@
 ### Расход gold юнитами
 
 `consume[gold]` встречается у:
-- **Башен** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 за g-minуту) — постоянный налог независимо от боя. См. [`../recon/world/combat/towers.md` §2](../recon/world/combat/towers.md).
+- **Башен** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 за g-минуту) — постоянный налог независимо от боя. См. [`../../recon/world/combat/towers.md` §2](../../recon/world/combat/towers.md).
 - **Наёмников** через `consume.gold` — постоянный upkeep всех 8 sid.
 - **Стрелковых юнитов** — только за выстрел через `weapon.cost[gold]`, не в простое.
 

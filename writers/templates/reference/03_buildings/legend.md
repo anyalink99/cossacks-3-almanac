@@ -5,7 +5,7 @@
 | **Здание** | Локализованное имя + `sid` |
 | **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |
 | **HP** | Очки здоровья достроенного здания |
-| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/world/economy/building_mechanics.md](../recon/world/economy/building_mechanics.md). |
+| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/world/economy/building_mechanics.md](../../recon/world/economy/building_mechanics.md). |
 | **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |
 | **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |
 | **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |

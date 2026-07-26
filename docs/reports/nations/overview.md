@@ -1,6 +1,6 @@
 # Сравнение наций — общий обзор
 
-**Производный отчёт.** Считается из [`data.json`](../../data.json) скриптом [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). Регенерация: `python compute/compute_nations_overview.py`.
+**Производный отчёт.** Считается из [`data.json`](../../../data.json) скриптом [`compute/compute_nations_overview.py`](../../../compute/compute_nations_overview.py). Регенерация: `python compute/compute_nations_overview.py`.
 
 Side-by-side сравнение всех 21 наций. Для подробностей по конкретной нации — [`reference/nations/<nat>.md`](../../reference/nations/README.md).
 

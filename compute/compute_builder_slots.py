@@ -379,7 +379,7 @@ def main():
              "`collisionmaskproperty.Mask` каждого `.prop` файла в "
              "`data/objects/buildings/` по правилу, эмпирически согласованному с игрой.")
     L.append("")
-    L.append("**Формула** (см. [`recon/world/building_mechanics.md`](../../recon/world/building_mechanics.md), "
+    L.append("**Формула** (см. [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md), "
              "раздел про слоты):")
     L.append("")
     L.append(f"- Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` "

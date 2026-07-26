@@ -7,6 +7,7 @@
 // Click on any element → onSelect(actionRef).
 
 import { fmtName } from "./i18n.js";
+import { tr as translate } from "../../../assets/js/runtime-i18n.js";
 
 const NS = "http://www.w3.org/2000/svg";
 
@@ -96,7 +97,7 @@ function redraw() {
     _svg.appendChild(bg);
     _svg.appendChild(el("text", {
       x: 10, y: top + 14, class: "track-label",
-    }, [tr.label.toUpperCase()]));
+    }, [translate(tr.label).toUpperCase()]));
   }
 
   // Body content per track
@@ -113,7 +114,7 @@ function drawTimeAxis(maxT, width) {
   const bg = el("rect", { x: 0, y: 0, width, height: AXIS_H, class: "time-axis-bg" });
   _svg.appendChild(bg);
   _svg.appendChild(el("rect", { x: 0, y: 0, width: LABEL_W, height: AXIS_H, class: "time-axis-bg" }));
-  _svg.appendChild(el("text", { x: 10, y: 16, class: "track-label" }, ["ВРЕМЯ (г-сек)"]));
+  _svg.appendChild(el("text", { x: 10, y: 16, class: "track-label" }, [translate("ВРЕМЯ (г-сек)")]));
   // Tick step: every 30g minor, 60g major (≈ 1 game-minute).
   const minor = 30, major = 60;
   for (let t = 0; t <= maxT; t += minor) {
@@ -126,7 +127,7 @@ function drawTimeAxis(maxT, width) {
     if (isMajor) {
       _svg.appendChild(el("text", {
         x, y: AXIS_H - 12, class: "time-label", "text-anchor": "middle",
-      }, [`${t}g`]));
+      }, [String(t)]));
     }
   }
 }

@@ -1,6 +1,6 @@
 # Cossacks 3 — Vision и searchradius
 
-**Производный** отчёт. Считается из `data.json` скриптом [`compute/compute_vision.py`](../../compute/compute_vision.py).
+**Производный** отчёт. Считается из `data.json` скриптом [`compute/compute_vision.py`](../../../compute/compute_vision.py).
 
 Cossacks 3 имеет два концентрических радиуса «осведомлённости»:
 

@@ -112,7 +112,7 @@ def write_tree_md(tree: dict) -> None:
     L.append("Граф зависимостей: что нужно построить или исследовать перед чем. "
              "Извлечено из `_country_AddFixedProduceWithAccessControl` и "
              "`_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). "
-             "Источник истины — [`derived/tech_tree.json`](../../derived/tech_tree.json).")
+             "Источник истины — [`derived/tech_tree.json`](../../../derived/tech_tree.json).")
     L.append("")
     L.append("**Условные обозначения:**")
     L.append("- `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)")

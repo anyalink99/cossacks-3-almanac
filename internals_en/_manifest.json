@@ -1,0 +1,96 @@
+{
+  "root": "internals_en",
+  "title": "Internals (engine recon)",
+  "entries": [
+    {
+      "path": "data/file_formats.md",
+      "title": "File formats in `data/`",
+      "size": 8118,
+      "lines": 224
+    },
+    {
+      "path": "data/layout.md",
+      "title": "Structure `data/` in Cossacks 3",
+      "size": 7876,
+      "lines": 192
+    },
+    {
+      "path": "data/replay_format.md",
+      "title": "Replay / Save (`.rep`, `.map`) - format `OSWMap13`",
+      "size": 38875,
+      "lines": 819
+    },
+    {
+      "path": "engine/animation_system.md",
+      "title": "Animation system: timings, cycles, impact point",
+      "size": 20318,
+      "lines": 482
+    },
+    {
+      "path": "engine/determinism_audit.md",
+      "title": "Recon: determinism of loot and combat (RNG audit)",
+      "size": 26273,
+      "lines": 521
+    },
+    {
+      "path": "engine/native_api.md",
+      "title": "Native API of the Cossacks 3 engine (Delphi + DWS)",
+      "size": 21849,
+      "lines": 395
+    },
+    {
+      "path": "engine/native_primitives.md",
+      "title": "Native primitives in cossacks.exe - DWS signatures (detailed list)",
+      "size": 20617,
+      "lines": 273
+    },
+    {
+      "path": "engine/rng_implementation.md",
+      "title": "Implementation of RNG in Cossacks 3",
+      "size": 12180,
+      "lines": 256
+    },
+    {
+      "path": "engine/rtti_class_map.md",
+      "title": "Delphi engine class map (RTTI)",
+      "size": 14693,
+      "lines": 322
+    },
+    {
+      "path": "engine/script_modding_constraints.md",
+      "title": "Scripting restrictions when modding: DoDamage and unit death",
+      "size": 6054,
+      "lines": 143
+    },
+    {
+      "path": "engine/server_sync_architecture.md",
+      "title": "Recon: server architecture and network synchronization",
+      "size": 23091,
+      "lines": 523
+    },
+    {
+      "path": "engine/server_sync_packet_format.md",
+      "title": "C3 network packet format (via script call analysis)",
+      "size": 9930,
+      "lines": 237
+    },
+    {
+      "path": "engine/ticks_and_subticks.md",
+      "title": "Recon: ticks, subtics, time",
+      "size": 24071,
+      "lines": 526
+    },
+    {
+      "path": "README.md",
+      "title": "Cossacks 3 internals",
+      "size": 6066,
+      "lines": 97
+    },
+    {
+      "path": "scripts/structure.md",
+      "title": "Structure of the Cossacks 3 scripting environment",
+      "size": 15086,
+      "lines": 312
+    }
+  ]
+}

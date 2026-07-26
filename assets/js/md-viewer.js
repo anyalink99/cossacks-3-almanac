@@ -7,6 +7,23 @@ import markedFootnote from "https://cdn.jsdelivr.net/npm/marked-footnote@1.2.4/+
 import markedAlert from "https://cdn.jsdelivr.net/npm/marked-alert@2.1.2/+esm";
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
 
+const ENGLISH = /\/(?:docs_en|internals_en)(?:\/|$)/.test(location.pathname);
+const UI = ENGLISH ? {
+  home: "Home",
+  contents: "Contents",
+  loading: (path) => `Loading ${path}…`,
+  loadError: (path, message) => `Could not load ${path}: ${message}`,
+  manifestError: (message) => `Could not load the manifest: ${message}`,
+  mermaidError: (message) => `Could not render Mermaid: ${message}`,
+} : {
+  home: "На главную",
+  contents: "Содержание",
+  loading: (path) => `Загружаем ${path}…`,
+  loadError: (path, message) => `Не удалось загрузить ${path}: ${message}`,
+  manifestError: (message) => `Не удалось загрузить манифест: ${message}`,
+  mermaidError: (message) => `Не удалось отрисовать mermaid: ${message}`,
+};
+
 // --- Markdown configuration ----------------------------------------------
 marked.setOptions({
   gfm: true,
@@ -95,7 +112,7 @@ async function renderMermaidBlocks(container) {
       const { svg } = await mermaid.render(`mmd-${Date.now()}-${idx++}`, source);
       target.innerHTML = svg;
     } catch (e) {
-      target.innerHTML = `<div class="md-error">Не удалось отрисовать mermaid: ${e.message}</div>` +
+      target.innerHTML = `<div class="md-error">${UI.mermaidError(e.message)}</div>` +
                          `<pre><code>${source.replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))}</code></pre>`;
     }
   }
@@ -197,7 +214,7 @@ function autoExpandFor(path) {
 const REPO_GITHUB_BLOB = "https://github.com/anyalink99/cossacks-3-almanac/blob/main";
 
 function currentSection() {
-  const m = location.pathname.match(/\/(docs|internals)(?=\/|$)/);
+  const m = location.pathname.match(/\/(docs_en|internals_en|docs|internals)(?=\/|$)/);
   return m ? m[1] : "docs";
 }
 
@@ -245,7 +262,7 @@ function resolveHref(currentFile, href) {
   if (escapes === 0) {
     return { kind: "section", section: currentSection(), path: tail.join("/") };
   }
-  if (tail.length && (tail[0] === "docs" || tail[0] === "internals")) {
+  if (tail.length && ["docs", "internals", "docs_en", "internals_en"].includes(tail[0])) {
     return { kind: "section", section: tail[0], path: tail.slice(1).join("/") };
   }
   return { kind: "github", path: tail.join("/") };
@@ -321,7 +338,7 @@ async function openFile(path) {
   const main = $("#md-content");
   const crumb = $("#md-crumbs");
   crumb.textContent = path;
-  main.innerHTML = `<div class="md-loading">Загружаем ${path}…</div>`;
+  main.innerHTML = `<div class="md-loading">${UI.loading(path)}</div>`;
   try {
     const r = await fetch(path);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -333,7 +350,7 @@ async function openFile(path) {
     main.scrollTop = 0;
     document.title = `${path.split("/").pop().replace(".md", "")} — ${currentRoot.title}`;
   } catch (e) {
-    main.innerHTML = `<div class="md-error">Не удалось загрузить <code>${path}</code>: ${e.message}</div>`;
+    main.innerHTML = `<div class="md-error">${UI.loadError(`<code>${path}</code>`, e.message)}</div>`;
   }
   highlightActive();
   autoExpandFor(path);
@@ -343,6 +360,24 @@ let currentRoot = null;
 
 async function init() {
   try {
+    document.documentElement.lang = ENGLISH ? "en" : "ru";
+    const home = document.querySelector(".topbar-actions .btn-secondary");
+    const contents = document.querySelector(".md-sidebar h2");
+    if (home) home.textContent = UI.home;
+    if (contents) contents.textContent = UI.contents;
+    const languageSwitch = document.querySelector("#language-switch");
+    if (languageSwitch) {
+      const section = currentSection();
+      const counterpart = {
+        docs: "docs_en",
+        docs_en: "docs",
+        internals: "internals_en",
+        internals_en: "internals",
+      }[section];
+      languageSwitch.textContent = ENGLISH ? "RU" : "EN";
+      const query = currentPath ? `?p=${encodeURIComponent(currentPath)}` : "";
+      languageSwitch.href = `../${counterpart}/${query}`;
+    }
     const manifest = await loadManifest();
     currentRoot = manifest;
     $("#md-root-title").textContent = manifest.title;
@@ -365,7 +400,7 @@ async function init() {
       if (p && p !== currentPath) openFile(p);
     });
   } catch (e) {
-    $("#md-content").innerHTML = `<div class="md-error">Не удалось загрузить манифест: ${e.message}</div>`;
+    $("#md-content").innerHTML = `<div class="md-error">${UI.manifestError(e.message)}</div>`;
   }
 }
 

@@ -1,7 +1,7 @@
 #### Башня — кратко
 
 Полный разбор стрельбы, обзора, гарнизона и стратегии — в
-[`../recon/world/combat/towers.md`](../recon/world/combat/towers.md).
+[`../../recon/world/combat/towers.md`](../../recon/world/combat/towers.md).
 Краткие параметры базовой европейской башни (`eurtow`):
 
 | Параметр | Значение | Замечание |
@@ -19,4 +19,4 @@
 
 5 уровней апгрейда `eurtow.1..5` снижают `weapon_pause` до
 × 0.467 от базы → частота огня **× 2.14**. Полный список — в
-[05_upgrades/README.md → tow](05_upgrades/README.md#tow--башня-скорость-перезарядки).
+[05_upgrades/README.md → tow](../05_upgrades/README.md#tow--башня-скорость-перезарядки).

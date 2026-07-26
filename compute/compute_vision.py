@@ -165,7 +165,7 @@ def main() -> None:
     A("# Cossacks 3 — Vision и searchradius")
     A("")
     A("**Производный** отчёт. Считается из `data.json` скриптом "
-      "[`compute/compute_vision.py`](../../compute/compute_vision.py).")
+      "[`compute/compute_vision.py`](../../../compute/compute_vision.py).")
     A("")
     A("Cossacks 3 имеет два концентрических радиуса «осведомлённости»:")
     A("")

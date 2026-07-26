@@ -323,7 +323,7 @@ def main():
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data.json` скриптом "
-      "[`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).")
+      "[`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).")
     A("")
     A("## Формула урона")
     A("")

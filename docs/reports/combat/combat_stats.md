@@ -1,6 +1,6 @@
 # Cossacks 3 — DPS / EHP / armor metrics
 
-**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_combat_stats.py`](../../compute/compute_combat_stats.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).
 
 ## Формула урона
 

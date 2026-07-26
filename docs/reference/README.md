@@ -2,7 +2,7 @@
 
 _Extracted **2026-05-17 12:33:30** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
-Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../data.json`](../data.json); этот каталог — человеко-читаемый рендер.
+Структурированный справочник по игре. Все числа извлечены напрямую из её скриптов (`unit.script`, `country.script`, `dmscript.global`, файлы локали) и лежат в [`../../data.json`](../../data.json); этот каталог — человеко-читаемый рендер.
 
 Что внутри:
 
@@ -41,7 +41,7 @@ _Extracted **2026-05-17 12:33:30** (local) from game files (unit.script mtime: 2
 | [`../recon/`](../recon/README.md) | Handwritten reverse-engineering механик: добыча, постройка, RNG, тики, server sync, генерация карт. |
 | [`../../derived/`](../../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |
 | [`../architecture.md`](../architecture.md) | Поток данных в проекте: что из чего рождается. |
-| [`../data.json`](../data.json) | Мастер-структура (~4.7 МБ). Вход для всех writer'ов и compute-скриптов. |
+| [`../../data.json`](../../data.json) | Мастер-структура (~5.7 МБ). Вход для всех writer'ов и compute-скриптов. |
 
 ---
 

@@ -258,10 +258,10 @@ def _intro_lines(cites: Citations) -> list[str]:
         "Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,",
         "`data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже",
         "«Высокогорье». Машинная версия для редакторов и инструментов —",
-        "[`derived/game_settings.json`](../../derived/game_settings.json).",
+        "[`derived/game_settings.json`](../../../derived/game_settings.json).",
         "",
         "Поведение каждой опции в движке (что происходит после выбора) — в",
-        "[`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md).",
+        "[`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).",
         "",
         "## Структура",
         "",
@@ -374,7 +374,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         f"По умолчанию `resourcemines = 1` («Средне») {initmap31_cite}. "
         f"Конкретные числа шахт за уровень — в "
         f"[`map_resources.md`](map_resources.md) и в "
-        f"[`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md).",
+        f"[`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).",
         "",
     ]
     L += _section(
@@ -453,7 +453,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "Подробности механики (как движок блокирует поиск врагов, ничейные "
         "ячейки, переход от мира к войне) — в "
-        "[`recon/game_settings.md`](../../recon/game_settings.md#peacetime--как-устроен-мир).",
+        "[`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).",
         "",
     ]
 
@@ -477,7 +477,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     )
     L += [
         "Геометрия захвата (радиусы, кто захватывается, кто нет) — в "
-        "[`recon/capture_mechanics.md`](../../recon/capture_mechanics.md).",
+        "[`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).",
         "",
     ]
 
@@ -490,7 +490,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     L += [
         "Опция `value = 4` («Дорогие наёмники») умножает цену найма в дипцентре "
         "на `gc_gameplay_expensivemercskoef = 3`. Подробности про наёмников — в "
-        "[`recon/mercenaries_diplomacy.md`](../../recon/mercenaries_diplomacy.md).",
+        "[`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).",
         "",
     ]
 
@@ -557,7 +557,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "Только AI-игроки. «Преимущество» сложности — это множитель к скорости "
         "постройки/найма (`koef`), стартовых ресурсов AI **не получает** ни на "
         "какой сложности. Поведение AI разобрано в "
-        "[`recon/ai_behavior.md`](../../recon/ai_behavior.md).",
+        "[`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).",
         "",
     ]
 
@@ -586,11 +586,11 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "**См. также:**",
         "",
-        "- [`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md) — поведение "
+        "- [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) — поведение "
         "движка по каждой опции (peacetime, peace mode, captureradius, …).",
-        "- [`derived/game_settings.json`](../../derived/game_settings.json) — "
+        "- [`derived/game_settings.json`](../../../derived/game_settings.json) — "
         "то же самое в машинно-читаемом виде.",
-        "- [`docs/recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) — "
+        "- [`docs/recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) — "
         "что именно делает генератор карты с этими значениями.",
         "",
     ]

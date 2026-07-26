@@ -98,7 +98,7 @@ def render_header(cites: Citations) -> list[str]:
     A("# Артиллерия — сводный справочник")
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
-      "[`data.json`](../../data.json) скриптом "
+      "[`data.json`](../../../data.json) скриптом "
       "[`compute/compute_artillery.py`](../../../compute/compute_artillery.py).")
     A("")
     bartillery_cite = cites.cite(
@@ -110,7 +110,7 @@ def render_header(cites: Citations) -> list[str]:
       f"выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. "
       f"У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. "
       f"Поведение приказа `attackpoint` для артиллерии — в "
-      f"[`recon/world/target_selection.md`](../../recon/world/target_selection.md) §5.2.")
+      f"[`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.2.")
     A("")
     A("Морская артиллерия (battleship, galley, frigate и т. п.) — отдельная "
       "категория, см. [`reference/07_naval/README.md`](../../reference/07_naval/README.md). "
@@ -456,7 +456,7 @@ def render_section_5(cites: Citations) -> list[str]:
       f"целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая "
       f"`bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и "
       f"описана только косвенно — см. [`recon/world/target_selection.md`]"
-      f"(../../recon/world/target_selection.md) §7 (open question № 4).")
+      f"(../../recon/world/combat/target_selection.md) §7 (open question № 4).")
     A("")
 
     order_attackpoint_cite = cites.cite(
@@ -469,7 +469,7 @@ def render_section_5(cites: Citations) -> list[str]:
       f"стрельба по координате, не по конкретной цели. Поведение для "
       f"не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. "
       f"Подробности — [`recon/world/target_selection.md`]"
-      f"(../../recon/world/target_selection.md) §5.")
+      f"(../../recon/world/combat/target_selection.md) §5.")
     A("")
     return L
 

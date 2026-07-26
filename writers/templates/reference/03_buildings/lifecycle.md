@@ -1,7 +1,7 @@
 ## Жизненный цикл здания — кратко
 
 Полный разбор стройки, ремонта, отмены и разрушения — в
-[`../recon/world/economy/building_mechanics.md`](../recon/world/economy/building_mechanics.md).
+[`../../recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md).
 Здесь — таблица ключевых констант для быстрого обзора.
 
 | Этап | Ключевая величина | Заметка |

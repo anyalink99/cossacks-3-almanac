@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 class DataJson(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.data = json.loads((ROOT / "docs" / "data.json").read_text(encoding="utf-8"))
+        cls.data = json.loads((ROOT / "data.json").read_text(encoding="utf-8"))
 
     def test_structure(self) -> None:
         for key in ("nations", "buildings", "units", "upgrades", "sanity_checks"):
@@ -48,7 +48,7 @@ class TechTree(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.tree = json.loads((ROOT / "docs" / "derived" / "tech_tree.json").read_text(encoding="utf-8"))
+        cls.tree = json.loads((ROOT / "derived" / "tech_tree.json").read_text(encoding="utf-8"))
 
     def test_top_level(self) -> None:
         self.assertIn("nations", self.tree)
@@ -66,7 +66,7 @@ class TechTree(unittest.TestCase):
 class GameSettings(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.gs = json.loads((ROOT / "docs" / "derived" / "game_settings.json").read_text(encoding="utf-8"))
+        cls.gs = json.loads((ROOT / "derived" / "game_settings.json").read_text(encoding="utf-8"))
 
     def test_required_categories(self) -> None:
         for cat in ("mapsize", "terraintype", "relieftype", "resourcestart",

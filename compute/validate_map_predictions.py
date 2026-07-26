@@ -22,11 +22,12 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "parser"))
-from config import DERIVED_DIR, REPORTS_DIR, REPORTS_MAP_DIR
+from config import DERIVED_DIR, PROJECT_ROOT, REPORTS_MAP_DIR
 from compute_map_resources import compute_counts
 
 GROUND_TRUTH = DERIVED_DIR / "replay_ground_truth.json"
 OUT_MD = REPORTS_MAP_DIR / "map_predictions_validation.md"
+OUT_MD_EN = PROJECT_ROOT / "docs_en" / "reports" / "map" / "map_predictions_validation.md"
 
 
 def spcount_from_maskname(maskname: str | None) -> int:
@@ -222,7 +223,7 @@ def main():
             p_avg = sum(tp[t]) / len(tp[t])
             ratio = a_avg / p_avg if p_avg > 0 else None
             out.append((t, a_avg, p_avg, ratio, len(ta[t])))
-        out.sort(key=lambda x: -x[1])
+        out.sort(key=lambda x: (-x[1], x[0]))
         return out
 
     # Bucket replays by setting
@@ -232,7 +233,10 @@ def main():
 
     # Print per-bucket calibration
     print(f"\n=== Replays bucketed by (mapsize, relief, terraintype, mask) ===")
-    sorted_buckets = sorted(buckets.items(), key=lambda x: -len(x[1]))
+    sorted_buckets = sorted(
+        buckets.items(),
+        key=lambda x: (-len(x[1]), tuple(str(value) for value in x[0])),
+    )
     for key, brows in sorted_buckets:
         msz, rel, tt, mk = key
         rel_str = f"rel={rel}" + (" (Random)" if rel == 5 else "")
@@ -321,6 +325,7 @@ def main():
         bucket_key(r["settings"]),
         r["settings"].get("maskname", ""),
         r["settings"].get("randkey1", 0),
+        r["id"],
     ))
     for r in sorted_rows:
         s = r["settings"]
@@ -336,7 +341,10 @@ def main():
         A("")
         A("| pattern_type | actual | predicted | actual/pred |")
         A("| --- | ---: | ---: | ---: |")
-        for t, (a, p, ratio) in sorted(r["diff"].items(), key=lambda x: -x[1][0]):
+        for t, (a, p, ratio) in sorted(
+            r["diff"].items(),
+            key=lambda x: (-x[1][0], x[0]),
+        ):
             if a == 0 and p == 0:
                 continue
             ratio_str = f"{ratio:.2f}" if ratio is not None else "—"
@@ -344,8 +352,49 @@ def main():
             A(f"| `{t}` | {a} | {p} | {ratio_str}{warn} |")
         A("")
 
-    OUT_MD.write_text("\n".join(L), encoding="utf-8")
+    report = "\n".join(L)
+    OUT_MD.write_text(report, encoding="utf-8")
+    english_report = report
+    english_report = english_report.replace(
+        "Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
+        "cluster counts из replay / save файлов "
+        "(`derived/replay_ground_truth.json`). Расшифровка значений "
+        "`mapsize` / `relieftype` / `terraintype` / `season` — "
+        "[`lobby_settings.md`](lobby_settings.md).",
+        "Comparison of `compute_map_resources.compute_counts(...)` with actual "
+        "cluster counts from replay and save files "
+        "(`derived/replay_ground_truth.json`). See "
+        "[`lobby_settings.md`](lobby_settings.md) for the meaning of "
+        "`mapsize`, `relieftype`, `terraintype`, and `season`.",
+    )
+    english_report = english_report.replace(
+        "Replays сгруппированы по `(mapsize, relieftype, terraintype, mask_kind)` — "
+        "**только внутри одного bucket** калибровка имеет смысл (там одинаковые predictions). "
+        "Cross-bucket averages могут оказаться ratio≈1.0 чисто случайно (Tiny занижено, Huge завышено — кросс-сумма ~ правде).",
+        "Replays are grouped by `(mapsize, relieftype, terraintype, mask_kind)`. "
+        "Calibration is meaningful **only within one bucket**, where predictions "
+        "are comparable. A cross-bucket average can approach 1.0 by accident "
+        "(Tiny underestimates while Huge overestimates).",
+    )
+    english_report = english_report.replace(
+        "⚠ Усреднение через разные mapsizes/reliefs. Может маскировать per-setting bias. "
+        "См. bucket выше.",
+        "⚠ Averaging across map sizes and relief types can hide per-setting bias. "
+        "Use the bucket above for calibration.",
+    )
+    english_report = english_report.replace(
+        "Для каждой replay-выборки: settings + diff таблица. Pattern types с большими "
+        "расхождениями отмечены ⚠. Имена опаковые (`Replay NN` назначены детерминированно по "
+        "хешу содержимого — см. `parse_replay_aggregates.py`).",
+        "Each replay sample includes its settings and a difference table. Pattern "
+        "types with large discrepancies are marked ⚠. Names are opaque: `Replay NN` "
+        "is assigned deterministically from the content hash; see "
+        "`parse_replay_aggregates.py`.",
+    )
+    OUT_MD_EN.parent.mkdir(parents=True, exist_ok=True)
+    OUT_MD_EN.write_text(english_report, encoding="utf-8")
     print(f"\nWrote {OUT_MD}")
+    print(f"Wrote {OUT_MD_EN}")
 
 
 if __name__ == "__main__":

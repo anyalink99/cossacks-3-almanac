@@ -304,7 +304,7 @@ def write_readme(data: dict) -> None:
         A(banner + "\n")
     A("Структурированный справочник по игре. Все числа извлечены напрямую из "
       "её скриптов (`unit.script`, `country.script`, `dmscript.global`, "
-      "файлы локали) и лежат в [`../data.json`](../data.json); этот каталог "
+      "файлы локали) и лежат в [`../../data.json`](../../data.json); этот каталог "
       "— человеко-читаемый рендер.\n")
     A("Что внутри:\n")
     A("- **7 глав по темам** — экономика, бой, здания, юниты, апгрейды, "
@@ -347,7 +347,7 @@ def write_readme(data: dict) -> None:
     A("| [`../recon/`](../recon/README.md) | Handwritten reverse-engineering механик: добыча, постройка, RNG, тики, server sync, генерация карт. |")
     A("| [`../../derived/`](../../derived/README.md) | Машинно-читаемые JSON-датасеты (`tech_tree.json`, `canonical_terms.json` и др.). |")
     A("| [`../architecture.md`](../architecture.md) | Поток данных в проекте: что из чего рождается. |")
-    A("| [`../data.json`](../data.json) | Мастер-структура (~4.7 МБ). Вход для всех writer'ов и compute-скриптов. |")
+    A("| [`../../data.json`](../../data.json) | Мастер-структура (~5.7 МБ). Вход для всех writer'ов и compute-скриптов. |")
     A("\n---\n")
 
     # ─── Шпаргалка по формулам ─────────────────────────────────────────
@@ -555,7 +555,7 @@ def write_economy(data: dict) -> None:
     A(f"| `gc_obj_foodperunit` | {e['food_per_unit_upkeep']} food / юнит | dmscript.global:808 |")
     A(f"| Default `eff` | {e['default_eff_percent']}% | player.script:109 |")
     A("")
-    A("Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).\n")
+    A("Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).\n")
     A("## Базовые порции и hits\n")
     A("| Ресурс | Базовая порция | Hits | Источник |")
     A("|---|---:|---:|---|")
@@ -650,7 +650,7 @@ def write_combat(data: dict) -> None:
       "(чаще пехота/кавалерия одного класса). Формации стандартные для всех:\n")
     A("**LINE / SQUARE / KARE × 15 / 36 / 72 / 120 / 196 / 400 юнитов.**\n")
     A("Чем больше формация, тем сильнее бонусы (атака, защита, мораль).\n")
-    A("Полные таблицы офицеров → секции в [nations/](nations/README.md) для каждой нации.\n")
+    A("Полные таблицы офицеров → секции в [nations/](../nations/README.md) для каждой нации.\n")
     # Counter matrix
     A("## Матрица контр-эффективности (приближённый TTK)\n")
     A("Для каждой пары (атакующий класс, защищающийся класс) — **приближённое время убийства** "
@@ -996,8 +996,8 @@ def write_buildings(data: dict) -> None:
       "и **common** (`<cluster>+suffix`, общие для группы наций: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).\n")
     A("Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = "
       "`floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — "
-      "в [`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md), генератор — "
-      "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).\n")
+      "в [`../../reports/economy/scaling_prices.md`](../../reports/economy/scaling_prices.md), генератор — "
+      "[`compute/compute_scaling.py`](../../../compute/compute_scaling.py).\n")
     out.extend(render_template("reference/03_buildings/legend.md"))
     A("")
     out.extend(render_template("reference/03_buildings/lifecycle.md"))
@@ -1119,7 +1119,7 @@ def write_units(data: dict) -> None:
     A("# 04. Юниты\n")
     A("[← Index](README.md)\n")
     A("Все юниты сгруппированы по классу. Для параллельного сравнения внутри класса см. "
-      "[compare/](compare/README.md).\n")
+      "[compare/](../compare/README.md).\n")
     out.extend(render_template("reference/04_units/legend.md"))
     A("")
     by_class = defaultdict(list)
@@ -2238,6 +2238,7 @@ def write_top_inventory(data: dict) -> None:
     out = []
     A = out.append
     A("# Cossacks 3 — каталог артефактов\n")
+    A("[English](../docs_en/README.md) · **Русский**\n")
     banner = _version_banner(data)
     if banner:
         A(banner + "\n")

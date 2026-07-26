@@ -1,5 +1,7 @@
 # Cossacks 3 Almanac
 
+[English](README.en.md) · **Русский**
+
 Полный справочник по экономике, юнитам, зданиям и апгрейдам игры **Cossacks 3 — Back to War**, извлечённый напрямую из игровых скриптов (`unit.script`, `country.script`, `dmscript.global`, locale-файлы). В репозитории: парсер игровых файлов, набор производных расчётов, writers для markdown/xlsx, симулятор экономики и накопленные исследования механик.
 
 > Источник всех чисел — файлы установленной игры. Если что-то расходится с внешними калькуляторами или гайдами — доверяй репозиторию (расхождения задокументированы). Скрипты идемпотентны: после игрового патча перегенерируешь pipeline, и все артефакты обновляются.
@@ -22,7 +24,7 @@
 
 **Машинно-читаемые JSON-датасеты** — для редактора билдов, симулятора, внешних анализаторов:
 
-- [`data.json`](data.json) — мастер-структура (~4.7 МБ): 21 нация, 414 зданий, 714 юнитов, 4429 апгрейдов
+- [`data.json`](data.json) — мастер-структура (~5.7 МБ): 21 нация, 456 зданий, 714 юнитов, 4483 апгрейда
 - [`derived/`](derived/) — специализированные срезы: `tech_tree.json`, `builder_slots.json`, `animations.json`, `game_settings.json`, `canonical_terms.json`, `pattern_*.json`, `replay_ground_truth.json`, плюс engine-RE дампы (`dws_native_signatures.json`, `engine_primitives.json`, `exe_strings.json`)
 
 **Pipeline — для регенерации после патча игры:**
@@ -34,7 +36,7 @@
 - [`editor/`](editor/) — браузерный редактор билдов (HTML + JS + Pyodide), запускает симулятор прямо в браузере
 - [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) — единый runner для всего pipeline'а
 
-**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список парсерных пробелов, расхождений с внешними гайдами, open empirical questions. Самый известный кейс: для 168 dip-юнитов в `data.json` лежат не наёмничьи статы; правильные числа — в [`docs/recon/systems/mercenaries_diplomacy.md`](docs/recon/systems/mercenaries_diplomacy.md).
+**Перед началом работы с `data.json`:** [`docs/known_issues.md`](docs/known_issues.md) — список актуальных парсерных пробелов, расхождений с внешними гайдами и открытых эмпирических вопросов. Закрытые проблемы, включая прежнюю ошибку со статами наёмников, перенесены в [`docs/known_issues_archive.md`](docs/known_issues_archive.md).
 
 **Моды** — изменения игровой логики через C3 mod-loader:
 
@@ -44,7 +46,7 @@
 
 ```
 .
-├── data.json                мастер-данные (~4.7 МБ, источник правды для всего downstream)
+├── data.json                мастер-данные (~5.7 МБ, источник правды для всего downstream)
 ├── derived/                 машинно-читаемые JSON (tech_tree, builder_slots, animations, game_settings, engine RE-дампы)
 ├── parser/                  парсеры игровых .script-файлов → data.json
 │   └── engine_recon/        экстракторы из cossacks.exe (DWS native API, RTTI, primitives)
@@ -167,9 +169,9 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 ## Что сейчас в данных
 
 - **Нации:** 21 (играбельные; mis/tat/lit исключены)
-- **Здания:** 414 строк (sid×nation)
+- **Здания:** 456 строк (sid×nation)
 - **Юниты:** 714 строк
-- **Апгрейды:** 4429 строк (с полностью разрешёнными cost / value / itype / prereqs)
+- **Апгрейды:** 4483 строки (с полностью разрешёнными cost / value / itype / prereqs)
 - **Офицеры/формации:** 231 групп
 
 ## Лицензия и атрибуция

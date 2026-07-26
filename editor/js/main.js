@@ -2,6 +2,13 @@
 // Catalog (left) → Timeline (center) → Inspector (bottom).
 
 import { loadAll } from "./data_loader.js";
+import translationsEn from "./translations.en.js";
+import {
+  bindToolLanguageSwitch,
+  language,
+  startAutomaticLocalization,
+  tr,
+} from "../../assets/js/runtime-i18n.js";
 import { initPyodide, runSimulation, importReplay, listReplayPlayers } from "./pyodide_runner.js";
 import * as BO from "./build_order.js";
 import * as Charts from "./ui/charts.js";
@@ -17,9 +24,11 @@ import {
 } from "./ui/i18n.js";
 
 const $ = (sel) => document.querySelector(sel);
+startAutomaticLocalization(translationsEn);
+bindToolLanguageSwitch($("#language_switch"));
 const status = $("#status");
 function setStatus(text, cls = "loading") {
-  status.textContent = text;
+  status.textContent = tr(text);
   status.className = `pill ${cls}`;
 }
 
@@ -90,7 +99,9 @@ function fillSelect(elId, list, currentValue, extraText = () => "") {
     const opt = document.createElement("option");
     opt.value = String(item.value);
     const extra = extraText(item);
-    opt.textContent = (item.label_ru || item.label_en || String(item.value)) + (extra ? ` ${extra}` : "");
+    opt.textContent = (
+      item[`label_${language}`] || item.label_en || item.label_ru || String(item.value)
+    ) + (extra ? ` ${extra}` : "");
     if (String(item.value) === String(currentValue)) opt.selected = true;
     sel.appendChild(opt);
   }
@@ -105,7 +116,7 @@ function renderControls() {
   for (const n of bundle.data.nations) {
     const opt = document.createElement("option");
     opt.value = n.sid;
-    opt.textContent = n.name_ru || n.name_en || n.sid;
+    opt.textContent = n[`name_${language}`] || n.name_en || n.name_ru || n.sid;
     if (n.sid === buildOrder.nation) opt.selected = true;
     natSel.appendChild(opt);
   }
@@ -239,11 +250,22 @@ function renderSummary(result) {
   const cells = RES_ORDER.map(r => {
     const v = f[`res_${r}`] ?? 0;
     return `<div class="summary-cell ${r === "gold" ? "gold" : ""} ${v < 0 ? "danger" : ""}">
-      <div class="label"><span class="dot" style="background:${RES_INFO[r].color}"></span> ${RES_INFO[r].ru}</div>
-      <div class="value">${v.toLocaleString("ru-RU")}</div>
+      <div class="label"><span class="dot" style="background:${RES_INFO[r].color}"></span> ${RES_INFO[r][language]}</div>
+      <div class="value">${v.toLocaleString(language === "en" ? "en-US" : "ru-RU")}</div>
     </div>`;
   }).join("");
-  const buildings = Object.entries(f.buildings || {}).filter(([, v]) => v > 0).map(([k, v]) => `${k}×${v}`).join(", ") || "—";
+  const buildingBySid = new Map(
+    bundle.data.buildings
+      .filter(item => item.nation === buildOrder.nation)
+      .map(item => [item.sid, item]),
+  );
+  const buildings = Object.entries(f.buildings || {})
+    .filter(([, value]) => value > 0)
+    .map(([sid, value]) => {
+      const building = buildingBySid.get(sid);
+      return `${building ? fmtName(building) : sid}×${value}`;
+    })
+    .join(", ") || "—";
   const meta_html = `
     <div class="summary-meta">
       <div class="pair">Время: <b>${fmtTime(f.t_g ?? 0, speed)}</b></div>

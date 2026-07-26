@@ -289,7 +289,7 @@ def main():
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data.json` скриптом "
-      "[`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).")
+      "[`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).")
     A("")
     A("## Метод")
     A("")

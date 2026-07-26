@@ -1,6 +1,7 @@
 // Chart.js wrappers for resource curves & population.
 
 import { RES_INFO, RES_ORDER, fmtTime } from "./i18n.js";
+import { language, tr } from "../../../assets/js/runtime-i18n.js";
 
 const COLORS = {
   food:  "#d97766",
@@ -17,7 +18,7 @@ export function renderResources(snapshots) {
   const ctx = document.getElementById("chart_resources").getContext("2d");
   const labels = snapshots.map(s => s.t_g);
   const datasets = RES_ORDER.map(k => ({
-    label: RES_INFO[k].ru,
+    label: RES_INFO[k][language],
     data: snapshots.map(s => s[`res_${k}`]),
     borderColor: RES_INFO[k].color,
     backgroundColor: RES_INFO[k].color + "22",
@@ -43,12 +44,12 @@ export function renderPop(snapshots) {
     data: {
       labels,
       datasets: [
-        { label: "Крестьяне", data: snapshots.map(s => s.peasants_total),
+        { label: tr("Крестьяне"), data: snapshots.map(s => s.peasants_total),
           borderColor: "#87b369", backgroundColor: "#87b36922", borderWidth: 1.8,
           pointRadius: 0, tension: 0.18 },
-        { label: "Ферма (used)", data: snapshots.map(s => s.farm_used),
+        { label: tr("Ферма (used)"), data: snapshots.map(s => s.farm_used),
           borderColor: "#d4a857", borderWidth: 1.4, pointRadius: 0, tension: 0.18 },
-        { label: "Ферма (cap)", data: snapshots.map(s => s.farm_cap),
+        { label: tr("Ферма (cap)"), data: snapshots.map(s => s.farm_cap),
           borderColor: "#4a3b27", borderWidth: 1.2, borderDash: [5,5],
           pointRadius: 0, tension: 0 },
       ],
@@ -67,7 +68,7 @@ function chartOpts(yOpts = {}) {
       x: {
         ticks: { color: "#8a7d62", maxTicksLimit: 8 },
         grid: { color: "#2a2218" },
-        title: { display: true, text: "g-сек", color: "#8a7d62", font: { size: 11 } },
+        title: { display: true, text: tr("g-сек"), color: "#8a7d62", font: { size: 11 } },
       },
       y: {
         ticks: { color: "#8a7d62" },

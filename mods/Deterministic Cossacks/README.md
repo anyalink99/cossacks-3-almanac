@@ -1,5 +1,7 @@
 # Deterministic Cossacks — Cossacks 3 mod
 
+[English](README.en.md) · **Русский**
+
 Два направления изменений: **детерминизм RNG** и **anti-snowball механики боя**.
 
 ---

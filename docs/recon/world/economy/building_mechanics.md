@@ -126,7 +126,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **Никто не строит здание ОДНИМ крестьянином в реальной игре.** При размещении foundation сразу прибегают все idle крестьяне в окрестности, заполняя все builder slots.
 
-Полная таблица «время с N крестьян» по всем зданиям всех наций — в [`docs/reports/economy/construction_times.md`](../../../reports/economy/construction_times.md) (генератор: [`compute/compute_construction_times.py`](../compute/compute_construction_times.py)).
+Полная таблица «время с N крестьян» по всем зданиям всех наций — в [`docs/reports/economy/construction_times.md`](../../../reports/economy/construction_times.md) (генератор: [`compute/compute_construction_times.py`](../../../../compute/compute_construction_times.py)).
 
 **Что в нашей JSON:** поле `building.buildtime_sec` = `frames × 10/32` — это **нормированный buildtime** из formula (`objbase.buildtime`). Время-с-1-builder ≈ `buildtime_sec × 1.13`. То есть **поле НЕ равно реальному времени постройки — оно всегда требует деления на N**.
 
@@ -145,7 +145,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 2. Для стен — из `data/game/var/wallcustom.cfg` (BuilderPoints per wall variation, до 16).
 3. (Опционально) Override per-building в `data/game/var/objcustom.cfg` — в текущем файле там только ExitPoints/SmokePoints/Decal, BuilderPoints нет.
 
-**Точные значения для каждого здания:** [`docs/reports/economy/builder_slots.md`](../../../reports/economy/builder_slots.md) и [`docs/derived/builder_slots.json`](../docs/derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../compute/compute_builder_slots.py).
+**Точные значения для каждого здания:** [`docs/reports/economy/builder_slots.md`](../../../reports/economy/builder_slots.md) и [`derived/builder_slots.json`](../../../../derived/builder_slots.json) — генерируются [`compute/compute_builder_slots.py`](../../../../compute/compute_builder_slots.py).
 
 **Геометрический инсайт.** Для любой выпуклой формы (диск, ромб, скруглённый прямоугольник, диагональный slab — то есть для подавляющего большинства зданий) Manhattan-периметр = `bbox_cols + bbox_rows`. Walker и `bbox_cols+bbox_rows` дают одинаковый результат для convex.
 
@@ -174,7 +174,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 | aus/fra | 16×15-17 | 112-129 | 29 | **29** |
 | sco/rus | 16×15-18 | 123-133 | 30+ | **30** (cap'd) |
 
-**Engine quirk — sparse-маски складов.** У 4 складов (`russto`, `eursto`, `spasto`, `tursto`) маска не выпуклая. У `tursto` всё ещё одна большая компонента — walker даёт 8 = факт. У `spasto` — большая клякса + 1 мелкий орфан в углу; walker правильно ходит большую часть и игнорирует орфан → 7 = факт (с пустой левой стороной у строящего здания, что видно в игре). У `russto` и `eursto` маска вырождается до **двух линейных «опорных» планок** (1×2 и 1×3) с пустотой между ними — walker по одной планке даёт 3-4 слота, но в игре крестьяне обходят bbox целиком: 8 vs предсказанный walker'ом результат. Эмпирически: правило «если все компоненты линейные → используй `bbox_cols + bbox_rows` объединения» воспроизводит russto точно (8=8) и eursto с известным расхождением −1 (предсказание 9, факт 8). Реализовано как fallback `method=bbox_union` в [`compute_builder_slots.py`](../compute/compute_builder_slots.py).
+**Engine quirk — sparse-маски складов.** У 4 складов (`russto`, `eursto`, `spasto`, `tursto`) маска не выпуклая. У `tursto` всё ещё одна большая компонента — walker даёт 8 = факт. У `spasto` — большая клякса + 1 мелкий орфан в углу; walker правильно ходит большую часть и игнорирует орфан → 7 = факт (с пустой левой стороной у строящего здания, что видно в игре). У `russto` и `eursto` маска вырождается до **двух линейных «опорных» планок** (1×2 и 1×3) с пустотой между ними — walker по одной планке даёт 3-4 слота, но в игре крестьяне обходят bbox целиком: 8 vs предсказанный walker'ом результат. Эмпирически: правило «если все компоненты линейные → используй `bbox_cols + bbox_rows` объединения» воспроизводит russto точно (8=8) и eursto с известным расхождением −1 (предсказание 9, факт 8). Реализовано как fallback `method=bbox_union` в [`compute_builder_slots.py`](../../../../compute/compute_builder_slots.py).
 
 **Ворота — это моментальный индивидуальный апгрейд на существующем сегменте стены** (`gc_upg_type_single_buildgate`), а не отдельное здание, которое строят крестьяне. Игрок выделяет достроенный участок прямой стены минимум из трёх одинаковых сегментов и нажимает «построить ворота». На месте центрального сегмента создаётся новый объект ворот (`*sga` / `*wga`) с `individual.upglevel = 1`; ближайший вызов `_unit_ControlBuildProgress` через специальную ветку `if (bwall) and (upglevel>0) then hp := maxhp` сразу выставляет полное HP, после чего OnTagStates переводит объект в `bbuilt = True`. Никакая стройка крестьянами не происходит. Подробнее — в [`../combat/walls_and_gates.md`](../combat/walls_and_gates.md).
 

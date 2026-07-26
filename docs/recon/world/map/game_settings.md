@@ -7,7 +7,7 @@
 - **[`docs/reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md)** —
   готовый справочник всех опций (названия из локали, числовые значения,
   значения по умолчанию).
-- **[`docs/derived/game_settings.json`](../derived/game_settings.json)** — то же
+- **[`derived/game_settings.json`](../../../../derived/game_settings.json)** — то же
   самое в машинно-читаемом виде, для редактора и инструментов.
 
 Здесь — только то, что нельзя увидеть в таблице: какие функции скриптов читают

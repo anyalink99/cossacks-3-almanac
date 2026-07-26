@@ -177,7 +177,7 @@ def render_notes() -> list[str]:
       "**игровых** секундах. Чтобы получить реальное время на скорости fast, "
       f"делите g-sec на {FAST_SPEED_MULT} (или умножайте rate на {FAST_SPEED_MULT}).")
     A("- **Cooldown апгрейды.** `attpauseperc` (см. "
-      "[`../reference/05_upgrades/README.md`](../reference/05_upgrades/README.md)) уменьшает "
+      "[`reference/05_upgrades/README.md`](../../reference/05_upgrades/README.md)) уменьшает "
       "только pause у ranged. Melee swing не апгрейдится — он привязан к "
       "анимации.")
     A("")
@@ -195,7 +195,7 @@ def main() -> None:
     A("")
     A("**Производный** отчёт. Считается из `data.json` + "
       "`derived/animations.json` скриптом "
-      "[`compute/compute_attack_rates.py`](../../compute/compute_attack_rates.py).")
+      "[`compute/compute_attack_rates.py`](../../../compute/compute_attack_rates.py).")
     A("")
     A("## Модель")
     A("")

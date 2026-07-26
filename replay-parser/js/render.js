@@ -1,6 +1,15 @@
 // Multi-section replay workbench renderer.
 
-import { NATION_FROM_SID, NATION_BY_CID, NATION_LABEL_RU } from "./i18n.js";
+import {
+  NATION_FROM_SID,
+  NATION_BY_CID,
+  NATION_LABEL_RU,
+  NATION_LABEL_EN,
+} from "./i18n.js";
+import { language, localizeTree, tr } from "../../assets/js/runtime-i18n.js";
+
+const NUMBER_LOCALE = language === "en" ? "en-US" : "ru-RU";
+const NATION_LABELS = language === "en" ? NATION_LABEL_EN : NATION_LABEL_RU;
 
 const RESOURCE_NAMES_RU = [
   "?", "Еда", "Дерево", "Камень", "Золото", "Железо", "Уголь",
@@ -118,7 +127,7 @@ export function setPatternData(types = {}, inventory = {}) {
 }
 
 function cleanCanonicalName(record) {
-  const label = record?.ru || "";
+  const label = record?.[language] || record?.en || record?.ru || "";
   if (!label || label.startsWith("#") || label.includes("INCLUDES TEMPLATES")) {
     return null;
   }
@@ -160,6 +169,7 @@ function canonicalEntityName(sid) {
 }
 
 function canonicalUpgradeName(item = {}) {
+  if (language === "en" && item.upgrade_name_en) return item.upgrade_name_en;
   if (item.upgrade_name_ru) return item.upgrade_name_ru;
 
   const sid = String(item.upgrade_sid || "").trim().toLowerCase();
@@ -219,6 +229,20 @@ function patternTypeLabel(type) {
 }
 
 function pluralRu(value, forms) {
+  if (language === "en") {
+    const english = {
+      строитель: ["builder", "builders"],
+      юнит: ["unit", "units"],
+      игрок: ["player", "players"],
+      событие: ["event", "events"],
+      постройка: ["building", "buildings"],
+      улучшение: ["upgrade", "upgrades"],
+      точка: ["point", "points"],
+      категория: ["category", "categories"],
+      источник: ["source", "sources"],
+    }[forms[0]] || [forms[0], `${forms[0]}s`];
+    return Number(value) === 1 ? english[0] : english[1];
+  }
   const number = Math.abs(Number(value)) % 100;
   const tail = number % 10;
   if (number > 10 && number < 20) return forms[2];
@@ -275,7 +299,7 @@ function settingLabel(key, value) {
   const options = GAME_SETTINGS?.[key];
   if (!options) return String(value);
   const option = options.find((item) => item.value === value);
-  return option?.label_ru || option?.label_en || String(value);
+  return option?.[`label_${language}`] || option?.label_en || option?.label_ru || String(value);
 }
 
 function playerByPid(result, pid) {
@@ -327,6 +351,9 @@ function safeStem(filename) {
 }
 
 function download(filename, content, type) {
+  if (language === "en" && (type.startsWith("text/") || type.includes("csv"))) {
+    content = tr(content);
+  }
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
   const link = el("a", { href: url, download: filename });
@@ -391,7 +418,7 @@ function buildTimeline(result) {
     pid,
     type: "trade",
     label: `${RESOURCE_NAMES_RU[item.sell] || item.sell} → ${RESOURCE_NAMES_RU[item.buy] || item.buy}`,
-    detail: `${Number(item.amount || 0).toLocaleString("ru-RU")} ресурсов`,
+    detail: `${Number(item.amount || 0).toLocaleString(NUMBER_LOCALE)} ресурсов`,
   }));
   addPerPlayer(result.orders_timed_per_pid, (item, pid) => ({
     ts: item.ts_g_sec,
@@ -431,7 +458,7 @@ function summaryText(filename, result) {
     const builds = result.builds_per_pid?.[player.pid] || [];
     const nation = inferNation(player, builds);
     lines.push(
-      `- ${player.name || `Игрок ${player.pid}`} · ${NATION_LABEL_RU[nation] || nation || "нация не определена"} · команда ${player.team}`,
+      `- ${player.name || `Игрок ${player.pid}`} · ${NATION_LABELS[nation] || nation || "нация не определена"} · команда ${player.team}`,
     );
   }
   lines.push("", `Двойных прокачек: ${(result.abuses || []).length}`);
@@ -512,10 +539,13 @@ function renderFacts(result, parseMs) {
   const playerCount = (result.players || []).length;
   const facts = [
     ["Ход партии", fmtTime(result.duration_g_sec), `${result.duration_g_sec} игровых секунд`],
-    ["Состав", `${playerCount} ${pluralRu(playerCount, ["игрок", "игрока", "игроков"])}`, `${result.n_entries || 0} записей потока`],
-    ["События", Number(result.n_sub_packages || 0).toLocaleString("ru-RU"), "распознано в реплее"],
+    ["Состав", `${playerCount} ${pluralRu(playerCount, ["игрок", "игрока", "игроков"])}`,
+      language === "en"
+        ? `${result.n_entries || 0} ${Number(result.n_entries) === 1 ? "stream record" : "stream records"}`
+        : `${result.n_entries || 0} записей потока`],
+    ["События", Number(result.n_sub_packages || 0).toLocaleString(NUMBER_LOCALE), "распознано в реплее"],
     ["Карта", footer.map_width ? `${footer.map_width}×${footer.map_height}` : "—", footer.map_file || "файл не указан"],
-    ["Фрагменты карты", Number((result.pattern_placements || []).length).toLocaleString("ru-RU"), "шаблонов генератора"],
+    ["Фрагменты карты", Number((result.pattern_placements || []).length).toLocaleString(NUMBER_LOCALE), "шаблонов генератора"],
     ["Разбор", `${parseMs} мс`, result.replay?.build_version ? `версия игры ${result.replay.build_version}` : "версия игры неизвестна"],
   ];
   return el("dl", { class: "campaign-facts" }, facts.map(([label, value, note]) =>
@@ -622,7 +652,7 @@ function renderPlayerRoster(result) {
         el("b", {}, player.name || `Игрок ${player.pid}`),
         el("span", {}, player.lanid || "Сетевой ID не записан"),
       ]),
-      el("span", { class: "roster-nation" }, NATION_LABEL_RU[nation] || nation || "—"),
+      el("span", { class: "roster-nation" }, NATION_LABELS[nation] || nation || "—"),
       el("span", { class: "roster-team" }, `Команда ${player.team}`),
     ]);
   });
@@ -699,7 +729,7 @@ function renderTimeline(result, filename) {
         .toLowerCase().includes(query))
     ));
     list.replaceChildren(...filtered.slice(0, limit).map((event) => timelineRow(result, event)));
-    count.textContent = `${filtered.length.toLocaleString("ru-RU")} ${pluralRu(filtered.length, ["событие", "события", "событий"])}`;
+    count.textContent = `${filtered.length.toLocaleString(NUMBER_LOCALE)} ${pluralRu(filtered.length, ["событие", "события", "событий"])}`;
     more.hidden = filtered.length <= limit;
     if (!filtered.length) {
       list.replaceChildren(el("div", { class: "empty-state" }, [
@@ -779,7 +809,7 @@ function renderPlayers(result) {
         swatch(player),
         el("div", { class: "dossier-title" }, [
           el("b", {}, player.name || `Игрок ${pid}`),
-          el("span", {}, NATION_LABEL_RU[nation] || nation || "Нация не определена"),
+          el("span", {}, NATION_LABELS[nation] || nation || "Нация не определена"),
         ]),
         el("span", {}, `${builds.length} ${pluralRu(builds.length, ["постройка", "постройки", "построек"])}`),
         el("span", {}, `${unitTotal} ${pluralRu(unitTotal, ["юнит", "юнита", "юнитов"])}`),
@@ -1058,7 +1088,7 @@ function renderMap(result, filename) {
       (typeValue === "all" || patternType(placement.name) === typeValue)
       && (!query || placement.name.toLowerCase().includes(query))
     ));
-    count.textContent = `${filtered.length.toLocaleString("ru-RU")} ${pluralRu(filtered.length, ["точка", "точки", "точек"])}`;
+    count.textContent = `${filtered.length.toLocaleString(NUMBER_LOCALE)} ${pluralRu(filtered.length, ["точка", "точки", "точек"])}`;
     if (filtered.length) {
       plot.replaceChildren(drawPatternMap(filtered, selectedInfo, placements));
     } else {
@@ -1105,7 +1135,7 @@ function renderMap(result, filename) {
     ["Объектов внутри", stats.objects],
   ].map(([label, value]) => el("div", {}, [
     el("dt", {}, label),
-    el("dd", {}, Number(value).toLocaleString("ru-RU")),
+    el("dd", {}, Number(value).toLocaleString(NUMBER_LOCALE)),
   ])));
   const root = el("div", { class: "map-workbench" }, [
     el("section", { class: "map-explainer" }, [
@@ -1256,7 +1286,7 @@ function renderDiagnostics(result) {
       el("div", { class: "diagnostic-bars" }, handlerRows.slice(0, 30).map(([name, value]) =>
         el("div", {}, [
           el("span", {}, handlerLabel(name)),
-          el("span", {}, Number(value).toLocaleString("ru-RU")),
+          el("span", {}, Number(value).toLocaleString(NUMBER_LOCALE)),
         ])
       )),
     ]),
@@ -1266,7 +1296,7 @@ function renderDiagnostics(result) {
       el("div", { class: "diagnostic-bars" }, playerRows.map(([name, value]) =>
         el("div", {}, [
           el("span", {}, streamSourceLabel(result, name)),
-          el("span", {}, Number(value).toLocaleString("ru-RU")),
+          el("span", {}, Number(value).toLocaleString(NUMBER_LOCALE)),
         ])
       )),
     ]),
@@ -1304,14 +1334,14 @@ function renderExport(filename, result) {
     exportCard(
       "Хронология CSV",
       "Плоская таблица строительства, производства, улучшений, рынка и приказов.",
-      `${timelineCount.toLocaleString("ru-RU")} строк`,
+      `${timelineCount.toLocaleString(NUMBER_LOCALE)} строк`,
       () => exportTimeline(filename, result),
       "Скачать CSV",
     ),
     exportCard(
       "Шаблоны карты CSV",
       "Все размещённые фрагменты карты: имя, группа, координаты, размеры и число объектов.",
-      `${patternCount.toLocaleString("ru-RU")} строк`,
+      `${patternCount.toLocaleString(NUMBER_LOCALE)} строк`,
       () => exportPatterns(filename, result),
       "Скачать CSV",
     ),
@@ -1328,7 +1358,7 @@ function renderExport(filename, result) {
       "UTF-8 · обычный текст",
       async () => {
         try {
-          await navigator.clipboard.writeText(report);
+          await navigator.clipboard.writeText(language === "en" ? tr(report) : report);
           notify("Сводка скопирована");
         } catch {
           notify("Браузер запретил доступ к буферу обмена");
@@ -1445,7 +1475,7 @@ export function renderComparison(replays) {
       el("td", { class: metrics.abuses ? "num danger-text" : "num" }, metrics.abuses),
     ]);
   });
-  return el("div", {}, [
+  const comparison = el("div", {}, [
     el("header", { class: "comparison-header" }, [
       el("div", {}, [
         el("p", { class: "section-kicker" }, "Несколько партий"),
@@ -1470,6 +1500,8 @@ export function renderComparison(replays) {
       ]),
     ]),
   ]);
+  localizeTree(comparison);
+  return comparison;
 }
 
 export function renderCard(filename, result, parseMs, options = {}) {
@@ -1500,7 +1532,7 @@ export function renderCard(filename, result, parseMs, options = {}) {
         el("p", {}, [
           `${fmtTime(result.duration_g_sec)} · `,
           `${playerCount} ${pluralRu(playerCount, ["игрок", "игрока", "игроков"])} · `,
-          `${eventCount.toLocaleString("ru-RU")} ${pluralRu(eventCount, ["событие", "события", "событий"])}`,
+          `${eventCount.toLocaleString(NUMBER_LOCALE)} ${pluralRu(eventCount, ["событие", "события", "событий"])}`,
         ]),
       ]),
       el("div", { class: "workspace-actions" }, [
@@ -1537,7 +1569,7 @@ export function renderCard(filename, result, parseMs, options = {}) {
         tabindex: index === 0 ? 0 : -1,
       }, [
         el("span", {}, label),
-        badge != null ? el("small", {}, Number(badge).toLocaleString("ru-RU")) : null,
+        badge != null ? el("small", {}, Number(badge).toLocaleString(NUMBER_LOCALE)) : null,
       ])
     )),
     ...tabs.map(([key]) =>
@@ -1557,5 +1589,6 @@ export function renderCard(filename, result, parseMs, options = {}) {
     panel.replaceChildren(contentFactories[key]());
     initialized.add(key);
   });
+  localizeTree(workspace);
   return workspace;
 }

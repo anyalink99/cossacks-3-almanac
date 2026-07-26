@@ -106,7 +106,7 @@ def render_md(by_nation: dict) -> str:
     A("")
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data.json` скриптом "
-      "[`compute/compute_efficiency_upgrades.py`](../../compute/compute_efficiency_upgrades.py).")
+      "[`compute/compute_efficiency_upgrades.py`](../../../compute/compute_efficiency_upgrades.py).")
     A("")
     A("## Что это")
     A("")

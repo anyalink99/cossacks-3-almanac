@@ -11,7 +11,7 @@
 
 **Глубокие разборы механики:**
 
-- [`../recon/world/combat/naval_combat.md`](../recon/world/combat/naval_combat.md) — морской бой, регионы, транспорт, линейный корабль, real-DPS @ fast по классам, особые юниты (`chaika` / `xebec` / `yachttur`), стратегические выводы.
+- [`../../recon/world/combat/naval_combat.md`](../../recon/world/combat/naval_combat.md) — морской бой, регионы, транспорт, линейный корабль, real-DPS @ fast по классам, особые юниты (`chaika` / `xebec` / `yachttur`), стратегические выводы.
 
 ## Содержание
 
@@ -37,11 +37,11 @@
 
 **Производит:** `battleship`, `chaika` / `yacht` / `yachttur`, `ferry`, `fishboat`, `frigate` / `xebec`, `galley`. Порт у всех наций один и тот же — нация-специфичных Портов с разным ростером нет (только `chaika` ↔ `yacht` ↔ `yachttur` подменяют друг друга по нации).
 
-**Стоимость второго Порта:** `1600 × 1.5 = 2400 W` + `800 × 1.5 = 1200 S` + `400 × 1.5 = 600 I` (правило `costpercent` см. в [01_economy/README.md](01_economy/README.md)). Третий: 3600 / 1800 / 900.
+**Стоимость второго Порта:** `1600 × 1.5 = 2400 W` + `800 × 1.5 = 1200 S` + `400 × 1.5 = 600 I` (правило `costpercent` см. в [01_economy/README.md](../01_economy/README.md)). Третий: 3600 / 1800 / 900.
 
 ## Каталог кораблей
 
-7 морских юнитов + 2 ukr / tur-варианта. Имена приведены из локали игры; параметры извлечены из [`../data.json`](../../data.json).
+7 морских юнитов + 2 ukr / tur-варианта. Имена приведены из локали игры; параметры извлечены из [`data.json`](../../../data.json).
 
 {catalog_table}
 
@@ -53,7 +53,7 @@
 
 {combat_table}
 
-**Real-DPS @ fast и анализ боевой эффективности по классам** — в [`../recon/world/combat/naval_combat.md` §5.1](../recon/world/combat/naval_combat.md). Полные таблицы скоростей атаки — в [`reports/combat/attack_rates.md`](../reports/combat/attack_rates.md).
+**Real-DPS @ fast и анализ боевой эффективности по классам** — в [`../../recon/world/combat/naval_combat.md` §5.1](../../recon/world/combat/naval_combat.md). Полные таблицы скоростей атаки — в [`reports/combat/attack_rates.md`](../../reports/combat/attack_rates.md).
 
 ## Транспорт (`ferry`)
 
@@ -61,13 +61,13 @@
 
 **Что значит `transport = 120`:** один Транспорт вмещает до **120 единиц population** (слотов фермы). Большинство пехоты занимает 1 слот, кавалерия — 2–3, артиллерия — 5+. Поэтому Транспорт перевозит примерно 100 мушкетёров или 40 рейтаров.
 
-Подробности (поведение при погрузке, уязвимость, эскорт) — в [`../recon/world/combat/naval_combat.md` §4](../recon/world/combat/naval_combat.md).
+Подробности (поведение при погрузке, уязвимость, эскорт) — в [`../../recon/world/combat/naval_combat.md` §4](../../recon/world/combat/naval_combat.md).
 
 ## Рыбачья лодка (`fishboat`)
 
 {fishboat_block}
 
-Цикл рыбалки, апгрейды `fishingperc`, уязвимость и стратегия — в [`../recon/world/combat/naval_combat.md` §6](../recon/world/combat/naval_combat.md).
+Цикл рыбалки, апгрейды `fishingperc`, уязвимость и стратегия — в [`../../recon/world/combat/naval_combat.md` §6](../../recon/world/combat/naval_combat.md).
 
 ## Источники
 

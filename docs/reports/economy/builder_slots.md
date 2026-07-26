@@ -2,7 +2,7 @@
 
 Сколько крестьян могут одновременно строить здание. Считается из `collisionmaskproperty.Mask` каждого `.prop` файла в `data/objects/buildings/` по правилу, эмпирически согласованному с игрой.
 
-**Формула** (см. [`recon/world/building_mechanics.md`](../../recon/world/building_mechanics.md), раздел про слоты):
+**Формула** (см. [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md), раздел про слоты):
 
 - Для нормальных зданий — точный обход периметра `_unit_CalcBuilderPoints` [^1] по верхне-левой компоненте collision mask. Для выпуклых форм результат равен `bbox_cols + bbox_rows` (Manhattan-периметр); для non-convex (арки, кресты) walker даёт больше.
 - Если маска **разорвана на несколько линейных** «опорных» планок 1×N (склады) — движок ведёт себя так, будто bbox-объединение всех планок заполнено сплошняком. Используем `bbox_cols + bbox_rows` объединения (см. колонку «метод»).

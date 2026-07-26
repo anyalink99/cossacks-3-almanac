@@ -8,8 +8,8 @@
 пересчитывается из неизменной базы.
 
 Полный разбор по `itype` (12 случаев), сводная таблица и баг
-`speedperc` — в [`../recon/world/economy/upgrades_application.md`
-§7.6](../recon/world/economy/upgrades_application.md).
+`speedperc` — в [`../../recon/world/economy/upgrades_application.md`
+§7.6](../../recon/world/economy/upgrades_application.md).
 
 **Практический вывод для построения симуляторов:** апгрейды можно
 агрегировать как множества, не отслеживая последовательность их

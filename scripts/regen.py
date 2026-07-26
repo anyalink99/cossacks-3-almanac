@@ -132,6 +132,10 @@ TARGETS: dict[str, list[list[str]]] = {
         ["compute/compute_game_settings.py"],
     ],
 
+    "manifests": [
+        ["compute/build_md_manifest.py"],
+    ],
+
 }
 
 # Aggregate targets: order matters (data must come before reports/reference).
@@ -139,7 +143,8 @@ ALIASES: dict[str, list[str]] = {
     "reports": ["reports-combat", "reports-economy", "reports-map",
                 "reports-nations", "tech"],
     "all":     ["data", "reference", "reports-combat", "reports-economy",
-                "reports-map", "reports-nations", "tech", "derived"],
+                "reports-map", "reports-nations", "tech", "derived",
+                "manifests"],
 }
 
 
@@ -147,9 +152,9 @@ def help_text() -> str:
     lines = ["Usage: python scripts/regen.py [target]", "", "Targets:"]
     for name in ["all", "data", "reference", "reports", "reports-combat",
                  "reports-economy", "reports-map", "reports-nations",
-                 "tech", "derived"]:
+                 "tech", "derived", "manifests"]:
         descr = {
-            "all":             "full regen (data + reference + reports + tech + derived)",
+            "all":             "full regen (data + reference + reports + tech + derived + manifests)",
             "data":            "parser only (game scripts → data.json)",
             "reference":       "writers (data.json → docs/reference/, legacy md, xlsx)",
             "reports":         "all derived reports",
@@ -159,6 +164,7 @@ def help_text() -> str:
             "reports-nations": "docs/reports/nations/",
             "tech":            "tech_tree.md + production_rates.md + tech_tree.json",
             "derived":         "animations, patterns, replay aggregates → derived/",
+            "manifests":       "Markdown navigation manifests for both languages",
         }[name]
         lines.append(f"  {name:<18} {descr}")
     lines.append("")

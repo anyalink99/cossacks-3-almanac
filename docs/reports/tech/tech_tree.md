@@ -1,6 +1,6 @@
 # Cossacks 3 — Tech Tree (по нациям)
 
-Граф зависимостей: что нужно построить или исследовать перед чем. Извлечено из `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). Источник истины — [`derived/tech_tree.json`](../../derived/tech_tree.json).
+Граф зависимостей: что нужно построить или исследовать перед чем. Извлечено из `_country_AddFixedProduceWithAccessControl` и `_country_AddUpgradeWithAccessControl` (параметры `req0`..`req7`). Источник истины — [`derived/tech_tree.json`](../../../derived/tech_tree.json).
 
 **Условные обозначения:**
 - `[B]` — здание, `[U]` — юнит, `[T]` — апгрейд (technology, исследование)

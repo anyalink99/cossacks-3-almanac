@@ -316,7 +316,7 @@ handler'а с тем же state_id; вместо этого движок пиш�
 
 ## 4. Карта state_id → handler
 
-**Источник:** [`data/scripts/units/global.aix`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.aix)
+**Источник:** `data/scripts/units/global.aix`
 описывает FSM-секции в порядке загрузки. **`state_id` совпадает с
 индексом секции** в файле (включая separator'ы и `section.end`).
 
@@ -396,7 +396,7 @@ State_id'ы 0x04, 0x09, 0x12, 0x3e, 0x41 — это separator-записи
 ассоциированы с handler'ом.
 
 Сигнатуры всех `Read*`-handler'ов читаются из
-[`data/scripts/units/global.inc/read*.inc`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\units\global.inc\).
+`data/scripts/units/global.inc/read*.inc`.
 
 ### 4.1 Сигнатуры тел ключевых handler'ов
 
@@ -835,7 +835,7 @@ race-condition (которое физически возможно только 
 false-positive'ами на действиях самого хоста.
 
 Engine-источник: `GetKeyColorByPlayerIndex` в
-[`lib/classes.script:7986`](C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts\lib\classes.script)
+`lib/classes.script:7986`
 красит индекс 0 в rgb(164, 0, 0).
 
 ### 11.4 Имена игроков

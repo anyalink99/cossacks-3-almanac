@@ -1,6 +1,6 @@
 # Cossacks 3 — Цены зданий по N-му экземпляру
 
-**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_scaling.py`](../../compute/compute_scaling.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_scaling.py`](../../../compute/compute_scaling.py).
 
 ## Формула
 

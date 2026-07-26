@@ -505,7 +505,7 @@ Densities [^30]:
    `frs_small/4` на 2 типа.
 
 **Числа для Tiny + Highlands + Land** (источник:
-[`compute/compute_map_resources.py`](../compute/compute_map_resources.py),
+[`compute/compute_map_resources.py`](../../../../compute/compute_map_resources.py),
 отчёт в [`docs/reports/map/map_resources.md`](../../../reports/map/map_resources.md)):
 
 | Параметр | Значение |
@@ -528,7 +528,7 @@ Densities [^30]:
 После расшифровки `data/game/var/generator.cfg` секции `PatternList`
 сопоставляют тип паттерна (например, `forests_pine_big`) со списком
 конкретных `.pattern` файлов. Парсер —
-[`parser/parse_generator_cfg.py`](../../parser/parse_generator_cfg.py) →
+[`parser/parse_generator_cfg.py`](../../../../parser/parse_generator_cfg.py) →
 `docs/derived/pattern_types.json`.
 
 Кросс-tabulating с `pattern_inventory.json` (mask cell counts) →
@@ -581,7 +581,7 @@ decoration (drytree, decortree*, fallen logs, grass tufts, stumps). Engine
 
 **Заключение:** для шахт `mask = footprint`, для брышей `mask = 1:1`, для
 лесов `mask × 0.30 ≈ chopable trees`. Этот ratio зашит в
-[`compute/compute_map_resources.py`](../compute/compute_map_resources.py)
+[`compute/compute_map_resources.py`](../../../../compute/compute_map_resources.py)
 как `TREE_CHOPABLE_RATIO`. Refine when more empirical data доступна.
 
 ### Pattern type → file mapping

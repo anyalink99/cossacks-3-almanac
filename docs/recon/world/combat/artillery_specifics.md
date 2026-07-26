@@ -98,7 +98,7 @@ artlimit[artind] += building.artdepo[artind]
 `bartprepare` — это **gate flag** для команды
 `gc_obj_order_type_attackpoint` (стрельба по точке земли). В
 скриптах флаг используется ровно в одном месте —
-[`_player_OrderUnitsToAttackPoint`](../../../internals/engine/native_api.md):
+[`_player_OrderUnitsToAttackPoint`](../../../../internals/engine/native_api.md):
 команда attack-point применяется только к юнитам с `bartprepare =
 True`; остальные юниты в выделении игнорируют её.
 
@@ -119,7 +119,7 @@ True`; остальные юниты в выделении игнорируют 
   prepare-часть анимации до момента
   `OnAclAnimationReachedAttack`-callback'а — именно в этот кадр
   происходит выстрел (см.
-  [`internals/engine/animation_system.md`](../../../internals/engine/animation_system.md)).
+  [`internals/engine/animation_system.md`](../../../../internals/engine/animation_system.md)).
   Время prepare у тяжёлых пушек — порядка 50–100 frames.
 - **Поворот** (`rotatespeed`): артиллерия медленно разворачивается
   лицом к цели. Для мортиры `gc_obj_rotatespeed_mortar`

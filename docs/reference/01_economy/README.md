@@ -4,9 +4,9 @@
 
 > **Глубокие исследования по этой главе:**
 >
-> - [`../recon/world/economy/peasant_extraction.md`](../recon/world/economy/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
-> - [`../recon/world/map/map_generation_pipeline.md`](../recon/world/map/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
-> - [`../reports/map/map_resources.md`](../reports/map/map_resources.md) — подсчёт ресурсов на стандартной карте Tiny + Highlands + Rich (~109 больших деревьев, ~33 камня, до 12 шахт / игрок)
+> - [`../../recon/world/economy/peasant_extraction.md`](../../recon/world/economy/peasant_extraction.md) — полный разбор цикла крестьянина, animation frames, walk speed, fieldlife регенерация, формулы и открытые empirical-вопросы (см. §9)
+> - [`../../recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) — что появляется на карте (леса, камни, шахты) и где именно
+> - [`../../reports/map/map_resources.md`](../../reports/map/map_resources.md) — подсчёт ресурсов на стандартной карте Tiny + Highlands + Rich (~109 больших деревьев, ~33 камня, до 12 шахт / игрок)
 
 ## Резюме
 
@@ -27,7 +27,7 @@
 | `gc_obj_foodperunit` | 30 food / юнит | dmscript.global:808 |
 | Default `eff` | 100% | player.script:109 |
 
-Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../recon/world/map/game_settings.md).
+Все опции лобби (стартовые ресурсы, время мира, лимит населения, переход в 18 век, сложность ИИ и т. д.) — таблицы в [`docs/reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md), поведение движка — в [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
 ## Базовые порции и hits
 
@@ -46,7 +46,7 @@ delivered = (base_portion × eff) / 100   # integer division
 
 Пример: с апгрейдами academy.1 (+40% food) и mill.1 (+140% food) → `eff = 100 + 40 + 140 = 280`. Крестьянин приносит `45 × 280 / 100 = 126` еды за рейс (вместо базовых 45).
 
-Все апгрейды efficiency применяются в одной ветке `_player_ApplyUpgrade` [^1]; их полный список — в [05_upgrades/README.md](05_upgrades/README.md#economy-eff).
+Все апгрейды efficiency применяются в одной ветке `_player_ApplyUpgrade` [^1]; их полный список — в [05_upgrades/README.md](../05_upgrades/README.md#economy-eff).
 
 ## Источники
 
@@ -97,11 +97,11 @@ HP поля = `gc_FieldMaxHP = 25000`. Урон полю за удар: `resdec 
 
 `fishboat`: HP = 300, цена W600, `fishingmax = 1000` (база), `fishingspeed = 50/4 = 12` тиков на одну рыбу. Апгрейд `aca.5` (`+100% boat efficiency`) удваивает грузоподъёмность → **2000 food / рейс**. Апгрейд `aca.7` (`-85% fishing boat cost`) удешевляет постройку.
 
-Полный список кораблей — в [compare/units/ships.md](compare/units/ships.md).
+Полный список кораблей — в [compare/units/ships.md](../compare/units/ships.md).
 
 ## Голод и бунт — таблицы upkeep
 
-> **Полный разбор механики:** [`../recon/world/economy/hunger_and_rebellion.md`](../recon/world/economy/hunger_and_rebellion.md) (RNG-пороги по сложности, виртуальный игрок-наёмник, защитные стратегии). Дипломатический центр и наёмники как **система** — [`../recon/systems/mercenaries_diplomacy.md`](../recon/systems/mercenaries_diplomacy.md).
+> **Полный разбор механики:** [`../../recon/world/economy/hunger_and_rebellion.md`](../../recon/world/economy/hunger_and_rebellion.md) (RNG-пороги по сложности, виртуальный игрок-наёмник, защитные стратегии). Дипломатический центр и наёмники как **система** — [`../../recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
 
 ### Расход food / g-сек на одного юнита
 
@@ -119,7 +119,7 @@ HP поля = `gc_FieldMaxHP = 25000`. Урон полю за удар: `resdec 
 **Sanity-check (verified empirically 2026-04-29):** 18 австрийских крестьян простаивают 2 игровые минуты:
 `sum = 18 × 62 = 1116` → `1116 × 32 / 20000 = 1.786 food/g-сек` → **за 120 g-сек ≈ 214 food** ✓
 
-Точное значение `bnohungry` для каждого юнита — в [`../data.json`](../../data.json), поле `bnohungry`. Кратко: здания и наёмники (`bmercenary = True`) — `True`; крестьяне, обычная пехота / кавалерия, офицеры / барабанщики / священники — `False`.
+Точное значение `bnohungry` для каждого юнита — в [`data.json`](../../../data.json), поле `bnohungry`. Кратко: здания и наёмники (`bmercenary = True`) — `True`; крестьяне, обычная пехота / кавалерия, офицеры / барабанщики / священники — `False`.
 
 ### Дипломатический центр
 
@@ -160,7 +160,7 @@ HP поля = `gc_FieldMaxHP = 25000`. Урон полю за удар: `resdec 
 ### Расход gold юнитами
 
 `consume[gold]` встречается у:
-- **Башен** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 за g-minуту) — постоянный налог независимо от боя. См. [`../recon/world/combat/towers.md` §2](../recon/world/combat/towers.md).
+- **Башен** (`consume[gold] = 500` → 0.8 gold / g-sec ≈ 48 за g-минуту) — постоянный налог независимо от боя. См. [`../../recon/world/combat/towers.md` §2](../../recon/world/combat/towers.md).
 - **Наёмников** через `consume.gold` — постоянный upkeep всех 8 sid.
 - **Стрелковых юнитов** — только за выстрел через `weapon.cost[gold]`, не в простое.
 

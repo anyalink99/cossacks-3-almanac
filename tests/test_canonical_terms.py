@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "parser"))
 class CanonicalTerms(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        path = ROOT / "docs" / "derived" / "canonical_terms.json"
+        path = ROOT / "derived" / "canonical_terms.json"
         cls.canon = json.loads(path.read_text(encoding="utf-8"))
 
     def test_21_nations(self) -> None:

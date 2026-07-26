@@ -69,7 +69,7 @@ docs/
 
 ## Сырой JSON и engine-дампы
 
-- [`../data.json`](../data.json) — мастер-данные (~4.7 МБ), выход `parser/build_data.py`. Все writer-скрипты читают отсюда.
+- [`../data.json`](../data.json) — мастер-данные (~5.7 МБ), выход `parser/build_data.py`. Все writer-скрипты читают отсюда.
 - [`../derived/`](../derived/) — специализированные JSON-датасеты ([README](../derived/README.md)): tech_tree, builder_slots, animations, game_settings, canonical_terms, pattern_*, replay_ground_truth, плюс engine-RE дампы (4856 native сигнатур, exe_strings, primitives).
 
 ## Регенерация

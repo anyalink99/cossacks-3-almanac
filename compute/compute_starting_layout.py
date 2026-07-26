@@ -168,7 +168,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("**Производный** файл (расчётный, не извлечение). Считается из "
       "`data/scripts/common.inc/dogenerate.inc` и "
       "`data/game/var/startingsettings.cfg` скриптом "
-      "[`compute/compute_starting_layout.py`](../../compute/compute_starting_layout.py).")
+      "[`compute/compute_starting_layout.py`](../../../compute/compute_starting_layout.py).")
     A("")
     A("## §1. Расстановка крестьян (режим default)")
     A("")
@@ -235,8 +235,8 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
                               label="`SetupMines` — расстановка месторождений")
     A(f"Шахты (gold / iron / coal) — отдельная функция `SetupMines` "
       f"{mines_cite}. Спавн шахт идёт по другой логике (раундами "
-      f"по дистанции, см. [recon/world/peasant_extraction.md](../../recon/world/peasant_extraction.md) §8.3 + "
-      f"[recon/world/map_generation_pipeline.md](../../recon/world/map_generation_pipeline.md) §8).")
+      f"по дистанции, см. [recon/world/economy/peasant_extraction.md](../../recon/world/economy/peasant_extraction.md) §8.3 + "
+      f"[recon/world/map/map_generation_pipeline.md](../../recon/world/map/map_generation_pipeline.md) §8).")
     A("")
     A("## §3. Пресеты стартовых юнитов")
     A("")
@@ -247,7 +247,7 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
       f"с каноничными русскими названиями — "
       f"[`lobby_settings.md`](lobby_settings.md). Поведение движка (как "
       f"добавляются юниты и ресурсы) — "
-      f"[`recon/world/game_settings.md`](../../recon/world/game_settings.md) §3.1.")
+      f"[`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) §3.1.")
     A("")
     A("Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, "
       "что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или "

@@ -1,6 +1,6 @@
 # Cossacks 3 — Counter-unit matrix
 
-**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_counter_matrix.py`](../../compute/compute_counter_matrix.py).
+**Производный** файл (расчётный, не извлечение). Считается из `data.json` скриптом [`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).
 
 ## Метод
 

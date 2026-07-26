@@ -127,7 +127,7 @@ def header_block() -> list[str]:
     L.append("")
     L.append("**Производный** файл (расчётный, не извлечение). Считается из "
              "`data.json` скриптом "
-             "[`compute/compute_scaling.py`](../../compute/compute_scaling.py).")
+             "[`compute/compute_scaling.py`](../../../compute/compute_scaling.py).")
     L.append("")
     L.append("## Формула")
     L.append("")

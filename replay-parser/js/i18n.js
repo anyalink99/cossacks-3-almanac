@@ -27,3 +27,12 @@ export const NATION_LABEL_RU = {
   swe: "Швеция", swi: "Швейцария", tur: "Турция", ukr: "Украина",
   ven: "Венеция",
 };
+
+export const NATION_LABEL_EN = {
+  aus: "Austria", alg: "Algeria", bav: "Bavaria", den: "Denmark",
+  eng: "England", fra: "France", hun: "Hungary", net: "Netherlands",
+  pie: "Piedmont", pol: "Poland", por: "Portugal", pru: "Prussia",
+  rus: "Russia", sax: "Saxony", sco: "Scotland", spa: "Spain",
+  swe: "Sweden", swi: "Switzerland", tur: "Turkey", ukr: "Ukraine",
+  ven: "Venice",
+};

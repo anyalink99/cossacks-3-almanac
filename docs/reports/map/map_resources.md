@@ -2,9 +2,9 @@
 
 **Производный** документ. Считается из `compute/compute_map_resources.py`. Перегенерация: `python compute/compute_map_resources.py`.
 
-Per-type placement rates **эмпирически откалиброваны** на 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. См. также [recon/map_generation_pipeline.md §14](../recon/map_generation_pipeline.md).
+Per-type placement rates **эмпирически откалиброваны** на 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. См. также [recon/world/map/map_generation_pipeline.md §14](../../recon/world/map/map_generation_pipeline.md).
 
-**Настройки:** `mapsize = 3` (Tiny, 256 × 256 = 65536 тайлов), `relieftype = 3` (Highlands), `resourcemines = 2` (Rich), `foreststype = 0`. Расшифровка значений и каноничные русские названия — [`lobby_settings.md`](lobby_settings.md). Поведение движка по каждой опции — [`recon/game_settings.md`](../../recon/game_settings.md).
+**Настройки:** `mapsize = 3` (Tiny, 256 × 256 = 65536 тайлов), `relieftype = 3` (Highlands), `resourcemines = 2` (Rich), `foreststype = 0`. Расшифровка значений и каноничные русские названия — [`lobby_settings.md`](lobby_settings.md). Поведение движка по каждой опции — [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
 ## 1. Модификаторы вероятности паттернов (оценка)
 
@@ -132,7 +132,7 @@ Per-type placement rates **эмпирически откалиброваны** �
 - На non-Tiny / non-Highlands settings placement rates **могут отличаться** — нет данных.
 
 **Открытые пробелы:**
-- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. [`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) §13 Q7.
+- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences в replay-data). Нужно расширить модель — см. [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) §13 Q7.
 - `desert_*` (season=3) не реализовано — 1/20 replays.
 - Non-Land mine formula отличается — open question §13 Q6.
 

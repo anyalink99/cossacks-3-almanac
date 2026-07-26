@@ -106,7 +106,7 @@ def main():
     L.append("Время постройки (с нуля, новое здание) и ремонта (полностью повреждённое → полное HP) "
              "для каждого здания. Считается для разного числа крестьян.")
     L.append("")
-    L.append("**Формулы** (см. [`recon/building_mechanics.md`](../recon/building_mechanics.md)):")
+    L.append("**Формулы** (см. [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md)):")
     L.append("")
     L.append("- **Постройка**, время с N крестьянами: `buildtime_sec × 1.13 / N` (ограничено slot cap)")
     L.append("- **Ремонт**, время с N крестьянами: `maxhp / (20 × N / 0.406)` g-sec")

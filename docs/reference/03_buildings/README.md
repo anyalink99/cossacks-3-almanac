@@ -4,7 +4,7 @@
 
 Здания делятся на **per-nation** (`<nat>+suffix`, например `auscen` = ратуша Австрии) и **common** (`<cluster>+suffix`, общие для группы наций: `eur`/`rus`/`tur`/`spa`/`ukr`/`por`).
 
-Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = `floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — в [`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md), генератор — [`compute/compute_scaling.py`](../../compute/compute_scaling.py).
+Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = `floor(base × (costpercent/100)^(N-1))`. Готовые таблицы N=1..6 для всех зданий — в [`../../reports/economy/scaling_prices.md`](../../reports/economy/scaling_prices.md), генератор — [`compute/compute_scaling.py`](../../../compute/compute_scaling.py).
 
 ## Расшифровка колонок
 
@@ -13,7 +13,7 @@
 | **Здание** | Локализованное имя + `sid` |
 | **Нация / Нации** | Какие нации имеют это здание (для common-кластеров — список) |
 | **HP** | Очки здоровья достроенного здания |
-| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/world/economy/building_mechanics.md](../recon/world/economy/building_mechanics.md). |
+| **Время (g-сек)** | `buildtime` в игровых секундах. Для зданий хранится с множителем `gc_buildtime_modifier = 10`, т.е. `frames × 10/32`. С N строителями реальное время = `time × 1.13 / N`. См. [recon/world/economy/building_mechanics.md](../../recon/world/economy/building_mechanics.md). |
 | **cost%** | `costpercent` — множитель цены каждого следующего экземпляра. 100 = одинаковая, 300 = ×3 за второе. 0 = без масштабирования. |
 | **F / W / S / G / I / C** | Цена в ресурсах: **Food / Wood / Stone / Gold / Iron / Coal**. |
 | **ферма** | `farm` — на сколько единиц это здание поднимает лимит населения. |
@@ -25,7 +25,7 @@
 ## Жизненный цикл здания — кратко
 
 Полный разбор стройки, ремонта, отмены и разрушения — в
-[`../recon/world/economy/building_mechanics.md`](../recon/world/economy/building_mechanics.md).
+[`../../recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md).
 Здесь — таблица ключевых констант для быстрого обзора.
 
 | Этап | Ключевая величина | Заметка |
@@ -45,7 +45,7 @@
 ## Эпохальный переход: 17 → 18 век — таблица
 
 Полный разбор пререквизитов, цепочки строительства и стратегии — в
-[`../recon/world/economy/upgrades_application.md` §7.5](../recon/world/economy/upgrades_application.md).
+[`../../recon/world/economy/upgrades_application.md` §7.5](../../recon/world/economy/upgrades_application.md).
 Здесь — таблица стоимости `<nat>cen.1` по нациям.
 
 ### Цена `<nat>cen.1` (апгрейд перехода в 18 век)
@@ -62,7 +62,7 @@
 быстрый. Узкое место — собрать **Академию + Собор + Артиллерийское
 депо** (~ 7 000 wood + 4 000 stone + 1 000 gold + ~36 real-мин при
 одном строителе на каждое здание). Полная таблица всех апгрейдов —
-в [05_upgrades/README.md → cen — Городской центр](05_upgrades/README.md#cen--городской центр-переход-эпохи).
+в [05_upgrades/README.md → cen — Городской центр](../05_upgrades/README.md#cen--городской центр-переход-эпохи).
 
 **Заперты в 17 веке** (нет `<nat>ba2`): `tur`, `alg`, `ukr` — у
 них отсутствуют `musketeer18`, `grenadier`, `dragoon18`. Они
@@ -407,7 +407,7 @@
 #### Башня — кратко
 
 Полный разбор стрельбы, обзора, гарнизона и стратегии — в
-[`../recon/world/combat/towers.md`](../recon/world/combat/towers.md).
+[`../../recon/world/combat/towers.md`](../../recon/world/combat/towers.md).
 Краткие параметры базовой европейской башни (`eurtow`):
 
 | Параметр | Значение | Замечание |
@@ -425,7 +425,7 @@
 
 5 уровней апгрейда `eurtow.1..5` снижают `weapon_pause` до
 × 0.467 от базы → частота огня **× 2.14**. Полный список — в
-[05_upgrades/README.md → tow](05_upgrades/README.md#tow--башня-скорость-перезарядки).
+[05_upgrades/README.md → tow](../05_upgrades/README.md#tow--башня-скорость-перезарядки).
 ### gol — Золотая шахта
 
 | Здание (cluster) | Нации | HP | Время (g-сек) | cost% | F | W | S | G | I | C | Доп. |

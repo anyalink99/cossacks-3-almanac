@@ -1,5 +1,7 @@
 # Машинно-читаемые JSON-датасеты
 
+[English](README.en.md) · **Русский**
+
 Здесь — все JSON-файлы для инструментов: редактора билдов, симулятора,
 внешних анализаторов, а также engine-RE дампы из `cossacks.exe`. Все
 генерируются. **Не редактировать руками** — будут перезаписаны при
@@ -84,7 +86,7 @@ python parser/engine_recon/extract_dws_signatures.py  # → derived/dws_native_s
 ## Где не лежит
 
 - **Сырые игровые данные** — в [`../data.json`](../data.json) (мастер-структура,
-  ~4.7 МБ; читают все генераторы).
+  ~5.7 МБ; читают все генераторы).
 - **Готовая для людей справка** — в [`../docs/reference/`](../docs/reference/),
   [`../docs/reports/`](../docs/reports/), [`../docs/recon/`](../docs/recon/).
 - **Документация движка** — в [`../internals/`](../internals/) (engine, scripts, data).

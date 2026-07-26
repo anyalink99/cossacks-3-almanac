@@ -1,6 +1,6 @@
 # Национальные отклонения — здания и юниты
 
-**Производный** файл (расчётный, не извлечение). Считается из [`data.json`](../../data.json) скриптом [`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).
+**Производный** файл (расчётный, не извлечение). Считается из [`data.json`](../../../data.json) скриптом [`compute/compute_nation_deviations.py`](../../../compute/compute_nation_deviations.py).
 
 Цель — собрать в одном месте ВСЕ места, где у конкретной нации значение стата здания или общего юнита отличается от того, что у большинства. Источник дельт — `case i of nation:` ветки в `unit.script`, которые перезаписывают `SetObjBuildingProperties` / `SetObjBaseWeapon` для отдельных наций.
 

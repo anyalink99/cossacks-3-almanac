@@ -135,10 +135,15 @@
 </head>
 <body>
 
+<button id="language-switch" class="language-switch" type="button"
+        style="position:fixed;right:20px;top:18px;z-index:10"></button>
+
 <section class="hero">
   <h1 class="hero-logo">COSSACKS · 3</h1>
   <div class="hero-sub">Almanac</div>
-  <p class="hero-tag">
+  <p class="hero-tag"
+     data-ru="Справочник по экономике, бою, картам и сетевому формату Cossacks 3. Расшифрованы скрипты, exe и replay-формат — данные доступны как публичные веб-инструменты ниже."
+     data-en="A reference for Cossacks 3 economy, combat, maps, and network formats. Game scripts, the executable, and replay files have been decoded into the public web tools below.">
     Справочник по экономике, бою, картам и сетевому формату Cossacks 3.
     Расшифрованы скрипты, exe и replay-формат — данные доступны как
     публичные веб-инструменты ниже.
@@ -149,34 +154,40 @@
 
 <section class="tools">
 
-  <a class="tool" href="replay-parser/">
+  <a class="tool" href="replay-parser/" data-href-ru="replay-parser/" data-href-en="replay-parser/?lang=en">
     <span class="tool-mark">R</span>
-    <h2>Разбор реплеев</h2>
-    <p class="tool-desc">
+    <h2 data-ru="Разбор реплеев" data-en="Replay Analyzer">Разбор реплеев</h2>
+    <p class="tool-desc"
+       data-ru="Локальный обозреватель .rep: хронология партии, игроки, схема генерации карты, диагностика формата, экспорт и проверка прокачек."
+       data-en="A local .rep analyzer with match timeline, players, map-generation data, format diagnostics, exports, and upgrade validation.">
       Локальный обозреватель <code>.rep</code>: хронология партии, игроки,
       схема генерации карты, диагностика формата, экспорт и проверка прокачек.
     </p>
-    <span class="tool-status ready">Готов</span>
+    <span class="tool-status ready" data-ru="Готов" data-en="Ready">Готов</span>
   </a>
 
-  <a class="tool" href="editor/">
+  <a class="tool" href="editor/" data-href-ru="editor/" data-href-en="editor/?lang=en">
     <span class="tool-mark">E</span>
-    <h2>Тренажёр стратегий</h2>
-    <p class="tool-desc">
+    <h2 data-ru="Тренажёр стратегий" data-en="Build Order Planner">Тренажёр стратегий</h2>
+    <p class="tool-desc"
+       data-ru="Редактор порядка строительства с браузерным симулятором экономики. Здания, юниты, улучшения и распределение крестьян показаны на общей шкале времени."
+       data-en="A build-order editor with an in-browser economy simulator. Buildings, units, upgrades, and worker assignments share one timeline.">
       Билд-ордер-эдитор с симулятором экономики в браузере. Здания, юниты,
       апгрейды и крестьяне на ресурсах в одной шкале времени.
     </p>
-    <span class="tool-status wip">В разработке</span>
+    <span class="tool-status wip" data-ru="В разработке" data-en="In development">В разработке</span>
   </a>
 
-  <a class="tool" href="docs/">
+  <a class="tool" href="docs/" data-href-ru="docs/" data-href-en="docs_en/">
     <span class="tool-mark">D</span>
-    <h2>Документация</h2>
-    <p class="tool-desc">
+    <h2 data-ru="Документация" data-en="Documentation">Документация</h2>
+    <p class="tool-desc"
+       data-ru="Справочник по юнитам, зданиям, улучшениям, картам и нациям; исследования механик движка и сетевого формата."
+       data-en="Reference material for units, buildings, upgrades, maps, and nations, plus research into engine mechanics and network formats.">
       Reference по юнитам, зданиям, апгрейдам, картам и нациям;
       reconnaissance-отчёты по механикам движка и сетевому формату.
     </p>
-    <span class="tool-status ready">Готова</span>
+    <span class="tool-status ready" data-ru="Готова" data-en="Ready">Готова</span>
   </a>
 
 </section>
@@ -186,10 +197,15 @@
 <div class="links">
   <a href="https://github.com/anyalink99/cossacks-3-almanac">GitHub</a>
   ·
-  <a href="internals/">Internals (engine recon)</a>
+  <a href="internals/" data-href-ru="internals/" data-href-en="internals_en/">Internals (engine recon)</a>
   ·
   <a href="https://github.com/anyalink99/cossacks-3-almanac/tree/main/derived">Derived data (JSON)</a>
 </div>
 
+<script type="module">
+  import { applyStaticLanguage, bindLanguageSwitch } from "./assets/js/site-i18n.js";
+  const language = applyStaticLanguage();
+  bindLanguageSwitch(document.querySelector("#language-switch"), language);
+</script>
 </body>
 </html>

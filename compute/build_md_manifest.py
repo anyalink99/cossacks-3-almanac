@@ -1,10 +1,13 @@
-"""Build manifest JSON files listing every markdown document under
-`docs/` and `internals/`. The viewer at `<root>/index.html` (added by
-the markdown-browser page) consumes these to render a navigable tree.
+"""Build manifest JSON files listing every translated documentation tree.
+
+The viewer in each documentation directory consumes its local manifest to
+render a navigable tree.
 
 Outputs:
     docs/_manifest.json
+    docs_en/_manifest.json
     internals/_manifest.json
+    internals_en/_manifest.json
 
 Each manifest has shape:
     {
@@ -29,7 +32,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TARGETS = {
     "docs": "Документация",
+    "docs_en": "Documentation",
     "internals": "Internals (engine recon)",
+    "internals_en": "Internals (engine recon)",
 }
 
 

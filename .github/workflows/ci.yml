@@ -4,10 +4,9 @@ name: CI
 #   1. The data pipeline parses without errors and all 112 sanity checks pass.
 #   2. Smoke tests for canonical-terms loading and module-importability.
 #
-# This CI does NOT run the full regen — that requires a Cossacks 3 install,
-# which CI doesn't have. Instead, we use the committed docs/data.json + the
-# committed derived/canonical_terms.json as fixtures and verify they
-# still load cleanly and downstream code paths execute.
+# Re-extracting data.json still requires a Cossacks 3 install. CI uses the
+# committed data.json and derived datasets as fixtures, then regenerates the
+# publishable reference/reports to ensure committed artifacts stay current.
 
 on:
   push:
@@ -29,6 +28,25 @@ jobs:
       - name: Run smoke tests
         run: python -m unittest discover -s tests -v
 
+      - name: Verify published Markdown links
+        run: python scripts/check_markdown_links.py
+
+      - name: Verify English documentation is current
+        run: python scripts/build_english_docs.py --check
+
+      - name: Verify English web-tool dictionaries are current
+        run: python scripts/build_ui_translations.py --check
+
+      - name: Verify generated reference and reports are current
+        run: |
+          python scripts/regen.py reference reports --serial
+          python compute/build_md_manifest.py
+          git diff --exit-code -- \
+            docs/reference docs/reports \
+            docs_en/reports/map/map_predictions_validation.md \
+            docs/_manifest.json docs_en/_manifest.json \
+            internals/_manifest.json internals_en/_manifest.json
+
       - name: Verify canonical_terms loads
         run: python -c "import json; d = json.loads(open('derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"
 
@@ -38,4 +56,4 @@ jobs:
           python -c "from config import NATION_NAMES_RU, USAGE_RU, BUILDING_NAMES_RU, decode_usage, nation_label; assert NATION_NAMES_RU['aus'] == 'Австрия'; assert USAGE_RU['Town Hall'] == 'Городской центр'; assert decode_usage('gc_obj_usage_center', 'ru') == 'Городской центр'; assert nation_label('aus') == 'AUS — Austria (Австрия)'; print('config.py ok')"
 
       - name: Verify data.json sanity checks
-        run: python -c "import json; d = json.loads(open('docs/data.json', encoding='utf-8').read()); checks = d.get('sanity_checks', []); failed = [c for c in checks if not c.get('pass')]; assert not failed, f'{len(failed)} sanity check(s) failed: {[(c[\"category\"], c[\"name\"]) for c in failed[:3]]}'; print(f'sanity ok: {len(checks)}/{len(checks)} passed')"
+        run: python -c "import json; d = json.loads(open('data.json', encoding='utf-8').read()); checks = d.get('sanity_checks', []); failed = [c for c in checks if not c.get('pass')]; assert not failed, f'{len(failed)} sanity check(s) failed: {[(c[\"category\"], c[\"name\"]) for c in failed[:3]]}'; print(f'sanity ok: {len(checks)}/{len(checks)} passed')"

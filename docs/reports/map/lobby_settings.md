@@ -7,10 +7,10 @@
 Все названия опций — **из локали игры** (`data/locale/ru/gui.txt`,
 `data/locale/en/gui.txt`). Если в игре написано «Высокогорье» — здесь тоже
 «Высокогорье». Машинная версия для редакторов и инструментов —
-[`derived/game_settings.json`](../../derived/game_settings.json).
+[`derived/game_settings.json`](../../../derived/game_settings.json).
 
 Поведение каждой опции в движке (что происходит после выбора) — в
-[`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md).
+[`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).
 
 ## Структура
 
@@ -82,7 +82,7 @@
 | 1 | Medium | Средне |
 | 2 | Rich | Много |
 
-По умолчанию `resourcemines = 1` («Средне») [^6]. Конкретные числа шахт за уровень — в [`map_resources.md`](map_resources.md) и в [`recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md).
+По умолчанию `resourcemines = 1` («Средне») [^6]. Конкретные числа шахт за уровень — в [`map_resources.md`](map_resources.md) и в [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).
 
 ### `season` — сезон
 
@@ -158,7 +158,7 @@
 
 Минуты — **игровые**. На скорости fast (`gamespeed = 2`, ×1.4) одна игровая минута = 60 / 1.4 ≈ 42.9 реальных секунд: 10-минутный мир длится ≈ 7 реальных минут. Значение `value = 11` (15 минут) лежит между `1` и `2` — историческая неровность; movement к концу таблицы.
 
-Подробности механики (как движок блокирует поиск врагов, ничейные ячейки, переход от мира к войне) — в [`recon/game_settings.md`](../../recon/game_settings.md#peacetime--как-устроен-мир).
+Подробности механики (как движок блокирует поиск врагов, ничейные ячейки, переход от мира к войне) — в [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
 
 ### `century18` — переход в 18 век
 
@@ -179,7 +179,7 @@
 | 2 | No Capturing Peasants or Centres | Без захвата крестьян и центров |
 | 3 | Artillery Only | Только пушки |
 
-Геометрия захвата (радиусы, кто захватывается, кто нет) — в [`recon/capture_mechanics.md`](../../recon/capture_mechanics.md).
+Геометрия захвата (радиусы, кто захватывается, кто нет) — в [`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).
 
 ### `marketdip` — рынок и дипцентр
 
@@ -191,7 +191,7 @@
 | 3 | Without both | Не доступны |
 | 4 | Expensive Mercenaries | Дорогие наёмники |
 
-Опция `value = 4` («Дорогие наёмники») умножает цену найма в дипцентре на `gc_gameplay_expensivemercskoef = 3`. Подробности про наёмников — в [`recon/mercenaries_diplomacy.md`](../../recon/mercenaries_diplomacy.md).
+Опция `value = 4` («Дорогие наёмники») умножает цену найма в дипцентре на `gc_gameplay_expensivemercskoef = 3`. Подробности про наёмников — в [`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
 
 ### `teams` — расположение союзников
 
@@ -249,7 +249,7 @@
 | 3 | 1.0 | Very Hard | Очень сложно |
 | 4 | 1.25 | Impossible | Невозможно |
 
-Только AI-игроки. «Преимущество» сложности — это множитель к скорости постройки/найма (`koef`), стартовых ресурсов AI **не получает** ни на какой сложности. Поведение AI разобрано в [`recon/ai_behavior.md`](../../recon/ai_behavior.md).
+Только AI-игроки. «Преимущество» сложности — это множитель к скорости постройки/найма (`koef`), стартовых ресурсов AI **не получает** ни на какой сложности. Поведение AI разобрано в [`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).
 
 ## Значения по умолчанию
 
@@ -279,9 +279,9 @@
 
 **См. также:**
 
-- [`docs/recon/world/game_settings.md`](../../recon/world/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
-- [`derived/game_settings.json`](../../derived/game_settings.json) — то же самое в машинно-читаемом виде.
-- [`docs/recon/world/map_generation_pipeline.md`](../../recon/world/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
+- [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
+- [`derived/game_settings.json`](../../../derived/game_settings.json) — то же самое в машинно-читаемом виде.
+- [`docs/recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
 
 
 ## Источники

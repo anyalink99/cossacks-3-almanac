@@ -313,9 +313,9 @@ flowchart TB
 
 | Скрипт | Что делает |
 |---|---|
-| [`parser/parse_replay.py`](C:/projects/other/cossacks/parser/parse_replay.py) | OSWMap13 reader: extract settings (randkey0/1, maskname, mapsize, relieftype, terraintype, season, …), BMP thumbnail, pattern-name occurrences |
-| [`parser/parse_replay_aggregates.py`](C:/projects/other/cossacks/parser/parse_replay_aggregates.py) | Folder of `.rep`/`.map` → `docs/derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
-| [`compute/validate_map_predictions.py`](C:/projects/other/cossacks/compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `docs/reports/map/map_predictions_validation.md` |
+| [`parser/parse_replay.py`](../../../../parser/parse_replay.py) | OSWMap13 reader: extract settings (randkey0/1, maskname, mapsize, relieftype, terraintype, season, …), BMP thumbnail, pattern-name occurrences |
+| [`parser/parse_replay_aggregates.py`](../../../../parser/parse_replay_aggregates.py) | Folder of `.rep`/`.map` → `derived/replay_ground_truth.json` (per-replay + per-type cluster counts) |
+| [`compute/validate_map_predictions.py`](../../../../compute/validate_map_predictions.py) | Each replay: run `compute_counts(...)` → diff vs actual → bucketed calibration table → `docs/reports/map/map_predictions_validation.md` |
 
 Подробности про OSWMap13 формат, bucketing-методику и калибровочные числа — см. §14.2-14.5 ниже.
 
@@ -350,7 +350,7 @@ mines_per_type = P × (1 + n_after) + (spcount - P) × n_after
 
 ### 14.5 Calibrated placement rates (Tiny+Land+Highlands+4pl_nowater bucket, n=10)
 
-[`PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND`](C:/projects/other/cossacks/compute/compute_map_resources.py) в `compute_map_resources.py`:
+[`PER_TYPE_PLACEMENT_TINY_HIGHLANDS_LAND`](../../../../compute/compute_map_resources.py) в `compute_map_resources.py`:
 
 | pattern type | rate | bucket ratio actual/pred |
 |---|---:|---:|

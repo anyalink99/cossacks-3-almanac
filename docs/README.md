@@ -1,5 +1,7 @@
 # Cossacks 3 — каталог артефактов
 
+[English](../docs_en/README.md) · **Русский**
+
 _Extracted **2026-05-17 12:33:30** (local) from game files (unit.script mtime: 2026-04-28 03:32:28)._
 
 Все сгенерированные файлы для справочника по игре. Главная точка входа.
@@ -75,7 +77,7 @@ docs/
 
 ## Сырой JSON и engine-дампы
 
-- [`../data.json`](../data.json) — мастер-данные (~4.7 МБ), выход `parser/build_data.py`. Все writer-скрипты читают отсюда.
+- [`../data.json`](../data.json) — мастер-данные (~5.7 МБ), выход `parser/build_data.py`. Все writer-скрипты читают отсюда.
 - [`../derived/`](../derived/) — специализированные JSON-датасеты ([README](../derived/README.md)): tech_tree, builder_slots, animations, game_settings, canonical_terms, pattern_*, replay_ground_truth, плюс engine-RE дампы (4856 native сигнатур, exe_strings, primitives).
 
 ## Регенерация

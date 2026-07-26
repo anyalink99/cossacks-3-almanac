@@ -110,19 +110,20 @@ def _sid_nation_suffix(sid: str) -> str | None:
 
 
 def _version_info() -> dict:
-    """Capture extraction date + mtime of the most relevant game files.
-    Used as a stamp so all derived files can show 'extracted on YYYY-MM-DD from
-    game files modified YYYY-MM-DD'. After a game patch the mtime changes,
-    making it easy to spot stale snapshots."""
+    """Capture a stable source snapshot for the relevant game files.
+
+    Re-running the parser against unchanged inputs must not rewrite
+    ``data.json`` merely because the wall clock advanced. If the committed
+    snapshot has the same source mtimes and sizes, preserve its extraction
+    timestamp. A changed game file creates a new timestamp as before.
+    """
     import datetime
     def ts(p):
         try:
             return datetime.datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
         except Exception:
             return "unknown"
-    return {
-        "extracted_at_utc": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-        "extracted_at_local": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    source = {
         "game_files_mtime": {
             "unit.script": ts(UNIT_SCRIPT),
             "country.script": ts(COUNTRY_SCRIPT),
@@ -133,6 +134,28 @@ def _version_info() -> dict:
             "country.script": COUNTRY_SCRIPT.stat().st_size if COUNTRY_SCRIPT.exists() else None,
             "dmscript.global": DM_GLOBAL.stat().st_size if DM_GLOBAL.exists() else None,
         },
+    }
+    previous: dict = {}
+    if DATA_JSON.is_file():
+        try:
+            previous = json.loads(DATA_JSON.read_text(encoding="utf-8")).get("version", {})
+        except (OSError, ValueError, TypeError):
+            previous = {}
+    if (
+        previous.get("game_files_mtime") == source["game_files_mtime"]
+        and previous.get("game_files_size") == source["game_files_size"]
+    ):
+        source["extracted_at_utc"] = previous.get("extracted_at_utc", "unknown")
+        source["extracted_at_local"] = previous.get("extracted_at_local", "unknown")
+    else:
+        source["extracted_at_utc"] = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        source["extracted_at_local"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Keep the historical key order in serialized output.
+    return {
+        "extracted_at_utc": source["extracted_at_utc"],
+        "extracted_at_local": source["extracted_at_local"],
+        "game_files_mtime": source["game_files_mtime"],
+        "game_files_size": source["game_files_size"],
     }
 
 

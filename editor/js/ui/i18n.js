@@ -1,12 +1,13 @@
-// Russian labels and color-coded resource markers (no emoji — universal browser support).
+// Localized labels and color-coded resource markers.
+import { language } from "../../../assets/js/runtime-i18n.js";
 
 export const RES_INFO = {
-  food:  { ru: "Еда",     short: "F", color: "#d97766" },
-  wood:  { ru: "Дерево",  short: "W", color: "#a06f3b" },
-  stone: { ru: "Камень",  short: "S", color: "#9b8a6a" },
-  gold:  { ru: "Золото",  short: "G", color: "#d4a857" },
-  iron:  { ru: "Железо",  short: "I", color: "#6da5d4" },
-  coal:  { ru: "Уголь",   short: "C", color: "#3d3024" },
+  food:  { ru: "Еда",     en: "Food",  short: "F", color: "#d97766" },
+  wood:  { ru: "Дерево",  en: "Wood",  short: "W", color: "#a06f3b" },
+  stone: { ru: "Камень",  en: "Stone", short: "S", color: "#9b8a6a" },
+  gold:  { ru: "Золото",  en: "Gold",  short: "G", color: "#d4a857" },
+  iron:  { ru: "Железо",  en: "Iron",  short: "I", color: "#6da5d4" },
+  coal:  { ru: "Уголь",   en: "Coal",  short: "C", color: "#3d3024" },
 };
 
 export const RES_ORDER = ["food", "wood", "stone", "gold", "iron", "coal"];
@@ -27,7 +28,7 @@ export function dot(color, label = "") {
 
 export function resTag(res) {
   const info = RES_INFO[res];
-  return `<span class="res-tag" style="--c:${info.color}"><span class="dot"></span>${info.ru}</span>`;
+  return `<span class="res-tag" style="--c:${info.color}"><span class="dot"></span>${info[language]}</span>`;
 }
 
 // Resource preset options — exact game values from initmapgen.inc:166-189
@@ -55,11 +56,12 @@ export function fmtTime(g_sec, gameSpeedFactor = 1.4) {
   const real = g_sec / gameSpeedFactor;
   const min = Math.floor(real / 60);
   const sec = Math.round(real % 60);
-  return `${g_sec}g · ${min}:${String(sec).padStart(2, "0")}`;
+  const gameTime = language === "en" ? `${g_sec} game sec` : `${g_sec}g`;
+  return `${gameTime} · ${min}:${String(sec).padStart(2, "0")}`;
 }
 
 export function fmtName(item) {
-  return item?.name_ru || item?.name_en || item?.sid || "?";
+  return item?.[`name_${language}`] || item?.name_en || item?.name_ru || item?.sid || "?";
 }
 
 export function fmtCost(item) {
