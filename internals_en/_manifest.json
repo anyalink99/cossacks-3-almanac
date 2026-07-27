@@ -105,6 +105,12 @@
       "lines": 238
     },
     {
+      "path": "project/documentation_style.md",
+      "title": "Reader-facing documentation rules",
+      "size": 7329,
+      "lines": 175
+    },
+    {
       "path": "project/known_issues.md",
       "title": "Known issues and disclaimers",
       "size": 10835,
@@ -119,8 +125,8 @@
     {
       "path": "project/README.md",
       "title": "Project architecture and maintenance",
-      "size": 538,
-      "lines": 11
+      "size": 665,
+      "lines": 12
     },
     {
       "path": "README.md",

@@ -3,9 +3,9 @@
   "note": "Normalized-LF SHA-256 of each Russian source and its committed English mirror.",
   "sources": {
     "CONTRIBUTING.md": {
-      "source_sha256": "68cdefbd785acce2b7917490b62e0a10d497fb758bcc2d3c483547fe5a6bed52",
+      "source_sha256": "d4646f426b43a83d0da1593c1e1061687a7c49829c6d7a99fcbbe982457f1c2e",
       "target": "CONTRIBUTING.en.md",
-      "target_sha256": "af31bca519aba015f3f4e1fcc5f97f7bb93c50ba5eee3d340dd178e47319130b"
+      "target_sha256": "ef1f292cb5a52364bc77f079fd0851846c941ade2ef1c58c802474e7f1d9e664"
     },
     "README.md": {
       "source_sha256": "44202b993db3151fc41a34724f314447e4f4bcf1fcbabdcf42ed8ea4ba660096",
@@ -653,14 +653,19 @@
       "target_sha256": "2fdf2024bbce38d3bc5df90c4ed84933432781a9b0b95a27b7fddf114d8a9b6c"
     },
     "internals/project/README.md": {
-      "source_sha256": "7ccf3b0b9a57d9fc13efb6d6b48b30c31ffecdcf5e10af86648bda37a1e6bf6e",
+      "source_sha256": "5a65a8658df8bca5a9006688cc1ff5fcad250cd294c6f0da737ebc176c459cfa",
       "target": "internals_en/project/README.md",
-      "target_sha256": "6e0ff3e5debc93bdc99e0110987a3f62db0742d87fddaabd2933f9b004ec91f0"
+      "target_sha256": "31c2f3dea70def3f13217a545bf7ee6fbfc5c789704db8ba1b12e02e01e3695d"
     },
     "internals/project/architecture.md": {
       "source_sha256": "acc0100c44f154590c61c3ae0a52396934e25f9bfe464928df7e806ec907d19f",
       "target": "internals_en/project/architecture.md",
       "target_sha256": "a3a83750031e0286492bb40716938de5016038cd9c24d3f0ffc09e8dbf293b6e"
+    },
+    "internals/project/documentation_style.md": {
+      "source_sha256": "0039deef07940d413ce161aca23d7f7a33d92a93ed799de9f56a29ee0fbd80c7",
+      "target": "internals_en/project/documentation_style.md",
+      "target_sha256": "db6686a522c2762a7d5e08ced1120f2607ca69a9bac2a6201c100ddc0d617d80"
     },
     "internals/project/known_issues.md": {
       "source_sha256": "4d4b4dd070f262c093e9ff6cc45633530138f34984421ab4e66530ac9278fda5",

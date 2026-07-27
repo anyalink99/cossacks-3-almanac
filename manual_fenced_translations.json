@@ -138,6 +138,14 @@
         "docs/recon/systems/victory_conditions.md:465"
       ]
     },
+    "355b55953d0b2373b610c80aefaac001180f8b78c99a3a7dcf6c802365226f72": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# If author-written fenced blocks changed:\npython scripts/build_english_docs.py --capture-fenced-translations\n\n# Record the reviewed pair and rebuild search:\npython scripts/build_english_docs.py --adopt-existing\npython compute/build_md_manifest.py\n\n# Required checks:\npython scripts/build_english_docs.py --check\npython scripts/check_markdown_links.py\npython -m unittest discover -s tests -v\ngit diff --check",
+      "sources": [
+        "internals/project/documentation_style.md:148"
+      ]
+    },
     "396083c96d40e435593af7ddfe2e69faccbd43e2c181e33e49db02b3491ec4b4": {
       "literal": false,
       "literal_cyrillic": false,
@@ -191,7 +199,7 @@
       "literal_cyrillic": false,
       "text": "# 1. Edit the source: parser, compute script, template, or handwritten Markdown.\n# 2. Regenerate its dependants:\npython scripts/regen.py all       # full rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change, without co-authoring.\ngit add <files>\ngit commit -m \"<concise message>\"",
       "sources": [
-        "CONTRIBUTING.md:73"
+        "CONTRIBUTING.md:80"
       ]
     },
     "40e8471e688a396ec0f75b950f269b2a9c4cbaa34223b5fb7596ddb8856fa5fa": {
@@ -407,7 +415,7 @@
       "literal_cyrillic": false,
       "text": "# Environment: Python 3.11+; the project itself uses only the standard library.\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Verify that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks",
       "sources": [
-        "CONTRIBUTING.md:12"
+        "CONTRIBUTING.md:15"
       ]
     },
     "76e16e0fbfae62441e54dd23fea2d4d421f7c9bfa7122dae16f4d5ac88a09a7c": {

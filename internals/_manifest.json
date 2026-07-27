@@ -105,6 +105,12 @@
       "lines": 233
     },
     {
+      "path": "project/documentation_style.md",
+      "title": "Правила читательской документации",
+      "size": 10396,
+      "lines": 167
+    },
+    {
       "path": "project/known_issues.md",
       "title": "Known issues и оговорки",
       "size": 13067,
@@ -119,8 +125,8 @@
     {
       "path": "project/README.md",
       "title": "Устройство и сопровождение проекта",
-      "size": 715,
-      "lines": 10
+      "size": 954,
+      "lines": 11
     },
     {
       "path": "README.md",

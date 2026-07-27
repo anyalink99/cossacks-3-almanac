@@ -7,6 +7,9 @@ What to touch. If you just came, start with [`internals/project/architecture.md`
 There is a data flow chart and principles. This file responds to specific
 "like me..." questions.
 
+All new and edited articles must also follow the
+[reader-facing documentation rules](internals_en/project/documentation_style.md).
+
 <a id="перед-началом-работы"></a>
 ## Before starting work
 ```bash
@@ -68,6 +71,11 @@ Documentation of the engine / scripts / `data/` directory.
 - figure it out first, then rule. You can't just turn it off.
 6. **No emoji in code/documents unless requested. C   for behavior
 The engine can be emoji (ах/ах in tables) - but not everywhere.
+7. **The reader-facing name comes before the internal code.** Put the
+   canonical name first, keep SIDs and fields secondary in `code`, and do not
+   mix ordinary prose with unexplained engine jargon. See the full rules and
+   examples in
+   [`internals_en/project/documentation_style.md`](internals_en/project/documentation_style.md).
 
 <a id="как-делается-изменение"></a>
 ## How to make a change

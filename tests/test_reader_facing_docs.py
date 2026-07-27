@@ -21,6 +21,20 @@ def reader_visible_text(text: str) -> str:
 
 
 class ReaderFacingDocumentation(unittest.TestCase):
+    def test_documentation_style_guide_is_linked_and_mirrored(self):
+        ru_guide = ROOT / "internals" / "project" / "documentation_style.md"
+        en_guide = ROOT / "internals_en" / "project" / "documentation_style.md"
+        self.assertTrue(ru_guide.is_file())
+        self.assertTrue(en_guide.is_file())
+        self.assertIn(
+            "internals/project/documentation_style.md",
+            (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "internals_en/project/documentation_style.md",
+            (ROOT / "CONTRIBUTING.en.md").read_text(encoding="utf-8"),
+        )
+
     def test_encyclopedia_home_is_for_readers(self):
         text = (DOCS / "README.md").read_text(encoding="utf-8")
         self.assertTrue(text.startswith("# Энциклопедия Cossacks 3"))
