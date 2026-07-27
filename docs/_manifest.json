@@ -11,152 +11,152 @@
     {
       "path": "recon/README.md",
       "title": "Как устроена игра",
-      "size": 6586,
-      "lines": 64
+      "size": 8034,
+      "lines": 79
     },
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "Как играет компьютер",
-      "size": 32858,
-      "lines": 521
+      "size": 32738,
+      "lines": 517
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Наёмники и Дипломатический центр",
-      "size": 44686,
-      "lines": 714
+      "size": 41927,
+      "lines": 685
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
-      "title": "Сценарии и условия событий",
-      "size": 15982,
-      "lines": 241
+      "title": "Сценарии и события в миссиях",
+      "size": 13585,
+      "lines": 178
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Управление и обратная связь",
-      "size": 32079,
-      "lines": 506
+      "size": 31026,
+      "lines": 490
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Победа, поражение и завершение партии",
-      "size": 30449,
-      "lines": 488
+      "size": 29922,
+      "lines": 482
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "Как работает артиллерия",
-      "size": 14888,
-      "lines": 251
+      "size": 15459,
+      "lines": 252
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Как рассчитывается урон",
-      "size": 28838,
-      "lines": 468
+      "size": 27564,
+      "lines": 450
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Построения и их боевые бонусы",
-      "size": 26077,
-      "lines": 453
+      "size": 24701,
+      "lines": 421
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "Как устроен морской бой",
-      "size": 19071,
-      "lines": 304
+      "size": 20326,
+      "lines": 311
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Поиск пути и движение юнитов",
-      "size": 55015,
-      "lines": 936
+      "size": 57619,
+      "lines": 978
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Как ведут себя стрелковые юниты",
-      "size": 21249,
-      "lines": 341
+      "size": 22329,
+      "lines": 355
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Выбор цели и атака с движением",
-      "size": 48024,
-      "lines": 765
+      "size": 50766,
+      "lines": 803
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "Как работают башни",
-      "size": 16584,
-      "lines": 238
+      "size": 15575,
+      "lines": 231
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Приказы юнитам",
-      "size": 18987,
-      "lines": 300
+      "size": 17253,
+      "lines": 281
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Обзор и туман войны",
-      "size": 13725,
-      "lines": 207
+      "size": 10658,
+      "lines": 163
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Стены и ворота",
-      "size": 32812,
-      "lines": 540
+      "size": 28068,
+      "lines": 475
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Строительство, ремонт и разрушение зданий",
-      "size": 36625,
-      "lines": 589
+      "size": 14437,
+      "lines": 213
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "Как захватываются здания и юниты",
-      "size": 39012,
-      "lines": 626
+      "size": 15268,
+      "lines": 201
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Голод и бунт наёмников",
-      "size": 20351,
-      "lines": 324
+      "size": 11341,
+      "lines": 157
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Как крестьяне добывают ресурсы",
-      "size": 49557,
-      "lines": 782
+      "size": 17269,
+      "lines": 241
     },
     {
       "path": "recon/world/economy/production_queue.md",
-      "title": "Очередь производства",
-      "size": 19453,
-      "lines": 322
+      "title": "Как работает очередь производства",
+      "size": 10112,
+      "lines": 135
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "Как применяются улучшения",
-      "size": 30079,
-      "lines": 495
+      "size": 12884,
+      "lines": 172
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Как настройки матча влияют на игру",
-      "size": 24422,
-      "lines": 396
+      "size": 24116,
+      "lines": 406
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Как создаётся случайная карта",
-      "size": 54760,
-      "lines": 782
+      "size": 53651,
+      "lines": 754
     },
     {
       "path": "reference/01_economy/README.md",
@@ -167,7 +167,7 @@
     {
       "path": "reference/02_combat/README.md",
       "title": "Бой и движение",
-      "size": 5495,
+      "size": 5423,
       "lines": 78
     },
     {
@@ -239,7 +239,7 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 8327,
+      "size": 8231,
       "lines": 100
     },
     {
@@ -365,7 +365,7 @@
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Улучшения",
-      "size": 5147,
+      "size": 5086,
       "lines": 62
     },
     {
@@ -533,13 +533,13 @@
     {
       "path": "reference/compare/buildings/town_halls.md",
       "title": "Городские центры",
-      "size": 6366,
+      "size": 6336,
       "lines": 33
     },
     {
       "path": "reference/compare/README.md",
       "title": "Сравнения",
-      "size": 4626,
+      "size": 4569,
       "lines": 60
     },
     {
@@ -557,7 +557,7 @@
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Барабанщики и волынщик",
-      "size": 8795,
+      "size": 8747,
       "lines": 51
     },
     {

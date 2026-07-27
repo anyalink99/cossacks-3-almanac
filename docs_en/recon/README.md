@@ -12,6 +12,22 @@ Articles can be read independently. Canonical names are used in the main text;
 internal identifiers and function names remain in notes where they are useful
 for verification.
 
+<a id="с-чего-начать"></a>
+## Where to start
+
+| If you want to understand… | Start with |
+|---|---|
+| Why similar-looking attacks deal different damage | [Damage calculation](world/combat/combat_damage_pipeline.md) |
+| How to develop the economy faster | [Resource gathering](world/economy/peasant_extraction.md), then [Construction and repair](world/economy/building_mechanics.md) |
+| Why the computer opponent behaves differently between matches | [How the computer player works](systems/ai_behavior.md) |
+| Where mines, forests, and starting positions come from | [Random-map generation](world/map/map_generation_pipeline.md) |
+| Which rules are changed by lobby settings | [Match settings](world/map/game_settings.md) |
+
+The main sections of each article describe what happens during play. Internal
+fields, function names, script excerpts, and open questions are collected
+toward the end: they support verification but are not required to understand
+the mechanic.
+
 <a id="экономика-и-строительство"></a>
 ## Economy and construction
 

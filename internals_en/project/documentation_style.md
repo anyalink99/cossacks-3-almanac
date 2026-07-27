@@ -95,6 +95,9 @@ An internal key may appear in a heading only after a descriptive label:
 - Unverified behavior is labeled as a hypothesis or open question.
 - If a function, state machine, or loader was not found, do not claim that it
   exists.
+- Readers see only the current verified rule. Do not write that an earlier
+  article was wrong, that a previous version confused two cases, or that “we
+  fixed” an error. Correction history belongs in Git, not in the encyclopedia.
 
 Do not rewrite literal names, values, or source excerpts for stylistic
 reasons. Translate the explanation around them; keep the literal content

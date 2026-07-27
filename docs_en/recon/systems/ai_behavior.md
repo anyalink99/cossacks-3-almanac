@@ -4,51 +4,33 @@
 
 [← How the game works](../README.md)
 
-This analysis is based on `data/scripts/` from an installed copy of
-Cossacks 3. Source references and Pascal excerpts are collected under
+This article explains how the computer player develops its economy, recruits
+an army, and decides when to attack. Internal names and Pascal excerpts are
+collected in the [technical source map](#technical-source-map) and
 [Sources](#sources).
 
 <a id="кратко"></a>
-## TL;DR
+## Key points
 
-- An AI player updates once every **2.4 game seconds**. Each cycle has an
-  economic phase (`progresseconomicai`: build order, gathering, upgrades)
-  and a military phase (`progresswarai`: armies, attacks, and raids).
-- **Difficulty mainly multiplies construction and recruitment speed:**
-  Easy (`easy`) 30%, Normal (`normal`) 50%, Hard (`hard`) 75%, Very Hard
-  (`veryhard`) 100%, and Impossible (`impossible`) 125%. The AI receives
-  **no extra starting resources**.
+- The computer revisits economic and military decisions once every
+  **2.4 game seconds**.
+- **Difficulty primarily changes construction and recruitment speed:**
+  from 30% of player speed on Easy to 100% on Very Hard. The scenario-only
+  Impossible level uses 125%. The AI receives **no extra starting resources**.
 - **The build order is rule-based and nation-specific.** It uses neither
   machine learning nor a random plan; a sequence of conditions examines
   the current game state.
-- **The first offensive wave** (`aggressor`) consists of five squads.
-  Once assembled, the AI sends them
-  to the nearest target.
+- **The first offensive wave** consists of five squads. Once assembled, the
+  computer sends them to the nearest target.
 - **Diplomacy is static:** teams come from the lobby, and the AI neither
   forms nor breaks alliances during a match.
-
-The update interval is
-`gc_global_TimeProgressAI = 0.03 × 16 × 5 = 2.4` game seconds [^1].
-`lastprogressaitime` is offset by player number
-(`id × 0.25 + gc_global_TimeProgressAI`) so that all AI players do not
-update on the same tick [^2].
-
-The dispatcher runs the economic and military phases in sequence [^3].
 
 <a id="уровни-сложности"></a>
 ## Difficulty levels
 
-The code defines five levels from Easy (`easy`) to Impossible
-(`impossible`), plus the sentinel `none = -1` [^4].
-`gc_MaxAIDifficultyCount = 4` [^5]. The interface shows four levels:
-Easy, Normal, Hard, and Very Hard. Impossible is
-reserved for scenarios—for example,
-`initmaphistoricalbattle.inc` puts historical battles on this
-level [^6].
-
-Difficulty is stored in `gMap.players[i].aidifficulty` [^7], copied
-to `gPlayer[i].difficulty` when the match starts [^8]. The lobby default
-is `easy` [^9]. The full table of multipliers is in
+The interface shows four levels: Easy, Normal, Hard, and Very Hard. A fifth,
+Impossible level is reserved for scenarios, including Historical Battles
+[^4] [^5] [^6]. The full table of multipliers is in
 [lobby settings](../../reports/map/lobby_settings.md#difficulty--сложность);
 and engine behavior is covered by
 [match settings](../world/map/game_settings.md) §4.
@@ -59,18 +41,13 @@ and engine behavior is covered by
 <a id="1-скорость-постройки-и-найма--главный-чит"></a>
 #### 1. Construction and recruitment speed
 
-`deltabuildtime` is the construction or recruitment progress added each
-tick. For the AI, it is multiplied by the difficulty factor [^10]:
+The difficulty factor multiplies construction and recruitment progress [^10]:
 
-- **Easy** (`easy`) — AI builds at **30%** player speed (3.33 times slower);
-- **Normal** (`normal`) — 50% (2 times slower);
-- **Hard** (`hard`) — 75%;
-- **Very Hard** (`veryhard`) — parity with the player;
-- **Impossible** (`impossible`) — 125% (25% faster), the only level with
-  an actual advantage.
-
-The `aiData.bhumanai` flag (default `False` [^11]) disables
-the multiplier, making the AI play at full speed regardless of level.
+- **Easy** — **30%** of player speed (3.33 times slower);
+- **Normal** — 50% (twice as slow);
+- **Hard** — 75%;
+- **Very Hard** — equal to the player;
+- **Impossible** — 125%, the only level with an advantage.
 
 <a id="2-лимит-апгрейдов-башни"></a>
 #### 2. Tower upgrade limit
@@ -81,10 +58,9 @@ Very Hard = 5, Impossible = 5 [^12].
 <a id="3-размер-диверсионных-групп"></a>
 #### 3. Size of sabotage groups
 
-`numdiver` depends on the level: Normal = 0, Hard = 2, Very Hard = 4,
-Impossible = 4 [^13]. Easy does not send sabotage groups at all. Very Hard
-and Impossible can maintain up to four parallel sabotage armies
-(`cap = gc_ai_MaxDiverArmies = 2` plus existing ones).
+Normal prepares no sabotage groups, Hard prepares two, and Very Hard and
+Impossible prepare four [^13]. Easy does not send sabotage groups either.
+Very Hard and Impossible can maintain up to four parallel sabotage armies.
 
 <a id="4-лимит-апгрейдов-шахты"></a>
 #### 4. Mine upgrade limit
@@ -96,19 +72,21 @@ difficulties to level 7 [^14].
 <a id="5-ограничения-лёгкого-уровня"></a>
 #### 5. Restrictions on Easy
 
-Easy does not research `bricks1`, `fort`, `armor1`, `accurency1`,
-`artlife`, or `horseswords`, and does not build howitzers or mortars [^15].
+Easy skips several economic and military upgrades and does not build
+Howitzers or Mortars [^15]. The exact internal codes are listed in the
+technical section.
 
 <a id="6-дополнительные-проверки-на-hard"></a>
 <a id="6-дополнительные-проверки-на-сложном-уровне-и-выше"></a>
 #### 6. Additional checks on Hard and above
 
-Only `difficulty >= hard` enables emergency recruitment of mercenary
-Dragoons when gold is scarce [^16].
+From Hard upward, the computer can recruit emergency 18th-century Dragoons
+from the Diplomatic Center when gold is scarce [^16].
 
 <a id="7-bricks1--только-veryhard-и-impossible"></a>
 <a id="7-bricks1--только-на-очень-сложном-и-невозможном-уровнях"></a>
-#### 7. `bricks1` — only on Very Hard and Impossible
+<a id="7-дополнительное-экономическое-улучшение"></a>
+#### 7. Additional economic upgrade
 
 See [^17].
 
@@ -349,7 +327,7 @@ cannot see resources under fog of war until its own units discover them:
    17th century**.
    Whether later waves scale up remains to be checked.
 9. **Ranges `gc_ai_dist_mines_lvl1 = 30` / `lvl2 = 60` /
-   `expansion = 85`.** These appear to be tile distances. Which tier is
+   `expansion = 85`.** These appear to be distances in cells. Which tier is
    used on Tiny and Normal maps still needs verification.
 10. **When `bprogressWar` and `bprogressUpgrades` become `True`.**
     These `aidata` fields are probably timer-controlled, but their writers
@@ -360,6 +338,23 @@ cannot see resources under fog of war until its own units discover them:
 <a id="исходные-файлы"></a>
 <a id="техническая-карта-исходных-файлов"></a>
 ## Technical source map
+
+The full cycle runs every 2.4 game seconds:
+`gc_global_TimeProgressAI = 0.03 × 16 × 5` [^1]. The next update is offset
+by `id × 0.25`, preventing all computer players from deciding on the same
+tick [^2]. The dispatcher then runs the economic and military phases in
+sequence [^3].
+
+The internal levels are `easy`, `normal`, `hard`, `veryhard`, and
+`impossible`; no AI is represented by `none = -1`. The choice is stored in
+`gMap.players[i].aidifficulty` and copied to `gPlayer[i].difficulty`
+[^7] [^8] [^9]. The multiplier applies to `deltabuildtime`;
+`aiData.bhumanai` disables it [^10] [^11].
+
+Easy skips `bricks1`, `fort`, `armor1`, `accurency1`, `artlife`, and
+`horseswords` [^15]. A separate `bricks1` check enables it only on Very
+Hard and Impossible [^17]. Sabotage-group size is stored in `numdiver`, and
+the cap is related to `gc_ai_MaxDiverArmies` [^13].
 
 | Path | Size | Role |
 |---|---:|---|

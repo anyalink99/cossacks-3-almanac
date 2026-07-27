@@ -313,6 +313,19 @@ Shortcut for reading C3 scripts:
 <a id="дальнейшее-чтение"></a>
 ## Further reading
 
+- [Technical evidence for capture](capture_mechanics_evidence.md) — a complete
+  example of tracing one game mechanic through scripts, with pseudocode and
+  exact source locations.
+- [Technical evidence for production queues](production_queue_evidence.md) —
+  internal order types, refund formula, and call sites.
+- [Technical evidence for famine and rebellion](hunger_and_rebellion_evidence.md) —
+  state thresholds, probabilities, and the consumption formula.
+- [Technical model of resource gathering](peasant_extraction_evidence.md) —
+  work-cycle formulas, drop-off points, and map-pattern calculations.
+- [Technical evidence for upgrades](upgrades_application_evidence.md) —
+  internal effect types, application order, and formulas.
+- [Technical evidence for buildings](building_mechanics_evidence.md) —
+  collision masks, builder positions, destruction, and refunds.
 - [`../engine/native_api.md`](../engine/native_api.md) - what the engine provides to scripts (4,856 native functions, divided into subsystems).
 - [`../data/layout.md`](../data/layout.md) - what is in `data/`, next to the scripts.
 - [DWS on GitHub](https://github.com/EricGrange/DWScript) - open-source implementation of the language, can be read as a reference.

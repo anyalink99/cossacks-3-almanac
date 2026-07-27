@@ -25,9 +25,8 @@ fire, and the links to formations, capture, and healing.
   cannot receive it.
 - At least one health point is always removed, even if all
   modifiers pushed damage into a negative value.
-- Peacetime (`gbool_peacemode`) and scenarios with
-  `hp >= gc_gameplay_infinitehp` are processed **before** the formula and
-  may skip the calculation completely.
+- Peacetime and scenario invulnerability are checked **before** the formula
+  and may cancel damage completely.
 
 Readers who only need the practical result can stop at this list. The
 sections below document each step with formulas, internal fields, and source
@@ -43,25 +42,11 @@ Calculation starts on impact. The unit animation determines the exact impact
 frame; the technical chain is documented under
 [animation timing §5](../../../../internals_en/engine/animation_system.md).
 
-In the game code this work is performed by
-`_misc_DoDamage(goHnd, trgHnd, indamage, weapind, weapkind)` [^1].
-The function takes five arguments:
-
-| Parameter | What |
-|---|---|
-| `goHnd` | Handle of the attacker (can be `0` - for example, natural damage, AoE without a source). |
-| `trgHnd` | Target handle. If it is `0`, the function exits immediately. |
-| `indamage` | Raw weapon damage, equivalent to `weapon.damage` in `data.json`. |
-| `weapind` | Index of the particular weapon slot (primary or secondary). |
-| `weapkind` | Weapon type from `gc_obj_weapon_kind_*`: Pike Attack (`pike`), Sword Attack (`sword`), Fire Power (`bullet`), Arrow Attack (`arrow`), Cannonball Damage (`cannonball`), Grapeshot Damage (`cannister`), or grenade (`grenade`). |
-
-Exit preconditions **before** formula:
-
-1. `pobj2 = nil` (target not found in `gPlayer[*].objbase[*][*]`) → exit.
-2. The target is already dead (`bdead`) → exit.
-3. Scenario invulnerability: `gScenario.bactive AND (hp >= gc_gameplay_infinitehp)` or
-   `not GetGameObjectPlayableObjectByHandle(trgHnd)` → exit [^2].
-4. Peacetime (`gbool_peacemode`) - processing in a separate branch, see §6.
+Before applying the formula, the game verifies that the target exists, is
+still alive, and accepts normal damage [^1]. Scenario invulnerability and
+peacetime are checked separately [^2]. Only then do the base damage, weapon
+type, and chosen target enter the calculation. The function and all five
+arguments are listed under [Technical details](#technical-details).
 
 ---
 
@@ -102,7 +87,7 @@ If the target belongs to a formation (`squad >= 0`), the script
 pulls `pSquad2` from `gPlayer[target.pl].squads` and applies
 formation shield bonus: `fAddShieldHold` when `fHoldMode = True`,
 otherwise `fAddShield`. The result is subtracted from damage
-(usually `+2` on the go and `+7` in hold mode). See
+(usually `+2` while moving and `+7` while holding position). See
 [Formations and Their Combat Bonuses §3](formations.md). If the target is not in a formation
 (`squad = -1`), step is skipped.
 
@@ -173,7 +158,8 @@ lethal (200–500 damage), instantly killing a normal infantryman
 or peasant.
 
 <a id="31-замечание-про-random"></a>
-### 3.1. Note about `random`
+<a id="31-почему-случайный-результат-остаётся-одинаковым-у-всех-игроков"></a>
+### 3.1. Why every player sees the same random result
 
 Before checking the 5% chance, `unit.script` calls
 `SetRandomKey(floor(uniqrnd × gc_MaxInt))` - reseeding global
@@ -187,27 +173,20 @@ which guarantees that the same hit produces the same result on every client.
 <a id="4-дружественный-огонь"></a>
 ## 4. Friendly fire
 
-Directly targeting an ally in Cossacks 3 is impossible: target selection
-(`_unit_SearchEnemyInCell`) filters friends/allies through
-`enemyplmask` even before the candidate stage, and the projectile simply
-is never launched. You therefore cannot manually fire at friendly units.
+You cannot deliberately select an ally as a target: both automatic search
+and manual attacks reject friendly units. A projectile already in flight may
+still hit an ally on its path, however, and an explosion can affect anyone
+inside its radius. Preventing friendly targeting is therefore not the same
+as complete protection from friendly fire.
 
 AoE projectiles are a different story. Grenade, cannonball, mortar bomb and
-buckshot land at a coordinate (or at an already selected enemy
-target), after which the script finds **all** objects within the radius through
-`GetGameObjectsInArea` and applies `_misc_DoDamage` to each. On
-At this stage the `enemyplmask` filter no longer applies, so friendly
-units can also be hit. Details are in §5 and §6.6 below. Friendly fire
-in Cossacks 3 is therefore a side effect of area damage and occurs
-only for artillery and grenade launchers.
+buckshot land at a coordinate (or at an already selected enemy target), then
+affect **all** objects within the radius. Details are in §5 and §6.6 below.
 
-Priest healing, by contrast, only affects friendly units: `bpriest`
-uses `scanmode = 1` (see
-[Target Selection and Attack-Move §7](target_selection.md)),
-which requires a `myplmask` match.
+Priest healing, by contrast, selects only friendly units (see
+[Target Selection and Attack-Move](target_selection.md)).
 
-Capturing an enemy unit (`bcapture`) is a separate mechanic and is
-not based on damage. See
+Capturing an enemy object is a separate mechanic and is not based on damage. See
 [building capture](../economy/capture_mechanics.md).
 
 ---
@@ -216,14 +195,11 @@ not based on damage. See
 <a id="5-урон-по-области--взрывная-волна"></a>
 ## 5. AoE - blast wave
 
-Shells with `gc_aoe_radius > 0` (grenade, cannonball, buckshot) hit
-not one target, but a zone. After landing:
+Grenades, cannonballs, and grapeshot hit a zone rather than one target. After
+landing:
 
-1. The script finds **all** objects within the AoE radius (via native
-   `GetGameObjectsInArea`, see
-   [Native API of the Cossacks 3 engine (Delphi + DWS) §2.1](../../../../internals_en/engine/native_api.md)).
-2. For every affected object, the same function is called:
-   `_misc_DoDamage`, but `indamage` decreases by distance:
+1. The game finds **all** objects inside the blast radius.
+2. Damage to each object decreases with distance:
    ```
    damage_at_d = indamage × (1 − d / radius)
    ```
@@ -240,26 +216,23 @@ prevents one grenade from instantly destroying a dense group.
 ---
 
 <a id="6-мирное-время-gboolpeacemode"></a>
-## 6. Peacetime (`gbool_peacemode`)
+<a id="6-мирное-время"></a>
+## 6. Peacetime
 
-If the global flag `gbool_peacemode = True` (peace-time is on
-at the start of the game), the formula is skipped by a special branch [^6]. Behavior:
+During the period of peace selected in the lobby, a special branch bypasses
+the normal formula [^6]:
 
 | Attacker on foreign territory? | Target on foreign territory? | What |
 |---|---|---|
-| No | No | The attacker dies instantly (`hp := 0`). |
+| No | No | The attacker dies instantly. |
 | Yes | Yes | The blow goes through as usual. |
 | Yes | No | The attacker dies instantly; the target takes no damage. |
 | No | Yes | The attacker dies instantly; the target **also** instantly dies (weird engine). |
 
-“Foreign territory” is determined via `_unit_IsOnEnemyTerritory(handle)`
-- this checks `OwnerMap`, filled during map generation
-(see [map generation](../map/map_generation_pipeline.md) about
-`FillOwnerMap`).
+“Foreign territory” is determined from the ownership map created during
+map generation (see [map generation](../map/map_generation_pipeline.md)).
 
-Peace time ends when `peacetime`-seconds have elapsed in
-lobby (`gbool_peacemode := False`), and the formula returns to
-the usual six-step scheme.
+When the lobby timer expires, the game returns to the usual six-step formula.
 
 ---
 
@@ -267,59 +240,50 @@ the usual six-step scheme.
 <a id="65-ограничение-урона-по-области"></a>
 ## 6.5. Area-damage limit
 
-Explosions (cannon ball, mortar bomb, grenade, buckshot) hit
-all units within the radius of `r` through `_misc_DoRoundDamage`, **but only
-first N take damage** [^11]:
+Explosions from cannonballs, mortar shells, grenades, and grapeshot cover all
+units within radius `r`, **but only the first N take damage** [^11]:
 ```
 count = floor(1 + (r / 0.35)²)
 ```
 | Weapon | Radius | Maximum units hit |
 |---|---:|---:|
-| Cannon, cannonball | ~1 tile | **9** |
-| Bombard, bomb | ~2 tiles | **33** |
-| Howitzer | ~1 tile | **9** |
-| Grenade | ~0.5 tile | **3** |
+| Cannon, cannonball | ~1 cell | **9** |
+| Bombard, bomb | ~2 cells | **33** |
+| Howitzer | ~1 cell | **9** |
+| Grenade | ~0.5 cell | **3** |
 
 **Strategic conclusion:** a dense group is protected: of 50 units at
 one point, at most 9 are hit by a cannonball; the rest remain untouched.
 A stretched line suffers much more.
 
-Fire Arrow Attack (`barrow`) uses another branch: `(listcount
-> 300) or (dist < r)` [^12]. If in the list collected by area
-**more than 300** units - the entire list is hit without
-distance checks. If **300 or less** - you need `dist < r`.
-The cap `count` is not used in this thread.
+Fire arrows use another branch [^12]. If the area query returns **more than
+300** units, the entire list is hit without a distance check. With **300 or
+fewer**, a target must be inside radius `r`. The target-count limit does not
+apply in this branch.
 
 <a id="66-дружественный-огонь"></a>
 ## 6.6. Friendly fire
 
-In `_misc_DoDamage` **no check for side/owner** [^13] -
-damage is applied to any object along the trajectory.
+The damage-application stage has **no general side or owner check** [^13],
+so any object on the trajectory may be affected.
 
 **What can hit friendly units:**
-- Arrows (`STRELA`) and fire arrows (`OSTRELA`).
-- Musket bullets (`SHOTMUSKET`).
-- Grenades (`NUCLGRE`).
-- Artillery (`PSMPOINTTPUS`, `DIMMORT1`, `DIMMORT2NEW`,
-  `PSMPOINTT`, `DIMMORT2KOR`).
+- regular and fire arrows;
+- musket bullets;
+- grenades;
+- artillery projectiles;
 - AoE explosions (buckshot, cannonballs, bombs) - hit everything in a radius,
-  including our own.
+  including friendly units.
 
 **Exceptions:**
-- **Ships**: separate protection `// prevent ships from friendly
-  fire` [^14] - merchants and warships of one player do not sink
-  each other.
-- **Towers and guns** with `bcheckfriendonline = True` (default)
-  do not fire if there is a friendly building in the line of fire -
-  via `_misc_IsBuildingInRay` [^15]. But it blocks the shot
+- **Ships** have a separate safeguard [^14]: merchant ships and warships
+  belonging to one player do not sink each other.
+- **Towers and guns** normally do not fire if a friendly building is in the
+  line of fire [^15]. This blocks the shot
   rather than preventing damage after the projectile is in flight.
 
-**List of weapons with checks explicitly DISABLED
-`bcheckfriendonline`** (they shoot through their buildings):
-`STRELA`, `OSTRELA`, `SHOTMUSKET`, `SHOTBLOCKHOUSE`, `NUCLGRE`,
-`PSMPOINTTPUS`, `DIMMORT1`, `DIMMORT2NEW`, `PSMPOINTT`,
-`DIMMORT2KOR` - that is, all arrows, musket bullets and almost all
-artillery.
+The exact projectile list for which the line-of-fire check is disabled is
+given under [Technical details](#technical-details).
 
 <a id="67-подтверждённые-упрощения-формулы"></a>
 ## 6.7. Confirmed formula simplifications
@@ -328,24 +292,23 @@ Several mechanics familiar from other real-time strategy games are
 **not implemented** in Cossacks 3. Each item is based on a direct
 search of the scripts:
 
-- **There is no bonus for cavalry charge.** Search `bcharging` /
-  `firsthit` / `chargebonus` doesn't find anything. Cavalry Damage =
-  its weapon's base damage.
+- **There is no cavalry charge bonus.** Cavalry deals its weapon's base
+  damage.
 - **There is no separate type of damage against horses.** The pikeman does not
-  multiplier "×N against cavalry". Pikeman effectiveness against
-  a Reiter is simply `weapon.damage(pike)` against
-  `target.protection[pike]`; cavalry usually have low protection.
+  “×N against cavalry” multiplier. A Pikeman is effective against a Reiter
+  because pikes deal ordinary damage against cavalry's usually low
+  protection from that weapon type.
 - **There is no Drummer aura.** The Drummer, 17th century occupies a
   formation slot but grants no damage, speed, or morale bonuses.
 - **The grenadier has no special trajectory.** The grenadier uses
   the common area-damage path (the `cannonball` type with a blast radius).
-- **No stealth or invisibility.** All units are visible in the zone
-  of sight. There is no `bstealth` flag in the code.
+- **There is no stealth or invisibility.** All units are visible inside the
+  enemy's vision radius.
 
 Consequently, formation is the only way to multiply damage. There are
 no hidden positional bonuses apart from high ground (see
-[Ranged-Unit Behavior §7](ranged_units_behavior.md)) and
-`standground`. Upgrades, formation, and the match between weapon type
+[Ranged-Unit Behavior §7](ranged_units_behavior.md)) and hold position.
+Upgrades, formation, and the match between weapon type
 and protection type make up the entire combat calculation.
 
 ---
@@ -353,28 +316,27 @@ and protection type make up the entire combat calculation.
 <a id="7-сценарная-неуязвимость"></a>
 ## 7. Scenario invulnerability
 
-Units with `hp >= gc_gameplay_infinitehp` (∞ HP) or with
-`not GetGameObjectPlayableObjectByHandle()` (decorative NPCs,
-trigger objects) - skip the entire [^2] pipeline. This
-used in Campaign and Historical Battles for:
+Units with infinite health, decorative characters, and scenario helper
+objects bypass the entire calculation [^2]. Campaigns and Historical Battles
+use this for:
 
 - Bosses that cannot be killed through damage (only through a trigger).
 - Decorative civilians (peasants running around the map in
   missions that the player should not accidentally kill).
 - Scenario “beacons” - invisible trigger objects.
 
-Active only with `gScenario.bactive` - that is, in skirmish and
-this mechanism does not operate in Multiplayer.
+This protection is active only in scenarios. It does not apply in Skirmish
+or Multiplayer.
 
 ---
 <a id="8-реакция-ai-отряда-на-удар"></a>
 <a id="8-реакция-отряда-под-управлением-ии-на-удар"></a>
 ## 8. AI squad reaction to a strike
 
-After `_misc_DoDamage` has reduced the target's health, a separate
-branch checks whether the target belongs to a squad, and if the squad
+After the target loses health, the game checks whether it belongs to a squad.
+If the squad
 is in "idle/hold" mode, puts the entire squad into
-“I attack the one who hits” (`_squad_*`-function). Effect: **one hit
+“attack whoever hit us” mode. In effect, **one hit
 wakes up the entire squad** - this is part of the “realistic” mechanics of Cossacks,
 when a salvo on one unit immediately triggers the response of all
 neighbors. See details in
@@ -382,22 +344,46 @@ neighbors. See details in
 
 ---
 
-<a id="9-открытые-эмпирические-вопросы"></a>
-## 9. Open empirical questions
+<a id="технические-подробности"></a>
+## Technical details
 
-1. **Exact formula for AoE damage cap**: it looks like `cap = 3..5`
-   units equivalent to total damage, but the coefficient is in the code
-   not proofread. Measure through a series of grenade shots at a group
-   from 1, 5, 10, 20, 50 units and check.
-2. **Clear conditions `peacemode` type 4** (attacking on his own,
-   target on someone else → both die): this looks like a bug in the script,
-   needs to be confirmed. If so, it should be added to the
+The main handler is `_misc_DoDamage(goHnd, trgHnd, indamage, weapind,
+weapkind)` [^1].
+
+| Argument or field | Meaning |
+|---|---|
+| `goHnd` | attacker handle; may be `0` for damage without a source |
+| `trgHnd` | target handle; the handler exits when it is `0` |
+| `indamage` | base weapon damage |
+| `weapind` | weapon-slot index |
+| `weapkind` | weapon type from `gc_obj_weapon_kind_*` |
+| `pobj2`, `bdead` | target existence and death state |
+| `gbool_peacemode` | active peacetime |
+| `gc_gameplay_infinitehp`, `gScenario.bactive` | scenario invulnerability |
+| `_unit_IsOnEnemyTerritory`, `OwnerMap`, `FillOwnerMap` | foreign-territory check |
+| `_misc_DoRoundDamage` | area damage |
+| `bcheckfriendonline`, `_misc_IsBuildingInRay` | friendly-building line-of-fire check |
+| `bcharging`, `firsthit`, `chargebonus`, `bstealth` | charge and stealth flags absent from the scripts |
+
+The friendly-building line-of-fire check is explicitly disabled for
+`STRELA`, `OSTRELA`, `SHOTMUSKET`, `SHOTBLOCKHOUSE`, `NUCLGRE`,
+`PSMPOINTTPUS`, `DIMMORT1`, `DIMMORT2NEW`, `PSMPOINTT`, and `DIMMORT2KOR`.
+
+<a id="9-открытые-эмпирические-вопросы"></a>
+<a id="открытые-эмпирические-вопросы"></a>
+## Open empirical questions
+
+1. **Exact formula for the area-damage cap.** The current evidence suggests
+   `cap = 3..5` unit-equivalents. Verify it with grenade shots against groups
+   of 1, 5, 10, 20, and 50 units.
+2. **The fourth peacetime case** (attacker on friendly territory, target on
+   foreign territory, both die) looks like a script defect and needs an
+   in-game test. If confirmed, add it to
    [known limitations](../../../../internals_en/project/known_issues.md).
-3. **Taking into account headshots with negative base damage.** If step 1–4
-   already reduced `damage` to `< 0`, and then headshot added `+200`,
-   will it be `damage = 200` or `damage = max(1, ...) + 200`?
-   The order of steps is unreadable in the code without complete disassembly
-   branches `_misc_DoDamage`.
+3. **Headshots after negative intermediate damage.** If steps 1–4 reduce
+   `damage` below zero and the headshot branch adds `+200`, determine whether
+   the result is `200` or `max(1, ...) + 200`. The available script fragment
+   does not make the exact order unambiguous.
 
 ---
 

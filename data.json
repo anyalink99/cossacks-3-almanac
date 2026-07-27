@@ -7922,7 +7922,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -7966,7 +7966,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -8966,7 +8966,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -9010,7 +9010,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -10010,7 +10010,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -10054,7 +10054,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -11054,7 +11054,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -11098,7 +11098,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -12098,7 +12098,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -12142,7 +12142,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -13076,7 +13076,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -13120,7 +13120,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -13990,7 +13990,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -14034,7 +14034,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -15034,7 +15034,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -15078,7 +15078,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -16078,7 +16078,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -16122,7 +16122,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -17122,7 +17122,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -17166,7 +17166,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -18100,7 +18100,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -18144,7 +18144,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -19078,7 +19078,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -19122,7 +19122,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -20122,7 +20122,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -20166,7 +20166,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -21166,7 +21166,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -21210,7 +21210,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -22210,7 +22210,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -22254,7 +22254,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -23259,7 +23259,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -23303,7 +23303,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -24303,7 +24303,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -24347,7 +24347,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -25347,7 +25347,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -25391,7 +25391,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -26392,7 +26392,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -26436,7 +26436,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -27436,7 +27436,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -27480,7 +27480,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -28480,7 +28480,7 @@
       "usage": 0,
       "usage_short": "",
       "produces": [],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,
@@ -28524,7 +28524,7 @@
       "produces": [
         "field"
       ],
-      "capturable": null,
+      "capturable": true,
       "vision": null,
       "weapon_damage": null,
       "weapon_pause_frames": null,

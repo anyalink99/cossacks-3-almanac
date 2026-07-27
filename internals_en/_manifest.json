@@ -53,8 +53,8 @@
     {
       "path": "engine/native_api.md",
       "title": "Native API of the Cossacks 3 engine (Delphi + DWS)",
-      "size": 23011,
-      "lines": 412
+      "size": 22700,
+      "lines": 407
     },
     {
       "path": "engine/native_primitives.md",
@@ -107,8 +107,8 @@
     {
       "path": "project/documentation_style.md",
       "title": "Reader-facing documentation rules",
-      "size": 7879,
-      "lines": 180
+      "size": 8112,
+      "lines": 183
     },
     {
       "path": "project/known_issues.md",
@@ -135,10 +135,46 @@
       "lines": 106
     },
     {
+      "path": "scripts/building_mechanics_evidence.md",
+      "title": "Technical Evidence for Building Mechanics",
+      "size": 30167,
+      "lines": 679
+    },
+    {
+      "path": "scripts/capture_mechanics_evidence.md",
+      "title": "Technical Evidence for Building and Unit Capture",
+      "size": 31466,
+      "lines": 624
+    },
+    {
+      "path": "scripts/hunger_and_rebellion_evidence.md",
+      "title": "Technical Evidence for Famine and Mercenary Rebellion",
+      "size": 13465,
+      "lines": 314
+    },
+    {
+      "path": "scripts/peasant_extraction_evidence.md",
+      "title": "Technical Model of Peasant Resource Gathering",
+      "size": 36371,
+      "lines": 771
+    },
+    {
+      "path": "scripts/production_queue_evidence.md",
+      "title": "Technical Evidence for Production Queues",
+      "size": 14503,
+      "lines": 340
+    },
+    {
       "path": "scripts/structure.md",
       "title": "Structure of the Cossacks 3 scripting environment",
-      "size": 15211,
-      "lines": 319
+      "size": 16093,
+      "lines": 332
+    },
+    {
+      "path": "scripts/upgrades_application_evidence.md",
+      "title": "Technical Evidence for Upgrade Application",
+      "size": 21814,
+      "lines": 501
     }
   ]
 }

@@ -112,6 +112,7 @@ Loading, vulnerability, and escort behavior are covered in
 [How naval combat works](../../recon/world/combat/naval_combat.md).
 
 <a id="рыбачья-лодка"></a>
+<a id="рыбацкая-лодка"></a>
 ## Fishing Boat
 
 | Parameter | Value |

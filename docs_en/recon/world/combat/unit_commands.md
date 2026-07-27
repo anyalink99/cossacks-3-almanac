@@ -4,313 +4,258 @@
 
 [← How the game works](../../README.md)
 
-Deep analysis: what commands can be given to a unit, how they are stored
-in the queue, how the attack and position holding modes work, where he lives
-automatic response to impact. All links to the code are in
-[Sources](#sources).
+This article explains the orders available to units, how order queuing works,
+and how Attack-Move, Patrol, Guard, and Hold Position differ. Queue storage
+and internal command names are collected under
+[Technical Details](#technical-details).
 
 <a id="кратко"></a>
-## TL;DR
+## At a Glance
 
-- Each unit has an **queue of orders** up to 32 long (`TOrder` entries).
-- Available orders include move (`move`), attack (`attack`),
-  attack-move, enter and leave a transport (`garrison`, `ungarrison`),
-  patrol (`patrol`), guard (`guard`), repair (`repair`), build
-  (`build`), gather (`extract`), and stop (`stop`, clears the queue).
-- The queue is normally executed in order; holding Shift while
-  clicks - adds to the queue, without Shift - replaces the queue.
-- **Stand-mode** (`fHoldMode`) - squad mode “do not move without
-  explicit order", gives complete `bonusdamagehold` / `bonusshieldhold`
-  (See [Formations and Their Combat Bonuses §4](formations.md)).
-- **Hold-fire** - a separate flag for the unit “do not open fire until
-  explicit order." Useful for ambushes.
-- **Automatic response** — an idle or holding squad automatically begins
-  “attack the one who hits” at the first hit to any unit
-  squad.
-- **Rally points** for buildings (`rallypoint`): new units,
-  produced by the building go to the specified point.
-
----
-
-<a id="1-структура-приказа"></a>
-## 1. Order structure
-
-`TOrder` (defined in `lib/classes.script`) - single entry
-order [^1]. It has four fields: type `ord` (value from
-`gc_order_*`), target handle `trg` (or `0`), position `x`, `z` (if
-the order is attached to a point) and the Boolean flag `bMoveAttack` (enabled for
-attack-move).
-
-`gOrders[goHnd][0..31]` - queue of orders on the unit. Length - up to
-`gc_order_maxcount = 32`. Queue management - via
-`_unit_SetOrderTrg` (install), `_unit_ClearOrder` (uninstall),
-`_unit_SortOrders` (arrange), `_unit_FullClearOrders`
-(reset all) [^2].
-
-<a id="11-типы-приказов"></a>
-### 1.1. Types of orders
-
-| `gc_order_*` | What | Arguments |
-|---|---|---|
-| `move` | Go to the point | x, z |
-| `attack` | Attack a specific target | trg |
-| `attack_move` | Go to the point, attack those you meet along the way | x, z + `bMoveAttack = True` |
-| `garrison` | Enter the transport ship (see [tower and garrison mechanics](towers.md): other buildings do not accept infantry) | trg |
-| `ungarrison` | Get out of transport | (no arguments) |
-| `patrol` | Patrol between two points | x, z + second waypoint |
-| `guard` | Protect the building/unit - don't go far | trg |
-| `repair` | Repair the building | trg (for peasants) |
-| `build` | Complete the building | trg |
-| `extract` | Extract resource | trg (tree / stone / field / mine) |
-| `stop` | Queue Clearing | (full reset `gOrders[goHnd]`) |
-
----
-
-<a id="2-жизненный-цикл-приказа"></a>
-## 2. Life cycle of an order
-
-1. The player issues an order. The interface calls a `_control_*` function,
-   which, through `_unit_SetOrderTrg`, writes an order to `gOrders`.
-2. If **Shift is not held down**, the queue is first cleared through
-   `_unit_FullClearOrders`, then the order is placed first.
-3. If **Shift is held down**, the order is added to the end of the queue.
-4. Each tick of the `_unit_DoTick` cycle looks at `gOrders[goHnd][0]`:
-   if there is an order and is not fulfilled, it tries to take a step towards
-   execution (moves, looks for a goal, starts work).
-5. When the order is completed, it is deleted via `_unit_ClearOrder`,
-   The queue is shifted via `_unit_OrdersOffset`.
-6. If the queue is empty, the unit becomes idle and starts
-   auto search for targets (see [target selection](target_selection.md)).
-
----
+- Each unit has an **order queue**. A new order replaces it; holding `Shift`
+  adds an order to the end.
+- Units can move, attack, attack while moving, patrol, guard, repair, build,
+  gather resources, enter and leave a transport, and stop.
+- **Hold Position** prevents an idle squad from giving chase and enables the
+  stronger formation bonuses.
+- **Hold Fire** prevents firing without an explicit order. It is a separate
+  mode useful for ambushes.
+- The first hit on any member of an idle or holding squad can cause the
+  entire squad to attack the aggressor.
+- A building's **rally point** sends every newly produced unit to the chosen
+  location.
 
 <a id="3-атака-с-движением-bmoveattack"></a>
-## 3. Attack-move (`bMoveAttack`)
+<a id="1-атака-с-движением"></a>
+## 1. Attack-Move
 
-The most common "tactical" order. Behavior:
+| Unit type | Behavior |
+|---|---|
+| Infantry | Moves toward the destination, searches for enemies along the way, and attacks one it finds. |
+| Cavalry | Behaves like infantry. |
+| Artillery | Moves to the selected point, spends about 3–5 game seconds preparing, then begins firing. See [How Artillery Works](artillery_specifics.md). |
 
-| Who | Implementation | Field in `TOrder` |
-|---|---|---|
-| Infantry | `move_mode_attack` - goes to the point, scans enemies along the way through `_unit_SearchEnemyScanCells` (see [Target Selection and Attack-Move §3](target_selection.md)). Found - attacks. | `ord = move`, `bMoveAttack = True` |
-| Cavalry | Also - `move_mode_attack`. | Likewise. |
-| Artillery | **Does not use** `move_mode_attack`. Instead `ord = attackpoint` with flag `bartprepare`. The artillery moves to the point, then prepares to fire (preparation animation, ~3-5 g-sec), then fires. | See [How Artillery Works](artillery_specifics.md). |
-
-Important difference: infantry attack-move **interrupts** on anyone
-encountered enemy; artillery - travels to a specific point and
-fires from there. This gives the artillery a “range advantage” - it
-is not distracted by infantry.
+Infantry attack-move is interrupted by an encountered enemy. Artillery moves
+to the selected firing point instead and is not distracted by infantry along
+the way.
 
 <a id="31-конусный-поиск-при-attack-move"></a>
 <a id="31-конусный-поиск-при-атаке-с-движением"></a>
-### 3.1. Cone search during attack-move
+<a id="11-конусный-поиск-при-атаке-с-движением"></a>
+### 1.1. Forward-Cone Search
 
-During attack-move, the unit searches for enemies **only in a 30° cone ahead**
-(parameter `gc_search_attackmove_cone`, see
-[Target Selection and Attack-Move §3.3](target_selection.md)). That is, a fighter
-attack-move **will not stop** on an enemy from the side or behind is
-"purposeful" movement.
-
-For a unit to react to lateral threats, you need `guard` or
-regular idle (no order). Idle units are searched in a full 360° radius.
-
----
+An attack-moving unit searches for enemies **only in a 30° cone ahead**;
+see [Target Selection and Attack-Move §3.3](target_selection.md). It does
+not stop for an enemy beside or behind it. Guarding or remaining idle makes
+a unit react to threats from every direction.
 
 <a id="4-stand-mode-fholdmode--стоять-насмерть"></a>
 <a id="4-удержание-позиции-fholdmode"></a>
-## 4. Hold position (`fHoldMode`)
+<a id="2-удержание-позиции"></a>
+## 2. Hold Position
 
-Enabled through the interface or a hotkey. Effects:
+When enabled:
 
-1. **Formation bonuses** switch to `fAddDamageHold` /
-   `fAddShieldHold` (usually `+7`/`+7` vs `+2`/`+2` on the go).
-   See [Formations and Their Combat Bonuses §4](formations.md).
-2. **Units do not move voluntarily**: when auto-searching for a target, they
-   won't give chase.
-3. **Order `attack`** has been given - units will first **deploy to
-   formation** at the current point (if not already in formation), and only then
-   may start moving. In practice: it is better to **not use**
-   hold for cavalry going on the attack.
+1. **Formation bonuses** switch to their stronger values—usually `+7/+7`
+   instead of `+2/+2` while moving. See
+   [Formations and Their Combat Bonuses §3](formations.md).
+2. Units do not voluntarily give chase during automatic target acquisition.
+3. After an attack order, the squad first assumes its formation at the
+   current position and only then may move. Hold Position is therefore a
+   poor fit for cavalry that must charge immediately.
 
-Hold does not cancel automatic return fire on the one who hits -
-There is a separate `fHoldFire` for this.
-
----
+Hold Position does not suppress automatic return fire; Hold Fire is a
+separate mode.
 
 <a id="5-hold-fire-fholdfire--не-открывать-огонь"></a>
 <a id="5-запрет-огня-fholdfire"></a>
-## 5. Hold fire (`fHoldFire`)
+<a id="3-запрет-огня"></a>
+## 3. Hold Fire
 
-Separate squad flag. When `fHoldFire = True`:
+When enabled:
 
-1. The unit **does not attack** even close enemies.
-2. To the received blow - **replies** (or not - it depends on
-   exact implementation, see §8).
-3. Useful: ambushes, when the musketeers must not be given away prematurely
-   shot before the enemy enters the salvo area.
+1. A unit does not attack even a nearby enemy.
+2. Whether it returns fire after being hit still requires an empirical test;
+   see §11.
+3. It can conceal an ambush by preventing Musketeers from firing before the
+   enemy enters the intended volley area.
 
-Enabled with a separate interface button and often combined with hold
-position, for example for an ambush in a trench.
-
----
+Hold Fire is commonly combined with Hold Position, but the two modes remain
+independent.
 
 <a id="6-патрулирование-patrol"></a>
-## 6. Patrol
+<a id="4-патрулирование"></a>
+## 4. Patrol
 
-`patrol(x1, z1, x2, z2)` - the unit walks between two points. Everyone
-exit to the point - `move`-order + rescheduling for the next one
-point. If along the way he sees an enemy in a cone, he attacks
-(`move_mode_attack` behavior).
+A unit walks between two points. On reaching one, it plans a route back to
+the other. If it spots an enemy in the forward cone, it attacks.
 
-The patrol order **has no end** - it is closed. Resets
-explicitly through `stop` or a new order.
-
----
+Patrol has no natural end. Stop it explicitly or issue another order.
 
 <a id="7-охрана-guard"></a>
-## 7. Guard
+<a id="5-охрана"></a>
+## 5. Guard
 
-`guard(trg)` - the unit is “tied” to the target. Behavior:
+A guard remains attached to its protected target:
 
-1. Stands next to the target (within a radius of ~2-3 tiles).
-2. If an enemy appears nearby, he leaves his place, attacks, **returns**
-   back to the target after the battle.
-3. If the target has moved, it follows it, remaining within the radius.
-4. If the target dies, the order is cancelled and the unit becomes idle.
+1. it stays roughly 2–3 tiles from the target;
+2. it moves out to attack a nearby enemy and **returns** after the fight;
+3. it follows a moving target while keeping nearby;
+4. if the target dies, the order ends and the guard becomes idle.
 
-Key difference from patrol: guard **returns** to the point of protection,
-and patrol simply follows a route. Guard is effective for protection
-mines, warehouses, artillery in the rear.
-
----
+Unlike a patrolling unit, a guard returns to the protected object. This is
+useful around Mines, Storehouses, and rear-line artillery.
 
 <a id="8-auto-respond-реакция-на-удар"></a>
 <a id="8-автоматический-ответ-на-удар"></a>
-## 8. Automatic response to an attack
+<a id="6-автоматический-ответ-на-удар"></a>
+## 6. Automatic Response to an Attack
 
-When any unit in the squad is hit (`_misc_DoDamage`), a separate
-thread checks the status of the squad [^3]:
+When any member of a squad is hit, the game checks the state of the whole
+squad [^3]:
 
-- If the squad is idle, holding position, or holding fire, all its units
-  switch to the “attack the one who beats me” mode.
-- The reaction is transmitted via `gOrders[goHnd] := (attack, atkHnd)`.
-- Effect: one salvo at the edge of the squad **wake up the entire** squad.
-This behavior makes the units very “nervous” - you can’t be alone
-sniper enemies one by one, they instantly respond in full formation.
+- if the squad is idle, holding position, or holding fire, all its units
+  switch to attacking the aggressor;
+- consequently, one volley into the edge of a formation can **wake the
+  entire squad**.
 
-See [How Damage Is Calculated §8](combat_damage_pipeline.md) for
-exact location in the code.
-
----
+This makes it difficult to pick off members of a formation one at a time.
+See [How Damage Is Calculated §8](combat_damage_pipeline.md).
 
 <a id="9-точки-сбора"></a>
-## 9. Rally points
+<a id="7-точки-сбора"></a>
+## 7. Rally Points
 
-Buildings that produce units (barracks, academy, stable) have
-**rally point** — rally point. Every new unit coming out of
-building, receives the order `move(rally_x, rally_z)`.
+Buildings that produce units—Barracks, Academy, Stable, and others—have a
+**rally point**. Every newly produced unit immediately heads toward it.
 
-Management:
-- `gint_gui_setrallypointmode = True` switches the interface into
-  rally-point selection; the next click sets the point.
-- The point is stored in `objbase.rallypoint.x/z` for each building.
-- If the rally point is inside a forest / obstacle, units will go to
-  the nearest accessible point via pathfinding.
-
----
+- The next click after choosing the rally-point command sets its position.
+- If the point lies inside a forest or obstacle, pathfinding sends units to
+  the nearest reachable location.
 
 <a id="10-вход-в-транспорт-и-выход-из-него"></a>
-## 10. Entering and leaving a transport
+<a id="8-вход-в-транспорт-и-выход-из-него"></a>
+## 8. Entering and Leaving a Transport
 
-`garrison(building)`:
-1. The unit goes to the building.
-2. When reaching the radius (`captureradius = 4` tile) - `_unit_DoHideInside(goHnd, trgHnd)`.
-3. The unit disappears from the map and its handle is added to `building.inside[]`.
+1. The unit approaches the transport.
+2. At a distance of four tiles, it goes inside.
+3. It disappears from the map and is counted among the transport's
+   passengers.
 
-In Cossacks 3 the only building that supports this order is for
-**infantry**, is a **transport ship** (`btransport = True`).
-Towers, houses and barracks do not accept infantry inside (see.
-[tower and garrison mechanics](towers.md), quote at the beginning of the file). Mines -
-special case: peasants enter there automatically through
-`_unit_OrderExtractResources`, not via `garrison`.
+In Cossacks 3, the only building that accepts **infantry** this way is the
+**Transport Ship**. Towers, Houses, and Barracks do not accept infantry;
+see [How Towers Work](towers.md). Mines are a separate case: Peasants enter
+them automatically as part of resource gathering.
 
-`ungarrison()` is issued through the building interface. Units from `inside[]` appear
-next to the building (from the entrance), their handles return to
-`gPlayer[pl].objbase`.
-
-The garrison **interrupts** other orders - the unit enters the building and
-waiting. After exiting, the order queue **is not restored** (it
-was reset at time `garrison`).
-
----
-
-<a id="11-кеш-приказа-sto-и-stp"></a>
-## 11. Order cache: `STO` and `STP`
-
-Internal unit fields for optimization [^4]:
-
-- **STO** (`Search Target Object`) — handle of the last search target.
-  Used to avoid recalculating the target every tick. Updated
-  via `_unit_SetSTO_Normal`, `_unit_SetSTO`.
-- **STP** (`Search Target Position`) — coordinates of the last
-  “reference point” of the search: where we were going when we stumbled upon the enemy.
-  Useful for returning to the route after a fight (for example, for guard).
-
-These fields are not controlled by the player - they are an internal cache. But they
-influence behavior: “the unit remembers” its target for a short
-timeout even after loss of line of sight.
-
----
+On leaving, passengers appear beside the transport, on the entrance side.
+Entering a transport interrupts all other orders, and the old queue is not
+restored after leaving.
 
 <a id="12-приказы-зданий"></a>
-## 12. Building orders
+<a id="9-приказы-зданиям"></a>
+## 9. Building Orders
 
-Buildings also have orders, but a limited set:
-- `produce(unit_sid)` — put the unit in the production queue.
-- `cancel_produce(slot)` - cancel.
-- `set_rally(x, z)` — set a collection point.
-- `repair_self` - priority for repairs (when the peasants are free).
+Buildings have a shorter set of orders: start or cancel production, set a
+rally point, and request repairs. Ordinary buildings cannot move. Siege
+weapons are units from the engine's point of view and use normal movement.
 
-Buildings cannot “move” (except for siege buildings, such as artillery,
-which is actually a unit) - therefore the order queue is shorter, and
-processing is easier.
+<a id="technical-details"></a>
+<a id="технические-подробности"></a>
+<a id="10-технические-подробности"></a>
+## 10. Technical Details
 
----
+<a id="1-структура-приказа"></a>
+<a id="101-как-хранится-приказ"></a>
+### 10.1. Order Storage
+
+`TOrder` stores the type `ord`, a target handle `trg` or zero, coordinates
+`x`, `z`, and the Attack-Move flag `bMoveAttack` [^1]. The queue
+`gOrders[goHnd][0..31]` holds up to `gc_order_maxcount = 32` records.
+`_unit_SetOrderTrg`, `_unit_ClearOrder`, `_unit_SortOrders`, and
+`_unit_FullClearOrders` manage it [^2].
+
+<a id="11-типы-приказов"></a>
+| Player action | Internal type | Arguments |
+|---|---|---|
+| Move to a point | `move` | `x`, `z` |
+| Attack a target | `attack` | `trg` |
+| Attack-Move | `attack_move` | `x`, `z`, `bMoveAttack = True` |
+| Enter a transport | `garrison` | `trg` |
+| Leave a transport | `ungarrison` | none |
+| Patrol | `patrol` | two route points |
+| Guard an object | `guard` | `trg` |
+| Repair | `repair` | `trg` |
+| Continue construction | `build` | `trg` |
+| Gather a resource | `extract` | `trg` |
+| Stop | `stop` | clears the queue |
+
+<a id="2-жизненный-цикл-приказа"></a>
+Without `Shift`, the interface first calls `_unit_FullClearOrders`, then
+writes the new order. With `Shift`, it appends the order. Every tick,
+`_unit_DoTick` processes the first entry. `_unit_ClearOrder` removes a
+completed order and `_unit_OrdersOffset` advances the queue. An empty queue
+makes the unit idle and starts automatic target acquisition.
+
+Infantry and cavalry implement Attack-Move as `ord = move`,
+`bMoveAttack = True`, and `move_mode_attack`;
+`_unit_SearchEnemyScanCells` performs the scan. Artillery uses
+`ord = attackpoint` and `bartprepare`. The forward search width is set by
+`gc_search_attackmove_cone`.
+
+The rally point is stored in `objbase.rallypoint.x/z`;
+`gint_gui_setrallypointmode` enables its placement mode. At
+`captureradius = 4`, `_unit_DoHideInside` places the unit handle in
+`building.inside[]`. Leaving restores it to `gPlayer[pl].objbase`.
+
+<a id="11-кеш-приказа-sto-и-stp"></a>
+<a id="102-кеш-последней-цели-и-точки"></a>
+### 10.2. Last-Target and Last-Position Cache
+
+Two internal fields avoid repeating the same search every tick [^4]:
+
+- `STO` (`Search Target Object`) stores the last target handle and is updated
+  by `_unit_SetSTO_Normal` and `_unit_SetSTO`;
+- `STP` (`Search Target Position`) stores the last reference point, allowing
+  a unit to return to its route after combat.
+
+These fields are not player-controlled, but they let a unit remember its
+target briefly after losing direct vision.
+
+<a id="103-внутренние-приказы-зданий"></a>
+### 10.3. Internal Building Orders
+
+- `produce(unit_sid)` adds a unit to production;
+- `cancel_produce(slot)` cancels it;
+- `set_rally(x, z)` sets the rally point;
+- `repair_self` requests repair by available Peasants.
 
 <a id="13-открытые-эмпирические-вопросы"></a>
-## 13. Open empirical questions
+<a id="11-открытые-эмпирические-вопросы"></a>
+## 11. Questions Requiring Further Testing
 
-1. **Exact behavior of `fHoldFire` when hit.** Does the unit attack in
-   hold-fire in response to a hit received, or remains silent
-   before an explicit order? Measure with a simple test.
-2. ~~Order queue limit~~ — ✅ **Closed:**
-   `gc_obj_MaxOrderCount = 12` (`dmscript.global`). This is common
-   limit for all types of orders - `move`, `attack`, `produce`,
-   `performupgrade`, `repair`, etc. See full list of 21 types
-   `gc_obj_order_type_*` in [Production Queues §1.1](../economy/production_queue.md).
-3. **Resetting STO/STP when changing an order.** Is STO maintained between
-   orders or reset? This affects the "continuing
-   aggression" - how much the unit "remembers" the enemy after receiving
-   new order.
-
----
+1. **Hold Fire after taking damage.** Does a squad return fire or remain
+   silent until an explicit order?
+2. The object-order limit is `gc_obj_MaxOrderCount = 12`
+   (`dmscript.global`). This is the shared limit for the 21 object-order
+   types such as `move`, `attack`, `produce`, `performupgrade`, and
+   `repair`; see [Production Queues §1.1](../economy/production_queue.md).
+   Its relationship to the 32-entry unit queue described above needs to be
+   stated more precisely.
+3. **Resetting `STO` and `STP`.** Whether these caches survive a new order
+   affects how long a unit continues to remember an enemy.
 
 <a id="источники"></a>
 ## Sources
 
-[^1]: `data/scripts/lib/classes.script` - record definition
-`TOrder` and related. `gOrders[goHnd][0..gc_order_maxcount-1]`
-      — global queue of orders on the unit.
+[^1]: `data/scripts/lib/classes.script` — the `TOrder` record and
+      `gOrders[goHnd][0..gc_order_maxcount-1]`.
 
-[^2]: `data/scripts/lib/unit.script:2649-2870` - procedures
-      `_unit_ResetOrder`, `_unit_SetOrderTrg`, `_unit_ClearOrder`,
-      `_unit_SortOrders`, `_unit_OrdersOffset`,
-      `_unit_FullClearOrders` - queue management.
+[^2]: `data/scripts/lib/unit.script:2649-2870` — `_unit_ResetOrder`,
+      `_unit_SetOrderTrg`, `_unit_ClearOrder`, `_unit_SortOrders`,
+      `_unit_OrdersOffset`, and `_unit_FullClearOrders`.
 
-[^3]: `data/scripts/lib/miscext2.script:_misc_DoDamage` —
-      auto-respond branch after decreasing hp; see also
-      [How Damage Is Calculated §8](combat_damage_pipeline.md).
+[^3]: `data/scripts/lib/miscext2.script:_misc_DoDamage` — the automatic
+      response branch after health is reduced.
 
-[^4]: `data/scripts/lib/unit.script:2894-3010` - operating procedures
-      with STO (Search Target Object) and STP (Search Target Position):
-      `_unit_SetClientSTO`, `_unit_SetSTO_Normal`, `_unit_SetSTO`,
-      `_unit_SetSTP`.
+[^4]: `data/scripts/lib/unit.script:2894-3010` — `_unit_SetClientSTO`,
+      `_unit_SetSTO_Normal`, `_unit_SetSTO`, and `_unit_SetSTP`.

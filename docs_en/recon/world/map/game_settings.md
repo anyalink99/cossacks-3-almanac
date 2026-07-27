@@ -4,73 +4,61 @@
 
 [← How the game works](../../README.md)
 
-This article explains how the Cossacks 3 engine applies the options selected
-before a match. It is based on a manual examination of the game scripts:
-reader-facing names come first, while exact field and function names remain in
-`code` for verification.
+This article explains what the pre-match options actually change: which ones
+rebuild the map, which act only during play, and which restrictions are not
+obvious from their lobby labels.
 
 The numerical values and in-game labels are collected separately:
 
 - **[lobby settings](../../../reports/map/lobby_settings.md)** —
-  a reader-friendly catalogue of every option (localized names, numerical values,
+  a reader-friendly reference for every option (localized names, numerical values,
   default values).
-- **[`derived/game_settings.json`](../../../../derived/game_settings.json)** - the same
-  most in machine-readable form, for the editor and tools.
+- **[`derived/game_settings.json`](../../../../derived/game_settings.json)** —
+  the same data in machine-readable form, for the editor and tools.
 
-This page covers what the table cannot show: which script functions read
-these values, what flags are set, what game mechanics
-turn on. All links to code and Pascal blocks are collected in the section
-[Sources](#sources) at the end of the document.
+This page covers what the table cannot show: the practical effect of each
+choice. Exact fields, functions, and saved-record layout are collected under
+[Technical details](#technical-details); script excerpts are in
+[Sources](#sources).
 
 <a id="1-структура-tmapsettings"></a>
 <a id="1-как-хранятся-настройки-матча"></a>
-## 1. How match settings are stored
+<a id="быстрый-ориентир"></a>
+## Quick guide
 
-The settings structure (`TMapSettings`) is split into two parts [^1]:
-
-- **map generation** (`gen`) — terrain, size, resources, and season;
-- **match rules** (`additional`) — peace time, population limit, speed, and
-  adviser.
-
-The settings are written to the save file by `_misc_SaveLanRoomData` [^2].
-
-The generation part (`TMapSettingsGen`) contains the random-number keys
-(`randkey0` for placement, `randkey1` for terrain), map size (`mapsize`),
-terrain type (`terraintype`), relief (`relieftype`), starting resources
-(`resourcestart`), mine richness (`resourcemines`), and season (`season`) [^3].
-
-The rules part (`TMapSettingsAdditional`) contains special conditions
-(`activeoption`), starting army (`startingunits`), balloon (`balloon`),
-artillery (`cannons`), peace time (`peacetime`), 18th century (`century18`),
-capture (`capture`), market and Diplomatic Centre (`marketdip`), teams
-(`teams`), autosave (`autosave`), population limit (`limit`), game speed
-(`gamespeed`), and adviser (`adviserassistant`) [^4].
-
-Numerical values and human names - in
-[lobby settings](../../../reports/map/lobby_settings.md). Here - what
-This is what the engine reads.
+- **Map size, terrain type, relief, season, and deposits** affect the
+  generated map and do not change after the match begins.
+- **Starting army and resources** define the opening position, but the base
+  eighteen Peasants always appear.
+- **Peace time, capture, the 18th century, mercenaries, speed, and population
+  limit** change rules during play.
+- **Computer-player difficulty** primarily changes construction and
+  recruitment speed; it does not grant extra starting resources.
 
 <a id="2-что-движок-делает-с-gen-параметрами"></a>
 <a id="2-настройки-генерации-карты"></a>
-## 2. Map-generation settings
+<a id="настройки-генерации-карты"></a>
+## Map-generation settings
 
-| Setting | Field | Effect |
-|---|---|---|
-| Map size | `mapsize` [^5] | Sets the width and height of the square map in tiles and affects object-placement density (`prob*`) [^6]. |
-| Terrain type | `terraintype` [^7] | Selects a base mask from `data/gen/terrainmasks/`. Peninsulas, Islands, and Continents contain sea water that can be reached only by ships and a Port (`por`). |
-| Relief | `relieftype` [^8] | Controls mountain and hill density (`mnt`, `hgh`). Highlands (`relieftype = 3`) leaves less flat ground for Farms and Storehouses. |
-| Starting resources | `resourcestart` [^9] | Gives every player the selected amount of each of the six resources: 1,000, 4,000, 5,000, or 1,000,000. |
-| Mineral deposits | `resourcemines` [^10] | Becomes the mine-density value (`minesdensity`). On a Tiny Rich map, for example, the engine attempts three rounds of three deposit types. See [How mineral deposits are placed](map_generation_pipeline.md#8-how-mineral-deposits-are-placed). |
-| Season | `season` [^11] | Desert enables `bDesert` and replaces regular object sets (`forests_pinefir_*`) with desert sets (`desert_forests_*`). Other seasons mainly change textures. |
-| Generation keys | `randkey0`, `randkey1` [^12] | `randkey1` is used while building terrain (`SetRandomKey`); `randkey0` is used for placement. Together with the base mask (`inputbitmap`), they uniquely determine the map. |
+| Setting | Effect |
+|---|---|
+| Map size | Sets the width and height of the square map in cells and affects object-placement density [^5] [^6]. |
+| Terrain type | Selects the map foundation. Peninsulas, Islands, and Continents contain sea water accessible to ships and a Port [^7]. |
+| Relief | Controls mountain and hill density. Highlands leaves less flat ground for Farms and Storehouses [^8]. |
+| Starting resources | Gives every player the selected amount of each of the six resources: 1,000, 4,000, 5,000, or 1,000,000 [^9]. |
+| Mineral deposits | Changes how many placement passes are attempted. A Tiny Rich map can use three passes for each of three deposit types [^10]. See [How mineral deposits are placed](map_generation_pipeline.md#8-how-mineral-deposits-are-placed). |
+| Season | Desert replaces normal environment sets with desert sets; other seasons mainly change textures [^11]. |
+| Generation keys | Together with the base mask, uniquely determine terrain and object placement [^12]. |
 
-> **Forest type on Land.** The player selects a forest type (`foreststype`) in
-> the match room, but for Land (`terraintype = 0`) the engine immediately
-> overwrites it with `0` [^13]. Other terrain types preserve the selection.
+> **Forest type.** The player selects a forest variant in the match room, but
+> the shared generator immediately overwrites the choice with `0` for every
+> terrain type [^13]. The option therefore does not affect the map: mixed
+> conifer forests are used, with separate environment sets for Desert.
 
 <a id="3-что-движок-делает-с-additional-параметрами"></a>
 <a id="3-дополнительные-правила-партии"></a>
-## 3. Additional match rules
+<a id="дополнительные-правила-партии"></a>
+## Additional match rules
 <a id="31-startingunits--стартовая-армия"></a>
 <a id="31-стартовая-армия-startingunits"></a>
 ### 3.1 Starting army (`startingunits`)
@@ -82,7 +70,7 @@ drummer, `O` = officer, `Q`/`W` = mission buildings, etc.).
 
 > **The base 18 Peasants always appear.** With the Default option, the engine
 > calls `CreateStartPointPeasants` and places **18 Peasants** in a 6 × 3 grid
-> around the starting position, 0.75 tiles apart [^14].
+> around the starting position, 0.75 cells apart [^14].
 
 <a id="32-peacetime--как-устроен-мир"></a>
 <a id="peacetime--как-устроен-мир"></a>
@@ -203,7 +191,8 @@ substitutes the number.
 Contextual hints in the corner of the screen. They do not affect gameplay.
 
 <a id="4-сложность-ии--gcplayerdifficulty"></a>
-## 4. AI difficulty - `gc_player_difficulty_*`
+<a id="сложность-компьютерного-игрока"></a>
+## Computer-player difficulty
 
 The constants `gc_player_difficulty_*` from `-1` to `4` [^21] are listed:
 
@@ -224,8 +213,34 @@ See also [mercenaries and diplomacy](../../systems/mercenaries_diplomacy.md) §3
 Hard and above, when `brebellion = True`, mercenaries have an approximately
 18.31% chance per tick to change sides.
 
+<a id="технические-подробности"></a>
+## Technical details
+
+`TMapSettings` is split into map generation (`gen`) and match rules
+(`additional`) [^1]. `_misc_SaveLanRoomData` writes the settings to a saved
+game [^2].
+
+| Reader-facing name | Internal field |
+|---|---|
+| Map size | `mapsize` |
+| Terrain type | `terraintype` |
+| Relief | `relieftype` |
+| Starting resources | `resourcestart` |
+| Deposit richness | `resourcemines` |
+| Season | `season` |
+| Terrain and placement keys | `randkey1`, `randkey0` |
+| Starting army | `startingunits` |
+| Peace time | `peacetime` |
+| Advance to the 18th century | `century18` |
+| Capture | `capture` |
+| Market and Diplomatic Center | `marketdip` |
+| Population limit | `limit` |
+| Game speed | `gamespeed` |
+| Adviser | `adviserassistant` |
+
 <a id="5-глобальные-константы-партии"></a>
-## 5. Global match constants
+<a id="глобальные-константы-партии"></a>
+### Global match constants
 
 These are not lobby options, but engine constants that determine the shape of all
 settings [^22].
@@ -245,6 +260,7 @@ settings [^22].
 | `gc_obj_speed_peasant` | 40 | The declared speed of the peasant - but in the script the assignment is commented out [^23] (see [peasant resource gathering](../economy/peasant_extraction.md) §9). |
 
 <a id="6-победа-и-поражение"></a>
+<a id="победа-и-поражение"></a>
 ## 6. Victory and defeat
 
 See separate document - [Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md).

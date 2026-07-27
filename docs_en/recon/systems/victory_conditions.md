@@ -10,91 +10,75 @@ conditions are absent. Source references and Pascal excerpts appear under
 [Sources](#sources).
 
 <a id="кратко"></a>
-## TL;DR
+## Key points
 
-- The main function that resolves the outcome of the game is `_misc_CheckEndGame` [^1].
-  It is called when the "player is alive" state changes (§4) or when
-  the player capitulates via `_misc_Surrender` [^2].
-- The scripts contain **no** built-in Wonder, score-limit, time-limit,
-  or capture-the-flag victory. A normal match uses last-team-standing;
-  missions use scenario rules (§3).
-- `farmused = 0` means defeat, but `farmused` does not reach zero while
-  the player has a Peasant or Town Hall.
-- Points are collected for statistics and rating only; they do not decide
-  the match (§5.4).
+- In an ordinary match, the **last remaining team** wins.
+- A player is eliminated after losing every Peasant and every Town Hall.
+  Historical Battles disable this automatic defeat.
+- There is no built-in Wonder, score-limit, time-limit, or
+  capture-the-flag victory. A custom scenario can create such an objective.
+- Score is used for statistics and rating, but does not decide the match.
+- Surrender immediately marks the player as defeated and runs the ordinary
+  check for surviving teams.
 
 <a id="1-состояния-игрока"></a>
-## 1. Player states
-
-The constants `gc_player_victorystate_*` set the outcome for an individual player:
-`none = 0`, `win = 1`, `lose = 2` [^3].
-
-The map stage `gc_map_gamestage_*` distinguishes `none`, `waitingloading`,
-`started`, and `finished` [^4]. The global interface mode
-`gc_gamemode_*` distinguishes six states: `mainmenu`, `game`, `editor`,
-`spectator`, `replay`, `endgamestatistics` [^5]. Final screen
-statistics after the result is known is
-`gInterface.gamemode = gc_gamemode_endgamestatistics` (=5).
-
 <a id="2-режимы-игры"></a>
-## 2. Game modes
+<a id="режимы-партии"></a>
+## Match types
 
-The `gMap.bbattle : Boolean` flag identifies a Historical Battle [^6].
-It is set in `initmaphistoricalbattle.inc`. The scripts distinguish:
+The ending rules depend on the kind of match:
 
 - **Random map / skirmish** — a normal free match.
-- **Historical Battle** (`gMap.bbattle = True`) — a map with a fixed
+- **Historical Battle** — a map with a fixed
   army and no Peasant economy. Elimination for having no Peasants or
   Town Hall is disabled; only a scenario rule or surrender remains [^7].
-- **Campaign** — built on the scenario system, with constants
-  `gc_ach_campaign_finalaus..finalrus` and catalog
-  `data/game/var/campaigns.cfg` [^8]. Campaign results are written to
-  `TCampaignProgress.finished`, `lose`, `maxfinishdifficulty` [^9].
-- **Editor** (`gc_gamemode_editor`) and **Scenario Editor**
-  (`gScenario.bactive`).
-- **Rated multiplayer** — flags `gMap.brating`,
-  `gInternetShell.bratingroom`, `bautosearch` (see §6).
+- **Campaign** — a sequence of scenarios that records victory, defeat, and
+  the highest completed difficulty [^8] [^9].
+- **Editor and Scenario Editor** — modes for testing custom maps.
+- **Rated multiplayer** — the ordinary team victory condition plus special
+  rules for publishing results and penalizing an early exit.
 - **Replay / Spectator** — modes without army control.
 
+Exact internal fields are collected under
+[Technical details](#technical-details).
+
 <a id="3-условия-победы"></a>
-## 3. Victory conditions
+<a id="условия-победы"></a>
+## Victory conditions
 
 <a id="31-standard--random-map"></a>
 <a id="31-обычная-случайная-карта"></a>
+<a id="обычная-случайная-карта"></a>
 ### 3.1 Standard/random map
 
-The only automatic victory condition is **“only one team remains.”**
-`_misc_CheckEndGame` scans all players for a second living team. If none
-exists, it assigns `gc_player_victorystate_win` to the survivors and
-`gc_player_victorystate_lose` to everyone else [^10].
+The only automatic victory condition is **“only one team remains.”** The
+game scans all players for a second living team. If none exists, the
+survivors win and everyone else loses [^10].
 
-Players on the same `gPlayer[i].team` win as soon as every player on every
-other team satisfies `not gMap.players[i].bexists or bleave`. If only one
-team existed from the start (`not bSecondTeamExist`), the function assigns
-no result, allowing a sandbox match.
+Players on the same team win as soon as everyone on every other team has
+been eliminated or has left. If only one team existed from the start, no
+result is assigned, allowing a sandbox match.
 
-All members of the winning team receive `win`, even players who had already
-received `lose` after surrendering [^11].
+All members of the winning team receive the team result, even players who
+had already surrendered [^11].
 
 <a id="32-scenario--campaign"></a>
 <a id="32-сценарий-и-кампания"></a>
+<a id="сценарий-и-кампания"></a>
 ### 3.2 Scenario/Campaign
 
-Custom scenarios can issue `win` or `lose` through
-`gc_trigger_action_endgame_win = 47` and
-`gc_trigger_action_endgame_lose = 48` [^12]. Their implementation is in
-`scenario.script` [^13]. They apply only to `myplind`, the current player.
-Consequently, there is no single multiplayer victory action for a custom
-mission; each client raises its own result.
+Custom scenarios can declare victory or defeat for the current player
+individually [^12] [^13]. Missions therefore have no single mandatory rule;
+the map author defines the outcome.
 
-Available scenario conditions [^14] include `unitsCountInZone`,
-`playerResources`, `counterValue`, `timerFinished`, and `flagActive`.
-Capture the flag, reach 50,000 gold, hold a zone, and kill a commander
-must therefore be assembled from scenario rules. Only the terminal
-`endgame_win` and `endgame_lose` actions are built in.
+A scenario can check unit count in an area, resources, a counter, a timer,
+or a flag [^14]. Capture the flag, reach 50,000 gold, hold a zone, and kill
+a commander can all be assembled from these rules. See
+[Scenarios and mission events](scenarios_and_triggers.md).
 
 <a id="33-режимы-победы-из-других-rts-которых-в-c3-нет"></a>
 <a id="33-режимы-победы-из-других-стратегий-которых-в-c3-нет"></a>
+<a id="режимы-победы-из-других-стратегий-которых-в-cossacks-3-нет"></a>
 ### 3.3 Victory modes from other RTS that are not in C3
 
 Each item below is based on a direct search of `data/scripts/`. Players
@@ -265,14 +249,32 @@ for a teammate's desertion.
 
 | Topic | Meaning |
 |---|---|
-| **Default victory** | last-team-standing (`_misc_CheckEndGame`). |
-| **Default defeat** | `farmused = 0` and the player owns neither a Peasant nor a Town Hall. Disabled in Historical Battle. |
+| **Default victory** | The last team standing wins. |
+| **Default defeat** | The player owns neither a Peasant nor a Town Hall. Disabled in Historical Battle. |
 | **Wonder** | **Absent:** Cossacks 3 has no such victory mode or building. |
 | **Score** | Accumulates for statistics and achievements but **does not determine the outcome**. A kill adds twice the victim's value, a killed garrison adds three times its value, a capture adds five times, and production adds the base value. Losses subtract between two and five times the value; the total cannot fall below zero. |
 | **Time limit** | Absent; only peacetime and pause limits exist. |
-| **Surrender** | `_misc_Surrender` sets `bleave = True` and `victorystate = lose`, then calls `_misc_CheckEndGame`. The first player to leave during the first 15 minutes loses rating. |
-| **Scenario triggers** | `endgame_win = 47`, `endgame_lose = 48`, apply only to `myplind` (per-client). |
-| **Game modes** | Internal states: `mainmenu`, `game`, `editor`, `spectator`, `replay`, and `endgamestatistics`. Match types include Random Map, Historical Battle (`gMap.bbattle`), Campaign, Custom Scenario, and rated multiplayer (`gMap.brating`). |
+| **Surrender** | The player is immediately defeated; the first player to leave during the first 15 minutes also loses rating. |
+| **Scenario rules** | The mission author declares victory or defeat for the current player. |
+| **Match types** | Random Map, Historical Battle, Campaign, Custom Scenario, and rated multiplayer add different ending rules. |
+
+<a id="технические-подробности"></a>
+## Technical details
+
+An individual result is stored in `gc_player_victorystate_*`:
+`none = 0`, `win = 1`, `lose = 2` [^3]. Map stages use
+`gc_map_gamestage_*`; interface modes use `gc_gamemode_*` with
+`mainmenu`, `game`, `editor`, `spectator`, `replay`, and
+`endgamestatistics` [^4] [^5].
+
+`gMap.bbattle` marks a Historical Battle, `gScenario.bactive` marks an active
+scenario, and `gMap.brating`, `gInternetShell.bratingroom`, and `bautosearch`
+mark rated-room paths [^6].
+
+The main result check is `_misc_CheckEndGame` [^1]. Scenario actions
+`gc_trigger_action_endgame_win = 47` and
+`gc_trigger_action_endgame_lose = 48` apply to `myplind`. Surrender goes
+through `_misc_Surrender` [^2].
 
 <a id="10-открытые-вопросы"></a>
 ## 10. Open questions

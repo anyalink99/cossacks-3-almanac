@@ -189,22 +189,17 @@ paths) are not separate `Find*` functions, but commands through
 the script just waits for the next tick.
 
 <a id="24-rng--глубже-чем-мы-думали"></a>
-### 2.4. RNG - deeper than we thought
+<a id="24-четыре-независимых-хранилища-rng"></a>
+### 2.4. Four Independent RNG Seed Stores
 
-In the existing `determinism_audit.md` we fixed `random`,
-`RandomExt`, `SetRandomKey`. The native API reveals the picture:
-**four independent seed storages**, each with its own algorithm.
+`random`, `RandomExt`, and the map generator do not share one state. The
+native API exposes **four independent seed stores**, each with its own
+algorithm.
 
-> **Clarification that was not immediately noticed.** Previously in this table (and
-> in an earlier edit [`rng_implementation.md`](rng_implementation.md))
-> it was assumed that `Random` and `RandomExt` work on the same common
-> 64-bit cell. This is not so: decompilation showed that `Random` -
-> wrapper over `System._Random`, which mutates standard Delphi
-> `RandSeed`, **separate** 32-bit global, unrelated
-> 64-bit extended seed, controlled via `SetRandomKey`
-> and `SetRandomExtKey64`. So the original "independent" model
-> streams" remains in effect. Details - in private
-> `cossacks-deep/findings/rng_implementation.md`.
+> `Random` wraps `System._Random`, which mutates Delphi's standard 32-bit
+> `RandSeed`. This state is independent of the extended 64-bit seed controlled
+> by `SetRandomKey` and `SetRandomExtKey64`. For the full analysis, see the
+> private `cossacks-deep/findings/rng_implementation.md`.
 
 | Storage | Seed functions | Algorithm built on it | Purpose |
 |---|---|---|---|

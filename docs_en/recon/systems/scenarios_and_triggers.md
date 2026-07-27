@@ -1,252 +1,195 @@
-<a id="recon-сценарии-и-триггеры"></a>
-<a id="сценарии-и-триггеры"></a>
 <a id="сценарии-и-условия-событий"></a>
-# Scenarios and Event Rules
+<a id="сценарии-и-события-в-миссиях"></a>
+# Scenarios and Mission Events
 
 [← How the game works](../README.md)
 
-How Historical Battles and campaigns work: what a scenario rule contains,
-how conditions are evaluated, and which actions the game can perform.
-Internal class names and source references are included for verification.
+Historical Battles and campaigns do not follow one hard-coded plot. They are
+built from rules: the game watches for events on the map and responds with
+predefined actions. A mission can notice that the player has reached a
+crossing, display a message, create reinforcements, and unlock the next
+objective.
 
 <a id="кратко"></a>
-## TL;DR
+<a id="главное"></a>
+## Key points
 
-- A scenario is loaded into the single `gScenario` object. In the shipped
-  game, scenario data is primarily associated with `.aix` maps [^1].
-- An event rule (`TScenarioTrigger`) connects a condition to one or more
-  actions. It runs once when the condition becomes true unless another
-  action explicitly enables it again.
-- A condition (`TScenarioCondition`) inspects the game state: a unit count,
-  a destroyed building, a unit reaching a point, and so on.
-- An action (`TScenarioAction`) changes the game state by creating a unit,
-  displaying text, granting resources, or enabling another rule.
-- Mission stages are assembled from scenario flags and enabled or disabled
-  rules. A separate scenario state machine is **not confirmed** by the
-  inspected code.
-- Loading a separate DWS script through `OnLoadScriptFileName` is likewise
-  **not confirmed** for ordinary scenarios. The name occurs in editor and
-  engine state-machine infrastructure.
-- `gScenario.bactive = True` marks an active scenario and enables special
-  behavior such as invulnerability at
-  `hp >= gc_gameplay_infinitehp` and separate peacetime handling.
+- Each rule connects a **condition** to one or more **actions**.
+- A condition may check time, resources, unit count, a destroyed building,
+  entry into an area, or a scenario flag.
+- An action may show text, grant resources, create units, change relations,
+  issue an order, declare victory, or enable another rule.
+- A rule disables itself when it fires. It can run again only if another
+  action explicitly enables it.
+- Mission stages are chains of enabled rules and flags. The inspected code
+  does not confirm a separate “chapter 1 → chapter 2 → chapter 3” state
+  machine.
 
----
+<a id="жизненный-цикл"></a>
+<a id="как-развивается-миссия"></a>
+## How a mission progresses
 
-<a id="1-структура-сценария"></a>
-## 1. Scenario structure
+On each scenario update, the game checks the active rules. If a condition is
+true, the rule is disabled first and its actions are then executed [^1].
+This normally prevents the same event from repeating every game tick.
 
-Scenario data normally lives under `data/maps/` or is included in a
-campaign. The inspected implementation revolves around these objects:
+A typical mission works like this:
 
-| Object | What |
+1. The introduction is shown and the first objective rule is enabled.
+2. A unit entering a specified area starts dialogue or an enemy attack.
+3. Destroying the attacking group sets a flag for the next stage.
+4. The new flag enables reinforcements, changes the objective, or opens the
+   next part of the map.
+5. The final condition declares victory or defeat.
+
+A rule can be enabled again, so a scenario can create recurring waves. The
+mission author must build that loop explicitly; repetition is not automatic.
+
+<a id="типичные-условия"></a>
+<a id="какие-условия-можно-проверять"></a>
+## Conditions a mission can check
+
+| Condition | Example use |
 |---|---|
-| `TScenarioTrigger` | Event rule: a condition and its actions. |
-| `TScenarioCondition` | Condition that activates a rule. |
-| `TScenarioAction` | Action performed by a rule. |
-| `TScenarioResult` | Scenario result (win/loss/special). |
-| `TScenarioQuery` | Parameterized game-state query for complex conditions. |
+| Unit count | Continue when the army reaches a required size, or fail after an escorted force dies. |
+| Destroyed building | Open a route after a fortress is destroyed. |
+| Unit in an area | Start an ambush near a bridge. |
+| Elapsed time | Create the next wave after several minutes. |
+| Resource stockpile | Complete an economic objective after enough gold is collected. |
+| Scenario flag | Connect events that happened in different locations. |
+| Combined conditions | Require the player to hold an area and keep a commander alive. |
 
-The main object is `gScenario`, with one instance per match.
+Simple checks can be combined with AND, OR, and NOT. For a more complex
+case, the scenario can query the current map state—for example, search a
+radius for units of a given type and owner.
 
----
+<a id="типичные-действия"></a>
+<a id="что-сценарий-может-изменить"></a>
+## What a scenario can change
 
-<a id="2-триггер"></a>
-<a id="2-сценарное-правило"></a>
-## 2. Event rule
-
-An event rule is a record with two key fields: a condition
-(`TScenarioCondition`) and action (`TScenarioAction`).
-
-<a id="21-жизненный-цикл"></a>
-### 2.1. Life cycle
-
-1. Active rules are registered for evaluation.
-2. Every game tick, or at a configured interval, the script checks each
-   active rule.
-3. When the condition is true, the action is executed.
-4. The rule is **disabled before its actions execute**. It can run again
-   only when an action explicitly re-enables it.
-
-<a id="22-типичные-условия"></a>
-### 2.2. Typical conditions
-
-`TScenarioCondition` supports many templates:
-
-| Type | What it checks |
+| Action | What the player sees |
 |---|---|
-| Unit count (`unit_count_le`, `unit_count_ge`) | The player has at most or at least the specified number of a unit type. |
-| Destroyed building (`building_destroyed`) | A specified building has been destroyed. |
-| Unit at point (`unit_at_point`) | A unit is within a specified radius of a point. |
-| Time (`time_elapsed`) | A specified number of game seconds has elapsed. |
-| Resource (`resource`) | A player's resource stock has reached a threshold. |
-| Flag (`flag_set`) | A scenario flag is active. |
-| Composite (`AND`, `OR`, `NOT`) | Several tests combined with Boolean operators. |
+| Create objects | Reinforcements, enemies, or scenery appear on the map. |
+| Grant resources | The selected resource stockpile increases. |
+| Issue unit orders | A force moves, attacks, stops, or stops searching for enemies on its own. |
+| Control a computer player | Its normal AI behavior is enabled or disabled. |
+| Change relations | Players become allies, enemies, or neutral parties. |
+| Show text or play sound | Dialogue, a hint, or audio is presented. |
+| Control rules and flags | The next stage opens or an earlier event is repeated. |
+| End the mission | The game declares victory or defeat. |
 
-<a id="23-типичные-действия"></a>
-### 2.3. Typical actions
+The complete system contains about sixty action types. Their internal names
+are collected under [Technical details](#technical-details), where editor
+terminology does not interrupt the explanation of play.
 
-`TScenarioAction` supports:
+<a id="особые-эффекты-gscenariobactive"></a>
+<a id="чем-сценарная-партия-отличается-от-случайной-карты"></a>
+## How a scenario differs from a random-map match
 
-| Type | What it does |
+An active scenario changes more than the objectives:
+
+1. **Scripted invulnerability.** Objects with a special health value and
+   non-playable characters may ignore damage. See
+   [Damage calculation](../world/combat/combat_damage_pipeline.md).
+2. **Special peace-time rules.** The main hero may interact only with the
+   opponents selected by the mission.
+3. **Special allied vision.** The main player does not receive vision from
+   neutral campaign characters. See
+   [Vision and fog of war](../world/combat/vision_and_fow.md).
+4. **Scripted aggression.** An opponent may follow scenario orders rather
+   than the standard computer-player algorithm.
+
+The same army can therefore behave differently in a campaign and on a
+random map; that is not necessarily an AI bug.
+
+<a id="итоги-tscenarioresult"></a>
+<a id="победа-поражение-и-переход-между-миссиями"></a>
+## Victory, defeat, and moving between missions
+
+A scenario can end the current mission in victory or defeat. The campaign
+then records the result and opens the prescribed continuation. The inspected
+structures also contain service values for a draw, replaying the mission, and
+moving to the next mission.
+
+The ordinary “one team remains” rule is covered in
+[Victory and defeat](victory_conditions.md). A scenario can instead end a
+match on any authored condition: holding an area, collecting resources,
+losing a character, or reaching a timer.
+
+<a id="технические-подробности"></a>
+## Technical details
+
+<a id="структура-сценария"></a>
+<a id="внутренние-объекты"></a>
+### Internal objects
+
+The scenario is loaded into the single `gScenario` object. In the shipped
+game, this data is found primarily in `.aix` map files [^2].
+
+| Game concept | Internal class |
 |---|---|
-| Create unit (`spawn_unit`) | Create a specified unit at a position. |
-| Grant resources (`gc_trigger_action_player_giveResources`) | Add resources to a player. |
-| AI control (`gc_trigger_action_player_disableAI` / `enableAI`) | Disable or enable a player's AI. |
-| Rule control (`gc_trigger_action_advanced_disableTrigger` / `enableTrigger`) | Disable or enable another rule by index. |
-| `gc_trigger_action_service_flagSetActive` / `flagSetNotActive` | Set/reset scenario flag (`gScenario.flags[id].bactive`). |
-| Orders (`gc_trigger_action_order_*`) | Tell units to stop, attack, move, or stop searching for enemies automatically. |
+| Event rule | `TScenarioTrigger` |
+| Condition | `TScenarioCondition` |
+| Action | `TScenarioAction` |
+| State query | `TScenarioQuery` |
+| Mission result | `TScenarioResult` |
 
-The full list is `gc_trigger_action_*` in `dmscript.global` (roughly
-60 types). In the inspected scenarios, effects are expressed through
-predefined `TScenarioTriggerAction` types and their parameters.
+After a condition succeeds,
+`gScenario.triggers[i].bactive := False` disables the rule. The
+`gc_trigger_action_advanced_enableTrigger` action can enable it again;
+`gc_trigger_action_service_flagSetActive` and
+`gc_trigger_action_service_flagSetNotActive` change scenario flags.
 
-<a id="24-однократное-срабатывание"></a>
-### 2.4. Single execution
+Confirmed action groups include `gc_trigger_action_player_giveResources`,
+`gc_trigger_action_player_disableAI` / `enableAI`,
+`gc_trigger_action_advanced_disableTrigger` / `enableTrigger`,
+`gc_trigger_action_order_*`, and the victory and defeat actions. The full
+`gc_trigger_action_*` list is declared in `dmscript.global`.
 
-When a rule's condition succeeds, the rule is disabled before its actions
-run: `gScenario.triggers[i].bactive := False` [^3]. It cannot
-fire twice unless another action re-enables it with
-`gc_trigger_action_advanced_enableTrigger`.
+For complex conditions, `TScenarioQuery` runs on every rule check and returns
+a Boolean result. It can search an area without requiring a separate `DWS`
+file.
 
----
+<a id="где-живут-сценарии"></a>
+<a id="где-хранятся-данные"></a>
+### Where the data lives
 
-<a id="3-этапы-сценария"></a>
-## 3. Stages of the scenario
-
-The scenario has no confirmed separate state machine for stage transitions.
-Stages are implemented by a combination of flags (`gScenario.flags[]`) and
-rule-control actions. A typical pattern is:
-
-| Stage | Implementation |
+| File | Purpose |
 |---|---|
-| Introduction | Active rules detect the start of the match, display text, play sound, and enable later rules. |
-| Battle phase 1 | A time condition enables the attack-wave rule (`enableTrigger`). |
-| Battle phase 2 | A “squad destroyed” condition enables the second wave and disables the first. |
-| Victory | A condition on defeated enemies performs the victory action (`victory`). |
+| `data/maps/<scenario>.aix` | Scenario data; the exact binary format remains undecoded. |
+| `data/maps/<scenario>.map` | Terrain and initial map objects. |
+| `data/scripts/lib/scenario.script` | Loading and execution of rules, conditions, and actions. |
+| `data/scripts/lib/scenarioeditor.script` | Scenario-editor support. |
 
-In practice, a stage transition is a series of `disableTrigger`,
-`enableTrigger`, and `flagSetActive` actions inside event rules, not a
-separate scenario state machine.
+The scenario-data parser is native. The script reads values through the
+`Parser*ValueByKeyByHandle` family.
 
----
+<a id="открытые-эмпирические-вопросы"></a>
+<a id="что-пока-не-подтверждено"></a>
+### What is not yet confirmed
 
-<a id="4-inline-скрипты"></a>
-<a id="4-что-известно-о-дополнительных-скриптах"></a>
-## 4. What is known about additional scripts
-
-The executable contains the field name `OnLoadScriptFileName`, but neither
-`scenario.script` nor the inspected scenario handlers contain a call that
-loads the named `.script` file when a mission stage changes. Ordinary
-scenarios therefore cannot yet be said to support this feature.
-
-The standard actions already cover resource grants, relationships, unit
-orders, text, and rule switching. `OnLoadScriptFileName` may instead belong
-to the editor or to state machines attached to individual game objects.
-
----
-
-<a id="5-особые-эффекты-gscenariobactive"></a>
-## 5. Special effects `gScenario.bactive`
-
-When `gScenario.bactive = True`, the engine turns on several
-special behaviors:
-
-1. **Scenario invulnerability**: units with `hp >= gc_gameplay_infinitehp`
-   or `not GetGameObjectPlayableObjectByHandle(handle)` do not receive
-   damage (see [How Damage Is Calculated §7](../world/combat/combat_damage_pipeline.md)).
-2. **Peacetime** (`gbool_peacemode`) has special handling: the hero
-   player can attack only specified opponents.
-3. **Allied vision** (`AddFOWPlayers`): the main player (`plInd = 0`)
-   does not share vision with **neutral** campaign characters
-   (see [Vision and Fog of War §4.2](../world/combat/vision_and_fow.md)).
-4. **AI**: AI opponents in the scenario use separate rules
-   (often manual scripted aggression, not standard
-   `_ai_DoTickAggressive`).
-
----
-
-<a id="6-tscenarioquery--запросы-к-состоянию"></a>
-<a id="6-запросы-к-состоянию-tscenarioquery"></a>
-## 6. State queries (`TScenarioQuery`)
-
-When a condition is not covered by a simple `unit_count` or `resource`
-test, `TScenarioQuery` performs a parameterized query—for example, whether
-the specified player owns a unit of a given type within a radius of a point.
-
-The query runs every time the rule is checked and returns a Boolean result.
-This supports flexible conditions without adding DWS code.
-
----
-
-<a id="7-tscenarioresult--итоги"></a>
-<a id="7-итоги-tscenarioresult"></a>
-## 7. Results (`TScenarioResult`)
-
-The scenario result is represented by `TScenarioResult`:
-
-| Result | What |
-|---|---|
-| `victory` | The player wins. |
-| `defeat` | The player loses. |
-| `draw` | The mission ends in a draw (rare). |
-| `next_mission(id)` | Advance to another campaign mission. |
-| `replay_mission` | Offer or start a replay of the same mission. |
-
-When a scenario completes, it writes the result to `gCampaignProgress`,
-the campaign-wide progress structure.
-This structure is saved to disk (see also
-[C3 network packet format (via script call analysis)](../../../internals_en/engine/server_sync_packet_format.md)).
-
----
-
-<a id="8-где-живут-сценарии"></a>
-## 8. Where scenarios live
-
-| File | What |
-|---|---|
-| `data/maps/<scenario>.aix` | Binary scenario format (not yet decoded). |
-| `data/maps/<scenario>.map` | The map itself (terrain, initial units). |
-| `data/scripts/lib/scenario.script` | Core scenario-processing logic (about 200 KB). |
-| `data/scripts/lib/scenarioeditor.script` | Scenario editor logic for developers and modders. |
-
-Parsing is implemented by the engine through
-`Parser*ValueByKeyByHandle`; `lib/scenario.script` uses these calls to
-load rules and conditions.
-
----
-
-<a id="9-открытые-эмпирические-вопросы"></a>
-## 9. Open empirical questions
-
-1. **Exact `.aix` syntax.** The binary scenario format has not been
-   decoded, and this project does not currently parse `.aix` files.
-2. **Active-rule limit.** No hard limit was found, but evaluation may slow
-   down with more than 100 active rules.
-3. **Purpose of `OnLoadScriptFileName`.** No scenario code was found that
-   loads a separate `.script` file when a stage activates. The field may
-   belong to the editor or modding infrastructure instead.
-
----
+- The executable contains `OnLoadScriptFileName`, but the ordinary scenario
+  handlers do not contain a call that loads a separate `.script` or `DWS` file
+  from it when a stage changes.
+- The `TFormStateMachines` `RTTI` class belongs to editor infrastructure for
+  individual-object state machines. Its presence alone does not prove that
+  mission stages use a separate state machine [^3].
+- No hard limit for active rules has been found. The claim that checks become
+  less frequent above one hundred rules still requires measurement.
 
 <a id="источники"></a>
 ## Sources
 
-[^1]: `data/scripts/lib/scenario.script` is the main scenario-processing
-      script (about 200 KB and more than 30 functions). It declares
-      `gScenario` and processes rules, conditions, and actions.
+[^1]: In `data/scripts/progress/progress.inc/scenario.inc:71-77`,
+      `gScenario.triggers[i].bactive := False` is executed before
+      `_scenario_EvaluateTriggerActions(ptrigger)`. Rule enabling and
+      disabling are handled at
+      `data/scripts/lib/scenario.script:1739,3076-3081`.
 
-[^2]: The `TFormStateMachines` class found in the RTTI of `cossacks.exe`
-      (see
-      [Native API of the Cossacks 3 engine (Delphi + DWS)](../../../internals_en/engine/native_api.md))
-      is an editor interface for state machines. `MachineLibrary*` also
-      serializes engine state machines to `.parser`. This is infrastructure
-      for **per-object engine behavior** (`nothing`, `OnDeath`, and other
-      states), not evidence of a mission-stage state machine.
+[^2]: `data/scripts/lib/scenario.script` is the main scenario-system script
+      (about 200 KB). It declares `gScenario`, loads the data, and processes
+      rules, conditions, and actions.
 
-[^3]: In `data/scripts/progress/progress.inc/scenario.inc:71-77`,
-      `gScenario.triggers[i].bactive := False` appears immediately before
-      `_scenario_EvaluateTriggerActions(ptrigger)`. In addition,
-      `_scenario_EvaluateTriggerActions` — `lib/scenario.script:1739`
-      handles `gc_trigger_action_advanced_disableTrigger`
-      /`enableTrigger` (see lines 3076-3081 of the same file).
+[^3]: `TFormStateMachines` is present in the `cossacks.exe` `RTTI`;
+      `MachineLibrary*` serializes individual-object state machines to
+      `.parser`. See [native engine functions](../../../internals_en/engine/native_api.md).

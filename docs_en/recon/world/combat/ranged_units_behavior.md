@@ -4,10 +4,11 @@
 
 [← How the game works](../../README.md)
 
-An in-depth look at hold-position behaviour, artillery fire-at-point
-orders, retreating from a dead zone, movement penalties, idle range
-bonuses, weapon switching, and the high-ground bonus. Code references
-are collected under [Sources](#sources).
+This article explains why two identical ranged units may behave differently:
+one opens fire at long range, another waits until the enemy is close, a third
+backs away, and a Cannon switches from round shot to grapeshot. It begins
+with what the player sees; exact field and handler names are collected under
+[Technical details](#technical-details) and [Sources](#sources).
 
 > **Related documents:** [damage calculation](combat_damage_pipeline.md) -
 > damage formula; [target selection](target_selection.md) —
@@ -18,39 +19,38 @@ are collected under [Sources](#sources).
 <a id="кратко"></a>
 ## TL;DR
 
-- **Hold position** (`standground`) lets a ranged unit search to its
-  full `searchradius` of roughly 28–45 tiles. Without it, the search
-  distance is only about `minsearchdist + 0.375`.
-- **Fire-at-point permission** (`bartprepare`) lets artillery, Towers,
-  and Shipyards accept `attackpoint`; the order disables hold position
-  and starts searching around the selected point.
-- **Dead-zone retreat** (`RunAway`) moves a ranged unit 3.5 tiles
-  away when an enemy comes inside `minsearchdist`. It is disabled
-  while holding position.
-- A unit that moved within the last 0.25 game second loses up to
-  3 tiles of effective maximum range; artillery loses up to 1.5.
-- An **idle unit** gains about 0.6 tile from `addradius`.
+- **Hold position** gives a ranged unit its full detection radius, usually
+  28–45 cells. In normal mode it may not react until the enemy is almost in
+  melee range.
+- **Artillery fire at a point** disables hold position and enables active
+  target search around the selected location.
+- **Retreat from the dead zone** makes a ranged unit step back 3.5 cells when
+  an enemy comes too close. It does not happen while holding position.
+- **Immediately after moving**, a ranged unit loses up to 3 cells of
+  effective range; artillery loses up to 1.5 cells.
+- **A stationary unit** gains about 0.6 cells of range.
 - Units with multiple weapons switch by distance: the Cannon uses
   cannonballs at range and grapeshot nearby; the Musketeer,
   18th century uses a musket at range and a bayonet up close.
-- **High ground** increases the search distance:
-  `searchdist += goHeight × 2`.
+- **High ground** increases the detection radius by twice the position's
+  height.
 
 ---
 
 <a id="1-standground-vs-обычный-режим"></a>
 <a id="1-удержание-позиции-standground-и-обычный-режим"></a>
-## 1. Hold position (`standground`) versus normal mode
+<a id="1-удержание-позиции-и-обычный-режим"></a>
+## 1. Hold position versus normal mode
 
-The target-search distance, `maxsearchdist`, is calculated differently
-for hold position and normal movement [^1].
+The central difference is the radius in which the unit begins reacting to an
+enemy [^1].
 
 While **holding position** (`bstandground = True` and the order is not
 `move`):
 ```
 maxsearchdist = MIN(searchradius, GetMaxAttackRadius)
 ```
-That is, the full range of the weapon (~28-45 tiles).
+That is the full weapon range, roughly 28–45 cells.
 
 In **normal** mode (without hold position, or with `move`):
 ```
@@ -64,44 +64,45 @@ it comes very close.
 
 | Mode | Behaviour |
 |---|---|
-| Hold position (`standground`) | The Musketeer on the hill fires 5–10 shots before close combat. |
-| Regular (`move`/`attack`) | The same Musketeer fires only 1–2 shots before the enemy closes. |
-| Movement order | Disables hold position: `if (order = move)` blocks the branch. |
+| Hold position | The Musketeer on the hill fires 5–10 shots before close combat. |
+| Normal behavior | The same Musketeer fires only 1–2 shots before the enemy closes. |
+| Movement order | Temporarily removes the benefit of hold position. |
 
 **Use hold position when defending.** Without it, ranged units may
-appear unresponsive and wait until enemies are only 1–2 tiles away.
+appear unresponsive and wait until enemies are only 1–2 cells away.
 
 <a id="2-bartprepare--режим-артиллерии"></a>
 <a id="2-допуск-артиллерии-к-стрельбе-по-точке-bartprepare"></a>
-## 2. Permission for artillery to fire at a point (`bartprepare`)
+<a id="2-стрельба-артиллерии-по-точке"></a>
+## 2. Artillery fire at a point
 
-`bartprepare = True` is set for artillery, Towers (`tow`), and
-Shipyards (`port`). When one receives `attackpoint(trgx, trgz)`,
-the script switches its modes [^2]:
+The Cannon, Howitzer, and Frame Gun can bombard a location even when no unit
+is selected there. The game forcibly changes their behavior for this order
+[^2].
 
-| Field | Change |
+| Behavior | Change |
 |---|---|
-| `bstandground` | forced to False |
-| `bsearchenemy` | forced to True (active search) |
-| Receives an order | `attackpoint` with delay `attackdelay`/`attackmaxdelay` |
+| Hold position | disabled |
+| Independent enemy search | enabled |
+| Current order | bombard the selected location after the normal delay |
 
-Artillery with `attackpoint` therefore searches around the selected
+Artillery ordered to fire at a point therefore searches around the selected
 point and fires at enemies found there.
 
-Without `bartprepare` (for example, a mobile grapeshot unit or
-Musketeer), the order
-`attackpoint` behaves like `move(x, z)` without active search.
+For units without this mode, such as a mobile Frame Gun or a Musketeer, the
+same command becomes ordinary movement to the point.
 
 See also [How Artillery Works](artillery_specifics.md) §3
 about the order `attackpoint` and the preparation of the shot.
 
 <a id="3-runaway--отход-стрелка-из-мёртвой-зоны"></a>
 <a id="3-отход-стрелка-из-мёртвой-зоны-runaway"></a>
-## 3. Retreating from the dead zone (`RunAway`)
+<a id="3-отход-стрелка-из-мёртвой-зоны"></a>
+## 3. Retreating from the dead zone
 
 If an enemy enters a ranged unit's **dead zone**, between `0` and
 `minsearchdist`, and the unit is not holding position, it retreats
-by `gc_unit_runawaydist = 3.5` tiles [^3].
+by `gc_unit_runawaydist = 3.5` cells [^3].
 
 <a id="31-условия-запуска"></a>
 ### 3.1. Conditions
@@ -112,7 +113,7 @@ All three must be true:
 2. The enemy is in the zone `[0, minsearchdist]`.
 3. Starting condition (one of):
    - `standtime = 0` (just approached / completed the shot);
-   - `standtime > gc_unit_runawaydelay = 1.3` g-sec (stood
+   - `standtime > gc_unit_runawaydelay = 1.3` game seconds (stood
      long enough);
    - or a human player on Easy or Normal difficulty, which skips
      this timing check.
@@ -132,24 +133,25 @@ All three must be true:
 - **Holding a hill** requires hold position, or ranged units will
   scatter when enemies close in.
 - For **fighting retreats**, disable hold position: the unit retreats
-  3.5 tiles, turns, fires, and retreats again.
+  3.5 cells, turns, fires, and retreats again.
 - **Light cavalry** can catch retreating ranged units:
   `fasthorse = 96` versus the usual `default = 32`.
 
 <a id="4-штраф-к-дальности-при-движении-standtime"></a>
-## 4. Range penalty when moving (`standtime`)
+<a id="4-почему-движение-сокращает-дальность"></a>
+## 4. Why movement reduces range
 
-`standtime` records how long the unit has remained still. Movement
-resets it to 0; after stopping, it begins to increase.
+The game tracks how long the unit has remained still. Movement resets the
+counter; after the unit stops, it begins to increase.
 
 If `standtime < 0.25` game second, the unit loses effective maximum
 range [^4]:
 ```
 if (standtime < 0.25) AND (weapon.kind ≠ cannister):
     if (NOT bArtillery):
-        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles
+        radiusmax −= 3 × uniqrnd            # infantry: up to −3 cells
     else:
-        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles
+        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 cells
 ```
 Here `gc_obj_maxattackradiusdisp = 3` comes from `dmscript.global`,
 and `uniqrnd` ∈ `[0, 1)` is fixed when the unit is created.
@@ -167,23 +169,24 @@ and `uniqrnd` ∈ `[0, 1)` is fixed when the unit is created.
 
 <a id="5-бонус-к-дальности-в-покое-addradius"></a>
 <a id="5-бонус-к-дальности-бездействующего-юнита-addradius"></a>
-## 5. Range bonus while idle (`addradius`)
+<a id="5-почему-неподвижный-юнит-стреляет-дальше"></a>
+## 5. Why a stationary unit fires farther
 
 If the unit is idle (`statestag` contains
 `gc_statetag_move_idle`), it receives a bonus to
 `weapon.radiusmax` [^5]:
 ```
-rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles
+rbonus += weapon[i].addradius     # normally 32 px = ~0.6 cells
 ```
 Musketeers, Archers, and Cannons normally have
-`addradius = 32 px = 0.6 tile`. Weak walls
-(`gc_obj_usage_weakwall`) gain an additional **+0.36 tile**.
+`addradius = 32 px = 0.6 cells`. Weak walls
+(`gc_obj_usage_weakwall`) gain an additional **+0.36 cells**.
 
 <a id="51-эффект"></a>
 ### 5.1. Effect
 
 A stationary defence, such as a group holding position on a hill,
-fires about **0.6 tile farther** than the same units while moving.
+fires about **0.6 cells farther** than the same units while moving.
 Combined with high ground and removal of the `standtime` penalty,
 this noticeably increases the defensive range.
 
@@ -192,14 +195,11 @@ this noticeably increases the defensive range.
 ## 6. Switching between multiple weapons by distance
 
 Many units have **multiple weapon slots** (`weapon[0]`,
-`weapon[1]`, ...). The game automatically selects the desired one
-distance to the target - each weapon has
-`radiusmin..radiusmax` [^6]. If the enemy is in close range -
-a weapon with a small `radiusmin` is selected; otherwise - distant.
+`weapon[1]`, ...). The game automatically selects a weapon whose
+`radiusmin..radiusmax` interval contains the target's distance [^6].
 
-Additionally, `attmask` is taken into account: if the target has `mmask`
-matches `weapon[i].attmask` (armor material), this is a weapon
-priority. Therefore, **fire arrows** are chosen for
+The target mask also matters. A weapon whose `attmask` matches the target's
+`mmask` receives priority. Therefore, **fire arrows** are chosen for
 buildings (their `attmask` contains `gc_obj_material_building`).
 
 <a id="61-пары-multi-weapon-юнитов"></a>
@@ -211,10 +211,10 @@ buildings (their `attmask` contains `gc_obj_material_building`).
 
 | Slot | Type | Damage | Pause | Range (pixels) | When |
 |---|---|---:|---:|---|---|
-| `weapon[0]`, `PPOINTT` | Cannonball Damage (`cannonball`) | 1800 | 350 | 550–2160 | distance ≥ 550 pixels (~10.3 tiles) |
-| `weapon[1]`, `PSMPOINTTPUS` | Grapeshot Damage (`cannister`) | area damage | 350 | 0–450 | enemy is within 450 pixels (~8.4 tiles) |
+| `weapon[0]`, `PPOINTT` | Cannonball Damage (`cannonball`) | 1800 | 350 | 550–2160 | distance ≥ 550 pixels (~10.3 cells) |
+| `weapon[1]`, `PSMPOINTTPUS` | Grapeshot Damage (`cannister`) | area damage | 350 | 0–450 | enemy is within 450 pixels (~8.4 cells) |
 
-Infantry that comes within ~8 tiles of a cannon is automatically hit
+Infantry that comes within about 8 cells of a Cannon is automatically hit
 under **grapeshot**—heavy area damage. Therefore, rushing infantry into a
 Cannon means taking grapeshot at point-blank range. **It is better to attack a Cannon in an extended
 line** so that there are no more than 9 units under the explosion (see.
@@ -227,8 +227,8 @@ damage limit).
 
 | Slot | Type | Damage | Pause | Range (pixels) | When |
 |---|---|---:|---:|---|---|
-| `weapon[0]` (bayonet) | Pike Attack (`pike`) | 5–10 (by nation) | **0** (no pause between hits) | 35–65 (~0.66–1.22 tiles) | point blank |
-| `weapon[1]`, `SHOTMUSKET` | Fire Power (`bullet`) | 16–29 (by nation) | 140–190 | 400–900 (~7.5–16.9 tiles) | beyond 7.5 tiles |
+| `weapon[0]` (bayonet) | Pike Attack (`pike`) | 5–10 (by nation) | **0** (no pause between hits) | 35–65 (~0.66–1.22 cells) | point blank |
+| `weapon[1]`, `SHOTMUSKET` | Fire Power (`bullet`) | 16–29 (by nation) | 140–190 | 400–900 (~7.5–16.9 cells) | beyond 7.5 cells |
 
 A Musketeer is **not helpless** in close combat: his bayonet has
 `pause = 0` and attacks on every animation cycle. Cavalry charging
@@ -268,19 +268,19 @@ small arms
 <a id="7-бонус-с-возвышенности"></a>
 ## 7. High-ground bonus
 
-If a shooting unit is on high ground (`Y > 0`), it
-**search distance** increases in proportion to the height of [^7]:
+If a ranged unit stands on high ground (`Y > 0`), its
+**search distance** increases in proportion to height [^7]:
 ```
 searchdist += goHeight × 2     # ranged units only: minsearchdist > melee_radius
 ```
-`goHeight` — Y-coordinate of the unit in tiles. Bonus **only to radius
-detection**, not to the shot itself. But if the enemy is not yet in the zone
-attacks, the unit starts moving and will fire as soon as the target
-will go into `radiusmax`. In practice, musketeers shoot from a hill at
-advancing **earlier** = more shots before close combat.
+`goHeight` is the unit's Y-coordinate in cells. The bonus applies **only to
+detection**, not to the weapon's true firing range. If the enemy is detected
+before entering range, the unit begins acting and fires as soon as the target
+reaches `radiusmax`. In practice, Musketeers on a hill begin responding
+earlier and gain more shots before melee begins.
 
-Low Mountains are created by the `relief` parameter when generating a map
-(Highlands gives the maximum).
+Hills are controlled by the map's relief setting; Highlands gives the
+strongest opportunities to use this bonus.
 
 <a id="71-не-работает-на"></a>
 ### 7.1. Units that do not benefit
@@ -289,8 +289,26 @@ Low Mountains are created by the `relief` parameter when generating a map
   receives - he is in close combat).
 - Units with `searchradius = 0` (mortar, drummer, etc.).
 
+<a id="технические-подробности"></a>
+## Technical details
+
+These internal names are useful when checking the scripts, but they are not
+separate commands shown in the interface.
+
+| Game concept | Internal name |
+|---|---|
+| hold position | `standground`, field `bstandground` |
+| fire at a point | order `attackpoint`, permission `bartprepare` |
+| retreat from the dead zone | handler `RunAway` |
+| time since stopping | `standtime` |
+| stationary range bonus | `addradius` |
+| per-unit fixed random value | `uniqrnd` |
+| minimum and maximum weapon range | `radiusmin`, `radiusmax` |
+| target types accepted by a weapon | `attmask` |
+
 <a id="8-открытые-эмпирические-вопросы"></a>
-## 8. Open empirical questions
+<a id="открытые-эмпирические-вопросы"></a>
+## Open empirical questions
 
 1. **Exact formula for RunAway direction.** In which direction
    shooter retreating? “From the enemy in a straight line” or something more
@@ -319,19 +337,19 @@ Low Mountains are created by the `relief` parameter when generating a map
       trgz)` with a preparation delay.
 
 [^3]: `data/scripts/lib/unit.script:7363-7369` - RunAway mechanics.
-      Parameters: `gc_unit_runawaydelay = 1.3` g-sec,
-      `gc_unit_runawaydist = 3.5` tile. The inclusion condition takes into account
+      Parameters: `gc_unit_runawaydelay = 1.3` game seconds,
+      `gc_unit_runawaydist = 3.5` cells. The inclusion condition takes into account
       `bstandground`, `standtime`, flag `bai` (for
       normal human indulgence).
 
 [^4]: `data/scripts/lib/unit.script:8011-8023` - fine `radiusmax`
-      at `standtime < 0.25` g-sec. Constant
+      at `standtime < 0.25` game second. Constant
       `gc_obj_maxattackradiusdisp = 3` (`dmscript.global:116`).
 
 [^5]: `data/scripts/lib/unit.script:8026-8028` - bonus
       `addradius` for idle unit. Field `weapon.addradius`,
       usually 32 px = 0.6 t. For `gc_obj_usage_weakwall` -
-      additional +0.36 tiles.
+      additional +0.36 cells.
 
 [^6]: `data/scripts/lib/unit.script:6376-6451` —
       `_unit_GetWeaponToAttackIndex`. Selecting a weapon slot by

@@ -4,34 +4,27 @@
 
 [← How the game works](../../README.md)
 
-This article explains how Cossacks 3 units find routes, avoid one another
-and buildings, and react when blocked. **The key point:** the pathfinding
-algorithm itself lives in the native C++ engine. Scripts only queue units,
-submit destinations, and read the resulting routes. Script references and
-Pascal excerpts are collected in [Sources](#sources).
+This article explains how units choose a route, avoid neighbours and
+obstacles, move in formation, and react when blocked. The exact native
+algorithm is unknown, so observed game behavior is separated from
+[Technical Details](#technical-details).
 
 **Related documents:**
 
-- [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - main progress-loop
-  (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
-- [Recon: server architecture and network synchronization](../../../../internals_en/engine/server_sync_architecture.md) —
-  `WriteMove` / `ReadMove`, server-authoritative model, serialization
-  queue in save.
-- [construction and repair](../economy/building_mechanics.md) – footprint and `CIMass`
-  near buildings (massive “anchors” for collisions).
+- [Ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md)
+  — timing of the main simulation loops.
+- [Server architecture and network synchronization](../../../../internals_en/engine/server_sync_architecture.md)
+  — movement-order transfer between server and clients.
+- [Building construction, repair, and destruction](../economy/building_mechanics.md)
+  — building footprints.
 
 <a id="коротко"></a>
-## TL;DR
+## At a Glance
 
-- Unit movement is **two independent subsystems**: global
-  `pathfinding` (search for path A → B via `QuadTree` obstacle map) and
-  local collision/push (`CollisionInertia`). Both live in
-  native engine; in scripts - only requests to them.
-- `Pathfinding` **batch** once every 20 ms (`progress`-tick): the engine takes all
-  a queue of units waiting for a route, and considers the paths to be one pass.
-  Local collision - every frame.
-- The size of the collision cell is `0.5` tile (`gc_BuilderDist = 1.0` for
-  placement of construction workers around the building).
+- The game first plans a route around map obstacles, then locally pushes
+  neighbouring objects apart every frame.
+- Route requests are batched and processed every 20 ms.
+- The collision map uses 0.5-tile cells.
 - **Friendly pushing** is silent: allied units push one another apart
   without triggering an animation.
 - **An enemy in the forward 90° sector** makes a unit switch to attack,
@@ -39,9 +32,68 @@ Pascal excerpts are collected in [Sources](#sources).
 - A **formation** gives each unit its own destination with a small random
   offset; units do not follow a single squad leader. This is why a moving
   formation spreads slightly.
+- If no route is found, the unit stops. There is no universal stuck-unit
+  teleport or pathfinding timeout.
+
+<a id="движение-для-игрока"></a>
+<a id="как-движение-выглядит-для-игрока"></a>
+## How Movement Behaves in Play
+
+<a id="маршрут-и-препятствия"></a>
+### Routes and Obstacles
+
+A movement order specifies the destination, and the game returns a chain of
+intermediate route points. A unit may skip unnecessary bends when the next
+section is clear in a straight line. Land and water routes are calculated
+separately, with land requests receiving higher priority.
+
+If no route is found, the unit stops. A new calculation begins after a new
+movement order, a target change, or a special attempt to leave a dense crowd.
+Routes are not universally recalculated every frame.
+
+<a id="обход-соседей"></a>
+### Avoiding Neighbours
+
+Local pushing is applied on top of the planned route:
+
+- allies gently push one another apart without a separate reaction;
+- an enemy in the forward 90° sector may cause a unit to attack;
+- buildings remain immovable while units flow around them;
+- ships are much heavier than land units and push their neighbours harder.
+
+<a id="что-происходит-в-толпе"></a>
+### Dense Crowds
+
+When more than three nearby objects are standing and at least three have
+remained still for three game seconds, a unit searches for a free position
+in a six-cell spiral roughly once every 3.075 game seconds. This disperses
+many crowds but does not guarantee escape from every dead end.
+
+<a id="движение-построения"></a>
+### Formation Movement
+
+A formation has no single route that every member follows blindly. The game
+computes each unit's grid position, adds a small random offset, and issues a
+separate movement order. A wide formation may therefore stretch through a
+narrow passage and assemble again after stopping.
+
+<a id="нагрузка-при-массовом-приказе"></a>
+### Cost of Mass Movement
+
+No script-side limit on the route queue was found. Every unit requesting a
+route during one tick is passed to the native engine in one batch. This
+supports mass orders, but the practical performance limit depends on the
+hidden engine implementation.
+
+---
+
+<a id="technical-details"></a>
+<a id="технические-подробности"></a>
+## Technical Details
 
 <a id="1-архитектура-две-независимые-подсистемы"></a>
-## 1. Architecture: two independent subsystems
+<a id="архитектура-две-независимые-подсистемы"></a>
+### Architecture: Two Independent Subsystems
 
 The engine divides unit navigation into two loosely coupled subsystems:
 
@@ -67,11 +119,13 @@ priority layer so that a route can be found as if the building were absent.
 
 <a id="2-pathfinding-где-и-как"></a>
 <a id="2-где-и-как-рассчитывается-путь"></a>
-## 2. Where and How Routes Are Calculated
+<a id="где-и-как-рассчитывается-путь"></a>
+### Where and How Routes Are Calculated
 
 <a id="21-очередь-и-батчевание"></a>
 <a id="21-очередь-и-пакетная-обработка"></a>
-### 2.1 Queue and batching
+<a id="очередь-и-пакетная-обработка"></a>
+#### Queue and Batching
 
 **Queue:** two global lists in `_unit_PathListAdd` [^3]. Unit
 added to `gGOPathList` (earth) or `gWaterPathList` (water) **exactly
@@ -82,7 +136,8 @@ The `bpathrequested : Boolean` flag protects against duplication of [^5].
 
 <a id="22-главный-батч-раз-в-progress-tick--20ms"></a>
 <a id="22-главный-пакет-запросов-раз-в-20-мс"></a>
-### 2.2 Main batch (once every 20 ms)
+<a id="главный-пакет-запросов-раз-в-20-мс"></a>
+#### Main Batch (Once Every 20 ms)
 
 The entire batch of `pathfinding` is in `progress/progress.inc/nothing.inc` [^7].
 Key steps:
@@ -119,7 +174,8 @@ with a 2:1 priority in favor of land (water is processed only when the
    barracks or transport) and resets `bpathrequested`.
 
 <a id="23-что-делает-topologygetpath-наблюдаемо"></a>
-### 2.3 What `TopologyGetPath` does (observable)
+<a id="наблюдаемая-роль-topologygetpath"></a>
+#### Observable Role of `TopologyGetPath`
 
 From the usage context and class name:
 
@@ -162,7 +218,8 @@ cells/side).
 
 <a id="3-trackpointы--выход-pathfindingа"></a>
 <a id="3-маршрутные-точки"></a>
-## 3. Route Points
+<a id="маршрутные-точки"></a>
+### Route Points
 
 After `TopologyGetPath`, each unit receives an array of **route points**
 (`TrackPoint`) that the engine reads every frame to interpolate movement:
@@ -189,14 +246,16 @@ When completing a turn, `OnDirectionReached` [^14] is triggered.
 ---
 
 <a id="4-предотвращение-столкновений-collisioninertia-ci"></a>
-## 4. Collision Avoidance (`CollisionInertia`, CI)
+<a id="предотвращение-столкновений-collisioninertia-ci"></a>
+### Collision Avoidance (`CollisionInertia`, CI)
 
 This is the main mechanism that makes units **avoid one another**:
 local physical pushing with mass and inertia, applied on top of an
 already calculated route.
 
 <a id="41-параметры-отдельного-юнита"></a>
-### 4.1 Per-unit parameters
+<a id="параметры-отдельного-юнита"></a>
+#### Per-Unit Parameters
 
 CI parameters are set in `SetCustomCollisionInertia` [^15]: `CIMass`,
 `CIIntersectRadius`, `CIDeltaStep`, `CIRotationSpeed`, `CIStuckAngle`,
@@ -220,7 +279,8 @@ small, units can stand tightly together. Horses receive `unitradius=15`
 
 <a id="42-корабли-получают-огромную-ci"></a>
 <a id="42-корабли-получают-большую-инерцию-столкновений"></a>
-### 4.2 Ships receive much greater mass and radius
+<a id="корабли-получают-большую-инерцию-столкновений"></a>
+#### Ships Receive Much Greater Mass and Radius
 
 Ships call `SetCustomCollisionInertia` with large multipliers [^17].
 The Ferry (`ferry`) and Ship of the Line (`battleship`) use
@@ -234,7 +294,8 @@ pressure from infantry: their mass can be 32 instead of 1.
 
 <a id="43-здания--неподвижные-тяжёлые-блокеры"></a>
 <a id="43-здания--тяжёлые-неподвижные-препятствия"></a>
-### 4.3 Buildings are heavy, immovable obstacles
+<a id="здания--тяжёлые-неподвижные-препятствия"></a>
+#### Buildings Are Heavy, Immovable Obstacles
 
 Buildings are initialized with `CollisionInertia=true`,
 `CIIntersectRadius=0.35` tile, `CIMovable=false`, `CIMass=10000`,
@@ -249,7 +310,8 @@ keeps a unit from pressing directly into a wall.
 
 <a id="44-push-mechanic-между-юнитами-правило-передний--90-fov"></a>
 <a id="44-расталкивание-юнитов-и-передний-сектор-в-90"></a>
-### 4.4 Unit pushing and the forward 90° sector
+<a id="расталкивание-юнитов-и-передний-сектор-в-90"></a>
+#### Unit Pushing and the Forward 90° Sector
 
 Collision rules distinguish allies (`Fr`), enemies (`En`), and neutral
 objects (`Nl`) through `SetGameObjectMyRuleCollidedExec*` [^19]:
@@ -280,10 +342,12 @@ switches the current order to attack.
 ---
 
 <a id="5-обработка-застревания"></a>
-## 5. Handling Stuck Units
+<a id="обработка-застревания"></a>
+### Handling Stuck Units
 
 <a id="51-проверка-каждый-кадр-нет-пути--остановиться"></a>
-### 5.1 Per-frame check: “no route means stop”
+<a id="проверка-каждый-кадр-нет-пути--остановиться"></a>
+#### Per-Frame Check: “No Route Means Stop”
 
 In `pathfinding`'s batch [^21] after calling `TopologyGetPath` for each
 unit is calculated by `noPath` through `TrackPointCount = 0`. If TrackPoints
@@ -296,7 +360,8 @@ and retry. The Order remains (if `bRemove=False`), and the unit will “try agai
 at the next transition to `execute_move`.
 
 <a id="52-сжатая-толпа--findbestposition"></a>
-### 5.2 Compressed crowd - `FindBestPosition`
+<a id="сжатая-толпа--findbestposition"></a>
+#### Dense Crowd: `FindBestPosition`
 
 `FindBestPosition` [^22] is called from `nothing.inc` when the unit is idle and
 `standtime > 1` - trying to get out of the dense crowd. Conditions: number of neighbors
@@ -308,7 +373,8 @@ Not every tick-period is triggered
 via `lasttimebestposition`.
 
 <a id="53-топология-обновляется-по-таймеру"></a>
-### 5.3 Topology is updated by timer
+<a id="топология-обновляется-по-таймеру"></a>
+#### Timed Topology Update
 
 In `unit.inc/nothing.inc` `_unit_TopologyProgress` is periodically called
 at intervals `gc_unit_TimeTopology = 0.1*50 - 0.025 ≈ 4.975 s` [^23].
@@ -316,7 +382,8 @@ This is **not a repath**, but a re-evaluation of “what topo-zone am I in” (f
 distance-queries).
 
 <a id="54-аварийное-исправление-зависания"></a>
-### 5.4 Hard “hang fix”
+<a id="аварийное-исправление-зависания"></a>
+#### Emergency Hang Recovery
 
 `unit.inc/nothing.inc` has a watchdog for invisible units in the state
 “I’m born, but I don’t see myself” (left the barracks, but didn’t show up) [^24]:
@@ -326,7 +393,8 @@ transport / leave-building.
 
 <a id="55-loader-pass-на-старте-два-юнита-в-одной-точке"></a>
 <a id="55-проверка-при-загрузке-два-юнита-в-одной-точке"></a>
-### 5.5 Loader-pass at the start: “two units at one point”
+<a id="проверка-при-загрузке-два-юнита-в-одной-точке"></a>
+#### Load-Time Check for Two Objects at One Point
 
 When generating a map, it is called
 `_misc_FixCollisionInertiaObjectsInOnePoint` [^25]: in three passes
@@ -335,11 +403,12 @@ otherwise path-trace would loop. Runs from
 `common.inc/dogenerate.inc:2070`.
 
 <a id="56-чего-не-найдено"></a>
-### 5.6 What was NOT found
+<a id="чего-не-найдено"></a>
+#### What Was Not Found
 
 - **No timeout per path.** The unit can hang “indefinitely” from
   `bpathrequested=True`, then get an empty path and stop.
-- **No teleport when stuck.** Watchdog `essential_none` (§5.4) not
+- **No teleport when stuck.** The `essential_none` watchdog described above does not
   teleports, but only resets the flag.
 - **No cap on queue length** `gGOPathList`. The script code is not
   limits; everything in the queue is considered one batch.
@@ -348,7 +417,8 @@ otherwise path-trace would loop. Runs from
 
 <a id="6-formation-movement-каждый-юнит-идёт-сам"></a>
 <a id="6-движение-построения-каждый-юнит-идёт-сам"></a>
-## 6. Formation Movement: Each Unit Moves Independently
+<a id="движение-построения-каждый-юнит-идёт-сам"></a>
+### Formation Movement: Each Unit Moves Independently
 
 The key point is that a **formation does not move as one object**.
 There is no single squad leader to follow: **each unit receives its own
@@ -356,7 +426,8 @@ destination**.
 
 <a id="61-writemove--рассыпать-squad-на-per-unit-ордера"></a>
 <a id="61-writemove--выдать-каждому-юниту-отдельный-приказ"></a>
-### 6.1 `WriteMove` issues a separate order to each unit
+<a id="writemove-отдельный-приказ-каждому-юниту"></a>
+#### `WriteMove` Issues a Separate Order to Each Unit
 
 `WriteMove` [^26] walks the formation grid and for each unit:
 
@@ -375,7 +446,8 @@ Then the unit goes **independently**, through the standard chain
 
 <a id="62-грид-формации"></a>
 <a id="62-сетка-построения"></a>
-### 6.2 Formation grid
+<a id="сетка-построения"></a>
+#### Formation Grid
 
 `_squad_FullRebuildGrid` [^27] holds per-squad `arGrid[i,j]` - which unit
 in which cell of the formation. When changing lanes (turn, attack-mode, etc.)
@@ -385,7 +457,8 @@ Constants [^28]: `gc_formation_maxcount = 160` (max units in squad),
 `gc_formation_maskmaxwidth = 54`, `gc_formation_maskmaxheight = 24`.
 
 <a id="63-fmovecount--простой-счётчик"></a>
-### 6.3 `fMoveCount` - simple counter
+<a id="fmovecount-простой-счётчик"></a>
+#### `fMoveCount`: Simple Counter
 
 `_player_CalcSquadsMoveCount` [^29] simply recalculates for each squad
 number of units in `gc_statetag_move_walk` state. Runs with period
@@ -395,9 +468,10 @@ has no relation.
 
 <a id="64-squad-id-как-hint-для-kernel"></a>
 <a id="64-номер-отряда-как-подсказка-движку"></a>
-### 6.4 Squad ID as a hint to the engine
+<a id="номер-отряда-как-подсказка-движку"></a>
+#### Squad ID as a Hint to the Engine
 
-Remember from §2.2: before `TopologyGetPath`, each unit receives
+Before the batched `TopologyGetPath` call, each unit receives
 `SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)`. What kernel with
 does this - **not visible from the scripts**. Hypothesis: consistent routing
 for one unit (units do not cross paths with each other in chess
@@ -406,7 +480,8 @@ empirical test with two squads in a narrow passage.
 
 <a id="65-orphan-константа"></a>
 <a id="65-неиспользуемая-константа"></a>
-### 6.5 Unused constant
+<a id="неиспользуемая-константа"></a>
+#### Unused Constant
 
 `gc_player_SquadMoveTick = 10` [^31] - **defined, but not found anywhere
 used** (Grep for all `.script` files only gives a definition).
@@ -416,13 +491,14 @@ implemented.
 ---
 
 <a id="7-когда-путь-рассчитывается-заново"></a>
-## 7. When Routes Are Recalculated
+<a id="когда-путь-рассчитывается-заново"></a>
+### When Routes Are Recalculated
 
 | When a unit requests a new path | Why |
 |---|---|
 | Go to `gc_statetag_execute_move` | `_unit_PathListAdd` is explicitly called from `ontagstates.inc` |
 | Resetting or changing the order - `_unit_ClearOrders` → new `_unit_OrderMove` | `_unit_OrderMove` creates a new Order of type `gc_obj_order_type_move`, which places `bDoPosition := True` in `_misc_DoProgressOrders` [^32] → `gc_statetag_execute_move` → `_unit_PathListAdd` |
-| The compressed crowd - `FindBestPosition` found a free cell | See §5.2 - once every 3.075 s maximum |
+| The compressed crowd - `FindBestPosition` found a free cell | At most once every 3.075 game seconds |
 
 **Scenarios in which repath does NOT work** (confirmed by `Grep` by
 `unit.inc` and `miscext.script`):
@@ -442,10 +518,12 @@ implemented.
 ---
 
 <a id="8-производительность-и-лимиты"></a>
-## 8. Performance and limits
+<a id="производительность-и-лимиты"></a>
+### Performance and Limits
 
 <a id="81-лимиты-в-скриптах"></a>
-### 8.1 Limits in scripts
+<a id="лимиты-в-скриптах"></a>
+#### Limits in Scripts
 
 - **The pathfinding queue has no script-side limit.** Every unit added
   to `gGOPathList` during a 20 ms tick is processed in the next
@@ -459,7 +537,8 @@ implemented.
     processed by CI).
 
 <a id="82-профайлер-встроен"></a>
-### 8.2 Profiler built-in
+<a id="встроенный-профайлер"></a>
+#### Built-In Profiler
 
 The script wraps `TopologyGetPath` in calls
 `_misc_ProfilerBegin('progress.GetPath')` and `_misc_ProfilerEnd` [^34].
@@ -467,7 +546,8 @@ There is no profiler data in the scripts, but the engine can measure the cost.
 
 <a id="83-глобальный-progress-cap"></a>
 <a id="83-глобальное-ограничение-цикла-расчёта"></a>
-### 8.3 Global progress-cap
+<a id="глобальное-ограничение-цикла-расчёта"></a>
+#### Global Progress Cap
 
 In `progress.inc` [^35] for misc/pool players there is a dynamic `secmax`
 (adaptive processing slicing): with `count > 700` the step increases as
@@ -504,7 +584,8 @@ processed completely.
 ---
 
 <a id="10-резюме"></a>
-## 10. Summary
+<a id="сводка-технических-выводов"></a>
+### Summary of Technical Findings
 
 - **The pathfinding algorithm lives in the native engine.** Scripts add
   units to `gGOPathList` or `gWaterPathList`, call

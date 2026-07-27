@@ -6,9 +6,10 @@
 
 The game assembles a random map in five stages: preparation, terrain,
 starting positions and nearby resources, remaining resources, and
-finalization. In the engine this chain is performed by `DoGenerate`, started
-through `ExecuteState('DoGenerate')` [^1]. Code references and Pascal excerpts
-are collected in [Sources](#sources) at the end.
+finalization. Identical lobby options do not necessarily mean identical
+terrain: the result also depends on the base mask and two generation keys.
+Internal functions and Pascal excerpts are collected near the end under
+[Technical details](#technical-details) and [Sources](#sources).
 
 **Related documents:**
 
@@ -22,87 +23,45 @@ are collected in [Sources](#sources) at the end.
 
 - The map is built in **five stages**: preparation → terrain → starting
   positions and nearby resources → remaining resources → finalization.
-- The triple `(inputbitmap, randkey0, randkey1)` **fully determines the map**,
-  allowing replays to reproduce it (see §12).
-- Around each starting position there are three ellipses (`cCircle1/2/3`):
-  inner (5 × 7 tiles) - only peasants, middle (12 × 15) -
-  a guaranteed mixed stone-and-forest area (`stoneforest`), stones, and
-  forests; the outer ellipse (22 × 18) holds another forest.
-- `foreststype` always equals 0 for **every** map type: at the very beginning
-  `DoGenerate` goes `var foreststype : Integer = floor(RandomExt*3); foreststype := 0;`
-  [^2]. The random choice is overwritten by a constant, and `DoGenerate` is
-  the only generation procedure common to all terrain modes.
-  All forests therefore use the pine-and-spruce mixture from
-  `case foreststype of 0`.
-- In phase 4, `CreateStartPointPeasants` is always called - **18
-  peasants** in a 6×3 grid, regardless of the `startingunits` option in the lobby.
+- The base mask and two generation keys **fully determine the map**, which
+  is why a replay reproduces the same terrain and object placement.
+- Three elliptical zones of different sizes are reserved around each
+  starting position. The inner zone remains clear for the starting army;
+  the next zones reserve room for nearby stone and forests.
+- The generator uses mixed conifer forests; the Desert season replaces them
+  with separate desert environment sets [^2].
+- The final stage always creates **18 Peasants** in a 6 × 3 grid, regardless
+  of the starting-army option.
 
 <a id="1-глобальные-константы-объявлены-до-процедур"></a>
-## 1. Global constants (declared before procedures)
+<a id="от-чего-зависит-результат"></a>
+## What determines the result
 
-Declarations of global constants [^3]:
-
-- `cCircle1MaskX = 5`, `cCircle1MaskY = 7` - `forbidden zone`, there are only Phase-1 mines here.
-- `cCircle2MaskX = 12`, `cCircle2MaskY = 15` — 1× stoneforest + 1× stones + 2× forests.
-- `cCircle3MaskX = 22`, `cCircle3MaskY = 18` — 1× stones + 1× forest.
-- `cBorderObjDist = 1` — peacetime wall spacing (tiles).
-
-These are the **semi-axes of the ellipses** in `gPatternMask`, centered on each starting
-point. Inside the ellipse `gPatternMask[x,y] := True` → nothing else can be placed
-(no forest, no stones, no env player buildings). Ellipses are filled through
-`_misc_FillPatternMaskElipse(pointx, pointy+2, rx, ry)` - **with +2 Y offset**
-(the starting point is shifted upward relative to the center of the masks).
-
-Also:
-
-- `foreststype` is initialized as `floor(RandomExt*3)`, but immediately
-  is overwritten by `0` [^2]. Corollary: Land **never** happens
-  leaf-only (`foreststype=1`) or mixed-only (`foreststype=2`) maps. Only
-  `foreststype=0` mix: `pinefir/spruce/pine/pine_big_2` (big),
-  `pinefir/spruce/pine` (mid), `pinefir/pine` (small).
-- `bDesert := (gMap.settings.gen.season=3)` — `season=3` switches everything
-  pattern types at `desert_*`. For Land + any-other-season `bDesert=False`.
-- `maphW := mapW div 2` - half the width of the map (used for tiny-corner
-  snapping in `SetupMines` round 2).
+| Choice | What changes |
+|---|---|
+| Terrain type | The base shape of land, water, and available starting points. |
+| Relief | The share of plains, hills, mountains, and buildable ground. |
+| Deposit richness | The number of mineral-placement passes near players and farther from the base. |
+| Season | Textures and environment sets; Desert uses separate variants. |
+| Map size | Available area and the density adjustment for placed objects. |
+| Teams | Whether allies are placed together or positions are distributed normally. |
+| Base mask and keys | The exact reproducible map variant. |
 
 ---
 
 <a id="2-pipeline-хронологический-порядок-файлы-от-вершины-dogenerate-вниз"></a>
 <a id="2-порядок-генерации-карты"></a>
-## 2. Map-generation sequence
+<a id="порядок-генерации-карты"></a>
+## Map-generation sequence
 
-General chronology (phases 0–4) - in the diagram:
-```mermaid
-flowchart TB
-    subgraph P0["Phase 0 — preparation"]
-        H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]
-        Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]
-        Load[LoadPatterns:<br/>all .pattern files]
-    end
-    subgraph P1["Phase 1 — terrain"]
-        Players[plcount = non-spectator players]
-        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]
-        Seed[SetRandomKey randkey1<br/>determines RandomExt]
-        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]
-        Water[Water-shore mask<br/>height &lt; −0.1]
-    end
-    subgraph P2["Phase 2 — start positions + resources"]
-        StartPts[RandomStartingPoints:<br/>assign players]
-        StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]
-        Mines1[SetupMines round=0<br/>for real players]
-    end
-    subgraph P3["Phase 3 — global resources"]
-        Mines2[SetupMines rounds 1..N<br/>for every spcount]
-        Forests[Forests / stoneforests<br/>by pattern type]
-        Decor[Decoration patterns]
-    end
-    subgraph P4["Phase 4 — finalization"]
-        Owner[FillOwnerMap]
-        Borders[SetupBorderObjects:<br/>peace-time walls]
-        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]
-    end
-    P0 --> P1 --> P2 --> P3 --> P4
-```
+| Stage | Result |
+|---|---|
+| Preparation | Service masks are cleared and environment templates are loaded. |
+| Relief | The surface, elevations, coasts, and water are created. |
+| Starting positions | Players receive positions; the first resources and deposits are placed nearby. |
+| Rest of the map | Distant deposits, forests, stone, swamps, lakes, and decoration are added. |
+| Finalization | Starting units appear, territory ownership is calculated, and peace-time borders are added when needed. |
+
 Phase details below.
 
 <a id="phase-0--подготовка"></a>
@@ -120,14 +79,14 @@ Phase details below.
 
 5. Existing non-spectator players are counted in `plcount` [^8].
 6. `SetupTiledPatterns('tiles')` — or `desert_tiles` in the desert — places
-   background details such as dirt and cracks on a 25 × 25-tile grid. A
+   background details such as dirt and cracks on a 25 × 25-cell grid. A
    256 × 256 map receives about **100 placements** [^9].
 7. `SetRandomKey(randkey1)` sets the generator key, making all subsequent
    `RandomExt` calls reproducible [^10].
 8. Relief (`relieftype`), terrain type (`terraintype`), and mine richness
    (`minesdensity`) are validated; invalid values are randomized. The built-in
    `ExecuteState('GenerateMap')` then creates a heightmap from the selected
-   `inputbitmap.tga` and fills the map tiles [^11].
+   `inputbitmap.tga` and fills the map cells [^11].
 9. Shore and water cells with `height < -0.1` are blocked in
    `gPatternMask` [^12].
 10. The Random mine setting (`minesdensity > 2`) is replaced with
@@ -141,7 +100,7 @@ Phase details below.
 12. The C++ engine extracts starting positions from special markers in
     `inputbitmap.tga`. The script copies valid `gMap.players[i].startx/y`
     coordinates to `arrStartPos`; their number is stored in `spcount` [^15].
-13. `_misc_FillPatternMaskMapBorder(3)` - the outer frame of 3 tiles wide is blocked by [^16].
+13. `_misc_FillPatternMaskMapBorder(3)` blocks the outer frame, three cells wide [^16].
 14. **`RandomStartingPoints(spcount, minesdensity)`** [^17] assigns positions
     according to the team setting (see §3). For each player,
     `CreateStartPoint(...)`:
@@ -240,7 +199,7 @@ tests up to 128 × 3 = 384 positions by varying angle and distance. It is
 called from `CreateStartPoint` **after** the inner `cCircle1` zone is filled
 [^40].
 
-| # | Object | Minimum distance, tiles | Distance formula | Zone blocked afterward |
+| # | Object | Minimum distance, cells | Distance formula | Zone blocked afterward |
 |--:|---|---:|---|---|
 | 1 | Mixed stone-and-forest area (`stoneforests`; `desert_stoneforests` or `desert_forests_big` in desert) | `min(5,7) = 5` | `5 + RandomExt*3 + (i+j)*0.5` | — |
 | 2 | `_FillPatternMaskElipse(cCircle2=12,15)` | — | — | Middle zone |
@@ -250,13 +209,14 @@ called from `CreateStartPoint` **after** the inner `cCircle1` zone is filled
 | 6 | One more medium or large forest (`forests_*_medium/big`) | 16 | Same | — |
 | 7 | `_FillPatternMaskElipse(cCircle3=22,18)` | — | — | Outer zone |
 
-**What does this mean for the player base:** within a radius of **5..22 tiles** from the city center there is ALWAYS guaranteed:
+**What this means for the starting base:** within **5–22 cells** of the
+Town Hall, the generator guarantees:
 
 - 1× `stoneforests` (mixed wood+stone in one pattern, mask~152)
 - 2× `stones` (mask~138 each)
 - 3× `forests_*_big/medium` (mask 148..1631 depending on type)
 
-Afterward, the area within 22 tiles is fully masked and the third stage cannot
+Afterward, the area within 22 cells is fully masked and the third stage cannot
 place anything else there. **This is why the starting area reliably contains
 enough wood for a Town Hall (`ratuse`) and the first Mill (`mill`).**
 
@@ -289,7 +249,7 @@ distance.
 Idea: for each pair of neighboring cells `gScanGrid[i,j]` and `gScanGrid[i+1,j]` (as well as `[i, j+1]`):
 
 - If `owner` is different → draw a chain of border objects between the centers of these cells.
-- Step: `cBorderObjDist = 1` tile.
+- Step: `cBorderObjDist = 1` cell.
 - On water: `gc_basename_ptborderwater`, on land: `gc_basename_ptborder`.
 - The technical miscellaneous player (`gc_playerind_misc`) owns the objects;
   `GameObjectMakeUniqId` assigns unique identifiers.
@@ -310,9 +270,9 @@ Algorithm [^43]:
 - For `i` from 0 to 17:
   - `px = pointx + (i div 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (6 * 0.75)/2`
   - `pz = pointy + (i mod 3) * 0.75 + (0.5 - RandomExt) * 0.25 - (0 * 0.75)/2`
-  - spawns a peasant in `(px, py, pz)`, face down (`SetGameObjectRollAngleByHandle = 180`).
+  - creates a Peasant at `(px, py, pz)`, facing downward (`SetGameObjectRollAngleByHandle = 180`).
 
-**Grid:** 6 columns × 3 rows, 0.75 tiles apart, with random jitter of ±0.125.
+**Grid:** 6 columns × 3 rows, 0.75 cells apart, with random jitter of ±0.125.
 Because `count mod 3 = 18 mod 3 = 0`, the Y-centering offset is zero. The
 Z coordinates run from `pointy + 0` to `pointy + 1.5`, so the grid is shifted
 downward rather than centered. X is centered correctly, from
@@ -339,7 +299,8 @@ called twice:
 
 For **Rich (`minesdensity=2`) on Tiny (`mapsize>2`)** [version ≥80]:
 
-- Phase 1: 1× round 0 × 3 resources = 3 close deposits (1g+1i+1c) at a distance of 14..22 tiles.
+- Phase 1: one round × three resources = three nearby deposits (gold, iron,
+  and coal) at a distance of 14–22 cells.
 - Phase 2: rounds 1..4, but round 4 = `continue` on tiny ⇒ 3 outer rounds × 3 resources = 9 outer deposits.
 - **Twelve deposits per player is an upper bound on attempts.** Each deposit
   receives up to 256 candidate positions. If none avoids `cCircle`, other
@@ -376,7 +337,7 @@ A checklist of what the code `dogenerate.inc` does but we either ignore or appro
 | Engine reads starting positions (`arrStartPos`) from `inputbitmap.tga` | We set one position explicitly | Sufficient for one-player scenarios |
 | Six `SetupStartingResources` stages with specific patterns | We use aggregate forest and stone density | **Rough:** starting resources are undercounted, but totals have been checked against replays |
 | Blocked `cCircle1/2/3` zones | Not modelled explicitly | Their effect is partly absorbed by the measured placement rates (§14) |
-| Nearby deposits, round 0 at 14–22 tiles | Modelled through `predicted_mines_per_type` | Validated: actual-to-predicted ratio is 1.00 |
+| Nearby deposits, round 0 at 14–22 cells | Modelled through `predicted_mines_per_type` | Validated: actual-to-predicted ratio is 1.00 |
 | Second-round corner snapping on Tiny maps | Not modelled; distance remains 70–82 | Minor difference |
 | Forest type always equals `0` | Land mixture assumed | Matches |
 | Territory ownership and peace-time borders | Ignored | Harmless with the standard no-peace-time setting |
@@ -482,6 +443,27 @@ positions and a no-water mask (`Tiny+Land+Highlands+4pl_nowater`).
 
 <a id="11-ключевые-файлы-pipeline"></a>
 <a id="11-ключевые-файлы-алгоритма"></a>
+<a id="технические-подробности"></a>
+## Technical details
+
+`DoGenerate`, launched through `ExecuteState('DoGenerate')`, runs the stage
+sequence [^1]. The internal semiaxes of the three starting zones are
+`5 × 7`, `12 × 15`, and `22 × 18`
+(`cCircle1Mask*`, `cCircle2Mask*`, and `cCircle3Mask*`) [^3].
+`cBorderObjDist = 1` is the spacing of peace-time border objects.
+
+The zones are marked in `gPatternMask`: an occupied cell can no longer
+receive a forest, stone, or environment-player object.
+`_misc_FillPatternMaskElipse(pointx, pointy+2, rx, ry)` offsets the ellipse
+center by two cells vertically from the starting point.
+
+`foreststype` first receives `floor(RandomExt*3)` and is then immediately
+overwritten with `0` [^2]. Branch 0 uses the `pinefir`, `spruce`, `pine`,
+and `pine_big_2` sets. Desert is selected by
+`bDesert := (gMap.settings.gen.season = 3)`, which switches to `desert_*`
+sets. Half the map width (`maphW := mapW div 2`) is used by the second
+`SetupMines` pass to anchor distant deposits to corners on Tiny maps.
+
 ## 11. Key algorithm files
 
 | Purpose | File | Lines |
@@ -554,11 +536,10 @@ unconfirmed.
    `data/gen/terrainmasks/land/4pl_*.tga` would reveal the exact positions for
    every mask and improve editor tooling and resource-distance predictions.
 
-2. ~~**`_misc_GetFreePatternMaskModifier` values for Tiny + Highlands.**~~
-   **Partly answered:** the modifiers themselves are unknown, but effective
-   per-type placement rates have been calibrated from ten replays (§14.5).
-   This is enough for practical calculations without reconstructing the Monte
-   Carlo implementation.
+2. **Exact free-space adjustments for Tiny maps and Highlands.** The internal
+   values have not been measured. Effective per-type placement rates have
+   been calibrated from ten replays (§14.5), so practical calculations are
+   already possible without reconstructing the Monte Carlo implementation.
 
 3. **Does `SetupTiledPatterns` affect later object placement?** Roughly one
    hundred tiled patterns on a 256 × 256 map provide ground decorations such

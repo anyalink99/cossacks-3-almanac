@@ -53,8 +53,8 @@
     {
       "path": "engine/native_api.md",
       "title": "Native API движка Cossacks 3 (Delphi + DWS)",
-      "size": 29113,
-      "lines": 405
+      "size": 28632,
+      "lines": 401
     },
     {
       "path": "engine/native_primitives.md",
@@ -107,8 +107,8 @@
     {
       "path": "project/documentation_style.md",
       "title": "Правила читательской документации",
-      "size": 10938,
-      "lines": 172
+      "size": 11369,
+      "lines": 176
     },
     {
       "path": "project/known_issues.md",
@@ -135,10 +135,46 @@
       "lines": 99
     },
     {
+      "path": "scripts/building_mechanics_evidence.md",
+      "title": "Технический разбор зданий",
+      "size": 37856,
+      "lines": 598
+    },
+    {
+      "path": "scripts/capture_mechanics_evidence.md",
+      "title": "Технический разбор захвата зданий и юнитов",
+      "size": 40771,
+      "lines": 641
+    },
+    {
+      "path": "scripts/hunger_and_rebellion_evidence.md",
+      "title": "Технический разбор голода и бунта наёмников",
+      "size": 18752,
+      "lines": 303
+    },
+    {
+      "path": "scripts/peasant_extraction_evidence.md",
+      "title": "Техническая модель добычи ресурсов крестьянами",
+      "size": 49429,
+      "lines": 782
+    },
+    {
+      "path": "scripts/production_queue_evidence.md",
+      "title": "Технический разбор очереди производства",
+      "size": 19494,
+      "lines": 320
+    },
+    {
       "path": "scripts/structure.md",
       "title": "Структура скриптовой среды Cossacks 3",
-      "size": 17959,
-      "lines": 303
+      "size": 19313,
+      "lines": 316
+    },
+    {
+      "path": "scripts/upgrades_application_evidence.md",
+      "title": "Технический разбор применения улучшений",
+      "size": 29262,
+      "lines": 480
     }
   ]
 }

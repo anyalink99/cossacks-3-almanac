@@ -165,6 +165,93 @@ class ReaderFacingDocumentation(unittest.TestCase):
         self.assertEqual(upgrades_section["kind"], "section")
         self.assertEqual(upgrades_section["fragment"], "how-upgrades-combine")
 
+    def test_capture_article_matches_parsed_building_flags(self):
+        buildings = json.loads(
+            (ROOT / "data.json").read_text(encoding="utf-8")
+        )["buildings"]
+        self.assertTrue(
+            all(
+                isinstance(building["capturable"], bool)
+                for building in buildings
+            ),
+            "Every parsed building must have an explicit capturable flag",
+        )
+        ru = (
+            DOCS / "recon" / "world" / "economy" / "capture_mechanics.md"
+        ).read_text(encoding="utf-8")
+        en = (
+            ROOT
+            / "docs_en"
+            / "recon"
+            / "world"
+            / "economy"
+            / "capture_mechanics.md"
+        ).read_text(encoding="utf-8")
+        cases = [
+            ("eurmil", True, "Мельница", "Mill"),
+            ("eurmar", True, "Рынок", "Market"),
+            ("eursto", True, "Склад", "Storehouse"),
+            ("eurgol", True, "Шахта", "Mine"),
+            ("auscen", True, "Городской центр", "Town Hall"),
+            ("aushou", True, "Дом, Изба или Хижина", "Housing, Izba, or Hut"),
+            (
+                "ausaca",
+                True,
+                "Академия; у Турции и Алжира — Минарет",
+                "Academy; Minaret for Turkey and Algeria",
+            ),
+            ("ausart", True, "Артиллерийское депо", "Artillery Depot"),
+            ("ausbla", True, "Кузница", "Blacksmith"),
+            ("eurpor", False, "Порт", "Shipyard"),
+            ("eurtow", False, "Башня", "Tower"),
+            ("eurswa", False, "Стена или ворота", "Wall or Gate"),
+            ("ausdip", False, "Дипломатический центр", "Diplomatic Center"),
+            (
+                "austem",
+                False,
+                "Собор, Православная церковь или Мечеть",
+                "Cathedral, Orthodox Cathedral, or Mosque",
+            ),
+            (
+                "ausbar",
+                False,
+                "Казарма XVII века и её национальные варианты",
+                "Barracks, 17th century, and its national variants",
+            ),
+            (
+                "ausba2",
+                False,
+                "Казарма XVIII века",
+                "Barracks, 18th century",
+            ),
+            ("aussta", False, "Конюшня", "Stable"),
+            (
+                "misblg",
+                False,
+                "Здания и декорации миссий",
+                "Mission buildings and scenery objects",
+            ),
+        ]
+        for sid, capturable, ru_name, en_name in cases:
+            with self.subTest(sid=sid):
+                parsed_values = {
+                    building["capturable"]
+                    for building in buildings
+                    if building["sid"] == sid
+                }
+                if parsed_values:
+                    self.assertEqual(parsed_values, {capturable})
+                self.assertIn(
+                    f"| {'Можно захватить' if capturable else 'Нельзя захватить'}"
+                    f" | {ru_name} |",
+                    ru,
+                )
+                self.assertIn(
+                    f"| {'Capturable' if capturable else 'Not capturable'}"
+                    f" | {en_name} |",
+                    en,
+                )
+
     def test_generated_upgrade_names_are_reader_facing(self):
         ru = "\n".join(
             path.read_text(encoding="utf-8")
@@ -430,6 +517,40 @@ class ReaderFacingDocumentation(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             self.assertNotRegex(text, r"(?m)^# Recon:")
             self.assertIn("[← Как устроена игра]", text)
+
+    def test_documentation_states_current_rules_without_arguing_with_old_versions(self):
+        patterns = (
+            r"(?:раньше|прежде)\s+(?:в\s+)?(?:этой|данной)\s+статье",
+            r"(?:раньше|прежде)\s+(?:в\s+)?этой\s+таблице",
+            r"(?:в\s+)?(?:предыдущей|прежней)\s+версии\s+(?:этой\s+)?"
+            r"(?:статьи|документа)",
+            r"(?:ранее|раньше).{0,80}(?:написано|указано).{0,80}"
+            r"(?:неверно|ошибочно)",
+            r"\bмы\s+(?:исправили|поправили)\b",
+            r"\bpreviously\s+in\s+this\s+table\b",
+            r"\b(?:an\s+)?(?:earlier|previous)\s+version\s+of\s+"
+            r"(?:this|the)\s+(?:article|document)\b",
+            r"\bwe\s+(?:fixed|corrected)\b",
+            r"~~.+?~~\s*(?:✅\s*)?(?:\*\*)?"
+            r"(?:закрыто|closed|resolved|частично\s+отвечено|partly\s+answered)",
+        )
+        offenders = []
+        for tree in (
+            DOCS,
+            ROOT / "docs_en",
+            ROOT / "internals",
+            ROOT / "internals_en",
+        ):
+            for path in tree.rglob("*.md"):
+                if path.name == "documentation_style.md":
+                    continue
+                visible = reader_visible_text(path.read_text(encoding="utf-8"))
+                if any(
+                    re.search(pattern, visible, flags=re.IGNORECASE | re.DOTALL)
+                    for pattern in patterns
+                ):
+                    offenders.append(path.relative_to(ROOT).as_posix())
+        self.assertEqual(offenders, [])
 
     def test_recon_prose_does_not_expose_english_engine_jargon(self):
         jargon = (

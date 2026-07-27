@@ -4,45 +4,67 @@
 
 [← How the game works](../../README.md)
 
-Reverse engineering the target search functions and how the order "attack to the point"
-diverges into different processing branches depending on the type of unit. All
-links to the code and the Pascal blocks themselves are collected in the [Sources](#sources) section
-at the end of the document.
+This article explains why a formation does not always attack the nearest
+enemy, how melee units spread across several targets, and how ordinary
+movement differs from attack-move. The main rules use player-facing terms;
+function, mode, and field names are collected under
+[Technical details and implementation](#technical-details-and-implementation)
+and [Sources](#sources).
 
 <a id="кратко"></a>
 ## TL;DR
 
-- The search is carried out through **scan-grid** [^1] - the map is divided into fixed cells
-  size, each stores its own list of units by player. The scanner bypasses
-  a rectangle of cells around the finder, in each cell selects one
-  candidate and in the end takes the closest one.
-- Inside the cell, the order of traversal is **randomized**: the starting index is specified
-  as `floor(random × count)`, and the first candidate that passes all filters,
-  becomes the choice [^2].
-- For **melee units** load balancing works between cells:
-  the distance to the target is multiplied by `1 + STO_count × 0.125`, where `STO_count` is
-  how many allied units are already heading towards this target. The more people are already hitting -
-  then the target cell is considered “further”, and the second pikeman will prefer
-  another enemy. This distributes the line along the front, rather than dumping it
-  for one enemy [^3].
-- For **shooting units** there is no balancing - the closest one is simply selected
-  within radius.
-- The shooter in motion (when `standtime ≤ 0.25` game seconds) loses up to
-  three tiles of effective detection radius according to the formula
-  `maxRad -= 3 × uniqrnd`. When standing, the full radius returns [^4].
-- **Attack-move** for infantry and cavalry is order `gc_obj_order_type_move`
-  with submode `move_mode_attack`. The unit goes to the point and every 100 ms
-  searches for a target in full `searchradius`. With normal `move_mode_default`
-  search limited to 30° front cone [^5].
-- **Artillery** with flag `bartprepare` goes along a separate branch through
-  `_player_OrderUnitsToAttackPoint` and receives `gc_obj_order_type_attackpoint` -
-  shooting at a coordinate, not at a specific target. The point does not move
-  enemy [^6].
+- Search uses a **grid** [^1]. The map is divided into fixed cells, each
+  holding units by player. The game checks a rectangle around the searching
+  unit, keeps one candidate from each cell, then compares them.
+- Traversal within a cell begins at a random position; the first candidate
+  that passes every filter is retained [^2].
+- For **melee units**, a target becomes 12.5% less attractive for every ally
+  already heading toward it. This spreads a line across the enemy front
+  instead of piling everyone onto one opponent [^3].
+- **Ranged units** do not use that balancing and favor the nearest target
+  within range.
+- During the first 0.25 game second after moving, a ranged unit loses up to
+  three cells of effective detection radius. Full range returns at rest [^4].
+- **Attack-move** makes infantry and cavalry search in every direction every
+  100 ms. Ordinary movement limits automatic reaction to a 30° forward cone
+  [^5].
+- **Artillery** fires at fixed coordinates rather than following a selected
+  unit. The point does not move with the enemy [^6].
 
 ---
 
+<a id="как-игра-выбирает-цель"></a>
+## How the game chooses a target
+
+1. The game takes a rectangle of grid cells around the unit.
+2. It starts at a random position inside each cell and retains one valid
+   candidate.
+3. A ranged unit compares candidates by distance. A melee unit also counts
+   how many allies already chose each enemy.
+4. Targets outside the minimum and maximum range are discarded.
+5. Healing, capture, and special computer-player tasks use separate filters.
+
+As a result, neighboring units in one formation may choose different
+opponents even when one enemy looks slightly closer on screen.
+
+<a id="что-важно-для-управления"></a>
+## What matters for unit control
+
+| Situation | Result |
+|---|---|
+| Melee units enter a dense line | They spread across the front because an already selected target becomes less attractive. |
+| Ranged units see several enemies | Each chooses independently; there is no shared automatic focus fire. |
+| Ordinary movement passes an enemy | The unit mainly reacts to enemies inside a 30° forward cone. |
+| Attack-move | Search covers every direction and updates regularly. |
+| Artillery fires at a point | It keeps firing at the coordinates even after the enemy leaves. |
+
+<a id="технические-подробности-и-реализация"></a>
+## Technical details and implementation
+
 <a id="1-точки-входа"></a>
-## 1. Entry points
+<a id="точки-входа"></a>
+### Entry points
 
 Four functions through which the entire target selection process goes:
 
@@ -68,20 +90,22 @@ cells in which there is no enemy, and do not open them at all [^10].
 ---
 
 <a id="2-unitsearchenemyincell--выбор-внутри-одной-ячейки"></a>
-## 2. `_unit_SearchEnemyInCell` - selection within one cell
+<a id="выбор-внутри-одной-ячейки"></a>
+### Selection within one cell
 
 Returns one handle `goHnd` (or 0 if there is no candidate) [^9].
 
 <a id="21-какие-игроки-рассматриваются"></a>
-### 2.1 Which players are being considered
+<a id="какие-игроки-рассматриваются"></a>
+#### Which players are considered
 
-Loop through all `gc_MaxPlayerCount` players, filter by bit mask
-presence in the cell and by affiliation (friend/enemy). Normal mode
-Only enemy players are bypassed. At the priest's (`scanmode = 1`) -
-on the contrary, only your own [^11].
+The loop checks every player represented in the cell, then filters by
+friend-or-enemy affiliation. Normal combat considers enemies only; healing
+does the opposite and considers allies only [^11].
 
 <a id="22-случайный-стартовый-индекс-и-циклический-проход"></a>
-### 2.2 Random starting index and looping
+<a id="случайный-стартовый-индекс-и-циклический-проход"></a>
+#### Random starting index and looping
 
 The starting index is specified as `floor(random × count)`, where `count` is
 the number of player units in the cell. Next comes a cyclic pass through all
@@ -94,7 +118,8 @@ among suitable candidates. If there are four enemy musketeers in a cell,
 everyone has an equal chance of becoming a target.
 
 <a id="23-фильтры-на-кандидата"></a>
-### 2.3 Candidate filters
+<a id="фильтры-на-кандидата"></a>
+#### Candidate filters
 
 Minimum:
 
@@ -110,22 +135,22 @@ attack radius does not exceed `gc_unit_meleeattackradius`). For shooters from
 radius, a random penalty is subtracted `gc_obj_maxattackradiusdisp × uniqrnd`,
 for melee combat - no [^12].
 
-Constants: `gc_unit_meleeattackradius = 0.5` tile,
-`gc_obj_maxattackradiusdisp = 3` tile [^13]. Rifle unit
-loses up to `3 × uniqrnd` effective radius tiles at the time of scanning.
+The constants are `gc_unit_meleeattackradius = 0.5` cell and
+`gc_obj_maxattackradiusdisp = 3` cells [^13]. A ranged unit loses up to
+`3 × uniqrnd` cells of effective radius during the scan.
 This penalty applies specifically to target selection; range penalty
 shot at `standtime < 0.25` - a separate story, described in
 [Ranged-Unit Behavior §4](ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
 
-Topological check: the target is valid if it is in the same topology zone,
-the same as the attacker, or (for ranged combat) if the distance is in the Euclidean norm
-does not exceed `maxRad + max((goY - trgY) × 2, 0)` (with bonus for
-elevation) [^14]. That is, melee requires a common area (one land,
-one island), and the shooter can penetrate either the general zone, or simply
-line of sight within a radius.
+The topology check accepts a target in the same connected area. For ranged
+combat, it can also accept a target whose Euclidean distance does not exceed
+`maxRad + max((goY - trgY) × 2, 0)`, including the high-ground bonus [^14].
+Melee therefore requires a shared land area or island; ranged combat has an
+additional direct-distance path.
 
 <a id="24-диспетчер-по-scanmode"></a>
-### 2.4 Dispatcher by `scanmode`
+<a id="режимы-отбора-кандидата"></a>
+#### Candidate-selection modes
 
 This block determines which valid candidate is selected.
 All branches use early exit `break(MAIN)` after finding the first
@@ -139,29 +164,31 @@ compatible target [^15]:
 | 3 (capture-only) | specialized search (for example, AI on capture tasks) | returns the first valid `bcapture` + `_unit_TestCapture`, does not consider anything else. |
 | 4 (AI sabotage) | special AI tasks | examines **all** candidates and selects the one with the greatest `weapon[0].damage`: the most dangerous target, not the nearest one. |
 
-“First” in modes 0, 1, 2, 3 is the first according to that very random
-bypass from §2.2. In mode 4, the cycle is not terminated by an early exit -
-`Result` is updated to the maximum `damage`.
+“First” in modes 0, 1, 2, and 3 means the first candidate encountered by the
+randomized traversal from the previous section. Mode 4 does not exit early:
+it updates `Result` until the highest `damage` value has been found.
 
 ---
 
 <a id="3-unitsearchenemyscancells--обход-ячеек"></a>
-## 3. `_unit_SearchEnemyScanCells` — scanning cells
+<a id="обход-ячеек"></a>
+### Scanning cells
 
 Returns one handle `goHnd` or 0 [^1].
 
 <a id="31-прямоугольник-ячеек"></a>
-### 3.1 Cell rectangle
+<a id="прямоугольник-ячеек"></a>
+#### Cell rectangle
 
-Using `_misc_CalcScanCellsMinMax`, cell boundary indices are calculated
-around the seeker's position; then double loop `i × j` on this
-rectangle. `x1`, `y1` — index of the finder’s own cell in
-scan-grid; `rx1` — radius in cells, considered at the top level
-as `floor(maxsearchdist / gc_scangrid_size) + 1`. That is, it is covered
-square `(2 × rx1 + 1)²` cells - usually 3x3 or 5x5 [^16].
+`_misc_CalcScanCellsMinMax` calculates the cell boundaries around the unit,
+after which a nested `i × j` loop visits the rectangle. `x1` and `y1` are the
+unit's own cell; `rx1` is the cell radius,
+`floor(maxsearchdist / gc_scangrid_size) + 1`. The scan therefore covers a
+square of `(2 × rx1 + 1)²` cells, usually 3×3 or 5×5 [^16].
 
 <a id="32-цикл-и-две-метрики"></a>
-### 3.2 The cycle and two metrics
+<a id="цикл-и-две-метрики"></a>
+#### The cycle and two metrics
 
 For each cell, `_unit_SearchEnemyInCell` returns one candidate.
 Then it is checked to see if it belongs to the ring of radii
@@ -170,13 +197,13 @@ Then it is checked to see if it belongs to the ring of radii
 relative minimum `minRelativeTrgHnd` (taking into account the load on
 target). What is returned is `minRelativeTrgHnd` [^17].
 
-Notable points:
+Important details:
 
 - **Ring of radii.** Both boundaries - `minsearchdist` (dead zone
-  for shooters, the enemy hits it closely) and `maxsearchdist`
+  for ranged units, where an enemy is too close) and `maxsearchdist`
   (outer radius of the aimed shot). Shooter in motion counts
   by `Sqr(maxsearchdist - 3 × uniqrnd)`. Standing shooter and any
-  melee - according to `maxsearchdist²` [^4].
+  melee unit uses `maxsearchdist²` [^4].
 - **Two parallel metrics.** `minTrgHnd` - simply absolutely
   nearest target. `minRelativeTrgHnd` is the nearest candidate after
   adjustment for target load (see §3.3).
@@ -186,7 +213,8 @@ Notable points:
   when only one unit is sampled from each cell [^18].
 
 <a id="33-балансировка-нагрузки-для-рукопашников"></a>
-### 3.3 Load Balancing for Melee
+<a id="балансировка-нагрузки-для-рукопашников"></a>
+#### Load balancing for melee
 
 `stolist` contains units whose current state already targets this opponent.
 It therefore measures how many units are moving toward or attacking that
@@ -205,85 +233,82 @@ Melee effect when selected:
 | 8 | ×2.000 | +41.4% |
 | 16 | ×3.000 | +73.2% |
 
-The target, towards which eight of yours are already running, is effectively “moved away”
-by 41% - and the second pikeman will most likely choose another enemy in the same
-cell. This makes the formation more spread out along the front.
+If eight allies are already heading toward a target, that target effectively
+moves 41% farther away. The next Pikeman is therefore likely to choose
+another enemy in the same cell, spreading the formation across the front.
 
-There is no balancing for shooters. All musketeers of one squad usually
-knock down one nearby target; the distribution turns out naturally -
-through the scattering of shots and the order of traversal of cells, and not through explicit
-metric.
+Ranged units do not use this balancing. Their target distribution comes from
+projectile dispersion and cell traversal, not an explicit load metric.
 
 <a id="34-ранний-выход-для-рукопашников"></a>
-### 3.4 Early exit for melee combat
+<a id="ранний-выход-для-рукопашников"></a>
+#### Early exit for melee combat
 
-If the melee finds the target **inside half of the scan-cell** (~4 tiles)
-and improved `relativeDist`, the cycle through cells ends. Continue searching
-a “more balancing suitable” opponent does not make sense -
-the current one is already very close. Constant `cOkDist = (gc_scangrid_size / 2)²`
-is calculated inside the function [^19].
+If a melee unit finds an improved target **inside half a scan cell** (about
+four cells), the scan stops. Continuing to seek a better-balanced opponent
+would add little because the current target is already very close. The
+threshold is `cOkDist = (gc_scangrid_size / 2)²` [^19].
 
 There is no such option for shooters - they always go around the entire rectangle.
 
 ---
 
 <a id="4-unitsearchvictimonprogress--периодический-поиск"></a>
-## 4. `_unit_SearchVictimOnProgress` - periodic search
+<a id="периодический-поиск"></a>
+### Periodic search
 
-The unit's state machine calls this function roughly every 100 ms
-(`gc_global_TimeProgressUnit`). She decides who to auto-attack
-currently [^8].
+The unit's state logic refreshes target search roughly every 100 ms. This
+update decides whom to attack at that moment [^8].
 
 <a id="41-радиусы"></a>
-### 4.1 Radii
+<a id="радиусы"></a>
+#### Radii
 
-Basic values are taken from `objprop`: `searchdist = objprop.searchradius`,
-`minsearchdist = objprop.minattackradius`. To the shooter (when
-`minsearchdist > gc_unit_meleeattackradius`) a bonus is added with
-hills - `searchdist += goHeight × 2`, if `goHeight > 0`.
-For melee in Guard mode `searchdist` is limited from above
-constant `gc_gameplay_meleeguardmaxsearchdist` - the guard does not leave
-far [^20].
+Base values come from `objprop`: `searchdist = objprop.searchradius` and
+`minsearchdist = objprop.minattackradius`. A ranged unit on high ground gains
+`searchdist += goHeight × 2` when `goHeight > 0`. A melee unit on guard has
+its search distance capped by `gc_gameplay_meleeguardmaxsearchdist`, so it
+does not chase too far [^20].
 
 Bonus from higher ground - more details in
 [Ranged-Unit Behavior §7](ranged_units_behavior.md#7-high-ground--бонус-с-возвышенности).
 
 <a id="42-выбор-scanmode"></a>
 <a id="42-выбор-режима-поиска-scanmode"></a>
-### 4.2 Selecting the search mode (`scanmode`)
+<a id="выбор-режима-поиска"></a>
+#### Selecting the search mode
 
-The priest goes to `scanmode = 1`. All units that themselves are captured
-(`bcapture` - for example, artillery), as well as water and buildings - in
-`scanmode = 0` (kill only). All others are non-capturable
-ground units (infantry, cavalry) - in `scanmode = 2`: priority to kill,
-if you fail, capture [^21].
+Religious healers use `scanmode = 1`. Capturable units such as artillery,
+along with ships and buildings, use mode 0 and search only for attack
+targets. Other land units such as infantry and cavalry use mode 2: attack
+first and try capture only when no killable target exists [^21].
 
-That is, an infantry unit **by default tries to capture** a defenseless
-a gun or a warehouse, if there is nothing nearby to kill.
+An infantry unit will therefore **try to capture** a defenseless gun or
+Storehouse when there is nothing nearby to attack.
 
 <a id="43-диспетчер-обхода"></a>
-### 4.3 Scan dispatcher
+<a id="выбор-способа-обхода"></a>
+#### Selecting the scanning method
 
-Depending on the environment and the number of cells, one of three procedures is selected
-bypass: for water units - `_unit_SearchEnemyScanCellsShips`, for
-long-range (`_misc_GetShotPointsCount > 0`, artillery and turrets) or
-large radius - `_unit_SearchEnemyScanCellsLongRange`, for
-regular - `_unit_SearchEnemyScanCells` [^22].
+The game chooses one of three scanning procedures. Ships use
+`_unit_SearchEnemyScanCellsShips`; long-range units or large radii use
+`_unit_SearchEnemyScanCellsLongRange`; ordinary units use
+`_unit_SearchEnemyScanCells` [^22].
 
-The long-range scan traverses up to 18 cells (`cLongRangeTryNum = 18`) and selects
-**the first valid goal that comes across** - he is not looking for the minimum.
+The long-range scan checks up to 18 cells (`cLongRangeTryNum = 18`) and
+returns **the first valid target**, rather than searching for the nearest.
 
 ---
 
 <a id="5-атака-с-движением"></a>
 ## 5. Attack-move
 
-In Cossacks 3, attack-move looks like one action to the player, but
-in the code these are **several different orders** depending on the type of unit
-and how the player aimed the sight.
+Attack-move looks like one action to the player, but its implementation
+depends on the unit type and the selected destination.
 
 <a id="51-для-пехоты-и-кавалерии--gcobjordertypemove-с-подрежимами"></a>
-### 5.1 For infantry and cavalry - `gc_obj_order_type_move` with submodes
+<a id="51-пехота-и-кавалерия"></a>
+### 5.1. Infantry and cavalry
 
 `progress` orders are stored in submode [^5]:
 
@@ -292,21 +317,19 @@ and how the player aimed the sight.
 | `move_mode_default` | 0 | normal movement to the point |
 | `move_mode_attack` | 1 | attack-move: every periodic update calls `_unit_SearchVictimOnProgress` and, if it finds a target, issues `_unit_OrderAttack` |
 
-Additionally there is a global profile flag
-`gProfile.bsearchenemyinfront` (default `True` [^23]). He adds
-**smart search** for `move_mode_default`: if a potential
-the target and the angle between the direction of movement and the direction towards it are not
-exceeds `cMinAngle = 30°`, the unit is automatically deployed to
+The profile flag `gProfile.bsearchenemyinfront`, enabled by default [^23],
+adds a forward search to ordinary movement. If the angle between movement
+and a potential target is at most `cMinAngle = 30°`, the unit turns to
 attack [^24].
 
-That is, when smart search is turned on, normal movement (right click)
-also catches enemies, but **only those who are in a 30° cone in front**. Enemies
-on the sides and back are ignored. When moving aggressively
-(`move_mode_attack`) there is no such limitation - the closest enemy is taken
-anywhere.
+Ordinary right-click movement can therefore trigger combat, but **only for
+enemies inside a 30° forward cone**. Enemies to the side or rear are ignored.
+Attack-move has no such restriction and can select a nearby enemy in any
+direction.
 
 <a id="52-для-артиллерии--gcobjordertypeattackpoint"></a>
-### 5.2 For artillery - `gc_obj_order_type_attackpoint`
+<a id="52-артиллерия"></a>
+### 5.2. Artillery
 
 `_player_OrderUnitsToAttackPoint` only processes units with
 `objprop.bartprepare = True`. For each such unit it is removed
@@ -317,21 +340,18 @@ previous orders and issued `_unit_OrderAttackPoint` with coordinates [^6].
 (`howitzer`), and Frame gun (`framegun`; exact
 branches in the script - see [^25]). These units:
 
-1. Get `gc_obj_order_type_attackpoint` with the coordinates of the point.
-2. At each progress tick in `_unit_TryAttackPoint` [^26] check
-   whether the point is within the radius, and shoot at it. Point from no one
-   doesn't depend - it's just a coordinate.
-3. AoE damage catches everyone who is in the explosion radius (see.
+1. Receive `gc_obj_order_type_attackpoint` with the chosen coordinates.
+2. At each update, `_unit_TryAttackPoint` [^26] checks whether the point is
+   in range and fires. The point is fixed and belongs to no unit.
+3. Area damage affects everyone inside the blast radius (see
    [How Damage Is Calculated §6.5](combat_damage_pipeline.md)).
-4. Because of `bsearchenemy := True`, the artillery itself selects in parallel
-   target through `_unit_SearchVictimOnProgress`, if within its normal radius
-   an enemy has appeared, but the current `attackpoint` order will not change,
-   until it shoots back.
+4. Because `bsearchenemy := True`, artillery may also notice an enemy inside
+   its ordinary radius, but the current `attackpoint` order remains until the
+   shot is completed.
 
-Difference from move-attack: artillery **fires at the coordinate**, even
-if the target is gone. This is convenient for suppression and mortar support behind
-line of sight. But if the enemy ran away, ordinary artillery with the order
-attack-point hammers on an empty space until a new command.
+Unlike attack-move, artillery **fires at the coordinate** even after the
+target leaves. This supports area denial and indirect fire, but it also means
+the gun may keep shelling empty ground until given a new order.
 
 <a id="53-через-gui"></a>
 <a id="53-через-интерфейс"></a>
@@ -357,61 +377,48 @@ described in
 ## 6. Practical implications for unit control
 
 - **Ranged units do not focus fire automatically.** Units in the same squad
-  select targets individually - random inside the cell plus
-  `minRelativeTrgHnd` by cells - rather than coordinating a common goal.
-  In order for all 36 musketeers to shoot at one enemy, you need to explicitly give
-  `OrderAttack` (right click on target) and even that is held
-  not hard: after killing or leaving the enemy from the radius, each unit
-  will re-evaluate on its own.
-- **Melee is distributed** along the front through STO balancing:
-  Each next pikeman in the ranks takes into account how many he has already hit
-  the current candidate, and given equal distances is more likely to choose
-  another. Therefore, the formation of pikemen naturally covers the line
-  enemies, rather than falling to one point.
-- **Firing with retreat** is limited to the angle `cMinAngle = 30°`. If
-  The shooter moves with a normal move (not aggressive) - he notices
-  enemies only in the front cone. Cavalryman entering from the rear or
-  flank, does not activate an auto attack for a musketeer moving forward along
-  right click. You need either `move_mode_attack` or an explicit stop.
-- **Artillery on a point is useful as a zone denial.** Placed on
-  attack-point gun does not recalculate the target - it will shoot at
-  coordinate with the assigned `dispertion`, covering the AoE of everyone who goes there
-  comes in.
-- **The shooter in motion is effectively “lower” by 3 tiles** in radius
-  detection: `maxRad -= 3 × uniqrnd` while `standtime < 0.25`.
-  A unit with a high `uniqrnd ≈ 0.9` immediately loses 2.7 tiles, a low
-  `≈ 0.1` - 0.3 tiles. That is, in one line there are part of the musketeers
-  will “see” the target earlier, the rest - later.
-- **AI saboteur aims for maximum damage.** In `scanmode = 4` mode
-  (special AI tasks for sabotage operations) the unit chooses
-  not the closest, but the most dangerous enemy according to `weapon[0].damage`. This
-  not “regular” AI; see [computer-player behavior](../../systems/ai_behavior.md), section
-  "Open questions."
+  choose independently rather than coordinating a shared target. To make all
+  36 Musketeers fire at one enemy, issue an explicit attack order. After that
+  target dies or leaves range, every Musketeer evaluates the battlefield
+  independently again.
+- **Melee units spread along the front.** Each additional Pikeman considers
+  how many allies already chose a candidate and is more likely to take
+  another at a similar distance.
+- **Ordinary movement watches a 30° forward cone.** Cavalry approaching from
+  the rear or flank may not trigger a Musketeer's automatic attack. Use
+  attack-move or stop the unit explicitly.
+- **Fire at a point creates zone denial.** Artillery keeps shelling the
+  chosen coordinates with its normal dispersion instead of following an
+  enemy.
+- **A recently moving ranged unit loses up to three cells of detection
+  radius.** A unit with `uniqrnd ≈ 0.9` loses 2.7 cells, while one with
+  `≈ 0.1` loses 0.3. Parts of one line may therefore notice the same target
+  at different times.
+- **Special computer-player sabotage chooses the highest-damage enemy**, not
+  the nearest one. This is not ordinary combat behavior; see
+  [computer-player behavior](../../systems/ai_behavior.md).
 
 ---
 
 <a id="7-лечение-священниками--bpriest"></a>
 <a id="7-лечение-духовными-лицами-bpriest"></a>
-## 7. Healing by religious units (`bpriest`)
+<a id="7-как-духовные-лица-выбирают-раненых"></a>
+## 7. How religious units choose wounded allies
 
-The Priest (`priest`), Pope (`pope`), Mullah (`mullah`), and Padre
-(`padre`) form a special class
-units with `bpriest = True`. Target selection algorithm - mode
-`scanmode = 1` (see §2.1): **only own** players are scanned, and
-the unit is selected according to the rule “the first one encountered with `hp < maxhp`”;
-if the first candidate is already at full HP - exit without result.
+The Priest, Pope, Mullah, and Padre form a special class. They scan
+**friendly units only** and choose the first wounded ally encountered. If the
+first candidate is already at full health, the search returns no result.
 
-The priest's "attack" is handled in a separate branch
-`_misc_DoDamage` (see [How Damage Is Calculated §5](combat_damage_pipeline.md))
-with `weapon.kind = gc_obj_weapon_kind_heal` [^32]. Formula:
+Healing uses a separate branch of the calculation (see
+[How Damage Is Calculated §5](combat_damage_pipeline.md)) [^32]:
 ```
 target.hp += weapon.damage              # WITHOUT shield or protection
 target.hp := min(target.hp, target.maxhp)
 ```
-`heal pause = 0` - the priest heals every animation cycle
-(~0.7 g-sec) until the target reaches full HP.
+The healing delay is zero, so the Priest restores health every animation
+cycle, roughly every 0.7 game second, until the target is fully healed.
 
-| Unit | Healing per hit | Range (pixels / tiles) | Availability |
+| Unit | Healing per hit | Range (pixels / cells) | Availability |
 |---|---:|---|---|
 | Priest | 20 | 0–400 / 7.5 | most European nations |
 | Pope | 25 | 0–350 / 6.6 | Papal States / Venice |
@@ -421,24 +428,20 @@ target.hp := min(target.hp, target.maxhp)
 <a id="71-стратегические-свойства"></a>
 ### 7.1. Strategic properties
 
-- **Healing ignores armor and shield** - restores HP by
-  full `weapon.damage` regardless of target protection.
-- **Several priests heal one target in parallel** —
-  rater with 282 HP healed by 4 priests = +80 HP/cycle ≈ 115
-  HP/real second.
-- **Mullah has the longest range** - heals from the second
-  line, inaccessible for melee combat.
-- **Padre most effective** (30 / hit) - Spanish-Portuguese
-  the army is very tenacious.
-- Priests themselves are vulnerable (low HP, no armor) - priority
-  target for raids.
+- **Healing ignores armor and shield** and restores the full weapon value.
+- **Several Priests can heal one target in parallel.** Four Priests restore
+  80 health per cycle, about 115 per game second, to a 282-health Reiter.
+- **The Mullah has the longest range** and can heal from the second line.
+- **The Padre has the strongest heal**, 30 health per hit.
+- Religious healers have little health and no armor, making them priority
+  raid targets.
 
 <a id="72-конверсии-нет"></a>
 ### 7.2. No conversion
 
 Unlike missionaries in Age of Empires II, religious units in Cossacks 3 are
-**healer only**. No conversion of enemy units to friendly units
-no scripts. See also [building capture](../economy/capture_mechanics.md)
+**healers only**. They cannot convert enemy units. See also
+[building capture](../economy/capture_mechanics.md)
 §7.
 
 ---
@@ -446,23 +449,20 @@ no scripts. See also [building capture](../economy/capture_mechanics.md)
 <a id="8-реакция-отряда-на-полученный-удар"></a>
 ## 8. The squad's reaction to the blow received
 
-Any non-artillery unit that takes damage in `_misc_DoDamage`,
-switches its `TSquad.fAgressive := True` and updates
-`fLastBattleTime` [^33]. Effect: **one damaging shot/hit
-for any unit in the squad, switches the entire squad to combat mode** -
-all units begin to actively search for the enemy and counterattack.
+When a non-artillery unit takes damage, its entire squad switches to an
+aggressive state and records the time of the attack [^33]. In effect, **one
+damaging hit wakes the whole squad**, which then searches for the attacker
+and counterattacks.
 
 <a id="81-стратегические-следствия"></a>
 ### 8.1. Strategic Implications
 
-- **AI peck by one archer** activates **entire** squad
-  AI. Can be used as a distraction: one scout teases
-  army, the rest are flanked.
-- **AI Artillery is an exception** (special case in code): not
-  switches to `fAgressive` from impact, continues to work in
-  his order.
-- **Hidden gathering activity** (raid by peasants in
-  rear) - **do not attack** at all, otherwise the whole army will move.
+- **One Archer can activate an entire computer-controlled squad.** This can
+  be used as a distraction while another force attacks the flank.
+- **Computer-controlled artillery is an exception:** taking a hit does not
+  switch it into the aggressive state, so it continues its current order.
+- A covert Peasant raid should avoid unnecessary attacks, which can alert
+  the whole enemy squad.
 
 See also [How Damage Is Calculated §8](combat_damage_pipeline.md)
 about the same effect from the damage formula.
@@ -470,24 +470,26 @@ about the same effect from the damage formula.
 ---
 
 <a id="9-рассеяние-и-точность-выстрела"></a>
-## 9. Scattering and shot accuracy
+<a id="scattering-and-shot-accuracy"></a>
+## 9. Dispersion and shot accuracy
 
-Each projectile shot is scattered relative to the target along
-formula in `_weapon_CalcShotDispertion` [^34]:
+Each projectile is displaced from the intended target by
+`_weapon_CalcShotDispertion` [^34]:
 ```
-maxdisp = dist × disp × 0.0267         # in tiles
+maxdisp = dist × disp × 0.0267         # in cells
 shot_x  = target_x + (1 − random × 2) × maxdisp
 shot_z  = target_z + (1 − random × 2) × maxdisp
 ```
-`dist` — distance to target (tiles), `disp` — `weapon.dispertion`
-(tiles, after `_misc_PixelsToTiles`). **The farther, the more
-scattering**, linear.
+`dist` is the distance to the target in cells; `disp` is
+`weapon.dispertion`, also converted to cells. Dispersion grows linearly with
+distance.
 
 <a id="91-базовые-значения-dispertion"></a>
 <a id="91-базовые-значения-разброса-dispertion"></a>
+<a id="91-базовые-значения-разброса"></a>
 ### 9.1. Basic dispersion values
 
-| Weapon | Dispersion (pixels / tiles) | Deviation at 15 tiles |
+| Weapon | Dispersion (pixels / cells) | Deviation at 15 cells |
 |---|---:|---:|
 | Strelets (SHOTMUSKET, base) | 200 / 3.75 | ±1.50 t |
 | Archer (STRELA) | 175 / 3.28 | ±1.31 t |
@@ -499,20 +501,22 @@ scattering**, linear.
 
 <a id="92-шанс-попасть-в-юнит-размером-11-тайл-на-дистанции-d"></a>
 <a id="92-шанс-попасть-в-юнит-размером-11-клетка-на-дистанции-d"></a>
-### 9.2. Chance to hit a 1x1 tile unit at a distance `d`
+<a id="chance-to-hit-a-1x1-tile-unit-at-a-distance-d"></a>
+### 9.2. Chance to hit a 1×1-cell unit at distance `d`
 
 - If `2 × maxdisp ≤ 1` → ~100% hit.
 - If `2 × maxdisp > 1` → chance ≈ `1 / (2 × maxdisp)` to get into
   the desired square.
 
-Example: musketeer (`disp = 3.75`) on 15 tiles →
+Example: a Musketeer with `disp = 3.75` at 15 cells gives
 `maxdisp = 1.50`, window ±1.50 = 3.00 → chance of hitting the target 1×1 ≈
-**1/3 = 33%** in one shot. That is, **TTK for long-range bullets and
-arrows in idealized matrices is underestimated by 3 times**.
+**1/3 = 33%** in one shot. Idealized calculations that ignore dispersion can
+therefore underestimate the time needed to kill a target by about threefold.
 
 <a id="93-апгрейды-на-dispertion"></a>
 <a id="93-улучшения-разброса-dispertion"></a>
-### 9.3. Upgrades to dispersion
+<a id="93-улучшения-точности"></a>
+### 9.3. Accuracy upgrades
 
 Only for **artillery**:
 - `aca.20` (“Research new sighting devices for artillery”):
@@ -527,7 +531,7 @@ For musketeers and archers there is **no direct** dispersion upgrade.
 <a id="10-открытые-вопросы"></a>
 ## 10. Open questions
 
-| # | Question | Where to dig |
+| # | Question | How to verify it |
 |---:|---|---|
 | 1 | The exact condition under which the interface sends `move_mode_default` instead of `move_mode_attack`: presumably right-click means movement, while A + click means attack-move. The scripts do not expose this decision. | Test it in the editor or inspect the interface calls in native code. |
 | 2 | Weight 0.125 in STO balancing - chosen empirically or selected? | Compare with C1 or experimentally measure the spread of targets for 36 pikemen versus 36 musketeers. |
@@ -702,7 +706,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     else if (not ((TObjProp(pobjprop).bcapture) or (TObjProp(pobjprop).media = gc_obj_media_water) or (TObjProp(pobjprop).bbuilding))) then
        scanmode := 2;
     ```
-[^22]: Bypass Manager (water/long-range/regular) - `lib/unit.script:5494-5503`:
+[^22]: Scan dispatcher (water, long-range, or regular) —
+         `lib/unit.script:5494-5503`:
     ```pascal
     if (TObjProp(pobjprop).media = gc_obj_media_water) then
        trgHnd := _unit_SearchEnemyScanCellsShips(goHnd, posX, posZ, minsearchdist, scangridx, scangridy, rx1, scanmode)

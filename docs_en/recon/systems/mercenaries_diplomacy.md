@@ -4,138 +4,96 @@
 
 [← How the game works](../README.md)
 
-This article explains recruitment through the **Diplomatic Center**
-(`<nat>dip`): its economy, gold upkeep, rebellion, and price-scaling cap.
-Source references and Pascal excerpts are collected under
-[Sources](#sources).
+This article explains recruitment through the **Diplomatic Center**, gold
+upkeep, price growth, and rebellion when the treasury is empty. Internal
+identifiers and Pascal excerpts are collected under
+[Technical details](#technical-details) and [Sources](#sources).
 
 **Related documents:**
 
 - [Peasant resource gathering](../world/economy/peasant_extraction.md)
-  explains `bnohungry`; it is `True` for mercenaries, so they consume no food.
+  explains why mercenaries consume no food.
 - [Construction and repair](../world/economy/building_mechanics.md)
   explains the Diplomatic Center's footprint and construction model.
 - [Server architecture and network synchronization](../../../internals_en/engine/server_sync_architecture.md)
-  shows why rebellion transfers through `_misc_ChangePlayer` are
-  server-authoritative.
+  explains why the server confirms owner changes during a rebellion.
 - [Determinism audit](../../../internals_en/engine/determinism_audit.md)
-  covers the seeded `_misc_RandomInt` call used for desertion.
+  explains how the random selection of deserters stays synchronized.
 
 <a id="кратко"></a>
-## TL;DR
+## Key points
 
-- The **Diplomatic Center** (`<nat>dip`) is a mid-game building available
+- The **Diplomatic Center** is a mid-game building available
   to all 21 nations. Its common variant costs 4,900 wood and 1,700 stone,
   has 4,500 health, and requires an Academy and Town Hall.
 - It recruits **eight mercenaries**: six base units and two from the
   Early Bird DLC. Every nation uses the same roster and unit statistics.
-- A mercenary costs **only gold** to recruit and has `bnohungry = True`,
-  so it consumes no food, but **continuously drains gold** as upkeep
-  (`consume.gold > 0`).
-- When a player runs out of gold **and** `resconsume[gold] > resincome[gold]`,
-  `brebellion` is raised. At every background idle update, each mercenary
-  can be transferred to the global “mercenary” NPC player
-  (`gc_player_mercenaryind = MaxPlayerCount - 1`):
+- A mercenary costs **only gold**, consumes no food, and
+  **continuously drains gold** as upkeep.
+- When gold reaches zero while expenses exceed income, each mercenary can
+  join an army hostile to every participant:
   - **Easy:** 0.305% per update;
   - **Normal:** 0.610% per update;
   - **Hard and above:** 18.31% per update.
-- This NPC player is hostile to every normal participant.
 
 ---
 
 <a id="1-дипломатические-здания-по-нациям"></a>
-## 1. Diplomatic buildings (by nation)
+<a id="дипломатический-центр-у-разных-наций"></a>
+## Diplomatic Centers by nation
 
-All 21 nations register one Diplomatic Center in `country.script` through
-`_country_AddMember`, using category
-`gc_country_editorplace_category_buildings` and AI role
-`gc_ai_unit_dipcenter` [^1].
-
-`unit.script` selects statistics by the internal building ID
-`csid+'dip'`: one common variant for
-17 European nations and separate overrides for `rus`, `ukr`,
-`tur`, `alg` [^2].
-
-The argument order of `SetObjBuildingExtProperties` is:
-`maxhp, buildtime, costpercent, bcapture, score, usage, food, wood, stone, gold, iron, coal` [^3].
-
-In the nation-specific branches, `gold` is zero but is followed by the
-comment `0{1000}`. This indicates that the building cost 1,000 gold in
-the first Cossacks and that Cossacks 3 removed that cost.
+Each of the 21 nations has one version of the building. Most European
+nations share common statistics; Russia, Ukraine, Turkey, and Algeria have
+their own values [^1] [^2].
 
 | Building | Nations | Health | Build time | Wood | Stone | Gold | Capturable |
 |---|---|---:|---:|---:|---:|---:|---|
-| **Diplomatic Center** (`<nat>dip`, common variant for 17 nations) | Austria, France, England, Spain, Poland, Sweden, Prussia, Venice, Netherlands, Denmark, Portugal, Piedmont, Saxony, Bavaria, Hungary, Switzerland, Scotland | 4500 | 1000 frames | 4900 | 1700 | 0 | No |
-| **Russian Diplomatic Center** (`rusdip`) | Russia | 6500 | 1000 frames | 7900 | 3700 | 0 | No |
-| **Ukrainian Diplomatic Center** (`ukrdip`) | Ukraine | 5000 | 1000 frames | 3900 | 2700 | 0 | No |
-| **Turkish / Algerian Diplomatic Center** (`turdip` / `algdip`) | Turkey, Algeria | 5500 | 1000 frames | 4600 | 2020 | 0 | No |
+| **Diplomatic Center** | Austria, France, England, Spain, Poland, Sweden, Prussia, Venice, Netherlands, Denmark, Portugal, Piedmont, Saxony, Bavaria, Hungary, Switzerland, Scotland | 4500 | 1000 frames | 4900 | 1700 | 0 | No |
+| **Diplomatic Center** | Russia | 6500 | 1000 frames | 7900 | 3700 | 0 | No |
+| **Diplomatic Center** | Ukraine | 5000 | 1000 frames | 3900 | 2700 | 0 | No |
+| **Diplomatic Center** | Turkey, Algeria | 5500 | 1000 frames | 4600 | 2020 | 0 | No |
 
-The `prereqs` field in `data.json["buildings"]` (for example,
-`ausdip → ['ausaca']`): the Diplomatic Center requires an existing
-Academy. The building is **not capturable** (`bcapture=False`).
-
-`costpercent = 100`, so price scaling does not prevent a second
-Diplomatic Center.
-However, `data/locale/en/units.txt @%nat%dip.ext` explicitly says,
-**“You can only build one diplomatic center.”** The interface or
-`bproduceenabled`, rather than `costpercent`, probably enforces the limit.
-This remains an open question (see §9).
-
-`gc_obj_usage_dipcenter = 32` [^4] is used by the **Market and Diplomatic
-Center** match setting (`marketdip`)
-(see §5).
+Construction requires an Academy. **The Diplomatic Center is not
+capturable**, while its prerequisite Academy is. Localization also says
+that a player may build only one Diplomatic Center; the code path enforcing
+that limit has not yet been found.
 
 ---
 
 <a id="2-каталог-наёмников"></a>
-## 2. Mercenary catalog
+<a id="кого-можно-нанять"></a>
+## Available mercenaries
 
-Every nation registers the same eight mercenaries: **Light Infantryman**
-(`lightinfantrydip`), **Roundshier** (`roundshierdip`), **Grenadier**
-(`grenadierdip`), **Archer** (`archerdip`), **Sich Cossack**
-(`cossacksichdip`), and **Dragoon, 18th century** (`dragoon18dip`), plus
-the Early Bird units **Turkish Archer** (`archerturdip`) and
-**Light Cavalry** (`lightcavalrydip`) [^5].
-
-All 21 nations also receive the same production wiring through
-`_country_AddFixedProduceWithAccessControl`, with `csid+'cen'` and
-`csid+'aca'` as standard prerequisites [^6]. Recruitment therefore
-requires a Town Hall, an Academy, and the Diplomatic Center where the
-mercenary is registered as a `member`.
+Every nation receives the same eight mercenaries: **Light Infantryman**,
+**Roundshier**, **Grenadier**, **Archer**, **Sich Cossack**,
+**18th-century Dragoon**, and the Early Bird units **Turkish Archer** and
+**Light Cavalry** [^5]. Recruitment requires a Town Hall, an Academy, and
+the Diplomatic Center itself [^6].
 
 <a id="21-детектирование-bmercenary"></a>
 <a id="21-как-игра-распознаёт-наёмника"></a>
-### 2.1 How the game identifies a mercenary
+<a id="общие-правила"></a>
+### Shared rules
 
-`bmercenary := True` is derived from a hard-coded list rather than a
-data field. The dispatcher checks whether the internal unit ID (`sid`)
-contains `dip`, then matches it against eight explicit IDs [^7].
-
-Within each unit's `case` branch—for example,
-`'archer','archerdip','archertur','archerturdip',...`—the
-`if (bmercenary) then begin ... end` block overrides health, weapons,
-price, `consume`, `bnohungry`, and `costpercent`.
-
-> Since 2026-04-30, `docs/data.json` accounts for `if (bmercenary)`.
-> `parse_units.py` extracts the mercenary branch, and
-> `_compute_effective_unit` applies it to the eight IDs in
-> `BMERCENARY_SIDS`. All 168 unit/nation combinations now use the same
-> effective statistics shown below.
+Every nation receives the same roster with identical statistics. Mercenary
+versions use their own price, health, weapons, and upkeep even when they are
+derived from a similar regular unit [^7].
 
 <a id="22-статы-каждого-наёмника"></a>
 <a id="22-характеристики-наёмников"></a>
-### 2.2 Mercenary statistics
+<a id="характеристики-наёмников"></a>
+### Mercenary statistics
 
-| Mercenary | Script branch | Health | Recruit time, frames | Gold | Upkeep (`consume.gold`) | Price growth (`costpercent`) | Weapon (damage/range/type) |
-|---|---|---:|---:|---:|---:|---:|---|
-| **Light Infantryman** (`lightinfantrydip`) | `'lightinfantry','lightinfantrydip'` | 50 | 40 | 4 | 4 | 100 | sword 16, range 50 px |
-| **Roundshier** (`roundshierdip`) | `'roundshier','roundshierdip','swordsmansco'` | 75 | 48 | 12 | 20 | 100 | sword 6, range 50 px |
-| **Archer** (`archerdip`) | `'archer','archerdip','archertur','archerturdip','archersco','archerscodip'` | 20 | 40 | 15 | 16 | 100.5 | arrow 25 / firearm 100, range 700/750 |
-| **Turkish Archer** (`archerturdip`) | same branch | 20 | 40 | 15 | 16 | 100.5 | same |
-| **Grenadier** (`grenadierdip`) | `'grenadier','grenadierdip',…` | 30 | 48 | 25 | 60 | 100.5 | pike 30 / bullet 16 (range 800) / grenade 200 (range 400) |
-| **Sich Cossack** (`cossacksichdip`) | `'croat','hussar',…,'cossacksich','cossacksichdip',…` | 150 | 80 | 60 | 150 | 100.5 | cavalry sabre 8, range 20 px |
-| **Dragoon, 18th century** (`dragoon18dip`) | `'dragoon',…,'dragoon18','dragoon18dip','lightcavalry','lightcavalrydip'` | 100 | 64 | 120 | 120 | 102 | cavalry bullet 18, range 800 |
-| **Light Cavalry** (`lightcavalrydip`) | same branch | 100 | 64 | 120 | 120 | 102 | same |
+| Mercenary | Health | Recruit time, frames | Gold | Gold upkeep | Price growth, % | Weapon (damage/range/type) |
+|---|---:|---:|---:|---:|---:|---|
+| **Light Infantryman** | 50 | 40 | 4 | 4 | 100 | sword 16, range 50 px |
+| **Roundshier** | 75 | 48 | 12 | 20 | 100 | sword 6, range 50 px |
+| **Archer** | 20 | 40 | 15 | 16 | 100.5 | arrow 25 / firearm 100, range 700/750 |
+| **Turkish Archer** | 20 | 40 | 15 | 16 | 100.5 | same |
+| **Grenadier** | 30 | 48 | 25 | 60 | 100.5 | pike 30 / bullet 16 (range 800) / grenade 200 (range 400) |
+| **Sich Cossack** | 150 | 80 | 60 | 150 | 100.5 | cavalry sabre 8, range 20 px |
+| **18th-century Dragoon** | 100 | 64 | 120 | 120 | 102 | cavalry bullet 18, range 800 |
+| **Light Cavalry** | 100 | 64 | 120 | 120 | 102 | same |
 
 See [^8] for the exact `unit.script` branches that set `bnohungry` and
 zero food, wood, stone, iron, and coal.
@@ -424,6 +382,28 @@ mercenaries **before** the reserve is exhausted avoids this.
 
 ---
 
+<a id="технические-подробности"></a>
+## Technical details
+
+The Diplomatic Center is registered as `<nat>dip` through
+`_country_AddMember`; its AI role is `gc_ai_unit_dipcenter`, and its object
+usage is `gc_obj_usage_dipcenter = 32` [^1] [^4]. The common variant is
+used by `aus`, `fra`, `eng`, `spa`, `pol`, `swe`, `pru`, `ven`, `net`,
+`den`, `por`, `pie`, `sax`, `bav`, `hun`, `swi`, and `sco`; separate
+branches define `rusdip`, `ukrdip`, `turdip`, and `algdip` [^2].
+
+`SetObjBuildingExtProperties` receives
+`maxhp, buildtime, costpercent, bcapture, score, usage, food, wood, stone,
+gold, iron, coal` [^3]. The Diplomatic Center has `bcapture=False` and
+`costpercent=100`; the Academy has `bcapture=True`. The `0{1000}` comment
+beside the zero gold price preserves the old value from the first Cossacks.
+
+Mercenaries are recognized by eight internal identifiers:
+`lightinfantrydip`, `roundshierdip`, `grenadierdip`, `archerdip`,
+`cossacksichdip`, `dragoon18dip`, `archerturdip`, and
+`lightcavalrydip`. Their `bmercenary` branch overrides health, weapons,
+price, `consume.gold`, `bnohungry`, and `costpercent` [^7] [^8].
+
 <a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
@@ -433,10 +413,6 @@ mercenaries **before** the reserve is exhausted avoids this.
 | 2 | `bnoreputation` is never assigned in the inspected scripts. It may be a leftover from an earlier Cossacks game or an incorrectly identified field. | Search every `.script` and `.global` file. |
 | 3 | The real-time frequency of rebellion checks remains uncertain. | Compare the `Nothing` update with [ticks and subticks](../../../internals_en/engine/ticks_and_subticks.md) §3. At 135 ms, a Hard mercenary typically defects in under a second; at 100 ms, in roughly half a second. |
 | 4 | Twenty **Ship of the Line** (`battleship`) rows in `data.json` have `bmercenary = True`, although the `case 'battleship'` branch in `unit.script` does not set it. | Check for a separate Shipyard branch and rule out a parser artifact. |
-
----
-
-The **TL;DR** at the beginning summarizes the same mechanics.
 
 ---
 

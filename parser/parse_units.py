@@ -447,7 +447,9 @@ def parse_value(s: str):
 
 def parse_bool(s: str) -> bool | None:
     s = s.strip().lower()
-    if s == "true":
+    # `_unit_InitBase` declares `const bCapture = True` and uses that
+    # symbolic constant for the common Mill and Market branches.
+    if s in {"true", "bcapture"}:
         return True
     if s == "false":
         return False

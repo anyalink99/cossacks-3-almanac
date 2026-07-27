@@ -4,9 +4,9 @@
 
 [← How the game works](../README.md)
 
-How the game responds to the mouse, keyboard, and wheel, and how it
-reports events through sound, highlighting, and warnings. Section §5
-explains the relationship with vision and fog of war.
+How selection, camera controls, hotkeys, sound, and warnings work. The main
+sections describe the result for the player; exact engine functions are kept
+in technical tables and source notes.
 
 > **Related documents:**
 > [Vision and Fog of War](../world/combat/vision_and_fow.md)
@@ -14,22 +14,16 @@ explains the relationship with vision and fog of war.
 > - what orders the unit understands.
 
 <a id="кратко"></a>
-## TL;DR
+## Key points
 
-- C3 routes mouse, keyboard, and wheel input through an engine interface
-  layer. Each event activates a script state such as
-  `SetGUIEventStateOnMouseDown`.
-- **Selection** uses the engine functions `GameManagerStartSelection` and
-  `EndSelection`, with `spmRunTime` for a single pick or `spmFrame` for
-  a selection box. `RayCastIntersectGameObjectFromMouseRay` finds the
-  object under the cursor.
+- A single click selects the object under the cursor; a selection box
+  updates the selected set while the mouse button is held.
 - **Sound and fog of war are independent.** Audibility depends on distance
   from the listener—the camera or an object—not on visibility. A hidden
   enemy unit can still be heard.
 - **Warnings** such as “under attack” or “being captured” appear only
   when the event is **outside the camera frustum**.
-- `gc_gui_underattackalarminterval` limits warning frequency to roughly
-  one every five game seconds.
+- The same warning sounds no more than about once every 4.2 game seconds.
 
 ---
 
@@ -261,46 +255,36 @@ about the structure of FOW.
 <a id="6-предупреждения"></a>
 ## 6. Alarm notifications
 
-`_misc_DoAlarm(goHnd, trgHnd, event)` [^1] is the main function for
-events that require the player's attention. It is called when:
+An attention warning [^1] is triggered when:
 
-- The player's unit received an attack (`gc_gui_alarmevent_attack`).
-- The player's building is captured (`gc_gui_alarmevent_capture`).
-- And other events (`gc_gui_alarmevent_*`).
+- the player's unit is attacked;
+- the player's building is being captured;
+- another event with a dedicated warning occurs.
 
 <a id="61-условия-срабатывания"></a>
 ### 6.1. Trigger conditions
-```pascal
-if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm
-   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // event concerns the player
-      if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum
-         alarm fire
-```
-The key condition is that the warning appears only when the object is
-**outside the camera frustum**. If the player is already looking at a base
-when it comes under attack, no warning is shown because the event is visible.
+The game checks that the previous warning has expired, that the event concerns
+the current player, and that the object is outside the camera view. If the
+player is already looking at a base when it comes under attack, no additional
+warning is shown.
 
 <a id="62-лимит-частоты"></a>
 ### 6.2. Frequency limit
 
-After a warning, the game sets
-`gPlayer[plIO].lastattacktime = currenttime + gc_gui_underattackalarminterval`.
-Further warnings are suppressed until that interval expires. The interval
-is roughly five game seconds, preventing a long battle from producing an
-alert every tick.
+Further warnings are suppressed for roughly 4.2 game seconds, preventing a
+long battle from producing an alert every tick.
 
 <a id="63-что-игрок-видит-и-слышит"></a>
 ### 6.3. What the player sees and hears
 
-| Effect | Source |
+| What the player receives | Presentation |
 |---|---|
-| A trumpet or battle cry | The script sets `gbool_gui_doalarm := True`; the GUI then plays the sound. |
-| Flashing frame around the edge of the screen | UI element, responds to `gbool_gui_doalarm`. |
-| Arrow pointer to the event location | At coordinates `gfloat_gui_alarmx`, `gfloat_gui_alarmz`. |
+| Audio warning | A trumpet or battle cry. |
+| Visual warning | A flashing frame around the screen edge. |
+| Direction | An arrow pointing toward the event. |
 
 The player can jump the camera to the event with a hotkey (double Space or
-Ctrl+W, depending on the profile), which calls
-`MoveCameraToPosition(alarmx, alarmz, ...)`.
+Ctrl+W, depending on the profile).
 
 <a id="64-не-алармирует"></a>
 <a id="64-когда-предупреждения-нет"></a>
@@ -319,15 +303,10 @@ Ctrl+W, depending on the profile), which calls
 <a id="7-настройка-горячих-клавиш"></a>
 ## 7. Hotkey config
 
-Hotkeys are defined in `data/game/var/hotkeys.cfg` -
-parser format with records like:
-```
-[*] : struct.begin
-   Key = Ctrl+A
-   Action = select|allunits
-   Repeat = True
-struct.end
-```
+Hotkeys are stored in a separate profile. Each record connects a key to an
+action and can also specify an alternative combination, activation on key
+release, and repeated target cycling. The literal record format is shown in
+[Sources](#sources).
 <a id="71-структура-записи"></a>
 ### 7.1. Record structure
 
@@ -513,10 +492,9 @@ Shift is held because the active GUI state already includes modifiers.
 2. **Sound + FOW for friendly objects.** If the unit is an ally
    outside of your FOW (but in his FOW), can you hear him? Hypothesis: yes,
    listener sees the whole world by distance.
-3. ~~Exact value of `gc_gui_underattackalarminterval`.~~ ✅
-   **Resolved:** it is `135` in `dmscript.global`. `GetCurrentTime` most
-   likely counts **frames**, giving `135 / 32 ≈ 4.22` game seconds. A warning
-   therefore appears no more than once every four game seconds.
+3. **Exact warning delay.** The threshold is 135 internal units, which gives
+   about 4.22 game seconds when converted at 32 frames per game second.
+   Verify in play that the warning counter uses that exact time scale.
 4. **Double-click on a unit portrait** - does the camera jump? In code
    `MoveCameraToSelectedUnits` exists, but the trigger is not specified in
    scripts.
@@ -538,3 +516,13 @@ Shift is held because the active GUI state already includes modifiers.
       see [`derived/dws_native_signatures.json`](../../../derived/dws_native_signatures.json).
       Hotkey config - `data/game/var/hotkeys.cfg`. Forbidden-keys —
       `data/gui/menu.inc/hotkeysettings.inc:1-100`.
+
+      Literal record example:
+
+      ```text
+      [*] : struct.begin
+         Key = Ctrl+A
+         Action = select|allunits
+         Repeat = True
+      struct.end
+      ```
