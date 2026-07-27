@@ -4,32 +4,33 @@
 
 [← How the game works](../../README.md)
 
-Deep dive: exactly how the upgrade is **applied** to units and
-buildings after research. Where do the effects live, is it interrupted?
-research how `eff` (efficiency) is summarized what is happening
-when purchasing an upgrade again. All links to the code are in
-[Sources](#sources).
+This article explains how an upgrade is applied to units and
+buildings after research: where effects are stored, whether research
+can be cancelled, how efficiency (`eff`) is combined, and what
+happens on a second research attempt. Code references are collected
+under [Sources](#sources).
 
-> The numbers of upgrades themselves (prices, bonuses, requirements) are in
+> Canonical upgrade names and parameters (prices, bonuses, requirements) are in
 > [`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md). Here
-> understands the **process**.
+> covers the **application process**.
 
-## TL;DR
+<a id="коротко-о-главном"></a>
+## In brief
 
 - The upgrade is stored in `country.upgrade[1..N]` - an array of records with
   parameters `cost`, `time`, `prerequisites`, effects on the target [^1].
-- Upgrade targets (`targets`) - this is a list of sid units or buildings to
-  to which it is applied. For example, `mill.X` applies to all
-  to the peasants of the nation, `aca.X` - to all military units.
-- Apply **immediately** to **already existing** units and
-  buildings. That is, I bought `mill.1` (+5% efficiency on food) - that’s all
-  Peasants on the map born **before** the purchase will receive an increase
-  exactly at the end of the study.
+- Upgrade targets (`targets`) are internal IDs of units or buildings to which
+  the effect applies. For example, Mill upgrades (`mill.X`) apply to
+  the nation's Peasants, while Academy upgrades (`aca.X`) commonly
+  target military units.
+- Effects apply **immediately** to **existing** units and buildings.
+  A Food-efficiency upgrade researched at the Mill affects every
+  Peasant already on the map as soon as research completes.
 - The effects are **additive**, not multiplicative. For example,
   `eff = 100 + 5 + 10 + 15 = 130 %`, not `1.05 × 1.10 × 1.15`.
-- Aborting the upgrade is **possible** - the player can cancel through the UI.
-  Some resources are returned (~50% by default), research
-  rolls back.
+- Research **can be cancelled** through the building interface.
+  Part of the cost is returned (about 50% by default), and no effect
+  is applied.
 - `priceperc` upgrades reduce the price of future orders, but **not**
   They return the difference for those already built.
 - `buildtimeperc` upgrades affect the time of **new** buildings /
@@ -38,6 +39,7 @@ when purchasing an upgrade again. All links to the code are in
 ---
 
 <a id="1-как-хранится-апгрейд"></a>
+<a id="1-как-хранится-улучшение"></a>
 ## 1. How the upgrade is stored
 
 In `lib/country.script` an array is defined for each nation
@@ -46,12 +48,12 @@ In `lib/country.script` an array is defined for each nation
 | Field | What |
 |---|---|
 | `sid` | String identifier (`mill.1`, `aca.4`, `bla.2` ...). |
-| `cost` | Cost in food / wood / stone / gold / iron / coal. |
-| `time` | Research time in `frames` (1/32 g-sec). |
-| `prerequisites` | List of sids of required upgrades or buildings. |
-| `targets` | List of unit/building sids to which it applies. |
+| `cost` | Cost in Food, Wood, Stone, Gold, Iron, and Coal. |
+| `time` | Research time in frames (`frames`; 1/32 game second). |
+| `prerequisites` | Internal IDs of required upgrades or buildings. |
+| `targets` | Internal IDs of units and buildings that receive the effect. |
 | `effect` | What changes (value, field). |
-| `cid` | Country ID (nation). |
+| `cid` | Country identifier. |
 
 There are three types of effects:
 - **Numerical increases** to unit fields (`hp += 50`, `damage += 2`).
@@ -80,8 +82,8 @@ script `_country_DoUpgrade(plInd, upgrade_ind)` [^2]:
    - To future units: changes the “template” (`gObjProp[cid][id]`),
      from where units copy properties when created.
 
-Therefore `mill.1` (+5% food eff) applies to **all 18 peasants
-on the map** at the same time.
+A Mill Food-efficiency upgrade therefore applies to **all 18
+Peasants on the map** at the same time.
 
 <a id="21-эффект-на-уже-в-работе"></a>
 ### 2.1. Effect on already-in-work
@@ -100,10 +102,11 @@ immediately, upgrades to “processes” - only to new ones.
 ---
 
 <a id="3-прерывание-апгрейда"></a>
-## 3. Aborting the upgrade
+<a id="3-прерывание-исследования"></a>
+## 3. Cancelling research
 
-The player can cancel an ongoing upgrade through the UI of the building where he
-is being investigated. Effect:
+The player can cancel ongoing research through the interface of the
+building conducting it:
 
 1. Research time is reset.
 2. Part of the resources is returned (standard **50%**).
@@ -112,24 +115,25 @@ is being investigated. Effect:
    achieved).
 
 An interrupt is used as a reaction to changes in priorities:
-if you launched an expensive upgrade, but suddenly the database came under attack -
-you can cancel, take half back and use resources for
-defense
+if an expensive upgrade is underway when the base comes under attack,
+the player can cancel it, recover part of the cost, and redirect those
+resources to defence.
 
 ---
 
 <a id="4-аддитивная-композиция-eff"></a>
-## 4. Additive composition (`eff`)
+<a id="4-как-складывается-эффективность-eff"></a>
+## 4. How efficiency (`eff`) is combined
 
-Unlike many RTS, Cossacks 3 has effects `efficiency`
-add up **additively**:
+Unlike many real-time strategy games, Cossacks 3 combines efficiency
+bonuses **additively**:
 ```
 eff(food, peasant) = 100 + Σ(mill.X) + Σ(aca.X) + Σ(bla.X)
 ```
-For example, for a peasant on food with all upgrades +5/+10/+15/+20:
+For example, consider four notional Food upgrades worth +5/+10/+15/+20:
 
-`eff = 100 + 5 + 10 + 15 + 20 = 150 %`. That is, the base portion
-food (45) becomes `floor(45 × 150 / 100) = 67`.
+`eff = 100 + 5 + 10 + 15 + 20 = 150 %`. The base Food portion
+of 45 becomes `floor(45 × 150 / 100) = 67`.
 
 This is **not** multiplicative: it would be `1.05 × 1.10 × 1.15 × 1.20 = 1.59`
 (159%), which is higher. The additive scheme gives a more predictable
@@ -140,26 +144,26 @@ See [`peasant_extraction.md` §4](peasant_extraction.md) for details.
 ---
 
 <a id="5-цели-апгрейда-targets"></a>
-## 5. Upgrade goals (`targets`)
+<a id="5-цели-улучшения-targets"></a>
+## 5. Upgrade targets (`targets`)
 
 `targets` determines **who** the upgrade applies to. Possible
 values:
 
-| Template target | Who gets there |
+| Technical template | Affected objects |
 |---|---|
-| `'peaXXX'` | A specific sid (for example, `peaaus` is a peasant from Austria). |
+| `'peaXXX'` | A specific internal ID (for example, Austrian Peasant: `peaaus`). |
 | `'BuildingsAll'` | All nation buildings (hardcode). |
 | `'UnitsAll'` | All units of the nation (hardcode). |
 | `'<class>'` | All units of the class (`musket18`, `pike17`, ...). |
-| List | Several sids through a separator. |
+| List | Several internal IDs separated by a delimiter. |
 
 For complex purposes (`buildtimeperc`, `priceperc`) there are separate
 parameters:
-- `sarrparam2[gc_resource_type_X]` — for `priceperc`: per-resource
-  percentage.
+- `sarrparam2[gc_resource_type_X]` stores a separate `priceperc`
+  percentage for each resource.
 - `targets = 'BuildingsAll'` - for `buildtimeperc`: applies to
-  all 294 buildings of the nation (see memory of
-  buildtimeperc/priceperc parsing).
+  all 294 buildings of the nation.
 
 ---
 
@@ -217,52 +221,51 @@ dragoons" - upgrade for only one sid.
 <a id="75-эпохальный-переход-17--18-век"></a>
 ## 7.5. Epochal transition 17th → 18th century
 
-In Cossacks 3 advance to the 18th century is **not a timer and not an “age”
-era in the spirit of AoE**, and one particular upgrade in the City Center with
-heavy prerequisites.
+In Cossacks 3, advancing to the 18th century is **not a timer or an
+Age of Empires-style age**. It is the canonical “Progress to the
+18th Century” upgrade in the Town Hall (SID `<nat>cen.1`), gated by
+several required buildings.
 
 <a id="751-цепочка"></a>
 ### 7.5.1. Chain
 ```
-Town Hall (cen) built
-    + Academy (<nat>aca) built
-    + Cathedral (<nat>tem) built
-    + Artillery Depot (<nat>art) built
+Town Hall (SID `<nat>cen`) built
+    + Academy (SID `<nat>aca`) built
+    + Cathedral (SID `<nat>tem`) built
+    + Artillery Depot (SID `<nat>art`) built
         ↓
-research <nat>cen.1 at the Town Hall
-    cost ≈ 30 000 F + 5 000 G + 2 000 I + 2 000 C
+research “Progress to the 18th Century” (SID `<nat>cen.1`) at the Town Hall
+    cost ≈ 30,000 Food + 5,000 Gold + 2,000 Iron + 2,000 Coal
     time = 9.38 game sec
         ↓
-you can now build <nat>ba2 (18th-century Barracks)
-    cost ≈ 1 700 W + 2 950 S + 4 000 G
+you can now build the 18th-century Barracks (SID `<nat>ba2`)
+    cost ≈ 1,700 Wood + 2,950 Stone + 4,000 Gold
     buildtime = 5625 game sec
         ↓
-ba2 produces: musketeer18, pikeman18, grenadier, dragoon18,
-              special 18th-century infantry
+the Barracks produces Musketeers, Pikemen, Grenadiers, Dragoons,
+and special national infantry of the 18th century
 ```
-**The bottleneck is the building prerequisites**, not the upgrade itself. Urban
-center + Academy + Cathedral + Artillery Depot cost in total
-approximately 7,000 wood + 4,000 stone + 1,000 gold (without `cen`,
-which by this moment is already standing). Plus time for construction -
-a total of several thousand game seconds with one builder per
-each building (with a standard team of 6–8 builders
-will be reduced several times).
+**The required buildings are the bottleneck**, not the upgrade itself.
+The Town Hall, Academy, Cathedral, and Artillery Depot cost about
+7,000 Wood, 4,000 Stone, and 1,000 Gold in total, excluding the Town
+Hall already in place. A normal team of 6–8 builders cuts the long
+single-builder construction time substantially.
 
 <a id="752-кто-заперт-в-17-веке"></a>
 ### 7.5.2. Who's locked up in the 17th century
 
 Three nations do not have `<nat>ba2`:
 
-| Nation | Is there `<nat>cen.1`? | `<nat>ba2`? | What instead? |
+| Nation | “Progress to the 18th Century” (`<nat>cen.1`) | 18th-century Barracks (`<nat>ba2`) | Result |
 |---|:---:|:---:|---|
-| `alg` Algeria | ✅ | ❌ | `cen.1` unlocks other upgrades (artillery, academy), but 18th century infantry. no |
-| `tur` Turkey | ✅ | ❌ | same |
-| `ukr` Ukraine | ✅ | ❌ | same |
+| Algeria (`alg`) | ✅ | ❌ | The upgrade unlocks other research, but no 18th-century infantry |
+| Turkey (`tur`) | ✅ | ❌ | Same |
+| Ukraine (`ukr`) | ✅ | ❌ | Same |
 
-That is, `musketeer18`, `grenadier`, `dragoon18` - all units with
-suffix `18` or `kind = Grenadier` - for these three nations
-**missing**. They compensate for the absence of the 18th century. unique
-units of the 17th century. (Janissaries, Mamelukes, Cossacks, etc.).
+These nations lack 18th-century Musketeers, Grenadiers, and Dragoons
+(technically, units with suffix `18` or `kind = Grenadier`). Their
+unique 17th-century units—Janissaries, Mamelukes, Cossacks, and
+others—compensate for the missing Barracks.
 
 <a id="753-что-даёт-cen1-для-апгрейдов-академии"></a>
 ### 7.5.3. What does `<nat>cen.1` give for academy upgrades
@@ -272,21 +275,22 @@ additional upgrades (they are visible as `<nat>aca.X` with
 prerequisite to `cen.1`). Some of them are **`gc_ai_upg_century`**
 for AI: this flag puts the AI opponent into the 18-eternal phase
 production. See [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)
-§“Build order” (phases 7–9).
+§ on build sequence (phases 7–9).
 
 <a id="754-стратегические-выводы"></a>
 ### 7.5.4. Strategic Conclusions
 
-- **`cen.1` itself is cheap and fast.** The bottleneck is to assemble
-  prerequisite-buildings. This is “time for the 18th century”.
-- **`ba2` takes a long time to build.** `buildtime = 5625 g-sec` for one
+- **“Progress to the 18th Century” (`cen.1`) is cheap and fast.**
+  Constructing the required buildings is the bottleneck.
+- **The 18th-century Barracks (`ba2`) takes a long time to build.**
+  `buildtime = 5625` game seconds for one
   builder; with 8 builders the time is reduced proportionally
   rule `buildtime × 1.13 / N` (see
   [`building_mechanics.md` §3.2](building_mechanics.md)).
 - **Turkey, Algeria, Ukraine - nations of the 17th century.** If you play against
   them, do not expect the enemy to go into the 18th century.
 - **Building an academy for other reasons** (for example, for
-  eff/damage upgrades) automatically takes one step towards the 18th century.
+  efficiency or damage upgrades) automatically takes one step towards the 18th century.
   Useful even if the transition is not planned.
 
 ---
@@ -310,7 +314,8 @@ summary state, not previous value. Accumulative chain
 “one step → next step” is not here.
 
 <a id="761-урон-damage-flat-и-damage-"></a>
-### 7.6.1. Damage (`+damage` flat and `+damage %`)
+<a id="761-урон-постоянная-прибавка-damage-и-процент-damage-"></a>
+### 7.6.1. Damage (flat `+damage` and percentage `+damage %`)
 
 **three** fields are stored: `damageinit` (base), `damagestatic` (amount
 all flat bonuses), `damagepercent` (sum of all % bonuses). Everyone
@@ -329,13 +334,15 @@ Example: base 10, bonuses `+5` and `+25 %`. It will work in both orders
 there is a difference that Cossacks doesn't have.
 
 <a id="762-защита-protection-shield-оба-только-flat"></a>
-### 7.6.2. Protection (`protection`, `shield`, both flat only)
+<a id="762-защита-protection-shield-только-постоянные-прибавки"></a>
+### 7.6.2. Protection (`protection`, `shield`; flat bonuses only)
 
 `protection[kind] += value`; `shield += value`. Net amount -
 the order doesn't matter.
 
+<a id="763-прочность-юнита-lifeperc-"></a>
 <a id="763-hp-юнита-lifeperc-"></a>
-### 7.6.3. Unit HP (`lifeperc`, %)
+### 7.6.3. Unit durability (`lifeperc`, %)
 
 `maxhp = round(maxhp × (1 + value / 100))`. Cumulative multiplication
 commutative (`H · (1 + a) · (1 + b) = H · (1 + b) · (1 + a)`).
@@ -441,15 +448,19 @@ researched upgrades, not history.
 ---
 
 <a id="8-tech-tree-и-prerequisites"></a>
-## 8. Tech tree and prerequisites
-Each upgrade has `prerequisites` - what is needed to open
-it in the UI:
-- Building (`hou`, `aca`, `bla` - presence of at least one).
-- Other upgrades (the previous level is needed).
-- Century (`century18`-flag - open only in the second half).
+<a id="8-дерево-технологий-и-требования"></a>
+## 8. Technology tree and requirements
 
-When all prerequisites are completed, the upgrade **appears in the UI** and
-becomes available for order (the button is active).
+Each upgrade has requirements (`prerequisites`) that determine when
+its button appears:
+
+- A building, such as Housing (`hou`), Academy (`aca`), or Blacksmith (`bla`).
+- Another upgrade, usually the preceding tier.
+- The century: technical flag `century18` opens some upgrades only
+  after the transition to the 18th century.
+
+When all requirements are met, the upgrade **appears in the
+interface** and becomes available for research.
 
 The complete graph is in [`reports/tech/tech_tree.md`](../../../reports/tech/tech_tree.md)
 + [`derived/tech_tree.json`](../../../../derived/tech_tree.json).

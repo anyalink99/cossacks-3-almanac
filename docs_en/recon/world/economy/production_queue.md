@@ -4,41 +4,43 @@
 
 [← How the game works](../../README.md)
 
-In-depth analysis: how the order queue in buildings works
-(barracks/academy/stable/town hall), how replays work and
-endless mode, what happens when canceling, when capturing, when
-demolition All links to the code are in [Sources](#sources).
+An analysis of production queues in Barracks, Academies, Stables,
+and Town Halls: repeated orders, infinite production, cancellation,
+capture, and demolition. Code references are collected under
+[Sources](#sources).
 
 > **Related documents:**
-> [`building_mechanics.md` §6.3](building_mechanics.md) - refund when
+> [`building_mechanics.md` §6.3](building_mechanics.md) - resource refunds after
 > cancellation/destruction; [`upgrades_application.md` §3](upgrades_application.md)
-> - separate queue for upgrades;
+> - the separate upgrade queue;
 > [`unit_commands.md`](../combat/unit_commands.md) - general model
 > orders on units (also uses `gOrders`).
 
-## TL;DR
+<a id="коротко-о-главном"></a>
+## In brief
 
-- The building holds up to **`gc_obj_MaxOrderCount = 12`** simultaneous
-  orders [^1]. This is a general limit for all types (production,
-  upgrade, repair, etc.), not for each separately.
-- Each production order is a record `TOrder` with fields
-  `produceid` (unit sid), `amount` (how much more to produce),
+- A building can hold up to **12 simultaneous orders** (technical
+  limit `gc_obj_MaxOrderCount`) [^1]. This total is shared by
+  production, upgrades, repairs, and other actions.
+- Each production order is stored in a `TOrder` record with
+  `produceid` (the produced unit's internal ID), `amount` (units remaining),
   `progress` (progress of the current instance), `restype` (counter
-  built copies **at the time of order** - needed for refund).
+  of completed copies **when the order was placed**, used to calculate
+  an exact refund).
 - `amount = -1` (`gc_obj_order_produce_infinite`) means
   **endless mode** - the building produces a unit until the order is
   will be canceled obviously.
-- **Order of the same unit into an existing order is merged**: if in
-  the queue already has `peaaus` order and `costpercent = 100` (or
-  zero) - new `peaaus` will be added to the existing `amount`, not
-  will create a separate order.
-- With different `costpercent` (`peaaus` becomes more expensive with each new one)
+- **A repeated order for the same unit merges with the existing one**.
+  For example, new Austrian Peasants (`peaaus`) are added to the
+  open order when `costpercent` is `100` or `0`.
+- If the unit price changes after each completed copy
+  (`costpercent` is neither `100` nor `0`),
   the merge occurs only if `unitcount = restype` - that is
   the player did not have time to build other units of the same type between
   orders.
-- **Capture The person nearby stops production.** If in the zone
-  scan-grid a `bcancapture` enemy unit appears near the building without
-  `bprotector`-defender - the building **stops** order progress.
+- **A nearby enemy capturer stops production.** If an enemy unit
+  capable of capturing (`bcancapture`) approaches and no defender
+  (`bprotector`) is nearby, the building **stops** processing the order.
 - When a building is demolished, all orders are scrolled back - paid
   units and upgrades are returned to the player (see.
   [`building_mechanics.md` §6.2](building_mechanics.md)).
@@ -46,71 +48,73 @@ demolition All links to the code are in [Sources](#sources).
 ---
 
 <a id="1-структура-ордера-на-производство"></a>
-## 1. Production order structure
+<a id="1-как-хранится-заказ-на-производство"></a>
+## 1. How a production order is stored
 
 `TOrder` — entry in the `TObj.orders[0..gc_obj_MaxOrderCount-1]` [^1] array.
 Fields for type `gc_obj_order_type_produce = 4`:
 
 | Field | What |
 |---|---|
-| `itype` | Order type. `4` = unit production. For a complete list, see §1.1. |
-| `info.produceid` | sid of the unit we are producing. |
+| `itype` | Order type. `4` means unit production. See §1.1 for the complete list. |
+| `info.produceid` | Internal ID of the unit being produced. |
 | `info.amount` | How much more to produce? `-1` (`gc_obj_order_produce_infinite`) = infinite. |
 | `info.progress` | Progress of the current instance (`0..buildtime`). |
-| `info.restype` | Counter of built copies **at the time of order**. Used in `_unit_CancelUnitProduction` to return the correct amount when `costpercent ≠ 100`. |
+| `info.restype` | Number of completed copies **when the order was placed**. `_unit_CancelUnitProduction` uses it to return the correct amount when `costpercent ≠ 100`. |
 
 <a id="11-все-типы-ордеров-gcobjordertype"></a>
+<a id="11-все-типы-приказов-gcobjordertype"></a>
 ### 1.1. All order types (`gc_obj_order_type_*`)
 
-| ID | Type | Application |
+| ID | Player action | Technical name |
 |---:|---|---|
-| 0 | `none` | Empty queue cell. |
-| 1 | `move` | Go to the point. |
-| 2 | `attackobj` | Attack a specific unit. |
-| 3 | `gainres` | Extract a resource. |
-| 4 | `produce` | **Unit production** (this article). |
-| 5 | `patrol` | Patrolling. |
-| 6 | `attackpoint` | Shooting at a point (artillery). |
-| 7 | `continueattackpoint` | Continuation of the point attack. |
-| 8 | `performupgrade` | **Upgrade Research.** |
-| 9 | `fishing` | Fishing (for `fishboat`). |
-| 10 | `creategates` | Construction of gates. |
-| 11 | `buildwallcontinue` | Continued construction of the wall. |
-| 12 | `buildwall` | Building a wall. |
-| 13 | `gotomine` | Go to the mine. |
-| 14 | `gototransport` | Go to the transport ship. |
-| 15 | `leavetransport` | Get out of the vehicle. |
-| 16 | `leavebuilding` | Leave the building (garrison). |
-| 17 | `build` | Build a building. |
-| 18 | `guard` | Protect. |
-| 19 | `repair` | Repair. |
-| 20 | `exitunits` | Release all units from the garrison. |
+| 0 | Empty queue slot | `none` |
+| 1 | Move to a point | `move` |
+| 2 | Attack a selected object | `attackobj` |
+| 3 | Gather a resource | `gainres` |
+| 4 | **Produce a unit** | `produce` |
+| 5 | Patrol | `patrol` |
+| 6 | Fire at a point | `attackpoint` |
+| 7 | Continue firing at a point | `continueattackpoint` |
+| 8 | **Research an upgrade** | `performupgrade` |
+| 9 | Fish | `fishing` |
+| 10 | Create a gate | `creategates` |
+| 11 | Continue building a wall | `buildwallcontinue` |
+| 12 | Build a wall | `buildwall` |
+| 13 | Enter a Mine | `gotomine` |
+| 14 | Board a transport ship | `gototransport` |
+| 15 | Leave a transport ship | `leavetransport` |
+| 16 | Leave a building | `leavebuilding` |
+| 17 | Construct a building | `build` |
+| 18 | Guard | `guard` |
+| 19 | Repair | `repair` |
+| 20 | Release everyone from a building | `exitunits` |
 
-`MaxOrderCount = 12` orders **total** limit - that is, the building
-can simultaneously hold a mixture of, for example, 5 orders for
-production, 2 for upgrade and 1 for repair. Unit fighter is usually
-uses only `move`, `attack`, `guard`, etc., but the limit
-the same.
+**Twelve orders is the shared limit**: a building may hold, for
+example, five production orders, two upgrades, and one repair order
+at the same time. A combat unit normally uses only actions such as
+`move`, `attack`, and `guard`, but the underlying limit is the same.
 
 ---
 
 <a id="2-добавление-ордера-в-очередь"></a>
-## 2. Adding an order to the queue
+<a id="2-добавление-заказа-в-очередь"></a>
+## 2. Adding a production order
 
 `_unit_OrderProduce(goHnd, ordercid, orderid, amount)` [^2]:
 
-1. Goes through existing orders from the end (`MaxOrderCount-1
+1. Scans existing orders from the end (`MaxOrderCount-1
    downto 0`).
 2. Searches for an existing order of the same `produceid`.
 3. **If found and the merging conditions are suitable** (see §2.1) - increases
    `amount` of an existing order.
-4. **If not found** - adds a new order to the first free one
-   cell via `_unit_AddOrder` [^3].
-5. If there are no more cells (12 are occupied) - the order is **discarded**
-   silently.
+4. **If none is found**, adds a new order to the first free slot
+   through `_unit_AddOrder` [^3].
+5. If all 12 slots are occupied, the order is silently discarded.
 
 <a id="21-условия-слития-ордера"></a>
-### 2.1. Conditions for merging an order
+<a id="21-когда-заказы-объединяются"></a>
+### 2.1. When orders merge
 
 Orders are merged (new units are added to existing ones `amount`)
 if:
@@ -120,13 +124,12 @@ if:
   also merges.
 - **`unitcount = order.restype`** - the player has not yet built any
   one unit of this type after the first order. Then `costmodifier`
-  for refund remains valid, and the merge is safe.
+  used for the refund remains valid, so merging is safe.
 
-In other cases, a **new** order is created with the correct
-`restype = unitcount` (current counter). This is critical for refund:
-if it were possible to merge everything into one order, and the player built 5
-expensive units between orders, the refund would be calculated with
-irrelevant `costmodifier`.
+Otherwise the game creates a **new** order with the current
+`restype = unitcount`. This preserves the correct refund: after
+several increasingly expensive units have completed, an older
+`costmodifier` would return the wrong amount.
 
 <a id="22-бесконечный-режим"></a>
 ### 2.2. Endless Mode
@@ -139,7 +142,7 @@ infinite and so everything will happen).
 
 Mirror semantics in `_unit_CancelUnitProduction` with
 `bConvertToInfinite = True` [^4]: one cancelable unit from the final
-orders can **turn** an order into an endless one (if `amount`
+order can **turn it** into an infinite one (if `amount`
 reached 0 or 1).
 
 ---
@@ -152,13 +155,13 @@ Each game tick function `_unit_DoOrderProgress` (located in
 `deltatime × buildtime_modifier`. When `progress >= buildtime`:
 
 1. A unit is created via `_unit_ProduceUnit` [^5].
-2. The unit will spawn at the `rallypoint` building (or at the entrance, if rally
-   not specified).
+2. The unit appears at the building's rally point (`rallypoint`), or
+   at its entrance if no rally point is set.
 3. `info.amount -= 1`. If it becomes 0, the order is completed and deleted.
 4. If `amount = -1` (infinite) - the order continues.
 
 `_unit_ProduceUnit` distributes production **over several
-buildings of the same type**: if there are several barracks in `list`, select
+buildings of the same type**: if the internal `list` contains several Barracks, it selects
 the one with the minimum `produceind` (i.e. the least
 orders in queue). This is automatic balancing: the player can
 request "20 pikemen from all barracks", and they are uniformly
@@ -175,17 +178,17 @@ will be distributed.
 2. Decreases `info.amount` by 1.
 3. If `amount` reaches 0:
    - **Without bConvertToInfinite** - resets `progress` and deletes
-     warrant
+     order.
    - **With bConvertToInfinite** - converts to `gc_obj_order_produce_infinite`
      (the order will continue indefinitely).
-4. **Refund**: if the order has been “paid” (`amount > 0` or
-   `progress > 0`) - returns to the player:
+4. **Resource refund**: if the order has been paid (`amount > 0` or
+   `progress > 0`), the game returns:
    ```
    refund[k] = price[k] × (costpercent / 100)^(restype + i)
    ```
 That is, exactly as much as was written off at the time of order.
 
-Refund is valid **1 unit per call** - in the cycle `i:=0 to
+The refund is calculated **one unit per call** in the loop `i:=0 to
 Abs(amount)-1`. That is, canceling 5 pikemen will return exactly 5 prices,
 each with a current `costmodifier` for its position in the counter.
 
@@ -197,15 +200,15 @@ each with a current `costmodifier` for its position in the counter.
 `_unit_CheckCapturersStopProduce(goHnd)` [^6] is called every
 tick of progress. Algorithm:
 
-1. Takes `scangridx`, `scangridy` buildings and expands to `rx1 = 1`
-   scan-grid cell in each direction.
+1. Takes the building's spatial-grid coordinates (`scangridx`,
+   `scangridy`) and includes one adjacent cell in every direction.
 2. In cells with `enemyplmask` enabled, searches for enemy
    `bcancapture`-unit via `_unit_SearchCapturers`.
 3. If found, checks whether it has a `bprotector` protector
    nearby. If there is **no** defender, it returns `True`, and
    production in this tick **does not progress**.
 
-**Special case:** walls (`bwall`-buildings). If the HP of the wall is lower
+**Special case:** Walls (flag `bwall`). If the Wall's durability is below
 third `maxhp`, the check is skipped - the wall has almost been destroyed,
 it makes sense to complete it to the end.
 
@@ -231,8 +234,7 @@ production and upgrades:
 This means: **by capturing the enemy barracks, you will not get it
 orders automatically**. If you want to continue to rivet the same
 units, you need to place your orders. But: ** back to the previous owner
-will receive a refund** - this is already an investment in the “controversial” building, which
-you won't get it.
+receives the resources back**; the capturer never inherits the old queue.
 
 ---
 
@@ -240,7 +242,7 @@ you won't get it.
 ## 7. Demolition of a building with a queue
 
 When `bDie := True` or `hp <= 0` `OnDeath` the hook also runs through all
-queue via cancel function [^7]. That is, **destruction of one's own
+queue through the cancellation functions [^7]. Thus **destroying one's own
 barracks returns resources** during production.
 
 In practice, a rare case: if AI or a trap destroys your
@@ -250,6 +252,7 @@ units. This mitigates the damage from the raid.
 ---
 
 <a id="8-очередь-апгрейдов"></a>
+<a id="8-очередь-улучшений"></a>
 ## 8. Upgrade queue
 
 In parallel with production, the building can hold orders like
@@ -267,7 +270,8 @@ More details in [`upgrades_application.md`](upgrades_application.md).
 ---
 
 <a id="9-ui-ограничения"></a>
-## 9. UI restrictions
+<a id="9-ограничения-интерфейса"></a>
+## 9. Interface restrictions
 
 In addition to the technical `MaxOrderCount = 12`, the player sees buildings in the UI
 **five or six slots** queue. Exceeding is prohibited for
@@ -306,10 +310,14 @@ The exact UI logic is in `lib/gui.script`, not in the production logic.
 
 [^2]: `_unit_OrderProduce` - `lib/unit.script`. Merge logic
       orders via `costpercent` and `unitcount = restype` - see.
-      code author's comment: `// restype stores amount of units,
-      that we had at the moment of ordering produce. it is needed
-      to properly give player moneyback, when unit costpercent is
-      different from 100%, when player cancel unit production.`
+      code author's comment:
+
+      ```pascal
+      // restype stores amount of units,
+      // that we had at the moment of ordering produce. it is needed
+      // to properly give player moneyback, when unit costpercent is
+      // different from 100%, when player cancel unit production.
+      ```
 
 [^3]: `_unit_AddOrder` - `lib/unit.script`. Places an order in
       the first free cell `orders[i]`.

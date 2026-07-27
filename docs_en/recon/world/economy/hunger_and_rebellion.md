@@ -4,34 +4,35 @@
 
 [← How the game works](../../README.md)
 
-Deep analysis: under what conditions does a player’s flags go up?
-`bfamine` (hunger) and `brebellion` (rebellion), what exactly does this mean?
-happens, who dies first, how to protect yourself. All links to code -
-in [Sources](#sources) at the end of the document.
+This article explains when the game sets the technical flags
+`bfamine` (famine) and `brebellion` (rebellion), what happens next,
+which units are affected, and how a player can respond. Code
+references are collected under [Sources](#sources).
 
+<a id="коротко-о-главном"></a>
 ## TL;DR
 
-- **Hunger** (`bfamine = True`) turns on when the player has
-  `food = 0` **and** on the next consumption tick it turns out
-  negative remainder. Removed as soon as `food > 0` or
-  `consume.food <= 0`.
-- **Riot** (`brebellion = True`) is turned on when the player has
-  `gold = 0` **and** `consume[gold] > income[gold]` (consumption
-  exceeds production). Removed as soon as `gold >= 2` or
-  `consume[gold] <= 0`.
+- **Famine** (`bfamine = True`) begins when Food runs out
+  (`food = 0`) and the next consumption tick produces a deficit.
+  It ends when Food becomes positive again or consumption stops
+  (`consume.food <= 0`).
+- **Rebellion** (`brebellion = True`) begins when Gold runs out and
+  Gold consumption exceeds income (`consume[gold] > income[gold]`).
+  It ends at two or more Gold, or when consumption stops.
 - Hunger kills normal units that have `bnohungry = False`
   (peasants, infantry). Buildings, mercenaries, and landsknechts are not touched.
-- Riot destroys **mercenaries only** (`bmercenary = True`) - with
-  speed ≈ 18.3% per tick on hard+ difficulty. See
+- Rebellion affects **mercenaries only** (`bmercenary = True`), with
+  a probability of about 18.3% per tick on Hard and above. See
   [`mercenaries_diplomacy.md` §3](../../systems/mercenaries_diplomacy.md).
 - Points for destroying a rebel mercenary are counted with a multiplier
   `× 3` (not `× 2`), which makes raids on a starving enemy
-  more effective in terms of score [^1].
+  more valuable in score terms [^1].
 
 ---
 
 <a id="1-где-и-когда-поднимается-флаг"></a>
-## 1. Where and when the flag is raised
+<a id="1-где-и-когда-включается-состояние"></a>
+## 1. When the state is enabled
 
 The logic in `lib/player.script` is the procedure for consuming resources,
 [^2] is called every game tick. For each resource:
@@ -39,34 +40,36 @@ The logic in `lib/player.script` is the procedure for consuming resources,
 - If the player has a sufficient amount (`res[i] >= value`) - resource
   is written off, the flag (`bfamine` or `brebellion`) is reset to
   `False`.
-- If the amount is not enough, the balance is written off, and for `food` immediately
-  `bfamine := True` rises. For `gold` additional
-  check: `brebellion` is raised only if
+- If the amount is insufficient, the remaining stock is consumed.
+  For Food (`food`) the game immediately sets `bfamine := True`.
+  For Gold (`gold`), `brebellion` is set only if
   `consume[gold] > income[gold]`.
 
-That is, for **gold** there is “pay-as-you-could” protection: if
-the mines pay for the consumption of mercenaries, a riot will not break out even with
-`gold = 0`. For **food** there is no such protection: hunger turns on immediately,
-as soon as `food = 0` and there are starving people.
+Gold therefore has partial-payment protection: if the Mines cover
+mercenary consumption, rebellion does not begin even at `gold = 0`.
+Food has no equivalent protection; famine starts as soon as the
+stock is empty and units still consume it.
 
 After the calculation, at the very end of the procedure, the flag is automatically removed: if
-`brebellion = True`, but the condition has disappeared (there are ≥ 2 gold **or**
-gold consumption has been reset) - the flag is extinguished. Likewise for
-`bfamine` - if food is again > 0 or food consumption = 0 [^2].
+`brebellion = True` but the condition no longer applies (at least
+two Gold, or zero Gold consumption), the flag is cleared. The same
+applies to `bfamine` when Food becomes positive or consumption
+falls to zero [^2].
 
 That is, **on the same tick** the flag can light up immediately
 go out - for example, if exactly on the same tick the player sold for
-food market or hosted a caravan. In the UI this will give a single blink
-red.
+Food on the Market or received a caravan. In the interface this
+appears as a single red flash.
 
 <a id="11-период-тика"></a>
-### 1.1. Tick period
+<a id="11-период-проверки"></a>
+### 1.1. Check interval
 
 Resource consumption tick - `_player_DoTickResources` or similar,
 called once every **`_misc_GetTickRes()` seconds**, usually ~1 g-sec
 (See [`internals/engine/ticks_and_subticks.md`](../../../../internals_en/engine/ticks_and_subticks.md)).
-That is, the flag is checked ≈ 14 times per real second at speed
-fast.
+The flag is therefore checked about 14 times per real second at
+Fast game speed.
 
 ---
 
@@ -103,29 +106,31 @@ The exact value of `bnohungry` for each unit is in
 <a id="22-вероятность-гибели-от-голода"></a>
 ### 2.2. Chance of dying from starvation
 
-The exact formula is an RNG gate per tick with a complexity threshold
-player [^3]:
+The exact formula is a random-number check whose threshold depends
+on the player's difficulty [^3]:
 
 | Difficulty | Threshold | Chance of death per tick | Expected time until death of 1 unit |
 |---|---:|---:|---|
 | 0 (easy) | `RandomInt < 5` | ≈ 0.0076% | very slowly (hours) |
-| 1 (normal) | `RandomInt < 12` | ≈ 0.018% | watch |
+| 1 (normal) | `RandomInt < 12` | ≈ 0.018% | hours |
 | 2+ (hard / very hard / impossible) | `RandomInt < 50` | ≈ 0.076% | minutes (4-10× faster than normal) |
 
 `_misc_RandomInt = floor(random × 32768)`, so the actual
 chance - `threshold / 32768`. The transition to death occurs at
 `Nothing`-tike (see [`internals/engine/ticks_and_subticks.md`](../../../../internals_en/engine/ticks_and_subticks.md)).
 
-Guide to the actual game:
-- 30–60 g-sec after `bfamine = True` the first ones begin to die
-  peasants.
-- In 3–5 minutes of hunger on hard, the player loses ~50% of peasants and a large
-  part of the infantry.
-- If you manage to restore food (bring it from the field, sell gold
-  on the market) - the flag goes out, the death stops.
+Practical guide:
+
+- The first Peasants begin to die 30–60 game seconds after
+  `bfamine = True`.
+- After 3–5 minutes of famine on Hard, a player may lose about half
+  their Peasants and much of the infantry.
+- Restoring Food—by gathering it or selling Gold on the Market—clears
+  the flag and stops the deaths.
 
 <a id="23-расход-food-формула-upkeep"></a>
-### 2.3. Food consumption: upkeep formula
+<a id="23-расход-еды"></a>
+### 2.3. Food consumption
 
 Each unit without `bnohungry = True` accumulates from the player
 `gPlayer.counter.resconsume[food]` via increment when creating [^5]:
@@ -138,31 +143,31 @@ Food consumption per game second (`player.script:_player_ProcessResourceConsume`
 food_per_g_sec = sum_of_resconsume_food × gc_time_to_frames / 20000
                = sum × 32 / 20000  =  sum × 0.0016
 ```
-**Sanity-check (verified empirically 2026-04-29):** 18 Austrian
-peasants (`consume.food = 32`, `bnohungry = False`) are idle 2
+**Empirical check from April 29, 2026:** 18 Austrian Peasants
+(`consume.food = 32`, `bnohungry = False`) remain idle for two
 game minutes:
 ```
 sum = 18 × (32 + 30) = 1116
 food / g-sec = 1116 × 32 / 20000 ≈ 1.786
 over 120 game sec ≈ 214 food   ✓
 ```
-Consumption of food / g-sec per unit (for `bnohungry = False`):
+Food consumption per game second and unit (for `bnohungry = False`):
 
-| Unit | `consume.food` | + `gc_obj_foodperunit` | total | food/g-sec |
+| Canonical name | `consume.food` | + `gc_obj_foodperunit` | Total | Food per game second |
 |---|---:|---:|---:|---:|
-| peasant (aus / pol / spa / eng / ukr / sco) | 32 | +30 | 62 | 0.0992 |
-| peasant `peatur` / `peaalg` | 28 | +30 | 58 | 0.0928 |
-| peasant `pearus` | 26 | +30 | 56 | 0.0896 |
-| infantry without explicit `consume.food` | 0 | +30 | 30 | 0.0480 |
+| Peasant of Austria, Poland, Spain, England, Ukraine, or Scotland | 32 | +30 | 62 | 0.0992 |
+| Peasant of Turkey or Algeria (`peatur`, `peaalg`) | 28 | +30 | 58 | 0.0928 |
+| Russian Serf (`pearus`) | 26 | +30 | 56 | 0.0896 |
+| Infantry without explicit `consume.food` | 0 | +30 | 30 | 0.0480 |
 
 <a id="23-связь-с-pop-cap"></a>
-### 2.3. Pop cap connection
+<a id="24-связь-с-пределом-населения"></a>
+### 2.4. Population-limit connection
 
-If the player falls below the `farmused` limit (see.
-[`reference/01_economy/README.md`](../../../reference/01_economy/README.md)) is
-**not** runs `bfamine`. Hunger only triggers with `food = 0`.
-That is, “no houses” does not automatically kill the population; kills
-only real food shortage.
+Falling below the population limit `farmused` (see
+[`reference/01_economy/README.md`](../../../reference/01_economy/README.md))
+does **not** set `bfamine`. Famine starts only when Food is actually
+zero. A shortage of Houses does not kill units; a real Food shortage does.
 
 ---
 
@@ -171,7 +176,8 @@ only real food shortage.
 
 `brebellion = True` applies **only** to mercenaries
 (`bmercenary = True`). Logic in `lib/unit.script` [^4]: each
-`Nothing`-tick (~0.625 g-sec) each mercenary rolls
+on each technical `Nothing` state tick (about 0.625 game seconds),
+every mercenary makes the check
 `_misc_RandomInt < threshold`, where `_misc_RandomInt = floor(random × 32768)`:
 
 | Difficulty | Threshold | Chance to move per tick |
@@ -206,7 +212,8 @@ Details and countermeasures are in
 | Buildings | No. |
 
 <a id="32-score-бонус-противнику"></a>
-### 3.2. Score bonus to opponent
+<a id="32-дополнительные-очки-противнику"></a>
+### 3.2. Additional score for the opponent
 
 When a mercenary dies in a riot from an enemy blow, the enemy
 receives **×3** points, not ×2 [^1]. This is an intentional reward:
@@ -221,24 +228,24 @@ important, but in a close game on points it can affect the winner.
 <a id="41-от-голода"></a>
 ### 4.1. From hunger
 
-1. **Place warehouses near the fields** - food arrives faster.
-2. **Don't gather too many infantry** at the beginning - `consume.food`
-   infantry is higher than that of peasants (typically 2–4 per tick versus 1).
-3. **Less consuming units** if you know what food will be
-   compress. Dismiss extra recruits.
-4. **Reserve food**, especially before the attack (when the peasants are
-   killed) - otherwise a double blow: killed peasants + the onset of famine.
+1. **Place Storehouses near Fields** so Food is delivered sooner.
+2. **Do not recruit too much infantry early**: its `consume.food`
+   value is usually higher than a Peasant's.
+3. **Reduce the number of consuming units** if Food reserves are
+   expected to shrink; dismiss surplus recruits.
+4. **Keep Food in reserve**, especially before an attack that may
+   draw Peasants away from work or get them killed.
 
 <a id="42-от-бунта"></a>
 ### 4.2. From rebellion
 
-1. **Gold mines with upgrade** - sharply increase income, pay off
-   upkeep mercenaries.
-2. **The diplomatic center is built after the academy and a couple of gold mines**, not before.
-3. **Do not dump more mercenaries in one place than `income gold`
-   capable of feeding**.
-4. **Market exchange** - sell food/wood for gold if there are reserves
-   gold went into the red zone.
+1. **Upgrade Gold Mines** to raise income and cover mercenary upkeep.
+2. **Build the Diplomatic Center after an Academy and a pair of Gold
+   Mines**, not before.
+3. **Do not hire more mercenaries than Gold income (`income[gold]`)
+   can support.**
+4. **Use the Market** to sell Food or Wood for Gold before reserves
+   become critically low.
 5. **Enemy attack** - sometimes the riot itself burns the mercenary army
    faster than the enemy can destroy it. If you already go, attack
    something valuable, so that at least you can get something for the death of the squad.
@@ -246,20 +253,20 @@ important, but in a close game on points it can affect the winner.
 ---
 
 <a id="5-связь-с-другими-флагами"></a>
-## 5. Connection with other flags
+<a id="5-связь-с-другими-состояниями"></a>
+## 5. Related states
 
 | Flag | Description | File |
 |---|---|---|
-| `farmused = 0` | The player has run out of food (via `pop cap`); results in **defeat** (see [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)). |
+| `farmused = 0` | The population limit is exhausted; results in **defeat** (see [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)). |
 | `bfamine` | Does not lead to defeat by itself; kills units. |
 | `brebellion` | Does not lead to defeat; only kills mercenaries. |
-| `bleave` | The player has given up (via the “leave” UI). Defeat immediately. |
+| `bleave` | The player surrendered through the interface. Defeat is immediate. |
 
 Note: `farmused = 0` (victory trigger) and `bfamine` (hunger)
-**different things**. `farmused = 0` means "you have no food"
-in general,” which leads to defeat. `bfamine` means “you have
-food = 0, and there are residents who need to eat", which leads to
-gradual death.
+are **different conditions**. `farmused = 0` is the population-limit
+defeat trigger. `bfamine` means that Food is zero while units still
+need to eat, which causes gradual deaths.
 
 ---
 
@@ -290,9 +297,16 @@ gradual death.
 ## Sources
 
 [^1]: `data/scripts/lib/unit.script:3944` - score modifier for
-      unit death: `if (gPlayer[pl].brebellion) and bmercenary then
-      scoremodifier := 3 else scoremodifier := 2;`. Then
-      `gPlayer[pl].counter.scores -= score * scoremodifier`.
+      unit death:
+
+      ```pascal
+      if (gPlayer[pl].brebellion) and bmercenary then
+        scoremodifier := 3
+      else
+        scoremodifier := 2;
+      ```
+
+      Then `gPlayer[pl].counter.scores -= score * scoremodifier`.
 
 [^2]: `data/scripts/lib/player.script:295-321` - main procedure
       resource consumption. First, `food`/`gold` are installed

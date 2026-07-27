@@ -4,72 +4,68 @@
 
 [← How the game works](../README.md)
 
-Deep dive: how the game reacts to input (mouse, keyboard,
-scroll), what kind of feedback goes to the player (alarm notifications,
-sounds, highlighting). About the connection with vision and FOW - see separate
-section §5.
+How the game responds to the mouse, keyboard, and wheel, and how it
+reports events through sound, highlighting, and warnings. Section §5
+explains the relationship with vision and fog of war.
 
 > **Related documents:**
 > [`../world/combat/vision_and_fow.md`](../world/combat/vision_and_fow.md)
 > — fog of war and overview; [`../world/combat/unit_commands.md`](../world/combat/unit_commands.md)
 > - what orders the unit understands.
 
+<a id="кратко"></a>
 ## TL;DR
 
-- Input to C3 is processed through the **GUI engine wrapper**: mouse,
-  keyboard, scroll - each event triggers a specific
-  script state (`SetGUIEventStateOnMouseDown`, etc.).
-- **Selection** - through native `GameManagerStartSelection` /
-  `EndSelection` with `'spmRunTime'` (run-time pick) mode or
-  `'spmFrame'` (frame-by-frame). Algorithm for selecting an object for
-  cursor - `RayCastIntersectGameObjectFromMouseRay` (native in
-  engine).
-- **Sounds and FOW are two independent systems.** Sound is emitted by
-  distance from the listener (camera or object), and **not by FOW**.
-  A unit in the enemy "fog" is **audible** if it falls within the radius
-  camera audibility.
-- **Alarm notifications** (“you are being attacked”, “captured”) are triggered
-  only if the event occurs **outside the frustum chamber** (then
-  there is a player not physically looking there).
-- Alarm frequency limit: one alarm in `gc_gui_underattackalarminterval`
-  game seconds (typically ~5 g-sec) - to avoid spamming.
+- C3 routes mouse, keyboard, and wheel input through an engine interface
+  layer. Each event activates a script state such as
+  `SetGUIEventStateOnMouseDown`.
+- **Selection** uses the engine functions `GameManagerStartSelection` and
+  `EndSelection`, with `spmRunTime` for a single pick or `spmFrame` for
+  a selection box. `RayCastIntersectGameObjectFromMouseRay` finds the
+  object under the cursor.
+- **Sound and fog of war are independent.** Audibility depends on distance
+  from the listener—the camera or an object—not on visibility. A hidden
+  enemy unit can still be heard.
+- **Warnings** such as “under attack” or “being captured” appear only
+  when the event is **outside the camera frustum**.
+- `gc_gui_underattackalarminterval` limits warning frequency to roughly
+  one every five game seconds.
 
 ---
 
 <a id="1-селекция-объектов"></a>
+<a id="1-выделение-объектов"></a>
 ## 1. Object selection
 
 <a id="11-старт-сессии-селекции"></a>
-### 1.1. Start of selection session
+<a id="11-начало-выделения"></a>
+### 1.1. Starting a selection
 
-When the player starts selecting (with a frame or single click):
+When the player begins a box selection or clicks a unit:
 
-1. The script calls `GameManagerBeginSelection` - native API
-   prepares a buffer of selected objects.
-2. `GameManagerStartSelection(mode)` starts the mode:
-   - `'spmRunTime'` - for real-time click (one frame).
-   - `'spmFrame'` - for the selection frame (each frame while the button
-     clamped).
-3. Each frame of the frame the script calls `_control_*` function to bypass
-   objects and marks those that fall through `SetGameObjectPickedByHandle`.
+1. `GameManagerBeginSelection` prepares the selection buffer.
+2. `GameManagerStartSelection(mode)` starts either:
+   - `spmRunTime` for a one-frame click;
+   - `spmFrame` for a box updated every frame while the button is held.
+3. Each box-selection frame, a `_control_*` function scans objects and
+   marks matches with `SetGameObjectPickedByHandle`.
 
 <a id="12-какие-объекты-могут-быть-выбраны"></a>
 ### 1.2. What objects can be selected
 
-`SetGameManagerSelectionSettings(pickgroups, pickgamemanagerplayer,
-pickplayableObject, ...)`:
+`SetGameManagerSelectionSettings(pickgroups, pickgamemanagerplayer, pickplayableObject, ...)`:
 
 | Parameter | What |
 |---|---|
-| `pickgroups` | Is it possible to distinguish groups (squads). |
-| `pickgamemanagerplayer` | Is it possible to select only your own people or all of them? |
-| `pickplayableObject` | Playable only (units + buildings), not decorative NPCs. |
+| `pickgroups` | Whether squads can be selected. |
+| `pickgamemanagerplayer` | Whether selection is restricted by owner. |
+| `pickplayableObject` | Whether to select only playable units and buildings, excluding decorative NPCs. |
 
-The human player usually operates in "pickplayableObject = True" mode
-+ your player." AI or editor can change.
+Human players normally use `pickplayableObject = True` and an owner
+filter for their own player. AI and editor tools can change these settings.
 
 <a id="13-команды-селекции"></a>
-### 1.3. Selection teams
+### 1.3. Selection commands
 
 Script functions in `lib/control.script`:
 
@@ -78,15 +74,15 @@ Script functions in `lib/control.script`:
 | `_control_SelectAllUnits(bBuildings, bExcludePeasants)` | Select everything available on the map (Ctrl+A). |
 | `_control_SelectAllShips()` | All ships. |
 | `_control_SelectAllPeasants()` | All peasants. |
-| `_control_SelectIdlePeasants()` | Idle peasants (without a warrant). |
+| `_control_SelectIdlePeasants()` | Idle Peasants without an order. |
 | `_control_SelectIdleMines()` | Mines with space for peasants. |
 | `_control_DeselectAllUnits(bUpdateSelection)` | Reset selection. |
 | `_control_GetUnitUnderCursor()` | Return the handle of the unit under the cursor. |
-| `_control_SelectOnlySquad()` | Leave only the units. |
+| `_control_SelectOnlySquad()` | Keep only squads selected. |
 
 **Control groups** (Ctrl+1 .. Ctrl+9 - linking a group with a number) on
-script level **not read as separate functions**. Perhaps
-processed natively through `SetGUIEventStateOn*`-callbacks.
+the script layer are **not exposed as separate functions**. They are
+probably handled by the engine through `SetGUIEventStateOn*`.
 
 ---
 
@@ -94,19 +90,19 @@ processed natively through `SetGUIEventStateOn*`-callbacks.
 ## 2. Input: mouse, scroll, keyboard
 
 <a id="21-mouse-события"></a>
+<a id="21-события-мыши"></a>
 ### 2.1. Mouse events
 
-| Native API | What registers |
+| Engine function | Registered transition |
 |---|---|
-| `SetGUIEventStateOnMouseDown(state)` | The name of the FSM state into which the script will go when mouse-down. |
-| `SetGUIEventStateOnMouseUp(state)` | ... with mouse-up. |
-| `SetGUIEventStateOnMouseMove(state)` | ... when moving the mouse. |
+| `SetGUIEventStateOnMouseDown(state)` | Interface state for pressing a mouse button. |
+| `SetGUIEventStateOnMouseUp(state)` | Interface state for releasing the button. |
+| `SetGUIEventStateOnMouseMove(state)` | Interface state for mouse movement. |
 | `SetGUIEventStateOnMouseWheel(state)` | ... when scrolling. |
 | `SetGUIEventStateOnMouseEnterGUI(state)` / `OnMouseLeaveGUI(state)` | When the cursor enters/leaves a UI element. |
 
-That is, script event handlers are transitions of the FSM script
-GUI All of them are registered by a single system through
-`SetGUIEventState*`-functions.
+Input handlers therefore switch interface states. The
+`SetGUIEventState*` family registers all of these transitions.
 
 <a id="22-получение-текущего-ввода"></a>
 ### 2.2. Getting current input
@@ -116,17 +112,16 @@ GUI All of them are registered by a single system through
 | `GetGUICurrentMouseCoord(var ax, ay)` | Current pixel coordinates of the cursor. |
 | `GetGUIPreviousMouseCoord(var ax, ay)` | Previous (for delta). |
 | `GetCurrentMouseWorldCoord(var x, y, z)` | Coordinates in world space (via raycast from the cursor to the ground). |
-| `GameObjectRayCastMouseRay()` | Raycast from cursor position to world - returns the GameObject under the cursor. |
+| `GameObjectRayCastMouseRay()` | Cast a ray from the cursor into the world and return the game object under it. |
 | `GetGUIElementUnderMouse()` | Which UI element is under the cursor. |
 | `GetGUIMinimapUnderMouse()` | Whether the cursor is above the minimap. |
 
 Key function: **`GetRayCastIntersectGameObjectFromMouseRay()`**
-- takes the current mouse ray and returns **the first GameObject**, in
-which ray hit. This is what the player “clicks” - the unit
-or building.
+casts the current mouse ray and returns **the first game object** it hits.
+That object is the unit or building the player clicked.
 
 <a id="23-скролл-колеса"></a>
-### 2.3. Scroll wheels
+### 2.3. Mouse wheel
 
 `GetGUIEventMouseWheelDelta()` - returns the delta of the last
 scroll (positive = up, negative = down). By
@@ -141,13 +136,12 @@ Only one of the modes is active. Profile settings via
 <a id="24-клавиатура"></a>
 ### 2.4. Keyboard
 
-Direct `OnKeyDown`-API in scripts **was not found** - processing
-hotkeys and hotkeys are done on the **engine** side through
-GUI-FSM-callbacks (names like `OnKey_F1`, `OnKey_Ctrl_A`
-are registered natively).
+No direct `OnKeyDown` API call was found in the scripts. The engine handles
+hotkeys by switching interface states such as `OnKey_F1` and
+`OnKey_Ctrl_A`.
 
-This means that you cannot reassign hotkey through a script; need
-change in native code or through settings `editor.exe`.
+Consequently, hotkeys cannot be rebound through a script; they must be
+changed in engine code or the `editor.exe` settings.
 
 ---
 
@@ -189,6 +183,7 @@ The player jumps to the group number (1–9) via `_control_MoveCameraTo*`
 + selection.
 
 <a id="42-listener-точка-прослушки-звука"></a>
+<a id="42-точка-прослушивания-звука"></a>
 ### 4.2. Listener (sound listening point)
 
 The sound in C3 is emitted relative to the **listener** - invisible
@@ -208,11 +203,13 @@ next to the **camera**, and not to the selected unit or base.
 ---
 
 <a id="5-звуки-и-fow--две-независимые-системы"></a>
+<a id="5-звуки-и-туман-войны--две-независимые-системы"></a>
 ## 5. Sounds and FOW are two independent systems
 
 This is a critical detail that is **often misunderstood**.
 
 <a id="51-как-эмитируется-звук-юнита"></a>
+<a id="51-как-создаётся-звук-юнита"></a>
 ### 5.1. How a unit's sound is emitted
 
 When a unit performs an action (shot, step, fight, death), the script
@@ -262,6 +259,7 @@ about the structure of FOW.
 ---
 
 <a id="6-alarm-уведомления"></a>
+<a id="6-предупреждения"></a>
 ## 6. Alarm notifications
 
 `_misc_DoAlarm(goHnd, trgHnd, event)` [^1] - main function for
@@ -307,6 +305,7 @@ or Ctrl+W depending on the profile) - this causes
 `MoveCameraToPosition(alarmx, alarmz, ...)`.
 
 <a id="64-не-алармирует"></a>
+<a id="64-когда-предупреждения-нет"></a>
 ### 6.4. Does not alarm
 
 - **Attacks on non-owner.** `_misc_DoAlarm` checks
@@ -320,6 +319,7 @@ or Ctrl+W depending on the profile) - this causes
 ---
 
 <a id="7-hotkey-конфиг"></a>
+<a id="7-настройка-горячих-клавиш"></a>
 ## 7. Hotkey config
 
 Hotkeys are defined in `data/game/var/hotkeys.cfg` -
@@ -343,6 +343,7 @@ struct.end
 | `Up` | If `True`, the action is triggered by releasing the key, not by pressing it. |
 
 <a id="72-шесть-типов-action"></a>
+<a id="72-шесть-видов-действий-action"></a>
 ### 7.2. Six types `Action`
 
 | Type | What does | Examples |
@@ -355,6 +356,7 @@ struct.end
 | `event` | Trigger UI-state | `event\|eventmainmenu\|bcampaign` (open campaign), `event\|eventmainmenu\|brandommap`, etc. |
 
 <a id="73-дефолтные-хоткеи-фрагмент"></a>
+<a id="73-горячие-клавиши-по-умолчанию-фрагмент"></a>
 ### 7.3. Default hotkeys (fragment)
 
 | Key | Action |
@@ -373,8 +375,8 @@ struct.end
 | `Ctrl+A` | `select\|allunits` |
 | `Ctrl+B` | `select\|allbuildings` |
 | `Ctrl+M` | `select\|idlemines` |
-| `Ctrl+P` or `` ` `` | `select\|idlepeasants` |
-| `Ctrl+\`` | `select\|allpeasants` |
+| `Ctrl+P` or the backtick key | `select\|idlepeasants` |
+| `Ctrl` plus the backtick key | `select\|allpeasants` |
 | `Ctrl+Q` | `select\|allships` |
 | `Ctrl+Alt+A` or `Ctrl+Shift+A` | `select\|militaryunits` |
 | `Q` | `interface\|viewcollision` |
@@ -387,6 +389,7 @@ And a large set of `build|...` (one letter for each building) - `C` = Cen, `H` =
 > GUI state is active (in-game / unit-selected / menu-open).
 
 <a id="8-reserved-keys--нельзя-переназначить"></a>
+<a id="8-клавиши-которые-нельзя-переназначить"></a>
 ## 8. Reserved keys - cannot be reassigned
 
 The file `data/gui/menu.inc/hotkeysettings.inc` contains two lists
@@ -416,6 +419,7 @@ game behavior.
 | `[`, `]` | Scrolling alarms/notifications. |
 
 <a id="82-зарезервированные-комбинации-control-groups--системные"></a>
+<a id="82-зарезервированные-комбинации-для-групп-и-системы"></a>
 ### 8.2. Reserved combinations (control groups + system)
 
 **Control groups (10 pieces, numbers 0–9):**
@@ -446,6 +450,7 @@ That is, in Cossacks 3 there are **10 control groups** (0–9), a standard set o
 | `Shift+Alt+Mul` | Advanced minimap mode. |
 
 <a id="83-rtti-классы-для-группы"></a>
+<a id="83-классы-групп-найденные-в-rtti"></a>
 ### 8.3. RTTI classes for a group
 
 Classes `TXGroup4` (one of ten?) and
@@ -473,6 +478,7 @@ control groups is done **in native exe**, without calling scripts.
 Hotkey: `Ctrl+Add` (numpad +) / `Ctrl+Sub` (numpad −) - both
 reserved (see §8.2).
 
+<a id="92-пауза"></a>
 ### 9.2. Pause
 
 Hotkey `P` - reserved (see §8.1). Limit: **4 pauses of 120
@@ -508,8 +514,8 @@ already takes modifiers into account.
    listener sees the whole world by distance.
 3. ~~`gc_gui_underattackalarminterval` - exact value~~ ✅
    **Closed:** `= 135` (`dmscript.global`). Unit - internal
-   counter `GetCurrentTime`, most likely **frames** → `135 / 32 ≈
-   4.22 g-sec`. That is, alarm does not go off more than once per
+   counter `GetCurrentTime`, most likely **frames** →
+   `135 / 32 ≈ 4.22 g-sec`. That is, alarm does not go off more than once per
    ~4 g-seconds.
 4. **Double-click on a unit portrait** - does the camera jump? In code
    `MoveCameraToSelectedUnits` exists, but the trigger is not specified in
@@ -520,8 +526,9 @@ already takes modifiers into account.
 <a id="источники"></a>
 ## Sources
 
-[^1]: `data/scripts/lib/misc.script` — `_misc_DoAlarm(goHnd,
-      trgHnd, event)`. Uses `gSoundManager.IsObjInFrustum(handle)`
+[^1]: `data/scripts/lib/misc.script` —
+      `_misc_DoAlarm(goHnd, trgHnd, event)`. Uses
+      `gSoundManager.IsObjInFrustum(handle)`
       for testing "out of camera view". Gate through
       `gPlayer[plIO].lastattacktime` and
       `gc_gui_underattackalarminterval`.

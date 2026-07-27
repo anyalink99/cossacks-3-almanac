@@ -11,152 +11,152 @@
     {
       "path": "recon/README.md",
       "title": "How the Game Works",
-      "size": 4422,
+      "size": 4424,
       "lines": 68
     },
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "How the Computer Player Works",
-      "size": 23205,
-      "lines": 504
+      "size": 23599,
+      "lines": 517
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Mercenaries and the Diplomatic Center",
-      "size": 33030,
-      "lines": 670
+      "size": 34054,
+      "lines": 683
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
-      "title": "Scenarios and Triggers",
-      "size": 10962,
-      "lines": 260
+      "title": "Scenarios and Event Rules",
+      "size": 10964,
+      "lines": 253
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Controls and Player Feedback",
-      "size": 23280,
-      "lines": 533
+      "size": 23837,
+      "lines": 540
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Victory, Defeat, and the End of a Match",
-      "size": 22234,
-      "lines": 456
+      "size": 22059,
+      "lines": 458
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "How Artillery Works",
-      "size": 10418,
-      "lines": 261
+      "size": 10758,
+      "lines": 268
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "How Damage Is Calculated",
-      "size": 20151,
-      "lines": 465
+      "size": 20587,
+      "lines": 467
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Formations and Their Combat Bonuses",
-      "size": 19294,
-      "lines": 457
+      "size": 20014,
+      "lines": 472
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "How Naval Combat Works",
-      "size": 13038,
-      "lines": 324
+      "size": 13566,
+      "lines": 334
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Pathfinding and Unit Movement",
-      "size": 41533,
-      "lines": 896
+      "size": 42361,
+      "lines": 907
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Ranged-Unit Behavior",
-      "size": 14739,
-      "lines": 340
+      "size": 15079,
+      "lines": 343
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Target Selection and Attack-Move",
-      "size": 35612,
-      "lines": 747
+      "size": 36037,
+      "lines": 756
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "How Towers Work",
-      "size": 11202,
-      "lines": 240
+      "size": 11548,
+      "lines": 243
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Unit Orders",
-      "size": 12947,
-      "lines": 307
+      "size": 13510,
+      "lines": 317
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Vision and Fog of War",
-      "size": 9308,
-      "lines": 220
+      "size": 9043,
+      "lines": 212
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Walls and Gates",
-      "size": 24255,
-      "lines": 512
+      "size": 24602,
+      "lines": 521
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Building Construction, Repair, and Destruction",
-      "size": 29682,
-      "lines": 495
+      "size": 30484,
+      "lines": 536
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "How Buildings and Units Are Captured",
-      "size": 29790,
-      "lines": 593
+      "size": 30683,
+      "lines": 608
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Famine and Mercenary Rebellion",
-      "size": 14015,
-      "lines": 319
+      "size": 14276,
+      "lines": 333
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "How Peasants Gather Resources",
-      "size": 34395,
-      "lines": 747
+      "size": 36403,
+      "lines": 766
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Production Queues",
-      "size": 13914,
-      "lines": 331
+      "size": 14103,
+      "lines": 339
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "How Upgrades Are Applied",
-      "size": 21364,
-      "lines": 505
+      "size": 22105,
+      "lines": 516
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "How Match Settings Affect the Game",
-      "size": 17553,
-      "lines": 370
+      "size": 18350,
+      "lines": 393
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "How a Random Map Is Generated",
-      "size": 36304,
-      "lines": 589
+      "size": 37528,
+      "lines": 717
     },
     {
       "path": "reference/01_economy/README.md",

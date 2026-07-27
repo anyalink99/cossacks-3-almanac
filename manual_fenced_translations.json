@@ -18,28 +18,12 @@
         "internals/engine/rng_implementation.md:135"
       ]
     },
-    "087b6b78efd7fb88adc19db00b97d5da5d623591980e9ed1fdf796f9ea5bab3e": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "flowchart TB\n    subgraph P0[\"Phase 0 — preparation\"]\n        H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]\n        Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]\n        Load[LoadPatterns:<br/>all .pattern files]\n    end\n    subgraph P1[\"Phase 1 — terrain\"]\n        Players[plcount = non-spectator players]\n        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]\n        Seed[SetRandomKey randkey1<br/>determines RandomExt]\n        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]\n        Water[Water-shore mask<br/>height &lt; −0.1]\n    end\n    subgraph P2[\"Phase 2 — start positions + resources\"]\n        StartPts[RandomStartingPoints:<br/>assign players]\n        StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]\n        Mines1[SetupMines round=0<br/>for real players]\n    end\n    subgraph P3[\"Phase 3 — global resources\"]\n        Mines2[SetupMines rounds 1..N<br/>for every spcount]\n        Forests[Forests / stoneforests<br/>by pattern type]\n        Decor[Decoration patterns]\n    end\n    subgraph P4[\"Phase 4 — finalization\"]\n        Owner[FillOwnerMap]\n        Borders[SetupBorderObjects:<br/>peace-time walls]\n        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]\n    end\n    P0 --> P1 --> P2 --> P3 --> P4",
-      "sources": [
-        "docs/recon/world/map/map_generation_pipeline.md:67"
-      ]
-    },
     "097bf61af80a0d14e0e30aefe012de574e6a888579e4ae2809bdadc0dfb310ef": {
       "literal": false,
       "literal_cyrillic": false,
       "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json",
       "sources": [
         "README.md:119"
-      ]
-    },
-    "097da744254397d76c2d719cbf380d406e914d24c290530dfccf2be6026e8a15": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
-      "sources": [
-        "docs/recon/world/economy/building_mechanics.md:38"
       ]
     },
     "0ead5485d6dcca8263e8bb46a83f2f8e0ec0853e8b4657db9504243015683a3d": {
@@ -55,7 +39,7 @@
       "literal_cyrillic": false,
       "text": "gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile = 3.0 tile\ngc_gameplay_captureradius          = 214 / 53.333          ≈ 4.013 tile\ngc_gameplay_protectionradius       = 426 / 53.333          ≈ 7.987 tile\ngc_gameplay_resourceDropRadius     = 3 tile\n*Sqr — the same values squared (for Euclidean comparisons)",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:31"
+        "docs/recon/world/economy/capture_mechanics.md:32"
       ]
     },
     "12d333e92c035cac33ea1086e6606dd1844747c2d7a6cde2a9d422ab0b460c8e": {
@@ -79,7 +63,15 @@
       "literal_cyrillic": false,
       "text": "    gc_settings_gamespeed_count   = 3;\n    gc_settings_gamespeed_default = -1;\n    gc_settings_gamespeed_0       = 7;     // slow   — 7 ticks / real second\n    gc_settings_gamespeed_1       = 10;    // normal — 10 ticks / real second\n    gc_settings_gamespeed_2       = 14;    // fast   — 14 ticks / real second\n    //gc_settings_gamespeed_3 = 20;        // commented out; formerly ultra-fast",
       "sources": [
-        "docs/recon/world/map/game_settings.md:354"
+        "docs/recon/world/map/game_settings.md:380"
+      ]
+    },
+    "142250352da1ed1bcb46aa0edb8c36f459a3c8729b4ba9c7030b3f37f688baae": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "searchdist += goHeight × 2     # ranged units only: minsearchdist > melee_radius",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:274"
       ]
     },
     "1561250fb9c35b795e072d57488da84c8f59d2d159c25dad819c872c56966b8b": {
@@ -143,7 +135,23 @@
       "literal_cyrillic": false,
       "text": "    if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // leaver penalty\n    case i of\n       0: if firstleaverind<>1 ...\n       1: if firstleaverind<>0 ...\n       2: if firstleaverind<>3 ...\n       3: if firstleaverind<>2 ...",
       "sources": [
-        "docs/recon/systems/victory_conditions.md:455"
+        "docs/recon/systems/victory_conditions.md:465"
+      ]
+    },
+    "396083c96d40e435593af7ddfe2e69faccbd43e2c181e33e49db02b3491ec4b4": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "Town Hall (SID `<nat>cen`) built\n    + Academy (SID `<nat>aca`) built\n    + Cathedral (SID `<nat>tem`) built\n    + Artillery Depot (SID `<nat>art`) built\n        ↓\nresearch “Progress to the 18th Century” (SID `<nat>cen.1`) at the Town Hall\n    cost ≈ 30,000 Food + 5,000 Gold + 2,000 Iron + 2,000 Coal\n    time = 9.38 game sec\n        ↓\nyou can now build the 18th-century Barracks (SID `<nat>ba2`)\n    cost ≈ 1,700 Wood + 2,950 Stone + 4,000 Gold\n    buildtime = 5625 game sec\n        ↓\nthe Barracks produces Musketeers, Pikemen, Grenadiers, Dragoons,\nand special national infantry of the 18th century",
+      "sources": [
+        "docs/recon/world/economy/upgrades_application.md:223"
+      ]
+    },
+    "397c804f24948cd911a27e9613f369a779aaf258f2a08dfd2293263d16500955": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    gc_formation_maxcount      = 160;   // maximum units per squad\n    gc_formation_maskmaxwidth  = 54;\n    gc_formation_maskmaxheight = 24;",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:881"
       ]
     },
     "3bb1daea437c148c09e897faca7ff7c71c4609fe3b3b5bdc693edde6238142c1": {
@@ -199,7 +207,7 @@
       "literal_cyrillic": false,
       "text": "resefficiency[res] := resefficiency[res] + round(value);\n                                          // percentage variants also use += value, not *=",
       "sources": [
-        "docs/recon/world/economy/upgrades_application.md:338"
+        "docs/recon/world/economy/upgrades_application.md:343"
       ]
     },
     "4737000a87f8411f23d2256d4df968c145e56fb3f94a9509414c53a55600b534": {
@@ -223,7 +231,7 @@
       "literal_cyrillic": false,
       "text": "const mult  = 100\nconst speed = 256/1.024 = 250\nresincome_eff = resincome × gc_time_to_frames        # =13×32=416 per peasant\nbank        += resincome_eff × deltatime\nrealbank     = bank / speed\ndelivered    = floor(realbank)                        # to the player",
       "sources": [
-        "docs/recon/world/economy/peasant_extraction.md:358"
+        "docs/recon/world/economy/peasant_extraction.md:378"
       ]
     },
     "4a192e5d58b7fb3b387cb0ea15fb16815a756655de7fe4e2db6329807fb293d8": {
@@ -231,7 +239,7 @@
       "literal_cyrillic": false,
       "text": "    _ai_TryUnit(plind, cid, gc_ai_unit_ba17, 8, False)\n    // 6 for Russia",
       "sources": [
-        "docs/recon/systems/ai_behavior.md:412"
+        "docs/recon/systems/ai_behavior.md:423"
       ]
     },
     "4ad4cb8f071b7ca22c1d8fd4f412ed89125b68b136247dd41cbb61084753ad6c": {
@@ -239,7 +247,7 @@
       "literal_cyrillic": false,
       "text": "    type TMapSettings = class\n       gen        : TMapSettingsGen;          // map-generator parameters\n       additional : TMapSettingsAdditional;   // game rules\n    end;",
       "sources": [
-        "docs/recon/world/map/game_settings.md:228"
+        "docs/recon/world/map/game_settings.md:251"
       ]
     },
     "5064e735ec67f7471abd598fd09b820a86db56b6a0cd726a88d97117589d6ae5": {
@@ -247,7 +255,7 @@
       "literal_cyrillic": false,
       "text": "gc_unit_TimeCheckCapture    = 0.1*19  ≈ 1.9 game sec   (peasants + buildings)\ngc_unit_TimeCheckCaptureArt = 0.1*5   ≈ 0.5 game sec   (artillery — checked more often)",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:40"
+        "docs/recon/world/economy/capture_mechanics.md:41"
       ]
     },
     "53af30edcae9f5532d6784961bbd4614135c9bf129f68a9be8deca46015200ca": {
@@ -279,7 +287,7 @@
       "literal_cyrillic": false,
       "text": "if (standtime < 0.25) AND (weapon.kind ≠ cannister):\n    if (NOT bArtillery):\n        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles\n    else:\n        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles",
       "sources": [
-        "docs/recon/world/combat/ranged_units_behavior.md:142"
+        "docs/recon/world/combat/ranged_units_behavior.md:150"
       ]
     },
     "57569af795c7cb15b7466b92146251e2ab087d04cd01e3545c2deea8e0dea555": {
@@ -306,20 +314,12 @@
         "docs/reference/README.md:42"
       ]
     },
-    "5dd5d1eb84e324ce9ebf03a5a97df273445cf1739fd9ebe8bfcac216882a0698": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "searchdist += goHeight × 2     # ranged units only: minsearchdist > melee_radius",
-      "sources": [
-        "docs/recon/world/combat/ranged_units_behavior.md:259"
-      ]
-    },
     "601f6611bd9ed0736aae0b0c0ef5695dd968f2fd4fcc69c7895075f6356a07a1": {
       "literal": false,
       "literal_cyrillic": false,
       "text": "    if (gbool_peacemode) and (gametime > gfloat_peacetime)\n       and (not _net_IsReplay) and (not _net_IsClient) then\n    begin\n       gbool_peacemode := false;\n       // remove ptborder objects and enter wartime\n    end;",
       "sources": [
-        "docs/recon/world/map/game_settings.md:343"
+        "docs/recon/world/map/game_settings.md:369"
       ]
     },
     "6165a3e99da6381f45af221e7b3d2507279aa348baaf5f5efd7c8f35f07fe369": {
@@ -327,7 +327,7 @@
       "literal_cyrillic": false,
       "text": "target.hp += weapon.damage              # WITHOUT shield or protection\ntarget.hp := min(target.hp, target.maxhp)",
       "sources": [
-        "docs/recon/world/combat/target_selection.md:379"
+        "docs/recon/world/combat/target_selection.md:390"
       ]
     },
     "6480fcb886acc907610fc04537fe14a6de028b07c9b9c76a31fc25e89e9ecaf3": {
@@ -375,7 +375,7 @@
       "literal_cyrillic": false,
       "text": "    procedure _misc_Collided(const hnd: Integer);\n    begin\n       if (_net_IsOffline or _net_IsServer) and not _net_IsReplay\n           and (GetGameObjectPlayableObjectByHandle(hnd)) then begin\n          var trg: integer = GetGameObjectStateCollisionObjectByHandle(hnd);\n          ...\n          if (gObjProp[TObj(pobj).cid][TObj(pobj).id].material = gc_obj_material_body)\n             and (gObjProp[TObj(pobj2).cid][TObj(pobj2).id].material = gc_obj_material_body) then\n          begin\n             if (GetGameObjectTrackPointMovementModeIntByHandle(hnd) <> 0) then\n             begin\n                var res : Integer = _unit_TryAttack(hnd, trg, false);\n                if (res<=gc_result_tryattack_outofrange) then begin\n                   if not isrunaway then begin\n                      if (orders[0].itype=attackobj) and (orders[0].info.trg<>trg) then\n                         _unit_SetOrderTrg(hnd, 0, trg, True)\n                      else\n                         _unit_OrderAttack(hnd, trg, True, False, False);\n                   end;\n                end;\n             end;\n             // and symmetrically for trg → hnd (if trg was also moving)\n          end;\n       end;\n    end;",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:703"
+        "docs/recon/world/combat/pathfinding.md:733"
       ]
     },
     "6d18d5d28aa8862ba8fe9254d44ee7089379e593b222aa88d3c0f3cfc683674e": {
@@ -415,7 +415,7 @@
       "literal_cyrillic": false,
       "text": "    gc_obj_media_land  : quadTree := TopologyGetPathQuadTree;     // 70 (path mode, without buildings?)\n    gc_obj_media_water : quadTree := TopologyGetTopologyQuadTree; // 90 (full-mode)",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:621"
+        "docs/recon/world/combat/pathfinding.md:647"
       ]
     },
     "7fae5156cde2f4806cb93c3bca5dc61863f8fef8c7369cc0a404a08c3e96478c": {
@@ -439,7 +439,7 @@
       "literal_cyrillic": false,
       "text": "maxdisp = dist × disp × 0.0267         # in tiles\nshot_x  = target_x + (1 − random × 2) × maxdisp\nshot_z  = target_z + (1 − random × 2) × maxdisp",
       "sources": [
-        "docs/recon/world/combat/target_selection.md:446"
+        "docs/recon/world/combat/target_selection.md:458"
       ]
     },
     "87e98535b27027e7efa587d7fadc22a64b104398694a0b445801cf836e3cea30": {
@@ -447,7 +447,7 @@
       "literal_cyrillic": false,
       "text": "    type TMapSettingsAdditional = class\n       activeoption     : Integer;\n       startingunits    : Integer;   // starting unit / building set\n       balloon          : Integer;   // balloons\n       cannons          : Integer;   // cannons / walls / towers\n       peacetime        : Integer;   // peace time\n       century18        : Integer;   // advance to the 18th century\n       capture           : Integer;  // capture rules\n       marketdip        : Integer;   // Market / Diplomatic Center\n       teams            : Integer;   // ally placement\n       autosave         : Integer;\n       limit            : Integer;   // population limit\n       gamespeed        : Integer;   // game speed\n       adviserassistant : Integer;   // adviser\n    end;",
       "sources": [
-        "docs/recon/world/map/game_settings.md:255"
+        "docs/recon/world/map/game_settings.md:278"
       ]
     },
     "881edfa43f8232713189a3b553a9458e1871779211d63ca9f738441f4c44342a": {
@@ -455,7 +455,7 @@
       "literal_cyrillic": false,
       "text": "    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI enabled\n    SetGameObjectCIIntersectRadiusByHandle(colHnd, 0.35);  // 0.35 tiles\n    SetGameObjectCIMovableByHandle(colHnd, false);         // immovable\n    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — effectively infinite\n    SetGameObjectCIMaxDistKoefByHandle(colHnd, 2);\n    SetGameObjectCIDeltaStepByHandle(colHnd, 0.005);\n    SetGameObjectCIRotationSpeedByHandle(colHnd, 5);\n    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // buildings → 5°, units → 0\n    SetGameObjectCIEpsilonAngleByHandle(colHnd, 4);\n    SetGameObjectCIEpsilonShiftByHandle(colHnd, 0.001);\n    SetGameObjectCIEpsilonMoveByHandle(colHnd, 0.02);\n    SetGameObjectCIDistExtPointEpsilonByHandle(colHnd, 0.005);\n    SetGameObjectCIAvoidPointMaxAngleByHandle(colHnd, 120);\n    SetGameObjectCIMaxCollideCounterByHandle(colHnd, 7);",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:674"
+        "docs/recon/world/combat/pathfinding.md:703"
       ]
     },
     "8d52ddb566f981837ff526438cb9d6486073dc72333163ae21a0630f98cdfc37": {
@@ -463,7 +463,7 @@
       "literal_cyrillic": false,
       "text": "    for j:=rows-1 downto 0 do\n    for i:=cols-1 downto 0 do begin\n       var gohnd : Integer = GetGroupGameObjectHandleByGridColRow(grhnd, i, j);\n       if gohnd <> 0 then begin\n          // calculate the formation's target cell in world coordinates\n          x := posx + (i-cols/2+0.5) * minx * hdirx - (j+0.5) * miny * dirx;\n          y := posz + (i-cols/2+0.5) * minx * hdirz - (j+0.5) * miny * dirz;\n\n          // random dispersion within the unit radius (jitter)\n          var unitradius : Float = gObjProp[...].radius;\n          var dispradius : Float = unitradius*1.1;\n          var dispx : Float = (0.5-random)*dispradius;\n          VectorRotateY(dispx, dispy, dispz, random*360);\n          x := x+dispx;\n          y := y+dispz;\n\n          if not addord then _unit_ClearOrders(gohnd);\n          var pOrder : Pointer = _unit_OrderMove(gohnd, x, y, dirX, dirZ, mode, dofirst);\n          if (pOrder<>nil) then TOrder(pOrder).info.amount := gPathTag;\n       end;\n    end;",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:822"
+        "docs/recon/world/combat/pathfinding.md:853"
       ]
     },
     "8dcb3842ca5940bfbb476ca0ffa906bd7b3005081da0e3a399cbcf6c32f4f794": {
@@ -487,7 +487,7 @@
       "literal_cyrillic": false,
       "text": "    myForce := _ai_GetArmyForce(pArmy);\n    if (uCount > 200) or (myForce > 3800) then\n       myForce := 100000;\n    // otherwise myForce *= 8 (heavy) or *= 2 (light)\n    if (enForce > myForce) then ...retreat...",
       "sources": [
-        "docs/recon/systems/ai_behavior.md:469"
+        "docs/recon/systems/ai_behavior.md:485"
       ]
     },
     "976140b4ad199adae3d0c007f11a18f06459aba464719e943494b88e1f62e95c": {
@@ -522,6 +522,14 @@
         "internals/data/replay_format.md:164"
       ]
     },
+    "a91fdc733ebf66411e9727233c53aa8d109990820c054bd7314a7199f56836ce": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "flowchart TB\n    subgraph P0[\"Phase 0 — preparation\"]\n        H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]\n        Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]\n        Load[LoadPatterns:<br/>all .pattern files]\n    end\n    subgraph P1[\"Phase 1 — terrain\"]\n        Players[plcount = non-spectator players]\n        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]\n        Seed[SetRandomKey randkey1<br/>determines RandomExt]\n        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]\n        Water[Water-shore mask<br/>height &lt; −0.1]\n    end\n    subgraph P2[\"Phase 2 — start positions + resources\"]\n        StartPts[RandomStartingPoints:<br/>assign players]\n        StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]\n        Mines1[SetupMines round=0<br/>for real players]\n    end\n    subgraph P3[\"Phase 3 — global resources\"]\n        Mines2[SetupMines rounds 1..N<br/>for every spcount]\n        Forests[Forests / stoneforests<br/>by pattern type]\n        Decor[Decoration patterns]\n    end\n    subgraph P4[\"Phase 4 — finalization\"]\n        Owner[FillOwnerMap]\n        Borders[SetupBorderObjects:<br/>peace-time walls]\n        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]\n    end\n    P0 --> P1 --> P2 --> P3 --> P4",
+      "sources": [
+        "docs/recon/world/map/map_generation_pipeline.md:74"
+      ]
+    },
     "aace81293c015c15e81c3b7eb51c201f0fcf7cc554e8121336a6e0f2b12c7dee": {
       "literal": false,
       "literal_cyrillic": false,
@@ -535,7 +543,7 @@
       "literal_cyrillic": false,
       "text": "    gc_top_TopologyPriority = 90;   // QuadTree priority for blockers (buildings, terrain)\n    gc_top_PathPriority     = 70;   // QuadTree priority for path search (without buildings, or fewer)\n    gc_top_WallPriority     = 95;   // dedicated wall priority\n    gc_top_WallQuadTree     = 2;\n    gc_top_UnitTick         = 50;   // used in gc_unit_TimeTopology\n    gc_top_GlobalTick       = 100;\n    gc_top_EffectDist       = 3;\n    gc_top_MaxUpdateAreas   = 500;",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:521"
+        "docs/recon/world/combat/pathfinding.md:546"
       ]
     },
     "abc58e745b413ca290428f66957305a7c790ca4ff191fbbf97540c1b0f6e986a": {
@@ -567,7 +575,7 @@
       "literal_cyrillic": false,
       "text": "    type TMapSettingsGen = class\n       randkey0      : Integer;   // RNG key for placement (mines / forests / stones)\n       randkey1      : Integer;   // RNG key for relief / terrain\n       mapsize       : Integer;   // 0..3 — size\n       terraintype   : Integer;   // 0..9 — terrain / water type\n       relieftype    : Integer;   // 0..5 — relief type\n       resourcestart : Integer;   // 0..3 — starting resources\n       resourcemines : Integer;   // 0..2 — mine density\n       season        : Integer;   // 0..3 — season / decoration\n    end;",
       "sources": [
-        "docs/recon/world/map/game_settings.md:240"
+        "docs/recon/world/map/game_settings.md:263"
       ]
     },
     "bcb29000ad3f21c203db37491e2e609b9745f92fd8e43be6f98a26e8c6efff47": {
@@ -591,7 +599,7 @@
       "literal_cyrillic": false,
       "text": "    TObj(pobj2).hp <= 0:\n       gPlayer[plInd].counter.scores += TObjProp(pobjprop2).score * 2;\n       // plus all units inside the building (garrison)\n       gPlayer[plInd].counter.scores += gObjProp[..].score * 3;",
       "sources": [
-        "docs/recon/systems/victory_conditions.md:420"
+        "docs/recon/systems/victory_conditions.md:430"
       ]
     },
     "c4c04ddfc2c3ed2bbfc604b3cfc8659fba2224dbd0a5456f440853656a5154c5": {
@@ -615,7 +623,7 @@
       "literal_cyrillic": false,
       "text": "    addtime := (0.125*plInd)+gc_global_TimeCheckExists*4   // active\n    addtime := (0.125*plInd)+gc_global_TimeCheckExists*12  // inactive\n    ...\n    if (gMap.bbattle) then gPlayer[plind].bexists := True\n    else\n       var farmused := gPlayer[plInd].counter.farmused;\n       if (farmused>0) and (farmused<100) then ...\n       else\n       gPlayer[plind].bexists := (farmused>0);",
       "sources": [
-        "docs/recon/systems/victory_conditions.md:371"
+        "docs/recon/systems/victory_conditions.md:379"
       ]
     },
     "ccf5bad7a5c15e3f25a329592e1d06f0d537bf17d305c5509a5e8b29896a8ca4": {
@@ -631,7 +639,7 @@
       "literal_cyrillic": false,
       "text": "if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm\n   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // event concerns the player\n      if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum\n         alarm fire",
       "sources": [
-        "docs/recon/systems/ui_input_and_feedback.md:256"
+        "docs/recon/systems/ui_input_and_feedback.md:255"
       ]
     },
     "ce6c5076d6401b539e465d33bd09191dbb24513c9c17206f7f6921c013a3e0a8": {
@@ -671,15 +679,7 @@
       "literal_cyrillic": false,
       "text": "    procedure _misc_CheckCapture(goHnd):\n      pobj      := target object\n      scangrid  := its scan-grid cell\n      bneutral  := (not gbool_peacemode) or (owner-of-grid <> my pl)\n      if not bneutral: return                          // skip during peace time when the nearby grid is ours\n\n      bwall    := pobjprop.bwall\n      enemyplmask := gPlayer[my pl].enemyplmask\n      rx1 := floor(214/4) + 1 = 54  → scan radius in grid cells\n      capturePlMask := bneutral ? enemyPlMask : myPlMask-of-grid-owner\n\n      // -------- Step 1: find a capturer --------\n      bcapture := False; capturerCount := 0; bblockshot := False\n      for each grid cell within rx1 of scangrid:\n        if the cell contains enemyplmask units:\n          trgHnd := bwall ? _unit_SearchCapturersForWall(...) : _unit_SearchCapturers(...)\n          if trgHnd != 0:\n             pobjprop2 = ObjProp(trgHnd)\n             // Walls accept any enemy non-building (even a peasant);\n             // normal buildings accept only a bcancapture unit that is not on water.\n             if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):\n                distSqr := (px-tx)² + (py-ty)²\n                if distSqr < captureradiusSqr (≈4.013² tile):\n                   bcapture := True\n                   capturerCount += 1\n                   capturerHnd := trgHnd\n                   if distSqr < captureblockshotradiusSqr (3² tile):\n                      bblockshot := True\n\n      // _unit_SearchCapturers finds a unit satisfying:\n      //   not bbuilding && bcancapture && (myplmask & plmask)<>0\n      //                                   && pl <> mercenaryInd\n      // _unit_SearchCapturersForWall is the same WITHOUT the bcancapture requirement\n      //   (that is, any enemy infantry can break, or \"capture,\" a wall);\n      //   capture here effectively means wall death (bDie=True below).\n\n      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------\n      if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):\n\n         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),\n         //     suppress building fire for 100 frames (≈3.125 game sec):\n         if usage<>peasant and bblockshot:\n            attackdelay := max(attackdelay, 100*gc_frames_to_time)\n\n         // 2b. Find protectors within protectionradius (~7.99 tiles)\n         rx2 := floor(426/4) + 1\n         for grid cells within rx2 (only cells containing my myplmask units):\n            trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector\n                                                    && not bbuilding && (myplmask & plmask)=0\n            if trgHnd != 0:\n               if not pobjprop2.bcapture:\n                  if distSqr < protectionradiusSqr:\n                     bcapture := False; protectorsCount += 1; (but the loop continues)\n\n         // 2c. AI artillery logic: when the target is bartillery, pl=AI,\n         //     and there are too many protectors, commit suicide:\n         if gPlayer[my pl].bai and pobjprop.bartillery:\n            if (capCount>=protCount and protCount=1) or\n               (capCount>3 and protCount=2)        or\n               (capCount>7 and protCount=3)        or\n               (capCount>10 and protCount=4):\n               if (not bEasy) or (random>0.5):\n                  SetTagStates(goHnd, essential_death); exit\n\n      // -------- Step 3: apply capture --------\n      if bcapture:\n         statetag := GetGameObjectStatesTag(goHnd)\n         // A visible unit that has not spawned yet (essential_birth) simply dies:\n         if not bbuilding and (essential_birth & statetag) and (not visual_hide):\n            SetTagStates(essential_death); exit\n\n         if (statetag & visual_hide) = 0:\n            if bbuilding or (essential_none & statetag) <> 0:\n               bDie := False; bAutoKill := False  // bAutoKill is not assigned explicitly in the code\n               if bAutoKill or pobjprop.bwall:\n                  bDie := True                    // WALLS always die; they are never transferred\n\n               if not bbuilding:\n                  _unit_Stop(goHnd)\n               else:\n                  cancel produce/upgrade orders;  ClearOrders;  SetSTO=0\n\n               newPlHnd := capturer's player;  newPlInd := that player's index\n\n               // Alarm event for the captured player:\n               if my pl == InterfaceIO_pl:\n                  _misc_DoAlarm(capturerHnd, goHnd, alarmevent_capture)\n\n               // ---- AI capturer: sometimes destroys instead of capturing ----\n               if gPlayer[my pl].bai:        // AI loses the building\n                  if bbuilding:\n                     if random > 0.25:        // 75% chance of entering destruction\n                        if bbuilt and pobjprop.bslowdeath and hp>1999:\n                           hp := 1999 - floor(RandomExt*300)   // slow death\n                        else:\n                           bDie := True\n                  else:                       // peasant/artillery unit\n                     if usage=peasant and not bEasy:\n                        bDie := True          // hard+: AI destroys its peasant before capture\n                     else case usage of\n                        supermortar: if random>0.585     then bDie := True   // ≈41.5% suicide\n                        cannon:      if random>0.391     then bDie := True   // ≈60.9% suicide\n                        mortar:      if random>0.141     then bDie := True   // ≈85.9% suicide\n                        peasant:     if random>0.547     then bDie := True   // ≈45.3% when bEasy\n               else if gPlayer[newPlInd].bai and usage=peasant and not bEasy:\n                  bDie := True                 // inverse case: an AI capturer \"kills\" the peasant on hard\n\n               if bDie: SetTagStates(essential_death)\n               else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:434"
-      ]
-    },
-    "de15f7aa06ab4f1bfa07e68655f6969ca9d51eaf2bfc1b81af4dcfdcf391ec2a": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "    gc_formation_maxcount      = 160;   // maximum units per squad\n    gc_formation_maskmaxwidth  = 54;\n    gc_formation_maskmaxheight = 24;",
-      "sources": [
-        "docs/recon/world/combat/pathfinding.md:850"
+        "docs/recon/world/economy/capture_mechanics.md:457"
       ]
     },
     "dfb95d833089c29eca3c082096763a743477f23191835c0b908122fc5cf79bce": {
@@ -687,7 +687,7 @@
       "literal_cyrillic": false,
       "text": "per_unit_resconsume_food = consume.food          # from the case branch in unit.script\n                         + gc_obj_foodperunit    # = 30 when !bnohungry and !bbuilding",
       "sources": [
-        "docs/recon/world/economy/hunger_and_rebellion.md:125"
+        "docs/recon/world/economy/hunger_and_rebellion.md:128"
       ]
     },
     "e39af67883f64ea4e30882b97b17223c32461b2711fe87eb828061f684672ce6": {
@@ -695,7 +695,7 @@
       "literal_cyrillic": false,
       "text": "Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)\nReference points:  center to center (game-object position X/Z)\nDistance:          in tiles (1 tile = 53.333 px)\ncaptureradius      ≈ 4.0125 tiles ≈ 1.6 m at game scale (1 tile = 0.5 m? see determinism)\n                   = 214 px game-source units\ncaptureblockshot   = 3.0 tiles    (suppresses the target's fire)\nprotectionradius   ≈ 7.987 tiles  (protector zone; cancels capture)",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:334"
+        "docs/recon/world/economy/capture_mechanics.md:351"
       ]
     },
     "e3a8749067788d267a85bc75ff0c84cbbd6d47bc1c40a9c6ae6db82be693a3da": {
@@ -703,7 +703,15 @@
       "literal_cyrillic": false,
       "text": "rate_per_trip = portion × eff / 100             # resource per trip\ntime_per_trip_game = hitsneeded × t_hit_game    # game seconds\nrate = rate_per_trip / time_per_trip_game       # resource per game second",
       "sources": [
-        "docs/recon/world/economy/peasant_extraction.md:229"
+        "docs/recon/world/economy/peasant_extraction.md:236"
+      ]
+    },
+    "e512aaaacc8781c402a159d36934057a245176e4ec7cbad7dc133aaa9b140b50": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
+      "sources": [
+        "docs/recon/world/economy/building_mechanics.md:43"
       ]
     },
     "e647f174c5a89efb894bc52dcfb3b970ecbc5fc91643098a6e3da9f1b60b229b": {
@@ -719,15 +727,7 @@
       "literal_cyrillic": false,
       "text": "0 capture_default            — all eligible objects can be captured (peasants, infantry, artillery)\n1 capture_nopeasants         — peasants cannot be captured (default deathmatch + battles)\n2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured\n3 capture_onlyartillery      — only artillery can be captured",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:51"
-      ]
-    },
-    "e89effa0a00bc96bf949df7d8bfc3f3a4e89dab049e82d5f9d76595d09e4d592": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "Town Hall (cen) built\n    + Academy (<nat>aca) built\n    + Cathedral (<nat>tem) built\n    + Artillery Depot (<nat>art) built\n        ↓\nresearch <nat>cen.1 at the Town Hall\n    cost ≈ 30 000 F + 5 000 G + 2 000 I + 2 000 C\n    time = 9.38 game sec\n        ↓\nyou can now build <nat>ba2 (18th-century Barracks)\n    cost ≈ 1 700 W + 2 950 S + 4 000 G\n    buildtime = 5625 game sec\n        ↓\nba2 produces: musketeer18, pikeman18, grenadier, dragoon18,\n              special 18th-century infantry",
-      "sources": [
-        "docs/recon/world/economy/upgrades_application.md:219"
+        "docs/recon/world/economy/capture_mechanics.md:52"
       ]
     },
     "ea8d41aedc8e35ceb0e4e10dffebb5008a4064244471c040121478b29bc16068": {
@@ -751,7 +751,7 @@
       "literal_cyrillic": false,
       "text": "[wall][wall][wall]   ← a 3-tile line",
       "sources": [
-        "docs/recon/world/combat/walls_and_gates.md:84"
+        "docs/recon/world/combat/walls_and_gates.md:91"
       ]
     },
     "ee081c54938001255f864e0c675a05e814956685cc78dd82fa81f7c203888327": {
@@ -759,7 +759,7 @@
       "literal_cyrillic": false,
       "text": "flowchart TD\n    Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}\n    Peace -- yes --> Stop1[exit: check disabled]\n    Peace -- no --> Step1[Step 1: find a capturer]\n    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]\n    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}\n    Found -- no --> Stop2[exit: bcapture = False]\n    Found -- yes --> Step2[Step 2: find protectors]\n    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]\n    Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}\n    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]\n    Prot -- no --> Step3[Step 3: apply capture]\n    Step3 --> Type{Target type}\n    Type -- wall --> Die1[bDie = True<br/>wall is destroyed]\n    Type -- building --> AICheck{AI capturer<br/>and random &gt; 0.25?}\n    AICheck -- yes --> Die2[bDie = True<br/>AI destroys building]\n    AICheck -- no --> Change[ChangePlayer<br/>building + garrison]\n    Type -- unit --> Change\n    Change --> Done[Done]\n    Die1 --> Done\n    Die2 --> Done",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:125"
+        "docs/recon/world/economy/capture_mechanics.md:131"
       ]
     },
     "f199b7acf34120908ac98bd2613b8a0f1b1710d5faa359e2dca97d212179aa4e": {
@@ -775,7 +775,7 @@
       "literal_cyrillic": false,
       "text": "gPlayer[pl].counter.resincome[i] += produce[i]   # +13 for each worker who entered",
       "sources": [
-        "docs/recon/world/economy/peasant_extraction.md:350"
+        "docs/recon/world/economy/peasant_extraction.md:370"
       ]
     },
     "f31df8626dd94d6c7d0a78165b81f8df31c97f9efe0751055a5ff1919380cd36": {
@@ -791,7 +791,7 @@
       "literal_cyrillic": false,
       "text": "    function _misc_GetPeaceTime(ind : Integer) : Float;\n    begin\n       case ind of\n          0  : Result := 0;     // No peace time\n          1  : Result := 10;    // 10 minutes\n          2  : Result := 20;\n          3  : Result := 30;\n          4  : Result := 45;\n          5  : Result := 60;\n          6  : Result := 90;\n          7  : Result := 120;\n          8  : Result := 180;\n          9  : Result := 240;\n          11 : Result := 15;\n       end;\n       Result := Result * 60;   // convert to game seconds\n    end;",
       "sources": [
-        "docs/recon/world/map/game_settings.md:310"
+        "docs/recon/world/map/game_settings.md:335"
       ]
     },
     "f69bd0574bdb1da70523eb2a339edbc0e29f9109d079ce384f032e33d5189d89": {
@@ -799,7 +799,7 @@
       "literal_cyrillic": false,
       "text": "    117: if (gWaterPathList.GetCount>0) and ((gGOPathList.GetCount=0) or (gProgress.progresstick mod 2=0)) then\n    118:    pList := gWaterPathList; landPath := false;\n    123: else\n    124:    pList := gGOPathList; landPath := true;\n    128:\n    129: var count : Integer = TIntegerList(pList).GetCount;\n    130: if (count>0) then begin\n    131:    TopologyClearPathGameObjects;\n    132:    for i := 0 to count-1 do begin\n    135:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    144:       TopologyAddPathGameObjectByHandle(goHnd);\n    149:       if TObjProp(pObjProp).media = gc_obj_media_land then\n    150:          SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)   // squad id for group cost\n    151:       else\n    152:          SetGameObjectTagFloatByHandle(goHnd, -1);\n    153:    end;\n    155:    _misc_ProfilerBegin('progress.GetPath');\n    157:    if landPath then\n    158:       TopologyGetPath\n    159:    else begin\n    161:       var quadTree : Integer = TopologyGetTopologyQuadTree;\n    162:       TopologyGetPathExt(quadTree, gc_collisiontag_water, gc_TestPriorityOption_Water);\n    163:    end;\n    165:    _misc_ProfilerEnd('progress.GetPath');\n    167:    for i:=0 to count-1 do begin\n    169:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    171:       var noPath : Boolean = (GetGameObjectTrackPointCountByHandle(goHnd) = 0);\n    177:       TObj(pobj).bpathrequested := False;\n           ...     // insert building exit points, turn transport ramps away, etc.\n    307:       DoSetupMoveAnimation(goHnd);\n    308:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 0);\n    309:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 1);\n           ...\n    322:    TIntegerList(pList).Clear;\n    323: end;",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:570"
+        "docs/recon/world/combat/pathfinding.md:595"
       ]
     },
     "f75b88ac955ec03010573acffb417e2a21d0c6773ac2cb1a6937f4a7382b0bf9": {
@@ -823,7 +823,7 @@
       "literal_cyrillic": false,
       "text": "rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles",
       "sources": [
-        "docs/recon/world/combat/ranged_units_behavior.md:171"
+        "docs/recon/world/combat/ranged_units_behavior.md:181"
       ]
     },
     "fd8cc416e0ad40c34535393aa01427be1f2ac514d4ba122ddaa0b46a094018f5": {
@@ -831,7 +831,7 @@
       "literal_cyrillic": false,
       "text": "sum = 18 × (32 + 30) = 1116\nfood / g-sec = 1116 × 32 / 20000 ≈ 1.786\nover 120 game sec ≈ 214 food   ✓",
       "sources": [
-        "docs/recon/world/economy/hunger_and_rebellion.md:141"
+        "docs/recon/world/economy/hunger_and_rebellion.md:144"
       ]
     }
   }

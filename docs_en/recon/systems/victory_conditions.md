@@ -4,23 +4,24 @@
 
 [← How the game works](../README.md)
 
-Reverse engineering the conditions under which a game ends in Cossacks 3:
-who is declared the winner, who is the loser, how the score is calculated and what
-There are no victory modes from other RTS in C3. All links to the code themselves
-Pascal blocks are collected in the [Sources](#sources) section at the end of the document.
+This article explains how a Cossacks 3 match ends: who wins, who loses,
+how points are calculated, and which familiar strategy-game victory
+conditions are absent. Source references and Pascal excerpts appear under
+[Sources](#sources).
 
+<a id="кратко"></a>
 ## TL;DR
 
 - The main function that resolves the outcome of the game is `_misc_CheckEndGame` [^1].
   It is called when the "player is alive" state changes (§4) or when
   the player capitulates via `_misc_Surrender` [^2].
-- Alternative conditions (`Wonder`, Score cap, Time cap, Capture-the-flag)
-  in scripts **no** - only last-team-standing and script triggers
-  (§3).
-- `farmused = 0` ⇒ defeat, but `farmused` does not fall to 0 while there is at least
-  one peasant **or** Town Hall.
-- Score is accumulated only for statistics and ELO, it does not affect the outcome of the game
-  (§5.4).
+- The scripts contain **no** built-in Wonder, score-limit, time-limit,
+  or capture-the-flag victory. A normal match uses last-team-standing;
+  missions use scenario rules (§3).
+- `farmused = 0` means defeat, but `farmused` does not reach zero while
+  the player has a Peasant or Town Hall.
+- Points are collected for statistics and rating only; they do not decide
+  the match (§5.4).
 
 <a id="1-состояния-игрока"></a>
 ## 1. Player states
@@ -28,187 +29,186 @@ Pascal blocks are collected in the [Sources](#sources) section at the end of the
 The constants `gc_player_victorystate_*` set the outcome for an individual player:
 `none = 0`, `win = 1`, `lose = 2` [^3].
 
-The map stage `gc_map_gamestage_*` distinguishes between `none/waitingloading/
-started / finished` [^4]. Global interface mode
+The map stage `gc_map_gamestage_*` distinguishes `none`, `waitingloading`,
+`started`, and `finished` [^4]. The global interface mode
 `gc_gamemode_*` distinguishes six states: `mainmenu`, `game`, `editor`,
 `spectator`, `replay`, `endgamestatistics` [^5]. Final screen
-statistics after finding out the outcome is `gInterface.gamemode =
-gc_gamemode_endgamestatistics` (=5).
+statistics after the result is known is
+`gInterface.gamemode = gc_gamemode_endgamestatistics` (=5).
 
+<a id="2-режимы-игры"></a>
 ## 2. Game modes
 
-`gMap` has a flag `bbattle : Boolean` [^6] is a “Historical Battle”
-(`Historical Battle`, placed in `initmaphistoricalbattle.inc`). Scripts
-distinguish:
+The `gMap.bbattle : Boolean` flag identifies a Historical Battle [^6].
+It is set in `initmaphistoricalbattle.inc`. The scripts distinguish:
 
-- **Random map / skirmish** - normal standard mode.
-- **Historical Battle** (`gMap.bbattle = True`) — fixed-army map without
-  gathering peasants: defeat by “no peasants & no center” is disabled, remains
-  only scenario trigger or surrender [^7].
-- **Campaign** - built on top of the scenario system; constants
+- **Random map / skirmish** — a normal free match.
+- **Historical Battle** (`gMap.bbattle = True`) — a map with a fixed
+  army and no Peasant economy. Elimination for having no Peasants or
+  Town Hall is disabled; only a scenario rule or surrender remains [^7].
+- **Campaign** — built on the scenario system, with constants
   `gc_ach_campaign_finalaus..finalrus` and catalog
-  `data/game/var/campaigns.cfg` [^8]. Win/Lose campaigns write in
+  `data/game/var/campaigns.cfg` [^8]. Campaign results are written to
   `TCampaignProgress.finished`, `lose`, `maxfinishdifficulty` [^9].
 - **Editor** (`gc_gamemode_editor`) and **Scenario Editor**
   (`gScenario.bactive`).
 - **Battle / Rated MP** - flags `gMap.brating`,
   `gInternetShell.bratingroom`, `bautosearch` (see §6).
-- **Replay / Spectator** - read-only modes.
+- **Replay / Spectator** — modes without army control.
 
 <a id="3-условия-победы"></a>
 ## 3. Victory conditions
 
 <a id="31-standard--random-map"></a>
+<a id="31-обычная-случайная-карта"></a>
 ### 3.1 Standard/random map
 
-The only automatic victory condition is **“only one left
-team"**. Function `_misc_CheckEndGame` goes through all players, looking for
-a second living team, and if there is none, assigns it to the survivors
-`gc_player_victorystate_win`, the rest `gc_player_victorystate_lose`
-[^10].
+The only automatic victory condition is **“only one team remains.”**
+`_misc_CheckEndGame` scans all players for a second living team. If none
+exists, it assigns `gc_player_victorystate_win` to the survivors and
+`gc_player_victorystate_lose` to everyone else [^10].
 
-That is, **last-team-standing**: players of one team (across the field
-`gPlayer[i].team`) win as soon as all players of other teams
-meet the condition `not gMap.players[i].bexists or bleave`. If initially
-only one command (`not bSecondTeamExist`), function nothing
-assigns - no one wins (free-build / sandbox).
+Players on the same `gPlayer[i].team` win as soon as every player on every
+other team satisfies `not gMap.players[i].bexists or bleave`. If only one
+team existed from the start (`not bSecondTeamExist`), the function assigns
+no result, allowing a sandbox match.
 
-Players on the same winning team are marked `win` all together - even if
-at the time of the final there were already `lose` from the early surrender of [^11].
+All members of the winning team receive `win`, even players who had already
+received `lose` after surrendering [^11].
 
 <a id="32-scenario--campaign"></a>
+<a id="32-сценарий-и-кампания"></a>
 ### 3.2 Scenario/Campaign
 
-Custom scripts can issue `win`/`lose` via trigger-actions
+Custom scenarios can issue `win` or `lose` through
 `gc_trigger_action_endgame_win = 47` and
 `gc_trigger_action_endgame_lose = 48` [^12]. Implementation - in
-`scenario.script` [^13]. Applies only to `myplind` (current
-player), **therefore, there is no multi-player win-condition in custom missions
-trigger** - each client raises the flag himself.
+`scenario.script` [^13]. They apply only to `myplind`, the current player.
+Consequently, there is no single multiplayer victory action for a custom
+mission; each client raises its own result.
 
-Available trigger conditions [^14] include `unitsCountInZone`,
-`playerResources`, `counterValue`, `timerFinished`, `flagActive` and so on
-further. That is, “captured the flag”, “reach 50000 gold”, “hold zone for X
-seconds", "kill commander" - all this is implemented by the author of the script
-combination of triggers; Only two terminal actions are hardwired into the engine
-`endgame_win` and `endgame_lose`.
+Available scenario conditions [^14] include `unitsCountInZone`,
+`playerResources`, `counterValue`, `timerFinished`, and `flagActive`.
+Capture the flag, reach 50,000 gold, hold a zone, and kill a commander
+must therefore be assembled from scenario rules. Only the terminal
+`endgame_win` and `endgame_lose` actions are built in.
 
 <a id="33-режимы-победы-из-других-rts-которых-в-c3-нет"></a>
+<a id="33-режимы-победы-из-других-стратегий-которых-в-c3-нет"></a>
 ### 3.3 Victory modes from other RTS that are not in C3
 
-Each item below is the result of a direct grep search for `data/scripts/`.
-Players often expect these mechanics from AoE2/C1, but they are not present in C3:
+Each item below is based on a direct search of `data/scripts/`. Players
+often expect these mechanics from Age of Empires II or the first Cossacks,
+but they are absent from C3:
 
-- **Wonder of the World.** The words `wonder`, `monument` are not in the scripts
-  found (grep throughout `data/scripts/` gives 0 files). Timer buildings
-  There is no countdown in C3. In a script, the effect can be collected from
-  `timerFinished` + `endgame_win`, but as an independent mode of this
-  no mechanics.
+- **Wonder of the World.** Neither `wonder` nor `monument` occurs in the
+  scripts. C3 has no built-in countdown building. A mission author can
+  imitate one with `timerFinished` and `endgame_win`.
 - **Diplomatic victory.** `team` - static affiliation from
-  lobby does not change in runtime. Scenario action
+  lobby and does not change during a normal match. Scenario actions
   `playerSetAsAlly`/`Enemy`/`Neutral` [^15] switches relationships, but not
-  runs a victory check: `_misc_CheckEndGame` looks only at
-  `team`, not for relationships.
-- **Win by points.** Score accumulates (see §5), but is only used
-  for statistics and ranking - it is not readable in `_misc_CheckEndGame`.
+  run a victory check: `_misc_CheckEndGame` examines `team`, not
+  diplomatic relationships.
+- **Score victory.** Points accumulate (see §5) but are used only for
+  statistics and ranking; `_misc_CheckEndGame` does not read them.
 - **Win by time limit.** Constant `gc_pause_timelimit = 120` [^16] —
   this is a **pause** limit, not a game limit (`gc_pause_countlimit = 4` on the same
-  lines). Global `gametimelimit` / `matchduration` in scripts
-  no. In the scenario, the analogue is assembled from `timerFinished` + `endgame_*`.
+  lines). There is no global `gametimelimit` or `matchduration` in the
+  scripts. A scenario can imitate one with `timerFinished` and `endgame_*`.
 
+<a id="4-условия-поражения"></a>
 ## 4. Defeat conditions
 
-Main code - sub-tick state-machine in `progress.inc`, section `Progress`
-[^17], executed on every “player tick”. The condition “the player is still
-exists" is stored in `gPlayer[plInd].bexists`. The check is done with
-at intervals of approximately `gc_global_TimeCheckExists × 4..12` game seconds
-(`×4` for active player, `×12` for inactive player).
+The main check is in the `Progress` section of `progress.inc` [^17] and
+runs during player updates. `gPlayer[plInd].bexists` stores whether the
+player still exists. The check runs roughly every
+`gc_global_TimeCheckExists × 4..12` game seconds: `×4` for an active
+player and `×12` for an inactive one.
 
-The logic is this. For Historical Battle (`gMap.bbattle`) the player always
-marked alive. Otherwise, take `farmused` (occupied infantry slots), and:
+Historical Battle (`gMap.bbattle`) always marks the player alive.
+Otherwise, the code examines `farmused`, the occupied population slots:
 
-- if `0 < farmused < 100` - the engine manually searches for at least one object with
-  usage `gc_obj_usage_center` (Town Hall) or peasant with
+- if `0 < farmused < 100`, the engine searches for at least one object
+  with usage `gc_obj_usage_center` (Town Hall) or a Peasant with
   flags “real combat unit” (`bvisual_none + bessential_none`).
-  If there are no peasants, but Town Hall is there, the player is **not** yet
-  loses.
+- if there are no Peasants but a Town Hall remains, the player has **not**
+  yet lost;
 - otherwise `bexists := (farmused > 0)`.
 
-If `bexists` fell to `False` and the player was alive on the previous tick, he
-is set to `gc_player_victorystate_lose`, all of it is physically killed
-units via `_misc_KillPlayerUnits`, the result [^18] is sent.
+If `bexists` becomes `False` after the player was alive on the previous
+update, the game assigns `gc_player_victorystate_lose`, kills all remaining
+units with `_misc_KillPlayerUnits`, and sends the result [^18].
 
-Result: **defeat = `farmused == 0`**, that is, the player does not have any
-a peasant and not a single center/populated building, with two nuances:
+In short, **`farmused == 0` means defeat**: the player has no Peasant and
+no Town Hall or other population-providing building. Two details matter:
 
 - “Partial” case - `0 < farmused < 100` - above.
-- In Historical Battle (`bbattle`) this code does not work - there is defeat
-  can only be set by a script trigger or surrender.
+- In Historical Battle (`bbattle`), this check is disabled; only a
+  scenario rule or surrender can cause defeat.
 
-`farmused` is incremented when any playable unit appears (including
-including the peasant) and is decremented upon death/deletion of [^19].
+`farmused` increases when a playable unit, including a Peasant, appears
+and decreases when it dies or is removed [^19].
 
-## 5. Score formula
+<a id="5-начисление-очков"></a>
+## 5. Point calculation
 
-### 5.1 Per-object base score
+<a id="51-базовая-ценность-объекта"></a>
+### 5.1 Base value of an object
 
-Each `TObjProp` has a field `score : Integer` [^20]. Set via
-assistants:
+Each `TObjProp` has an integer `score` field [^20], assigned through:
 
 - `SetObjBuildingExtProperties(..., score, usage, ...)` [^21] - for
-  buildings. Town Hall (`cen`) receives `score = 1000` [^22].
+  buildings. The **Town Hall** (`cen`) receives 1,000 points [^22].
 - `SetObjBaseSearchBuildVisionScore(..., score)` [^23] - for units.
-  Peasant receives `score = 10` [^24].
+  The **Peasant** receives 10 points [^24].
 
-The full score per-sid table requires parsing all calls
+Building a complete point table by internal ID requires parsing every call
 `SetObjBuildingExtProperties` and `SetObjBaseSearchBuildVisionScore`. Search
-by `.score :=` to `unit.script` shows only two direct assignments,
-both through these helper procedures, so accurate parsing of call sites
-will give values for all units and buildings.
+to `.score :=` in `unit.script` finds only two direct assignments; the
+rest go through these helper procedures.
 
 <a id="52-накопление-при-убийстве"></a>
-### 5.2 Accumulation on Kill
+### 5.2 Points for kills and objects
 
-When an **enemy** dies - a projectile hits a unit - score
-`gPlayer[plInd].counter.scores` grows by `victim score × 2`, plus more
-`× 3` for each unit inside the building (garrison) [^25].
+When an **enemy** dies, `gPlayer[plInd].counter.scores` increases by
+twice the victim's value. Each unit killed inside a building contributes
+three times its value [^25].
 
-That is, **kill = +2× victim score**, **kill garrisoned unit = +3×
-score**.
+Capturing a new object adds five times its value; producing one adds its
+base value [^26].
 
-When a new object appears, the player’s score increases with the modifier: `+5×`
-during capture, `+1×` during production [^26].
-
-When an object is lost, the score is reduced with the modifier: `−5×` if it was
-captured, `−3×` if it is an escaped mercenary in the uprising
-(`brebellion and bmercenary`), otherwise `−2×` [^27]. Score does not go to
-minus - clamp at zero there.
+Losing an object subtracts five times its value if it was captured, three
+times for a rebelling mercenary (`brebellion and bmercenary`), and twice
+otherwise [^27]. The result is clamped to zero.
 
 <a id="53-live-сэмпл--временной-ряд"></a>
-### 5.3 Live sample/time series
+<a id="53-история-очков"></a>
+### 5.3 Point history
 
 Every `gc_progress_TimeProgressStatistics` seconds (every 5 seconds
-game time) a snapshot of `farmused` and `counter.scores` is written in
+game time), a snapshot of `farmused` and `counter.scores` is written to
 `gPlayer[i].stat.population` and `gPlayer[i].stat.scores` [^28]. This gives
-score and population chronogram for the final statistics screen.
+the population and point histories shown on the final statistics screen.
 
 <a id="54-использование-в-исходе-партии"></a>
 ### 5.4 Use in the outcome of the game
 
-- `_misc_CheckEndGame` **score does not use** - victory is determined
-  only by command.
-- `_misc_LanCloseSessionSetScores` uses **±1/±2** (rated/not) for
-  sending to the leaderboard [^29]. That is, in the multiplayer-rated ELO rating
-  moves by one, not by the score difference.
+- `_misc_CheckEndGame` **does not use points**; victory depends only on
+  the teams that remain.
+- `_misc_LanCloseSessionSetScores` sends **±1/±2**, depending on rating
+  mode, to the leaderboard [^29]. The rating therefore moves by a fixed
+  amount rather than by the in-game point difference.
 
+<a id="6-капитуляция"></a>
 ## 6. Resignation / Surrender
 
 The hotkey in the UI calls `_misc_Surrender(blanterminate)` [^2]. Function
 puts `gMap.players[plInd].bleave := True`, and then forks along
 network role:
 
-- **Server** — assigns `gPlayer[plind].victorystate :=
-  gc_player_victorystate_lose`, calls `_misc_CheckEndGame`; if
+- **Server** — assigns
+  `gPlayer[plind].victorystate := gc_player_victorystate_lose`,
+  calls `_misc_CheckEndGame`; if
   the batch has not finished - sends out `gc_LAN_GAME_SERVER_LEAVE`.
 - **Client** — sends the `gc_LAN_GAME_SURRENDER` (=10) packet to the server.
 - **Offline** — assigns `lose` locally and immediately calls
@@ -216,14 +216,15 @@ network role:
 
 There is no chat command `/resign` - grep by `resign` in scripts gives 0 matches.
 The function is called only from ENG (binary engine), apparently this is
-“Surrender” button in the game menu. Protocol constants `gc_LAN_GAME_SURRENDER
-= 10` and `gc_LAN_GAME_SURRENDER_CONFIRM = 11` [^30].
+“Surrender” button in the game menu. Protocol constants are
+`gc_LAN_GAME_SURRENDER = 10` and `gc_LAN_GAME_SURRENDER_CONFIRM = 11` [^30].
 
 “First leaver” - the first one to surrender in the first 15 minout - loses **−w ELO**
 even if his team wins [^31]. And the liver's partner in the team from
 two on the contrary ELO **are not written off** so as not to punish the “victim”
 desertion.
 
+<a id="7-ограничения-времени"></a>
 ## 7. Time / turn limits
 
 - **Game time-limit: absent.** No `gametimelimit` in scripts
@@ -242,6 +243,7 @@ desertion.
   mechanics - [`game_settings.md`](../world/map/game_settings.md#peacetime--как-устроен-мир).
 
 <a id="8-multiplayer-specific-отличия"></a>
+<a id="8-отличия-сетевой-игры"></a>
 ## 8. Multiplayer-specific differences
 
 - `_misc_LanServerSendResults` sends win/lose to all clients in a package

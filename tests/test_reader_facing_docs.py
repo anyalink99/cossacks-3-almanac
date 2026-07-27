@@ -10,6 +10,16 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 
 
+def reader_visible_text(text: str) -> str:
+    """Remove the places where literal engine identifiers are expected."""
+
+    text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
+    text = re.sub(r"`[^`]*`", " ", text)
+    text = re.sub(r"\]\([^)\n]*\)", "]", text)
+    text = re.sub(r"<[^>\n]+>", " ", text)
+    return text
+
+
 class ReaderFacingDocumentation(unittest.TestCase):
     def test_encyclopedia_home_is_for_readers(self):
         text = (DOCS / "README.md").read_text(encoding="utf-8")
@@ -77,6 +87,119 @@ class ReaderFacingDocumentation(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             self.assertNotRegex(text, r"(?m)^# Recon:")
             self.assertIn("[← Как устроена игра]", text)
+
+    def test_recon_prose_does_not_expose_english_engine_jargon(self):
+        jargon = (
+            "ascii",
+            "attack-move",
+            "blink",
+            "build order",
+            "built-state",
+            "callback",
+            "capture",
+            "cluster",
+            "damage",
+            "damage cap",
+            "debris",
+            "event",
+            "flag",
+            "handle",
+            "handler",
+            "hardwall",
+            "hp",
+            "idle-state",
+            "mode",
+            "owner",
+            "pause",
+            "per-resource",
+            "queue",
+            "range",
+            "score",
+            "search radius",
+            "spawn",
+            "sprite",
+            "state-machine",
+            "sub-tick",
+            "target",
+            "trigger",
+            "ui",
+        )
+        offenders = []
+        for path in (DOCS / "recon").rglob("*.md"):
+            visible = reader_visible_text(path.read_text(encoding="utf-8")).casefold()
+            found = [
+                term
+                for term in jargon
+                if re.search(
+                    rf"(?<![\w]){re.escape(term)}(?![\w])",
+                    visible,
+                    flags=re.IGNORECASE,
+                )
+            ]
+            if found:
+                offenders.append(
+                    f"{path.relative_to(ROOT).as_posix()}: {', '.join(found)}"
+                )
+        self.assertEqual(offenders, [])
+
+    def test_recon_prose_keeps_known_object_ids_in_code(self):
+        canonical = json.loads(
+            (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+        )
+        object_ids = {
+            sid.casefold()
+            for category in ("buildings", "units")
+            for sid in canonical[category]
+            if len(sid) >= 4
+        }
+        offenders = []
+        for path in (DOCS / "recon").rglob("*.md"):
+            visible = reader_visible_text(path.read_text(encoding="utf-8"))
+            found = sorted(
+                sid
+                for sid in object_ids
+                if re.search(
+                    rf"(?<![\w]){re.escape(sid)}(?![\w])",
+                    visible,
+                    flags=re.IGNORECASE,
+                )
+            )
+            if found:
+                offenders.append(
+                    f"{path.relative_to(ROOT).as_posix()}: {', '.join(found)}"
+                )
+        self.assertEqual(offenders, [])
+
+    def test_recon_prose_formats_remaining_latin_terms_as_technical(self):
+        allowed_words = {
+            "age",
+            "cossacks",
+            "empires",
+            "ii",
+            "of",
+            "pascal",
+            "windows",
+            "xvii",
+            "xviii",
+        }
+        offenders = []
+        for path in (DOCS / "recon").rglob("*.md"):
+            visible = reader_visible_text(path.read_text(encoding="utf-8"))
+            words = sorted(
+                {
+                    word.casefold()
+                    for word in re.findall(
+                        r"(?<![\w])[A-Za-z][A-Za-z-]{1,}(?![\w])",
+                        visible,
+                    )
+                    if word.casefold() not in allowed_words
+                }
+            )
+            if words:
+                offenders.append(
+                    f"{path.relative_to(ROOT).as_posix()}: {', '.join(words)}"
+                )
+        self.assertEqual(offenders, [])
 
     def test_naval_contents_links_match_headings(self):
         text = (DOCS / "reference" / "07_naval" / "README.md").read_text(

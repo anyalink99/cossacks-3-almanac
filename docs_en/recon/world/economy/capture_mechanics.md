@@ -4,14 +4,15 @@
 
 [← How the game works](../../README.md)
 
-Reverse engineering using `lib/miscext.script` (functions `_misc_CheckCapture`,
-`_misc_ChangePlayer`). All links to the code and the Pascal blocks themselves are collected in
-See the [Sources](#sources) section at the end of the document.
+This article explains the capture mechanic using `lib/miscext.script`,
+especially `_misc_CheckCapture` and `_misc_ChangePlayer`. Code
+references and Pascal excerpts are collected under [Sources](#sources).
 
+<a id="коротко-о-главном"></a>
 ## TL;DR
 
-There is no AoE2-like "converter" in Cossacks 3. Capture works clean
-**geometrically:**
+Cossacks 3 has no Age of Empires II-style conversion. Capture is
+purely **geometric**:
 
 - Every N ticks the engine measures the Euclidean distance from the center
   the victim object to surrounding enemy units.
@@ -20,9 +21,9 @@ There is no AoE2-like "converter" in Cossacks 3. Capture works clean
   `gc_gameplay_protectionradius` (≈ 8 tiles) does not have its own defender unit
   with `bprotector` - the object changes owner (or dies if
   it is set to `bDie`).
-- Priest (`priest` / `pope` / `mullah` / `padre`) is a **healer**
-  via "negative damage", not a converter. To `captureradius` does not have
-  relationships.
+- Priests are **healers**, not capturers. Their technical roles
+  `priest`, `pope`, `mullah`, and `padre` use negative damage for
+  healing and are unrelated to `captureradius`.
 
 ---
 
@@ -65,14 +66,15 @@ Search for `objprop.bcapture := True` in unit scripts:
 
 <a id="юниты"></a>
 ### Units
-| sid | usage |
-|---|---|
-| `peaaus` / `peatur` / `pearus` / `peapol` / `peaspa` / `peaeng` / `peaukr` / `peasco` | peasant |
-| `cannon` | cannon |
-| `howitzer` | mortar |
-| `mortar` | supermortar |
-| `multicannon` | mcannon |
-| `framegun` | cannon |
+
+| Canonical name | Internal ID | Technical `usage` |
+|---|---|---|
+| Peasant or Serf | `peaaus`, `peatur`, `pearus`, `peapol`, `peaspa`, `peaeng`, `peaukr`, `peasco` | `peasant` |
+| Cannon | `cannon` | `cannon` |
+| Howitzer | `howitzer` | `mortar` |
+| Bombard | `mortar` | `supermortar` |
+| Multi-barrelled Cannon | `multicannon` | `mcannon` |
+| Frame gun | `framegun` | `cannon` |
 
 (Other types of units have `bcapture=False` → they cannot be captured, only killed.) [^5]
 
@@ -108,20 +110,22 @@ and vice versa.
 
 For non-buildings, the additional setting [^8] applies:
 
-- **Any** non-combat/combat unit that has `bcapture=False`,
+- **Any** ordinary unit that has `bcapture=False`
   becomes `bprotector` (protects its buildings) and `bcancapture` (can
-  capture) - **except for peasant**.
-- **Peasant** (`bcapture=True`) - NOT protector and NOT capturer
-  (passive object of capture).
-- Artillery (`bcapture=True`) - NOT protector and NOT capturer
+  capture), **except a Peasant**.
+- A **Peasant or Serf** (`bcapture=True`) is neither a protector nor
+  a capturer; it is a passive capture target.
+- Artillery (`bcapture=True`) is neither a protector nor a capturer
   (passive, only defends itself with fire).
 
-⇒ Specifically, “building invader” = **any non-infantry/mounted enemy unit, except peasant and artillery**.
+⇒ A building is captured by **an ordinary enemy infantryman or
+cavalryman, but not a Peasant or artillery piece**.
 
 ---
 
 <a id="3-триггер-misccheckcapture--полный-псевдокод"></a>
-## 3. Trigger `_misc_CheckCapture` - full pseudocode
+<a id="3-проверка-захвата-misccheckcapture--полный-псевдокод"></a>
+## 3. Capture check (`_misc_CheckCapture`) — full pseudocode
 
 Source: `_misc_CheckCapture` [^9]. Check logic in three steps:
 ```mermaid
@@ -220,7 +224,8 @@ They cannot be captured at all.
   orders are canceled, returning resources.
 
 <a id="триггеры-где-вызывается-misccheckcapture"></a>
-### Triggers (where `_misc_CheckCapture` is called)
+<a id="где-вызывается-проверка-misccheckcapture"></a>
+### Where `_misc_CheckCapture` is called
 
 | Source | Condition | Period |
 |---|---|---|
@@ -236,27 +241,31 @@ They cannot be captured at all.
 ## 4. Capture units
 
 ### Who can be captured as a unit
-- Peasant (any nation, sid=`pea*`).
-- Artillery: `cannon`, `howitzer`, `mortar`, `multicannon`, `framegun`.
+
+- Peasant or Serf of any nation (internal pattern `pea*`).
+- Cannon (`cannon`), Howitzer (`howitzer`), Bombard (`mortar`),
+  Multi-barrelled Cannon (`multicannon`), and Frame gun (`framegun`).
 
 This is all. Infantry, cavalry, and ships **cannot be captured** (only killed).
 
 ### Who captures the unit
-Any `bcancapture && not bbuilding && not peasant` ⇒ all normal
-infantry / cavalry / art team (but not peasant and not the target itself).
+Any ordinary infantryman or cavalryman satisfying
+`bcancapture && not bbuilding && not peasant`; neither the Peasant
+nor the captured artillery piece qualifies.
 
 <a id="кого-можно-захватить-как-юнита"></a>
 <a id="что-становится-с-захваченным"></a>
 ### What happens to the captured
-- Peasant: with default settings and normal conditions → changes player
-  (`_misc_ChangePlayer`). Inside, the resource is not dropped, the AI is restarted.
-- Cannon / mortar: switches the player, the charge is stored in the inventory `weapon.cost`.
-  Production delays are reset.
-- Squad: the captured unit **leaves the squad** (see `_misc_SquadChangePlayer`);
-  if the artillery was in formation, the formation collapses.
+- A Peasant or Serf changes owner through `_misc_ChangePlayer`.
+  Carried resources are retained, and AI behaviour restarts.
+- An artillery piece changes owner while its ammunition remains in
+  `weapon.cost`; production delays are reset.
+- A captured unit **leaves its formation**
+  (`_misc_SquadChangePlayer`), breaking an artillery formation.
 
 <a id="кто-захватывает"></a>
 <a id="по-умолчанию-в-deathmatch-и-historical-battle"></a>
+<a id="стандартные-правила-в-на-смерть-и-историческом-сражении"></a>
 ### Default in Deathmatch and Historical Battle
 
 Both modes set `capture_nopeasants` [^15], so **in standard
@@ -266,7 +275,8 @@ only possible in skirmish with the `capture_default` setting.
 ---
 
 <a id="5-нейтральные-объекты-клады-мерценарий"></a>
-## 5. Neutral objects, treasures, mercenary
+<a id="5-нейтральные-объекты-клады-и-наёмники"></a>
+## 5. Neutral objects, treasures, and mercenaries
 
 <a id="нейтральные-игроки-gplayeribneutral"></a>
 ### Neutral players (`gPlayer[i].bneutral`)
@@ -276,6 +286,7 @@ only possible in skirmish with the `capture_default` setting.
   random maps **this flag is not active** for regular players.
 
 <a id="mercenary-player-index--maxplayer-1--особый-виртуальный-игрок"></a>
+<a id="наёмники-технический-игрок-maxplayer-1"></a>
 ### Mercenary (player index = MaxPlayer-1 = special virtual player)
 - `gc_player_mercenaryind = gc_MaxPlayerCount-1` [^18].
 - Units with `bmercenary=True` (mercenary, recruited to the Diplomatic center)
@@ -286,6 +297,7 @@ only possible in skirmish with the `capture_default` setting.
   `_unit_SearchCapturers`.
 
 <a id="treasure--chest--clad"></a>
+<a id="сокровища-и-сундуки"></a>
 ### Treasure/chest/clad
 **Not found**. Searches `treasure|chest|clad|gc_obj_usage_treasure|stash`
 do not produce results in scripts. There are no neutral treasures in Cossacks 3
@@ -327,7 +339,8 @@ All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^
 ---
 
 <a id="7-конверсия-priest-как-конвертер"></a>
-## 7. Conversion (priest-as-converter)
+<a id="7-священники-лечат-а-не-обращают-противника"></a>
+## 7. Priests heal; they do not convert enemies
 
 **No such mechanics.**
 - `bpriest` - [^24] flag, used only in [^25].
@@ -338,13 +351,14 @@ All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^
 - Units with the priest role (`pope`, `mullah`, `padre`, `priest`) - all
   listed in [^26], all have `bpriest=True` through [^27].
 
-⇒ Priest in C3 is an AoE-style **healer** (via “negative damage”),
-no conversion.
+⇒ A Priest in Cossacks 3 is a **healer** using negative damage. It
+never changes the target's owner.
 
 ---
 
 <a id="8-capture-радиус--точные-числа"></a>
-## 8. Capture radius - exact numbers
+<a id="8-точные-радиусы-захвата"></a>
+## 8. Exact capture radii
 ```
 Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)
 Reference points:  center to center (game-object position X/Z)
@@ -364,7 +378,8 @@ asymmetrical buildings.
 
 ---
 
-## 9. Open questions
+<a id="9-что-ещё-требует-проверки"></a>
+## 9. What still needs verification
 
 1. **Exact position (`px`, `py`) near the building** is the center of the model, the center of bbox,
    or anchor-point? `GetGameObjectPositionXByHandle/ZByHandle` - needed

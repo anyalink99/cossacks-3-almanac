@@ -4,10 +4,10 @@
 
 [← How the game works](../README.md)
 
-Reverse engineering of the subsystem for hiring mercenaries through the diplomatic center
-(`<nat>dip`): economy, upkeep with gold, riot `Rebellion`, scaling limit
-prices. All links to the code and the Pascal blocks themselves are collected in the section
-[Sources](#sources) at the end of the document.
+This article explains recruitment through the **Diplomatic Center**
+(`<nat>dip`): its economy, gold upkeep, rebellion, and price-scaling cap.
+Source references and Pascal excerpts are collected under
+[Sources](#sources).
 
 **Related documents:**
 
@@ -21,20 +21,20 @@ prices. All links to the code and the Pascal blocks themselves are collected in 
 - [determinism_audit.md](../../../internals_en/engine/determinism_audit.md) - transition during a riot
   uses `_misc_RandomInt` (seeded RNG).
 
+<a id="кратко"></a>
 ## TL;DR
 
-- **Diplomatic Center** (`<nat>dip`) - mid-game building for each
-  21 nations. Price ≈ 6.6k wood + stone, 4500 HP, prerequisites - Academy
-  and Town Hall.
-- Produces **8 mercenaries** (6 basic + 2 from Early Bird-DLC). Catalog
-  **same for all nations** - unit stats do not depend on who owns them
-  hires; only `sid` changes.
+- The **Diplomatic Center** (`<nat>dip`) is a mid-game building available
+  to all 21 nations. Its common variant costs 4,900 wood and 1,700 stone,
+  has 4,500 health, and requires an Academy and Town Hall.
+- It recruits **eight mercenaries**: six base units and two from the
+  Early Bird DLC. Every nation uses the same roster and unit statistics.
 - Mercenary costs **only gold** when hired, flag `bnohungry = True`
   (doesn't eat food), but **constantly consumes gold** as upkeep
   (`consume.gold > 0`).
 - When a player runs out of gold **and** `resconsume[gold] > resincome[gold]`,
-  flag `brebellion` is raised. On every Nothing tick every mercenary
-  has a chance to move to the global NPC slot “mercenary”
+  `brebellion` is raised. At every background idle update, each mercenary
+  can be transferred to the global “mercenary” NPC player
   (`gc_player_mercenaryind = MaxPlayerCount - 1`):
   - **easy:** 0.305% per tick
   - **normal:** 0.610% per tick
@@ -62,16 +62,16 @@ Please note: in individual branches the argument `gold` is set to `0`,
 but next to it is the comment `0{1000}`. This is a marker that in Cossacks 1 the price was
 1000 gold, but in Cossacks 3 it was reset.
 
-| Building | nation(s) | HP | buildtime (frames/wall-sec/32/g-sec ×10/32) | wood | stone | gold | bcapture |
+| Building | Nations | Health | Build time | Wood | Stone | Gold | Capturable |
 |---|---|---:|---:|---:|---:|---:|---|
-| `<nat>dip` (default - 17 of 21) | Austria, France, England, Spain, Poland, Sweden, Prussia, Venice, Netherlands, Denmark, Portugal, Piedmont, Saxony, Bavaria, Hungary, Switzerland, Scotland | 4500 | 1000 / 31.25s / 312.5g-s | 4900 | 1700 | 0 | False |
-| `rusdip` | Russia | 6500 | 1000 | 7900 | 3700 | 0 | False |
-| `ukrdip` | Ukraine | 5000 | 1000 | 3900 | 2700 | 0 | False |
-| `turdip` / `algdip` | Turkey, Algeria | 5500 | 1000 | 4600 | 2020 | 0 | False |
+| **Diplomatic Center** (`<nat>dip`, common variant for 17 nations) | Austria, France, England, Spain, Poland, Sweden, Prussia, Venice, Netherlands, Denmark, Portugal, Piedmont, Saxony, Bavaria, Hungary, Switzerland, Scotland | 4500 | 1000 frames | 4900 | 1700 | 0 | No |
+| **Russian Diplomatic Center** (`rusdip`) | Russia | 6500 | 1000 frames | 7900 | 3700 | 0 | No |
+| **Ukrainian Diplomatic Center** (`ukrdip`) | Ukraine | 5000 | 1000 frames | 3900 | 2700 | 0 | No |
+| **Turkish / Algerian Diplomatic Center** (`turdip` / `algdip`) | Turkey, Algeria | 5500 | 1000 frames | 4600 | 2020 | 0 | No |
 
 Preconditions (from field `prereqs` to `data.json["buildings"]`, for example
-`ausdip → ['ausaca']`): deepcenter requires that Academy already exist.
-The building is **not captured** (`bcapture=False`).
+`ausdip → ['ausaca']`): the Diplomatic Center requires an existing
+Academy. The building is **not capturable** (`bcapture=False`).
 
 `costpercent=100`, so each subsequent diplomatic center is no more expensive than the previous one -
 but the localization is unambiguous: `data/locale/en/units.txt @%nat%dip.ext` reads
@@ -87,10 +87,12 @@ via costpercent. An open question (see §8).
 <a id="2-каталог-наёмников"></a>
 ## 2. Mercenary catalog
 
-8 mercenary members - registered in **each** nation in a uniform set
-calls `_country_AddMember`: 6 basic (`lightinfantrydip`, `roundshierdip`,
-`grenadierdip`, `archerdip`, `cossacksichdip`, `dragoon18dip`) and 2 of
-Early Bird-DLC (`archerturdip`, `lightcavalrydip`) [^5].
+Every nation registers the same eight mercenaries: **Light Infantryman**
+(`lightinfantrydip`), **Roundshier** (`roundshierdip`), **Grenadier**
+(`grenadierdip`), **Archer** (`archerdip`), **Sich Cossack**
+(`cossacksichdip`), and **Dragoon, 18th century** (`dragoon18dip`), plus
+the Early Bird units **Turkish Archer** (`archerturdip`) and
+**Light Cavalry** (`lightcavalrydip`) [^5].
 
 All 21 nations also receive FixedProduce posting via
 `_country_AddFixedProduceWithAccessControl` with the same set of names, with
@@ -99,7 +101,8 @@ production of a mercenary requires Town Hall, Academy **and** diplomatic center 
 the building itself in which `member` lives).
 
 <a id="21-детектирование-bmercenary"></a>
-### 2.1 Detection `bmercenary`
+<a id="21-как-игра-распознаёт-наёмника"></a>
+### 2.1 How the game identifies a mercenary
 
 The `bmercenary := True` flag is set by a list of names, not by a field
 data - the dispatcher compares `sid` with eight dip suffixes through
@@ -116,18 +119,19 @@ The dispatcher uses the same `case` as for a normal unit and then narrows it dow
 > `unit.script` and coincide with what is in `data.json`.
 
 <a id="22-статы-каждого-наёмника"></a>
-### 2.2 Stats of each mercenary
+<a id="22-характеристики-наёмников"></a>
+### 2.2 Mercenary statistics
 
-| sid | dispatch | HP | buildtime(frames) | gold (price) | consume.gold | costpercent | weapon (damage/range/type) |
+| Mercenary | Script branch | Health | Recruit time, frames | Gold | Upkeep (`consume.gold`) | Price growth (`costpercent`) | Weapon (damage/range/type) |
 |---|---|---:|---:|---:|---:|---:|---|
-| `lightinfantrydip` | `'lightinfantry','lightinfantrydip'` | 50 | 40 | 4 | 4 | 100 (default) | sword 16, range 50px |
-| `roundshierdip` | `'roundshier','roundshierdip','swordsmansco'` | 75 | 48 | 12 | 20 | 100 (default) | sword 6, range 50px |
-| `archerdip` | `'archer','archerdip','archertur','archerturdip','archersco','archerscodip'` | 20 | 40 | 15 | 16 | 100.5 | 25 arrow / 100 firearm, range 700/750 |
-| `archerturdip` | same case | 20 | 40 | 15 | 16 | 100.5 | same |
-| `grenadierdip` | `'grenadier','grenadierdip',…` | 30 | 48 | 25 | 60 | 100.5 | pike 30 / bullet 16 (range 800) / grenade 200 (range 400) |
-| `cossacksichdip` | `'croat','hussar',…,'cossacksich','cossacksichdip',…` | 150 | 80 | 60 | 150 | 100.5 | horse saber 8, range 20px |
-| `dragoon18dip` | `'dragoon',…,'dragoon18','dragoon18dip','lightcavalry','lightcavalrydip'` | 100 | 64 | 120 | 120 | 102 | horse bullet 18, range 800 |
-| `lightcavalrydip` | same case | 100 | 64 | 120 | 120 | 102 | same |
+| **Light Infantryman** (`lightinfantrydip`) | `'lightinfantry','lightinfantrydip'` | 50 | 40 | 4 | 4 | 100 | sword 16, range 50 px |
+| **Roundshier** (`roundshierdip`) | `'roundshier','roundshierdip','swordsmansco'` | 75 | 48 | 12 | 20 | 100 | sword 6, range 50 px |
+| **Archer** (`archerdip`) | `'archer','archerdip','archertur','archerturdip','archersco','archerscodip'` | 20 | 40 | 15 | 16 | 100.5 | arrow 25 / firearm 100, range 700/750 |
+| **Turkish Archer** (`archerturdip`) | same branch | 20 | 40 | 15 | 16 | 100.5 | same |
+| **Grenadier** (`grenadierdip`) | `'grenadier','grenadierdip',…` | 30 | 48 | 25 | 60 | 100.5 | pike 30 / bullet 16 (range 800) / grenade 200 (range 400) |
+| **Sich Cossack** (`cossacksichdip`) | `'croat','hussar',…,'cossacksich','cossacksichdip',…` | 150 | 80 | 60 | 150 | 100.5 | cavalry sabre 8, range 20 px |
+| **Dragoon, 18th century** (`dragoon18dip`) | `'dragoon',…,'dragoon18','dragoon18dip','lightcavalry','lightcavalrydip'` | 100 | 64 | 120 | 120 | 102 | cavalry bullet 18, range 800 |
+| **Light Cavalry** (`lightcavalrydip`) | same branch | 100 | 64 | 120 | 120 | 102 | same |
 
 Exact lines in `unit.script` for each unit and location of `bnohungry`
 and resetting food/wood/stone/iron/coal - see [^8].
@@ -166,7 +170,8 @@ Two consequences:
 ---
 
 <a id="3-механика-upkeep--потребление-золота"></a>
-## 3. Upkeep mechanics - gold consumption
+<a id="3-содержание-за-золото"></a>
+## 3. Gold upkeep
 
 Upkeep is consumed every frame in the same general cycle as food
 (`reference_food_upkeep.md`). Handler – `_player_ProcessResourceConsume`
@@ -197,6 +202,7 @@ out of 50 `dragoon18dip` takes away `50 × 0.192 = 9.6 gold/g-sec` ≈ 576 gold/
 this is only supported by the market+gold mine combination.
 
 <a id="bfamine-vs-brebellion--асимметрия"></a>
+<a id="различие-голода-bfamine-и-бунта-brebellion"></a>
 ### `bfamine` vs `brebellion` - asymmetry
 
 Both flags are reset to `False` when the player has the resources to pay.
@@ -214,6 +220,7 @@ the dismissal of all mercenaries immediately ends the rebellion.
 ---
 
 <a id="4-триггер-бунта"></a>
+<a id="4-как-начинается-бунт"></a>
 ## 4. Riot trigger
 
 The logic of defection lives in the per-unit Nothing handler
@@ -255,6 +262,7 @@ pay themselves upkeep before they themselves start a rebellion - but since they 
 mercenary slot, it doesn't matter.
 
 <a id="реакция-ai"></a>
+<a id="реакция-ии"></a>
 ### AI reaction
 
 Riot status also affects AI defense scoring [^18]: for already captured
@@ -265,6 +273,7 @@ the priority of protecting one's own mercenaries when they are on the verge of d
 ---
 
 <a id="5-map-настройка-marketdip"></a>
+<a id="5-настройка-лобби-рынок-и-дипломатический-центр-marketdip"></a>
 ## 5. Map setting `marketdip`
 
 `gMap.settings.additional.marketdip` controls the availability of markets and
@@ -291,6 +300,7 @@ In the lobby with `expensivemercs`, the gold price of mercenaries is tripled
 ---
 
 <a id="6-нейтральные-дипцентры--точки-найма"></a>
+<a id="6-есть-ли-нейтральные-точки-найма"></a>
 ## 6. Neutral deep centers / hiring points
 
 **No.** Search in `data/scripts` for substrings `peasantdip`, `townhalldip`,
@@ -314,6 +324,7 @@ specificity of the content, not the engine.
 ---
 
 <a id="7-кросс-национальная-доступность"></a>
+<a id="7-доступность-для-разных-наций"></a>
 ## 7. Cross-national availability
 
 Since all 8 mercenaries are added via `_country_AddMember` in **each**
@@ -341,6 +352,7 @@ form their own formations without a national officer.
 ---
 
 <a id="8-наёмник-vs-обычный-юнит--сравнение"></a>
+<a id="8-сравнение-с-обычными-юнитами"></a>
 ## 8. Mercenary vs regular unit - comparison
 
 <a id="стоимость"></a>
@@ -361,6 +373,7 @@ The same pattern for Archer (`archer` btf 32 → `archerdip` btf 40 - formally
 a little slower, but a mercenary of this tier costs 0 food versus 20 and has damage
 25 versus 15).
 
+<a id="содержание"></a>
 ### Upkeep
 
 - Normal units: food upkeep `(consume.food + (bnohungry?0:30)) × 32/20000`

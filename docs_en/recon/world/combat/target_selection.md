@@ -9,6 +9,7 @@ diverges into different processing branches depending on the type of unit. All
 links to the code and the Pascal blocks themselves are collected in the [Sources](#sources) section
 at the end of the document.
 
+<a id="кратко"></a>
 ## TL;DR
 
 - The search is carried out through **scan-grid** [^1] - the map is divided into fixed cells
@@ -98,9 +99,9 @@ everyone has an equal chance of becoming a target.
 Minimum:
 
 - `trgHnd <> 0`,
-- `trgHnd <> goHnd` (not to yourself),
-- visual-state not `gc_statetag_visual_hide`,
-- essential-state includes `gc_statetag_essential_none` (unit is not in death
+- `trgHnd <> goHnd` (not the searching unit itself),
+- visual state is not `gc_statetag_visual_hide`,
+- essential state includes `gc_statetag_essential_none` (the unit is not in its death
   and not at birth).
 
 Radius - calculated differently for melee and ranged combat. First
@@ -134,9 +135,9 @@ compatible target [^15]:
 |---:|---|---|
 | 0 (default) | regular unit | the first enemy with `material ∈ {body, iron}` or (if the attacker is a building) `material = wood`. Additional filter `bcankill` via `kmask AND mmask`. |
 | 1 (priest) | at unit `objprop.bpriest = True` | first **own** unit with `hp < maxhp`. If the first candidate is at full HP, the function exits the loop without a result. |
-| 2 (capture-fallback) | default for most non-`bcapture` units on progress-tick | first looks for the target to kill (as scanmode 0); if not found, it checks `bcapture && _unit_TestCapture(trgHnd)` in a separate pass and returns the captured one. |
+| 2 (capture fallback) | default for most units without `bcapture` during periodic updates | first looks for a killable target (as mode 0); if none is found, makes a separate pass for `bcapture && _unit_TestCapture(trgHnd)` and returns a capturable target. |
 | 3 (capture-only) | specialized search (for example, AI on capture tasks) | returns the first valid `bcapture` + `_unit_TestCapture`, does not consider anything else. |
-| 4 (AI sabotage) | AI mode for special tasks | aggregates: goes through ALL candidates and selects the one with the maximum `weapon[0].damage`. That is, the AI saboteur aims at the most dangerous, and not at the nearest. |
+| 4 (AI sabotage) | special AI tasks | examines **all** candidates and selects the one with the greatest `weapon[0].damage`: the most dangerous target, not the nearest one. |
 
 “First” in modes 0, 1, 2, 3 is the first according to that very random
 bypass from §2.2. In mode 4, the cycle is not terminated by an early exit -
@@ -145,7 +146,7 @@ bypass from §2.2. In mode 4, the cycle is not terminated by an early exit -
 ---
 
 <a id="3-unitsearchenemyscancells--обход-ячеек"></a>
-## 3. `_unit_SearchEnemyScanCells` - cell bypass
+## 3. `_unit_SearchEnemyScanCells` — scanning cells
 
 Returns one handle `goHnd` or 0 [^1].
 
@@ -229,7 +230,7 @@ There is no such option for shooters - they always go around the entire rectangl
 <a id="4-unitsearchvictimonprogress--периодический-поиск"></a>
 ## 4. `_unit_SearchVictimOnProgress` - periodic search
 
-This is a function that the unit's state-machine calls every ~100 ms
+The unit's state machine calls this function roughly every 100 ms
 (`gc_global_TimeProgressUnit`). She decides who to auto-attack
 currently [^8].
 
@@ -248,7 +249,8 @@ Bonus from higher ground - more details in
 [`ranged_units_behavior.md` §7](ranged_units_behavior.md#7-high-ground--бонус-с-возвышенности).
 
 <a id="42-выбор-scanmode"></a>
-### 4.2 Select `scanmode`
+<a id="42-выбор-режима-поиска-scanmode"></a>
+### 4.2 Selecting the search mode (`scanmode`)
 
 The priest goes to `scanmode = 1`. All units that themselves are captured
 (`bcapture` - for example, artillery), as well as water and buildings - in
@@ -260,7 +262,7 @@ That is, an infantry unit **by default tries to capture** a defenseless
 a gun or a warehouse, if there is nothing nearby to kill.
 
 <a id="43-диспетчер-обхода"></a>
-### 4.3 Walk Manager
+### 4.3 Scan dispatcher
 
 Depending on the environment and the number of cells, one of three procedures is selected
 bypass: for water units - `_unit_SearchEnemyScanCellsShips`, for
@@ -268,11 +270,12 @@ long-range (`_misc_GetShotPointsCount > 0`, artillery and turrets) or
 large radius - `_unit_SearchEnemyScanCellsLongRange`, for
 regular - `_unit_SearchEnemyScanCells` [^22].
 
-Long-range traverses up to 18 cells (`cLongRangeTryNum = 18`) and selects
+The long-range scan traverses up to 18 cells (`cLongRangeTryNum = 18`) and selects
 **the first valid goal that comes across** - he is not looking for the minimum.
 
 ---
 
+<a id="5-атака-с-движением"></a>
 ## 5. Attack-move
 
 In Cossacks 3, attack-move looks like one action to the player, but
@@ -287,7 +290,7 @@ and how the player aimed the sight.
 | Submode | Constant | Behavior |
 |---|---|---|
 | `move_mode_default` | 0 | normal movement to the point |
-| `move_mode_attack` | 1 | aggressive move: each progress tick calls `_unit_SearchVictimOnProgress` and, if there is a target, takes it to the current order `_unit_OrderAttack` |
+| `move_mode_attack` | 1 | attack-move: every periodic update calls `_unit_SearchVictimOnProgress` and, if it finds a target, issues `_unit_OrderAttack` |
 
 Additionally there is a global profile flag
 `gProfile.bsearchenemyinfront` (default `True` [^23]). He adds
@@ -310,7 +313,8 @@ anywhere.
 `bstandground`, set to `bsearchenemy`, optionally cleared
 previous orders and issued `_unit_OrderAttackPoint` with coordinates [^6].
 
-`bartprepare = True` stands at `cannon`, `howitzer`, `framegun` (exact
+`bartprepare = True` is set for the Cannon (`cannon`), Howitzer
+(`howitzer`), and Frame gun (`framegun`; exact
 branches in the script - see [^25]). These units:
 
 1. Get `gc_obj_order_type_attackpoint` with the coordinates of the point.
@@ -330,6 +334,7 @@ line of sight. But if the enemy ran away, ordinary artillery with the order
 attack-point hammers on an empty space until a new command.
 
 <a id="53-через-gui"></a>
+<a id="53-через-интерфейс"></a>
 ### 5.3 Via GUI
 
 The GUI sends a packet that processes `units/global.inc/readorder.inc`.
@@ -349,9 +354,9 @@ described in
 ---
 
 <a id="6-что-отсюда-следует-для-микроконтроля"></a>
-## 6. What follows from here for microcontrol
+## 6. Practical implications for unit control
 
-- **Focus shooting by itself does not work.** Shooters of the same squad
+- **Ranged units do not focus fire automatically.** Units in the same squad
   select targets individually - random inside the cell plus
   `minRelativeTrgHnd` by cells - rather than coordinating a common goal.
   In order for all 36 musketeers to shoot at one enemy, you need to explicitly give
@@ -386,9 +391,11 @@ described in
 ---
 
 <a id="7-лечение-священниками--bpriest"></a>
-## 7. Treatment by priests - `bpriest`
+<a id="7-лечение-духовными-лицами-bpriest"></a>
+## 7. Healing by religious units (`bpriest`)
 
-Priests (`priest`, `pope`, `mullah`, `padre`) - special class
+The Priest (`priest`), Pope (`pope`), Mullah (`mullah`), and Padre
+(`padre`) form a special class
 units with `bpriest = True`. Target selection algorithm - mode
 `scanmode = 1` (see §2.1): **only own** players are scanned, and
 the unit is selected according to the rule “the first one encountered with `hp < maxhp`”;
@@ -404,12 +411,12 @@ target.hp := min(target.hp, target.maxhp)
 `heal pause = 0` - the priest heals every animation cycle
 (~0.7 g-sec) until the target reaches full HP.
 
-| Unit | heal/hit | range (px/tiles) | Where available |
+| Unit | Healing per hit | Range (pixels / tiles) | Availability |
 |---|---:|---|---|
 | Priest | 20 | 0–400 / 7.5 | most European nations |
 | Pope | 25 | 0–350 / 6.6 | Papal States / Venice |
 | Mullah | 15 | 0–500 / **9.4** | Turkey / Algeria (longest range) |
-| Padre | 30 | 0–400 / 7.5 | Spain / Portugal (strongest treatment) |
+| Padre | 30 | 0–400 / 7.5 | Spain / Portugal (strongest healing) |
 
 <a id="71-стратегические-свойства"></a>
 ### 7.1. Strategic properties
@@ -429,7 +436,7 @@ target.hp := min(target.hp, target.maxhp)
 <a id="72-конверсии-нет"></a>
 ### 7.2. No conversion
 
-Unlike AoE2-style missionaries, in Cossacks 3 the priest is
+Unlike missionaries in Age of Empires II, religious units in Cossacks 3 are
 **healer only**. No conversion of enemy units to friendly units
 no scripts. See also [`capture_mechanics.md`](../economy/capture_mechanics.md)
 §7.
@@ -477,9 +484,10 @@ shot_z  = target_z + (1 − random × 2) × maxdisp
 scattering**, linear.
 
 <a id="91-базовые-значения-dispertion"></a>
+<a id="91-базовые-значения-разброса-dispertion"></a>
 ### 9.1. Basic dispersion values
 
-| Weapons | dispertion (px/tiles) | At 15 t deviation |
+| Weapon | Dispersion (pixels / tiles) | Deviation at 15 tiles |
 |---|---:|---:|
 | Strelets (SHOTMUSKET, base) | 200 / 3.75 | ±1.50 t |
 | Archer (STRELA) | 175 / 3.28 | ±1.31 t |
@@ -502,6 +510,7 @@ Example: musketeer (`disp = 3.75`) on 15 tiles →
 arrows in idealized matrices is underestimated by 3 times**.
 
 <a id="93-апгрейды-на-dispertion"></a>
+<a id="93-улучшения-разброса-dispertion"></a>
 ### 9.3. Upgrades to dispersion
 
 Only for **artillery**:
@@ -519,10 +528,10 @@ For musketeers and archers there is **no direct** dispersion upgrade.
 
 | # | Question | Where to dig |
 |---:|---|---|
-| 1 | The exact condition under which `move_mode_default` comes instead of `move_mode_attack` from the GUI: apparently, the usual right click = default, A + click = attack - but this condition is not tracked in scripts, it is solved by the GUI layer in C++. | Empirically in the editor, or reading GUI callbacks in the native binary. |
+| 1 | The exact condition under which the interface sends `move_mode_default` instead of `move_mode_attack`: presumably right-click means movement, while A + click means attack-move. The scripts do not expose this decision. | Test it in the editor or inspect the interface calls in native code. |
 | 2 | Weight 0.125 in STO balancing - chosen empirically or selected? | Compare with C1 or experimentally measure the spread of targets for 36 pikemen versus 36 musketeers. |
 | 3 | `_misc_GetShotPointsCount(goHnd) > 0` as a condition for selecting `_unit_SearchEnemyScanCellsLongRange`: which units have this True? Artillery - definitely, towers - probably; the full list needs to be extracted from the definitions `objprop.shotpoints`. | `parse_animations.py` or direct grep using `shotpoints`. |
-| 4 | Long-range always returns “first found” - does this mean that long-range units search less accurately? Or does the behavior overlap in native code? | Profiling an AI scenario with one mortar against multiple targets. |
+| 4 | The long-range scan always returns the first match. Does that make long-range units less selective, or is the behavior overridden in native code? | Profile an AI scenario with one Bombard against several targets. |
 
 ---
 
@@ -732,7 +741,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^27]: Order processor with `bsearchenemy := True` - `units/global.inc/readorder.inc:63, 88, 97`.
 
-[^32]: Treatment formula via `gc_obj_weapon_kind_heal` -
+[^32]: Healing formula via `gc_obj_weapon_kind_heal` -
        `lib/miscext2.script:371-398`. Description of the priests and their
        parameters (heal/impact, range) - `lib/unit.script:1151-1188`.
 
@@ -742,5 +751,5 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^34]: Scattering of shots - `_weapon_CalcShotDispertion` in
        `lib/weapon.script:625`. Coefficient `0.0267` —
-       hard-skinned; `weapon.dispertion` comes from the definition
+       hard-coded; `weapon.dispertion` comes from the definition
        weapons in `lib/weapon.script` (after `_misc_PixelsToTiles`).

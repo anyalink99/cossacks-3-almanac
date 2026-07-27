@@ -4,12 +4,11 @@
 
 [← How the game works](../../README.md)
 
-How do units in Cossacks 3 find a way, bypass each other and buildings, and what
-occurs when blocked. **The main conclusion right away:** the algorithm itself
-`pathfinding` lives in the native engine (C++); scripts only place units
-into the queue, transmit the target point and read the result. The algorithm is not visible -
-only the frame around it is visible. All links to the code and the Pascal blocks themselves
-collected in the [Sources](#sources) section at the end of the document.
+This article explains how Cossacks 3 units find routes, avoid one another
+and buildings, and react when blocked. **The key point:** the pathfinding
+algorithm itself lives in the native C++ engine. Scripts only queue units,
+submit destinations, and read the resulting routes. Script references and
+Pascal excerpts are collected in [Sources](#sources).
 
 **Related documents:**
 
@@ -21,6 +20,7 @@ collected in the [Sources](#sources) section at the end of the document.
 - [building_mechanics.md](../economy/building_mechanics.md) – footprint and `CIMass`
   near buildings (massive “anchors” for collisions).
 
+<a id="коротко"></a>
 ## TL;DR
 
 - Unit movement is **two independent subsystems**: global
@@ -32,22 +32,23 @@ collected in the [Sources](#sources) section at the end of the document.
   Local collision - every frame.
 - The size of the collision cell is `0.5` tile (`gc_BuilderDist = 1.0` for
   placement of construction workers around the building).
-- **Friendly push** - silent: their units push each other apart,
-  no animation.
-- **Enemy at 90° in front** - the unit automatically switches to attack,
-  even if he was going to another goal.
-- **Formation** is a jittered offset for each unit, rather than following
-  squad-leader. That’s why it moves “blurring”.
+- **Friendly pushing** is silent: allied units push one another apart
+  without triggering an animation.
+- **An enemy in the forward 90° sector** makes a unit switch to attack,
+  even when it was moving toward another destination.
+- A **formation** gives each unit its own destination with a small random
+  offset; units do not follow a single squad leader. This is why a moving
+  formation spreads slightly.
 
 <a id="1-архитектура-две-независимые-подсистемы"></a>
 ## 1. Architecture: two independent subsystems
 
 The engine divides unit navigation into two loosely coupled subsystems:
 
-| Subsystem | What does | Where does he live |
+| Subsystem | Purpose | Implementation |
 |---|---|---|
-| **Topology + QuadTree path-search** | Global search for path A → B through traffic zones; returns an array of `TrackPoint`'s. | Native APIs `Topology*` / `TraceLine*`. |
-| **CollisionInertia (CI)** | Per-frame local bypass of neighbors along an already laid path (push / avoid with masses and inertia). | Native API `*CI*`. |
+| **Topology and obstacle map** (`Topology`, `QuadTree`) | Global A → B routing through traversable zones; returns an array of route points (`TrackPoint`). | Native functions `Topology*` / `TraceLine*`. |
+| **Collision avoidance** (`CollisionInertia`, CI) | Per-frame avoidance and pushing along an existing route, with mass and inertia. | Native functions `*CI*`. |
 
 Scripts access both via `Set / Get*ByHandle` - **details
 implementations in native code are not visible to scripts**.
@@ -57,17 +58,19 @@ key topology constants: `gc_top_TopologyPriority = 90`,
 `gc_top_PathPriority = 70`, `gc_top_WallPriority = 95`,
 `gc_top_EffectDist = 3` and others [^2]
 
-This is **`QuadTree`-based collision world** with two priority layers: first
-includes all static obstacles, the second - only terrain and walls.
-Queries “a unit is passing through a building” have a lower priority so that `pathfinding`
-could find his way “as if the building were not there.”
+This is a **`QuadTree`-based collision world** with two priority layers.
+The first includes all static obstacles; the second includes only terrain
+and walls. Requests that allow a unit to leave a building use the lower
+priority layer so that a route can be found as if the building were absent.
 
 ---
 
 <a id="2-pathfinding-где-и-как"></a>
-## 2. Pathfinding: where and how
+<a id="2-где-и-как-рассчитывается-путь"></a>
+## 2. Where and How Routes Are Calculated
 
 <a id="21-очередь-и-батчевание"></a>
+<a id="21-очередь-и-пакетная-обработка"></a>
 ### 2.1 Queue and batching
 
 **Queue:** two global lists in `_unit_PathListAdd` [^3]. Unit
@@ -78,21 +81,22 @@ The `bpathrequested : Boolean` flag protects against duplication of [^5].
 **Lists are serialized** in save/replay [^6] is part of the world state.
 
 <a id="22-главный-батч-раз-в-progress-tick--20ms"></a>
-### 2.2 Main batch (once per progress-tick = 20ms)
+<a id="22-главный-пакет-запросов-раз-в-20-мс"></a>
+### 2.2 Main batch (once every 20 ms)
 
 The entire batch of `pathfinding` is in `progress/progress.inc/nothing.inc` [^7].
 Key steps:
 
 1. One queue is selected - `gWaterPathList` or `gGOPathList` -
-with priority 2:1 in favor of land (aquatic is processed only if
-   earthly is empty OR `progresstick mod 2 == 0`).
+with a 2:1 priority in favor of land (water is processed only when the
+   land queue is empty or `progresstick mod 2 == 0`).
 2. For each unit in the queue, call
    `TopologyAddPathGameObjectByHandle`, and the unit is assigned
-   float-tag — squad-id (for ground units) or -1 (for water units).
-3. One batch call - `TopologyGetPath` (ground) or `TopologyGetPathExt`
+   a numeric squad tag for land units, or `-1` for water units.
+3. One batch call—`TopologyGetPath` (land) or `TopologyGetPathExt`
    (water) - calculates paths for the entire queue at once.
-4. For each unit, `noPath` is checked (there are no TrackPoints) and
-   current-point indices are set; at the end the list is cleared.
+4. For each unit, the script checks `noPath`, sets the current route-point
+   indices, and finally clears the queue.
 
 **What is important:**
 
@@ -106,13 +110,12 @@ with priority 2:1 in favor of land (aquatic is processed only if
    gets an array of units with their (start, end), performs path-search for
    each, fills out TrackPoints. Algorithm inside - **not visible from
    scripts**.
-4. **`squad` is passed as float-tag** before the request. Apparently, kernel
-   uses it for group-routing (units of the same squad can receive
-   agreed paths or common cost-map). Confirm empirically without
-   decompilation is not possible.
-5. **`noPath` is determined by `TrackPointCount == 0`**: if the kernel is not
-   found the way, no TrackPoints.
-6. After the batch, the script itself inserts building-exit-points (exit from
+4. **`squad` is passed as a numeric tag** before the request. The engine
+   may use it to coordinate routes for units in one squad or to share a
+   movement-cost map. Confirming this without decompilation is impossible.
+5. **`noPath` is determined by `TrackPointCount == 0`**: when the engine
+   finds no route, the route-point array is empty.
+6. After the batch, the script inserts building exit points (for leaving a
    barracks or transport) and resets `bpathrequested`.
 
 <a id="23-что-делает-topologygetpath-наблюдаемо"></a>
@@ -159,11 +162,10 @@ cells/side).
 
 <a id="3-trackpointы--выход-pathfindingа"></a>
 <a id="3-маршрутные-точки"></a>
-## 3. TrackPoints - pathfinding output
+## 3. Route Points
 
-After `TopologyGetPath` each unit receives an array of **TrackPoints**
-(waypoints) that the engine reads on each frame for interpolation
-movements:
+After `TopologyGetPath`, each unit receives an array of **route points**
+(`TrackPoint`) that the engine reads every frame to interpolate movement:
 - `GameObjectTrackPointAddByHandle(hnd, x, y, z)` - append.
 - `GameObjectTrackPointInsertByHandle(hnd, ind, x, y, z)` – insert
   (used to insert the exit-point of the building **at the beginning**).
@@ -186,13 +188,15 @@ When completing a turn, `OnDirectionReached` [^14] is triggered.
 
 ---
 
-## 4. Collision avoidance (CI = CollisionInertia)
+<a id="4-предотвращение-столкновений-collisioninertia-ci"></a>
+## 4. Collision Avoidance (`CollisionInertia`, CI)
 
-The main mechanism that forces units to **bypass each other**.
-Essentially - local physical pushing (push with masses and inertia),
-superimposed on top of an already laid path.
+This is the main mechanism that makes units **avoid one another**:
+local physical pushing with mass and inertia, applied on top of an
+already calculated route.
 
-### 4.1 Per-unit init
+<a id="41-параметры-отдельного-юнита"></a>
+### 4.1 Per-unit parameters
 
 CI parameters are set in `SetCustomCollisionInertia` [^15]: `CIMass`,
 `CIIntersectRadius`, `CIDeltaStep`, `CIRotationSpeed`, `CIStuckAngle`,
@@ -215,35 +219,40 @@ small, units can stand tightly together. Horses receive `unitradius=15`
 (display-radius).
 
 <a id="42-корабли-получают-огромную-ci"></a>
-### 4.2 Ships get huge CI
+<a id="42-корабли-получают-большую-инерцию-столкновений"></a>
+### 4.2 Ships receive much greater mass and radius
 
-Ships summon `SetCustomCollisionInertia` with large [^17] multipliers:
-`ferry` and `battleship` - `radius x11, mass x32`; `frigate`, `xebec` —
-`9, 16`; `galley` - `7, 12`; `chaika`, `yacht`, `yachttur` - `6, 8`;
-`fishboat` - `3, 1`.
+Ships call `SetCustomCollisionInertia` with large multipliers [^17].
+The Ferry (`ferry`) and Ship of the Line (`battleship`) use
+`radius × 11, mass × 32`; the Frigate (`frigate`) and Xebec (`xebec`)
+use `9, 16`; the Galley (`galley`) uses `7, 12`; the Chaika (`chaika`)
+and both Yacht variants (`yacht`, `yachttur`) use `6, 8`; and the
+Boat (`fishboat`) uses `3, 1`.
 
-This explains why ships **push** each other and **not themselves
-shift** under the pressure of infantry: mass 32 versus 1 for infantry.
+This explains why ships **push** one another yet barely move under
+pressure from infantry: their mass can be 32 instead of 1.
 
 <a id="43-здания--неподвижные-тяжёлые-блокеры"></a>
-### 4.3 Buildings - stationary heavy blockers
+<a id="43-здания--тяжёлые-неподвижные-препятствия"></a>
+### 4.3 Buildings are heavy, immovable obstacles
 
 Buildings are initialized with `CollisionInertia=true`,
 `CIIntersectRadius=0.35` tile, `CIMovable=false`, `CIMass=10000`,
 `CIStuckAngle=5` (for units - 0), `CIAvoidPointMaxAngle=120`,
 `CIMaxCollideCounter=7` [^18].
 
-**Conclusion:** buildings are massive immovable blockers with a radius of 0.35
-(plus a separate footprint-mask on the cell-grid; see
-[building_mechanics.md](../economy/building_mechanics.md)). Global way around
-buildings are being built by `pathfinding`; local collision (CI) only insures that
-The unit did not hit the wall closely.
+**Conclusion:** buildings are massive immovable obstacles with a radius
+of 0.35 (plus a separate footprint mask on the cell grid; see
+[building_mechanics.md](../economy/building_mechanics.md)). Pathfinding
+calculates the global route around them; local collision avoidance only
+keeps a unit from pressing directly into a wall.
 
 <a id="44-push-mechanic-между-юнитами-правило-передний--90-fov"></a>
-### 4.4 Push-mechanic between units: “front + 90° FOV” rule
+<a id="44-расталкивание-юнитов-и-передний-сектор-в-90"></a>
+### 4.4 Unit pushing and the forward 90° sector
 
-CI rules are set for three categories - `Fr` (friendly), `En` (enemy),
-`Nl` (neutral) - via `SetGameObjectMyRuleCollidedExec*` [^19]:
+Collision rules distinguish allies (`Fr`), enemies (`En`), and neutral
+objects (`Nl`) through `SetGameObjectMyRuleCollidedExec*` [^19]:
 
 - `Fr` (friendly): event **not** generated. CI is still physical
   pushes, but the script does not interfere.
@@ -258,7 +267,7 @@ switches the current order to attack.
 
 **Push mechanics summary:**
 
-1. **Union → Union:** pure physics CI (`mass` / `intersect` /
+1. **Ally → ally:** only CI physics (`mass` / `intersect` /
    `inertia`), without events. Units “stick together” and smoothly push apart -
    the front one pushes the rear one in the direction of movement.
 2. **Enemy → enemy (90° front):** called by `_misc_Collided`, which
@@ -270,15 +279,17 @@ switches the current order to attack.
 
 ---
 
-## 5. Stuck handling
+<a id="5-обработка-застревания"></a>
+## 5. Handling Stuck Units
 
-### 5.1 Per-frame: “no path → stop”
+<a id="51-проверка-каждый-кадр-нет-пути--остановиться"></a>
+### 5.1 Per-frame check: “no route means stop”
 
 In `pathfinding`'s batch [^21] after calling `TopologyGetPath` for each
 unit is calculated by `noPath` through `TrackPointCount = 0`. If TrackPoints
 yes - `current-point` indices and motion animation are set.
-If not - and the unit was in `gc_statetag_move_walk` - it is called
-`_unit_Stop`.
+If no points exist and the unit was in `gc_statetag_move_walk`,
+`_unit_Stop` is called.
 
 **If the path is not found** - the unit **simply stops**, without timeout
 and retry. The Order remains (if `bRemove=False`), and the unit will “try again”
@@ -304,6 +315,7 @@ at intervals `gc_unit_TimeTopology = 0.1*50 - 0.025 ≈ 4.975 s` [^23].
 This is **not a repath**, but a re-evaluation of “what topo-zone am I in” (for AI
 distance-queries).
 
+<a id="54-аварийное-исправление-зависания"></a>
 ### 5.4 Hard “hang fix”
 
 `unit.inc/nothing.inc` has a watchdog for invisible units in the state
@@ -313,6 +325,7 @@ after 1 s `standtime` is forced to be entered
 transport / leave-building.
 
 <a id="55-loader-pass-на-старте-два-юнита-в-одной-точке"></a>
+<a id="55-проверка-при-загрузке-два-юнита-в-одной-точке"></a>
 ### 5.5 Loader-pass at the start: “two units at one point”
 
 When generating a map, it is called
@@ -334,19 +347,21 @@ otherwise path-trace would loop. Runs from
 ---
 
 <a id="6-formation-movement-каждый-юнит-идёт-сам"></a>
-## 6. Formation movement: each unit moves on its own
+<a id="6-движение-построения-каждый-юнит-идёт-сам"></a>
+## 6. Formation Movement: Each Unit Moves Independently
 
-Main insight: **formation does not move as a unit**.
-There is no squad-leader as such - **each unit gets its own
-individual target**.
+The key point is that a **formation does not move as one object**.
+There is no single squad leader to follow: **each unit receives its own
+destination**.
 
 <a id="61-writemove--рассыпать-squad-на-per-unit-ордера"></a>
-### 6.1 `WriteMove` - scatter the squad into per-unit orders
+<a id="61-writemove--выдать-каждому-юниту-отдельный-приказ"></a>
+### 6.1 `WriteMove` issues a separate order to each unit
 
 `WriteMove` [^26] walks the formation grid and for each unit:
 
 1. Calculates the target cell of the formation in world coordinates.
-2. Adds random variance (jitter) within
+2. Adds a small random offset within
    `unitradius * 1.1` through the turn to `random*360`.
 3. Calls `_unit_OrderMove(gohnd, x_personal, y_personal, ...)` -
    personal order for your cell with jitter.
@@ -359,7 +374,8 @@ Then the unit goes **independently**, through the standard chain
 `pathfinding`**, this is an order-cookie for server↔client sync.
 
 <a id="62-грид-формации"></a>
-### 6.2 Formation Grid
+<a id="62-сетка-построения"></a>
+### 6.2 Formation grid
 
 `_squad_FullRebuildGrid` [^27] holds per-squad `arGrid[i,j]` - which unit
 in which cell of the formation. When changing lanes (turn, attack-mode, etc.)
@@ -378,7 +394,8 @@ squad-aggressive logic and hold-mode check [^30]. To `pathfinding`'u
 has no relation.
 
 <a id="64-squad-id-как-hint-для-kernel"></a>
-### 6.4 Squad-id as hint for kernel
+<a id="64-номер-отряда-как-подсказка-движку"></a>
+### 6.4 Squad ID as a hint to the engine
 
 Remember from §2.2: before `TopologyGetPath`, each unit receives
 `SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)`. What kernel with
@@ -388,7 +405,8 @@ okay). But this is **not confirmed**; need decompilation or
 empirical test with two squads in a narrow passage.
 
 <a id="65-orphan-константа"></a>
-### 6.5 Orphan constant
+<a id="65-неиспользуемая-константа"></a>
+### 6.5 Unused constant
 
 `gc_player_SquadMoveTick = 10` [^31] - **defined, but not found anywhere
 used** (Grep for all `.script` files only gives a definition).
@@ -397,7 +415,8 @@ implemented.
 
 ---
 
-## 7. Repath frequency
+<a id="7-когда-путь-рассчитывается-заново"></a>
+## 7. When Routes Are Recalculated
 
 | When a unit requests a new path | Why |
 |---|---|
@@ -428,14 +447,14 @@ implemented.
 <a id="81-лимиты-в-скриптах"></a>
 ### 8.1 Limits in scripts
 
-- **Queue `pathfinding` - without cap** in scripts. How many units
-  hit `gGOPathList` in a tick (20 ms), that's how much it will be processed in one
-  call `TopologyGetPath`.
-- **TrackPoint smoothing**: `SkipFactor=1`, `SkipEpsilon=0.1`,
-  `SkipPoints=true` [^12] - the unit can cut off intermediate points if
+- **The pathfinding queue has no script-side limit.** Every unit added
+  to `gGOPathList` during a 20 ms tick is processed in the next
+  `TopologyGetPath` call.
+- **Route-point smoothing:** `SkipFactor=1`, `SkipEpsilon=0.1`, and
+  `SkipPoints=true` [^12] let a unit skip intermediate points when
   there is a clear line of sight ahead.
-- **CI per-unit budget** [^15]:
-  - `MaxCollideCounter = 7*3 = 21` (number of collisions per tick before lights out);
+- **Per-unit collision budget** [^15]:
+  - `MaxCollideCounter = 7*3 = 21` (collisions processed per tick);
   - `MaxProcessObject = 4*3 = 12` (number of objects in the vicinity,
     processed by CI).
 
@@ -447,6 +466,7 @@ The script wraps `TopologyGetPath` in calls
 There is no profiler data in the scripts, but the engine can measure the cost.
 
 <a id="83-глобальный-progress-cap"></a>
+<a id="83-глобальное-ограничение-цикла-расчёта"></a>
 ### 8.3 Global progress-cap
 
 In `progress.inc` [^35] for misc/pool players there is a dynamic `secmax`
@@ -458,69 +478,60 @@ processed completely.
 ---
 
 <a id="9-открытые-вопросы-для-эмпирических-замеров"></a>
-## 9. Open questions (for empirical measurements)
+<a id="9-что-ещё-требует-проверки"></a>
+## 9. Questions Requiring Further Testing
 
-1. **Path-search algorithm** - A*, flow-field or wave? Decompilation
-   native `TopologyGetPath` or empirical test: long way with
-   several equally long alternatives and seeing which one is chosen.
-   Hypothesis: A* with heuristic = euclidean.
-2. **Impact of squad-id float-tag**: is it really transmitted to the kernel as
-   group-routing hint? Empirically: move two squads in parallel across
-   narrow passage (1 tile) and see if the paths conflict.
-3. **path-list-burst boundary**: how many units start move at the same time
-   without FPS drop - 200, 500, 1000? The script does not limit, kernel -
-   perhaps.
-4. **Repath to a new obstacle**: build a building exactly on the path
-   walking squad. Will there be an automatic repath or units
-   will they resist and stop?
-5. **`CIStuckAngle = 0` for units vs. `= 5` for buildings**: what does this mean
-   behaviorally? For buildings, the “consider stuck” threshold is 5°, for units it is 0°.
-   Most likely related to rotation-snapping CI-physics.
-6. **Ships + dummy frigate**: `bIsShipDummy` [^36] - separate
-   collision entity? Does it affect `pathfinding`?
-7. **Relationship between footprint-mask of building (cell=0.5) and `CIIntersectRadius=0.35`**:
-   `0.35 < 0.5`, which means the CI radius is **smaller** than the blocking grid. Units
-   can “scratch” on the corners of buildings - this geometry is hidden. Worth it
-   check empirically.
+1. **Pathfinding algorithm:** A*, a flow field, or a wave search? This
+   requires decompiling native `TopologyGetPath` or testing several
+   equally long routes. The working hypothesis is A* with a Euclidean
+   heuristic.
+2. **Effect of the numeric squad tag:** does the engine actually use it
+   to coordinate group routes? Move two squads through a one-tile
+   passage and compare their paths.
+3. **Simultaneous-request limit:** how many units can begin moving
+   without a frame-rate drop—200, 500, or 1,000? Scripts impose no
+   limit; the native engine may do so internally.
+4. **A new obstacle:** place a building directly on a squad's route.
+   Does the engine recalculate the path or do the units stop?
+5. **`CIStuckAngle = 0` for units and `= 5` for buildings:** what is the
+   visible effect? The value may relate to rotation snapping.
+6. **Ships and the dummy Frigate:** is `bIsShipDummy` [^36] a separate
+   collision object, and does it affect pathfinding?
+7. **Building footprint versus collision radius:** with a 0.5-tile cell
+   and `CIIntersectRadius=0.35`, the collision radius is smaller than the
+   blocking grid. Test whether units catch on building corners.
 
 ---
 
 <a id="10-резюме"></a>
 ## 10. Summary
 
-- **`pathfinding`'s algorithm is in the native engine.** Scripts only: (a)
-  add units to `gGOPathList` or `gWaterPathList` when starting move,
-  (b) call `TopologyGetPath` or `TopologyGetPathExt` once every 20 ms,
-  (c) interpret the returned TrackPoints. The search itself (A* / flow /
-  wave) **not visible**; indirectly - this is `QuadTree`-collision-world + graph
-  `TTopZone` with connectivity at radius 3 + path-priority/topology-priority
-  layers + `TraceLineQuadTree` for LoS-checks.
-- **Collision avoidance is `CollisionInertia` (CI):** per-unit mass
-  and radius, push-physics. Buildings - `mass=10000, movable=False`, ships
-  get increased mass and radius. The push unit is silent; enemy in
-  front 90° - automatic attack-event.
-- **Stuck handling — minimal.** If the path is not found, the unit just
-  worth it (no timeout, no teleport). With more than 3 standing neighbors and
-  `standtime >= 3 s` - `FindBestPosition` spirally looking for a free
-  cell within a radius of 6. At the start
-  `_misc_FixCollisionInertiaObjectsInOnePoint` removes overlapping
-  environment objects so that path-trace does not get stuck.
-- **Formation movement is NOT squad-leader.** `WriteMove` scatters
-  group: each unit gets its own
-  `_unit_OrderMove(personal_x, personal_y)` with jitter within
-  unit-radius. There are no single squad paths in the scripts; squad-id
-  is passed to the kernel as a float-tag, but the effect is not visible from the code.
-  `gc_player_SquadMoveTick = 10` is an orphan constant.
-- **Repath:** only when changing order or new move command. Periodic
-  repath is missing.
-- **There are no limits in scripts:** the queue is processed in one batch. If
-  500 units start simultaneously - all in one call
-  `TopologyGetPath`. The cost is measured by the built-in `_misc_Profiler`,
-  but scripts do not use it for throttling.
+- **The pathfinding algorithm lives in the native engine.** Scripts add
+  units to `gGOPathList` or `gWaterPathList`, call
+  `TopologyGetPath` / `TopologyGetPathExt` every 20 ms, and interpret
+  the returned route points. `QuadTree`, the `TTopZone` graph, and
+  `TraceLineQuadTree` provide indirect clues, but the exact algorithm
+  is not visible.
+- **`CollisionInertia` (CI) handles local avoidance.** Each unit has a
+  mass and radius. Buildings use `mass=10000, movable=False`, while
+  ships receive much larger values. Allies push silently; an enemy in
+  the forward 90° sector can trigger an automatic attack.
+- **Stuck-unit recovery is minimal.** A unit stops when no route is
+  found; there is no timeout or teleport. `FindBestPosition` searches
+  nearby cells when a stationary crowd becomes too dense.
+- **A formation has no common leader path.** `WriteMove` gives every
+  unit an individual `_unit_OrderMove(personal_x, personal_y)` target
+  with a small random offset. The squad ID is passed to the engine as a
+  numeric tag, but its effect is unknown.
+- **Routes are recalculated only after an order change or a new movement
+  command.** No periodic recalculation was found.
+- **Scripts do not cap the queue.** If 500 units begin moving together,
+  all 500 are submitted in one `TopologyGetPath` call. `_misc_Profiler`
+  measures the cost, but scripts do not use it to throttle work.
 
-**All calls from the script go to native code, the path-search algorithm is not
-visible.** Further investigation requires decompiling Cossacks 3 EXE or
-empirical tests with target scenarios (see §9).
+**The route algorithm itself remains hidden in native code.** Further
+investigation requires decompiling the Cossacks 3 executable or running
+targeted experiments (see §9).
 
 ---
 

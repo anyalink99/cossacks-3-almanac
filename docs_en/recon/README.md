@@ -58,7 +58,7 @@ for verification.
 | [Computer-player behavior](systems/ai_behavior.md) | Economy, construction, army recruitment, and military target selection. |
 | [Mercenaries and the Diplomatic Center](systems/mercenaries_diplomacy.md) | Recruitment, rising prices, and rebellion when gold runs out. |
 | [Victory and defeat](systems/victory_conditions.md) | Player elimination, surrender, team play, and scenario conditions. |
-| [Scenarios and triggers](systems/scenarios_and_triggers.md) | Conditions and actions used to build missions. |
+| [Scenarios and event rules](systems/scenarios_and_triggers.md) | Conditions and actions used to build missions. |
 | [Controls and feedback](systems/ui_input_and_feedback.md) | How clicks, hotkeys, and interface commands become game orders. |
 
 ---

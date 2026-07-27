@@ -95,10 +95,12 @@ One peasant's pipeline:
       food=**3**, wood=**2**, stone=**3**.
 
 <a id="3-константы-extracted"></a>
-## 3. Constants (extracted)
+<a id="3-извлечённые-константы"></a>
+## 3. Extracted constants
 
 <a id="анимация--кадры-одного-work-цикла"></a>
-### Animation - frames of one work cycle
+<a id="анимация--кадры-одного-рабочего-цикла"></a>
+### Animation frames in one work cycle
 
 From `data/animations/aaf/peaaus.aaf` (same for all nations except `pearus`):
 
@@ -159,45 +161,45 @@ are located on the **north (upper) side** of the building.
 
 **Storehouses** (`gc_obj_usage_storage`):
 
-| sid | Nations | x | z | Position |
-|---|---|---:|---:|---|
-| eurosto | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | +0.20 | −1.69 | north corner |
-| russto | Poland, Russia, Ukraine | +0.19 | −1.50 | north corner |
-| tursto | Algeria, Turkey | +0.17 | −1.67 | north corner |
-| spasto | Portugal, Spain | — | — | building center (0, 0) - not specified |
+| Building | Internal ID | Nations | `x` | `z` | Position |
+|---|---|---|---:|---:|---|
+| Storehouse | `eursto` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | +0.20 | −1.69 | north corner |
+| Storehouse | `russto` | Poland, Russia, Ukraine | +0.19 | −1.50 | north corner |
+| Storehouse | `tursto` | Algeria, Turkey | +0.17 | −1.67 | north corner |
+| Storehouse | `spasto` | Portugal, Spain | — | — | building centre (0, 0); not specified |
 
 **Mills** (`gc_obj_usage_mill`):
-| sid | x | z | Position |
-|---|---:|---:|---|
-| eurmil | −0.02 | −1.61 | north side |
-| rusmil | +0.04 | −1.09 | north side |
-| turmil | −0.44 | −2.56 | north side |
+| Building | Internal ID | `x` | `z` | Position |
+|---|---|---:|---:|---|
+| Mill | `eurmil` | −0.02 | −1.61 | north side |
+| Mill | `rusmil` | +0.04 | −1.09 | north side |
+| Mill | `turmil` | −0.44 | −2.56 | north side |
 
 **City centers** (`gc_obj_usage_center`):
 
-| sid | x | z |
-|---|---:|---:|
-| crowned | +0.07 | −3.86 |
-| swecen | +0.02 | −3.68 |
-| engcen | −0.50 | −3.67 |
-| turcen | +0.49 | −3.41 |
-| auscen | −0.11 | −3.34 |
-| spacen | +0.10 | −3.35 |
-| saxcen | +0.24 | −3.25 |
-| porcen | +0.30 | −3.17 |
-| ukrcen | −1.30 | −3.16 |
-| algcen | +0.80 | −3.20 |
-| ruscen | −0.28 | −3.22 |
-| fracen | +0.01 | −3.12 |
-| prucen | −0.06 | −3.07 |
-| bavcen | −1.45 | −3.07 |
-| polcen | −0.06 | −2.63 |
-| swicen | −1.82 | −2.51 |
-| huncen | +1.39 | −2.25 |
-| piecen | −0.25 | −2.42 |
-| dencen | −0.10 | −2.20 |
-| netcen | +0.43 | −2.23 |
-| scocen | 0 | **−0.72** ⚠ the anomaly is actually the center of the building |
+| Building | Internal ID | `x` | `z` |
+|---|---|---:|---:|
+| Town Hall | `vencen` | +0.07 | −3.86 |
+| Town Hall | `swecen` | +0.02 | −3.68 |
+| Town Hall | `engcen` | −0.50 | −3.67 |
+| Town Hall | `turcen` | +0.49 | −3.41 |
+| Town Hall | `auscen` | −0.11 | −3.34 |
+| Town Hall | `spacen` | +0.10 | −3.35 |
+| Town Hall | `saxcen` | +0.24 | −3.25 |
+| Town Hall | `porcen` | +0.30 | −3.17 |
+| Town Hall | `ukrcen` | −1.30 | −3.16 |
+| Town Hall | `algcen` | +0.80 | −3.20 |
+| Town Hall | `ruscen` | −0.28 | −3.22 |
+| Town Hall | `fracen` | +0.01 | −3.12 |
+| Town Hall | `prucen` | −0.06 | −3.07 |
+| Town Hall | `bavcen` | −1.45 | −3.07 |
+| Town Hall | `polcen` | −0.06 | −2.63 |
+| Town Hall | `swicen` | −1.82 | −2.51 |
+| Town Hall | `huncen` | +1.39 | −2.25 |
+| Town Hall | `piecen` | −0.25 | −2.42 |
+| Town Hall | `dencen` | −0.10 | −2.20 |
+| Town Hall | `netcen` | +0.43 | −2.23 |
+| Town Hall | `scocen` | 0 | **−0.72** ⚠ anomalously close to the building centre |
 
 Source: `data/game/var/objcustom.cfg` (`_country_initobjcustom` is parsed at startup).
 
@@ -208,13 +210,13 @@ The actual speed is set in `data/animations/ref/refspeed.acl`
 through the parameter `TrackPointMoveStep` (tiles per frame of walk animation).
 Speed in tiles per game second = `TrackPointMoveStep × 32`:
 
-| Class | `TrackPointMoveStep` | Tile/g-sec |
+| Class | `TrackPointMoveStep` | Tiles per game second |
 |---|---:|---:|
-| infantry | 0.03 | **0.96** |
-| **peasant** | **0.0375** | **1.20** |
-| hardhorse | 0.0525 | 1.68 |
-| fasthorse | 0.09 | 2.88 |
-| cannon | 0.020625 | 0.66 |
+| Infantry (`infantry`) | 0.03 | **0.96** |
+| **Peasant (`peasant`)** | **0.0375** | **1.20** |
+| Heavy cavalry (`hardhorse`) | 0.0525 | 1.68 |
+| Fast cavalry (`fasthorse`) | 0.09 | 2.88 |
+| Cannon (`cannon`) | 0.020625 | 0.66 |
 
 Abstract scale `gc_obj_speed_*` (default = 32, peasant = 40,
 hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24) [^12]
@@ -231,10 +233,12 @@ Details are in [`internals/engine/animation_system.md` §2.4](../../../../intern
 - food = 3, wood = **2**, stone = 3, none = 4
 
 <a id="4-per-resource-математика"></a>
-## 4. Per-resource mathematics
+<a id="4-расчёты-по-каждому-ресурсу"></a>
+## 4. Calculations by resource
 
 <a id="41-идеальный-rate-без-хождения"></a>
-### 4.1 Ideal rate (without walking)
+<a id="41-идеальная-скорость-добычи-без-учёта-пути"></a>
+### 4.1 Ideal gathering rate without travel
 
 For one peasant, excluding the road to the warehouse, with `eff=100`, `fieldlife=0`:
 ```
@@ -251,7 +255,8 @@ rate = rate_per_trip / time_per_trip_game       # resource per game second
 ⚠ This is the **upper limit** - the actual rate is lower due to the road to the warehouse.
 
 <a id="42-wood--большиесредниемелкие-деревья"></a>
-### 4.2 Wood - large/medium/small trees
+<a id="42-дерево-большие-средние-и-малые-деревья"></a>
+### 4.2 Wood: large, medium, and small trees
 
 When spawning randomly [^14]:
 
@@ -305,14 +310,16 @@ that the effective zone is ~3-5 tiles of “handicap” to the whole tree above 
 filtered (75% of the time, 25% chance of bypass via `bskipcheck = random>0.75`).
 
 <a id="43-stone--фактически-бесконечный"></a>
-### 4.3 Stone - virtually endless
+<a id="43-камень-практически-не-истощается"></a>
+### 4.3 Stone is effectively inexhaustible
 
 HP = 10,000,000 [^17]. One stone holds 10M hits = 500k runs = 20M
 stone Infinite for practical purposes. All calculations for stone - without
 accounting for depletion.
 
 <a id="44-food--поле-с-регенерацией"></a>
-### 4.4 Food - field with regeneration
+<a id="44-еда-поле-с-регенерацией"></a>
+### 4.4 Food: regenerating Fields
 
 **HP fields:** start = 0, with `essential_birth → essential_none`
 set = `gc_FieldMaxHP = 25000` [^18].
@@ -344,16 +351,18 @@ set = `gc_FieldMaxHP = 25000` [^18].
 - Full downtime: 21.875 + 87.5 = **109.375 game seconds**.
 
 <a id="5-шахты-goldironcoal"></a>
-## 5. Mines (gold/iron/coal)
+<a id="5-шахты-золото-железо-и-уголь"></a>
+## 5. Mines: Gold, Iron, and Coal
 
-**Building:** `eurgol`, `euriro`, `eurcoa` (general cluster `eur` for the majority;
-`rusgol`/etc for `rus`/`ukr`; `turgol`/etc for `tur`/`alg`). Parameters of [^21]:
+**Building:** Mine. Most European nations use SIDs `eurgol`,
+`euriro`, and `eurcoa`; Russia and Ukraine use the corresponding
+`rus*` variants, while Turkey and Algeria use `tur*` [^21].
 
 | Parameter | Meaning |
 |---|---:|
-| HP | 2500 |
-| buildtime | 300 frames = 9.375 g-sec |
-| Price | W100 S100 (`costpercent=0` - not scalable) |
+| Durability | 2500 |
+| Construction time | 300 frames = 9.375 game seconds |
+| Price | 100 Wood, 100 Stone (`costpercent=0`; no scaling) |
 | `peasantabsorber` | **5** (max 5 peasants inside) |
 | `produce[gold/iron/coal]` | **13** |
 
@@ -381,21 +390,22 @@ delivered    = floor(realbank)                        # to the player
 - 5 × 1.664 = **8.32 resources/g-sec** ≈ **499/g-min**
 
 <a id="51-mine-upgrades--расширение-вместимости"></a>
-### 5.1 Mine upgrades - capacity expansion
+<a id="51-улучшения-вместимости-шахты"></a>
+### 5.1 Mine-capacity upgrades
 
 Each mine has 6 individual upgrades (`<commonName><res>.1`..`.6`,
 `bindividual=True` - needs to be researched at each mine separately). Type:
 `gc_upg_type_single_inside_mine`. Effect: `addpeasantabsorber += value`.
 Time: 300 frames = 9.375 game-sec each [^24].
 
-| Upgrade | +absorber | absorber after | Price | Requirement |
+| Level | Added capacity | Total capacity | Price | Requirement |
 |---|---:|---:|---|---|
-| `.1` | +5 | 10 | F1000, G1250 | — |
-| `.2` | +8 | 18 | F5250, G4950 | — |
-| `.3` | +10 | 28 | F12500, G9250 | — |
-| `.4` | +12 | 40 | F15800, G18500 | 18th century |
-| `.5` | +15 | 55 | F19800, G21050 | 18th century |
-| `.6` | +40 | **95** | F50200, G25950 | 18th century |
+| `.1` | +5 | 10 | 1,000 Food, 1,250 Gold | — |
+| `.2` | +8 | 18 | 5,250 Food, 4,950 Gold | — |
+| `.3` | +10 | 28 | 12,500 Food, 9,250 Gold | — |
+| `.4` | +12 | 40 | 15,800 Food, 18,500 Gold | 18th century |
+| `.5` | +15 | 55 | 19,800 Food, 21,050 Gold | 18th century |
+| `.6` | +40 | **95** | 50,200 Food, 25,950 Gold | 18th century |
 
 **One mine fully upgraded (95 peasants):**
 
@@ -404,20 +414,22 @@ Time: 300 frames = 9.375 game-sec each [^24].
 
 Total cost full upgrade of one mine: **F104 550, G80 950** (plus 6 × 9.375 = **56.25 g-sec** while the peasants are not working).
 
-⚠ Per-mine upgrades, not global. If you have 12 mines, download each one separately.
+⚠ These upgrades are per Mine, not global. Twelve Mines must be
+upgraded separately.
 
 <a id="6-поля-и-fieldlife--апгрейды"></a>
-## 6. Fields and fieldlife - upgrades
+<a id="6-улучшения-долговечности-полей"></a>
+## 6. Field-durability upgrades
 
-**Type:** `gc_upg_type_fieldlifeperc` (ID 23). Effect:
-`gPlayer.fieldlife += value` (additive) [^25].
+Technical type `gc_upg_type_fieldlifeperc` (ID 23) applies
+`gPlayer.fieldlife += value`; the values are additive [^25].
 
-Two upgrades found (standard eur-nation):
+Two upgrades are present for a standard European nation:
 
-| Sid | upgplace | value | Price | Source |
-|---|---|---:|---|---|
-| `<csid>aca.4` | academy | +200 | F0 W1000 S0 G475 | [^26] |
-| `<csid>bla.1` | blacksmith | +100 | F0 W400 S0 G90 | [^27] |
+| Canonical name | Internal ID | Researched at | Bonus | Price | Source |
+|---|---|---|---:|---|---|
+| Carry out field melioration | `<csid>aca.4` | Academy | +200 | 1,000 Wood, 475 Gold | [^26] |
+| Manufacture agricultural equipment | `<csid>bla.1` | Blacksmith | +100 | 400 Wood, 90 Gold | [^27] |
 
 Total for both: fieldlife = **300** → resdec=25 → 1000 hits/field → 2045 food/field.
 
@@ -425,17 +437,18 @@ Total for both: fieldlife = **300** → resdec=25 → 1000 hits/field → 2045 f
 nuances need to be double-checked (but the basic formula is general).
 
 <a id="7-апгрейды-efficiency-resefficiency"></a>
-## 7. Upgrades efficiency (resefficiency)
+<a id="7-улучшения-эффективности-добычи"></a>
+## 7. Gathering-efficiency upgrades
 
 All efficiency upgrades are additively added to
 `gPlayer.resefficiency[cid][restype]` (default 100):
 
-| Type | restype |
+| Technical type | Resource |
 |---|---|
-| `gc_upg_type_effectfood` | food |
-| `gc_upg_type_effectfoodperc` | food |
-| `gc_upg_type_effectwood`/perc | wood |
-| `gc_upg_type_effectstone`/perc | stone |
+| `gc_upg_type_effectfood` | Food (`food`) |
+| `gc_upg_type_effectfoodperc` | Food (`food`) |
+| `gc_upg_type_effectwood`/`perc` | Wood (`wood`) |
+| `gc_upg_type_effectstone`/`perc` | Stone (`stone`) |
 
 Observed in `country.script` (mill upgrades - `<csid>mil.X` or `<commonName>mil.X`):
 
@@ -474,6 +487,7 @@ among all reliefs [^28]. Less flat areas for farms/warehouses, more
 Placement attempts fail.
 
 <a id="82-терминология-месторождение-vs-шахта"></a>
+<a id="82-терминология-месторождение-и-шахта"></a>
 ### 8.2 Terminology: deposit vs mine
 
 *Deposit* - geological deposit placed by the generator (patterns
@@ -498,7 +512,8 @@ This explains why at the beginning of the game there is always enough wood for r
 the first mill BEFORE the general forest spawn.
 
 <a id="84-леса-и-камни--densities--калибровка-trees-per-pattern"></a>
-### 8.4 Forests and stones - densities + trees-per-pattern calibration
+<a id="84-леса-и-камни-плотность-и-число-деревьев-в-шаблоне"></a>
+### 8.4 Forests and Stone: density and trees per pattern
 
 > **`foreststype` always = 0 for Land.** Random initialization
 > `floor(RandomExt*3)` immediately overwritten by zero [^29]. `foreststype=1`
@@ -541,7 +556,8 @@ report in [`docs/reports/map/map_resources.md`](../../../reports/map/map_resourc
 | **Efficient wood pool** | **∞** — the stumps are infinite (see §8.5) |
 | **Deposits** per player (Rich + Tiny) | **4 gold + 4 iron + 4 coal = 12** (4 rounds × 3 resources; round 4 skipped by tiny) |
 
-### Per-pattern-type tree counts (real data)
+<a id="число-деревьев-по-типам-шаблонов"></a>
+### Tree counts by pattern type
 
 After decrypting `data/game/var/generator.cfg` section `PatternList`
 match the pattern type (for example, `forests_pine_big`) with the list
@@ -575,7 +591,8 @@ Cross-tabulating with `pattern_inventory.json` (mask cell counts) →
 | **mng / mni / mnc** (mines) | 6 each | 32 | **32** | 32 | `mng_1` etc. — **= 1 deposit, not 32 objects** |
 
 <a id="что-значит-mask1-решение-через-empirical-calibration"></a>
-### What does mask=1 mean: SOLUTION via empirical calibration
+<a id="что-означает-mask1-проверка-по-игровым-измерениям"></a>
+### What `mask=1` means: in-game calibration
 
 `mask=1` cells = **placement slots for env objects**, spawned by C++
 function `StandPatternWithAngle` (code not available).
@@ -603,7 +620,8 @@ forests `mask × 0.30 ≈ chopable trees`. This ratio is hardwired into
 [`compute/compute_map_resources.py`](../../../../compute/compute_map_resources.py)
 as `TREE_CHOPABLE_RATIO`. Refine when more empirical data is available.
 
-### Pattern type → file mapping
+<a id="соответствие-типа-шаблона-файлу"></a>
+### Pattern type to file mapping
 
 When calling `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` [^33]
 the engine searches in `gPatternList`, selects one file by `Freq` weight and tries
@@ -615,7 +633,8 @@ For `foreststype=0` (default mix) the card calls 4 different big types
 your median tree count → the final sample is weighted by freq and mask-density.
 
 <a id="85-пеньки--бесконечный-wood-pool-критично-для-симуляции"></a>
-### 8.5 Stumps - endless wood pool (critical for simulation)
+<a id="85-пеньки-как-неисчерпаемый-источник-дерева"></a>
+### 8.5 Stumps as an inexhaustible source of Wood
 
 Behavior source - `OnAclAnimationReachedWork` plus ontagstates
 wood-death-handler [^3] [^15].

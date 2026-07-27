@@ -4,38 +4,40 @@
 
 [← How the game works](../../README.md)
 
-Deep analysis: how wall clusters are arranged (`gWallSystem` /
-`TWallCluster`), how the segments are built by peasants than the gates
-different from a regular wall, what happens when you try to capture.
+How the game joins segments into wall lines (`gWallSystem` /
+`TWallCluster`), how Peasants construct them, how Gates differ from
+ordinary wall segments, and what happens during a capture attempt.
 
+<a id="коротко"></a>
 ## TL;DR
 
-- Wall - building with `usage = gc_obj_usage_hardwall` or
+- A wall segment is a building with `usage = gc_obj_usage_hardwall` or
   `gc_obj_usage_weakwall` and the flag `bwall = True` [^1]. The player "draws"
   line with the mouse, after clicking unfinished segments appear
   (`bbuilt = False, hp = 10`), and the peasants build them **like ordinary ones
   buildings** via standard path `_player_ConstructBuildingList` →
   `_player_OrderUnitsToBuild` [^2][^3].
-- Wall segment - 1 × 1 tile. Long Wall - Sequence
+- One segment occupies 1 × 1 tile. A longer wall is a sequence of
   segments in `TWallCluster` [^4].
 - Builder slots for each segment are taken from
   `gCustomBuildPointsWall[wallvariation]` (source -
   `data/game/var/wallcustom.cfg`); variation = 0 is treated as
   ordinary building [^5].
-- All 21 nations have a **picket fence** (`ukrwwa` / `ukrwga`). **Stone
-  wall** (`eurswa` / `russwa` / `turswa` plus gate) everyone has,
-  **except UKR** [^6]. Specific cluster (`eur` / `rus` / `tur`)
-  selected by family of the nation.
-- Gate is an upgrade `gc_upg_type_single_buildgate` applied to
-  selected completed wall [^7]. Cost - 400 wood (UKR) or
-  500 stone (rest of nations). Upgrade requires **direct section from
+- All 21 nations have a **Palisade** (`ukrwwa`) and Palisade Gate
+  (`ukrwga`). A **Stone Wall** (`eurswa`, `russwa`, or `turswa`, with
+  matching Gates) is available to every nation **except Ukraine** [^6].
+  The European, Russian, or Ottoman variant (`eur`, `rus`, `tur`) is
+  selected by nation family.
+- A Gate is an individual upgrade (`gc_upg_type_single_buildgate`)
+  applied to a selected completed segment [^7]. It costs 400 wood for
+  a Palisade or 500 stone for a Stone Wall. It requires **a straight run of
   three identical completed segments**: corners and ends of the wall,
   T-intersections, construction are rejected [^8].
-- Construction of gates **instant**: `_player_ConstructGates`
+- Gate construction is **instant**: `_player_ConstructGates`
   exposes `individual.upglevel := 1` on the new segment, after which
   `_unit_ControlBuildProgress` via a special branch
   `if (bwall) and (upglevel>0) then hp := maxhp` sets full HP, and
-  state-machine handler `OnTagStates.essential_none` immediately
+  the `OnTagStates.essential_none` state handler immediately
   switches `bbuilt := True, hp := maxhp, buildprogress := 1` [^9][^10].
   Peasants do not participate in the construction of the gate.
 - Capture segment of the wall (or gate) by enemy infantry on
@@ -48,29 +50,31 @@ different from a regular wall, what happens when you try to capture.
 ---
 
 <a id="1-типы-стен-и-их-доступность"></a>
-## 1. Types of walls and their availability
+## 1. Wall Types and Availability
 
-Two classes according to `usage` and `material` [^1]:
+The engine distinguishes two broad classes through `usage` and
+`material` [^1]:
 
-| Class | `usage` | wall/gate sid | Material | Availability |
-|---|---|---|---|---|
-| Weak (Palisade) | `gc_obj_usage_weakwall` | `ukrwwa` / `ukrwga` | `gc_obj_material_woodwall` | **All 21 nations** |
-| Durable (stone), eur-cluster | `gc_obj_usage_hardwall` | `eurswa` / `eursga` | `gc_obj_material_building` | Everything except UKR / RUS / TUR / ALG |
-| Durable (stone), rus-cluster | `gc_obj_usage_hardwall` | `russwa` / `russga` | `gc_obj_material_building` | RUS |
-| Durable (stone), tur-cluster | `gc_obj_usage_hardwall` | `turswa` / `tursga` | `gc_obj_material_building` | TUR/ALG |
+| Class | Internal wall / gate IDs | Engine properties | Availability |
+|---|---|---|---|
+| **Palisade and Palisade Gate** | `ukrwwa` / `ukrwga` | `gc_obj_usage_weakwall`, `gc_obj_material_woodwall` | **All 21 nations** |
+| **European Stone Wall and Gate** | `eurswa` / `eursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | All except Ukraine, Russia, Turkey, and Algeria |
+| **Russian Stone Wall and Gate** | `russwa` / `russga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | Russia |
+| **Ottoman Stone Wall and Gate** | `turswa` / `tursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | Turkey and Algeria |
 
-UKR only has a palisade; This nation does not have a stone wall [^6].
+Ukraine has only the Palisade; it has no Stone Wall [^6].
 
 Parameters from code [^1]:
 
-**Palisade `ukrwwa` / `ukrwga`.** HP: 1500 for the general version and 2500 for
-UKR (wall), 1000 for general and 1500 for UKR (gate). Price: 10 wood
-(general) / 12 wood (UKR). Buildtime in frames: 18 (general) / 26 (UKR).
-The Bgate flag is set only for `ukrwga`.
+**Palisade (`ukrwwa`) and Palisade Gate (`ukrwga`).** Wall hit points
+are 1,500 normally and 2,500 for Ukraine; Gate hit points are 1,000 and
+1,500 respectively. The price is 10 wood, or 12 for Ukraine. Build time
+is 18 frames, or 26 for Ukraine. Only `ukrwga` carries the `bgate` flag.
 
-**Stone wall `*swa` / `*sga`.** HP: 50000 at the wall, 32000 at the gate.
-Price: 50 stone (eur) / 60 stone (rus, tur). Buildtime in frames:
-288 (eur) / 640 (rus) / 384 (tur). All three clusters put
+**Stone Wall (`*swa`) and Gate (`*sga`).** The Wall has 50,000 hit
+points and the Gate 32,000. Price is 50 stone for the European variant
+and 60 for the Russian and Ottoman variants. Build time is 288, 640,
+and 384 frames respectively. All three variants set
 `bwall = True`, `bgate = True` (only for `*sga`), `usage =
 gc_obj_usage_hardwall`. A wall segment has `consume.stone` = 250
 (eur) / 200 (rus) / 150 (tur) - constant consumption of stone, for now
@@ -80,7 +84,8 @@ Specific numbers by nation - in
 [`reference/03_buildings/README.md`](../../../reference/03_buildings/README.md).
 
 <a id="2-footprint-и-кластеры"></a>
-## 2. Footprint and clusters
+<a id="2-занимаемая-площадь-и-линии-стен"></a>
+## 2. Footprint and Wall Lines
 
 The wall segment has a collision-mask of 2 × 2 cells (1 tile). Several
 consecutive segments:
@@ -101,10 +106,11 @@ When a segment dies (HP = 0 or forced death-tag),
 removes a cell from the cluster and updates neighbor connections [^13].
 
 <a id="21-wall-variations-и-builder-slots"></a>
-### 2.1. Wall variations and builder slots
+<a id="21-варианты-сегментов-и-места-для-строителей"></a>
+### 2.1. Segment variants and builder positions
 
-Builder slots of a segment depend on its geometric orientation in
-cluster (`wallvariation`). When collecting a list of builders in
+Builder positions depend on the segment's geometric orientation within
+the wall line (`wallvariation`). When collecting a list of builders,
 `_player_OrderUnitsToBuild` logic selects an array of points from
 `gCustomBuildPointsWall[variation]` for all buildings with
 `bwall or bgate = True`, **except in the case of `variation = 0`** - then
@@ -114,16 +120,17 @@ the usual `gCustomObjPoints[cid, id]` is used, as for non-walls
 The same `builderPoints` are used for both construction and repair -
 both branches go through `_unit_OrderBuild` [^3].
 
-Engine cap - `gc_MaxWallBuilderPointsCount = 16`. Array Contents
-filled in by the parser `data/game/var/wallcustom.cfg` [^14].
+The engine allows at most 16 positions
+(`gc_MaxWallBuilderPointsCount`). They are loaded from
+`data/game/var/wallcustom.cfg` [^14].
 
 <a id="3-постройка-стены-крестьянами"></a>
-## 3. Construction of a wall by peasants
+## 3. Wall Construction by Peasants
 
-The player selects the sid of the wall in the UI and draws a line with the mouse; preview
-drawn via `_misc_UpdateWall(gWallCluster)` (separate “phantom”
-objects on players-misc, blinking blue) [^15]. On click
-confirmation each segment is created using a standard procedure
+The player selects a wall type in the interface and drags a line with
+the mouse. `_misc_UpdateWall(gWallCluster)` draws the preview with
+blue-blinking temporary objects [^15]. On confirmation, every segment
+is created through the standard
 `_player_ConstructBuildingList` [^2] - the same as used for
 any building. The segment starts with `bbuilt = False, buildprogress = 0,
 hp = 10`, after which `_player_OrderUnitsToBuild` sends peasants to
@@ -132,65 +139,64 @@ construction.
 The peasants receive the order `gc_obj_order_type_build`, go to the point from
 `gCustomBuildPointsWall[wallvariation]`, hit with a hammer, raise HP and
 buildprogress according to the usual construction formula (see.
-[`building_mechanics.md` §3](../economy/building_mechanics.md) o
-mechanics in general). On every tick of state-machine `nothing` buildings
-called `_unit_ControlBuildProgress(myHnd)` [^16] - it recalculates
+[`building_mechanics.md` §3](../economy/building_mechanics.md)).
+On each tick, the building's `nothing` state calls
+`_unit_ControlBuildProgress(myHnd)` [^16], which recalculates
 `buildprogress = hp / maxhp`, when `hp >= maxhp` sets the tag
-`gc_statetag_essential_none`, by which handler `OnTagStates`
-translates the segment to `bbuilt := True` [^10].
+`gc_statetag_essential_none`; the `OnTagStates` handler then changes the
+segment to `bbuilt := True` [^10].
 
 For a regular wall `individual.upglevel = 0`, so fast-path
 "hp := maxhp" in `_unit_ControlBuildProgress` does not work, and
-The segment is being completed at the standard pace of peasants. Resources are written off
-for each segment separately (`_unit_ApplyCostByID`). Cancel construction
-specific segment until completion can be done using the standard button -
-the unfinished segment is demolished with the return of resources according to the usual formula
-refund.
+the segment is completed at the normal Peasant construction rate. Each
+segment is charged separately through `_unit_ApplyCostByID`. Cancelling
+an unfinished segment uses the standard demolition and refund rules.
 
 <a id="4-захват-и-снос-сегмента"></a>
-## 4. Capture and segment demolition
+## 4. Capturing and Demolishing a Segment
 
-The standard gripping mechanism goes through `_misc_CheckCapture`: when
-enemy infantryman ends up in `gc_gameplay_captureradius = 4`
-tile from object `bcapture = True` without its defenders, object
+The standard capture mechanism runs through `_misc_CheckCapture`: when
+an enemy infantryman comes within four tiles
+(`gc_gameplay_captureradius = 4`) of an undefended object with
+`bcapture = True`, that object
 changes owner [^11]. For walls and gates this procedure works differently:
 
-1. First, a separate function `_unit_SearchCapturersForWall` searches
-   capturers nearby - with a less strict filter than for regular ones
-   buildings (`bcancapture` no purpose required) [^11].
-2. If the HP of the segment is less than 1/3 of `maxhp`, further logic
-   skipped - the segment is already finished off with weapons, without the capture effect
+1. `_unit_SearchCapturersForWall` searches for nearby capturers using a
+   less restrictive filter than ordinary buildings (the target does not
+   need `bcancapture`) [^11].
+2. If the segment has less than one-third of `maxhp`, the remaining
+   capture logic is skipped; weapons must finish it
    [^12].
-3. Otherwise, when a capturer is found, it is forced to fire
-   `bDie := True` (special branch for `bwall`) - segment
-   receives `gc_statetag_essential_death` and is destroyed by [^11].
+3. Otherwise, finding a capturer forces `bDie := True` in the special
+   `bwall` branch. The segment receives
+   `gc_statetag_essential_death` and is destroyed [^11].
 
 The behavior is the same for both a finished wall and an unfinished one.
 (`bbuilt = False`): in both cases, an enemy infantryman in
-within a radius of 4 tiles - the segment is instantly demolished. This is "demolition", not
-"capture"; The segment does not become the owner.
+within four tiles is enough to demolish the segment instantly. Ownership
+is never transferred.
 
 The gate has `bwall = True` (plus an additional `bgate = True`), so
 branch `bDie := True` works for them too.
 
 <a id="5-ворота-как-моментальный-апгрейд"></a>
-## 5. Gates as an instant upgrade
+<a id="5-ворота-как-мгновенное-улучшение"></a>
+## 5. Gates as an Instant Upgrade
 
 Gates are created exclusively through `gc_upg_type_single_buildgate` -
-individual upgrade applied to one selected segment
-walls [^7][^17]. Cost and location of the study according to `country.script`
+an individual upgrade applied to one selected wall segment [^7][^17].
+Its cost and target are defined in `country.script`
 [^18]:
 
-| Nation/sid | Price | Where is being researched |
+| Wall type | Price | Applied to |
 |---|---|---|
-| `ukrwwa.1` | 400 wood | at the selected segment ukrwwa |
-| `eurswa.1` | 500 stone | at the selected eurswa segment (eur-cluster) |
-| `russwa.1` | 500 stone | at the selected segment russwa (RUS) |
-| `turswa.1` | 500 stone | at the selected turswa segment (TUR / ALG) |
+| **Palisade** (`ukrwwa.1`) | 400 wood | selected Palisade segment (`ukrwwa`) |
+| **European Stone Wall** (`eurswa.1`) | 500 stone | selected European segment (`eurswa`) |
+| **Russian Stone Wall** (`russwa.1`) | 500 stone | selected Russian segment (`russwa`) |
+| **Ottoman Stone Wall** (`turswa.1`) | 500 stone | selected Ottoman segment (`turswa`) |
 
-Before starting the upgrade, the engine checks the geometry through
-`_misc_GetGateBaseSprite` [^8]: returns the correct gate sprite,
-only if
+Before starting the upgrade, `_misc_GetGateBaseSprite` checks the wall's
+geometry [^8] and returns a valid Gate sprite only when:
 
 1. the selected segment is **not at the end** of the cluster (there are neighbors on the left and
    right);
@@ -199,22 +205,23 @@ only if
 3. all three segments (`p1, p2, p3`) **completed** (`bbuilt = True`);
 4. within a radius of 1.85 tiles from the center there are exactly three walls (no more).
 
-If at least one condition is not met - `Result = -1`, and the upgrade is not
-will start. Therefore, gates can only be placed in the middle of a straight line
-wall section of at least three completed segments.
+If any condition fails, the function returns `Result = -1` and the
+upgrade does not start. A Gate can therefore be placed only in the
+middle of a straight run of at least three completed segments.
 
 <a id="51-что-происходит-при-срабатывании-апгрейда"></a>
-### 5.1. What happens when an upgrade is triggered?
+<a id="51-что-происходит-при-создании-ворот"></a>
+### 5.1. What happens when a Gate is created
 
 `_player_ConstructGates(goHnd)` [^9]:
 
 1. Sets `gbool_gui_gatefinished := True` (used later
-   to `_unit_DoExplosion` to skip visual explosion
-   hardwall segments after the first construction of the goal in the match [^19]).
-2. Gets `wallcluster`, which contains `goHnd`, and the index
-   central cell.
-3. Clears sprite from neighboring cells (`p1` and `p3`) and puts it on
-   central (`p2`) sprite gate.
+   by `_unit_DoExplosion` to suppress the visual explosion of Stone Wall
+   segments after the first Gate is built in a match [^19]).
+2. Finds the wall line (`wallcluster`) containing `goHnd` and the index
+   of its central cell.
+3. Clears the neighboring cell sprites (`p1` and `p3`) and assigns the
+   Gate sprite to the central cell (`p2`).
 4. Creates a new gate object at the same position via
    `_player_ConstructBuildingList` with **empty list of peasants**
    (`gIntegerList.Clear` before the call). The object at this stage has
@@ -222,66 +229,68 @@ wall section of at least three completed segments.
    buildprogress = 0`.
 5. **Immediately after return** puts `TObj(pobj).individual.upglevel :=
    upglevel + 1` - this increment activates the next step.
-6. Binds a new handle to cell: `TWallCell(p2).goHnd := trgHnd`.
+6. Binds the new handle to the cell:
+   `TWallCell(p2).goHnd := trgHnd`.
 7. If the player is an observer, switches the UI selection from the old one
    segment to a new gate object.
 
-On the nearest tick state-machine handler `nothing` for buildings calls
+On the next tick, the building's `nothing` state calls
 `_unit_ControlBuildProgress(myHnd)` [^16]. At the newly created gate
 now `bwall = True` and `upglevel = 1 > 0`, and a special
 branch [^20]:
 
 > `if (bwall) and (upglevel>0) then hp := maxhp;`
 
-After assigning hp, a check is performed immediately
-`if hp >= maxhp then SetTagStates(essential_none)`, by which handler
-`OnTagStates` ([building.inc/ontagstates.inc:134][^10]) translates
-object to final state: `bbuilt := True, hp := maxhp,
-buildprogress := 1`, plus player-counters increment and
-visual update.
+After assigning hit points, the code immediately checks
+`if hp >= maxhp then SetTagStates(essential_none)`. The `OnTagStates`
+handler ([building.inc/ontagstates.inc:134][^10]) then moves the object
+to its final state—`bbuilt := True, hp := maxhp, buildprogress := 1`—
+and updates player counters and visuals.
 
 From the player's point of view, the gate appears **fully constructed**
-immediately after applying the upgrade. No pause for construction and no
-They don't need peasants.
+immediately after the upgrade. There is no construction delay, and no
+Peasants are required.
 
 <a id="52-подмена-цели-при-создании-ворот"></a>
-### 5.2. Changing the target when creating a gate
+<a id="52-почему-атакующие-могут-потерять-цель"></a>
+### 5.2. Why attackers can lose their target
 
-Application technique resulting from the sequence above:
+The replacement sequence has a practical combat consequence:
 
 - the enemy attacks a wall segment (`goHnd_old`); the attack is on
-  specific handle (`gc_obj_order_type_attackobj` stores trg);
-- the player applies the buildgate upgrade on this segment if the form
-  walls allows;
+  a specific handle (`gc_obj_order_type_attackobj` stores `trg`);
+- the player applies the Gate upgrade (`buildgate`) if the wall geometry
+  allows it;
 - `_player_ConstructGates` creates a new gate handle (`goHnd_new`),
   moves the cell pointer to it and increments `upglevel`;
   the old segment loses its role as an active point in the cluster;
 - attacking units lose their target - to resume attacking the enemy
   you need to issue a new command to a new object;
 - damage accumulated in the old segment is not transferred: the gate is already
-  cost with full HP (`maxhp = 32000` for hardwall, ~1000–1500 for
-  palisade `ukrwga`). Defender gets direct replacement
-  a shabby wall to a fresh one.
+  appears with full hit points (`maxhp = 32000` for a Stone Wall Gate,
+  roughly 1,000–1,500 for the Palisade Gate `ukrwga`). The defender has
+  effectively replaced a damaged wall segment with a fresh Gate.
 
 <a id="6-стенные-башни"></a>
-## 6. Wall towers
+## 6. Wall Towers
 
-Some nations have separate sid's of wall towers (`stonewalltower` and
-analogues), which fit into the line of the wall without a gap and shoot like
-ordinary tower. For aiming mechanics and shot costs, see
+Some nations have dedicated Wall Towers (internal ID
+`stonewalltower` and related variants). They fit into a wall line without
+a gap and fire like an ordinary Tower. For targeting and shot costs, see
 [`towers.md`](towers.md).
 
 <a id="7-открытые-эмпирические-вопросы"></a>
-## 7. Open empirical questions
+<a id="7-что-ещё-требует-проверки"></a>
+## 7. Questions Requiring Further Testing
 
 1. How exactly does `costpercent` apply to wall segments when
    mass construction: for each segment or for the entire drawing.
-2. The exact speed of construction of a segment by peasants, depending on
-   `wallvariation` (variation = 0 follows the usual formula, the rest -
-   by explicit `builderPoints`).
-3. Behavior in a rare situation: the buildgate upgrade starts, but
-   at the time of completion, the neighboring segments have already been destroyed - is it correct?
-   the gate will remain in the cluster or become a “hanging” building.
+2. The exact Peasant construction speed for each `wallvariation`.
+   Variant 0 follows the standard formula; the others use explicit
+   `builderPoints`.
+3. What happens if a Gate upgrade (`buildgate`) begins but neighboring
+   segments are destroyed before completion: does the Gate remain in the
+   wall line or become a detached building?
 
 ---
 

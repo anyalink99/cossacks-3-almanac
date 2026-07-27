@@ -11,152 +11,152 @@
     {
       "path": "recon/README.md",
       "title": "Как устроена игра",
-      "size": 6535,
+      "size": 6586,
       "lines": 64
     },
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "Как играет компьютер",
-      "size": 29896,
-      "lines": 503
+      "size": 32598,
+      "lines": 520
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Наёмники и Дипломатический центр",
-      "size": 40148,
-      "lines": 680
+      "size": 44193,
+      "lines": 712
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
-      "title": "Сценарии и триггеры",
-      "size": 14619,
-      "lines": 245
+      "title": "Сценарии и условия событий",
+      "size": 15741,
+      "lines": 241
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Управление и обратная связь",
-      "size": 28511,
-      "lines": 500
+      "size": 31560,
+      "lines": 506
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Победа, поражение и завершение партии",
-      "size": 27582,
-      "lines": 475
+      "size": 30243,
+      "lines": 488
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "Как работает артиллерия",
-      "size": 13828,
-      "lines": 246
+      "size": 14668,
+      "lines": 251
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Как рассчитывается урон",
-      "size": 26578,
-      "lines": 449
+      "size": 27786,
+      "lines": 458
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Построения и их боевые бонусы",
-      "size": 24178,
-      "lines": 442
+      "size": 25896,
+      "lines": 453
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "Как устроен морской бой",
-      "size": 17619,
-      "lines": 301
+      "size": 18845,
+      "lines": 304
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Поиск пути и движение юнитов",
-      "size": 49791,
-      "lines": 904
+      "size": 54760,
+      "lines": 936
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Как ведут себя стрелковые юниты",
-      "size": 18309,
-      "lines": 327
+      "size": 20752,
+      "lines": 341
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Выбор цели и атака с движением",
-      "size": 45029,
-      "lines": 747
+      "size": 47011,
+      "lines": 765
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "Как работают башни",
-      "size": 14437,
-      "lines": 227
+      "size": 16289,
+      "lines": 238
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Приказы юнитам",
-      "size": 17399,
-      "lines": 294
+      "size": 18566,
+      "lines": 300
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Обзор и туман войны",
-      "size": 12904,
-      "lines": 208
+      "size": 13580,
+      "lines": 207
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Стены и ворота",
-      "size": 30242,
-      "lines": 523
+      "size": 32601,
+      "lines": 540
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Строительство, ремонт и разрушение зданий",
-      "size": 36207,
-      "lines": 486
+      "size": 35962,
+      "lines": 589
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "Как захватываются здания и юниты",
-      "size": 35989,
-      "lines": 595
+      "size": 38657,
+      "lines": 625
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Голод и бунт наёмников",
-      "size": 17864,
-      "lines": 307
+      "size": 20163,
+      "lines": 324
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Как крестьяне добывают ресурсы",
-      "size": 40523,
-      "lines": 728
+      "size": 49083,
+      "lines": 782
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Очередь производства",
-      "size": 18499,
-      "lines": 315
+      "size": 19261,
+      "lines": 322
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "Как применяются улучшения",
-      "size": 27406,
-      "lines": 487
+      "size": 29858,
+      "lines": 495
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Как настройки матча влияют на игру",
-      "size": 21881,
-      "lines": 371
+      "size": 24192,
+      "lines": 396
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Как создаётся случайная карта",
-      "size": 42135,
-      "lines": 575
+      "size": 53852,
+      "lines": 780
     },
     {
       "path": "reference/01_economy/README.md",
@@ -623,7 +623,7 @@
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Настройки матча",
-      "size": 13870,
+      "size": 13882,
       "lines": 273
     },
     {

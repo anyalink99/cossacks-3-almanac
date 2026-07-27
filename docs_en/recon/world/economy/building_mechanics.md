@@ -12,6 +12,7 @@ installing Cossacks 3.
 > **Technical details of animation `construct` and frame-accurate timings** —
 > to [`internals/engine/animation_system.md`](../../../../internals_en/engine/animation_system.md).
 
+<a id="коротко-о-главном"></a>
 ## TL;DR
 
 - **Buildtime** for buildings is stored with an additional multiplier
@@ -30,7 +31,8 @@ installing Cossacks 3.
 ---
 
 <a id="1-building-footprint-форма-и-размер"></a>
-## 1. Building footprint (shape and size)
+<a id="1-форма-и-занимаемая-площадь-здания"></a>
+## 1. Building shape and footprint
 
 **Source:** `collisionmaskproperty.Mask` in `.prop` building file [^2].
 
@@ -61,7 +63,8 @@ Occupied ≈ 57 cells × 0.5² = 14.25 tiles². Visually - a diagonal square.
 ---
 
 <a id="2-repair-починка--бесплатно"></a>
-## 2. Repair - FREE
+<a id="2-бесплатный-ремонт"></a>
+## 2. Free repairs
 
 **Source:** the construct animation end handler checks the order type and
 adds a fixed amount of HP, limited by `maxhp` [^5].
@@ -89,7 +92,8 @@ adds a fixed amount of HP, limited by `maxhp` [^5].
 ---
 
 <a id="3-construction-постройка-крестьянами"></a>
-## 3. Construction (construction by peasants)
+<a id="3-постройка-крестьянами"></a>
+## 3. Construction by Peasants
 
 <a id="31-прогресс-за-один-удар-молотком"></a>
 ### 3.1 Progress in one “hammer blow”
@@ -104,7 +108,8 @@ construct animation [^7]:
 Where is `gc_buildtime_progressperhit = 10 × 1/32 × 1.15 = 0.359375`.
 
 <a id="32-время-постройки-vs-число-строителей--важно"></a>
-### 3.2 Construction time vs number of builders - IMPORTANT
+<a id="32-время-постройки-и-число-строителей"></a>
+### 3.2 Construction time and builder count
 
 **Each peasant builder** independently plays a construct animation (13 frames @ 32 fps = 0.406 g-sec per cycle) and at the end of the cycle gives +1 hit. With N builders in parallel - N hits / 0.406 g-sec.
 
@@ -138,7 +143,8 @@ The complete table of “time with N peasants” for all buildings of all nation
 To avoid confusion: you can interpret `buildtime_sec` as “seconds of work for 1 builder, to accumulate full progress” - at the moment when there are N builders, divide by N.
 
 <a id="33-builder-slots-сколько-крестьян-могут-одновременно-строить"></a>
-### 3.3 Builder slots (how many peasants can build at the same time)
+<a id="33-сколько-крестьян-могут-строить-одновременно"></a>
+### 3.3 How many Peasants can build at once
 
 **Cap:** `gc_MaxBuilderCount = 30` [^8].
 **Min spacing:** `gc_BuilderDist = 1.0` tile [^9].
@@ -202,11 +208,13 @@ To avoid confusion: you can interpret `buildtime_sec` as “seconds of work for 
 ---
 
 <a id="4-walls-и-gates-строительство-стен"></a>
-## 4. Walls and Gates (building walls)
+<a id="4-стены-и-ворота"></a>
+## 4. Walls and Gates
 
 **Type:** `gc_obj_usage_hardwall` / `gc_obj_usage_weakwall` (palisade, woodgate, stonegate, stonewall).
 
-**Wall segment**: **2x2 tiles** per segment. Confirmed by coordinates in `wallcustom.cfg` - all builder points in the range [-1, +1] relative to the center of the segment.
+Each **Wall segment** occupies **2×2 tiles**. Builder-point
+coordinates in `wallcustom.cfg` range from −1 to +1 around its centre.
 
 **Builder slots per wall variation:**
 
@@ -221,20 +229,20 @@ To avoid confusion: you can interpret `buildtime_sec` as “seconds of work for 
 
 Cap from the engine: `gc_MaxWallBuilderPointsCount = 16` [^12].
 
-**Wall parameters** (`buildtime_g_sec = frames × 10/32`, see building convention):
+**Wall parameters** (`buildtime_g_sec = frames × 10/32`):
 
-| sid | maxhp | frames | buildtime g-sec | Price | consume.stone |
-|---|---:|---:|---:|---|---:|
-| eurswa (eur-cluster, stone wall) | 50000 | 288 | **90** | 50 stone | 250 |
-| eursga (eur-cluster, stone gate) | 32000 | 288 | **90** | 50 stone | 250 |
-| russwa (RUS, stone wall) | 50000 | 640 | **200** | 60 stone | 200 |
-| russga (RUS, stone gate) | 32000 | 640 | **200** | 60 stone | 200 |
-| turswa (TUR/ALG, stone wall) | 50000 | 384 | **120** | 60 stone | 150 |
-| tursga (TUR/ALG, stone gate) | 32000 | 384 | **120** | 60 stone | 150 |
-| ukrwwa (general, palisade) | 1500 | 18 | **5.6** | 10 wood | 32 |
-| ukrwwa (UKR, palisade) | 2500 | 26 | **8.1** | 12 wood | 40 |
-| ukrwga (general, wooden gate) | 1000 | 18 | **5.6** | 10 wood | 32 |
-| ukrwga (UKR, wooden gate) | 1500 | 26 | **8.1** | 12 wood | 40 |
+| Wall or Gate | Internal ID | Durability | Frames | Game seconds | Price | Stone consumption |
+|---|---|---:|---:|---:|---|---:|
+| Wall | `eurswa` | 50,000 | 288 | **90** | 50 Stone | 250 |
+| Gate | `eursga` | 32,000 | 288 | **90** | 50 Stone | 250 |
+| Russian Wall | `russwa` | 50,000 | 640 | **200** | 60 Stone | 200 |
+| Russian Gate | `russga` | 32,000 | 640 | **200** | 60 Stone | 200 |
+| Turkish/Algerian Wall | `turswa` | 50,000 | 384 | **120** | 60 Stone | 150 |
+| Turkish/Algerian Gate | `tursga` | 32,000 | 384 | **120** | 60 Stone | 150 |
+| Palisade | `ukrwwa` | 1,500 | 18 | **5.6** | 10 Wood | 32 |
+| Ukrainian Palisade | `ukrwwa` | 2,500 | 26 | **8.1** | 12 Wood | 40 |
+| Wooden Gate | `ukrwga` | 1,000 | 18 | **5.6** | 10 Wood | 32 |
+| Ukrainian Wooden Gate | `ukrwga` | 1,500 | 26 | **8.1** | 12 Wood | 40 |
 
 `costpercent = 0` - all segments at the same price, without scaling. The walls have `consume.stone` or `consume.wood` - constant consumption while the segment is standing (see artillery in [`../combat/artillery_specifics.md`](../combat/artillery_specifics.md) about the consume mechanics).
 
@@ -243,27 +251,35 @@ Construction time for one segment with N builders: `bt × 1.13 / N` according to
 ---
 
 <a id="5-garrison--inside-units-объекты-внутри-зданий"></a>
-## 5. Garrison / Inside Units (objects inside buildings)
+<a id="5-юниты-внутри-зданий"></a>
+## 5. Units inside buildings
 
 <a id="51-peasantabsorber--для-шахт"></a>
-### 5.1 peasantabsorber - for mines
+<a id="51-места-для-крестьян-в-шахтах-peasantabsorber"></a>
+### 5.1 Mine capacity for Peasants (`peasantabsorber`)
 
-Mines `eurgol/euriro/eurcoa`: `peasantabsorber=5` (base), up to 95 with upgrades. Reviewed in `recon/world/economy/peasant_extraction.md` §5.
+Mines with SIDs `eurgol`, `euriro`, and `eurcoa` hold five Peasants
+by default (`peasantabsorber=5`) and up to 95 after upgrades. See
+[Peasant gathering](peasant_extraction.md#5-шахты-золото-железо-и-уголь).
 
 <a id="52-transport--для-транспорта"></a>
-### 5.2 transport - for transport
+<a id="52-вместимость-транспорта-transport"></a>
+### 5.2 Transport capacity (`transport`)
 
 Carrying capacity for transport units:
 
-- Ferry: `transport = 80+40 = 120` slots [^13].
-- Other transport vessels (`transport`)/ships - TBD
+- Ferry (`ferry`): `transport = 80+40 = 120` slots [^13].
+- Other transport ships still require separate verification.
 
 <a id="53-tower--built-in-cannon"></a>
-### 5.3 Tower - built-in cannon
+<a id="53-башня-как-самостоятельное-орудие"></a>
+### 5.3 Tower as a self-contained weapon
 
-Tower does NOT have garrison (peasantabsorber=0, transport=0). This is a static cannon building with a built-in weapon. Basic parameters (European version [^14], signature `SetObjBaseWeapon(... index, damage, pause, radiusmin, radiusmax, detectradiusmin, detectradiusmax, kind, bSearchMin)` [^15]):
+A Tower has no garrison (`peasantabsorber=0`, `transport=0`). It is
+a stationary artillery building with its own weapon. Basic parameters
+for the European version [^14]:
 
-| parameter | meaning |
+| Parameter | Value |
 |---|---|
 | weapon[0].kind | `gc_obj_weapon_kind_cannonball` |
 | weapon[0].damage | 1000 |
@@ -273,32 +289,42 @@ Tower does NOT have garrison (peasantabsorber=0, transport=0). This is a static 
 | weapon[0].detectradiusmin / detectradiusmax (px) | 550 / 50000 |
 | weapon[0].cost / shot | iron=10, coal=30 |
 | weapon[0].dispersion | 100px |
-| searchradius | 1400 px ≈ 26.25 tiles |
-| consume.gold | **500/tick = 0.8 gold/g-sec** [^16] |
-| HP | 20000 |
-| buildtime | 3937 frames ≈ 123 g-sec |
-| costpercent | 120 |
-| `bturnoff=True` | can be disabled - reduces gold-drain |
+| Search radius (`searchradius`) | 1400 px ≈ 26.25 tiles |
+| Gold consumption (`consume.gold`) | **500 per tick = 0.8 Gold per game second** [^16] |
+| Durability | 20,000 |
+| Construction time | 3,937 frames ≈ 123 game seconds |
+| Cost scaling (`costpercent`) | 120 |
+| `bturnoff=True` | The Tower can be disabled to stop consuming Gold |
 
-**Russian version** [^17]: HP=21000, buildtime=4725, costpercent=125, shield=5, dispertion=125 px. Only `pause` is overwritten (300 frames = 9.375 g-sec); `damage`, `radiusmin/max`, `kind` remain as in EUR (the literal `default = -1` is passed, which `SetObjBaseWeapon` skips according to the conditions of `if (damage<>-1)` [^18]).
-**Turkish option** [^19]: HP=22500, buildtime=3150, costpercent=125, price 150 stone/90 wood/100 gold. weapon: damage=1200, pause=500 frames = 15.625 g-sec, radiusmax=1600 px, searchradius=1500 px, weapon.cost — coal=40, iron=15.
+**Russian version** [^17]: durability 21,000, `buildtime=4725`,
+`costpercent=125`, defence 5, and dispersion 125 px. Only the firing
+pause is replaced: 300 frames or 9.375 game seconds.
+
+**Turkish version** [^19]: durability 22,500, `buildtime=3150`,
+`costpercent=125`, and a price of 150 Stone, 90 Wood, and 100 Gold.
+Damage is 1,200; firing pause 500 frames; ammunition costs 40 Coal
+and 15 Iron.
 
 **Upgrades:** `gc_ach_upgrade_towerattspeed` (achievement-related, attack speed).
 
-⚠ Garrisoning infantry into the tower is **not allowed** - these are other RTS. In C3 the turret fires itself.
+⚠ Infantry **cannot** garrison a Tower. In Cossacks 3, the Tower
+fires by itself.
 
 **Parser gap:** weapons for buildings are not yet extracted into `data.json` entirely - there are only scalar fields (`weapon_damage`, `weapon_pause_frames`, `weapon_radiusmax`, `weapon_kind`, `weapon_cost`); If a building has two weapons, only the first one hits. More details are in the [known limitations](../../../../internals_en/project/known_issues.md).
 
-### 5.4 Other inside-units checks
+<a id="54-другие-проверки-внутренних-мест"></a>
+### 5.4 Other checks for internal capacity
 
 - `bcapture=True` indicates that the object **may be captured** by the enemy (see §7).
 - `gc_obj_usage_tower` - special case: captured even without bcapture [^20].
 
 ---
 
-## 6. Building destruction & decay
+<a id="6-ветшание-и-разрушение-зданий"></a>
+## 6. Building decay and destruction
 
 <a id="61-decay-ветшание"></a>
+<a id="61-ветшание"></a>
 ### 6.1 Decay
 
 **Not found** in the code. Buildings **do not lose HP** over time on their own. HP changes only from:
@@ -307,6 +333,7 @@ Tower does NOT have garrison (peasantabsorber=0, transport=0). This is a static 
 - Capture (?) - need to check
 
 <a id="62-destruction-разрушение"></a>
+<a id="62-разрушение"></a>
 ### 6.2 Destruction
 
 HP=0 → state-machine transition via `gc_statetag_essential_death`. Buildings have `bavcen_death1a/death2a` meshes (visualis) - ruins after death.
@@ -314,12 +341,18 @@ HP=0 → state-machine transition via `gc_statetag_essential_death`. Buildings h
 **Is it possible to rebuild?** - needs to be checked specifically (presumably: no, just build a new building).
 
 <a id="timeline-разрушения"></a>
-#### Timeline of destruction
+<a id="последовательность-разрушения"></a>
+#### Destruction sequence
 
-With `hp ≤ 0` or `bDie := True`, the building receives `essential_death`. State machine [^27] sets the first timer `DelayExecuteState`:
+With `hp ≤ 0` or `bDie := True`, the building enters
+`essential_death`. The state machine [^27] sets the first
+`DelayExecuteState` timer:
 
-- if the building was `essential_birth` (cancellation of unfinished) - immediately `DeathStage2` through `gc_building_deathtime_1 = 30` g-sec;
-- otherwise - `DeathStage1` after `gc_building_deathtime_0 = 30` g-sec, then `DeathStage1` [^28] changes the mesh to `<sid>_death1` and puts `DeathStage2` after another 30 g-sec. For `usage = mine` both pauses are doubled (60 g-sec each).
+- if the building was in `essential_birth`, `DeathStage2` runs after
+  30 game seconds;
+- otherwise `DeathStage1` runs after 30 seconds, changes the model to
+  `<sid>_death1`, and schedules `DeathStage2` after another 30 seconds.
+  Both delays double for a Mine (`usage = mine`).
 
 **The body** remains on the map in this interval: visually - mesh `<sid>_death1.mesh`, in state `essential_death`, material `'debris'` [^29], collision - the same. The construction of a new building on these squares is impossible until the building disappears.
 
@@ -328,7 +361,8 @@ With `hp ≤ 0` or `bDie := True`, the building receives `essential_death`. Stat
 **Garrison inside** (if the building has `peasantabsorber > 0` or `transport > 0`). `_unit_DestroyObj` [^31] collects `gc_argunit_inside` and calls `_unit_DoUnitsGoOutside(list, bDead=True, ...)`. This procedure [^32] gives each unit in the list `essential_death`, meaning the contents die along with the building.
 
 <a id="ondeath-возврат-ресурсов-из-очереди"></a>
-#### OnDeath: returning resources from the queue
+<a id="возврат-ресурсов-из-очереди-при-уничтожении"></a>
+#### Returning queued resources on destruction
 
 Just before deleting `OnDeath`, the [^33] hook scrolls through the building's order queue:
 
@@ -338,12 +372,14 @@ Just before deleting `OnDeath`, the [^33] hook scrolls through the building's or
 That is, when a working barracks or academy is demolished, resources for already paid units and upgrades are **returned** to the player and not burned.
 
 <a id="score-штраф"></a>
+<a id="штраф-к-счёту"></a>
 #### Score penalty
 
 Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the building has already been captured - see [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)).
 
 <a id="63-refund-при-отмене-заказов"></a>
-### 6.3 Refund for canceled orders
+<a id="63-возврат-ресурсов-при-отмене-заказов"></a>
+### 6.3 Resource refunds after cancellation
 
 | Action | Return | Source |
 |---|---|---|
@@ -352,15 +388,17 @@ Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the bu
 | Cancel upgrade | **100%** base price | `_unit_CancelUpgradePerform` [^35] returns the base from `_country_GetUpgradeCostBySID`. Upgrades do not have costpercent scaling. |
 | Capture | All canceled orders are interrupted and the resources are returned to the **previous** owner. | See `_misc_ChangePlayer` cleanup thread in [`capture_mechanics.md`](capture_mechanics.md). |
 
+<a id="64-производство-при-низкой-прочности"></a>
 <a id="64-производство-при-низком-hp"></a>
-### 6.4 Low HP Production
+### 6.4 Production at low durability
 
 `doprogressorders.inc`: no check for HP. The building produces units while it is alive. **Incomplete building (bbuilt=False) - does not produce.**
 
 ---
 
 <a id="7-capture-захват-зданий"></a>
-## 7. Capture (capture of buildings)
+<a id="7-захват-зданий"></a>
+## 7. Capturing buildings
 
 **Trigger:** `objprop.bcapture = True` in code or `gc_obj_usage_tower`.
 
@@ -369,9 +407,12 @@ Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the bu
 - Radius: `gc_gameplay_captureradius = 214/53.33 = 4.0 tiles` [^22].
 - Block radius: `gc_gameplay_captureblockshotradius = 3.0 tiles`.
 - If enemy infantry is within the radius of capturing the building and the owner player is **not** in this radius → the building goes to the enemy.
-- **Capture instant** (verified empirically 2026-04-29). The old estimate about “5%/tick → ~25-30% for 5-7 sec” was incorrect - it referred to a different mechanic or was a sloppy interpretation. Real: one tick with the condition `enemy_in_radius && owner_not_in_radius` → ownership flip.
+- **Capture is instantaneous**, verified in-game on April 29, 2026.
+  One check satisfying `enemy_in_radius && owner_not_in_radius`
+  changes ownership.
 
-**Which buildings are captured:** all mines, centers, ratusha, and many others. List - where `bcapture=True` is in the code.
+**Which buildings can be captured:** Mines, Town Halls, and many
+other buildings marked `bcapture=True`.
 
 **Walls and gates are a separate branch.** For segments `bcapture = False`, but in `_misc_CheckCapture` for all `bwall` `bDie := True` is forced - an enemy infantryman within a radius of 4 tiles without defenders **destroys** the segment without transferring it to the owner. When HP < 1/3 of max, the branch is skipped altogether (the wall is already being eaten up with weapons). Details - [`../combat/walls_and_gates.md` §4](../combat/walls_and_gates.md).
 
