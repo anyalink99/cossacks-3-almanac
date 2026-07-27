@@ -76,6 +76,10 @@ The engine can be emoji (ах/ах in tables) - but not everywhere.
    mix ordinary prose with unexplained engine jargon. See the full rules and
    examples in
    [`internals_en/project/documentation_style.md`](internals_en/project/documentation_style.md).
+8. **Translate English documentation manually.** Update the matching file
+   under `docs_en/` or `internals_en/`, review both versions, and only then run
+   `python scripts/build_english_docs.py --adopt-existing`. Do not use machine
+   translation for published prose.
 
 <a id="как-делается-изменение"></a>
 ## How to make a change

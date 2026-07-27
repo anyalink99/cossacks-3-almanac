@@ -10,7 +10,7 @@ towers, capture, destruction. All links to code and Pascal blocks are collected 
 installing Cossacks 3.
 
 > **Technical details of animation `construct` and frame-accurate timings** —
-> to [`internals/engine/animation_system.md`](../../../../internals_en/engine/animation_system.md).
+> to [Animation system: timings, cycles, impact point](../../../../internals_en/engine/animation_system.md).
 
 <a id="коротко-о-главном"></a>
 ## TL;DR
@@ -136,7 +136,7 @@ T_with_N(g-sec) = hits_total / (N / 0.406)
 
 **No one builds a building with ONE peasant in a real game.** When placing a foundation, all idle peasants in the vicinity immediately come running, filling all builder slots.
 
-The complete table of “time with N peasants” for all buildings of all nations is in [`docs/reports/economy/construction_times.md`](../../../reports/economy/construction_times.md) (generator: [`compute/compute_construction_times.py`](../../../../compute/compute_construction_times.py)).
+The complete table of “time with N peasants” for all buildings of all nations is in [Cossacks 3 - Time to build and repair](../../../reports/economy/construction_times.md) (generator: [`compute/compute_construction_times.py`](../../../../compute/compute_construction_times.py)).
 
 **What's in our JSON:** field `building.buildtime_sec` = `frames × 10/32` is **normalized buildtime** from formula (`objbase.buildtime`). Time-s-1-builder ≈ `buildtime_sec × 1.13`. That is, **the field is NOT equal to the real construction time - it always requires division by N**.
 
@@ -187,7 +187,7 @@ To avoid confusion: you can interpret `buildtime_sec` as “seconds of work for 
 
 **Engine quirk - warehouse sparse masks.** For 4 warehouses (`russto`, `eursto`, `spasto`, `tursto`) the mask is not convex. `tursto` still has one big component - walker gives 8 = fact. `spasto` has a large blot + 1 small orphan in the corner; walker walks correctly most of the time and ignores orphan → 7 = fact (with the empty left side of the building building, as seen in the game). For `russto` and `eursto`, the mask degenerates to **two linear “support” bars** (1×2 and 1×3) with a void between them - a walker on one bar gives 3-4 slots, but in the game the peasants bypass the bbox entirely: 8 vs the result predicted by the walker. Empirically: the rule “if all components are linear → use `bbox_cols + bbox_rows` union” reproduces russto exactly (8=8) and eursto with a known discrepancy of −1 (prediction 9, fact 8). Implemented as fallback `method=bbox_union` in [`compute_builder_slots.py`](../../../../compute/compute_builder_slots.py).
 
-**The gate is an instant custom upgrade on an existing wall segment** (`gc_upg_type_single_buildgate`), rather than a separate building built by peasants. The player selects a completed section of a straight wall from at least three identical segments and clicks “build gate”. In place of the central segment, a new gate object (`*sga` / `*wga`) with `individual.upglevel = 1` is created; the nearest call to `_unit_ControlBuildProgress` through a special branch `if (bwall) and (upglevel>0) then hp := maxhp` immediately sets full HP, after which OnTagStates transfers the object to `bbuilt = True`. No construction is taking place by peasants. More details in [`../combat/walls_and_gates.md`](../combat/walls_and_gates.md).
+**The gate is an instant custom upgrade on an existing wall segment** (`gc_upg_type_single_buildgate`), rather than a separate building built by peasants. The player selects a completed section of a straight wall from at least three identical segments and clicks “build gate”. In place of the central segment, a new gate object (`*sga` / `*wga`) with `individual.upglevel = 1` is created; the nearest call to `_unit_ControlBuildProgress` through a special branch `if (bwall) and (upglevel>0) then hp := maxhp` immediately sets full HP, after which OnTagStates transfers the object to `bbuilt = True`. No construction is taking place by peasants. More details in [Walls and Gates](../combat/walls_and_gates.md).
 
 **Sim vs in-game ±1.** In addition to the described ±1 for eursto, the simulation predicts 23 for bavba2, and the user observed 22 (this is a historical measurement, not rechecked with the new formula - for now we interpret it as a pathing failure for one point or edge of the map).
 
@@ -244,7 +244,7 @@ Cap from the engine: `gc_MaxWallBuilderPointsCount = 16` [^12].
 | Wooden Gate | `ukrwga` | 1,000 | 18 | **5.6** | 10 Wood | 32 |
 | Ukrainian Wooden Gate | `ukrwga` | 1,500 | 26 | **8.1** | 12 Wood | 40 |
 
-`costpercent = 0` - all segments at the same price, without scaling. The walls have `consume.stone` or `consume.wood` - constant consumption while the segment is standing (see artillery in [`../combat/artillery_specifics.md`](../combat/artillery_specifics.md) about the consume mechanics).
+`costpercent = 0` - all segments at the same price, without scaling. The walls have `consume.stone` or `consume.wood` - constant consumption while the segment is standing (see artillery in [How Artillery Works](../combat/artillery_specifics.md) about the consume mechanics).
 
 Construction time for one segment with N builders: `bt × 1.13 / N` according to the usual building formula - but for walls N is limited to `gCustomBuildPointsWall[wallvariation].builderCount` (see §4 below).
 
@@ -375,7 +375,7 @@ That is, when a working barracks or academy is demolished, resources for already
 <a id="штраф-к-счёту"></a>
 #### Score penalty
 
-Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the building has already been captured - see [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)).
+Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the building has already been captured - see [Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md)).
 
 <a id="63-refund-при-отмене-заказов"></a>
 <a id="63-возврат-ресурсов-при-отмене-заказов"></a>
@@ -414,7 +414,7 @@ Upon destruction, to the owner: `−2 × building.score` (or `−5×`, if the bu
 **Which buildings can be captured:** Mines, Town Halls, and many
 other buildings marked `bcapture=True`.
 
-**Walls and gates are a separate branch.** For segments `bcapture = False`, but in `_misc_CheckCapture` for all `bwall` `bDie := True` is forced - an enemy infantryman within a radius of 4 tiles without defenders **destroys** the segment without transferring it to the owner. When HP < 1/3 of max, the branch is skipped altogether (the wall is already being eaten up with weapons). Details - [`../combat/walls_and_gates.md` §4](../combat/walls_and_gates.md).
+**Walls and gates are a separate branch.** For segments `bcapture = False`, but in `_misc_CheckCapture` for all `bwall` `bDie := True` is forced - an enemy infantryman within a radius of 4 tiles without defenders **destroys** the segment without transferring it to the owner. When HP < 1/3 of max, the branch is skipped altogether (the wall is already being eaten up with weapons). Details - [Walls and Gates §4](../combat/walls_and_gates.md).
 
 When captured:
 

@@ -93,7 +93,7 @@ def fmt_w(w: dict | None) -> str:
     r = w.get("radiusmax_tiles")
     k = kind_ru(w.get("kind"))
     p_disp = f"{p} с" if p and p > 0 else "ближний бой"
-    return f"{d} урона / {p_disp} / {r} тайла / {k}"
+    return f"{d} урона / {p_disp} / {r} клетки / {k}"
 
 
 def fmt_protection(u: dict) -> str:
@@ -236,7 +236,7 @@ def render_dps_ranking(groups: list[tuple[dict, list[str]]]) -> list[str]:
             continue
         rows.append((u, nats, w, d_g))
     rows.sort(key=lambda x: -x[3])
-    A("| # | Юнит | Нации | Роль | Здоровье | Тип оружия | Урон | Перезарядка (с) | Дальность (тайлы) | Урон/игр. с | Урон/реал. с |")
+    A("| # | Юнит | Нации | Роль | Здоровье | Тип оружия | Урон | Перезарядка (с) | Дальность (клетки) | Урон/игр. с | Урон/реал. с |")
     A("| ---: | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |")
     for i, (u, nats, w, d_g) in enumerate(rows, 1):
         name = u.get("name_ru") or u.get("name_en") or u["sid"]
@@ -331,7 +331,7 @@ def main():
     A("")
     formula_cite = cites.cite(
         "lib/miscext2.script:380, 434",
-        label="`_misc_DoDamage` — вычитание защиты и срабатывание хедшота",
+        label="`_misc_DoDamage` — вычитание защиты и срабатывание попадания в голову",
     )
     A(f"Игра вычитает из базового урона броню и защиту от конкретного типа "
       f"оружия {formula_cite}. Итог никогда не бывает меньше единицы:")

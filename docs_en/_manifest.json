@@ -17,25 +17,25 @@
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "How the Computer Player Works",
-      "size": 23690,
-      "lines": 517
+      "size": 23776,
+      "lines": 518
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Mercenaries and the Diplomatic Center",
-      "size": 34095,
-      "lines": 683
+      "size": 34315,
+      "lines": 685
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
       "title": "Scenarios and Event Rules",
-      "size": 10964,
+      "size": 11104,
       "lines": 253
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Controls and Player Feedback",
-      "size": 23837,
+      "size": 23887,
       "lines": 540
     },
     {
@@ -47,116 +47,116 @@
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "How Artillery Works",
-      "size": 10758,
+      "size": 10847,
       "lines": 268
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "How Damage Is Calculated",
-      "size": 20672,
-      "lines": 467
+      "size": 20955,
+      "lines": 477
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Formations and Their Combat Bonuses",
-      "size": 20014,
+      "size": 20163,
       "lines": 472
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "How Naval Combat Works",
-      "size": 13618,
+      "size": 13702,
       "lines": 334
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Pathfinding and Unit Movement",
-      "size": 42520,
+      "size": 42547,
       "lines": 907
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Ranged-Unit Behavior",
-      "size": 15190,
+      "size": 15170,
       "lines": 343
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Target Selection and Attack-Move",
-      "size": 36079,
-      "lines": 756
+      "size": 36164,
+      "lines": 757
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "How Towers Work",
-      "size": 11602,
+      "size": 11626,
       "lines": 243
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Unit Orders",
-      "size": 13575,
+      "size": 13622,
       "lines": 317
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Vision and Fog of War",
-      "size": 9126,
+      "size": 9120,
       "lines": 212
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Walls and Gates",
-      "size": 24734,
+      "size": 24757,
       "lines": 521
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Building Construction, Repair, and Destruction",
-      "size": 30563,
+      "size": 30525,
       "lines": 536
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "How Buildings and Units Are Captured",
-      "size": 30734,
+      "size": 30737,
       "lines": 608
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Famine and Mercenary Rebellion",
-      "size": 14325,
+      "size": 14341,
       "lines": 333
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "How Peasants Gather Resources",
-      "size": 36458,
+      "size": 36585,
       "lines": 766
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Production Queues",
-      "size": 14203,
+      "size": 14239,
       "lines": 339
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "How Upgrades Are Applied",
-      "size": 22199,
+      "size": 22261,
       "lines": 516
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "How Match Settings Affect the Game",
-      "size": 18336,
+      "size": 18338,
       "lines": 393
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "How a Random Map Is Generated",
-      "size": 37773,
-      "lines": 717
+      "size": 37873,
+      "lines": 718
     },
     {
       "path": "reference/01_economy/README.md",

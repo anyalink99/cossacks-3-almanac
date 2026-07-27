@@ -24,7 +24,7 @@ port All links to the code are in [Sources](#sources).
   ordinary units: they require gold upkeep but do not suffer from
   food shortages.
 - **Naval formations** use separate families (`SHIPS`, `SHIPSN`,
-  `LINEMORB`); see [`formations.md` §7](formations.md).
+  `LINEMORB`); see [Formations and Their Combat Bonuses §7](formations.md).
 - The target `_unit_SearchEnemy*` for a naval unit takes into account `same_region`
   - the ship does not shoot at ground units (they are in a different
   pathfinding-region).
@@ -90,8 +90,8 @@ Shipyard - ship factory building. Features:
 4. May have **built-in weapons** - some ports shoot
    on approaching enemy ships.
 
-Price and port properties - in `reference/03_buildings/README.md` (field
-`port`).
+Prices and port properties are listed in the
+[building guide](../../../reference/03_buildings/README.md) (the `port` row).
 
 ---
 
@@ -111,9 +111,9 @@ Transport ships have `btransport = True`. Behaviour:
 <a id="41-емкость-транспорта"></a>
 ### 4.1. Transport capacity
 
-`garrison_capacity` for transport is usually 10–20 (exact numbers in
-`reference/07_naval/README.md`). If you try to load more, the interface
-blocks the command.
+`garrison_capacity` for transports is usually 10–20; exact values are in the
+[navy guide](../../../reference/07_naval/README.md). If you try to load more,
+the interface blocks the command.
 
 <a id="42-уязвимость"></a>
 ### 4.2. Vulnerability
@@ -152,7 +152,7 @@ Transport protection:
 ### 5.1. Actual damage per second at Fast game speed
 
 Formula: `damage / pause × 1.4`. Full attack speed tables -
-to [`reports/combat/attack_rates.md`](../../../reports/combat/attack_rates.md).
+to [Attack speed](../../../reports/combat/attack_rates.md).
 
 | Class | Damage | Pause | Damage/s at Fast speed | Note |
 |---|---:|---:|---:|---|
@@ -229,7 +229,7 @@ instead of `bpeasant`.
 ## 7. Sea formations
 
 Families `SHIPS`, `SHIPSN`, `LINEMORB`, `PACK` (see
-[`formations.md` §1.1](formations.md)) - for naval units:
+[Formations and Their Combat Bonuses §1.1](formations.md)) - for naval units:
 
 | Family | Description |
 |---|---|

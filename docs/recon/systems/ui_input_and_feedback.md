@@ -8,8 +8,8 @@
 секцию §5.
 
 > **Связанные документы:**
-> [`../world/combat/vision_and_fow.md`](../world/combat/vision_and_fow.md)
-> — туман войны и обзор; [`../world/combat/unit_commands.md`](../world/combat/unit_commands.md)
+> [Обзор и туман войны](../world/combat/vision_and_fow.md)
+> — туман войны и обзор; [Приказы юнитам](../world/combat/unit_commands.md)
 > — какие приказы юнит понимает.
 
 ## Кратко
@@ -152,7 +152,7 @@
 | `SetGUICursorByName('cursor_name')` | Сменить визуал курсора. |
 
 Курсорные образы — в `data/cursors/` (см.
-[`../../../internals/data/layout.md`](../../../internals/data/layout.md)).
+[структуру игровых данных Cossacks 3](../../../internals/data/layout.md)).
 Например, при наведении на врага курсор меняется на «меч» — это
 смена через `SetGUICursorByName('attack')`.
 

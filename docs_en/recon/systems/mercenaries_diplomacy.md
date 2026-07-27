@@ -15,10 +15,10 @@ Source references and Pascal excerpts are collected under
   `bnohungry`; for mercenaries it is `True` - they do not eat food.
 - [construction and repair](../world/economy/building_mechanics.md) – footprint and model
   construction of a diplomatic center.
-- [server_sync_architecture.md](../../../internals_en/engine/server_sync_architecture.md) —
+- [Recon: server architecture and network synchronization](../../../internals_en/engine/server_sync_architecture.md) —
   Reassignment of mercenaries during a riot occurs through `_misc_ChangePlayer`,
   this is a server-authoritative event.
-- [determinism_audit.md](../../../internals_en/engine/determinism_audit.md) - transition during a riot
+- [Recon: determinism of loot and combat (RNG audit)](../../../internals_en/engine/determinism_audit.md) - transition during a riot
   uses `_misc_RandomInt` (seeded RNG).
 
 <a id="кратко"></a>
@@ -136,8 +136,8 @@ The dispatcher uses the same `case` as for a normal unit and then narrows it dow
 Exact lines in `unit.script` for each unit and location of `bnohungry`
 and resetting food/wood/stone/iron/coal - see [^8].
 
-`bnohungry := True` is placed in every Mercenary block - mercenaries do not pay
-food upkeep (`reference_food_upkeep.md`).
+`bnohungry := True` is set in every mercenary branch, so mercenaries do not
+pay food upkeep (see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
 
 Price components food/wood/stone/iron/coal for mercenaries are all equal to 0 - challenges
 `SetObjBasePrice(objbase, 0, 0, 0, gold, 0, 0)` reset everything except gold.
@@ -147,7 +147,7 @@ That is, **mercenaries only cost gold** when hired.
 ### 2.3 Price scaling and general counter
 
 `costpercent` for mercenaries = 100, 100.5 or 102 - each subsequent copy costs
-`floor(base × (costpercent/100)^N)` (see `reference_costpercent_scaling.md`).
+`floor(base × (costpercent/100)^N)` (see [price growth](../../reports/economy/scaling_prices.md)).
 For mercenaries the limit is **lower than for regular units** [^9]:
 
 - Paired `sid` divide the counter: `archerdip ↔ archerturdip` and
@@ -174,7 +174,8 @@ Two consequences:
 ## 3. Gold upkeep
 
 Upkeep is consumed every frame in the same general cycle as food
-(`reference_food_upkeep.md`). Handler – `_player_ProcessResourceConsume`
+(see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
+The handler is `_player_ProcessResourceConsume`
 in `player.script` [^10].
 
 Pseudocode:
@@ -377,7 +378,8 @@ a little slower, but a mercenary of this tier costs 0 food versus 20 and has dam
 ### Upkeep
 
 - Normal units: food upkeep `(consume.food + (bnohungry?0:30)) × 32/20000`
-  for g-sec (`reference_food_upkeep.md`). Mercenaries with `bnohungry` → no leak
+  per game second (see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
+  Mercenaries with `bnohungry` → no food drain
   food.
 - Mercenaries: gold upkeep `consume.gold × 32/20000` for g-sec, depends on
   `consume.gold` (4–150 per mercenary).

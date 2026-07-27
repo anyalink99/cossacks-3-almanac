@@ -16,7 +16,7 @@ collected in [Sources](#sources).
 > other strategy games does not exist here.
 > Garrison via `inside[]` exists, but is only used for
 > **transport ships** (`btransport = True`); see
-> [`naval_combat.md` §4](naval_combat.md).
+> [How Naval Combat Works §4](naval_combat.md).
 
 <a id="коротко"></a>
 ## TL;DR
@@ -91,7 +91,7 @@ Price: 0 food / 100 wood / 100 stone / 150 gold / 0 iron / 0 coal.
 | Shot range | 1500 px = **28.13 t** | tur 30 t |
 | Scatter | 100 px = **1.88 t** | rus 125; a projectile may miss a single unit |
 | Shot cost | **10 iron and 30 coal** | Ottoman: 15 iron and 40 coal |
-| Upkeep | `consume[gold] = 500` → **0.8 gold per game second** (48 per game minute) | formula `consume × 32 / 20000`, the same as for food (see [`../economy/hunger_and_rebellion.md` §2.3](../economy/hunger_and_rebellion.md)) |
+| Upkeep | `consume[gold] = 500` → **0.8 gold per game second** (48 per game minute) | formula `consume × 32 / 20000`, the same as for food (see [Famine and Mercenary Rebellion §2.3](../economy/hunger_and_rebellion.md)) |
 | Capture | `bcapture = False` (after construction) | the tower is **never** captured when completed |
 
 <a id="21-вариации-по-нациям"></a>
@@ -110,7 +110,7 @@ Price: 0 food / 100 wood / 100 stone / 150 gold / 0 iron / 0 coal.
 
 The Tower is a regular armed building and therefore uses the common
 `_unit_SearchEnemyScanCells` algorithm (see
-[`target_selection.md` §3](target_selection.md)). Features:
+[Target Selection and Attack-Move §3](target_selection.md)). Features:
 
 | Parameter | Tower | Infantry |
 |---|---|---|
@@ -136,7 +136,7 @@ enters range.
 - **Each shot costs resources.** With no iron or coal, the Tower
   **does not fire**. During a rebellion (`gold = 0`) it stops consuming
   gold, but a shortage of iron or coal still disables its firepower. See
-  [`../../../internals/engine/animation_system.md` §7](../../../../internals_en/engine/animation_system.md)
+  [Animation system: timings, cycles, impact point §7](../../../../internals_en/engine/animation_system.md)
   how resources are deducted at the moment of an attack.
 - **`bturnoff = True`** means the Tower can be **manually disabled** in
   the interface. A disabled Tower spends no iron, coal, or gold and does not fire.
@@ -175,7 +175,7 @@ shelling with one cannon in the absence of repairs.
 <a id="6-захват--только-во-время-постройки"></a>
 ## 6. Capture - only during construction
 
-From [`../economy/capture_mechanics.md`](../economy/capture_mechanics.md):
+From [How Buildings and Units Are Captured](../economy/capture_mechanics.md):
 
 - Completed Towers (`bbuilt = True`) **cannot be captured**:
   `bcapture` is `False` from initialization. Capture checks still run
@@ -208,7 +208,7 @@ the practical answer.
   one on contested ground is risky because the unfinished structure can
   be seized.
 - **An unfinished Tower is the better target:** while under construction
-  it has `shield / 3` (see [`combat_damage_pipeline.md` §2](combat_damage_pipeline.md)),
+  it has `shield / 3` (see [How Damage Is Calculated §2](combat_damage_pipeline.md)),
   plus the ability to capture.
 
 ---
@@ -220,7 +220,7 @@ the practical answer.
 1. **Exact formula for disp when firing.** `dispertion = 1.88 t` -
    This is a basic value, but does distance make a difference? It looks like
    `maxdisp = dist × disp × 0.0267` (as for regular ranged units; see
-   [`target_selection.md` §9](target_selection.md)) - measurement needed.
+   [Target Selection and Attack-Move §9](target_selection.md)) - measurement needed.
 2. **Garrison fire from forts.** Campaigns and Historical Battles contain
    forts that can accept infantry. These are **not** standard Towers
    (internal type `tow`) and require a separate examination of campaign scripts.
@@ -236,7 +236,7 @@ the practical answer.
       `SetObjBaseWeapon(...damage=1000, pause=400, range=550-1500...)`.
       Price via `SetObjBasePrice(0, 100, 100, 150, 0, 0)`.
 
-[^2]: See [`../economy/capture_mechanics.md`](../economy/capture_mechanics.md) -
+[^2]: See [How Buildings and Units Are Captured](../economy/capture_mechanics.md) -
       a Tower has `bcapture = False` from initialization, but the
       `not bbuilt` branch still calls `_misc_CheckCapture` for every
       unfinished building.

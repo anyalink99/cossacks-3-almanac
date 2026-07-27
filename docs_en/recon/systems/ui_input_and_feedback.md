@@ -9,8 +9,8 @@ reports events through sound, highlighting, and warnings. Section §5
 explains the relationship with vision and fog of war.
 
 > **Related documents:**
-> [`../world/combat/vision_and_fow.md`](../world/combat/vision_and_fow.md)
-> — fog of war and overview; [`../world/combat/unit_commands.md`](../world/combat/unit_commands.md)
+> [Vision and Fog of War](../world/combat/vision_and_fow.md)
+> — fog of war and overview; [Unit Orders](../world/combat/unit_commands.md)
 > - what orders the unit understands.
 
 <a id="кратко"></a>
@@ -157,7 +157,7 @@ changed in engine code or the `editor.exe` settings.
 | `SetGUICursorByName('cursor_name')` | Change cursor visual. |
 
 Cursor images - in `data/cursors/` (see.
-[`../../../internals/data/layout.md`](../../../internals_en/data/layout.md)).
+[Structure data/ in Cossacks 3](../../../internals_en/data/layout.md)).
 For example, when you hover over an enemy, the cursor changes to “sword” - this
 change via `SetGUICursorByName('attack')`.
 
@@ -253,7 +253,7 @@ Two technical solutions:
    regardless of whether you can see the source. Cossacks 3 is
    emulates.
 
-See also [`vision_and_fow.md`](../world/combat/vision_and_fow.md)
+See also [Vision and Fog of War](../world/combat/vision_and_fow.md)
 about the structure of FOW.
 
 ---

@@ -10,10 +10,10 @@ capture, and demolition. Code references are collected under
 [Sources](#sources).
 
 > **Related documents:**
-> [`building_mechanics.md` §6.3](building_mechanics.md) - resource refunds after
-> cancellation/destruction; [`upgrades_application.md` §3](upgrades_application.md)
+> [Building Construction, Repair, and Destruction §6.3](building_mechanics.md) - resource refunds after
+> cancellation/destruction; [How Upgrades Are Applied §3](upgrades_application.md)
 > - the separate upgrade queue;
-> [`unit_commands.md`](../combat/unit_commands.md) - general model
+> [Unit Orders](../combat/unit_commands.md) - general model
 > orders on units (also uses `gOrders`).
 
 <a id="коротко-о-главном"></a>
@@ -43,7 +43,7 @@ capture, and demolition. Code references are collected under
   (`bprotector`) is nearby, the building **stops** processing the order.
 - When a building is demolished, all orders are scrolled back - paid
   units and upgrades are returned to the player (see.
-  [`building_mechanics.md` §6.2](building_mechanics.md)).
+  [Building Construction, Repair, and Destruction §6.2](building_mechanics.md)).
 
 ---
 
@@ -265,7 +265,7 @@ The semantics are similar:
   `costpercent`-scaling - upgrades do not have it).
 - Completing the research applies the effect and deletes the order.
 
-More details in [`upgrades_application.md`](upgrades_application.md).
+More details in [How Upgrades Are Applied](upgrades_application.md).
 
 ---
 
@@ -289,7 +289,7 @@ The exact UI logic is in `lib/gui.script`, not in the production logic.
 1. **Exact progress rate.** `info.progress += delta` —
    `delta` proportional `buildtime_modifier × deltatime` plus
    difficulty multiplier (for AI - `0.30 / 0.50 / 0.75 / 1.00 / 1.25`,
-   see [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)).
+   see [How the Computer Player Works](../../systems/ai_behavior.md)).
    The exact coefficients are not subtracted from the code.
 2. **How many slots are real in the UI at different window sizes.**
    on a wide screen it can be 7-8, on a standard screen - 5. Measure.

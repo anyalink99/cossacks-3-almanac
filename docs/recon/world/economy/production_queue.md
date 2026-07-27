@@ -272,7 +272,7 @@
 1. **Точная скорость прогресса.** `info.progress += delta` —
    `delta` пропорциональна `buildtime_modifier × deltatime` плюс
    множитель сложности (для ИИ — `0.30 / 0.50 / 0.75 / 1.00 / 1.25`,
-   см. [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)).
+   см. [Как играет компьютер](../../systems/ai_behavior.md)).
    Точные коэффициенты — не вычитаны из кода.
 2. **Сколько слотов реально видно при разных размерах окна.** В
    широком экране может быть 7–8, в стандартном — 5. Замерить.
@@ -313,7 +313,7 @@
       выбор минимального `produceind`.
 
 [^6]: `_unit_CheckCapturersStopProduce` — `lib/unit.script` (см.
-      также секцию о `bcancapture` в [`capture_mechanics.md`](capture_mechanics.md)).
+      также секцию о `bcancapture` в [Как захватываются здания и юниты](capture_mechanics.md)).
 
 [^7]: Обработчик `OnDeath` здания —
       `data/scripts/units/building.inc/ondeath.inc:11-25`.

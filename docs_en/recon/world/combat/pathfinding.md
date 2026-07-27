@@ -14,7 +14,7 @@ Pascal excerpts are collected in [Sources](#sources).
 
 - [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - main progress-loop
   (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
-- [server_sync_architecture.md](../../../../internals_en/engine/server_sync_architecture.md) —
+- [Recon: server architecture and network synchronization](../../../../internals_en/engine/server_sync_architecture.md) —
   `WriteMove` / `ReadMove`, server-authoritative model, serialization
   queue in save.
 - [construction and repair](../economy/building_mechanics.md) – footprint and `CIMass`

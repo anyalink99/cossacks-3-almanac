@@ -233,8 +233,8 @@
 - **Мирное время:** `gc_mapsettings_peacetime_*` [^33] —
   0 / 10 / 15 / 20 / 30 / 45 / 60 / 90 / 120 / 180 / 240 минут. Это
   запрет атаки в первые `N` минут, а не таймер конца игры. Полная таблица —
-  [`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#peacetime--время-мира);
-  механика — [`game_settings.md`](../world/map/game_settings.md#peacetime--как-устроен-мир).
+  [Настройки матча](../../reports/map/lobby_settings.md#peacetime--время-мира);
+  механика — [Как настройки матча влияют на игру](../world/map/game_settings.md#peacetime--как-устроен-мир).
 
 ## 8. Отличия сетевой игры
 

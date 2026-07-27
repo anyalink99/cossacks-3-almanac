@@ -4,41 +4,48 @@
 
 [← How the game works](../../README.md)
 
-Detailed analysis: what exactly happens between the moment when the unit
-fires a projectile, and the moment when the target's health decreases.
-Six successive steps of the formula, edge cases (peacetime,
-scenario invulnerability, friendly fire), and interaction points
-with adjacent systems (formations, capture, and healing).
+This article answers a practical question: why the same shot removes
+different amounts of health from different targets. It covers the six
+successive damage modifiers, peacetime, scenario invulnerability, friendly
+fire, and the links to formations, capture, and healing.
 
 > **Basic tables** (weapon types, `protection[kind]` scale, numbers according
-> each unit) are in [`reference/02_combat/README.md`](../../../reference/02_combat/README.md).
+> each unit) are in [Combat and Movement](../../../reference/02_combat/README.md).
 > This document explains the **process**, not the numbers.
 
 <a id="кратко"></a>
 ## TL;DR
 
-- Entry point - `_misc_DoDamage(goHnd, trgHnd, indamage, weapind, weapkind)` [^1].
-  It is called whenever a projectile reaches its target or a melee
-  unit completes its attack animation. The exact impact frame is defined
-  in the unit's `.acl` file through the `OnAclAnimationReachedAttack` callback;
-  see [`internals/engine/animation_system.md` §5](../../../../internals_en/engine/animation_system.md).
+- Calculation begins when a projectile reaches its target or a melee unit
+  completes its strike.
 - Six consecutive modifiers: fast-cavalry reduction → shield →
   formation bonus → protection by weapon type → Priest healing →
   minimum damage.
-- Headshot (`+floor(uniqrnd × 500)`) is applied in a separate branch,
-  only for `bullet`/`arrow` and only for non-buildings.
+- A headshot is a rare separate bonus for bullets and arrows; buildings
+  cannot receive it.
 - At least one health point is always removed, even if all
   modifiers pushed damage into a negative value.
 - Peacetime (`gbool_peacemode`) and scenarios with
   `hp >= gc_gameplay_infinitehp` are processed **before** the formula and
   may skip the calculation completely.
 
+Readers who only need the practical result can stop at this list. The
+sections below document each step with formulas, internal fields, and source
+references.
+
 ---
 
 <a id="1-точка-входа-и-предусловия"></a>
-## 1. Entry point and preconditions
+<a id="1-когда-начинается-расчёт"></a>
+## 1. When damage is calculated
 
-`_misc_DoDamage` takes five arguments:
+Calculation starts on impact. The unit animation determines the exact impact
+frame; the technical chain is documented under
+[animation timing §5](../../../../internals_en/engine/animation_system.md).
+
+In the game code this work is performed by
+`_misc_DoDamage(goHnd, trgHnd, indamage, weapind, weapkind)` [^1].
+The function takes five arguments:
 
 | Parameter | What |
 |---|---|
@@ -96,7 +103,7 @@ pulls `pSquad2` from `gPlayer[target.pl].squads` and applies
 formation shield bonus: `fAddShieldHold` when `fHoldMode = True`,
 otherwise `fAddShield`. The result is subtracted from damage
 (usually `+2` on the go and `+7` in hold mode). See
-[`formations.md` §3](formations.md). If the target is not in a formation
+[Formations and Their Combat Bonuses §3](formations.md). If the target is not in a formation
 (`squad = -1`), step is skipped.
 
 <a id="шаг-4-защита-по-типу-оружия"></a>
@@ -117,7 +124,7 @@ If **attacker** is a priest (`bpriest = True`), all steps 1-4
 are skipped. Instead `target.hp := target.hp + indamage`,
 limited to `maxhp` [^8]. In other words, the Priest **adds**
 target's health instead of dealing damage. See
-[`target_selection.md` §7](target_selection.md) for target selection.
+[Target Selection and Attack-Move §7](target_selection.md) for target selection.
 
 <a id="шаг-6-клик-минимума"></a>
 <a id="шаг-6-минимальный-урон"></a>
@@ -141,9 +148,11 @@ sets `bdead := True` and calls `_misc_OnDeath`, which:
 ---
 
 <a id="3-хедшот-отдельная-ветка-flooruniqrnd--500"></a>
-## 3. Headshot: separate branch `+floor(uniqrnd × 500)`
+<a id="3-попадание-в-голову"></a>
+## 3. Headshots
 
-The headshot branch runs **before** step 4 but does not replace it. Conditions [^5]:
+The headshot bonus uses a separate `+floor(uniqrnd × 500)` branch. It runs
+**before** step 4 but does not replace it. Conditions [^5]:
 
 1. Weapon type: `bullet` or `arrow`.
 2. The target is not a building (`not bbuilding`).
@@ -154,7 +163,7 @@ The headshot branch runs **before** step 4 but does not replace it. Conditions [
 If all four are true - `damage := damage + floor(target.uniqrnd × 500)` [^10].
 
 `uniqrnd` ∈ `[0, 1)` is fixed when the unit spawns and does not change
-(see [`internals/engine/rng_implementation.md`](../../../../internals_en/engine/rng_implementation.md)).
+(see [Implementation of RNG in Cossacks 3](../../../../internals_en/engine/rng_implementation.md)).
 The same target therefore **always** contributes the same headshot bonus;
 this is part of the deterministic synchronization model.
 
@@ -170,7 +179,7 @@ Before checking the 5% chance, `unit.script` calls
 `SetRandomKey(floor(uniqrnd × gc_MaxInt))` - reseeding global
 RNG from the attacker's `uniqrnd`. This is a
 **per-decision deterministic seed** (see
-[`internals/engine/rng_implementation.md` §5](../../../../internals_en/engine/rng_implementation.md)),
+[Implementation of RNG in Cossacks 3 §5](../../../../internals_en/engine/rng_implementation.md)),
 which guarantees that the same hit produces the same result on every client.
 
 ---
@@ -194,7 +203,7 @@ only for artillery and grenade launchers.
 
 Priest healing, by contrast, only affects friendly units: `bpriest`
 uses `scanmode = 1` (see
-[`target_selection.md` §7](target_selection.md)),
+[Target Selection and Attack-Move §7](target_selection.md)),
 which requires a `myplmask` match.
 
 Capturing an enemy unit (`bcapture`) is a separate mechanic and is
@@ -212,7 +221,7 @@ not one target, but a zone. After landing:
 
 1. The script finds **all** objects within the AoE radius (via native
    `GetGameObjectsInArea`, see
-   [`internals/engine/native_api.md` §2.1](../../../../internals_en/engine/native_api.md)).
+   [Native API of the Cossacks 3 engine (Delphi + DWS) §2.1](../../../../internals_en/engine/native_api.md)).
 2. For every affected object, the same function is called:
    `_misc_DoDamage`, but `indamage` decreases by distance:
    ```
@@ -335,7 +344,7 @@ search of the scripts:
 
 Consequently, formation is the only way to multiply damage. There are
 no hidden positional bonuses apart from high ground (see
-[`ranged_units_behavior.md` §7](ranged_units_behavior.md)) and
+[Ranged-Unit Behavior §7](ranged_units_behavior.md)) and
 `standground`. Upgrades, formation, and the match between weapon type
 and protection type make up the entire combat calculation.
 
@@ -369,7 +378,7 @@ is in "idle/hold" mode, puts the entire squad into
 wakes up the entire squad** - this is part of the “realistic” mechanics of Cossacks,
 when a salvo on one unit immediately triggers the response of all
 neighbors. See details in
-[`target_selection.md` §6](target_selection.md).
+[Target Selection and Attack-Move §6](target_selection.md).
 
 ---
 
@@ -382,7 +391,8 @@ neighbors. See details in
    from 1, 5, 10, 20, 50 units and check.
 2. **Clear conditions `peacemode` type 4** (attacking on his own,
    target on someone else → both die): this looks like a bug in the script,
-   needs to be confirmed. If so, it’s worth adding to `known_issues.md`.
+   needs to be confirmed. If so, it should be added to the
+   [known limitations](../../../../internals_en/project/known_issues.md).
 3. **Taking into account headshots with negative base damage.** If step 1–4
    already reduced `damage` to `< 0`, and then headshot added `+200`,
    will it be `damage = 200` or `damage = max(1, ...) + 200`?
@@ -408,7 +418,7 @@ neighbors. See details in
 [^4]: `data.json`, array `unit.protection[7]` or
       `building.protection[7]` by indexes
       `gc_obj_weapon_kind_*` (see also
-      [`reference/02_combat/README.md` § Damage calculation](../../../reference/02_combat/README.md#как-считается-урон)).
+      [Combat and Movement § Damage calculation](../../../reference/02_combat/README.md#как-считается-урон)).
 
 [^5]: `data/scripts/lib/miscext2.script:_misc_DoDamage`, branch
       `if (bCanHeadShot) and (random < 0.05) then ...`.

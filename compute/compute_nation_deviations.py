@@ -213,7 +213,7 @@ def render_buildings_section(buildings: list[dict]) -> list[str]:
                     f"{rep.get('weapon_pause_frames', '?')}f pause · "
                     f"{rep.get('weapon_radiusmax', '?')} px range")
             A(f"  - HP **{rep.get('hp')}**, "
-              f"buildtime **{rep.get('buildtime_sec')}** g-сек, "
+              f"buildtime **{rep.get('buildtime_sec')}** игр. с, "
               f"costpercent **{rep.get('costpercent')}**")
             A(f"  - цена: {fmt_cost(rep)}")
             extras = []
@@ -278,7 +278,7 @@ def render_units_section(units: list[dict]) -> list[str]:
             nats = sorted({m["nation"] for m in members})
             A(f"- {label} ({len(nats)} наци{'й' if len(nats) != 1 else 'я'}): {fmt_nations(nats)}")
             A(f"  - HP **{rep.get('hp')}**, цена: {fmt_cost(rep)}, "
-              f"buildtime **{rep.get('buildtime_sec')}** g-сек, "
+              f"buildtime **{rep.get('buildtime_sec')}** игр. с, "
               f"speed {rep.get('speed')}")
             extras = []
             if rep.get("shield"): extras.append(f"shield={rep['shield']}")

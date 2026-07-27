@@ -115,7 +115,7 @@ Constants: `gc_unit_meleeattackradius = 0.5` tile,
 loses up to `3 × uniqrnd` effective radius tiles at the time of scanning.
 This penalty applies specifically to target selection; range penalty
 shot at `standtime < 0.25` - a separate story, described in
-[`ranged_units_behavior.md` §4](ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
+[Ranged-Unit Behavior §4](ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
 
 Topological check: the target is valid if it is in the same topology zone,
 the same as the attacker, or (for ranged combat) if the distance is in the Euclidean norm
@@ -246,7 +246,7 @@ constant `gc_gameplay_meleeguardmaxsearchdist` - the guard does not leave
 far [^20].
 
 Bonus from higher ground - more details in
-[`ranged_units_behavior.md` §7](ranged_units_behavior.md#7-high-ground--бонус-с-возвышенности).
+[Ranged-Unit Behavior §7](ranged_units_behavior.md#7-high-ground--бонус-с-возвышенности).
 
 <a id="42-выбор-scanmode"></a>
 <a id="42-выбор-режима-поиска-scanmode"></a>
@@ -322,7 +322,7 @@ branches in the script - see [^25]). These units:
    whether the point is within the radius, and shoot at it. Point from no one
    doesn't depend - it's just a coordinate.
 3. AoE damage catches everyone who is in the explosion radius (see.
-   [`combat_damage_pipeline.md` §6.5](combat_damage_pipeline.md)).
+   [How Damage Is Calculated §6.5](combat_damage_pipeline.md)).
 4. Because of `bsearchenemy := True`, the artillery itself selects in parallel
    target through `_unit_SearchVictimOnProgress`, if within its normal radius
    an enemy has appeared, but the current `attackpoint` order will not change,
@@ -349,7 +349,7 @@ enemy:
 That is, “found an enemy - switched” works **always**, except
 cases when `bstandground` clearly stands for `standtime > 0`. This behavior
 described in
-[`ranged_units_behavior.md` §1-2](ranged_units_behavior.md#1-standground-vs-обычный-режим).
+[Ranged-Unit Behavior §1-2](ranged_units_behavior.md#1-standground-vs-обычный-режим).
 
 ---
 
@@ -402,7 +402,7 @@ the unit is selected according to the rule “the first one encountered with `hp
 if the first candidate is already at full HP - exit without result.
 
 The priest's "attack" is handled in a separate branch
-`_misc_DoDamage` (see [`combat_damage_pipeline.md` §5](combat_damage_pipeline.md))
+`_misc_DoDamage` (see [How Damage Is Calculated §5](combat_damage_pipeline.md))
 with `weapon.kind = gc_obj_weapon_kind_heal` [^32]. Formula:
 ```
 target.hp += weapon.damage              # WITHOUT shield or protection
@@ -464,7 +464,7 @@ all units begin to actively search for the enemy and counterattack.
 - **Hidden gathering activity** (raid by peasants in
   rear) - **do not attack** at all, otherwise the whole army will move.
 
-See also [`combat_damage_pipeline.md` §8](combat_damage_pipeline.md)
+See also [How Damage Is Calculated §8](combat_damage_pipeline.md)
 about the same effect from the damage formula.
 
 ---
@@ -498,6 +498,7 @@ scattering**, linear.
 | Yacht / galley (PPOINTTKOR) | 25 / 0.47 | ±0.19 t |
 
 <a id="92-шанс-попасть-в-юнит-размером-11-тайл-на-дистанции-d"></a>
+<a id="92-шанс-попасть-в-юнит-размером-11-клетка-на-дистанции-d"></a>
 ### 9.2. Chance to hit a 1x1 tile unit at a distance `d`
 
 - If `2 × maxdisp ≤ 1` → ~100% hit.

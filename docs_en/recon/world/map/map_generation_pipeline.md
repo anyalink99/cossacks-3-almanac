@@ -4,10 +4,11 @@
 
 [← How the game works](../../README.md)
 
-This article follows random-map generation step by step through `DoGenerate`.
-The entry point is `ExecuteState('DoGenerate')` [^1]. All code references and
-Pascal excerpts are collected in the [Sources](#sources) section
-at the end of the document.
+The game assembles a random map in five stages: preparation, terrain,
+starting positions and nearby resources, remaining resources, and
+finalization. In the engine this chain is performed by `DoGenerate`, started
+through `ExecuteState('DoGenerate')` [^1]. Code references and Pascal excerpts
+are collected in [Sources](#sources) at the end.
 
 **Related documents:**
 
@@ -401,7 +402,7 @@ files. This turns §10 from a list of hypotheses into measured results.
 |---|---|
 | [`parser/parse_replay.py`](../../../../parser/parse_replay.py) | Reads OSWMap13 settings, the BMP preview, and occurrences of `.pattern` names |
 | [`parser/parse_replay_aggregates.py`](../../../../parser/parse_replay_aggregates.py) | Aggregates a folder of `.rep`/`.map` files into `derived/replay_ground_truth.json` with per-replay and per-type cluster counts |
-| [`compute/validate_map_predictions.py`](../../../../compute/validate_map_predictions.py) | Runs `compute_counts(...)` for every replay, compares prediction with reality, and writes a grouped calibration table to `docs/reports/map/map_predictions_validation.md` |
+| [`compute/validate_map_predictions.py`](../../../../compute/validate_map_predictions.py) | Runs `compute_counts(...)` for every replay, compares prediction with reality, and writes the grouped [calibration table](../../../../internals_en/data/map_predictions_validation.md) |
 
 For details about the OSWMap13 format, bucketing methodology and calibration numbers, see §14.2-14.5 below.
 

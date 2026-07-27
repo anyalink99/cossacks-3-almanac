@@ -17,7 +17,7 @@ does, and how each player's artillery limits are calculated.
 - Artillery uses **a separate order path**: instead of
   `move_mode_attack`, used by infantry, it receives `attackpoint`
   (shooting at a point), not `attack` (at a specific unit). See
-  [`target_selection.md` §5](target_selection.md).
+  [Target Selection and Attack-Move §5](target_selection.md).
 - **`bartprepare`**: artillery must **prepare** before
   firing: stop, turn, and deploy. Together these actions usually
   take about 3–5 game seconds for each new aim.
@@ -133,7 +133,7 @@ shoots) is a combination of other mechanics:
   preparation part up to the `OnAclAnimationReachedAttack` callback.
   The shot is released on that exact frame
   a shot occurs (see
-  [`internals/engine/animation_system.md`](../../../../internals_en/engine/animation_system.md)).
+  [Animation system: timings, cycles, impact point](../../../../internals_en/engine/animation_system.md)).
   Heavy guns spend roughly 50–100 frames in preparation.
 - **Rotate** (`rotatespeed`): artillery turns slowly
   facing the target. For mortar `gc_obj_rotatespeed_mortar`
@@ -160,7 +160,7 @@ before it reloads.
 
 Artillery has **large `weapon_radiusmax`** (15-25 tiles
 versus 5-7 for an 18th century musket). Specific numbers - in
-[`reports/combat/attack_rates.md`](../../../reports/combat/attack_rates.md).
+[Attack speed](../../../reports/combat/attack_rates.md).
 
 `weapon_radiusmin` is also significant: artillery **cannot fire at
 point-blank range**. If the enemy comes closer than `radiusmin`, the unit cannot
@@ -171,7 +171,7 @@ attack - you need to move away.
 
 Artillery shells (especially cannonballs and mortars) have **dispersion**
 — displacement of the landing point from the declared one. Details - in
-[`target_selection.md` §9](target_selection.md#9-рассеяние-и-точность-выстрела). Briefly:
+[Target Selection and Attack-Move §9](target_selection.md#9-рассеяние-и-точность-выстрела). Briefly:
 the scattering radius is proportional to the range, something on the order of
 `spread_pct ≈ distance × 0.05` tiles.
 
@@ -187,7 +187,7 @@ Most artillery shells have an **AoE blast radius**
 1. The script finds **all** objects within a radius through
    native `GetGameObjectsInArea`.
 2. Damage is applied according to the scheme `damage_at_d = damage × (1 − d / radius)`
-   to each (see [`combat_damage_pipeline.md` §5](combat_damage_pipeline.md)).
+   to each (see [How Damage Is Calculated §5](combat_damage_pipeline.md)).
 3. **Friendly fire is possible** - if your own infantry is in the radius,
    it also takes damage.
 
@@ -261,7 +261,7 @@ For horse artillery (`fasthorse + bartillery`) condition
       `artlimit[artind] += building.artdepo[artind]`. When it is
       destroyed, the contribution is subtracted with `-=`.
 
-[^3]: See [`target_selection.md` §5](target_selection.md) about
+[^3]: See [Target Selection and Attack-Move §5](target_selection.md) about
       differences between `move_mode_attack` (for infantry) and `attackpoint`
       (for artillery). Source:
       `data/scripts/lib/player.script:_player_OrderUnitsToAttackPoint`.

@@ -373,6 +373,7 @@ let currentEntity = params.get("entity");
 let searchIndexPromise = null;
 let searchElements = null;
 let entityCatalogPromise = null;
+let entityIndexPromise = null;
 let closeMobileDrawer = () => {};
 
 function directoryLabel(segment) {
@@ -416,6 +417,17 @@ async function loadEntityCatalog() {
     });
   }
   return entityCatalogPromise;
+}
+
+async function loadEntityIndex() {
+  if (!entityIndexPromise) {
+    const language = ENGLISH ? "en" : "ru";
+    entityIndexPromise = fetch(`../assets/data/entity-index.${language}.json`).then((response) => {
+      if (!response.ok) throw new Error(`entity index HTTP ${response.status}`);
+      return response.json();
+    });
+  }
+  return entityIndexPromise;
 }
 
 function normalizeSearch(value) {
@@ -974,6 +986,86 @@ function entityRecord(catalog, entityKey) {
   return catalog.entities?.[kind]?.[sid] || null;
 }
 
+function removeRedundantLanguageRow(container, path) {
+  if (path !== "README.md" || !currentSection().startsWith("docs")) return;
+  const firstParagraph = container.querySelector("h1 + p");
+  if (!firstParagraph) return;
+  const label = firstParagraph.textContent.replace(/\s+/g, " ").trim();
+  if (/^(?:English · Русский|Русский · English)$/.test(label)) {
+    firstParagraph.remove();
+  }
+}
+
+async function enrichEntityTables(container, path) {
+  const tables = [...container.querySelectorAll("table")];
+  if (!tables.length || !currentSection().startsWith("docs")) return;
+  const index = await loadEntityIndex();
+  if (currentPath !== path || !container.isConnected) return;
+
+  for (const table of tables) {
+    const rows = [...table.tBodies].flatMap((body) => [...body.rows]);
+    const showIcons = rows.length <= 160;
+    for (const row of rows) {
+      const cell = row.cells[0];
+      if (!cell || cell.querySelector("a")) continue;
+      const sidCode = [...cell.querySelectorAll("code")].find((code) => {
+        const sid = code.textContent.trim();
+        return sid && index.entities?.[sid];
+      });
+      if (!sidCode) continue;
+
+      const sid = sidCode.textContent.trim();
+      const [kind, name, icon] = index.entities[sid];
+      const key = `${kind}:${sid}`;
+      const link = makeElement("a", "entity-table-link");
+      link.href = `?entity=${encodeURIComponent(key)}`;
+      link.dataset.entityKey = key;
+      link.setAttribute(
+        "aria-label",
+        `${name} — ${ENTITY_UI.kinds[kind]}`
+      );
+
+      if (showIcons && icon) {
+        const image = document.createElement("img");
+        image.className = "entity-table-icon";
+        image.src = icon;
+        image.alt = "";
+        image.width = 26;
+        image.height = 26;
+        image.loading = "lazy";
+        image.decoding = "async";
+        link.append(image);
+      }
+
+      const label = makeElement("span", "entity-table-label");
+      const existing = [...cell.childNodes];
+      const readerLabel = cell.textContent.replace(sid, "").trim();
+      if (readerLabel) {
+        label.append(...existing);
+      } else {
+        label.append(
+          makeElement("strong", "", name),
+          document.createTextNode(" "),
+          ...existing,
+        );
+      }
+      link.append(label);
+      cell.replaceChildren(link);
+    }
+  }
+}
+
+function setupEntityNavigation() {
+  $("#md-content").addEventListener("click", (event) => {
+    const link = event.target.closest("a[data-entity-key]");
+    if (!link) return;
+    event.preventDefault();
+    const key = link.dataset.entityKey;
+    history.pushState({}, "", `?entity=${encodeURIComponent(key)}`);
+    openEntity(key);
+  });
+}
+
 function entityBySid(catalog, sid) {
   for (const kind of ["unit", "building", "upgrade"]) {
     if (catalog.entities?.[kind]?.[sid]) {
@@ -1225,8 +1317,13 @@ async function openFile(path) {
     const text = await r.text();
     const html = marked.parse(text);
     main.innerHTML = rewriteRelativeLinks(html, path);
+    removeRedundantLanguageRow(main, path);
     assignHeadingIds(main);
     wrapTablesInScrollContainers(main);
+    enrichEntityTables(main, path).catch(() => {
+      // Entity cards are an enhancement; a missing compact index must not
+      // make the underlying reference table unreadable.
+    });
     await renderMermaidBlocks(main);
     const pageTitle = main.querySelector("h1")?.textContent?.trim()
       || path.split("/").pop().replace(".md", "");
@@ -1310,6 +1407,7 @@ async function init() {
 
     setupMobileDrawer();
     setupSearch();
+    setupEntityNavigation();
     const tree = pathToTree(manifest.entries);
     const treeEl = renderTree(tree);
     $("#md-sidebar").appendChild(treeEl);

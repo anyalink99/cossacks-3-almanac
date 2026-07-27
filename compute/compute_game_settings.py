@@ -298,13 +298,13 @@ def render_lobby_md(settings: dict) -> list[str]:
     L += _section(
         "Размер карты (`mapsize`)",
         "mapsize", settings,
-        columns=[("Значение", "value"), ("Размер, тайлы", "tiles"),
+        columns=[("Значение", "value"), ("Размер, клетки", "tiles"),
                  ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     mapsize_cite = cites.cite("lib/miscext2.script:19-26",
-                              label="хардкод размеров `mapsize` в тайлах")
+                              label="хардкод размеров `mapsize` в клетках")
     L += [
-        f"Карта всегда квадратная; размер в тайлах задан непосредственно игрой "
+        f"Карта всегда квадратная; размер в клетках задан непосредственно игрой "
         f"{mapsize_cite}.",
         "",
     ]
@@ -422,7 +422,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "Время мира (`peacetime`)",
         "peacetime", settings,
         columns=[("Значение", "value"), ("Минут (игр.)", "minutes_g"),
-                 ("g-секунд", "gsec"),
+                 ("игровых секунд", "gsec"),
                  ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
     L += [

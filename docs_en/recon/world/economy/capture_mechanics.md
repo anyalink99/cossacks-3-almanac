@@ -324,8 +324,8 @@ All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^
 
 - They DO NOT call `_misc_CheckCapture` after construction.
 - The tower does not have garrison slots (`peasantabsorber=0`, `transport=0`,
-  see [^21] and [`5.3 Tower`](building_mechanics.md#53-tower--built-in-cannon)
-  in `building_mechanics.md`), so the question is “what happens to the garrison
+  see [^21] and the [Tower section](building_mechanics.md#53-tower--built-in-cannon)
+  in the construction guide), so the question is “what happens to the garrison
   upon destruction" is not applicable to the tower. For other buildings with `peasantabsorber>0`
   or `transport>0` (center, barracks, transport ships) upon destruction
   `_unit_DestroyObj` [^22] is triggered, which causes

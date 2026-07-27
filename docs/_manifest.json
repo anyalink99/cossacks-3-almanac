@@ -17,146 +17,146 @@
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "Как играет компьютер",
-      "size": 32598,
-      "lines": 520
+      "size": 32858,
+      "lines": 521
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Наёмники и Дипломатический центр",
-      "size": 44193,
-      "lines": 712
+      "size": 44686,
+      "lines": 714
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
       "title": "Сценарии и условия событий",
-      "size": 15741,
+      "size": 15982,
       "lines": 241
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Управление и обратная связь",
-      "size": 31560,
+      "size": 32079,
       "lines": 506
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Победа, поражение и завершение партии",
-      "size": 30243,
+      "size": 30449,
       "lines": 488
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "Как работает артиллерия",
-      "size": 14668,
+      "size": 14888,
       "lines": 251
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Как рассчитывается урон",
-      "size": 27786,
-      "lines": 458
+      "size": 28838,
+      "lines": 468
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Построения и их боевые бонусы",
-      "size": 25896,
+      "size": 26077,
       "lines": 453
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "Как устроен морской бой",
-      "size": 18845,
+      "size": 19071,
       "lines": 304
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Поиск пути и движение юнитов",
-      "size": 54760,
+      "size": 55015,
       "lines": 936
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Как ведут себя стрелковые юниты",
-      "size": 20752,
+      "size": 21249,
       "lines": 341
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Выбор цели и атака с движением",
-      "size": 47011,
+      "size": 48024,
       "lines": 765
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "Как работают башни",
-      "size": 16289,
+      "size": 16584,
       "lines": 238
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Приказы юнитам",
-      "size": 18566,
+      "size": 18987,
       "lines": 300
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Обзор и туман войны",
-      "size": 13580,
+      "size": 13725,
       "lines": 207
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Стены и ворота",
-      "size": 32601,
+      "size": 32812,
       "lines": 540
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Строительство, ремонт и разрушение зданий",
-      "size": 35962,
+      "size": 36621,
       "lines": 589
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "Как захватываются здания и юниты",
-      "size": 38657,
-      "lines": 625
+      "size": 39012,
+      "lines": 626
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Голод и бунт наёмников",
-      "size": 20163,
+      "size": 20351,
       "lines": 324
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Как крестьяне добывают ресурсы",
-      "size": 49083,
+      "size": 49550,
       "lines": 782
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Очередь производства",
-      "size": 19261,
+      "size": 19453,
       "lines": 322
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "Как применяются улучшения",
-      "size": 29858,
+      "size": 30079,
       "lines": 495
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Как настройки матча влияют на игру",
-      "size": 24192,
+      "size": 24422,
       "lines": 396
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Как создаётся случайная карта",
-      "size": 53852,
-      "lines": 780
+      "size": 54760,
+      "lines": 782
     },
     {
       "path": "reference/01_economy/README.md",
@@ -173,13 +173,13 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 65371,
+      "size": 65379,
       "lines": 480
     },
     {
       "path": "reference/04_units/README.md",
       "title": "Юниты",
-      "size": 32861,
+      "size": 32906,
       "lines": 266
     },
     {
@@ -197,7 +197,7 @@
     {
       "path": "reference/07_naval/README.md",
       "title": "Флот",
-      "size": 8841,
+      "size": 8851,
       "lines": 121
     },
     {
@@ -305,13 +305,13 @@
     {
       "path": "reference/compare/units/archers.md",
       "title": "Лучники",
-      "size": 12139,
+      "size": 12142,
       "lines": 58
     },
     {
       "path": "reference/compare/units/dragoons.md",
       "title": "Драгуны",
-      "size": 13996,
+      "size": 13999,
       "lines": 67
     },
     {
@@ -323,61 +323,61 @@
     {
       "path": "reference/compare/units/grenadiers.md",
       "title": "Гренадёры",
-      "size": 10566,
+      "size": 10569,
       "lines": 52
     },
     {
       "path": "reference/compare/units/heavy_cavalry.md",
       "title": "Тяжёлая кавалерия",
-      "size": 16776,
+      "size": 16779,
       "lines": 79
     },
     {
       "path": "reference/compare/units/light_cavalry.md",
       "title": "Лёгкая кавалерия",
-      "size": 12078,
+      "size": 12081,
       "lines": 56
     },
     {
       "path": "reference/compare/units/light_infantry.md",
       "title": "Лёгкая пехота",
-      "size": 12783,
+      "size": 12786,
       "lines": 59
     },
     {
       "path": "reference/compare/units/musketeers17.md",
       "title": "Мушкетёры (17 в.)",
-      "size": 5776,
+      "size": 5779,
       "lines": 33
     },
     {
       "path": "reference/compare/units/musketeers18.md",
       "title": "Мушкетёры (18 в.)",
-      "size": 4952,
+      "size": 4955,
       "lines": 30
     },
     {
       "path": "reference/compare/units/officers.md",
       "title": "Офицеры",
-      "size": 9023,
+      "size": 9026,
       "lines": 50
     },
     {
       "path": "reference/compare/units/peasants.md",
       "title": "Крестьяне",
-      "size": 5648,
+      "size": 5651,
       "lines": 34
     },
     {
       "path": "reference/compare/units/pikemen.md",
       "title": "Пикинёры (17 в.)",
-      "size": 5825,
+      "size": 5828,
       "lines": 34
     },
     {
       "path": "reference/compare/units/pikemen18.md",
       "title": "Пикинёры (18 в.)",
-      "size": 4654,
+      "size": 4657,
       "lines": 30
     },
     {
@@ -395,19 +395,19 @@
     {
       "path": "reference/compare/units/ships.md",
       "title": "Корабли",
-      "size": 29776,
+      "size": 29779,
       "lines": 135
     },
     {
       "path": "reference/compare/units/siege.md",
       "title": "Артиллерия",
-      "size": 20403,
+      "size": 20406,
       "lines": 94
     },
     {
       "path": "reference/compare/units/special_infantry_18c.md",
       "title": "Особая пехота (18 в.)",
-      "size": 3449,
+      "size": 3452,
       "lines": 19
     },
     {
@@ -563,19 +563,19 @@
     {
       "path": "reports/combat/artillery.md",
       "title": "Артиллерия",
-      "size": 18305,
+      "size": 18307,
       "lines": 138
     },
     {
       "path": "reports/combat/attack_rates.md",
       "title": "Скорость атаки",
-      "size": 26689,
+      "size": 26691,
       "lines": 184
     },
     {
       "path": "reports/combat/combat_stats.md",
       "title": "Боевые характеристики",
-      "size": 41581,
+      "size": 41789,
       "lines": 235
     },
     {
@@ -587,7 +587,7 @@
     {
       "path": "reports/combat/vision_radii.md",
       "title": "Радиус обзора и обнаружения целей",
-      "size": 14988,
+      "size": 14992,
       "lines": 179
     },
     {
@@ -623,19 +623,19 @@
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Настройки матча",
-      "size": 13962,
+      "size": 13981,
       "lines": 273
     },
     {
       "path": "reports/map/map_resources.md",
       "title": "Сколько ресурсов появляется на карте",
-      "size": 3698,
+      "size": 3704,
       "lines": 50
     },
     {
       "path": "reports/map/starting_layout.md",
       "title": "Стартовое расположение и ресурсы",
-      "size": 4439,
+      "size": 4443,
       "lines": 57
     },
     {

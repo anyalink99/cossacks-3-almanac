@@ -139,7 +139,7 @@ construction.
 The peasants receive the order `gc_obj_order_type_build`, go to the point from
 `gCustomBuildPointsWall[wallvariation]`, hit with a hammer, raise HP and
 buildprogress according to the usual construction formula (see.
-[`building_mechanics.md` §3](../economy/building_mechanics.md)).
+[Building Construction, Repair, and Destruction §3](../economy/building_mechanics.md)).
 On each tick, the building's `nothing` state calls
 `_unit_ControlBuildProgress(myHnd)` [^16], which recalculates
 `buildprogress = hp / maxhp`, when `hp >= maxhp` sets the tag

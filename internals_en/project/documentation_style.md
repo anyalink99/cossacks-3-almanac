@@ -128,6 +128,8 @@ Every file under `docs/` or `internals/` must have a mirror under `docs_en/`
 or `internals_en/`.
 
 - Use canonical English names from `canonical_terms.json`.
+- Translate and edit the English prose manually. Do not use machine
+  translation, even as a publication draft.
 - Keep real SIDs, fields, functions, and values unchanged.
 - Translate meaning rather than Russian word order.
 - Add each new Russian heading slug to the English file as a compatible
@@ -144,6 +146,9 @@ or `internals_en/`.
 - Explicit IDs must be unique within the page.
 - Link labels must explain their destination; avoid “Index” and bare
   filenames in reader-facing navigation.
+- Russian reader-facing text uses “клетка”, “игровая секунда” (`игр. с` in
+  compact tables), and “попадание в голову” instead of the borrowed terms
+  “тайл”, “game sec”, and “хедшот”.
 - Test in-page links in the browser after renaming a heading.
 - Articles under `docs/recon/` link back to “How the Game Works”; technical
   articles link to the appropriate `internals/` index.

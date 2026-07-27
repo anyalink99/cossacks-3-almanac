@@ -112,7 +112,7 @@ def render_unit_rows(groups: list[tuple[dict, list[str]]]) -> list[str]:
                 usage, kind, dmg, cycle, src, rng, w.get("index"), nats,
             ))
     rows.sort()
-    A("| Юнит | Роль | Оружие | Урон | Дальность (тайлы) | Цикл (игр. с) | Источник | Атак/игр. с | Атак/реал. с на «Быстро» | Нации |")
+    A("| Юнит | Роль | Оружие | Урон | Дальность (клетки) | Цикл (игр. с) | Источник | Атак/игр. с | Атак/реал. с на «Быстро» | Нации |")
     A("| --- | --- | --- | ---: | ---: | ---: | --- | ---: | ---: | --- |")
     for is_melee, neg_rate, sid, name, usage, kind, dmg, cycle, src, rng, idx, nats in rows:
         att_g = -neg_rate

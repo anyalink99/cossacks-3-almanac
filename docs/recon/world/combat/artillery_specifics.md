@@ -15,10 +15,10 @@
 - Артиллерия использует **отдельную ветку приказов**: вместо
   `move_mode_attack` для пехоты — она получает `attackpoint`
   (стрельба по точке), не `attack` (по конкретному юниту). См.
-  [`target_selection.md` §5](target_selection.md).
+  [Выбор цели и атака с движением §5](target_selection.md).
 - **`bartprepare`**: артиллерия должна **подготовиться** перед
   выстрелом — встать, развернуться, разложить установку. Это
-  занимает ~3-5 g-сек на каждое наведение.
+  занимает около 3–5 игровых секунд на каждое наведение.
 - Лимит артиллерии — `gPlayer[pl].artlimit[artind]`, расширяется
   через Артиллерийские депо (`bartdepo = True`, поле
   `artdepo[gc_MaxArtilleryType]`) [^2].
@@ -123,7 +123,7 @@ artlimit[artind] += building.artdepo[artind]
   подготовительная часть анимации до вызова
   `OnAclAnimationReachedAttack` — именно в этот кадр
   происходит выстрел (см.
-  [`internals/engine/animation_system.md`](../../../../internals/engine/animation_system.md)).
+  [систему анимаций](../../../../internals/engine/animation_system.md)).
   Подготовка у тяжёлых пушек занимает порядка 50–100 кадров.
 - **Поворот** (`rotatespeed`): артиллерия медленно разворачивается
   лицом к цели. Для мортиры `gc_obj_rotatespeed_mortar`
@@ -146,9 +146,9 @@ artlimit[artind] += building.artdepo[artind]
 
 ## 5. Радиус и точность
 
-Артиллерия имеет **большой `weapon_radiusmax`** (15-25 тайлов
+Артиллерия имеет **большой `weapon_radiusmax`** (15-25 клеток
 против 5-7 у мушкета 18 в.). Конкретные числа — в
-[`reports/combat/attack_rates.md`](../../../reports/combat/attack_rates.md).
+[Скорость атаки](../../../reports/combat/attack_rates.md).
 
 `weapon_radiusmin` тоже значимый: артиллерия **не стреляет в
 упор**. Если враг подошёл ближе чем `radiusmin`, юнит не может
@@ -158,9 +158,9 @@ artlimit[artind] += building.artdepo[artind]
 
 Артиллерийские снаряды (особенно ядра, мортиры) имеют **рассеяние**
 — смещение точки приземления от заявленной. Подробности — в
-[`target_selection.md` §9](target_selection.md#9-рассеяние-и-точность-выстрела). Кратко:
+[Выбор цели и атака с движением §9](target_selection.md#9-рассеяние-и-точность-выстрела). Кратко:
 радиус рассеяния пропорционален дальности, что-то порядка
-`spread_pct ≈ distance × 0.05` тайлов.
+`spread_pct ≈ distance × 0.05` клеток.
 
 ---
 
@@ -172,7 +172,7 @@ artlimit[artind] += building.artdepo[artind]
 1. Скрипт находит **все** объекты в радиусе через
    нативный `GetGameObjectsInArea`.
 2. Урон применяется по схеме `damage_at_d = damage × (1 − d / radius)`
-   к каждому (см. [`combat_damage_pipeline.md` §5](combat_damage_pipeline.md)).
+   к каждому (см. [Как рассчитывается урон §5](combat_damage_pipeline.md)).
 3. **Дружественный огонь возможен** — если своя пехота в радиусе,
    она тоже получает урон.
 
@@ -210,7 +210,7 @@ artlimit[artind] += building.artdepo[artind]
 - **Развёрнут** (`deployed`) — стреляет, медленно двигается.
 - **Упакован** (`packed`) — едет быстрее, не стреляет.
 
-Переключение между состояниями требует анимации (~2-3 g-сек).
+Переключение между состояниями требует анимации (около 2–3 игровых секунд).
 Для конной артиллерии (`fasthorse + bartillery`) состояние
 «упакован» означает буксировку конями — высокая скорость движения.
 
@@ -220,7 +220,7 @@ artlimit[artind] += building.artdepo[artind]
 
 1. **Точная минимальная дальность** (`radiusmin`) для каждого типа.
    У некоторых артиллерий она нулевая (можно стрелять в упор), у других — 5+
-   тайлов. Список — есть в `data.json`, но интерпретация требует
+   клеток. Список — есть в `data.json`, но интерпретация требует
    замеров.
 2. **Параметры рассеяния**. Формула `spread = f(distance)` —
    неполная. Замеры с разным расстоянием цели и подсчёт
@@ -244,7 +244,7 @@ artlimit[artind] += building.artdepo[artind]
       `artlimit[artind] += building.artdepo[artind]`. При смерти
       — `-=`.
 
-[^3]: См. [`target_selection.md` §5](target_selection.md) о
+[^3]: См. [Выбор цели и атака с движением §5](target_selection.md) о
       различии `move_mode_attack` (для пехоты) и `attackpoint`
       (для артиллерии). Источник:
       `data/scripts/lib/player.script:_player_OrderUnitsToAttackPoint`.

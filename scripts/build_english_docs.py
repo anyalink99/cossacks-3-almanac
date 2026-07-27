@@ -3,8 +3,8 @@
 The committed English files are normal Markdown, so readers and GitHub Pages
 never depend on a translation service. This script is only a maintainer tool:
 
-    python scripts/build_english_docs.py          # refresh changed translations
     python scripts/build_english_docs.py --check  # verify coverage/freshness
+    python scripts/build_english_docs.py --adopt-existing
     python scripts/build_english_docs.py --capture-fenced-translations
 
 Canonical game labels are substituted from ``canonical_terms.json`` and
@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import argparse
 import collections
-import concurrent.futures as futures
 import hashlib
 import html
 import json
@@ -757,7 +756,10 @@ def canonicalize_english_upgrade_names(text: str) -> str:
     )
 
 
-def canonicalize_english_reader_links(text: str) -> str:
+def canonicalize_english_reader_links(
+    text: str,
+    document_path: Path | None = None,
+) -> str:
     """Give repository-path links ordinary reader-facing English labels."""
     labels = {
         "recon/world/combat/towers.md": "tower and garrison mechanics",
@@ -805,16 +807,38 @@ def canonicalize_english_reader_links(text: str) -> str:
             target = urllib.parse.unquote(match.group(2)).split("#", 1)[0]
             normalized = target.replace("\\", "/").lstrip("./")
             visible = match.group(1).replace("`", "")
-            friendly = next(
-                (
-                    label
-                    for suffix, label in labels.items()
-                    if normalized.endswith(suffix)
-                    or visible.endswith(suffix)
-                    or suffix.endswith(visible)
-                ),
-                None,
-            )
+            friendly = None
+            if document_path and not re.match(r"^[a-z]+:", target, re.I):
+                linked_path = (document_path.parent / target).resolve()
+                if linked_path.is_relative_to(ROOT) and linked_path.is_file():
+                    for linked_line in linked_path.read_text(
+                        encoding="utf-8"
+                    ).splitlines():
+                        heading = re.match(r"^#\s+(.+?)\s*$", linked_line)
+                        if not heading:
+                            continue
+                        friendly = heading.group(1)
+                        friendly = re.sub(
+                            r"\[([^\]]+)\]\([^)]+\)", r"\1", friendly
+                        )
+                        friendly = friendly.replace("`", "").replace("*", "")
+                        break
+            if not friendly:
+                friendly = next(
+                    (
+                        label
+                        for suffix, label in labels.items()
+                        if normalized.endswith(suffix)
+                        or visible.endswith(suffix)
+                        or suffix.endswith(visible)
+                    ),
+                    None,
+                )
+            visible_suffix = re.sub(
+                r"^.*?\.md", "", visible, count=1, flags=re.IGNORECASE
+            ).strip()
+            if friendly and visible_suffix:
+                friendly = f"{friendly} {visible_suffix}"
             return (
                 f"[{friendly}]({match.group(2)})"
                 if friendly
@@ -1241,7 +1265,6 @@ def check(pairs: dict[Path, Path]) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
-    parser.add_argument("--force", action="store_true")
     parser.add_argument(
         "--adopt-existing",
         action="store_true",
@@ -1257,16 +1280,7 @@ def main() -> int:
         action="store_true",
         help="capture reviewed English fence bodies from the current mirrors",
     )
-    parser.add_argument("--workers", type=int, default=6)
-    parser.add_argument(
-        "--engine",
-        choices=("google", "argos"),
-        default="google",
-        help="Draft translation engine; committed output remains offline.",
-    )
     args = parser.parse_args()
-    global TRANSLATION_ENGINE
-    TRANSLATION_ENGINE = args.engine
 
     pairs = translation_pairs()
     if args.capture_fenced_translations:
@@ -1315,7 +1329,7 @@ def main() -> int:
             if target.is_relative_to(ROOT / "docs_en"):
                 cleaned = canonicalize_reader_table_codes(cleaned)
                 cleaned = canonicalize_reader_nation_headings(cleaned)
-                cleaned = canonicalize_english_reader_links(cleaned)
+                cleaned = canonicalize_english_reader_links(cleaned, target)
             if target == ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md":
                 cleaned = canonicalize_english_upgrade_names(cleaned)
             if (
@@ -1347,78 +1361,29 @@ def main() -> int:
         print(f"Cleaned {changed_count} existing translations")
         return 0
 
-    canonical = canonical_dictionary()
-    manual_fences = load_manual_fenced_translations()
     previous = load_manifest()
     changed = [
         (source, target)
         for source, target in pairs.items()
-        if args.force
-        or not target.is_file()
+        if not target.is_file()
         or previous.get(source.relative_to(ROOT).as_posix(), {}).get(
             "source_sha256"
         ) != sha256(source)
     ]
     print(
-        f"Translating {len(changed)} of {len(pairs)} files "
-        f"with {len(canonical)} canonical labels…",
-        flush=True,
+        "Automatic translation is disabled. Edit every English mirror "
+        "manually, review it, then run --adopt-existing and --check.",
+        file=sys.stderr,
     )
-
-    def process(item: tuple[Path, Path]) -> tuple[Path, Path]:
-        source, target = item
-        source_text = source.read_text(encoding="utf-8")
-        translated = translate_markdown(source_text, canonical, manual_fences)
-        translated = rewrite_translated_links(source, target, translated, pairs)
-        translated = ensure_heading_aliases(source_text, translated)
-        if target.is_relative_to(ROOT / "docs_en"):
-            translated = canonicalize_reader_table_codes(translated)
-            translated = canonicalize_reader_nation_headings(translated)
-            translated = canonicalize_english_reader_links(translated)
-        if target == ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md":
-            translated = canonicalize_english_upgrade_names(translated)
-        if (
-            target.parent == ROOT / "docs_en" / "reference" / "nations"
-            and target.name != "README.md"
-        ):
-            translated = clean_english_nation_page(translated)
-        if (
-            target.is_relative_to(ROOT / "docs_en" / "reports")
-            and target.name != "README.md"
-        ):
-            translated = clean_reader_report(translated)
-        strict_errors = validate_pair_text(
-            source,
-            target,
-            source_text,
-            translated,
-            strict=True,
+    for source, target in changed[:30]:
+        print(
+            f"manual translation required: {source.relative_to(ROOT)} "
+            f"→ {target.relative_to(ROOT)}",
+            file=sys.stderr,
         )
-        if strict_errors:
-            raise RuntimeError("\n".join(strict_errors))
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(translated, encoding="utf-8")
-        return source, target
-
-    completed = 0
-    with futures.ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
-        tasks = {pool.submit(process, item): item for item in changed}
-        for task in futures.as_completed(tasks):
-            source, target = task.result()
-            completed += 1
-            print(
-                f"[{completed:>3}/{len(changed)}] "
-                f"{source.relative_to(ROOT)} → {target.relative_to(ROOT)}",
-                flush=True,
-            )
-
-    write_manifest(pairs)
-    errors = check(pairs)
-    if errors:
-        print("\n".join(errors), file=sys.stderr)
-        return 1
-    print(f"English documentation current ({len(pairs)} translations)")
-    return 0
+    if len(changed) > 30:
+        print(f"…and {len(changed) - 30} more", file=sys.stderr)
+    return 1
 
 
 if __name__ == "__main__":

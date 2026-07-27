@@ -247,7 +247,7 @@ settings [^22].
 <a id="6-победа-и-поражение"></a>
 ## 6. Victory and defeat
 
-See separate document - [`recon/systems/victory_conditions.md`](../../systems/victory_conditions.md).
+See separate document - [Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md).
 In brief, victory means that only one team remains. `farmused = 0` means
 defeat, but it cannot reach zero while the player still has at least one
 Peasant or Town Hall. Cossacks 3 has no Wonder victory; score is used only for

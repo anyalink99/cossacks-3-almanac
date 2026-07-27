@@ -64,7 +64,7 @@ The fog-of-war radius is returned directly in tiles: `vision = 0`
 provides 20 tiles, while `vision = 3` provides 32. This matches the
 Tower (`vision = 3`, radius 32), whose vision exceeds its own
 26.25-tile target-search radius (`searchradius`; see
-[`towers.md` §2.2](towers.md)).
+[How Towers Work §2.2](towers.md)).
 
 <a id="2-условия-выдачи-обзора"></a>
 ## 2. Conditions for Providing Vision
@@ -147,7 +147,7 @@ The sound system is **not tied to fog of war**. Emitters
 (`SndGetOrCreateSound`) only check the distance from the listener
 (camera or object). An enemy hidden by fog of war can therefore still
 be **heard** when within the camera's hearing radius. See
-[`../../systems/ui_input_and_feedback.md` §5](../../systems/ui_input_and_feedback.md).
+[Controls and Player Feedback §5](../../systems/ui_input_and_feedback.md).
 
 <a id="51-целеуказание"></a>
 ### 5.1. Target acquisition
@@ -176,7 +176,7 @@ will go around it, even if you don’t “see” it.
 The computer player also **sees only through fog of war**. A raid along
 an unseen route can therefore work: if your troops do not reveal
 themselves, the AI does not react. See
-[`../systems/ai_behavior.md`](../../systems/ai_behavior.md).
+[How the Computer Player Works](../../systems/ai_behavior.md).
 
 <a id="6-открытые-эмпирические-вопросы"></a>
 <a id="6-что-ещё-требует-проверки"></a>

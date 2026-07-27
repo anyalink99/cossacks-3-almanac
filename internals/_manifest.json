@@ -29,7 +29,7 @@
     {
       "path": "data/nation_deviations.md",
       "title": "Национальные отклонения — здания и юниты",
-      "size": 28967,
+      "size": 29117,
       "lines": 522
     },
     {
@@ -107,8 +107,8 @@
     {
       "path": "project/documentation_style.md",
       "title": "Правила читательской документации",
-      "size": 10396,
-      "lines": 167
+      "size": 10938,
+      "lines": 172
     },
     {
       "path": "project/known_issues.md",

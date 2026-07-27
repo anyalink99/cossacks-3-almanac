@@ -135,7 +135,7 @@
       "literal_cyrillic": false,
       "text": "# If author-written fenced blocks changed:\npython scripts/build_english_docs.py --capture-fenced-translations\n\n# Record the reviewed pair and rebuild search:\npython scripts/build_english_docs.py --adopt-existing\npython compute/build_md_manifest.py\n\n# Required checks:\npython scripts/build_english_docs.py --check\npython scripts/check_markdown_links.py\npython -m unittest discover -s tests -v\ngit diff --check",
       "sources": [
-        "internals/project/documentation_style.md:148"
+        "internals/project/documentation_style.md:153"
       ]
     },
     "396083c96d40e435593af7ddfe2e69faccbd43e2c181e33e49db02b3491ec4b4": {
@@ -191,7 +191,7 @@
       "literal_cyrillic": false,
       "text": "# 1. Edit the source: parser, compute script, template, or handwritten Markdown.\n# 2. Regenerate its dependants:\npython scripts/regen.py all       # full rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change, without co-authoring.\ngit add <files>\ngit commit -m \"<concise message>\"",
       "sources": [
-        "CONTRIBUTING.md:80"
+        "CONTRIBUTING.md:84"
       ]
     },
     "40e8471e688a396ec0f75b950f269b2a9c4cbaa34223b5fb7596ddb8856fa5fa": {
@@ -239,7 +239,7 @@
       "literal_cyrillic": false,
       "text": "    _ai_TryUnit(plind, cid, gc_ai_unit_ba17, 8, False)\n    // 6 for Russia",
       "sources": [
-        "docs/recon/systems/ai_behavior.md:423"
+        "docs/recon/systems/ai_behavior.md:424"
       ]
     },
     "4ad4cb8f071b7ca22c1d8fd4f412ed89125b68b136247dd41cbb61084753ad6c": {
@@ -282,14 +282,6 @@
         "derived/README.md:65"
       ]
     },
-    "5535760bae68ceedd8c3bae757a78932d565b2afd4d750ba31b4c3d318b2ddaf": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "if (standtime < 0.25) AND (weapon.kind ≠ cannister):\n    if (NOT bArtillery):\n        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles\n    else:\n        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles",
-      "sources": [
-        "docs/recon/world/combat/ranged_units_behavior.md:150"
-      ]
-    },
     "57569af795c7cb15b7466b92146251e2ab087d04cd01e3545c2deea8e0dea555": {
       "literal": false,
       "literal_cyrillic": false,
@@ -304,6 +296,14 @@
       "text": "variant A (saves and local replays):\n  b0 04 00 00 00 00 00 00 00 00\n\nvariant B (rated/online matches):\n  b0 04 <4B signature> 00 00 00 00\n                       ^^^^^^^^^^^ tail remains zero\n         ^^^^^^^^^^^^^ nonzero word, CONSTANT within one file",
       "sources": [
         "internals/data/replay_format.md:96"
+      ]
+    },
+    "5a2ae896a3db160f0be395916070ff9b527aa06cbddcaa295f2ec301588d4ca3": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:181"
       ]
     },
     "5dc289193db2051d877b01e19cced7f1efdbeeacd22454723c491222794b1562": {
@@ -360,6 +360,14 @@
       "text": "// unit.script — before a calculation that depends on an individual unit\nSetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));\n// sync multiplayer",
       "sources": [
         "internals/engine/rng_implementation.md:142"
+      ]
+    },
+    "69666cfa977a53db46640ba810fac174ecab4a4f22a4275cbf5bda4fc22e88ca": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI enabled\n    SetGameObjectCIIntersectRadiusByHandle(colHnd, 0.35);  // 0.35 tiles\n    SetGameObjectCIMovableByHandle(colHnd, false);         // immovable\n    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — effectively infinite\n    SetGameObjectCIMaxDistKoefByHandle(colHnd, 2);\n    SetGameObjectCIDeltaStepByHandle(colHnd, 0.005);\n    SetGameObjectCIRotationSpeedByHandle(colHnd, 5);\n    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // buildings → 5°, units → 0\n    SetGameObjectCIEpsilonAngleByHandle(colHnd, 4);\n    SetGameObjectCIEpsilonShiftByHandle(colHnd, 0.001);\n    SetGameObjectCIEpsilonMoveByHandle(colHnd, 0.02);\n    SetGameObjectCIDistExtPointEpsilonByHandle(colHnd, 0.005);\n    SetGameObjectCIAvoidPointMaxAngleByHandle(colHnd, 120);\n    SetGameObjectCIMaxCollideCounterByHandle(colHnd, 7);",
+      "sources": [
+        "docs/recon/world/combat/pathfinding.md:703"
       ]
     },
     "6cce363cd1ebe9507b33cdcd60ef9e58e3e401f3265d00419d9e374959907a7d": {
@@ -434,14 +442,6 @@
         "internals/data/layout.md:167"
       ]
     },
-    "811d613141b0da7d707e022b7a9a6e6e0d1960629dd69f0a6991d49097148105": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "maxdisp = dist × disp × 0.0267         # in tiles\nshot_x  = target_x + (1 − random × 2) × maxdisp\nshot_z  = target_z + (1 − random × 2) × maxdisp",
-      "sources": [
-        "docs/recon/world/combat/target_selection.md:458"
-      ]
-    },
     "87e98535b27027e7efa587d7fadc22a64b104398694a0b445801cf836e3cea30": {
       "literal": false,
       "literal_cyrillic": false,
@@ -450,12 +450,12 @@
         "docs/recon/world/map/game_settings.md:278"
       ]
     },
-    "881edfa43f8232713189a3b553a9458e1871779211d63ca9f738441f4c44342a": {
+    "8b6f1ba221322edea6b58f7ea3027ee6e96c00ff8a39ae8ea1bfb1624028810e": {
       "literal": false,
       "literal_cyrillic": false,
-      "text": "    SetGameObjectCollisionInertiaByHandle(colHnd, true);   // CI enabled\n    SetGameObjectCIIntersectRadiusByHandle(colHnd, 0.35);  // 0.35 tiles\n    SetGameObjectCIMovableByHandle(colHnd, false);         // immovable\n    SetGameObjectCIMassByHandle(colHnd, 10000);            // 10000 — effectively infinite\n    SetGameObjectCIMaxDistKoefByHandle(colHnd, 2);\n    SetGameObjectCIDeltaStepByHandle(colHnd, 0.005);\n    SetGameObjectCIRotationSpeedByHandle(colHnd, 5);\n    SetGameObjectCIStuckAngleByHandle(colHnd, 5);          // buildings → 5°, units → 0\n    SetGameObjectCIEpsilonAngleByHandle(colHnd, 4);\n    SetGameObjectCIEpsilonShiftByHandle(colHnd, 0.001);\n    SetGameObjectCIEpsilonMoveByHandle(colHnd, 0.02);\n    SetGameObjectCIDistExtPointEpsilonByHandle(colHnd, 0.005);\n    SetGameObjectCIAvoidPointMaxAngleByHandle(colHnd, 120);\n    SetGameObjectCIMaxCollideCounterByHandle(colHnd, 7);",
+      "text": "flowchart TD\n    Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}\n    Peace -- yes --> Stop1[exit: check disabled]\n    Peace -- no --> Step1[Step 1: find a capturer]\n    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]\n    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}\n    Found -- no --> Stop2[exit: bcapture = False]\n    Found -- yes --> Step2[Step 2: find protectors]\n    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]\n    Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}\n    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]\n    Prot -- no --> Step3[Step 3: apply capture]\n    Step3 --> Type{Target type}\n    Type -- wall --> Die1[bDie = True<br/>wall is destroyed]\n    Type -- building --> AICheck{AI capturer<br/>and random &gt; 0.25?}\n    AICheck -- yes --> Die2[bDie = True<br/>AI destroys building]\n    AICheck -- no --> Change[ChangePlayer<br/>building + garrison]\n    Type -- unit --> Change\n    Change --> Done[Done]\n    Die1 --> Done\n    Die2 --> Done",
       "sources": [
-        "docs/recon/world/combat/pathfinding.md:703"
+        "docs/recon/world/economy/capture_mechanics.md:131"
       ]
     },
     "8d52ddb566f981837ff526438cb9d6486073dc72333163ae21a0630f98cdfc37": {
@@ -474,6 +474,14 @@
         "internals/engine/server_sync_architecture.md:453"
       ]
     },
+    "8f459f57ad6b311b489c1a071940e52ff82293f81ca008a8097c6a935fb3b26a": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "if (standtime < 0.25) AND (weapon.kind ≠ cannister):\n    if (NOT bArtillery):\n        radiusmax −= 3 × uniqrnd            # infantry: up to −3 tiles\n    else:\n        radiusmax −= 3 × uniqrnd × 0.5      # artillery: up to −1.5 tiles",
+      "sources": [
+        "docs/recon/world/combat/ranged_units_behavior.md:150"
+      ]
+    },
     "9258fa263181c773cac507d6bdcbd8eb60f3c983b7c2b75f13aef8def9d455f5": {
       "literal": false,
       "literal_cyrillic": false,
@@ -487,7 +495,7 @@
       "literal_cyrillic": false,
       "text": "    myForce := _ai_GetArmyForce(pArmy);\n    if (uCount > 200) or (myForce > 3800) then\n       myForce := 100000;\n    // otherwise myForce *= 8 (heavy) or *= 2 (light)\n    if (enForce > myForce) then ...retreat...",
       "sources": [
-        "docs/recon/systems/ai_behavior.md:485"
+        "docs/recon/systems/ai_behavior.md:486"
       ]
     },
     "976140b4ad199adae3d0c007f11a18f06459aba464719e943494b88e1f62e95c": {
@@ -504,6 +512,14 @@
       "text": "attpause := objbase.weapon[weapind].pause\nif individual.benabled and attpause > 0:\n    attpause *= individual.attackrate    ← percentage upgrades",
       "sources": [
         "internals/engine/animation_system.md:388"
+      ]
+    },
+    "9d64ac92a9a601778d85a7b969e875b9dd66e8b9d33d87bc5c08eb8d846432d8": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    procedure _misc_CheckCapture(goHnd):\n      pobj      := target object\n      scangrid  := its scan-grid cell\n      bneutral  := (not gbool_peacemode) or (owner-of-grid <> my pl)\n      if not bneutral: return                          // skip during peace time when the nearby grid is ours\n\n      bwall    := pobjprop.bwall\n      enemyplmask := gPlayer[my pl].enemyplmask\n      rx1 := floor(214/4) + 1 = 54  → scan radius in grid cells\n      capturePlMask := bneutral ? enemyPlMask : myPlMask-of-grid-owner\n\n      // -------- Step 1: find a capturer --------\n      bcapture := False; capturerCount := 0; bblockshot := False\n      for each grid cell within rx1 of scangrid:\n        if the cell contains enemyplmask units:\n          trgHnd := bwall ? _unit_SearchCapturersForWall(...) : _unit_SearchCapturers(...)\n          if trgHnd != 0:\n             pobjprop2 = ObjProp(trgHnd)\n             // Walls accept any enemy non-building (even a peasant);\n             // normal buildings accept only a bcancapture unit that is not on water.\n             if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):\n                distSqr := (px-tx)² + (py-ty)²\n                if distSqr < captureradiusSqr (≈4.013² tile):\n                   bcapture := True\n                   capturerCount += 1\n                   capturerHnd := trgHnd\n                   if distSqr < captureblockshotradiusSqr (3² tile):\n                      bblockshot := True\n\n      // _unit_SearchCapturers finds a unit satisfying:\n      //   not bbuilding && bcancapture && (myplmask & plmask)<>0\n      //                                   && pl <> mercenaryInd\n      // _unit_SearchCapturersForWall is the same WITHOUT the bcancapture requirement\n      //   (that is, any enemy infantry can break, or \"capture,\" a wall);\n      //   capture here effectively means wall death (bDie=True below).\n\n      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------\n      if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):\n\n         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),\n         //     suppress building fire for 100 frames (≈3.125 game sec):\n         if usage<>peasant and bblockshot:\n            attackdelay := max(attackdelay, 100*gc_frames_to_time)\n\n         // 2b. Find protectors within protectionradius (~7.99 tiles)\n         rx2 := floor(426/4) + 1\n         for grid cells within rx2 (only cells containing my myplmask units):\n            trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector\n                                                    && not bbuilding && (myplmask & plmask)=0\n            if trgHnd != 0:\n               if not pobjprop2.bcapture:\n                  if distSqr < protectionradiusSqr:\n                     bcapture := False; protectorsCount += 1; (but the loop continues)\n\n         // 2c. AI artillery logic: when the target is bartillery, pl=AI,\n         //     and there are too many protectors, commit suicide:\n         if gPlayer[my pl].bai and pobjprop.bartillery:\n            if (capCount>=protCount and protCount=1) or\n               (capCount>3 and protCount=2)        or\n               (capCount>7 and protCount=3)        or\n               (capCount>10 and protCount=4):\n               if (not bEasy) or (random>0.5):\n                  SetTagStates(goHnd, essential_death); exit\n\n      // -------- Step 3: apply capture --------\n      if bcapture:\n         statetag := GetGameObjectStatesTag(goHnd)\n         // A visible unit that has not spawned yet (essential_birth) simply dies:\n         if not bbuilding and (essential_birth & statetag) and (not visual_hide):\n            SetTagStates(essential_death); exit\n\n         if (statetag & visual_hide) = 0:\n            if bbuilding or (essential_none & statetag) <> 0:\n               bDie := False; bAutoKill := False  // bAutoKill is not assigned explicitly in the code\n               if bAutoKill or pobjprop.bwall:\n                  bDie := True                    // WALLS always die; they are never transferred\n\n               if not bbuilding:\n                  _unit_Stop(goHnd)\n               else:\n                  cancel produce/upgrade orders;  ClearOrders;  SetSTO=0\n\n               newPlHnd := capturer's player;  newPlInd := that player's index\n\n               // Alarm event for the captured player:\n               if my pl == InterfaceIO_pl:\n                  _misc_DoAlarm(capturerHnd, goHnd, alarmevent_capture)\n\n               // ---- AI capturer: sometimes destroys instead of capturing ----\n               if gPlayer[my pl].bai:        // AI loses the building\n                  if bbuilding:\n                     if random > 0.25:        // 75% chance of entering destruction\n                        if bbuilt and pobjprop.bslowdeath and hp>1999:\n                           hp := 1999 - floor(RandomExt*300)   // slow death\n                        else:\n                           bDie := True\n                  else:                       // peasant/artillery unit\n                     if usage=peasant and not bEasy:\n                        bDie := True          // hard+: AI destroys its peasant before capture\n                     else case usage of\n                        supermortar: if random>0.585     then bDie := True   // ≈41.5% suicide\n                        cannon:      if random>0.391     then bDie := True   // ≈60.9% suicide\n                        mortar:      if random>0.141     then bDie := True   // ≈85.9% suicide\n                        peasant:     if random>0.547     then bDie := True   // ≈45.3% when bEasy\n               else if gPlayer[newPlInd].bai and usage=peasant and not bEasy:\n                  bDie := True                 // inverse case: an AI capturer \"kills\" the peasant on hard\n\n               if bDie: SetTagStates(essential_death)\n               else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)",
+      "sources": [
+        "docs/recon/world/economy/capture_mechanics.md:458"
       ]
     },
     "9df206a60a1f432dab7dba5f7a574d15c8b89675dd8634d800403a321bff4f8e": {
@@ -527,7 +543,7 @@
       "literal_cyrillic": false,
       "text": "flowchart TB\n    subgraph P0[\"Phase 0 — preparation\"]\n        H[Helper-procedures<br/>FillPatternMaskElipse/Circle/...]\n        Clear[ClearMapMaskAndObjects:<br/>gPatternMask 640×640,<br/>arrStartPos 0..7]\n        Load[LoadPatterns:<br/>all .pattern files]\n    end\n    subgraph P1[\"Phase 1 — terrain\"]\n        Players[plcount = non-spectator players]\n        Tiles[SetupTiledPatterns<br/>~100 placements on 256×256]\n        Seed[SetRandomKey randkey1<br/>determines RandomExt]\n        Gen[GenerateMap:<br/>heightmap from inputbitmap.tga]\n        Water[Water-shore mask<br/>height &lt; −0.1]\n    end\n    subgraph P2[\"Phase 2 — start positions + resources\"]\n        StartPts[RandomStartingPoints:<br/>assign players]\n        StartRes[SetupStartingResources × P:<br/>1× stoneforest + 2× stones + 3× forests]\n        Mines1[SetupMines round=0<br/>for real players]\n    end\n    subgraph P3[\"Phase 3 — global resources\"]\n        Mines2[SetupMines rounds 1..N<br/>for every spcount]\n        Forests[Forests / stoneforests<br/>by pattern type]\n        Decor[Decoration patterns]\n    end\n    subgraph P4[\"Phase 4 — finalization\"]\n        Owner[FillOwnerMap]\n        Borders[SetupBorderObjects:<br/>peace-time walls]\n        Pea[CreateStartPointPeasants × 18<br/>in a 6×3 grid]\n    end\n    P0 --> P1 --> P2 --> P3 --> P4",
       "sources": [
-        "docs/recon/world/map/map_generation_pipeline.md:74"
+        "docs/recon/world/map/map_generation_pipeline.md:76"
       ]
     },
     "aace81293c015c15e81c3b7eb51c201f0fcf7cc554e8121336a6e0f2b12c7dee": {
@@ -552,6 +568,14 @@
       "text": "locale/\n├── english/\n│   ├── units.txt        Unit and building names\n│   ├── upgrades.txt     Upgrade names\n│   └── ...\n├── russian/\n└── ...",
       "sources": [
         "internals/data/layout.md:124"
+      ]
+    },
+    "acf9c7508a4f5e4a321f26fa892dc2be0351e74c018268ef9c99e5e2832c4faf": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "    function _misc_GetPeaceTime(ind : Integer) : Float;\n    begin\n       case ind of\n          0  : Result := 0;     // No peace time\n          1  : Result := 10;    // 10 minutes\n          2  : Result := 20;\n          3  : Result := 30;\n          4  : Result := 45;\n          5  : Result := 60;\n          6  : Result := 90;\n          7  : Result := 120;\n          8  : Result := 180;\n          9  : Result := 240;\n          11 : Result := 15;\n       end;\n       Result := Result * 60;   // convert to game seconds\n    end;",
+      "sources": [
+        "docs/recon/world/map/game_settings.md:335"
       ]
     },
     "b20a33ebc5b1b8401515ad936ffb2e8dea2aab6f0e82d676d42797a4c6d6e72d": {
@@ -584,6 +608,14 @@
       "text": "type TLanSyncData = class\n    playerstosync : Word;                                    // bitmask: players included in the packet\n    economyfieldstosync : array [0..11] of Byte;             // fields included for each player\n    netplayer : array [0..11] of TLanSyncPlayerData;\nend;",
       "sources": [
         "internals/engine/server_sync_packet_format.md:100"
+      ]
+    },
+    "c174761f1603c5cde0cf782a1f6fd89a5ccf4b053d739d226638f8afb4052220": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "maxdisp = dist × disp × 0.0267         # in tiles\nshot_x  = target_x + (1 − random × 2) × maxdisp\nshot_z  = target_z + (1 − random × 2) × maxdisp",
+      "sources": [
+        "docs/recon/world/combat/target_selection.md:458"
       ]
     },
     "c3590bb98d978f097dfd68a9a68d9f2e6261ed5764674b58af9a9caf0bdf7c8d": {
@@ -666,6 +698,14 @@
         "docs/reports/combat/counter_matrix.md:9"
       ]
     },
+    "cf73265cb37cf3ce2aabdb2e083520fd5470da7928c9a0d3310a8fd14a69ea15": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "sum = 18 × (32 + 30) = 1116\nfood / g-sec = 1116 × 32 / 20000 ≈ 1.786\nover 120 game sec ≈ 214 food   ✓",
+      "sources": [
+        "docs/recon/world/economy/hunger_and_rebellion.md:144"
+      ]
+    },
     "d2863d104e88e4efa506d2a0e750a5faaa34b24fba8acbdb3842709a28df9028": {
       "literal": false,
       "literal_cyrillic": false,
@@ -682,14 +722,6 @@
         "internals/engine/server_sync_packet_format.md:229"
       ]
     },
-    "db4c6d0333645c9a68a30df2ddac4eba2dd21fd23a44e1f59a2667ec1b7c685d": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "    procedure _misc_CheckCapture(goHnd):\n      pobj      := target object\n      scangrid  := its scan-grid cell\n      bneutral  := (not gbool_peacemode) or (owner-of-grid <> my pl)\n      if not bneutral: return                          // skip during peace time when the nearby grid is ours\n\n      bwall    := pobjprop.bwall\n      enemyplmask := gPlayer[my pl].enemyplmask\n      rx1 := floor(214/4) + 1 = 54  → scan radius in grid cells\n      capturePlMask := bneutral ? enemyPlMask : myPlMask-of-grid-owner\n\n      // -------- Step 1: find a capturer --------\n      bcapture := False; capturerCount := 0; bblockshot := False\n      for each grid cell within rx1 of scangrid:\n        if the cell contains enemyplmask units:\n          trgHnd := bwall ? _unit_SearchCapturersForWall(...) : _unit_SearchCapturers(...)\n          if trgHnd != 0:\n             pobjprop2 = ObjProp(trgHnd)\n             // Walls accept any enemy non-building (even a peasant);\n             // normal buildings accept only a bcancapture unit that is not on water.\n             if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):\n                distSqr := (px-tx)² + (py-ty)²\n                if distSqr < captureradiusSqr (≈4.013² tile):\n                   bcapture := True\n                   capturerCount += 1\n                   capturerHnd := trgHnd\n                   if distSqr < captureblockshotradiusSqr (3² tile):\n                      bblockshot := True\n\n      // _unit_SearchCapturers finds a unit satisfying:\n      //   not bbuilding && bcancapture && (myplmask & plmask)<>0\n      //                                   && pl <> mercenaryInd\n      // _unit_SearchCapturersForWall is the same WITHOUT the bcancapture requirement\n      //   (that is, any enemy infantry can break, or \"capture,\" a wall);\n      //   capture here effectively means wall death (bDie=True below).\n\n      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------\n      if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):\n\n         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),\n         //     suppress building fire for 100 frames (≈3.125 game sec):\n         if usage<>peasant and bblockshot:\n            attackdelay := max(attackdelay, 100*gc_frames_to_time)\n\n         // 2b. Find protectors within protectionradius (~7.99 tiles)\n         rx2 := floor(426/4) + 1\n         for grid cells within rx2 (only cells containing my myplmask units):\n            trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector\n                                                    && not bbuilding && (myplmask & plmask)=0\n            if trgHnd != 0:\n               if not pobjprop2.bcapture:\n                  if distSqr < protectionradiusSqr:\n                     bcapture := False; protectorsCount += 1; (but the loop continues)\n\n         // 2c. AI artillery logic: when the target is bartillery, pl=AI,\n         //     and there are too many protectors, commit suicide:\n         if gPlayer[my pl].bai and pobjprop.bartillery:\n            if (capCount>=protCount and protCount=1) or\n               (capCount>3 and protCount=2)        or\n               (capCount>7 and protCount=3)        or\n               (capCount>10 and protCount=4):\n               if (not bEasy) or (random>0.5):\n                  SetTagStates(goHnd, essential_death); exit\n\n      // -------- Step 3: apply capture --------\n      if bcapture:\n         statetag := GetGameObjectStatesTag(goHnd)\n         // A visible unit that has not spawned yet (essential_birth) simply dies:\n         if not bbuilding and (essential_birth & statetag) and (not visual_hide):\n            SetTagStates(essential_death); exit\n\n         if (statetag & visual_hide) = 0:\n            if bbuilding or (essential_none & statetag) <> 0:\n               bDie := False; bAutoKill := False  // bAutoKill is not assigned explicitly in the code\n               if bAutoKill or pobjprop.bwall:\n                  bDie := True                    // WALLS always die; they are never transferred\n\n               if not bbuilding:\n                  _unit_Stop(goHnd)\n               else:\n                  cancel produce/upgrade orders;  ClearOrders;  SetSTO=0\n\n               newPlHnd := capturer's player;  newPlInd := that player's index\n\n               // Alarm event for the captured player:\n               if my pl == InterfaceIO_pl:\n                  _misc_DoAlarm(capturerHnd, goHnd, alarmevent_capture)\n\n               // ---- AI capturer: sometimes destroys instead of capturing ----\n               if gPlayer[my pl].bai:        // AI loses the building\n                  if bbuilding:\n                     if random > 0.25:        // 75% chance of entering destruction\n                        if bbuilt and pobjprop.bslowdeath and hp>1999:\n                           hp := 1999 - floor(RandomExt*300)   // slow death\n                        else:\n                           bDie := True\n                  else:                       // peasant/artillery unit\n                     if usage=peasant and not bEasy:\n                        bDie := True          // hard+: AI destroys its peasant before capture\n                     else case usage of\n                        supermortar: if random>0.585     then bDie := True   // ≈41.5% suicide\n                        cannon:      if random>0.391     then bDie := True   // ≈60.9% suicide\n                        mortar:      if random>0.141     then bDie := True   // ≈85.9% suicide\n                        peasant:     if random>0.547     then bDie := True   // ≈45.3% when bEasy\n               else if gPlayer[newPlInd].bai and usage=peasant and not bEasy:\n                  bDie := True                 // inverse case: an AI capturer \"kills\" the peasant on hard\n\n               if bDie: SetTagStates(essential_death)\n               else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)",
-      "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:457"
-      ]
-    },
     "dfb95d833089c29eca3c082096763a743477f23191835c0b908122fc5cf79bce": {
       "literal": false,
       "literal_cyrillic": false,
@@ -698,12 +730,20 @@
         "docs/recon/world/economy/hunger_and_rebellion.md:128"
       ]
     },
+    "e269e4cea7ba6ffb4ac08302d52627bfa8bdcab5d2518f7e7c01d4026edc6232": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "[wall][wall][wall]   ← a 3-tile line",
+      "sources": [
+        "docs/recon/world/combat/walls_and_gates.md:91"
+      ]
+    },
     "e39af67883f64ea4e30882b97b17223c32461b2711fe87eb828061f684672ce6": {
       "literal": false,
       "literal_cyrillic": false,
       "text": "Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)\nReference points:  center to center (game-object position X/Z)\nDistance:          in tiles (1 tile = 53.333 px)\ncaptureradius      ≈ 4.0125 tiles ≈ 1.6 m at game scale (1 tile = 0.5 m? see determinism)\n                   = 214 px game-source units\ncaptureblockshot   = 3.0 tiles    (suppresses the target's fire)\nprotectionradius   ≈ 7.987 tiles  (protector zone; cancels capture)",
       "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:351"
+        "docs/recon/world/economy/capture_mechanics.md:352"
       ]
     },
     "e3a8749067788d267a85bc75ff0c84cbbd6d47bc1c40a9c6ae6db82be693a3da": {
@@ -712,14 +752,6 @@
       "text": "rate_per_trip = portion × eff / 100             # resource per trip\ntime_per_trip_game = hitsneeded × t_hit_game    # game seconds\nrate = rate_per_trip / time_per_trip_game       # resource per game second",
       "sources": [
         "docs/recon/world/economy/peasant_extraction.md:236"
-      ]
-    },
-    "e512aaaacc8781c402a159d36934057a245176e4ec7cbad7dc133aaa9b140b50": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
-      "sources": [
-        "docs/recon/world/economy/building_mechanics.md:43"
       ]
     },
     "e647f174c5a89efb894bc52dcfb3b970ecbc5fc91643098a6e3da9f1b60b229b": {
@@ -754,20 +786,12 @@
         "parser/README.md:19"
       ]
     },
-    "ed3973d396a2e99601757fa1fe039b12736221efc65c278b4e6660b8ff19ec52": {
+    "eee6e96ab6d8eefbd1f8fdf436923f8e10e3ea61e952575bbeccae41d0efb8ca": {
       "literal": false,
       "literal_cyrillic": false,
-      "text": "[wall][wall][wall]   ← a 3-tile line",
+      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
       "sources": [
-        "docs/recon/world/combat/walls_and_gates.md:91"
-      ]
-    },
-    "ee081c54938001255f864e0c675a05e814956685cc78dd82fa81f7c203888327": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "flowchart TD\n    Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}\n    Peace -- yes --> Stop1[exit: check disabled]\n    Peace -- no --> Step1[Step 1: find a capturer]\n    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]\n    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}\n    Found -- no --> Stop2[exit: bcapture = False]\n    Found -- yes --> Step2[Step 2: find protectors]\n    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]\n    Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}\n    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]\n    Prot -- no --> Step3[Step 3: apply capture]\n    Step3 --> Type{Target type}\n    Type -- wall --> Die1[bDie = True<br/>wall is destroyed]\n    Type -- building --> AICheck{AI capturer<br/>and random &gt; 0.25?}\n    AICheck -- yes --> Die2[bDie = True<br/>AI destroys building]\n    AICheck -- no --> Change[ChangePlayer<br/>building + garrison]\n    Type -- unit --> Change\n    Change --> Done[Done]\n    Die1 --> Done\n    Die2 --> Done",
-      "sources": [
-        "docs/recon/world/economy/capture_mechanics.md:131"
+        "docs/recon/world/economy/building_mechanics.md:43"
       ]
     },
     "f199b7acf34120908ac98bd2613b8a0f1b1710d5faa359e2dca97d212179aa4e": {
@@ -794,14 +818,6 @@
         "docs/reference/06_market/README.md:55"
       ]
     },
-    "f660d976228ed2f727b51fab2e9d84cfecd08a56446d17b2c09fd8cb6d79e15a": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "    function _misc_GetPeaceTime(ind : Integer) : Float;\n    begin\n       case ind of\n          0  : Result := 0;     // No peace time\n          1  : Result := 10;    // 10 minutes\n          2  : Result := 20;\n          3  : Result := 30;\n          4  : Result := 45;\n          5  : Result := 60;\n          6  : Result := 90;\n          7  : Result := 120;\n          8  : Result := 180;\n          9  : Result := 240;\n          11 : Result := 15;\n       end;\n       Result := Result * 60;   // convert to game seconds\n    end;",
-      "sources": [
-        "docs/recon/world/map/game_settings.md:335"
-      ]
-    },
     "f69bd0574bdb1da70523eb2a339edbc0e29f9109d079ce384f032e33d5189d89": {
       "literal": false,
       "literal_cyrillic": false,
@@ -824,22 +840,6 @@
       "text": "*(byte *)(stream + 0x14) |= *(byte *)(stream + 0x15);  // OR the mask into the current byte\n*(byte *)(stream + 0x15) <<= 1;                         // mask <<= 1",
       "sources": [
         "internals/data/replay_format.md:266"
-      ]
-    },
-    "fcea9d294346158acc2bc8762dbea71ec69d9e1435a4bdc9586045a2a681224a": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "rbonus += weapon[i].addradius     # normally 32 px = ~0.6 tiles",
-      "sources": [
-        "docs/recon/world/combat/ranged_units_behavior.md:181"
-      ]
-    },
-    "fd8cc416e0ad40c34535393aa01427be1f2ac514d4ba122ddaa0b46a094018f5": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "sum = 18 × (32 + 30) = 1116\nfood / g-sec = 1116 × 32 / 20000 ≈ 1.786\nover 120 game sec ≈ 214 food   ✓",
-      "sources": [
-        "docs/recon/world/economy/hunger_and_rebellion.md:144"
       ]
     }
   }

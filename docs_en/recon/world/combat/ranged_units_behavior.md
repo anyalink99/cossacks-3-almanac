@@ -11,8 +11,8 @@ are collected under [Sources](#sources).
 
 > **Related documents:** [damage calculation](combat_damage_pipeline.md) -
 > damage formula; [target selection](target_selection.md) —
-> target selection algorithm; [`unit_commands.md`](unit_commands.md) —
-> order queue; [`artillery_specifics.md`](artillery_specifics.md)
+> target selection algorithm; [Unit Orders](unit_commands.md) —
+> order queue; [How Artillery Works](artillery_specifics.md)
 > — artillery mechanics.
 
 <a id="кратко"></a>
@@ -92,7 +92,7 @@ Without `bartprepare` (for example, a mobile grapeshot unit or
 Musketeer), the order
 `attackpoint` behaves like `move(x, z)` without active search.
 
-See also [`artillery_specifics.md`](artillery_specifics.md) §3
+See also [How Artillery Works](artillery_specifics.md) §3
 about the order `attackpoint` and the preparation of the shot.
 
 <a id="3-runaway--отход-стрелка-из-мёртвой-зоны"></a>
@@ -218,7 +218,7 @@ Infantry that comes within ~8 tiles of a cannon is automatically hit
 under **grapeshot**—heavy area damage. Therefore, rushing infantry into a
 Cannon means taking grapeshot at point-blank range. **It is better to attack a Cannon in an extended
 line** so that there are no more than 9 units under the explosion (see.
-[`combat_damage_pipeline.md` §5](combat_damage_pipeline.md) about AoE
+[How Damage Is Calculated §5](combat_damage_pipeline.md) about AoE
 damage limit).
 
 <a id="мушкетёр-18-в--пуля-против-штыка"></a>

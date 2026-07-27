@@ -26,17 +26,6 @@ Cossacks 3. Source references and Pascal excerpts are collected under
 - **Diplomacy is static:** teams come from the lobby, and the AI neither
   forms nor breaks alliances during a match.
 
-<a id="исходные-файлы"></a>
-## Source files
-
-| Path | Size | Role |
-|---|---:|---|
-| `lib/ai.script` | 95.6 KB | Helper library: army queries (`_ai_GetArmyForce`, `_ai_GetArmyUnitsCount`), unit-role mappings (`_ai_FillUnitUpgradeList`), upgrade tables, deposit discovery, `_ai_IsTeamAI`, and `_ai_GetCommonNationName` (four groups: `rus`, `tur`, `mis`, `eur`). |
-| `units/global.inc/progressai.inc` | 0.8 KB | **Dispatcher.** Each `gc_global_TimeProgressAI` tick calls `ProgressEconomicAI`, then `ProgressWarAI`. |
-| `units/global.inc/progresseconomicai.inc` | 226 KB | Economic AI: build order, production goals, resource balance, choice of upgrades. |
-| `units/global.inc/progresswarai.inc` | 223 KB | Military AI: army formation, attack/withdrawal decisions, sabotage groups, transport operations. |
-| `misc/airegion.aix` | 3.0 KB | AI zone triggers for scenarios. Has nothing to do with the main AI. |
-
 The update interval is
 `gc_global_TimeProgressAI = 0.03 × 16 × 5 = 2.4` game seconds [^1].
 `lastprogressaitime` is offset by player number
@@ -356,6 +345,18 @@ resources under the fog beyond what his own units discovered:
     not yet.
 
 ---
+
+<a id="исходные-файлы"></a>
+<a id="техническая-карта-исходных-файлов"></a>
+## Technical source map
+
+| Path | Size | Role |
+|---|---:|---|
+| `lib/ai.script` | 95.6 KB | Helper library: army queries (`_ai_GetArmyForce`, `_ai_GetArmyUnitsCount`), unit-role mappings (`_ai_FillUnitUpgradeList`), upgrade tables, deposit discovery, `_ai_IsTeamAI`, and `_ai_GetCommonNationName` (four groups: `rus`, `tur`, `mis`, `eur`). |
+| `units/global.inc/progressai.inc` | 0.8 KB | **Dispatcher.** Each `gc_global_TimeProgressAI` tick calls `ProgressEconomicAI`, then `ProgressWarAI`. |
+| `units/global.inc/progresseconomicai.inc` | 226 KB | Economic AI: build order, production goals, resource balance, choice of upgrades. |
+| `units/global.inc/progresswarai.inc` | 223 KB | Military AI: army formation, attack/withdrawal decisions, sabotage groups, transport operations. |
+| `misc/airegion.aix` | 3.0 KB | AI zone triggers for scenarios. Has nothing to do with the main AI. |
 
 <a id="источники"></a>
 ## Sources

@@ -45,6 +45,10 @@ HUD_MATERIALS = HUD_ROOT / "hud.mat"
 ATLAS_ROOT = HUD_ROOT / "textures" / "ui"
 ICON_ROOT = ROOT / "assets" / "game-icons"
 CATALOG_PATH = ROOT / "assets" / "data" / "entity-catalog.json"
+ENTITY_INDEX_PATHS = {
+    "ru": ROOT / "assets" / "data" / "entity-index.ru.json",
+    "en": ROOT / "assets" / "data" / "entity-index.en.json",
+}
 
 RESOURCE_KEYS = ("food", "wood", "stone", "gold", "iron", "coal")
 PROTECTION_KEYS = (
@@ -440,6 +444,27 @@ def build_catalog(icons: dict[str, str]) -> dict[str, Any]:
     }
 
 
+def build_entity_index(
+    catalog: dict[str, Any],
+    language: str,
+) -> dict[str, Any]:
+    """Build the compact lookup loaded on Markdown pages with entity tables."""
+
+    entities: dict[str, list[str]] = {}
+    for kind, records in catalog["entities"].items():
+        for sid, entity in records.items():
+            if sid in entities:
+                raise ValueError(f"entity SID is not unique across kinds: {sid}")
+            entities[sid] = [kind, entity["name"][language], entity["icon"]]
+    return {
+        "schema": 1,
+        "source": catalog["source"],
+        "language": language,
+        "count": len(entities),
+        "entities": entities,
+    }
+
+
 def main() -> None:
     materials = parse_materials()
     icons = extract_icons(materials)
@@ -449,13 +474,29 @@ def main() -> None:
         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8",
     )
+    entity_indexes = {
+        language: build_entity_index(catalog, language)
+        for language in ENTITY_INDEX_PATHS
+    }
+    for language, path in ENTITY_INDEX_PATHS.items():
+        path.write_text(
+            json.dumps(
+                entity_indexes[language],
+                ensure_ascii=False,
+                separators=(",", ":"),
+            )
+            + "\n",
+            encoding="utf-8",
+        )
     print(
         f"wrote {CATALOG_PATH.relative_to(ROOT)} with "
         + ", ".join(
             f"{count} {kind}s"
             for kind, count in catalog["counts"].items()
         )
-        + f" and {len(icons)} extracted icons"
+        + ", compact RU/EN table indexes with "
+        + f"{entity_indexes['ru']['count']} entries each, and "
+        + f"{len(icons)} extracted icons"
     )
 
 

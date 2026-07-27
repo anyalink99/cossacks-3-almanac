@@ -182,17 +182,17 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     spacing = grid.get("spacing_tiles")
     A(f"- **{count} крестьян** спавнятся в сетке **{cols}×{rows}** "
       f"(`i div {rows}`, `i mod {rows}`)")
-    A(f"- Шаг между крестьянами: `cUnitR = {spacing}` тайла")
+    A(f"- Шаг между крестьянами: `cUnitR = {spacing}` клетки")
     A(f"- Сетка центрирована на старт-точке: суммарно "
       f"`({cols}×{spacing}) × ({rows}×{spacing}) = "
-      f"{cols * spacing}×{rows * spacing}` тайла")
-    A(f"- Случайное смещение каждого крестьянина: ±0.125 тайла по обеим осям")
+      f"{cols * spacing}×{rows * spacing}` клетки")
+    A(f"- Случайное смещение каждого крестьянина: ±0.125 клетки по обеим осям")
     A("- Уникальный sid крестьянина берётся из `gCountry[cid].members[]` "
       "по первому юниту с `usage = gc_obj_usage_peasant` (например `peaaus` "
       "у Австрии, `peaeng` у Англии, и т.п.)")
     A("")
     A("**На практике:** при старте у тебя горка из 18 крестьян занимает примерно "
-      "`5×3` тайла, что укладывается во внутренний круг очистки `cCircle1` "
+      "`5×3` клетки, что укладывается во внутренний круг очистки `cCircle1` "
       "(см. §2). Ничего другого там не спавнится — это безопасный «дом» "
       "для первой минуты.")
     A("")
@@ -204,7 +204,7 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     )
     A(f"Расстановку колец делает `SetupStartingResources` {setup_cite}.")
     A("")
-    A("Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, тайлы):")
+    A("Вокруг каждой старт-точки игрока — три эллипса (X-радиус × Y-радиус, клетки):")
     A("")
     A("| Кольцо | X-радиус | Y-радиус | Что спавнится на границе |")
     A("| --- | ---: | ---: | --- |")
@@ -219,13 +219,13 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("**Алгоритм спавна** (`for [MAIN]i:=0 to 127 do begin … VectorRotateY(px, …, angle); _misc_CheckStandPattern… end`): "
       "в каждом «кольце» — 128 попыток × 3 под-попытки найти валидную позицию "
       "под выбранный паттерн. Угол `angle` — `RandomExt × 360°`. Дистанция от "
-      "центра — `mindst + RandomExt × N + (i+j) × 0.5` тайла. Это значит:")
+      "центра — `mindst + RandomExt × N + (i+j) × 0.5` клетки. Это значит:")
     A("")
-    A("- **Inner stoneforest:** дистанция ~5-8 тайл")
-    A("- **Inner stones:** дистанция ~5-8 тайл (отдельный random angle, может быть с обратной стороны)")
-    A("- **Mid forests** (×2): дистанция ~12-18 тайл (mindst=12, +2 random)")
-    A("- **Mid stones:** дистанция ~16-22 тайл (mindst=12+4=16, +2 random)")
-    A("- **Outer forest:** дистанция ~22-28 тайл")
+    A("- **Inner stoneforest:** дистанция ~5-8 клетка")
+    A("- **Inner stones:** дистанция ~5-8 клетка (отдельный random angle, может быть с обратной стороны)")
+    A("- **Mid forests** (×2): дистанция ~12-18 клетка (mindst=12, +2 random)")
+    A("- **Mid stones:** дистанция ~16-22 клетка (mindst=12+4=16, +2 random)")
+    A("- **Outer forest:** дистанция ~22-28 клетка")
     A("")
     A("Тип леса определяется параметром `foreststype` в настройках генерации карты: "
       "0 = pinefir/spruce/pine (хвойные, 7 вариантов), 1 = leaf (лиственные), 2 = mixed (смешанные). "
@@ -235,7 +235,7 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
                               label="`SetupMines` — расстановка месторождений")
     A(f"Шахты (gold / iron / coal) — отдельная функция `SetupMines` "
       f"{mines_cite}. Спавн шахт идёт по другой логике (раундами "
-      f"по дистанции, см. [recon/world/economy/peasant_extraction.md](../../recon/world/economy/peasant_extraction.md) §8.3 + "
+      f"по дистанции, см. [добычу ресурсов, §8.3](../../recon/world/economy/peasant_extraction.md) + "
       f"[описание генерации карты](../../recon/world/map/map_generation_pipeline.md), §8).")
     A("")
     A("## §3. Пресеты стартовых юнитов")
@@ -245,7 +245,7 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     A(f"Источник пресетов — `data/game/var/startingsettings.cfg` + enum "
       f"`gc_mapsettings_startingunits_*` {enum_cite}. Все 14 пресетов "
       f"с каноничными русскими названиями — "
-      f"[`lobby_settings.md`](lobby_settings.md). Поведение движка (как "
+      f"[настройках лобби](lobby_settings.md). Поведение движка (как "
       f"добавляются юниты и ресурсы) — "
       f"[разбор настроек матча](../../recon/world/map/game_settings.md), §3.1.")
     A("")
@@ -341,8 +341,8 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
         label="расстановка стартовых крестьян",
     )
     A(f"В обычном варианте старта появляются **{count} крестьян** сеткой "
-      f"**{cols}×{rows}** с шагом {spacing} тайла {cite}. Вся группа занимает "
-      f"примерно {cols * spacing}×{rows * spacing} тайла; положение каждого "
+      f"**{cols}×{rows}** с шагом {spacing} клетки {cite}. Вся группа занимает "
+      f"примерно {cols * spacing}×{rows * spacing} клетки; положение каждого "
       "крестьянина слегка сдвигается случайным образом.")
     A("")
     A("Внутри этой небольшой области генератор не размещает природные ресурсы, "
@@ -354,12 +354,12 @@ def render(circles: dict, grid: dict, presets: list[dict]) -> str:
     A("")
     A("| Зона | Примерное расстояние | Что появляется |")
     A("| --- | ---: | --- |")
-    A(f"| Внутренняя | до {circles.get('circle1_x', '?')} тайлов | "
+    A(f"| Внутренняя | до {circles.get('circle1_x', '?')} клеток | "
       "Свободное место для стартовой группы |")
     A(f"| Средняя | примерно {circles.get('circle1_x', '?')}–"
-      f"{circles.get('circle2_x', '?')} тайлов | Ближайшие камни и части леса |")
+      f"{circles.get('circle2_x', '?')} клеток | Ближайшие камни и части леса |")
     A(f"| Внешняя | примерно {circles.get('circle2_x', '?')}–"
-      f"{circles.get('circle3_x', '?')} тайлов | Дополнительные леса и камни |")
+      f"{circles.get('circle3_x', '?')} клеток | Дополнительные леса и камни |")
     A("")
     A("Генератор несколько раз пробует поставить каждый объект на случайном "
       "угле и расстоянии. Если рельеф мешает, фактическое положение может "

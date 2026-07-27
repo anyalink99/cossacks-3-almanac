@@ -7,7 +7,7 @@
 | Тег | Что значит |
 |---|---|
 | `sid` | Внутренний ID объекта в `unit.script` (например `bavcen`, `peaaus`, `aca.4`). |
-| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в [04_units/README.md](04_units/README.md). |
+| `cid` | Идентификатор нации (Country ID, 0..23). См. таблицу в разделе [«Юниты»](04_units/README.md). |
 | `usage` / `usage_short` | Класс юнита/здания: `lightinfantry`, `fasthorse`, `building`, `tower`, и т. д. Влияет на AI и формулы. |
 | `commonsid` / `cluster` | Кластер общих зданий (`eur`/`rus`/`tur`/`spa`/`ukr`/`por`). Например `eurmil` — мельница для всех eur-наций. |
 | `costpercent` | Множитель цены каждого следующего экземпляра здания: `cost(N) = floor(base × (cp/100)^(N-1))`. 100 = одинаковая, 300 = ×3 за второе, 0 = без масштабирования. |
@@ -28,13 +28,13 @@
 | Тег | Что значит |
 |---|---|
 | `bbuilt` | Здание полностью достроено (`True`) или ещё в стройке (`False`). При `False` входящий урон вычитает только `shield/3` вместо `shield`. |
-| `bcapture` | Здание можно захватить вражеской пехотой в радиусе `gc_gameplay_captureradius=4 тайла` без своих защитников рядом. Захват мгновенный. У всех башен (`gc_obj_usage_tower`) включается автоматически. |
+| `bcapture` | Здание можно захватить вражеской пехотой в радиусе `gc_gameplay_captureradius=4 клетки` без своих защитников рядом. Захват мгновенный. У всех башен (`gc_obj_usage_tower`) включается автоматически. |
 | `bnohungry` | Юнит / здание не потребляет food, голодом не убиваются. У всех зданий = `True`. У наёмников = `True` (но они «едят» gold через Rebellion). У крестьян и обычной пехоты = `False`. |
-| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Едят gold вместо food, при `gold=0` массово переходят к нейтралу (см. Rebellion в [01_economy/README.md](01_economy/README.md)). |
+| `bmercenary` | Юнит-наёмник (`<unit>dip` суффикс). Расходует золото вместо еды; при `gold=0` наёмники массово переходят к нейтралу (см. бунт в разделе [«Экономика»](01_economy/README.md)). |
 | `bfamine` | Флаг голода у игрока: `food = 0` **и** есть юниты с `consume.food > 0`. Включает случайную гибель юнитов, у которых `bnohungry = False`. |
 | `brebellion` | Флаг бунта у игрока: `gold = 0` **и** `consume[gold] > income[gold]`. Включает массовое дезертирство наёмников. |
 | `brised` | Ресурс «активен» — крестьяне могут его добывать. Для wood остаётся `True` даже после превращения дерева в пень → бесконечный wood pool. |
-| `uniqrnd` | Случайное число `[0,1)`, фиксированное у каждого юнита при спавне. Используется для воспроизводимой дисперсии (бонус хедшота, разлёт снаряда). См. [internals/engine/determinism_audit.md](../../internals/engine/determinism_audit.md). |
+| `uniqrnd` | Случайное число `[0,1)`, фиксированное при появлении каждого юнита. Используется для воспроизводимого разброса (бонус за попадание в голову, разлёт снаряда). См. [аудит детерминизма](../../internals/engine/determinism_audit.md). |
 | `gc_obj_weapon_kind_*` | Тип оружия: `pike` / `sword` / `bullet` / `cannister` / `arrow` / `cannonball` / `grenade` и др. От него зависит, какая колонка `protection[kind]` цели вычитается из урона. |
 
 **Время:**
@@ -42,5 +42,5 @@
 | Тег | Что значит |
 |---|---|
 | `gc_time_to_frames = 32` | 32 кадра в одной игровой секунде. Все длительности в скриптах (анимации, `pause`, `buildtime` юнитов) хранятся в кадрах. |
-| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [recon/world/economy/building_mechanics.md](../recon/world/economy/building_mechanics.md). |
+| `gc_buildtime_modifier = 10` | Дополнительный множитель **только для зданий**: `buildtime_g_sec = frames × 10/32`. Юниты используют `frames/32`. См. [строительство и ремонт](../recon/world/economy/building_mechanics.md). |
 | game speed | `slow=7 / normal=10 / fast=14` тиков/сек. На fast: `1 game-sec = 1/1.4 ≈ 0.71 real-sec`. |

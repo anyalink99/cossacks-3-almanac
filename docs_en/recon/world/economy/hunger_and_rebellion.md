@@ -23,7 +23,7 @@ references are collected under [Sources](#sources).
   (peasants, infantry). Buildings, mercenaries, and landsknechts are not touched.
 - Rebellion affects **mercenaries only** (`bmercenary = True`), with
   a probability of about 18.3% per tick on Hard and above. See
-  [`mercenaries_diplomacy.md` §3](../../systems/mercenaries_diplomacy.md).
+  [Mercenaries and the Diplomatic Center §3](../../systems/mercenaries_diplomacy.md).
 - Points for destroying a rebel mercenary are counted with a multiplier
   `× 3` (not `× 2`), which makes raids on a starving enemy
   more valuable in score terms [^1].
@@ -200,7 +200,7 @@ Basic rule: “don’t start a deep center until you’re sure you can handle it
 golden upkeep.”
 
 Details and countermeasures are in
-[`../systems/mercenaries_diplomacy.md` §3-4](../../systems/mercenaries_diplomacy.md).
+[Mercenaries and the Diplomatic Center §3-4](../../systems/mercenaries_diplomacy.md).
 
 <a id="31-кто-иммунен-к-бунту"></a>
 ### 3.1. Who is immune to riot
@@ -258,7 +258,7 @@ important, but in a close game on points it can affect the winner.
 
 | Flag | Description | File |
 |---|---|---|
-| `farmused = 0` | The population limit is exhausted; results in **defeat** (see [`../systems/victory_conditions.md`](../../systems/victory_conditions.md)). |
+| `farmused = 0` | The population limit is exhausted; results in **defeat** (see [Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md)). |
 | `bfamine` | Does not lead to defeat by itself; kills units. |
 | `brebellion` | Does not lead to defeat; only kills mercenaries. |
 | `bleave` | The player surrendered through the interface. Defeat is immediate. |

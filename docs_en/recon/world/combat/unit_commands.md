@@ -21,7 +21,7 @@ automatic response to impact. All links to the code are in
   clicks - adds to the queue, without Shift - replaces the queue.
 - **Stand-mode** (`fHoldMode`) - squad mode “do not move without
   explicit order", gives complete `bonusdamagehold` / `bonusshieldhold`
-  (See [`formations.md` §4](formations.md)).
+  (See [Formations and Their Combat Bonuses §4](formations.md)).
 - **Hold-fire** - a separate flag for the unit “do not open fire until
   explicit order." Useful for ambushes.
 - **Automatic response** — an idle or holding squad automatically begins
@@ -91,9 +91,9 @@ The most common "tactical" order. Behavior:
 
 | Who | Implementation | Field in `TOrder` |
 |---|---|---|
-| Infantry | `move_mode_attack` - goes to the point, scans enemies along the way through `_unit_SearchEnemyScanCells` (see [`target_selection.md` §3](target_selection.md)). Found - attacks. | `ord = move`, `bMoveAttack = True` |
+| Infantry | `move_mode_attack` - goes to the point, scans enemies along the way through `_unit_SearchEnemyScanCells` (see [Target Selection and Attack-Move §3](target_selection.md)). Found - attacks. | `ord = move`, `bMoveAttack = True` |
 | Cavalry | Also - `move_mode_attack`. | Likewise. |
-| Artillery | **Does not use** `move_mode_attack`. Instead `ord = attackpoint` with flag `bartprepare`. The artillery moves to the point, then prepares to fire (preparation animation, ~3-5 g-sec), then fires. | See [`artillery_specifics.md`](artillery_specifics.md). |
+| Artillery | **Does not use** `move_mode_attack`. Instead `ord = attackpoint` with flag `bartprepare`. The artillery moves to the point, then prepares to fire (preparation animation, ~3-5 g-sec), then fires. | See [How Artillery Works](artillery_specifics.md). |
 
 Important difference: infantry attack-move **interrupts** on anyone
 encountered enemy; artillery - travels to a specific point and
@@ -106,7 +106,7 @@ is not distracted by infantry.
 
 During attack-move, the unit searches for enemies **only in a 30° cone ahead**
 (parameter `gc_search_attackmove_cone`, see
-[`target_selection.md` §3.3](target_selection.md)). That is, a fighter
+[Target Selection and Attack-Move §3.3](target_selection.md)). That is, a fighter
 attack-move **will not stop** on an enemy from the side or behind is
 "purposeful" movement.
 
@@ -123,7 +123,7 @@ Enabled through the interface or a hotkey. Effects:
 
 1. **Formation bonuses** switch to `fAddDamageHold` /
    `fAddShieldHold` (usually `+7`/`+7` vs `+2`/`+2` on the go).
-   See [`formations.md` §4](formations.md).
+   See [Formations and Their Combat Bonuses §4](formations.md).
 2. **Units do not move voluntarily**: when auto-searching for a target, they
    won't give chase.
 3. **Order `attack`** has been given - units will first **deploy to
@@ -197,7 +197,7 @@ thread checks the status of the squad [^3]:
 This behavior makes the units very “nervous” - you can’t be alone
 sniper enemies one by one, they instantly respond in full formation.
 
-See [`combat_damage_pipeline.md` §8](combat_damage_pipeline.md) for
+See [How Damage Is Calculated §8](combat_damage_pipeline.md) for
 exact location in the code.
 
 ---
@@ -286,7 +286,7 @@ processing is easier.
    `gc_obj_MaxOrderCount = 12` (`dmscript.global`). This is common
    limit for all types of orders - `move`, `attack`, `produce`,
    `performupgrade`, `repair`, etc. See full list of 21 types
-   `gc_obj_order_type_*` in [`production_queue.md` §1.1](../economy/production_queue.md).
+   `gc_obj_order_type_*` in [Production Queues §1.1](../economy/production_queue.md).
 3. **Resetting STO/STP when changing an order.** Is STO maintained between
    orders or reset? This affects the "continuing
    aggression" - how much the unit "remembers" the enemy after receiving
@@ -308,7 +308,7 @@ processing is easier.
 
 [^3]: `data/scripts/lib/miscext2.script:_misc_DoDamage` —
       auto-respond branch after decreasing hp; see also
-      [`combat_damage_pipeline.md` §8](combat_damage_pipeline.md).
+      [How Damage Is Calculated §8](combat_damage_pipeline.md).
 
 [^4]: `data/scripts/lib/unit.script:2894-3010` - operating procedures
       with STO (Search Target Object) and STP (Search Target Position):

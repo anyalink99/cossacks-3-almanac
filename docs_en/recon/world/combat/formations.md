@@ -340,7 +340,7 @@ account for much larger ship radii
 (`gc_obj_radius_formation_default × 8`, or 64+ pixels).
 
 Sea battle has its own characteristics (see.
-[`naval_combat.md`](naval_combat.md)).
+[How Naval Combat Works](naval_combat.md)).
 
 ---
 
@@ -354,7 +354,7 @@ Within one squad:
   leader.
 - While moving, the squad travels as a loose group; once it stops, its
   units take their assigned places with a small random offset (see
-  [`pathfinding.md` §6](pathfinding.md)).
+  [Pathfinding and Unit Movement §6](pathfinding.md)).
 - If a unit is knocked out of place, for example by cavalry, the squad
   **does not wait** for it to return; a gap remains in the formation.
 

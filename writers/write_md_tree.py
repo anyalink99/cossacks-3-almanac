@@ -469,26 +469,26 @@ def write_readme_legacy(data: dict) -> None:
     A("                       + возможный бонус критического попадания)")
     A("```")
     A("Минимум 1 HP проходит всегда. Подробности — "
-      "[`recon/world/combat/combat_damage_pipeline.md` §3](../recon/world/combat/combat_damage_pipeline.md). "
+      "[в разборе расчёта урона, §3](../recon/world/combat/combat_damage_pipeline.md). "
       "Источник: `miscext2.script:_misc_DoDamage`.\n")
 
     A("### Цены и время\n")
     A("- **N-й экземпляр здания того же типа:** "
       "`cost(N) = floor(base × (costpercent / 100)^(N-1))`. "
       "Готовые таблицы N = 1..6 — в "
-      "[`../reports/economy/scaling_prices.md`](../reports/economy/scaling_prices.md).")
+      "[расчёте роста цен](../reports/economy/scaling_prices.md).")
     A("- **Время постройки с N строителями:** "
       "`базовое время × 1,13 / N`. У каждого здания есть предел числа "
       "одновременно работающих крестьян (см. "
-      "[`../reports/economy/builder_slots.md`](../reports/economy/builder_slots.md)).")
+      "[пределы числа строителей](../reports/economy/builder_slots.md)).")
     A("- **Реальное время на скорости «Быстро»:** игровое время нужно "
       "разделить на 1,4. Например, 140 игровых секунд проходят за 100 реальных.\n")
 
     A("### Ключевые константы\n")
     A(f"- `gc_time_to_frames = {e['time_to_frames']}` — 32 кадра в одной игровой секунде.")
-    A(f"- `gc_pixels_to_tile = {e['pixels_to_tile']:.4f}` — перевод `weapon.range` из пикселей в тайлы (например, 800 px = 15 тайлов).")
+    A(f"- `gc_pixels_to_tile = {e['pixels_to_tile']:.4f}` — перевод `weapon.range` из пикселей в клетки (например, 800 px = 15 клеток).")
     A(f"- Лимиты карты: **{e['max_obj_count']}** объектов всего, **{e['max_player_count']}** игроков.")
-    A(f"- Поле: HP = **{e['field_max_hp']}**. Шахта без апгрейдов — 5 крестьян, 1.664 ресурса / g-сек на каждого.")
+    A(f"- Поле: HP = **{e['field_max_hp']}**. Шахта без апгрейдов — 5 крестьян, 1.664 ресурса / игр. с на каждого.")
     A("\n---\n")
 
     # ─── Глоссарий ─────────────────────────────────────────────────────
@@ -688,7 +688,7 @@ def write_combat_legacy(data: dict) -> None:
     out.extend(render_template("reference/02_combat/main.md"))
     A("## Скорости юнитов\n")
     A("Базовые `gc_obj_speed_*` из `dmscript.global:603-620`. **Абстрактные единицы** (не tiles/sec). "
-      "Реальная скорость в тайлах/сек зависит от animation `walkInterval`, `walkintervalfactor` "
+      "Реальная скорость в клетках/сек зависит от animation `walkInterval`, `walkintervalfactor` "
       "и game speed. Для перевода нужен эмпирический замер.\n")
     A("| Класс | Speed | Заметка |")
     A("|---|---:|---|")
@@ -811,7 +811,7 @@ def write_combat_legacy(data: dict) -> None:
           f"| {fmt(a['pause_sec']) if a else '—'} | {a['kind'] if a else '—'} "
           f"| {d_str} | {fmt(d['hp']) if d else '—'} | {fmt(d['shield']) if d else '—'} |")
     A("")
-    A(f"### Матрица контр-эффективности — TTK в g-сек\n")
+    A(f"### Матрица контр-эффективности — TTK в игр. с\n")
     A("Строки = **атакующий**. Колонки = **защищающийся**. Ячейка = TTK (game-sec). "
       "Зелёные/низкие = атакующий быстро убивает; красные/высокие = защитник долго стоит.\n")
     header = "| Atk \\ Def | " + " | ".join(short_names[c] for c in BATTLE_CLASSES) + " |"
@@ -1240,7 +1240,7 @@ def write_units(data: dict) -> None:
         n = len(by_sid)
         word = plural_ru(n, "вариант", "варианта", "вариантов")
         A(f"## {cls_ru(cls)} ({n} {word})\n")
-        A("| Юнит | Нации | Здоровье | Время найма (игр. с) | Е | З | Ж | Урон | Дальность (тайлы) | Перезарядка | Пика | Меч | Пуля | Картечь | Стрела | Ядро |")
+        A("| Юнит | Нации | Здоровье | Время найма (игр. с) | Е | З | Ж | Урон | Дальность (клетки) | Перезарядка | Пика | Меч | Пуля | Картечь | Стрела | Ядро |")
         A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
         for sid in sorted(by_sid.keys()):
             entries = by_sid[sid]
@@ -1511,13 +1511,13 @@ def _naval_shot_cost_str(cost: dict | None) -> str:
 
 
 def _vision_tiles(vision_field: int | None) -> int:
-    """Радиус FOW в тайлах — `floor(20 + 4 × vision)` из `_unit_GetVision`."""
+    """Радиус FOW в клетках — `floor(20 + 4 × vision)` из `_unit_GetVision`."""
     return 20 + 4 * (vision_field or 0)
 
 
 def _naval_catalog_table(by_sid: dict[str, dict]) -> str:
     L = [
-        "| Корабль | Роль | Здоровье | Скорость | Обзор (тайлы) | Поиск цели (тайлы) | Цена | Время постройки (игр. с) |",
+        "| Корабль | Роль | Здоровье | Скорость | Обзор (клетки) | Поиск цели (клетки) | Цена | Время постройки (игр. с) |",
         "| --- | --- | ---: | ---: | ---: | ---: | --- | ---: |",
     ]
     for sid, cls in NAVAL_SHIPS:
@@ -1536,7 +1536,7 @@ def _naval_catalog_table(by_sid: dict[str, dict]) -> str:
 
 def _naval_combat_table(by_sid: dict[str, dict]) -> str:
     L = [
-        "| Корабль | Оружие | Урон | Перезарядка (игр. с) | Дальность (тайлы) | Тип урона | Цена выстрела |",
+        "| Корабль | Оружие | Урон | Перезарядка (игр. с) | Дальность (клетки) | Тип урона | Цена выстрела |",
         "| --- | :---: | ---: | ---: | ---: | --- | --- |",
     ]
     for sid, _cls in NAVAL_SHIPS:
@@ -1571,7 +1571,7 @@ def _naval_ferry_block(ferry: dict) -> str:
         f"({real_sec} реальной на скорости «Быстро») |",
         f"| Цена | {_naval_cost_str(ferry)} |",
         "| Оружие | нет |",
-        f"| Радиус обзора | {_vision_tiles(ferry.get('vision'))} тайла |",
+        f"| Радиус обзора | {_vision_tiles(ferry.get('vision'))} клетки |",
     ])
 
 
@@ -1950,7 +1950,7 @@ def write_compare(data: dict) -> None:
             "consume_food": "расход еды (служебное значение)",
             "consume_gold": "расход золота (служебное значение)",
             "speed": "скорость",
-            "damage": "урон", "radiusmax_tiles": "дальность (тайл.)",
+            "damage": "урон", "radiusmax_tiles": "дальность (клетки)",
             "pause_sec": "перезарядка (с)",
             "prot_pike": "пика", "prot_sword": "меч", "prot_bullet": "пуля",
             "prot_cannister": "картечь", "prot_arrow": "стрела",

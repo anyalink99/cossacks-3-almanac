@@ -154,13 +154,13 @@ special behaviors:
 
 1. **Scenario invulnerability**: units with `hp >= gc_gameplay_infinitehp`
    or `not GetGameObjectPlayableObjectByHandle(handle)` do not receive
-   damage (see [`combat_damage_pipeline.md` §7](../world/combat/combat_damage_pipeline.md)).
+   damage (see [How Damage Is Calculated §7](../world/combat/combat_damage_pipeline.md)).
 2. **Peace-mode** (`gbool_peacemode`) is processed with special
    way - the hero player can only attack certain
    opponents.
 3. **Allied vision** (`AddFOWPlayers`): the main player (`plInd = 0`)
    does not share vision with **neutral** campaign characters
-   (See [`vision_and_fow.md` §4.2](../world/combat/vision_and_fow.md)).
+   (See [Vision and Fog of War §4.2](../world/combat/vision_and_fow.md)).
 4. **AI**: AI opponents in the scenario use separate rules
    (often manual scripted aggression, not standard
    `_ai_DoTickAggressive`).
@@ -197,7 +197,7 @@ The scenario result is represented by `TScenarioResult`:
 When a scenario completes, it writes the result to `gCampaignProgress`,
 the campaign-wide progress structure.
 This structure is saved to disk (see also
-[`internals/engine/server_sync_packet_format.md`](../../../internals_en/engine/server_sync_packet_format.md)).
+[C3 network packet format (via script call analysis)](../../../internals_en/engine/server_sync_packet_format.md)).
 
 ---
 
@@ -238,7 +238,7 @@ load rules and conditions.
       `gScenario` and processes rules, conditions, and actions.
 
 [^2]: Class `TFormStateMachines` found in RTTI `cossacks.exe` (see.
-      [`internals/engine/native_api.md`](../../../internals_en/engine/native_api.md))
+      [Native API of the Cossacks 3 engine (Delphi + DWS)](../../../internals_en/engine/native_api.md))
       is an editor interface for state machines. `MachineLibrary*` also
       serializes engine state machines to `.parser`. This is infrastructure
       for **per-object engine behavior** (`nothing`, `OnDeath`, and other

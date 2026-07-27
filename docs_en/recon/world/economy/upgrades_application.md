@@ -62,7 +62,7 @@ There are three types of effects:
 - **Efficiency** (`eff += 10 %` - resource extraction is 10% higher).
 
 Full analysis - via `parser/simulate_upgrades.py` (see.
-[`scripts/structure.md`](../../../../internals_en/scripts/structure.md)),
+[Structure of the Cossacks 3 scripting environment](../../../../internals_en/scripts/structure.md)),
 which inlines `SetUpgStruct`/`AddUpgradePack` and produces ~4,000
 fully resolved strings.
 
@@ -139,7 +139,7 @@ This is **not** multiplicative: it would be `1.05 × 1.10 × 1.15 × 1.20 = 1.59
 (159%), which is higher. The additive scheme gives a more predictable
 final ceiling.
 
-See [`peasant_extraction.md` §4](peasant_extraction.md) for details.
+See [How Peasants Gather Resources §4](peasant_extraction.md) for details.
 
 ---
 
@@ -274,7 +274,7 @@ After researching `<nat>cen.1`, the academy opens
 additional upgrades (they are visible as `<nat>aca.X` with
 prerequisite to `cen.1`). Some of them are **`gc_ai_upg_century`**
 for AI: this flag puts the AI opponent into the 18-eternal phase
-production. See [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)
+production. See [How the Computer Player Works](../../systems/ai_behavior.md)
 § on build sequence (phases 7–9).
 
 <a id="754-стратегические-выводы"></a>
@@ -286,7 +286,7 @@ production. See [`../../systems/ai_behavior.md`](../../systems/ai_behavior.md)
   `buildtime = 5625` game seconds for one
   builder; with 8 builders the time is reduced proportionally
   rule `buildtime × 1.13 / N` (see
-  [`building_mechanics.md` §3.2](building_mechanics.md)).
+  [Building Construction, Repair, and Destruction §3.2](building_mechanics.md)).
 - **Turkey, Algeria, Ukraine - nations of the 17th century.** If you play against
   them, do not expect the enemy to go into the 18th century.
 - **Building an academy for other reasons** (for example, for
@@ -462,7 +462,7 @@ its button appears:
 When all requirements are met, the upgrade **appears in the
 interface** and becomes available for research.
 
-The complete graph is in [`reports/tech/tech_tree.md`](../../../reports/tech/tech_tree.md)
+The complete graph is in [Cossacks 3 - Tech Tree (by nation)](../../../reports/tech/tech_tree.md)
 + [`derived/tech_tree.json`](../../../../derived/tech_tree.json).
 
 ---

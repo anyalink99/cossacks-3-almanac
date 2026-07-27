@@ -143,13 +143,13 @@
 
 1. **Сценарная неуязвимость**: юниты с `hp >= gc_gameplay_infinitehp`
    или `not GetGameObjectPlayableObjectByHandle(handle)` не получают
-   урон (см. [`combat_damage_pipeline.md` §7](../world/combat/combat_damage_pipeline.md)).
+   урон (см. [Как рассчитывается урон §7](../world/combat/combat_damage_pipeline.md)).
 2. **Мирное время** (`gbool_peacemode`) обрабатывается особым
    образом — игрок-герой может атаковать только определённых
    противников.
 3. **Союзный обзор** (`AddFOWPlayers`): главный игрок (`plInd = 0`)
    не делится обзором с **нейтральными** персонажами кампании
-   (см. [`vision_and_fow.md` §4.2](../world/combat/vision_and_fow.md)).
+   (см. [Обзор и туман войны §4.2](../world/combat/vision_and_fow.md)).
 4. **ИИ**: компьютерные противники в сценарии используют отдельные правила
    (часто ручная скриптовая агрессия, не стандартный
    `_ai_DoTickAggressive`).
@@ -185,7 +185,7 @@
 При завершении сценария скрипт пишет результат в
 `gCampaignProgress` — структуру с прогрессом по всей кампании.
 Эта структура сохраняется на диск (см. также
-[`internals/engine/server_sync_packet_format.md`](../../../internals/engine/server_sync_packet_format.md)).
+[Формат сетевых пакетов C3 (через анализ скриптовых вызовов)](../../../internals/engine/server_sync_packet_format.md)).
 
 ---
 
@@ -226,7 +226,7 @@
       обрабатывает сценарные правила, условия и действия.
 
 [^2]: В `RTTI` файла `cossacks.exe` найден класс `TFormStateMachines` (см.
-      [`internals/engine/native_api.md`](../../../internals/engine/native_api.md))
+      [внутренние функции движка Cossacks 3](../../../internals/engine/native_api.md))
       — интерфейс редактора автоматов состояний. Также `MachineLibrary*`
       сериализует автоматы движка в `.parser`. Это инфраструктура
       поведения **отдельных игровых объектов** (`nothing`, `OnDeath`

@@ -448,8 +448,8 @@ def render_section_5(cites: Citations) -> list[str]:
         label="штраф к радиусу для движущегося стрелка",
     )
     A(f"- **Точность падает в движении.** Стрелок и артиллерия в движении "
-      f"(`standtime < 0.25 g-сек`) теряют до `gc_obj_maxattackradiusdisp = 3` "
-      f"тайлов эффективного радиуса {move_penalty_cite}. Дополнительное "
+      f"(`standtime < 0.25 игр. с`) теряют до `gc_obj_maxattackradiusdisp = 3` "
+      f"клеток эффективного радиуса {move_penalty_cite}. Дополнительное "
       f"рассеивание `dispertion` остаётся прежним. Подробнее — "
       f"[разбор поведения стрелков, §4]"
       f"(../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).")

@@ -19,12 +19,12 @@ All links to the code and the Pascal blocks themselves are collected in the sect
 
 > **Related documents:**
 >
-> - [determinism_audit.md](../../../../internals_en/engine/determinism_audit.md) - RNG sites in hot
+> - [Recon: determinism of loot and combat (RNG audit)](../../../../internals_en/engine/determinism_audit.md) - RNG sites in hot
 > production paths and expected variation between runs.
 > - [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - time model,
 > sub-tick state-machine, adaptive speed. Needed for correct
 > interpretations of real-time versus game-time when taking measurements.
-> - [server_sync_architecture.md](../../../../internals_en/engine/server_sync_architecture.md) —
+> - [Recon: server architecture and network synchronization](../../../../internals_en/engine/server_sync_architecture.md) —
 > server-authoritative architecture C3 (important for multiplayer measurements).
 > - [map generation](../map/map_generation_pipeline.md) — timeline
 > `DoGenerate`, starting positions, placement of scaffolding / rocks / mines.
@@ -32,7 +32,7 @@ All links to the code and the Pascal blocks themselves are collected in the sect
 > **TL;DR.** The analytical production ceiling (formulas below) is calculated in
 > **game time**. Actual in-game loot will be lower due to
 > RNG target selections in `_misc_FindResourceToExtract` (see.
-> [determinism_audit.md](../../../../internals_en/engine/determinism_audit.md) §3). Scatter between
+> [Recon: determinism of loot and combat (RNG audit)](../../../../internals_en/engine/determinism_audit.md) §3). Scatter between
 > launches of one save in a 5-minute window - 5–15% for forest and stone,
 > ≈ 0% for mines.
 
@@ -118,7 +118,7 @@ From `data/animations/aaf/peaaus.aaf` (same for all nations except `pearus`):
 Animation frame rate matches `gc_time_to_frames = 32` (32
 frame/g-sec) - confirmed via `parser/parse_animations.py`
 and is consistent with the `refspeed.acl` table `TrackPointMoveStep`. See
-[`internals/engine/animation_system.md`](../../../../internals_en/engine/animation_system.md).
+[Animation system: timings, cycles, impact point](../../../../internals_en/engine/animation_system.md).
 
 <a id="базовые-числа-добычи"></a>
 ### Base loot numbers
@@ -223,7 +223,7 @@ hardhorse = 56, fasthorse = 96, cannon = 20, mortar = 24) [^12]
 **proportional** `TrackPointMoveStep`, but used
 scripts for AI calculations and simplified relative comparisons. For
 exact real speeds in tiles are taken from here (`refspeed.acl`).
-Details are in [`internals/engine/animation_system.md` §2.4](../../../../internals_en/engine/animation_system.md).
+Details are in [Animation system: timings, cycles, impact point §2.4](../../../../internals_en/engine/animation_system.md).
 
 <a id="конкурентные-добытчики-на-одном-ресурсе"></a>
 ### Competitive miners on one resource
@@ -502,12 +502,12 @@ field (`peasantabsorber=5`, up to 95 with upgrades).
 per player** (round 4 skipped on tiny). Distances from start: round 0 =
 14-22 tiles (Phase 1, in `CreateStartPoint`), 1 = 32-42, 2 = 70-82, 3 =
 22-38 (all Phase 2). Details -
-[map_generation_pipeline.md §8](../map/map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
+[How a Random Map Is Generated §8](../map/map_generation_pipeline.md#8-что-значит-phase-1-vs-phase-2-mines).
 
 **Starting resources outside mines.** Within a 5-22 tile radius from the city center
 always available: **1× stoneforest, 2× stones, 3× forests** (medium/big,
 foreststype=0 mix) via `SetupStartingResources`
-([map_generation_pipeline.md §4](../map/map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)).
+([How a Random Map Is Generated §4](../map/map_generation_pipeline.md#4-setupstartingresourcespointx-pointy--что-спавнится-возле-города)).
 This explains why at the beginning of the game there is always enough wood for ratuse +
 the first mill BEFORE the general forest spawn.
 
@@ -677,11 +677,11 @@ stump. But if all the trees are occupied, the peasants go to the stumps.
 
 | # | Question | How to solve |
 |---:|---|---|
-| 1 | ~~Peasant's Exact Speed~~ | ✅ **Closed:** `TrackPointMoveStep = 0.0375` × 32 frames / g-sec = **1.20 tiles / g-sec** (see §3 “Movement Speeds” and [`internals/engine/animation_system.md` §2.4](../../../../internals_en/engine/animation_system.md)). |
+| 1 | ~~Peasant's Exact Speed~~ | ✅ **Closed:** `TrackPointMoveStep = 0.0375` × 32 frames / g-sec = **1.20 tiles / g-sec** (see §3 “Movement Speeds” and [Animation system: timings, cycles, impact point §2.4](../../../../internals_en/engine/animation_system.md)). |
 | 2 | Full list of efficiency upgrades for 21 nations | Use `parser/simulate_upgrades.py` (already inlines SetUpgStruct and iterates over `case cid`). |
 | 3 | The real cost of going to the warehouse | Speed is now known (see question 1) → distance × 1/1.20 g-sec/tile. |
 | 4 | Accounting `ferry` (delivery from isolated forest islands) | Not critical for tiny+land, put it aside. |
-| 5 | `walkintervalfactor` - how it affects walking animation | It looks like the animation speed is scaling relative to the physical speed. Set aside (see also [`internals/engine/animation_system.md` §9](../../../../internals_en/engine/animation_system.md)). |
+| 5 | `walkintervalfactor` - how it affects walking animation | It looks like the animation speed is scaling relative to the physical speed. Set aside (see also [Animation system: timings, cycles, impact point §9](../../../../internals_en/engine/animation_system.md)). |
 
 **What you need for Level B (formulas):** §3-§7 cover everything.
 The main parameter - the peasant's speed - is closed through

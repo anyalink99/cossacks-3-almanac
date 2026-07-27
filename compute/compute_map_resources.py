@@ -440,11 +440,11 @@ def write_report_legacy(r: dict, settings: dict) -> str:
              "`parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. "
              "См. также [описание генерации карты, §14](../../recon/world/map/map_generation_pipeline.md).")
     L.append("")
-    L.append(f"**Настройки:** `mapsize = {settings['mapsize']}` ({r['map_name']}, {r['dim']} × {r['dim']} = {r['area']} тайлов), "
+    L.append(f"**Настройки:** `mapsize = {settings['mapsize']}` ({r['map_name']}, {r['dim']} × {r['dim']} = {r['area']} клеток), "
              f"`relieftype = {settings['relief']}` ({r['relief_name']}), "
              f"`resourcemines = {settings['mines']}` ({r['mine_density_name']}), "
              f"`foreststype = {settings['foreststype']}`. "
-             f"Расшифровка значений и каноничные русские названия — [`lobby_settings.md`](lobby_settings.md). "
+             f"Расшифровка значений и каноничные русские названия — в [настройках лобби](lobby_settings.md). "
              f"Поведение каждой опции разобрано в [статье о настройках матча](../../recon/world/map/game_settings.md).")
     L.append("")
     L.append("## 1. Модификаторы вероятности паттернов (оценка)")
@@ -598,10 +598,10 @@ def write_report_legacy(r: dict, settings: dict) -> str:
     L.append(f"- **Итого: {r['deposits_per_resource']} gold + {r['deposits_per_resource']} iron + {r['deposits_per_resource']} coal = {r['deposits_per_player_max']} месторождений на игрока** (если все попытки увенчались успехом; до 256 попыток на каждое размещение).")
     L.append("")
     L.append("Дистанции от старта (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):")
-    L.append("- **round 0**: 14-22 тайла (Phase 1, при создании start point — 1 gold + 1 iron + 1 coal)")
-    L.append("- **round 1**: 32-42 тайла (Phase 2)")
-    L.append("- **round 2**: 70-82 тайла (Phase 2)")
-    L.append("- **round 3**: 22-38 тайлов (Phase 2)")
+    L.append("- **round 0**: 14-22 клетки (Phase 1, при создании start point — 1 gold + 1 iron + 1 coal)")
+    L.append("- **round 1**: 32-42 клетки (Phase 2)")
+    L.append("- **round 2**: 70-82 клетки (Phase 2)")
+    L.append("- **round 3**: 22-38 клеток (Phase 2)")
     L.append("- ~~round 4~~: пропускается на tiny")
     L.append("")
 
@@ -691,7 +691,7 @@ def write_report(r: dict, settings: dict) -> str:
     A("")
     A("| Параметр | Выбрано |")
     A("| --- | --- |")
-    A(f"| Размер карты | **{map_name}**, {r['dim']}×{r['dim']} тайлов |")
+    A(f"| Размер карты | **{map_name}**, {r['dim']}×{r['dim']} клеток |")
     A(f"| Рельеф | **{relief_name}** |")
     A(f"| Месторождения | **{density_name}** |")
     A("| Тип местности | Суша |")
@@ -736,10 +736,10 @@ def write_report(r: dict, settings: dict) -> str:
     A("")
     A("| Раунд | Обычное расстояние от старта |")
     A("| ---: | ---: |")
-    A("| 1 | 14–22 тайла |")
-    A("| 2 | 32–42 тайла |")
-    A("| 3 | 70–82 тайла |")
-    A("| 4 | 22–38 тайлов |")
+    A("| 1 | 14–22 клетки |")
+    A("| 2 | 32–42 клетки |")
+    A("| 3 | 70–82 клетки |")
+    A("| 4 | 22–38 клеток |")
     A("")
     A("Подробное описание алгоритма находится в статье "
       "[«Как создаётся карта»](../../recon/world/map/map_generation_pipeline.md), "

@@ -40,6 +40,31 @@ class ReaderFacingDocumentation(unittest.TestCase):
                     icon_path = ROOT / entity["icon"].removeprefix("../")
                     self.assertTrue(icon_path.is_file(), icon_path)
 
+        for language in ("ru", "en"):
+            entity_index = json.loads(
+                (
+                    ROOT
+                    / "assets"
+                    / "data"
+                    / f"entity-index.{language}.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual(entity_index["language"], language)
+            self.assertEqual(
+                entity_index["count"],
+                sum(catalog["counts"].values()),
+            )
+            self.assertEqual(len(entity_index["entities"]), entity_index["count"])
+            for sid, (kind, name, icon) in entity_index["entities"].items():
+                with self.subTest(index_language=language, index_sid=sid):
+                    self.assertIn(kind, catalog["entities"])
+                    self.assertEqual(
+                        name,
+                        catalog["entities"][kind][sid]["name"][language],
+                    )
+                    icon_path = ROOT / icon.removeprefix("../")
+                    self.assertTrue(icon_path.is_file(), icon_path)
+
     def test_search_index_contains_exact_sections_and_entities(self):
         ru_entries = json.loads(
             (DOCS / "_search.json").read_text(encoding="utf-8")
@@ -82,20 +107,70 @@ class ReaderFacingDocumentation(unittest.TestCase):
     def test_reader_links_do_not_use_markdown_paths_as_labels(self):
         offenders = []
         for language_root in (ROOT / "docs", ROOT / "docs_en"):
-            for area in ("reference", "reports"):
-                for path in (language_root / area).rglob("*.md"):
-                    text = re.sub(
-                        r"```.*?```",
-                        " ",
-                        path.read_text(encoding="utf-8"),
-                        flags=re.DOTALL,
-                    )
-                    for label in re.findall(r"\[([^\]]+)\]\([^)]+\)", text):
-                        if ".md" in label.casefold():
-                            offenders.append(
-                                f"{path.relative_to(ROOT).as_posix()}: {label}"
-                            )
+            for path in language_root.rglob("*.md"):
+                text = re.sub(
+                    r"```.*?```",
+                    " ",
+                    path.read_text(encoding="utf-8"),
+                    flags=re.DOTALL,
+                )
+                for label in re.findall(r"\[([^\]]+)\]\([^)]+\)", text):
+                    if ".md" in label.casefold():
+                        offenders.append(
+                            f"{path.relative_to(ROOT).as_posix()}: {label}"
+                        )
         self.assertEqual(offenders, [])
+
+    def test_recon_does_not_show_markdown_filenames_as_terms(self):
+        offenders = []
+        for language_root in (ROOT / "docs" / "recon", ROOT / "docs_en" / "recon"):
+            for path in language_root.rglob("*.md"):
+                text = re.sub(
+                    r"```.*?```",
+                    " ",
+                    path.read_text(encoding="utf-8"),
+                    flags=re.DOTALL,
+                )
+                for value in re.findall(r"`([^`\r\n]+)`", text):
+                    if re.fullmatch(
+                        r"[./\\\w-]+\.md(?:#[^\s]+)?",
+                        value,
+                        flags=re.IGNORECASE,
+                    ):
+                        offenders.append(
+                            f"{path.relative_to(ROOT).as_posix()}: {value}"
+                        )
+        self.assertEqual(offenders, [])
+
+    def test_russian_reader_terminology_is_consistent(self):
+        forbidden = {
+            "тайл": re.compile(r"(?<!\w)тайл\w*", re.IGNORECASE),
+            "g-сек": re.compile(r"g[-‑–— ]?сек", re.IGNORECASE),
+            "хедшот": re.compile(r"хедшот\w*", re.IGNORECASE),
+        }
+        offenders = []
+        for path in DOCS.rglob("*.md"):
+            visible = reader_visible_text(path.read_text(encoding="utf-8"))
+            found = [
+                label
+                for label, pattern in forbidden.items()
+                if pattern.search(visible)
+            ]
+            if found:
+                offenders.append(
+                    f"{path.relative_to(ROOT).as_posix()}: {', '.join(found)}"
+                )
+        self.assertEqual(offenders, [])
+
+    def test_documentation_translation_workflow_is_manual(self):
+        script = (ROOT / "scripts" / "build_english_docs.py").read_text(
+            encoding="utf-8"
+        )
+        guide = (
+            ROOT / "internals" / "project" / "documentation_style.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Automatic translation is disabled", script)
+        self.assertIn("переводится и редактируется вручную", guide)
 
     def test_documentation_style_guide_is_linked_and_mirrored(self):
         ru_guide = ROOT / "internals" / "project" / "documentation_style.md"
