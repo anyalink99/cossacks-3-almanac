@@ -11,7 +11,7 @@ happens on a second research attempt. Code references are collected
 under [Sources](#sources).
 
 > Canonical upgrade names and parameters (prices, bonuses, requirements) are in
-> [`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md). Here
+> [upgrades](../../../reference/05_upgrades/README.md). Here
 > covers the **application process**.
 
 <a id="коротко-о-главном"></a>

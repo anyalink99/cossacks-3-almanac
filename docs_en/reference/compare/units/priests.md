@@ -13,6 +13,6 @@ The Priest is the only unit with a healing ability (`weapon.kind = heal`). Four 
 | **Pope** | `pope` | 75 | 20.0 | 40 | 20 | 25 | 6.56 | 20 (≈ 0.0320/g-sec) | Russia, Ukraine |
 | **Priest** | `priest` | 100 | 20.0 | 60 | 25 | 20 | 7.5 | 20 (≈ 0.0320/g-sec) | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice |
 
-> **Pause = 0**: the priest begins to “pump up” the target’s health immediately after choosing, without a cooldown between ticks. Actual healing rate = `healing_per_tick × ticks_per_second` (see [ticks_and_subticks.md](../../../../internals_en/engine/ticks_and_subticks.md) - the heal tick is controlled by the same `gc_time_to_frames` cycle).
+> **Pause = 0**: the priest begins to “pump up” the target’s health immediately after choosing, without a cooldown between ticks. Actual healing rate = `healing_per_tick × ticks_per_second` (see [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - the heal tick is controlled by the same `gc_time_to_frames` cycle).
 
 > **Source of stats**: `unit.script:1151-1188` - general block `'priest','pope','mullah','padre'` plus `if (objprop.sid='X') then begin … end` chain for per-sid overrides.

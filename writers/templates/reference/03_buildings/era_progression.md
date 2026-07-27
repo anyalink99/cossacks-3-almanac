@@ -1,7 +1,7 @@
 ## Переход в XVIII век
 
 Полный разбор пререквизитов, цепочки строительства и стратегии — в
-[`../../recon/world/economy/upgrades_application.md` §7.5](../../recon/world/economy/upgrades_application.md).
+[разборе применения улучшений](../../recon/world/economy/upgrades_application.md).
 Переход исследуется в Городском центре после строительства Академии, Собора
 и Артиллерийского депо.
 

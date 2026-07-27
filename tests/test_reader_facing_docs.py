@@ -4,6 +4,7 @@ import re
 import unittest
 
 from scripts.build_english_docs import github_slug
+from parser.config import decode_upg_type
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -21,6 +22,81 @@ def reader_visible_text(text: str) -> str:
 
 
 class ReaderFacingDocumentation(unittest.TestCase):
+    def test_entity_catalog_has_complete_real_icon_coverage(self):
+        catalog = json.loads(
+            (ROOT / "assets" / "data" / "entity-catalog.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(
+            catalog["counts"],
+            {"unit": 119, "building": 237, "upgrade": 3933},
+        )
+        for kind, entities in catalog["entities"].items():
+            self.assertEqual(len(entities), catalog["counts"][kind])
+            for sid, entity in entities.items():
+                with self.subTest(kind=kind, sid=sid):
+                    self.assertTrue(entity["icon"])
+                    icon_path = ROOT / entity["icon"].removeprefix("../")
+                    self.assertTrue(icon_path.is_file(), icon_path)
+
+    def test_search_index_contains_exact_sections_and_entities(self):
+        ru_entries = json.loads(
+            (DOCS / "_search.json").read_text(encoding="utf-8")
+        )["entries"]
+        en_entries = json.loads(
+            (ROOT / "docs_en" / "_search.json").read_text(encoding="utf-8")
+        )["entries"]
+        winged_hussar = next(
+            entry
+            for entry in ru_entries
+            if entry.get("entity") == "unit:wingedhussar"
+        )
+        self.assertEqual(winged_hussar["title"], "Крылатый гусар")
+        upgrades_section = next(
+            entry
+            for entry in en_entries
+            if entry.get("title") == "How upgrades combine"
+        )
+        self.assertEqual(upgrades_section["kind"], "section")
+        self.assertEqual(upgrades_section["fragment"], "how-upgrades-combine")
+
+    def test_generated_upgrade_names_are_reader_facing(self):
+        ru = (DOCS / "reference" / "05_upgrades" / "README.md").read_text(
+            encoding="utf-8"
+        )
+        en = (
+            ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md"
+        ).read_text(encoding="utf-8")
+        self.assertNotIn("| damage |", ru)
+        self.assertNotIn("| protection |", ru)
+        self.assertNotIn("%value%", ru)
+        self.assertNotIn("Stable cossackdon", en)
+        self.assertIn("Донской козак: урон", ru)
+        self.assertIn("Don Cossack: damage", en)
+
+    def test_raw_upgrade_effect_aliases_are_localized(self):
+        self.assertEqual(decode_upg_type("damage", "ru")[0], "+урон")
+        self.assertEqual(decode_upg_type("protection", "ru")[0], "+защита")
+
+    def test_reader_links_do_not_use_markdown_paths_as_labels(self):
+        offenders = []
+        for language_root in (ROOT / "docs", ROOT / "docs_en"):
+            for area in ("reference", "reports"):
+                for path in (language_root / area).rglob("*.md"):
+                    text = re.sub(
+                        r"```.*?```",
+                        " ",
+                        path.read_text(encoding="utf-8"),
+                        flags=re.DOTALL,
+                    )
+                    for label in re.findall(r"\[([^\]]+)\]\([^)]+\)", text):
+                        if ".md" in label.casefold():
+                            offenders.append(
+                                f"{path.relative_to(ROOT).as_posix()}: {label}"
+                            )
+        self.assertEqual(offenders, [])
+
     def test_documentation_style_guide_is_linked_and_mirrored(self):
         ru_guide = ROOT / "internals" / "project" / "documentation_style.md"
         en_guide = ROOT / "internals_en" / "project" / "documentation_style.md"

@@ -125,7 +125,7 @@ The same unit class (`usage_short`) may have different HP/damage/armor among dif
 <a id="5-доступные-наёмники-через-дипломатический-центр"></a>
 ## §5. Available mercenaries (via diplomatic center)
 
-Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `sid`. The cost is only gold (without food/wood/stone), they train without barracks prerequisites. All mercenaries consume gold-upkeep (`consume.gold > 0`); units with the flag `bmercenary=True` (in the current balance only `battleship`) are subject to Rebellion at `gold=0` (see [01_economy/README.md](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).
+Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `sid`. The cost is only gold (without food/wood/stone), they train without barracks prerequisites. All mercenaries consume gold-upkeep (`consume.gold > 0`); units with the flag `bmercenary=True` (in the current balance only `battleship`) are subject to Rebellion at `gold=0` (see [economy guide](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).
 
 | `sid` | Class | HP | Max. damage | Merc? | Nations |
 | --- | --- | ---: | ---: | :---: | --- |
@@ -141,7 +141,7 @@ Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `
 <a id="6-вариант-рынка"></a>
 <a id="6-архитектурные-варианты-рынка"></a>
 ## §6. Market option
-Market - common building (see [03_buildings/README.md → mar](../../reference/03_buildings/README.md#mar--market)). For 21 nations there are 4 building options (`eurmar` / `rusmar` / `spamar` / `turmar`), differing in HP, price and construction time. These are **building options only** - market rates are global and the same for all players in the match, regardless of which `mar` is built (see [06_market/README.md](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
+Market - common building (see [building guide](../../reference/03_buildings/README.md#mar--market)). For 21 nations there are 4 building options (`eurmar` / `rusmar` / `spamar` / `turmar`), differing in HP, price and construction time. These are **building options only** - market rates are global and the same for all players in the match, regardless of which `mar` is built (see [market guide](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
 
 | Cluster | Nations |
 | --- | --- |

@@ -9,8 +9,8 @@ orders, retreating from a dead zone, movement penalties, idle range
 bonuses, weapon switching, and the high-ground bonus. Code references
 are collected under [Sources](#sources).
 
-> **Related documents:** [`combat_damage_pipeline.md`](combat_damage_pipeline.md) -
-> damage formula; [`target_selection.md`](target_selection.md) —
+> **Related documents:** [damage calculation](combat_damage_pipeline.md) -
+> damage formula; [target selection](target_selection.md) —
 > target selection algorithm; [`unit_commands.md`](unit_commands.md) —
 > order queue; [`artillery_specifics.md`](artillery_specifics.md)
 > — artillery mechanics.

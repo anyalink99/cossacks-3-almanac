@@ -314,21 +314,59 @@ html {
   margin: 2em 0;
 }
 
-/* Контейнер для горизонтального скролла широких таблиц. JS-обёртка
-   в md-viewer.js оборачивает каждую <table> в этот div. На узких
-   таблицах ничего не меняется (table.width=100% растягивает её до
-   ширины контейнера); на широких — появляется horizontal scrollbar
-   вместо обрезания содержимого. */
-/* Контейнер для горизонтального скролла широких таблиц. JS-обёртка
-   в md-viewer.js оборачивает каждую <table> в этот div. На узких
-   таблицах ничего не меняется (min-width:100% растягивает её до
-   ширины контейнера); на широких — таблица превышает ширину и в
-   контейнере появляется horizontal scrollbar. */
-#md-content .md-table-scroll {
-  overflow-x: auto;
+/* Wide reference tables keep the usual bottom scrollbar and receive a
+   synchronized brass scrollbar above the header. The upper control is
+   hidden by JS when the table fits the article column. */
+#md-content .md-table-shell {
   max-width: 100%;
   margin: 1em 0;
 }
+
+#md-content .md-table-scroll-top {
+  height: 13px;
+  margin: 0 0 5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  outline: none;
+  scrollbar-color: var(--brass) rgba(0, 0, 0, 0.34);
+  scrollbar-width: thin;
+}
+
+#md-content .md-table-scroll-top:focus-visible {
+  outline: 1px solid var(--brass);
+  outline-offset: 2px;
+}
+
+#md-content .md-table-scroll-top-track {
+  height: 1px;
+}
+
+#md-content .md-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 0;
+  scrollbar-color: var(--brass) rgba(0, 0, 0, 0.34);
+  scrollbar-width: thin;
+}
+
+#md-content .md-table-scroll-top::-webkit-scrollbar,
+#md-content .md-table-scroll::-webkit-scrollbar {
+  height: 9px;
+}
+
+#md-content .md-table-scroll-top::-webkit-scrollbar-track,
+#md-content .md-table-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid var(--border-dim);
+}
+
+#md-content .md-table-scroll-top::-webkit-scrollbar-thumb,
+#md-content .md-table-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--ember-deep), var(--brass));
+  border: 1px solid #2a1d0d;
+  border-radius: 4px;
+}
+
 #md-content .md-table-scroll > table {
   margin: 0;
   width: auto;
@@ -485,16 +523,367 @@ html:lang(ru) #md-content .footnotes::before { content: "Примечания"; 
   padding: 0 3px;
 }
 
+.md-drawer-toggle,
+.md-drawer-backdrop {
+  display: none;
+}
+
+/* ── Addressable game-object cards ── */
+.entity-card {
+  max-width: 980px;
+}
+
+.entity-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--ember);
+  border-radius: 5px;
+  background:
+    linear-gradient(110deg, rgba(212, 130, 58, 0.1), transparent 38%),
+    var(--bg-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.entity-icon-frame {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  flex: 0 0 78px;
+  border: 1px solid var(--brass);
+  border-radius: 4px;
+  background: #050403;
+  box-shadow:
+    inset 0 0 0 3px rgba(0, 0, 0, 0.72),
+    0 3px 12px rgba(0, 0, 0, 0.55);
+}
+
+.entity-icon-frame img {
+  width: 64px;
+  height: 64px;
+  image-rendering: auto;
+  object-fit: contain;
+}
+
+.entity-identity {
+  min-width: 0;
+}
+
+.entity-identity h1 {
+  margin: 4px 0 6px !important;
+  color: var(--gold-bright) !important;
+  font-size: clamp(24px, 4vw, 38px) !important;
+  line-height: 1.12 !important;
+}
+
+.entity-kind {
+  display: inline-block;
+  color: var(--ember);
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.entity-sid {
+  color: var(--text-mute);
+  font-size: 11px;
+}
+
+.entity-sid code {
+  color: var(--text-dim);
+}
+
+.entity-variant-note {
+  margin: -10px 0 18px !important;
+  color: var(--text-mute);
+  font-size: 12px;
+}
+
+.entity-variant {
+  margin: 0 0 20px;
+  padding: 0 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: rgba(31, 24, 16, 0.72);
+}
+
+.entity-variant-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 -20px 18px;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border-dim);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.entity-variant-heading h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: var(--brass) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.entity-nations {
+  color: var(--text-dim);
+  font-size: 11px;
+  text-align: right;
+}
+
+.entity-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  background: var(--border-dim);
+}
+
+.entity-fact {
+  min-width: 0;
+  padding: 11px 13px;
+  background: rgba(12, 8, 5, 0.88);
+}
+
+.entity-fact dt {
+  margin: 0 0 5px;
+  color: var(--text-mute);
+  font-family: "Cinzel", serif;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.entity-fact dd {
+  margin: 0;
+  color: var(--text-bright);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.entity-resource-list,
+.entity-related-list,
+.entity-protection-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.entity-resource,
+.entity-protection {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 6px;
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  background: rgba(154, 120, 54, 0.08);
+}
+
+.entity-resource-name,
+.entity-protection span {
+  color: var(--text-dim);
+  font-size: 9px;
+}
+
+.entity-resource strong,
+.entity-protection strong {
+  color: var(--gold-bright);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.entity-related-link {
+  display: inline-block;
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(212, 130, 58, 0.07);
+  color: var(--gold);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.entity-related-link:hover,
+.entity-related-link:focus-visible {
+  border-color: var(--brass);
+  color: var(--gold-bright);
+}
+
+.entity-detail-section {
+  margin-top: 18px;
+}
+
+.entity-detail-section h3 {
+  margin: 0 0 10px !important;
+  color: var(--brass) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.entity-weapons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.entity-weapon {
+  padding: 11px 12px;
+  border: 1px solid var(--border-dim);
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.entity-weapon-name {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-bright);
+  font-family: "Cinzel", serif;
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.entity-weapon-facts {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.entity-weapon-facts .entity-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0;
+  background: none;
+}
+
+.entity-weapon-facts .entity-fact dt,
+.entity-weapon-facts .entity-fact dd {
+  margin: 0;
+  font-size: 10px;
+}
+
 /* Narrow screens */
 @media (max-width: 900px) {
   .md-layout {
     grid-template-columns: 1fr;
   }
   .md-sidebar {
-    position: static;
+    position: fixed;
+    z-index: 45;
+    top: var(--md-topbar-height, 70px);
+    bottom: 0;
+    left: 0;
+    width: min(88vw, 360px);
     max-height: none;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border-strong);
+    border-bottom: 0;
+    box-shadow: 14px 0 32px rgba(0, 0, 0, 0.58);
+    transform: translateX(-105%);
+    transition: transform 180ms ease;
   }
+
+  .md-drawer-open .md-sidebar {
+    transform: translateX(0);
+  }
+
+  .md-drawer-toggle {
+    display: inline-flex;
+  }
+
+  .md-drawer-backdrop {
+    display: block;
+    position: fixed;
+    z-index: 44;
+    inset: var(--md-topbar-height, 70px) 0 0;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.66);
+    transition: opacity 180ms ease;
+  }
+
+  .md-drawer-open .md-drawer-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.md-drawer-open {
+    overflow: hidden;
+  }
+
   .md-main { padding: 24px 22px 60px; }
+
+  .entity-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .topbar {
+    padding: 10px 12px;
+  }
+
+  .brand h1 {
+    display: none;
+  }
+
+  .topbar-actions {
+    gap: 6px;
+  }
+
+  .topbar-actions .btn,
+  .language-switch {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .entity-hero {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .entity-icon-frame {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+  }
+
+  .entity-icon-frame img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .entity-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .entity-variant-heading {
+    display: block;
+  }
+
+  .entity-nations {
+    display: block;
+    margin-top: 5px;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-sidebar,
+  .md-drawer-backdrop {
+    transition: none;
+  }
 }

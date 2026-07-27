@@ -1,109 +1,168 @@
 <a id="артиллерия--сводный-справочник"></a>
 <a id="артиллерия"></a>
-# Artillery - summary reference book
+# Artillery
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Counted from [`data.json`](../../../data.json) as script [`compute/compute_artillery.py`](../../../compute/compute_artillery.py).
+This page covers land artillery: combat characteristics, the cost of each
+shot, gun upkeep, and Artillery Depot limits.
 
-The artillery unit in the code is the one with `objprop.bartillery = True` [^1]. The `bartprepare` subgroup includes animation of preparing a shot before each salvo - these are `cannon`, `howitzer`, `framegun`. `mortar` and `multicannon` have no training: they shoot continuously. The behavior of the order `attackpoint` for artillery is in [`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.2.
+In game code, an artillery piece is an object marked
+`objprop.bartillery = True` [^1]. Cannon (`cannon`), Howitzer (`howitzer`),
+and Frame gun (`framegun`) also play a preparation animation before each
+shot. Bombard (`mortar`) and Multi-barrelled Cannon (`multicannon`) do not.
+See [target selection](../../recon/world/combat/target_selection.md), §5.2,
+for the artillery firing order.
 
-Naval artillery (battleship, galley, frigate, etc.) is a separate category, see [`reference/07_naval/README.md`](../../reference/07_naval/README.md). The grenadier fires fragmentation `mortarball`, but is not included in the `bartillery` group and belongs to the infantry - see [`reports/combat/combat_stats.md`](combat_stats.md).
+Ships with artillery are a separate category; see the
+[Navy chapter](../../reference/07_naval/README.md). The Grenadier fires a
+fragmentation projectile (`mortarball`) but remains an infantry unit; see
+[combat characteristics](combat_stats.md).
 
 Contents:
 
-- [§1. Catalog and combat stats](#1-каталог-и-боевые-статы)
+- [§1. Guns and combat characteristics](#1-орудия-и-боевые-характеристики)
 - [§2. Cost of one shot](#2-стоимость-одного-выстрела)
 - [§3. Unit economics and national differences](#3-экономика-юнита-и-национальные-различия)
-- [§4. Park limit from the Artillery depot](#4-лимит-парка-от-артиллерийского-депо)
-- [§5. Notes and cross-references](#5-заметки-и-cross-references)
+- [§4. Artillery Depot limit](#4-лимит-парка-от-артиллерийского-депо)
+- [§5. Important details](#5-важные-особенности)
 
 <a id="1-каталог-и-боевые-статы"></a>
 <a id="1-орудия-и-боевые-характеристики"></a>
-## §1. Catalog and combat stats
+## §1. Guns and combat characteristics
 
-One line for a unique set of stats for the main weapon - if a nation has a different stat, it is placed in a separate line. Column **Preparation** = `bartprepare`: delay animation before each shot, fixed in the script, but the exact duration in `data.json` was not extracted and is not given here. **Pause** - cold reload after a shot (`weapon.pause` in g-sec). **Accuracy** — `weapon.dispertion` in pixels and tiles; less = more accurate. Radius - `weapon.radiusmax` (tiles); `radiusmin` is shown if the unit has a melee deadzone.
+Each row represents a unique set of characteristics for the main weapon.
+A nation with different values gets a separate row. **Preparation** is the
+`bartprepare` animation before each shot; its exact duration has not yet been
+extracted into `data.json`. **Reload** is `weapon.pause` in game seconds.
+**Dispersion** is shown in pixels and map tiles; lower is more accurate.
+Range is `weapon.radiusmax`, with `radiusmin` included when a gun has a
+close-range dead zone.
 
-| `sid` | Class | Nations | dmg | pause | DPS, g-sec | Radius | Accuracy | Preparation |
+| Gun | Class | Nations | Damage | Reload, game s | Damage/s | Range | Dispersion | Preparation |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |
-| `cannon` | Cannon | all 21 | 1800 | 10.94 s | 164.53 | 10.31..40.5 t | 225 px · 4.22 t | ✓ |
-| `framegun` | Cannon | Scotland | 500 | 2.81s | 177.94 | 3.75..33.75 t | 250 px · 4.69 t | ✓ |
-| `howitzer` | Bombard | all 21 | 4000 | 18.75 s | 213.33 | 13.13..26.25 t | 300 px · 5.63 t | ✓ |
-| `mortar` | Supermortar | all 21 | 200 | 7.81s | 25.61 | 23.44..48.75 t | 200 px · 3.75 t | — |
-| `multicannon` | Richbarreled gun | aus, bav, den, eng, fra… (+12) | 500 | 1.88s | 265.96 | 0.19..13.13 t | — | — |
+| Cannon (`cannon`) | Cannon | all 21 | 1800 | 10.94 | 164.53 | 10.31–40.5 tiles | 225 px · 4.22 tiles | ✓ |
+| Frame gun (`framegun`) | Cannon | Scotland | 500 | 2.81 | 177.94 | 3.75–33.75 tiles | 250 px · 4.69 tiles | ✓ |
+| Howitzer (`howitzer`) | Bombard | all 21 | 4000 | 18.75 | 213.33 | 13.13–26.25 tiles | 300 px · 5.63 tiles | ✓ |
+| Bombard (`mortar`) | Supermortar | all 21 | 200 | 7.81 | 25.61 | 23.44–48.75 tiles | 200 px · 3.75 tiles | — |
+| Multi-barrelled Cannon (`multicannon`) | Multi-barrelled Cannon | Austria, Bavaria, Denmark, England, France … (+12) | 500 | 1.88 | 265.96 | 0.19–13.13 tiles | — | — |
 
-Column **DPS, g-sec** is `damage / pause`, excluding formation bonuses (artillery does not have its own formations), AoE cap and target protection. The real crowd output is usually lower due to `AoE damage cap = floor(1 + (r/0.35)²)` (see [`recon/world/combat/combat_damage_pipeline.md` §6.5](../../recon/world/combat/combat_damage_pipeline.md)).
+**Damage/s** is damage per game second before target protection and the
+limit on targets hit by an explosion. Actual damage against a crowd is
+usually lower because of the `floor(1 + (r/0.35)²)` limit; see
+[damage calculation, §6.5](../../recon/world/combat/combat_damage_pipeline.md).
 
 <a id="2-стоимость-одного-выстрела"></a>
 ## §2. Cost of one shot
 
-`weapon[i].cost[gc_resource_type_*]` - resources that are written off at the moment of the shot (and not for each pause interval). Zero means that a particular resource is not wasted; for mortars the coefficient `coal` is gunpowder, for cannons `iron + coal` is cannonball + gunpowder. `multicannon` (buckshot case) may not have a price, because its barrel is not assigned `weapon.cost` in the script.
-**Price Efficient.** The `dmg / shot_cost_g` column is `damage` divided by the “gold equivalent of the shot.” The equivalent is calculated at the standard rate `mar.def` (`reference/06_market/README.md`): `iron × 140 + coal × 140 + wood × 50 + stone × 50 + food × 25 + gold × 1` - that is, we convert the consumption into conventional units of gold at default buy prices. This is a convenient rough measure to compare how much you "pay" per point of damage with different types of artillery. Does not take into account the purchase price of the gun itself, food upkeep and wear from return fire.
+`weapon[i].cost[gc_resource_type_*]` stores the resources deducted when a
+shot is fired. For a Bombard, `coal` represents gunpowder; for cannon-type
+guns, `iron + coal` represents the ball and its powder charge.
 
-| `sid` | Nations | Projectile type | dmg | iron | coal | wood/stone/gold | shot_cost_g | dmg/shot_cost_g |
+**Cost efficiency.** The gold equivalent uses the default market prices:
+`iron × 140 + coal × 140 + wood × 50 + stone × 50 + food × 25 + gold`.
+Damage per unit of cost is a rough comparison only; it excludes the gun's
+purchase price, upkeep, and losses to return fire.
+
+| Gun | Nations | Projectile | Damage | Iron | Coal | Other resources | Gold equivalent | Damage per unit of cost |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `cannon` | all 21 | cannonball | 1800 | 20 | 40 | — | 8400 | 0.21 |
-| `framegun` | Scotland | cannonball | 500 | 30 | 40 | — | 9800 | 0.05 |
-| `howitzer` | all 21 | cannonball | 4000 | 20 | 100 | — | 16800 | 0.24 |
-| `mortar` | all 21 | mortarball | 200 | 20 | 30 | — | 7000 | 0.03 |
-| `multicannon` | aus, bav, den, eng, fra… (+12) | canister | 500 | 40 | 30 | — | 9800 | 0.05 |
+| Cannon (`cannon`) | all 21 | cannonball | 1800 | 20 | 40 | — | 8400 | 0.21 |
+| Frame gun (`framegun`) | Scotland | cannonball | 500 | 30 | 40 | — | 9800 | 0.05 |
+| Howitzer (`howitzer`) | all 21 | cannonball | 4000 | 20 | 100 | — | 16800 | 0.24 |
+| Bombard (`mortar`) | all 21 | mortarball | 200 | 20 | 30 | — | 7000 | 0.03 |
+| Multi-barrelled Cannon (`multicannon`) | Austria, Bavaria, Denmark, England, France … (+12) | canister | 500 | 40 | 30 | — | 9800 | 0.05 |
 
-**Buckshot** (cannister) for `cannon` and `multicannon` is a separate weapon with its own `pause` and cost. For `cannon` `weapon[1].damage = 0`: buckshot for a conventional cannon is implemented not by direct entry into `damage`, but through the sub-projectile mechanism `_weapon_SyncWeapon` [^2]. Each shot of buckshot spawns several sub-shells; their damage is set at the time the weapon definition is created and is not directly reduced in `data.json`. `multicannon` `weapon[0]` already has the type `cannister`, and the whole characteristic sits there. It is therefore impossible to compare the DPS of buckshot and cannonballs directly using `data.json` without reading the weapon-script.
+**Canister shot** (`cannister`) is a separate weapon with its own reload and
+cost. A Cannon has `weapon[1].damage = 0` because `_weapon_SyncWeapon`
+creates several sub-projectiles and assigns their damage elsewhere [^2].
+The Multi-barrelled Cannon instead stores its canister characteristics in
+`weapon[0]`. A direct damage-per-second comparison therefore requires the
+weapon script as well as `data.json`.
 
 <a id="3-экономика-юнита-и-национальные-различия"></a>
 ## §3. Unit economics and national differences
 
-Purchase price, construction time, HP, shield, speed and upkeep in gold. If a nation has the same values - one line, the nations are grouped.
+Purchase price, construction time, health, shield, speed, and gold upkeep.
+Nations with identical values are grouped into one row.
 
-| `sid` | Nations | Price | bt, g-sec | HP | shield | speed | `consume[gold]` | gold/g-sec | score |
+| Gun | Nations | Price | Build time, game s | Health | Shield | Speed | Gold upkeep (internal value) | Gold/game s | Score |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `cannon` | all 21 | 250 W · 400 G · 400 I | 75.0 | 9000 | 75 | 20 | 300 | 0.48 | 50 |
-| `howitzer` | all 21 | 250 W · 350 G · 300 I | 94.0 | 3000 | 75 | 20 | 350 | 0.56 | 25 |
-| `mortar` | all 21 | 100 W · 75 G · 200 I | 25.0 | 400 | 25 | 24 | 50 | 0.08 | 100 |
-| `multicannon` | aus, bav, den, eng, fra… (+12) | 200 W · 400 G · 250 I | 50.0 | 2000 | 50 | 16 | 300 | 0.48 | 25 |
-| `framegun` | Scotland | 200 W · 300 G · 150 I | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
+| Cannon (`cannon`) | all 21 | 250 wood · 400 gold · 400 iron | 75.0 | 9000 | 75 | 20 | 300 | 0.48 | 50 |
+| Howitzer (`howitzer`) | all 21 | 250 wood · 350 gold · 300 iron | 94.0 | 3000 | 75 | 20 | 350 | 0.56 | 25 |
+| Bombard (`mortar`) | all 21 | 100 wood · 75 gold · 200 iron | 25.0 | 400 | 25 | 24 | 50 | 0.08 | 100 |
+| Multi-barrelled Cannon (`multicannon`) | Austria, Bavaria, Denmark, England, France … (+12) | 200 wood · 400 gold · 250 iron | 50.0 | 2000 | 50 | 16 | 300 | 0.48 | 25 |
+| Frame gun (`framegun`) | Scotland | 200 wood · 300 gold · 150 iron | 50.0 | 3000 | 50 | 20 | 300 | 0.48 | 50 |
 
-`consume[gold]` - field `objprop.consume[gc_resource_type_gold]`. The actual consumption is calculated by the formula `consume × gc_time_to_frames / 20000` for each game second (since the `_player_ProcessResourceConsume` procedure uses `speed = 20000` in the divisor). Column `gold/game sec` already takes this formula into account. Artillery is the only class that has `consume.gold > 0` for all units: the cannon must be “maintained” even if it does not fire. For infantry and cavalry `consume.gold = 0`. More details in [`../../recon/world/economy/hunger_and_rebellion.md` §2.3](../../recon/world/economy/hunger_and_rebellion.md).
+The displayed gold rate already applies
+`consume × gc_time_to_frames / 20000`. Artillery requires upkeep even while
+idle; infantry and cavalry have no equivalent gold drain. See
+[hunger and rebellion](../../recon/world/economy/hunger_and_rebellion.md).
 
 <a id="4-лимит-парка-от-артиллерийского-депо"></a>
-## §4. Park limit from the Artillery depot
+## §4. Artillery Depot limit
 
-Building `<nat>art` (Artillery Depot). During construction, adds the constant `objprop.artdepo[i]` [^3] to `gPlayer[plInd].artlimit[i]`. The limit is linear in the number of depots - without a cap on top. Without a depot, the limit = 0 [^4], and any attempt to build artillery runs into `gc_result_checkaccesscontrolreq_artlimit` [^5].
+Each Artillery Depot (`<nat>art`) adds `objprop.artdepo[i]` slots to the
+corresponding artillery limits [^3]. Limits grow linearly with the number of
+depots. Without a depot, every artillery limit is zero [^4], and production
+fails the `gc_result_checkaccesscontrolreq_artlimit` check [^5].
 
 Basic distribution from one depot [^6]:
 
-| Index `artind` | Unit Index | Slots from one depot |
+| Gun | Technical index | Slots from one depot |
 | --- | --- | ---: |
-| 0 - `gc_obj_artind_cannon` | `cannon` | 5 |
-| 1 - `gc_obj_artind_howitzer` | `howitzer` | 5 |
-| 2 - `gc_obj_artind_mortar` | `mortar` | 10 |
-| 3 - `gc_obj_artind_multicannon` | `multicannon` | 3 |
+| Cannon (`cannon`) | 0 — `gc_obj_artind_cannon` | 5 |
+| Howitzer (`howitzer`) | 1 — `gc_obj_artind_howitzer` | 5 |
+| Bombard (`mortar`) | 2 — `gc_obj_artind_mortar` | 10 |
+| Multi-barrelled Cannon (`multicannon`) | 3 — `gc_obj_artind_multicannon` | 3 |
 
-In other words, to roll out a full mortar battalion of 30 pieces, you need three Artillery depots (3 × 10 = 30 slots for `mortar`).
+For example, a 30-gun Bombard force requires three Artillery Depots:
+3 × 10 = 30 Bombard slots.
 
-**Price and parameters of the Artillery Depot itself** by nation. Basic default value: `costpercent = 200`, `HP = 40000`, `score = 1400` [^7]. Nations that have this unit cheaper or more expensive are shown clearly - Ukraine and Turkey have `if (i = ukr/tur)`-override [^8].
+**Artillery Depot price and characteristics.** The ordinary version has
+40,000 health and is worth 1,400 score; every subsequent depot costs twice
+as much [^7]. Ukraine and Turkey have separate base prices [^8].
 
-| Nation | HP | Price (food/wood/stone/gold/iron/coal) | bt, g-sec | costpercent |
+| Nation | Health | Price (food/wood/stone/gold/iron/coal) | Build time, game s | Price growth, % |
 | --- | ---: | --- | ---: | ---: |
-| alg, aus, bav, den, eng… (+14) | 40000 | 0 / 100 / 1000 / 0 / 0 / 1400 | 245.94 | 200 |
+| Algeria, Austria, Bavaria, Denmark, England … (+14) | 40000 | 0 / 100 / 1000 / 0 / 0 / 1400 | 245.94 | 200 |
 | Ukraine | 40000 | 0 / 4250 / 4400 / 100 / 0 / 1400 | 245.94 | 200 |
 | Turkey | 40000 | 0 / 500 / 1200 / 0 / 0 / 1400 | 245.94 | 200 |
 
 <a id="5-заметки-и-cross-references"></a>
 <a id="5-важные-особенности"></a>
-## §5. Notes and cross-references
+## §5. Important details
 
-- **Preparation before shooting.** `bartprepare = True` means that a long animation is played before each shot. The behavior of the engine when issuing a shooting order is `_unit_TryAttackPoint` [^9]. The exact preparation duration is taken from the `.aaf` animation of the `attack0` unit; in `data.json` it is not extracted. For evaluation purposes, we use `weapon.pause` as a “cold reload” on top of any animation delays.
+- **Preparation before a shot.** Cannon, Howitzer, and some other guns play a
+  separate long animation before every shot (`bartprepare`) [^9]. Its duration
+  is stored in the `attack0` animation and has not yet been extracted into
+  `data.json`; the table therefore shows the weapon's cold reload only.
 
-- **Accuracy drops while moving.** Shooter and artillery while moving (`standtime < 0.25 game sec`) lose up to `gc_obj_maxattackradiusdisp = 3` effective radius tiles [^10]. Additional dispersion `dispertion` remains the same. More details - [`recon/world/combat/ranged_units_behavior.md` §4](../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
+- **Accuracy drops while moving.** A moving shooter
+  (`standtime < 0.25 game sec`) loses up to three tiles of effective range
+  [^10]. The separate dispersion value does not change. See
+  [ranged-unit behavior](../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).
 
-- **Accuracy is improved by Academy upgrades.** `aca.20` (Research new sighting devices for artillery) - -35% to dispersion. `aca.27` (Develop mathematics) - another −35%, accumulates with aca.20. After both, `0.65 × 0.65 ≈ 0.42` remains from the original, that is, the accuracy increases by approximately 2.4 times. Applies only to artillery; Musketeers and archers do not have a direct dispersion upgrade.
+- **Academy research improves accuracy.** “Research new sighting devices for
+  artillery” (`aca.20`) reduces dispersion by 35%. “Develop mathematics”
+  (`aca.27`) reduces it by another 35%. Together they leave
+  `0.65 × 0.65 ≈ 0.42` of the original dispersion, about 2.4 times the
+  accuracy. These upgrades apply to artillery only.
 
-- **AoE cap catches the crowd.** When a shell explodes, only the first `count = floor(1 + (r/0.35)²)` units within the [^11] radius receive damage. For cannon (`r ≈ 1`) this is 9 units, for mortar (`r ≈ 2`) - 33. A stretched line suffers much more than a dense crowd.
+- **An explosion hits a limited number of targets.** Only the first
+  `count = floor(1 + (r/0.35)²)` units within the blast radius take damage
+  [^11]. A Cannon at `r ≈ 1` can hit 9 units; a Bombard at `r ≈ 2` can hit 33.
 
-- **AI targets for artillery.** The decision on where to shoot goes through `_unit_SearchEnemyLongRangeArtillery` [^12] - this is a separate branch, not the general `_unit_SearchVictimOnProgress`. AI artillery units aim precisely at a distance of `[radiusmin .. radiusmax]`, taking into account `bsearchmaxattradius`. This branch differs from the usual scan-cells and is described only indirectly - see [`recon/world/target_selection.md`](../../recon/world/combat/target_selection.md) §7 (open question No. 4).
+- **Computer-player target selection.** Artillery uses the separate
+  `_unit_SearchEnemyLongRangeArtillery` branch [^12] and considers targets
+  within `[radiusmin .. radiusmax]`. See
+  [target selection](../../recon/world/combat/target_selection.md), §7
+  (unresolved question 4).
 
-- **`bartprepare` and `attack-move`.** Artillery with `bartprepare = True` receives the order `gc_obj_order_type_attackpoint` through `_player_OrderUnitsToAttackPoint` [^13] - this is shooting at a coordinate, not at a specific target. The behavior for non-artillery units is different - they move with `move_mode_attack`. Details - [`recon/world/target_selection.md`](../../recon/world/combat/target_selection.md) §5.
+- **Preparation and attack-move.** Artillery marked `bartprepare = True`
+  receives `gc_obj_order_type_attackpoint` through
+  `_player_OrderUnitsToAttackPoint` [^13]: it fires at a coordinate rather than
+  a specific object. See [target selection](../../recon/world/combat/target_selection.md),
+  §5.
 
 
 <a id="источники"></a>

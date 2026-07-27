@@ -385,7 +385,7 @@ described in
 - **AI saboteur aims for maximum damage.** In `scanmode = 4` mode
   (special AI tasks for sabotage operations) the unit chooses
   not the closest, but the most dangerous enemy according to `weapon[0].damage`. This
-  not “regular” AI; see [`ai_behavior.md`](../../systems/ai_behavior.md), section
+  not “regular” AI; see [computer-player behavior](../../systems/ai_behavior.md), section
   "Open questions."
 
 ---
@@ -438,7 +438,7 @@ target.hp := min(target.hp, target.maxhp)
 
 Unlike missionaries in Age of Empires II, religious units in Cossacks 3 are
 **healer only**. No conversion of enemy units to friendly units
-no scripts. See also [`capture_mechanics.md`](../economy/capture_mechanics.md)
+no scripts. See also [building capture](../economy/capture_mechanics.md)
 §7.
 
 ---

@@ -3,8 +3,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_combat_stats.py`](../../../compute/compute_combat_stats.py).
-
 <a id="формула-урона"></a>
 ## Damage formula
 

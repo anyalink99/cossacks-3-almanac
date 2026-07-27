@@ -55,7 +55,7 @@ Card settings `gMap.settings.additional.capture` [^4]:
 2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured
 3 capture_onlyartillery      — only artillery can be captured
 ```
-All 4 values of the `capture` option with canonical Russian names are [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#capture--правила-захвата). Engine behavior (how `capture` interacts with `peacetime` and territory ownership) - [`game_settings.md`](../map/game_settings.md) §3.4.
+All 4 values of the `capture` option with canonical Russian names are [lobby settings](../../../reports/map/lobby_settings.md#capture--правила-захвата). Engine behavior (how `capture` interacts with `peacetime` and territory ownership) - [match settings](../map/game_settings.md) §3.4.
 
 ---
 

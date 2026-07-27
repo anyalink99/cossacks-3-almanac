@@ -192,4 +192,4 @@ Min / median / max cycle duration for each `kind`. Helps to see “how much slow
 - **Multi-weapon units.** Musketeer18 (bayonet + musket), archer with flaming arrows, etc. — in their table there is a line for weapons, the column `weapon` shows `#index`.
 - **`heal` excluded.** Priest = non-aggressive, not included in combat DPS calculation.
 - **Real vs game.** All game logic (animations, pause) is in **game** seconds. To get real time at fast speed, divide g-sec by 1.4 (or multiply rate by 1.4).
-- **Cooldown upgrades.** `attpauseperc` (see [`reference/05_upgrades/README.md`](../../reference/05_upgrades/README.md)) only reduces pause in ranged. Melee swing is not upgradeable - it is tied to animation.
+- **Cooldown upgrades.** `attpauseperc` (see [upgrades](../../reference/05_upgrades/README.md)) only reduces pause in ranged. Melee swing is not upgradeable - it is tied to animation.

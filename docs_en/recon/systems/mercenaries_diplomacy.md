@@ -11,9 +11,9 @@ Source references and Pascal excerpts are collected under
 
 **Related documents:**
 
-- [peasant_extraction.md](../world/economy/peasant_extraction.md) - flag semantics
+- [peasant resource gathering](../world/economy/peasant_extraction.md) - flag semantics
   `bnohungry`; for mercenaries it is `True` - they do not eat food.
-- [building_mechanics.md](../world/economy/building_mechanics.md) – footprint and model
+- [construction and repair](../world/economy/building_mechanics.md) – footprint and model
   construction of a diplomatic center.
 - [server_sync_architecture.md](../../../internals_en/engine/server_sync_architecture.md) —
   Reassignment of mercenaries during a riot occurs through `_misc_ChangePlayer`,
@@ -278,8 +278,8 @@ the priority of protecting one's own mercenaries when they are on the verge of d
 
 `gMap.settings.additional.marketdip` controls the availability of markets and
 diplomatic centers in the party. All 5 meanings with canonical Russian names -
-[`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр);
-engine behavior - [`game_settings.md`](../world/map/game_settings.md) §3.5.
+[lobby settings](../../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр);
+engine behavior - [match settings](../world/map/game_settings.md) §3.5.
 
 Constants [^19]:
 
@@ -414,7 +414,7 @@ as `gold` will drop to zero.
 |---:|---|---|
 | 1 | Limit “one diplomatic center per player” - the localization states “you can only build one diplomatic center”, but there is no explicit check in the scripts of the form `if count(dip) >= 1 then bproduceenabled := False`. `<nat>dip` `costpercent = 100` also does not block. | `gui.script`, or quota `_ai_TryUnit`. The AI logic checks for `_ai_GetUnitCount(plind, cid, gc_ai_unit_dipcenter) > 0`, but this is not enforcement for the human player. |
 | 2 | `bnoreputation` - does not appear in any installation script. It's possible that this field referred to Cossacks 1/2, or that we have the wrong name. | grep over all .script + .global. |
-| 3 | Riot tick frequency in real time - Nothing-handler fires once every progress-tick. | Reconciliation with [`ticks_and_subticks.md`](../../../internals_en/engine/ticks_and_subticks.md) §3. Reference point: with Nothing-tick ≈ 135 ms, mercenaries switch to hard in less than 1 second; at ≈ 100 ms - in ~0.5 seconds. |
+| 3 | Riot tick frequency in real time - Nothing-handler fires once every progress-tick. | Reconciliation with [ticks and subticks](../../../internals_en/engine/ticks_and_subticks.md) §3. Reference point: with Nothing-tick ≈ 135 ms, mercenaries switch to hard in less than 1 second; at ≈ 100 ms - in ~0.5 seconds. |
 | 4 | `bmercenary = True` for a battleship in `data.json` - 20 battleship lines are marked `bmercenary = True`, but in `case 'battleship'` this flag is not explicitly set inside `unit.script`. | Perhaps this is a separate branch (ports?) or a parser artifact. 5 minutes check. |
 
 ---

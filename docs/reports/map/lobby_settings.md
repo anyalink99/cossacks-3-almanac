@@ -71,7 +71,7 @@
 | 1 | Средне | Medium |
 | 2 | Много | Rich |
 
-По умолчанию `resourcemines = 1` («Средне») [^5]. Конкретные числа шахт за уровень — в [`map_resources.md`](map_resources.md) и в [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).
+По умолчанию `resourcemines = 1` («Средне») [^5]. Конкретные числа шахт за уровень — в [оценке ресурсов на карте](map_resources.md) и в [описании генерации карты](../../recon/world/map/map_generation_pipeline.md).
 
 ### Сезон (`season`)
 
@@ -147,7 +147,7 @@
 
 Минуты — **игровые**. На скорости «Быстро» (×1,4) одна игровая минута = 60 / 1.4 ≈ 42.9 реальных секунд: 10-минутный мир длится примерно 7 реальных минут.
 
-Подробности механики (как движок блокирует поиск врагов, ничейные ячейки, переход от мира к войне) — в [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
+Подробности механики (как движок блокирует поиск врагов, ничейные ячейки, переход от мира к войне) — в [разборе настроек матча](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
 
 ### Переход в XVIII век (`century18`)
 
@@ -169,7 +169,7 @@
 | 2 | Без захвата крестьян и центров | No Capturing Peasants or Centres |
 | 3 | Только пушки | Artillery Only |
 
-Геометрия захвата (радиусы, кто захватывается, кто нет) — в [`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).
+Геометрия захвата (радиусы, кто захватывается, кто нет) — в [статье о захвате зданий](../../recon/world/economy/capture_mechanics.md).
 
 <a id="marketdip--рынок-и-дипцентр"></a>
 ### Рынок и дипломатический центр (`marketdip`)
@@ -182,7 +182,7 @@
 | 3 | Не доступны | Without both |
 | 4 | Дорогие наёмники | Expensive Mercenaries |
 
-Вариант «Дорогие наёмники» утраивает цену найма. Подробности — в [`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
+Вариант «Дорогие наёмники» утраивает цену найма. Подробности — в [разборе наёмников и дипломатии](../../recon/systems/mercenaries_diplomacy.md).
 
 ### Расположение союзников (`teams`)
 
@@ -242,15 +242,15 @@
 | 3 | 1.0 | Очень сложно | Very Hard |
 | 4 | 1.25 | Невозможно | Impossible |
 
-Сложность меняет скорость строительства и найма компьютерного игрока. Дополнительных стартовых ресурсов он не получает. Поведение компьютера разобрано в [`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).
+Сложность меняет скорость строительства и найма компьютерного игрока. Дополнительных стартовых ресурсов он не получает. Поведение компьютера разобрано в [статье о поведении компьютера](../../recon/systems/ai_behavior.md).
 
 ---
 
 **См. также:**
 
-- [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
+- [Как настройки влияют на игру](../../recon/world/map/game_settings.md) — поведение движка по каждой опции (peacetime, peace mode, captureradius, …).
 - [`derived/game_settings.json`](../../../derived/game_settings.json) — то же самое в машинно-читаемом виде.
-- [`docs/recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
+- [Как создаётся карта](../../recon/world/map/map_generation_pipeline.md) — что именно делает генератор карты с этими значениями.
 
 
 ## Источники

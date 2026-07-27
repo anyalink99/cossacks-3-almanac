@@ -92,7 +92,7 @@ def render_building_coverage(buildings: list[dict]) -> list[str]:
     A("## §2. Покрытие стандартных построек")
     A("")
     A("`✅` = у нации есть это здание, `❌` = у нации его нет. Полный справочник "
-      "зданий — [03_buildings/README.md](../../reference/03_buildings/README.md).")
+      "зданий — в [главе о зданиях](../../reference/03_buildings/README.md).")
     A("")
     nat_have = defaultdict(set)
     for b in buildings:

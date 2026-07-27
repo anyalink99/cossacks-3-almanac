@@ -438,14 +438,14 @@ def write_report_legacy(r: dict, settings: dict) -> str:
     L.append("Per-type placement rates **эмпирически откалиброваны** на 10 sample replays "
              "(Tiny+Land+Highlands+4pl_nowater bucket, ratios 0.96-1.04). Pipeline: "
              "`parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. "
-             "См. также [recon/world/map/map_generation_pipeline.md §14](../../recon/world/map/map_generation_pipeline.md).")
+             "См. также [описание генерации карты, §14](../../recon/world/map/map_generation_pipeline.md).")
     L.append("")
     L.append(f"**Настройки:** `mapsize = {settings['mapsize']}` ({r['map_name']}, {r['dim']} × {r['dim']} = {r['area']} тайлов), "
              f"`relieftype = {settings['relief']}` ({r['relief_name']}), "
              f"`resourcemines = {settings['mines']}` ({r['mine_density_name']}), "
              f"`foreststype = {settings['foreststype']}`. "
              f"Расшифровка значений и каноничные русские названия — [`lobby_settings.md`](lobby_settings.md). "
-             f"Поведение движка по каждой опции — [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md).")
+             f"Поведение каждой опции разобрано в [статье о настройках матча](../../recon/world/map/game_settings.md).")
     L.append("")
     L.append("## 1. Модификаторы вероятности паттернов (оценка)")
     L.append("")
@@ -500,7 +500,7 @@ def write_report_legacy(r: dict, settings: dict) -> str:
     L.append("**Откуда взяты placement rates:** эмпирически из 10 replay-выборок "
              "(Tiny+Land+Highlands+4pl_nowater bucket). Размер pattern footprint (mask cells) — "
              "главный фактор: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. "
-             "Методика и полная таблица — `recon/map_generation_pipeline.md` §14. "
+             "Методика и полная таблица приведены в §14 статьи о генерации карты. "
              "Для не-Tiny / не-Highlands settings числа должны отличаться — calibration не экстраполирована.")
     L.append("")
 
@@ -646,7 +646,7 @@ def write_report_legacy(r: dict, settings: dict) -> str:
     L.append("- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, "
              "`plateau*` **не предсказываются** `compute_counts` (~50% всех cluster occurrences "
              "в replay-data). Нужно расширить модель — см. "
-             "[`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) §13 Q7.")
+             "[описании генерации карты](../../recon/world/map/map_generation_pipeline.md), §13, вопрос 7.")
     L.append("- `desert_*` (season=3) не реализовано — 1/20 replays.")
     L.append("- Non-Land mine formula отличается — open question §13 Q6.")
     L.append("")

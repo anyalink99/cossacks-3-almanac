@@ -166,9 +166,15 @@ def fmt_nation_list(nations: list[str]) -> str:
     if len(nations) == len(PLAYABLE_NATIONS):
         return "все 21"
     if len(nations) > 8:
-        head = ", ".join(f"**{n}** {nation_ru(n)}" for n in nations[:5])
+        head = ", ".join(
+            f"**{nation_ru(n)}** (`{n}`)"
+            for n in nations[:5]
+        )
         return f"{head} … (+{len(nations) - 5})"
-    return ", ".join(f"**{n}** {nation_ru(n)}" for n in nations)
+    return ", ".join(
+        f"**{nation_ru(n)}** (`{n}`)"
+        for n in nations
+    )
 
 
 def render_unit_sheet(groups: list[tuple[dict, list[str]]]) -> list[str]:

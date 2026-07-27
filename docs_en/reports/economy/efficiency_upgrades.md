@@ -3,8 +3,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_efficiency_upgrades.py`](../../../compute/compute_efficiency_upgrades.py).
-
 <a id="что-это"></a>
 <a id="как-складываются-бонусы"></a>
 ## What is this

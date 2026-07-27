@@ -69,13 +69,16 @@ const UI = ENGLISH ? {
   manifestError: (message) => `Could not load the manifest: ${message}`,
   mermaidError: (message) => `Could not render Mermaid: ${message}`,
   searchLabel: "Search",
-  searchPlaceholder: "Search documentation…",
+  searchPlaceholder: "Search articles and objects…",
   searchLoading: "Loading the search index…",
   searchResults: (count) => `${count} result${count === 1 ? "" : "s"}`,
   searchShown: (count) => `${count} shown`,
   searchEmpty: (query) => `No matches for “${query}”`,
   searchError: (message) => `Search is unavailable: ${message}`,
   sectionOverview: "Section overview",
+  closeContents: "Close",
+  catalogLoading: "Loading the object card…",
+  catalogError: (message) => `Could not load the object card: ${message}`,
 } : {
   home: "На главную",
   contents: "Содержание",
@@ -84,13 +87,104 @@ const UI = ENGLISH ? {
   manifestError: (message) => `Не удалось загрузить манифест: ${message}`,
   mermaidError: (message) => `Не удалось отрисовать mermaid: ${message}`,
   searchLabel: "Поиск",
-  searchPlaceholder: "Поиск по документации…",
+  searchPlaceholder: "Поиск по статьям и объектам…",
   searchLoading: "Загружаем поисковый индекс…",
   searchResults: (count) => `${count} совпадени${count % 10 === 1 && count % 100 !== 11 ? "е" : "й"}`,
   searchShown: (count) => `показано ${count}`,
   searchEmpty: (query) => `По запросу «${query}» ничего не найдено`,
   searchError: (message) => `Поиск недоступен: ${message}`,
   sectionOverview: "Обзор раздела",
+  closeContents: "Закрыть",
+  catalogLoading: "Загружаем карточку объекта…",
+  catalogError: (message) => `Не удалось загрузить карточку объекта: ${message}`,
+};
+
+const ENTITY_UI = ENGLISH ? {
+  catalog: "Object catalog",
+  kinds: { unit: "Unit", building: "Building", upgrade: "Upgrade" },
+  technicalId: "Technical ID",
+  available: "Available to",
+  allNations: "all nations",
+  variant: "Game values",
+  variants: "National variants",
+  cost: "Cost",
+  health: "Health",
+  trainingTime: "Training time",
+  buildTime: "Construction time",
+  researchTime: "Research time",
+  gameSeconds: "game sec",
+  speed: "Movement speed",
+  vision: "Vision",
+  capacity: "Capacity",
+  housing: "Housing places",
+  canBeCaptured: "Can be captured",
+  yes: "yes",
+  weapons: "Weapons",
+  damage: "Damage",
+  reload: "Reload",
+  range: "Range",
+  tiles: "tiles",
+  protection: "Protection",
+  trainedAt: "Trained at",
+  produces: "Produces",
+  researchedAt: "Researched at",
+  affects: "Affects",
+  prerequisites: "Requires",
+  effect: "Effect",
+  value: "Value",
+  level: "Level",
+  resources: {
+    food: "food", wood: "wood", stone: "stone",
+    gold: "gold", iron: "iron", coal: "coal",
+  },
+  weaponKinds: {
+    pike: "pike", sword: "blade", bullet: "bullet",
+    cannister: "canister", arrow: "arrow", cannonball: "cannonball",
+    firearrow: "fire arrow",
+  },
+} : {
+  catalog: "Каталог объектов",
+  kinds: { unit: "Юнит", building: "Здание", upgrade: "Улучшение" },
+  technicalId: "Технический код",
+  available: "Доступно",
+  allNations: "всем нациям",
+  variant: "Игровые значения",
+  variants: "Национальные варианты",
+  cost: "Стоимость",
+  health: "Здоровье",
+  trainingTime: "Время найма",
+  buildTime: "Время строительства",
+  researchTime: "Время изучения",
+  gameSeconds: "игр. с",
+  speed: "Скорость передвижения",
+  vision: "Обзор",
+  capacity: "Вместимость",
+  housing: "Мест для жителей",
+  canBeCaptured: "Можно захватить",
+  yes: "да",
+  weapons: "Оружие",
+  damage: "Урон",
+  reload: "Перезарядка",
+  range: "Дальность",
+  tiles: "клеток",
+  protection: "Защита",
+  trainedAt: "Нанимается в",
+  produces: "Производит",
+  researchedAt: "Изучается в",
+  affects: "Действует на",
+  prerequisites: "Требуется",
+  effect: "Эффект",
+  value: "Значение",
+  level: "Уровень",
+  resources: {
+    food: "еда", wood: "дерево", stone: "камень",
+    gold: "золото", iron: "железо", coal: "уголь",
+  },
+  weaponKinds: {
+    pike: "пика", sword: "клинковое оружие", bullet: "пуля",
+    cannister: "картечь", arrow: "стрела", cannonball: "ядро",
+    firearrow: "огненная стрела",
+  },
 };
 
 // --- Markdown configuration ----------------------------------------------
@@ -154,17 +248,74 @@ function preprocessMermaid(source) {
   return source.replace(/`([^`\r\n]+)`/g, "<code>$1</code>");
 }
 
-// Marked emits raw <table>; if columns are wide the table overflows the
-// article column without a scrollbar (unscrollable on touch + mouse).
-// Wrap each table in a div with overflow-x: auto so wide tables become
-// horizontally scrollable while narrow ones still look natural.
+const tableScrollUpdaters = new WeakMap();
+const tableScrollResizeObserver = typeof ResizeObserver === "undefined"
+  ? null
+  : new ResizeObserver((entries) => {
+    for (const entry of entries) tableScrollUpdaters.get(entry.target)?.();
+  });
+
+// Marked emits raw <table>. Wide tables get two synchronized scroll surfaces:
+// one above the header for immediate access and the conventional one below.
+// The upper scrollbar stays hidden when the table fits the article column.
 function wrapTablesInScrollContainers(container) {
   for (const table of container.querySelectorAll("table")) {
     if (table.parentElement?.classList.contains("md-table-scroll")) continue;
-    const wrap = document.createElement("div");
-    wrap.className = "md-table-scroll";
-    table.replaceWith(wrap);
-    wrap.appendChild(table);
+
+    const shell = document.createElement("div");
+    shell.className = "md-table-shell";
+
+    const topScroll = document.createElement("div");
+    topScroll.className = "md-table-scroll-top";
+    topScroll.setAttribute(
+      "aria-label",
+      ENGLISH ? "Scroll table horizontally" : "Горизонтальная прокрутка таблицы"
+    );
+
+    const topTrack = document.createElement("div");
+    topTrack.className = "md-table-scroll-top-track";
+    topScroll.appendChild(topTrack);
+
+    const bottomScroll = document.createElement("div");
+    bottomScroll.className = "md-table-scroll";
+
+    table.replaceWith(shell);
+    shell.append(topScroll, bottomScroll);
+    bottomScroll.appendChild(table);
+
+    let syncing = false;
+    const syncScroll = (source, target) => {
+      if (syncing || target.scrollLeft === source.scrollLeft) return;
+      syncing = true;
+      target.scrollLeft = source.scrollLeft;
+      syncing = false;
+    };
+    topScroll.addEventListener(
+      "scroll",
+      () => syncScroll(topScroll, bottomScroll),
+      { passive: true }
+    );
+    bottomScroll.addEventListener(
+      "scroll",
+      () => syncScroll(bottomScroll, topScroll),
+      { passive: true }
+    );
+
+    const updateTopScrollbar = () => {
+      const scrollWidth = bottomScroll.scrollWidth;
+      const overflows = scrollWidth > bottomScroll.clientWidth + 1;
+      topTrack.style.width = `${scrollWidth}px`;
+      topScroll.hidden = !overflows;
+      topScroll.tabIndex = overflows ? 0 : -1;
+      if (!overflows) topScroll.scrollLeft = 0;
+      else topScroll.scrollLeft = bottomScroll.scrollLeft;
+    };
+
+    tableScrollUpdaters.set(table, updateTopScrollbar);
+    tableScrollUpdaters.set(bottomScroll, updateTopScrollbar);
+    tableScrollResizeObserver?.observe(table);
+    tableScrollResizeObserver?.observe(bottomScroll);
+    requestAnimationFrame(updateTopScrollbar);
   }
 }
 
@@ -218,8 +369,11 @@ const $ = (sel) => document.querySelector(sel);
 
 const params = new URLSearchParams(location.search);
 let currentPath = params.get("p");
+let currentEntity = params.get("entity");
 let searchIndexPromise = null;
 let searchElements = null;
+let entityCatalogPromise = null;
+let closeMobileDrawer = () => {};
 
 function directoryLabel(segment) {
   return DIRECTORY_LABELS[segment] || segment.replaceAll("_", " ");
@@ -254,6 +408,16 @@ async function loadSearchIndex() {
   return searchIndexPromise;
 }
 
+async function loadEntityCatalog() {
+  if (!entityCatalogPromise) {
+    entityCatalogPromise = fetch("../assets/data/entity-catalog.json").then((response) => {
+      if (!response.ok) throw new Error(`entity catalog HTTP ${response.status}`);
+      return response.json();
+    });
+  }
+  return entityCatalogPromise;
+}
+
 function normalizeSearch(value) {
   return value.toLocaleLowerCase(ENGLISH ? "en" : "ru").replaceAll("ё", "е");
 }
@@ -283,11 +447,13 @@ function appendHighlightedText(container, value, terms) {
   }
 }
 
-function searchSnippet(text, normalizedText, terms) {
-  let first = -1;
-  for (const term of terms) {
-    const at = normalizedText.indexOf(term);
-    if (at >= 0 && (first < 0 || at < first)) first = at;
+function searchSnippet(text, normalizedText, terms, normalizedQuery = "") {
+  let first = normalizedQuery ? normalizedText.indexOf(normalizedQuery) : -1;
+  if (first < 0) {
+    for (const term of terms) {
+      const at = normalizedText.indexOf(term);
+      if (at >= 0 && (first < 0 || at < first)) first = at;
+    }
   }
   if (first < 0) first = 0;
   let start = Math.max(0, first - 82);
@@ -304,7 +470,8 @@ function searchSnippet(text, normalizedText, terms) {
 }
 
 function rankSearchEntries(entries, query) {
-  const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
+  const normalizedQuery = normalizeSearch(query).replace(/\s+/g, " ").trim();
+  const terms = normalizedQuery.split(/\s+/).filter(Boolean);
   const ranked = [];
   for (const entry of entries) {
     const title = normalizeSearch(entry.title);
@@ -314,6 +481,12 @@ function rankSearchEntries(entries, query) {
     if (!terms.every((term) => haystack.includes(term))) continue;
 
     let score = 0;
+    if (title === normalizedQuery) score += 700;
+    else if (title.startsWith(normalizedQuery)) score += 420;
+    else if (title.includes(normalizedQuery)) score += 260;
+    if (text.includes(normalizedQuery)) score += 80;
+    if (entry.entity) score += 35;
+    else if (entry.kind === "section") score += 18;
     for (const term of terms) {
       if (title === term) score += 120;
       else if (title.startsWith(term)) score += 80;
@@ -330,7 +503,7 @@ function rankSearchEntries(entries, query) {
     ranked.push({
       ...entry,
       score,
-      snippet: searchSnippet(entry.text, text, terms),
+      snippet: searchSnippet(entry.text, text, terms, normalizedQuery),
     });
   }
   ranked.sort((a, b) => b.score - a.score
@@ -367,13 +540,21 @@ function renderSearchResults(query, ranked) {
   for (const result of ranked.results) {
     const link = document.createElement("a");
     link.className = "md-search-result";
-    link.href = `?p=${encodeURIComponent(result.path)}`;
+    const fragment = result.fragment
+      ? `#${encodeURIComponent(result.fragment)}`
+      : "";
+    link.href = result.entity
+      ? `?entity=${encodeURIComponent(result.entity)}`
+      : `?p=${encodeURIComponent(result.path)}${fragment}`;
 
     const title = document.createElement("strong");
     appendHighlightedText(title, result.title, ranked.terms);
     const path = document.createElement("span");
     path.className = "md-search-result-path";
-    path.textContent = readablePath(result.path);
+    path.textContent = result.kindLabel
+      || (result.kind === "section"
+        ? `${readablePath(result.path, result.pageTitle)} › ${UI.sectionOverview}`
+        : readablePath(result.path));
     const snippet = document.createElement("span");
     snippet.className = "md-search-result-snippet";
     appendHighlightedText(snippet, result.snippet, ranked.terms);
@@ -382,7 +563,9 @@ function renderSearchResults(query, ranked) {
       event.preventDefault();
       history.pushState({}, "", link.href);
       clearSearch();
-      openFile(result.path);
+      closeMobileDrawer();
+      if (result.entity) openEntity(result.entity);
+      else openFile(result.path);
     });
 
     const item = document.createElement("li");
@@ -403,7 +586,9 @@ function setupSearch() {
   input.type = "text";
   input.autocomplete = "off";
   input.spellcheck = false;
-  input.placeholder = UI.searchPlaceholder;
+  input.placeholder = currentSection().startsWith("docs")
+    ? UI.searchPlaceholder
+    : (ENGLISH ? "Search documentation…" : "Поиск по документации…");
   input.setAttribute("aria-label", UI.searchLabel);
   input.setAttribute("aria-controls", "md-search-results");
   field.append(input);
@@ -513,6 +698,7 @@ function renderTree(node, depth = 0) {
     a.addEventListener("click", (ev) => {
       ev.preventDefault();
       history.pushState({}, "", a.href);
+      closeMobileDrawer();
       openFile(f.entry.path);
     });
     li.appendChild(a);
@@ -548,6 +734,23 @@ const REPO_GITHUB_BLOB = "https://github.com/anyalink99/cossacks-3-almanac/blob/
 function currentSection() {
   const m = location.pathname.match(/\/(docs_en|internals_en|docs|internals)(?=\/|$)/);
   return m ? m[1] : "docs";
+}
+
+function updateLanguageSwitchRoute() {
+  const languageSwitch = document.querySelector("#language-switch");
+  if (!languageSwitch) return;
+  const section = currentSection();
+  const counterpart = {
+    docs: "docs_en",
+    docs_en: "docs",
+    internals: "internals_en",
+    internals_en: "internals",
+  }[section];
+  languageSwitch.textContent = ENGLISH ? "RU" : "EN";
+  const query = currentEntity
+    ? `?entity=${encodeURIComponent(currentEntity)}`
+    : (currentPath ? `?p=${encodeURIComponent(currentPath)}${location.hash}` : "");
+  languageSwitch.href = `../${counterpart}/${query}`;
 }
 
 function normalizePathParts(parts) {
@@ -651,6 +854,7 @@ function rewriteRelativeLinks(html, basePath) {
       a.addEventListener("click", (ev) => {
         ev.preventDefault();
         history.pushState({}, "", url);
+        closeMobileDrawer();
         openFile(resolved.path);
       });
     } else {
@@ -750,8 +954,267 @@ function scrollToCurrentHash() {
   });
 }
 
+function makeElement(tag, className = "", text = "") {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== "") element.textContent = text;
+  return element;
+}
+
+function localized(value) {
+  if (!value || typeof value !== "object") return String(value ?? "");
+  return value[ENGLISH ? "en" : "ru"] || value.en || value.ru || "";
+}
+
+function entityRecord(catalog, entityKey) {
+  const separator = entityKey.indexOf(":");
+  if (separator < 1) return null;
+  const kind = entityKey.slice(0, separator);
+  const sid = entityKey.slice(separator + 1);
+  return catalog.entities?.[kind]?.[sid] || null;
+}
+
+function entityBySid(catalog, sid) {
+  for (const kind of ["unit", "building", "upgrade"]) {
+    if (catalog.entities?.[kind]?.[sid]) {
+      return catalog.entities[kind][sid];
+    }
+  }
+  return null;
+}
+
+function entityLink(entity, label = "") {
+  const link = makeElement("a", "entity-related-link", label || localized(entity.name));
+  const key = `${entity.kind}:${entity.sid}`;
+  link.href = `?entity=${encodeURIComponent(key)}`;
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    history.pushState({}, "", link.href);
+    openEntity(key);
+  });
+  return link;
+}
+
+function appendFact(container, label, value) {
+  if (value === undefined || value === null || value === "") return;
+  const item = makeElement("div", "entity-fact");
+  item.append(makeElement("dt", "", label));
+  const description = makeElement("dd");
+  if (value instanceof Node) description.append(value);
+  else description.textContent = value;
+  item.append(description);
+  container.append(item);
+}
+
+function resourceList(cost) {
+  const container = makeElement("span", "entity-resource-list");
+  for (const [resource, value] of Object.entries(cost || {})) {
+    const chip = makeElement("span", `entity-resource entity-resource-${resource}`);
+    chip.append(
+      makeElement("span", "entity-resource-name", ENTITY_UI.resources[resource] || resource),
+      makeElement("strong", "", String(value)),
+    );
+    container.append(chip);
+  }
+  return container;
+}
+
+function relatedList(values, catalog) {
+  const container = makeElement("span", "entity-related-list");
+  for (const sid of values || []) {
+    const entity = entityBySid(catalog, sid);
+    if (entity) container.append(entityLink(entity));
+    else container.append(makeElement("code", "entity-related-plain", sid));
+  }
+  return container;
+}
+
+function nationsLabel(values, catalog) {
+  if ((values || []).length >= 18) return ENTITY_UI.allNations;
+  return (values || [])
+    .map((sid) => localized(catalog.nations?.[sid]) || sid.toUpperCase())
+    .join(", ");
+}
+
+function protectionList(protection) {
+  const container = makeElement("span", "entity-protection-list");
+  for (const [key, value] of Object.entries(protection || {})) {
+    const kind = key.replace(/^prot_/, "");
+    const chip = makeElement("span", "entity-protection");
+    chip.append(
+      makeElement("span", "", ENTITY_UI.weaponKinds[kind] || kind),
+      makeElement("strong", "", String(value)),
+    );
+    container.append(chip);
+  }
+  return container;
+}
+
+function renderWeapons(weapons) {
+  const section = makeElement("section", "entity-detail-section");
+  section.append(makeElement("h3", "", ENTITY_UI.weapons));
+  const list = makeElement("div", "entity-weapons");
+  for (const weapon of weapons) {
+    const item = makeElement("div", "entity-weapon");
+    item.append(makeElement(
+      "strong",
+      "entity-weapon-name",
+      ENTITY_UI.weaponKinds[weapon.kind] || weapon.kind || ENTITY_UI.weapons,
+    ));
+    const facts = makeElement("dl", "entity-weapon-facts");
+    appendFact(facts, ENTITY_UI.damage, weapon.damage);
+    appendFact(
+      facts,
+      ENTITY_UI.reload,
+      weapon.pause_sec != null ? `${weapon.pause_sec} ${ENTITY_UI.gameSeconds}` : null,
+    );
+    const min = weapon.radiusmin_tiles;
+    const max = weapon.radiusmax_tiles;
+    const range = max != null
+      ? `${min != null ? `${min}–` : ""}${max} ${ENTITY_UI.tiles}`
+      : null;
+    appendFact(facts, ENTITY_UI.range, range);
+    if (weapon.cost) appendFact(facts, ENTITY_UI.cost, resourceList(weapon.cost));
+    item.append(facts);
+    list.append(item);
+  }
+  section.append(list);
+  return section;
+}
+
+function renderVariant(entity, variant, catalog, index) {
+  const section = makeElement("section", "entity-variant");
+  const heading = makeElement("div", "entity-variant-heading");
+  const title = entity.variants.length > 1
+    ? `${ENTITY_UI.variant} ${index + 1}`
+    : ENTITY_UI.variant;
+  heading.append(
+    makeElement("h2", "", title),
+    makeElement("span", "entity-nations", nationsLabel(variant.nations, catalog)),
+  );
+  section.append(heading);
+
+  const facts = makeElement("dl", "entity-facts");
+  if (entity.kind === "unit") {
+    appendFact(facts, ENTITY_UI.health, variant.hp);
+    appendFact(
+      facts,
+      ENTITY_UI.trainingTime,
+      variant.buildtime_sec != null
+        ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
+        : null,
+    );
+    appendFact(facts, ENTITY_UI.speed, variant.speed);
+    appendFact(facts, ENTITY_UI.vision, variant.vision);
+    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    if (variant.trained_in) {
+      appendFact(facts, ENTITY_UI.trainedAt, relatedList(variant.trained_in, catalog));
+    }
+    if (variant.protection) {
+      appendFact(facts, ENTITY_UI.protection, protectionList(variant.protection));
+    }
+  } else if (entity.kind === "building") {
+    appendFact(facts, ENTITY_UI.health, variant.hp);
+    appendFact(
+      facts,
+      ENTITY_UI.buildTime,
+      variant.buildtime_sec != null
+        ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
+        : null,
+    );
+    appendFact(facts, ENTITY_UI.vision, variant.vision);
+    appendFact(facts, ENTITY_UI.housing, variant.farm);
+    appendFact(facts, ENTITY_UI.capacity, variant.peasantabsorber);
+    if (variant.capturable) appendFact(facts, ENTITY_UI.canBeCaptured, ENTITY_UI.yes);
+    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    if (variant.produces) {
+      appendFact(facts, ENTITY_UI.produces, relatedList(variant.produces, catalog));
+    }
+  } else {
+    appendFact(facts, ENTITY_UI.effect, localized(variant.effect));
+    appendFact(facts, ENTITY_UI.value, variant.value);
+    appendFact(facts, ENTITY_UI.level, variant.level);
+    appendFact(
+      facts,
+      ENTITY_UI.researchTime,
+      variant.time_sec != null ? `${variant.time_sec} ${ENTITY_UI.gameSeconds}` : null,
+    );
+    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    const place = variant.place ? [variant.place] : [];
+    if (place.length) appendFact(facts, ENTITY_UI.researchedAt, relatedList(place, catalog));
+    if (variant.targets?.length) {
+      appendFact(facts, ENTITY_UI.affects, relatedList(variant.targets, catalog));
+    }
+    if (variant.prereqs?.length) {
+      appendFact(facts, ENTITY_UI.prerequisites, relatedList(variant.prereqs, catalog));
+    }
+  }
+  section.append(facts);
+  if (entity.kind === "unit" && variant.weapons?.length) {
+    section.append(renderWeapons(variant.weapons));
+  }
+  return section;
+}
+
+async function openEntity(entityKey) {
+  currentEntity = entityKey;
+  currentPath = null;
+  updateLanguageSwitchRoute();
+  const main = $("#md-content");
+  const crumb = $("#md-crumbs");
+  crumb.textContent = ENTITY_UI.catalog;
+  main.replaceChildren(makeElement("div", "md-loading", UI.catalogLoading));
+  try {
+    const catalog = await loadEntityCatalog();
+    const entity = entityRecord(catalog, entityKey);
+    if (!entity) throw new Error(`unknown entity ${entityKey}`);
+
+    const card = makeElement("article", "entity-card");
+    const hero = makeElement("header", "entity-hero");
+    if (entity.icon) {
+      const frame = makeElement("div", "entity-icon-frame");
+      const image = document.createElement("img");
+      image.src = entity.icon;
+      image.alt = "";
+      image.width = 46;
+      image.height = 46;
+      frame.append(image);
+      hero.append(frame);
+    }
+    const identity = makeElement("div", "entity-identity");
+    identity.append(
+      makeElement("span", `entity-kind entity-kind-${entity.kind}`, ENTITY_UI.kinds[entity.kind]),
+      makeElement("h1", "", localized(entity.name)),
+    );
+    const sid = makeElement("div", "entity-sid");
+    sid.append(
+      makeElement("span", "", `${ENTITY_UI.technicalId}: `),
+      makeElement("code", "", entity.sid),
+    );
+    identity.append(sid);
+    hero.append(identity);
+    card.append(hero);
+
+    if (entity.variants.length > 1) {
+      card.append(makeElement("p", "entity-variant-note", `${ENTITY_UI.variants}: ${entity.variants.length}`));
+    }
+    entity.variants.forEach((variant, index) => {
+      card.append(renderVariant(entity, variant, catalog, index));
+    });
+    main.replaceChildren(card);
+    crumb.textContent = `${ENTITY_UI.catalog} › ${ENTITY_UI.kinds[entity.kind]} › ${localized(entity.name)}`;
+    document.title = `${localized(entity.name)} — ${currentRoot.title}`;
+    window.scrollTo({ top: 0 });
+  } catch (error) {
+    main.replaceChildren(makeElement("div", "md-error", UI.catalogError(error.message)));
+  }
+  highlightActive();
+}
+
 async function openFile(path) {
+  currentEntity = null;
   currentPath = path;
+  updateLanguageSwitchRoute();
   const main = $("#md-content");
   const crumb = $("#md-crumbs");
   crumb.textContent = readablePath(path);
@@ -782,31 +1245,70 @@ async function openFile(path) {
 
 let currentRoot = null;
 
+function setupMobileDrawer() {
+  const topbar = document.querySelector(".topbar");
+  const actions = document.querySelector(".topbar-actions");
+  const sidebar = document.querySelector(".md-sidebar");
+  if (!topbar || !actions || !sidebar) return;
+
+  sidebar.id = "md-navigation";
+  const toggle = makeElement("button", "btn btn-secondary md-drawer-toggle", UI.contents);
+  toggle.type = "button";
+  toggle.setAttribute("aria-controls", sidebar.id);
+  toggle.setAttribute("aria-expanded", "false");
+  actions.prepend(toggle);
+
+  const backdrop = makeElement("div", "md-drawer-backdrop");
+  backdrop.setAttribute("aria-hidden", "true");
+  topbar.after(backdrop);
+
+  const updateTopbarHeight = () => {
+    document.documentElement.style.setProperty(
+      "--md-topbar-height",
+      `${Math.ceil(topbar.getBoundingClientRect().height)}px`,
+    );
+  };
+  updateTopbarHeight();
+  const observer = new ResizeObserver(updateTopbarHeight);
+  observer.observe(topbar);
+
+  const setOpen = (open) => {
+    document.body.classList.toggle("md-drawer-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.textContent = open ? UI.closeContents : UI.contents;
+    backdrop.setAttribute("aria-hidden", String(!open));
+  };
+  closeMobileDrawer = () => setOpen(false);
+  toggle.addEventListener("click", () => {
+    setOpen(!document.body.classList.contains("md-drawer-open"));
+  });
+  backdrop.addEventListener("click", closeMobileDrawer);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && document.body.classList.contains("md-drawer-open")) {
+      closeMobileDrawer();
+      toggle.focus();
+    }
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) closeMobileDrawer();
+  });
+}
+
 async function init() {
   try {
+    const section = currentSection();
     document.documentElement.lang = ENGLISH ? "en" : "ru";
     const home = document.querySelector(".topbar-actions .btn-secondary");
     const contents = document.querySelector(".md-sidebar h2");
     if (home) home.textContent = UI.home;
     if (contents) contents.textContent = UI.contents;
-    const languageSwitch = document.querySelector("#language-switch");
-    if (languageSwitch) {
-      const section = currentSection();
-      const counterpart = {
-        docs: "docs_en",
-        docs_en: "docs",
-        internals: "internals_en",
-        internals_en: "internals",
-      }[section];
-      languageSwitch.textContent = ENGLISH ? "RU" : "EN";
-      const query = currentPath ? `?p=${encodeURIComponent(currentPath)}` : "";
-      languageSwitch.href = `../${counterpart}/${query}`;
-    }
+    updateLanguageSwitchRoute();
     const manifest = await loadManifest();
     currentRoot = manifest;
     $("#md-root-title").textContent = manifest.title;
     document.title = manifest.title;
 
+    setupMobileDrawer();
     setupSearch();
     const tree = pathToTree(manifest.entries);
     const treeEl = renderTree(tree);
@@ -815,14 +1317,19 @@ async function init() {
     // Default to README.md if no path
     const initial = currentPath || manifest.entries.find((e) => e.path === "README.md")?.path
                                 || manifest.entries[0]?.path;
-    if (initial) {
+    if (currentEntity && section.startsWith("docs")) {
+      openEntity(currentEntity);
+    } else if (initial) {
       currentPath = initial;
       openFile(initial);
     }
 
     window.addEventListener("popstate", () => {
-      const p = new URLSearchParams(location.search).get("p");
-      if (p && p !== currentPath) openFile(p);
+      const next = new URLSearchParams(location.search);
+      const entity = next.get("entity");
+      const p = next.get("p");
+      if (entity && entity !== currentEntity && section.startsWith("docs")) openEntity(entity);
+      else if (p && p !== currentPath) openFile(p);
       else scrollToCurrentHash();
     });
     window.addEventListener("hashchange", scrollToCurrentHash);

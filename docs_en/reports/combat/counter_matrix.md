@@ -4,8 +4,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_counter_matrix.py`](../../../compute/compute_counter_matrix.py).
-
 <a id="метод"></a>
 ## Method
 ```

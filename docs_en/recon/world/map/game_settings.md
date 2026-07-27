@@ -11,7 +11,7 @@ reader-facing names come first, while exact field and function names remain in
 
 The numerical values and in-game labels are collected separately:
 
-- **[`docs/reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md)** —
+- **[lobby settings](../../../reports/map/lobby_settings.md)** —
   a reader-friendly catalogue of every option (localized names, numerical values,
   default values).
 - **[`derived/game_settings.json`](../../../../derived/game_settings.json)** - the same
@@ -47,7 +47,7 @@ capture (`capture`), market and Diplomatic Centre (`marketdip`), teams
 (`gamespeed`), and adviser (`adviserassistant`) [^4].
 
 Numerical values and human names - in
-[`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md). Here - what
+[lobby settings](../../../reports/map/lobby_settings.md). Here - what
 This is what the engine reads.
 
 <a id="2-что-движок-делает-с-gen-параметрами"></a>
@@ -145,14 +145,14 @@ clients receive the change through a synchronization event.
 
 For Ukraine (`ukr`), Turkey (`tur`), and Algeria (`alg`), the “Immediately”
 option has no effect: those nations have no `cen.1` upgrade in `country.script`. See
-[`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md).
+[upgrades](../../../reference/05_upgrades/README.md).
 
 <a id="34-capture--правила-захвата"></a>
 <a id="34-правила-захвата-capture"></a>
 ### 3.4 Capture rules (`capture`)
 
 Capture geometry (radii, who is captured, who is not, towers, walls) - in
-[`recon/world/economy/capture_mechanics.md`](../economy/capture_mechanics.md).
+[building capture](../economy/capture_mechanics.md).
 
 The `capture` option only enables or disables target classes: `1` prevents
 Peasant capture, `2` also protects Town Halls, and `3` permits only artillery
@@ -164,7 +164,7 @@ capture. The underlying range and ownership checks remain unchanged.
 
 `value = 4` (“Expensive Mercenaries”) multiplies the hiring price by
 `gc_gameplay_expensivemercskoef = 3`. Details of Diplomatic Centre economics are in
-[`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_diplomacy.md).
+[mercenaries and diplomacy](../../systems/mercenaries_diplomacy.md).
 
 <a id="36-gamespeed--скорость-партии"></a>
 <a id="36-скорость-партии-gamespeed"></a>
@@ -218,9 +218,9 @@ The constants `gc_player_difficulty_*` from `-1` to `4` [^21] are listed:
 
 `_player_GetDifficultyKoef` applies this multiplier to AI construction and
 recruitment speed. **AI receives no extra starting resources** at any
-difficulty. See [`recon/systems/ai_behavior.md`](../../systems/ai_behavior.md).
+difficulty. See [computer-player behavior](../../systems/ai_behavior.md).
 
-See also [`recon/systems/mercenaries_diplomacy.md`](../../systems/mercenaries_diplomacy.md) §3 - on
+See also [mercenaries and diplomacy](../../systems/mercenaries_diplomacy.md) §3 - on
 Hard and above, when `brebellion = True`, mercenaries have an approximately
 18.31% chance per tick to change sides.
 
@@ -242,7 +242,7 @@ settings [^22].
 | `gc_obj_resource_portion_food` | 45 | Food delivered per trip at `eff = 100`. |
 | `gc_obj_resource_portion_wood` | 28 | Wood delivered per trip at `eff = 100`. |
 | `gc_obj_resource_portion_stone` | 40 | Stone delivered per trip at `eff = 100`. |
-| `gc_obj_speed_peasant` | 40 | The declared speed of the peasant - but in the script the assignment is commented out [^23] (see [`recon/world/economy/peasant_extraction.md`](../economy/peasant_extraction.md) §9). |
+| `gc_obj_speed_peasant` | 40 | The declared speed of the peasant - but in the script the assignment is commented out [^23] (see [peasant resource gathering](../economy/peasant_extraction.md) §9). |
 
 <a id="6-победа-и-поражение"></a>
 ## 6. Victory and defeat

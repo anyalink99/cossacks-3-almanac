@@ -6,7 +6,7 @@
 
 A complete model of the extraction rate of all resources: formulas, mines, fields,
 efficiency upgrades, map influence. The simulator is built on these numbers
-economics and calculations in [`docs/reference/01_economy/README.md`](../../../reference/01_economy/README.md).
+economics and calculations in [economy guide](../../../reference/01_economy/README.md).
 All links to the code and the Pascal blocks themselves are collected in the section
 [Sources](#sources) at the end of the document.
 
@@ -21,12 +21,12 @@ All links to the code and the Pascal blocks themselves are collected in the sect
 >
 > - [determinism_audit.md](../../../../internals_en/engine/determinism_audit.md) - RNG sites in hot
 > production paths and expected variation between runs.
-> - [ticks_and_subticks.md](../../../../internals_en/engine/ticks_and_subticks.md) - time model,
+> - [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - time model,
 > sub-tick state-machine, adaptive speed. Needed for correct
 > interpretations of real-time versus game-time when taking measurements.
 > - [server_sync_architecture.md](../../../../internals_en/engine/server_sync_architecture.md) —
 > server-authoritative architecture C3 (important for multiplayer measurements).
-> - [map_generation_pipeline.md](../map/map_generation_pipeline.md) — timeline
+> - [map generation](../map/map_generation_pipeline.md) — timeline
 > `DoGenerate`, starting positions, placement of scaffolding / rocks / mines.
 
 > **TL;DR.** The analytical production ceiling (formulas below) is calculated in
@@ -466,7 +466,7 @@ Observed in `country.script` (mill upgrades - `<csid>mil.X` or `<commonName>mil.
 
 Complete procedure `DoGenerate` (cCircle1/2/3, SetupStartingResources, phases
 mines, FillOwnerMap, peacetime borders) - in
-[map_generation_pipeline.md](../map/map_generation_pipeline.md). Below is only
+[map generation](../map/map_generation_pipeline.md). Below is only
 what is needed for extraction formulas.
 
 <a id="81-игровые-параметры-наш-контекст"></a>
@@ -539,7 +539,7 @@ three factors:
 
 **Numbers for Tiny + Highlands + Land** (source:
 [`compute/compute_map_resources.py`](../../../../compute/compute_map_resources.py),
-report in [`docs/reports/map/map_resources.md`](../../../reports/map/map_resources.md)):
+report in [map resource estimates](../../../reports/map/map_resources.md)):
 
 | Parameter | Meaning |
 |---|---:|

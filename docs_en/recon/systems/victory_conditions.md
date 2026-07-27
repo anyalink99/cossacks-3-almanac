@@ -239,8 +239,8 @@ desertion.
 - **Peacetime:** `gc_mapsettings_peacetime_*` [^33] —
   0 / 10 / 15 / 20 / 30 / 45 / 60 / 90 / 120 / 180 / 240 minutes. This
   attack ban in the first N minutes, not an end-of-game timer. Full table -
-  [`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#peacetime--время-мира);
-  mechanics - [`game_settings.md`](../world/map/game_settings.md#peacetime--как-устроен-мир).
+  [lobby settings](../../reports/map/lobby_settings.md#peacetime--время-мира);
+  mechanics - [match settings](../world/map/game_settings.md#peacetime--как-устроен-мир).
 
 <a id="8-multiplayer-specific-отличия"></a>
 <a id="8-отличия-сетевой-игры"></a>

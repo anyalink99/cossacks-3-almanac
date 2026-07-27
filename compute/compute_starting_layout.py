@@ -236,7 +236,7 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
     A(f"Шахты (gold / iron / coal) — отдельная функция `SetupMines` "
       f"{mines_cite}. Спавн шахт идёт по другой логике (раундами "
       f"по дистанции, см. [recon/world/economy/peasant_extraction.md](../../recon/world/economy/peasant_extraction.md) §8.3 + "
-      f"[recon/world/map/map_generation_pipeline.md](../../recon/world/map/map_generation_pipeline.md) §8).")
+      f"[описание генерации карты](../../recon/world/map/map_generation_pipeline.md), §8).")
     A("")
     A("## §3. Пресеты стартовых юнитов")
     A("")
@@ -247,7 +247,7 @@ def render_legacy(circles: dict, grid: dict, presets: list[dict]) -> str:
       f"с каноничными русскими названиями — "
       f"[`lobby_settings.md`](lobby_settings.md). Поведение движка (как "
       f"добавляются юниты и ресурсы) — "
-      f"[`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) §3.1.")
+      f"[разбор настроек матча](../../recon/world/map/game_settings.md), §3.1.")
     A("")
     A("Игрок выбирает один из этих режимов в лобби. **default** (id=0) — это то, "
       "что описано в §1 (просто 18 крестьян, никаких добавочных ресурсов или "

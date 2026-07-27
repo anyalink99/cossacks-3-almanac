@@ -3,4 +3,4 @@
 
 [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-See [list in compare/README.md](../README.md#buildingsreadmemd--сравнения-зданий).
+See [comparison index](../README.md#buildingsreadmemd--сравнения-зданий).

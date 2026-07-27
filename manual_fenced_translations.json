@@ -18,20 +18,12 @@
         "internals/engine/rng_implementation.md:135"
       ]
     },
-    "097bf61af80a0d14e0e30aefe012de574e6a888579e4ae2809bdadc0dfb310ef": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json",
-      "sources": [
-        "README.md:119"
-      ]
-    },
     "0ead5485d6dcca8263e8bb46a83f2f8e0ec0853e8b4657db9504243015683a3d": {
       "literal": false,
       "literal_cyrillic": false,
       "text": "python parser/build_data.py\ncp data.json /tmp/data_old.json\n# … update the game …\npython parser/build_data.py\npython writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md",
       "sources": [
-        "README.md:155"
+        "README.md:158"
       ]
     },
     "0f452ff830ecb95791b2737d7cdd8540466242525c40553595578f5536f225b7": {
@@ -599,7 +591,7 @@
       "literal_cyrillic": false,
       "text": "make diff   # snapshot data.json, regenerate, write diff.md",
       "sources": [
-        "README.md:149"
+        "README.md:152"
       ]
     },
     "c3ad8ca5409e2dddc6a0e81c75076de1fa63c1e0245abd2bab3b5be002c6069f": {
@@ -648,6 +640,14 @@
       "text": "if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm\n   if (trgPlHnd = plIOHnd or plHnd = plIOHnd) then  // event concerns the player\n      if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum\n         alarm fire",
       "sources": [
         "docs/recon/systems/ui_input_and_feedback.md:255"
+      ]
+    },
+    "cdf3a6c4e67d687ee38ac98a352124c3f20f1aa380b6a365a364955c104055d2": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json\npython scripts/build_entity_catalog.py           # → assets/data/entity-catalog.json + game UI icons",
+      "sources": [
+        "README.md:119"
       ]
     },
     "ce6c5076d6401b539e465d33bd09191dbb24513c9c17206f7f6921c013a3e0a8": {

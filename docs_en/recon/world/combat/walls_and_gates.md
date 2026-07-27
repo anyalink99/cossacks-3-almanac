@@ -81,7 +81,7 @@ gc_obj_usage_hardwall`. A wall segment has `consume.stone` = 250
 the segment costs [^1].
 
 Specific numbers by nation - in
-[`reference/03_buildings/README.md`](../../../reference/03_buildings/README.md).
+[building guide](../../../reference/03_buildings/README.md).
 
 <a id="2-footprint-и-кластеры"></a>
 <a id="2-занимаемая-площадь-и-линии-стен"></a>
@@ -277,7 +277,7 @@ The replacement sequence has a practical combat consequence:
 Some nations have dedicated Wall Towers (internal ID
 `stonewalltower` and related variants). They fit into a wall line without
 a gap and fire like an ordinary Tower. For targeting and shot costs, see
-[`towers.md`](towers.md).
+[tower and garrison mechanics](towers.md).
 
 <a id="7-открытые-эмпирические-вопросы"></a>
 <a id="7-что-ещё-требует-проверки"></a>

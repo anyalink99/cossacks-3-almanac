@@ -64,7 +64,7 @@ The map in C3 is divided into **regions** via
    land.
 3. A transport ship is a special case: while infantry is on board, it
    lives in `inside[]` (as a garrison, see
-   [`towers.md`](towers.md)), and her
+   [tower and garrison mechanics](towers.md)), and her
    the region is changing.
 
 ### 2.1. `_unit_SameRegionExt`
@@ -210,7 +210,7 @@ sea or an escort of Galleys.
 ### 6.2. Upgrades
 
 Upgrades `fishingperc` (`mil` / `bla` / `aca` - see.
-[`reference/05_upgrades/README.md`](../../../reference/05_upgrades/README.md))
+[upgrades](../../../reference/05_upgrades/README.md))
 reduce `fishingspeed` (fewer frames per unit), which directly
 increases production. Also `aca.5` (+100% boat efficiency)
 doubles cargo capacity to 2000 food per trip.

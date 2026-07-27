@@ -17,13 +17,13 @@
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "How the Computer Player Works",
-      "size": 23599,
+      "size": 23690,
       "lines": 517
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Mercenaries and the Diplomatic Center",
-      "size": 34054,
+      "size": 34095,
       "lines": 683
     },
     {
@@ -41,7 +41,7 @@
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Victory, Defeat, and the End of a Match",
-      "size": 22059,
+      "size": 22165,
       "lines": 458
     },
     {
@@ -53,7 +53,7 @@
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "How Damage Is Calculated",
-      "size": 20587,
+      "size": 20672,
       "lines": 467
     },
     {
@@ -65,97 +65,97 @@
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "How Naval Combat Works",
-      "size": 13566,
+      "size": 13618,
       "lines": 334
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Pathfinding and Unit Movement",
-      "size": 42361,
+      "size": 42520,
       "lines": 907
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Ranged-Unit Behavior",
-      "size": 15079,
+      "size": 15190,
       "lines": 343
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Target Selection and Attack-Move",
-      "size": 36037,
+      "size": 36079,
       "lines": 756
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "How Towers Work",
-      "size": 11548,
+      "size": 11602,
       "lines": 243
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Unit Orders",
-      "size": 13510,
+      "size": 13575,
       "lines": 317
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Vision and Fog of War",
-      "size": 9043,
+      "size": 9126,
       "lines": 212
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Walls and Gates",
-      "size": 24602,
+      "size": 24734,
       "lines": 521
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Building Construction, Repair, and Destruction",
-      "size": 30484,
+      "size": 30563,
       "lines": 536
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "How Buildings and Units Are Captured",
-      "size": 30683,
+      "size": 30734,
       "lines": 608
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Famine and Mercenary Rebellion",
-      "size": 14276,
+      "size": 14325,
       "lines": 333
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "How Peasants Gather Resources",
-      "size": 36403,
+      "size": 36458,
       "lines": 766
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Production Queues",
-      "size": 14103,
+      "size": 14203,
       "lines": 339
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "How Upgrades Are Applied",
-      "size": 22105,
+      "size": 22199,
       "lines": 516
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "How Match Settings Affect the Game",
-      "size": 18350,
+      "size": 18336,
       "lines": 393
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "How a Random Map Is Generated",
-      "size": 37528,
+      "size": 37773,
       "lines": 717
     },
     {
@@ -173,7 +173,7 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Buildings",
-      "size": 59975,
+      "size": 59946,
       "lines": 531
     },
     {
@@ -185,7 +185,7 @@
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Upgrades",
-      "size": 224859,
+      "size": 221707,
       "lines": 1618
     },
     {
@@ -263,7 +263,7 @@
     {
       "path": "reference/compare/buildings/README.md",
       "title": "Building Comparisons",
-      "size": 250,
+      "size": 243,
       "lines": 7
     },
     {
@@ -281,7 +281,7 @@
     {
       "path": "reference/compare/buildings/temples.md",
       "title": "Cathedrals / Churches / Mosques",
-      "size": 3146,
+      "size": 3147,
       "lines": 34
     },
     {
@@ -383,13 +383,13 @@
     {
       "path": "reference/compare/units/priests.md",
       "title": "Priests",
-      "size": 1894,
+      "size": 1891,
       "lines": 19
     },
     {
       "path": "reference/compare/units/README.md",
       "title": "Unit comparisons",
-      "size": 242,
+      "size": 235,
       "lines": 7
     },
     {
@@ -562,51 +562,51 @@
     },
     {
       "path": "reports/combat/artillery.md",
-      "title": "Artillery - summary reference book",
-      "size": 13104,
-      "lines": 144
+      "title": "Artillery",
+      "size": 11133,
+      "lines": 203
     },
     {
       "path": "reports/combat/attack_rates.md",
       "title": "Attack speed",
-      "size": 16372,
+      "size": 16371,
       "lines": 196
     },
     {
       "path": "reports/combat/combat_stats.md",
       "title": "Cossacks 3 – DPS / EHP / armor metrics",
-      "size": 25364,
-      "lines": 246
+      "size": 25201,
+      "lines": 244
     },
     {
       "path": "reports/combat/counter_matrix.md",
       "title": "Cossacks 3 - Counter-unit matrix",
-      "size": 14722,
-      "lines": 128
+      "size": 14556,
+      "lines": 126
     },
     {
       "path": "reports/combat/vision_radii.md",
       "title": "Cossacks 3 – Vision and searchradius",
-      "size": 11917,
-      "lines": 191
+      "size": 11793,
+      "lines": 189
     },
     {
       "path": "reports/economy/builder_slots.md",
       "title": "Cossacks 3 - Builder slots near buildings",
-      "size": 24083,
+      "size": 24063,
       "lines": 536
     },
     {
       "path": "reports/economy/construction_times.md",
       "title": "Cossacks 3 - Time to build and repair",
-      "size": 112187,
+      "size": 112163,
       "lines": 1269
     },
     {
       "path": "reports/economy/efficiency_upgrades.md",
       "title": "Cossacks 3 — Efficiency upgrades per nation",
-      "size": 35321,
-      "lines": 1075
+      "size": 35144,
+      "lines": 1073
     },
     {
       "path": "reports/economy/production_rates.md",
@@ -617,31 +617,31 @@
     {
       "path": "reports/economy/scaling_prices.md",
       "title": "Cossacks 3 – Building prices for the Nth instance",
-      "size": 52977,
-      "lines": 446
+      "size": 52825,
+      "lines": 444
     },
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Match settings",
-      "size": 14247,
+      "size": 14094,
       "lines": 343
     },
     {
       "path": "reports/map/map_resources.md",
       "title": "Map resources",
-      "size": 10494,
+      "size": 10482,
       "lines": 179
     },
     {
       "path": "reports/map/starting_layout.md",
       "title": "Cossacks 3 - Starting layout",
-      "size": 7043,
-      "lines": 101
+      "size": 6737,
+      "lines": 99
     },
     {
       "path": "reports/nations/overview.md",
       "title": "Nation comparison",
-      "size": 12379,
+      "size": 12359,
       "lines": 152
     },
     {
@@ -653,7 +653,7 @@
     {
       "path": "reports/tech/tech_tree.md",
       "title": "Cossacks 3 - Tech Tree (by nation)",
-      "size": 241277,
+      "size": 241207,
       "lines": 3167
     }
   ]

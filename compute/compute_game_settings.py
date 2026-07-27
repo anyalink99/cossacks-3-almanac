@@ -358,8 +358,8 @@ def render_lobby_md(settings: dict) -> list[str]:
     L += [
         f"По умолчанию `resourcemines = 1` («Средне») {initmap31_cite}. "
         f"Конкретные числа шахт за уровень — в "
-        f"[`map_resources.md`](map_resources.md) и в "
-        f"[`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).",
+        f"[оценке ресурсов на карте](map_resources.md) и в "
+        f"[описании генерации карты](../../recon/world/map/map_generation_pipeline.md).",
         "",
     ]
     L += _section(
@@ -432,7 +432,7 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "Подробности механики (как движок блокирует поиск врагов, ничейные "
         "ячейки, переход от мира к войне) — в "
-        "[`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).",
+        "[разборе настроек матча](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).",
         "",
     ]
 
@@ -457,7 +457,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     )
     L += [
         "Геометрия захвата (радиусы, кто захватывается, кто нет) — в "
-        "[`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).",
+        "[статье о захвате зданий](../../recon/world/economy/capture_mechanics.md).",
         "",
     ]
 
@@ -470,7 +470,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     )
     L += [
         "Вариант «Дорогие наёмники» утраивает цену найма. Подробности — в "
-        "[`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).",
+        "[разборе наёмников и дипломатии](../../recon/systems/mercenaries_diplomacy.md).",
         "",
     ]
 
@@ -536,7 +536,7 @@ def render_lobby_md(settings: dict) -> list[str]:
     L += [
         "Сложность меняет скорость строительства и найма компьютерного игрока. "
         "Дополнительных стартовых ресурсов он не получает. Поведение компьютера разобрано в "
-        "[`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).",
+        "[статье о поведении компьютера](../../recon/systems/ai_behavior.md).",
         "",
     ]
 
@@ -565,11 +565,11 @@ def render_lobby_md(settings: dict) -> list[str]:
         "",
         "**См. также:**",
         "",
-        "- [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) — поведение "
+        "- [Как настройки влияют на игру](../../recon/world/map/game_settings.md) — поведение "
         "движка по каждой опции (peacetime, peace mode, captureradius, …).",
         "- [`derived/game_settings.json`](../../../derived/game_settings.json) — "
         "то же самое в машинно-читаемом виде.",
-        "- [`docs/recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) — "
+        "- [Как создаётся карта](../../recon/world/map/map_generation_pipeline.md) — "
         "что именно делает генератор карты с этими значениями.",
         "",
     ]

@@ -4,8 +4,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Considered from `data.json` script [`compute/compute_scaling.py`](../../../compute/compute_scaling.py).
-
 <a id="формула"></a>
 ## Formula
 

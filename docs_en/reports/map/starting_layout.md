@@ -4,8 +4,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** file (calculated, not extracted). Considered from `data/scripts/common.inc/dogenerate.inc` and `data/game/var/startingsettings.cfg` script [`compute/compute_starting_layout.py`](../../../compute/compute_starting_layout.py).
-
 <a id="1-расстановка-крестьян-режим-default"></a>
 <a id="первые-крестьяне"></a>
 ## §1. Peasant placement (default mode)
@@ -45,13 +43,13 @@ Around each player’s starting point there are three ellipses (X-radius × Y-ra
 
 The forest type is determined by the `foreststype` parameter in the map generation settings: 0 = pinefir/spruce/pine (coniferous, 7 options), 1 = leaf (deciduous), 2 = mixed. In desert maps, `desert_forests_*` patterns are used instead of forests.
 
-Mines (gold / iron / coal) - separate function `SetupMines` [^3]. Mine spawning follows a different logic (in rounds according to distance, see [recon/world/economy/peasant_extraction.md](../../recon/world/economy/peasant_extraction.md) §8.3 + [recon/world/map/map_generation_pipeline.md](../../recon/world/map/map_generation_pipeline.md) §8).
+Mines (gold / iron / coal) - separate function `SetupMines` [^3]. Mine spawning follows a different logic (in rounds according to distance, see [peasant resource gathering](../../recon/world/economy/peasant_extraction.md) §8.3 + [map generation](../../recon/world/map/map_generation_pipeline.md) §8).
 
 <a id="3-пресеты-стартовых-юнитов"></a>
 <a id="варианты-стартовых-ресурсов"></a>
 ## §3. Starting unit presets
 
-Preset source - `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` [^4]. All 14 presets with canonical Russian names - [`lobby_settings.md`](lobby_settings.md). Engine behavior (how units and resources are added) - [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) §3.1.
+Preset source - `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` [^4]. All 14 presets with canonical Russian names - [lobby settings](lobby_settings.md). Engine behavior (how units and resources are added) - [match settings](../../recon/world/map/game_settings.md) §3.1.
 
 The player selects one of these modes in the lobby. **default** (id=0) is what is described in §1 (just 18 peasants, no additional resources or units). The remaining modes add resources and/or additional units + buildings (through complex ASCII masks in the cfg file).
 

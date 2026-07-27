@@ -9,7 +9,7 @@ Dependency graph: what needs to be built or researched before what. Extracted fr
 **Legends:**
 - `[B]` - building, `[U]` - unit, `[T]` - upgrade (technology, research)
 - `→ X, Y` - to unlock you need X and Y at the same time
-- For buildings the base price is shown (see [`scaling_prices.md`](../economy/scaling_prices.md) for N>1)
+- For buildings the base price is shown (see [building price growth](../economy/scaling_prices.md) for N>1)
 
 <a id="граф-зданий-австрия-как-репрезентативный-пример"></a>
 <a id="схема-зданий-на-примере-австрии"></a>
@@ -364,7 +364,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `ausart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `ausart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `ausart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `auscen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `auscen.1` |
 
 [↑ to contents](#содержание)
 
@@ -514,7 +514,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `bavart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `bavart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `bavart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `bavcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `bavcen.1` |
 
 [↑ to contents](#содержание)
 
@@ -663,7 +663,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `denart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `denart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `denart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `dencen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `dencen.1` |
 
 [↑ to contents](#содержание)
 
@@ -817,7 +817,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `engart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `engart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `engart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `engcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `engcen.1` |
 
 [↑ to contents](#содержание)
 
@@ -918,7 +918,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `fraart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `fraart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `fraart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `fracen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `fracen.1` |
 | `fraaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `frabla` |
 | `fraaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `frabla` |
 | `fraaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `frabla` |
@@ -1069,7 +1069,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `hunart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `hunart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `hunart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `huncen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `huncen.1` |
 | `hunaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `hunbla` |
 | `hunaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `hunbla` |
 | `hunaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `hunbla` |
@@ -1219,7 +1219,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `netart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `netart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `netart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `netcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `netcen.1` |
 | `netaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `netbla` |
 | `netaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `netbla` |
 | `netaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `netbla` |
@@ -1369,7 +1369,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `pieart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `pieart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `pieart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `piecen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `piecen.1` |
 | `pieaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `piebla` |
 | `pieaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `piebla` |
 | `pieaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `piebla` |
@@ -1521,7 +1521,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `polart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `polart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `polart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `polcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `polcen.1` |
 | `polaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `polbla` |
 | `polaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `polbla` |
 | `polaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `polbla` |
@@ -1671,7 +1671,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `porart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `porart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `porart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `porcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `porcen.1` |
 | `poraca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `porbla` |
 | `poraca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `porbla` |
 | `poraca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `porbla` |
@@ -1823,7 +1823,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `pruart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `pruart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `pruart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `prucen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `prucen.1` |
 | `pruaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `prubla` |
 | `pruaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `prubla` |
 | `pruaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `prubla` |
@@ -1967,7 +1967,7 @@ graph LR
 | `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `ruscen.1` |
 | `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `ruscen.1` |
 | `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `ruscen.1` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `ruscen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `ruscen.1` |
 | `rusaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `rusbla` |
 | `rusaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `rusbla` |
 | `rusaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `rusbla` |
@@ -2124,7 +2124,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `saxart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `saxart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `saxart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `saxcen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `saxcen.1` |
 | `saxaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `saxbla` |
 | `saxaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `saxbla` |
 | `saxaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `saxbla` |
@@ -2267,7 +2267,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `scoart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `scoart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `scoart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `scocen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `scocen.1` |
 | `scoaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `scobla` |
 | `scoaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `scobla` |
 | `scoaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `scobla` |
@@ -2416,7 +2416,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `spaart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `spaart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `spaart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `spacen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `spacen.1` |
 | `spaaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `spabla` |
 | `spaaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `spabla` |
 | `spaaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `spabla` |
@@ -2567,7 +2567,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `sweart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `sweart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `sweart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `swecen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `swecen.1` |
 | `sweaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `swebla` |
 | `sweaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `swebla` |
 | `sweaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `swebla` |
@@ -2718,7 +2718,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `swiart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `swiart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `swiart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `swicen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `swicen.1` |
 | `swiaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `swibla` |
 | `swiaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `swibla` |
 | `swiaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `swibla` |
@@ -3110,7 +3110,7 @@ graph LR
 | `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `venart` |
 | `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `venart` |
 | `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `venart` |
-| `ferry.1` | Improve transport vessel design (+%value% capacity) | 15.6 | F1000 G1250 | [T] `vencen.1` |
+| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `vencen.1` |
 | `venaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `venbla` |
 | `venaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `venbla` |
 | `venaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `venbla` |

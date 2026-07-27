@@ -28,8 +28,8 @@ Run: `python compute/build_md_manifest.py`
 """
 from __future__ import annotations
 
-import json
 import html
+import json
 import re
 import sys
 from pathlib import Path
@@ -67,6 +67,118 @@ def markdown_search_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def heading_slug(value: str) -> str:
+    """Match the GitHub-style heading IDs assigned by ``md-viewer.js``."""
+
+    value = value.strip().lower()
+    value = re.sub(r"[^\w\s_-]", "", value, flags=re.UNICODE)
+    return value.replace(" ", "-")
+
+
+def markdown_sections(text: str) -> list[dict[str, str]]:
+    """Return searchable article sections with exact heading fragments."""
+
+    explicit_ids = set(
+        re.findall(r"<a\s+id=[\"']([^\"']+)[\"']\s*></a>", text)
+    )
+    used_ids = set(explicit_ids)
+    headings: list[tuple[int, str, str, int, int]] = []
+    fenced = False
+    fence_marker = ""
+    offset = 0
+    for line in text.splitlines(keepends=True):
+        fence_match = re.match(r"^\s*(```+|~~~+)", line)
+        if fence_match:
+            marker = fence_match.group(1)[0]
+            if not fenced:
+                fenced = True
+                fence_marker = marker
+            elif marker == fence_marker:
+                fenced = False
+            offset += len(line)
+            continue
+        if not fenced:
+            match = re.match(r"^(#{2,6})\s+(.+?)\s*#*\s*(?:\r?\n)?$", line)
+            if match:
+                level = len(match.group(1))
+                title = re.sub(r"\s+#+\s*$", "", match.group(2)).strip()
+                base = heading_slug(title)
+                if base:
+                    fragment = base
+                    suffix = 1
+                    while fragment in used_ids:
+                        fragment = f"{base}-{suffix}"
+                        suffix += 1
+                    used_ids.add(fragment)
+                    headings.append((level, title, fragment, offset, offset + len(line)))
+        offset += len(line)
+
+    sections: list[dict[str, str]] = []
+    for index, (_, title, fragment, _, content_start) in enumerate(headings):
+        end = headings[index + 1][3] if index + 1 < len(headings) else len(text)
+        section_text = markdown_search_text(text[content_start:end])
+        sections.append({
+            "title": markdown_search_text(title),
+            "fragment": fragment,
+            "text": section_text,
+        })
+    return sections
+
+
+def markdown_page_intro(text: str) -> str:
+    """Index the lead once; headed sections are indexed independently."""
+
+    match = re.search(r"(?m)^#{2,6}\s+", text)
+    lead = text[:match.start()] if match else text
+    return markdown_search_text(lead)
+
+
+def entity_search_entries(root_key: str) -> list[dict]:
+    """Add direct entity-card results to the two encyclopedia indexes."""
+
+    if root_key not in {"docs", "docs_en"}:
+        return []
+    catalog_path = ROOT / "assets" / "data" / "entity-catalog.json"
+    if not catalog_path.is_file():
+        return []
+    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    lang = "en" if root_key == "docs_en" else "ru"
+    kind_labels = {
+        "ru": {
+            "unit": "Юнит",
+            "building": "Здание",
+            "upgrade": "Улучшение",
+        },
+        "en": {
+            "unit": "Unit",
+            "building": "Building",
+            "upgrade": "Upgrade",
+        },
+    }
+    entries: list[dict] = []
+    for kind, values in catalog.get("entities", {}).items():
+        for sid, entity in values.items():
+            title = entity.get("name", {}).get(lang) or sid
+            alternate = entity.get("name", {}).get("ru" if lang == "en" else "en") or ""
+            effects = " ".join(
+                str(variant.get("effect", {}).get(lang) or "")
+                for variant in entity.get("variants", [])
+            )
+            entries.append({
+                "entity": f"{kind}:{sid}",
+                "kind": kind,
+                "kindLabel": kind_labels[lang][kind],
+                "path": "",
+                "title": title,
+                "text": re.sub(
+                    r"\s+",
+                    " ",
+                    f"{title} {alternate} {sid} {kind_labels[lang][kind]} {effects}",
+                ).strip(),
+            })
+    return entries
+
+
 def build_catalogs(root_dir: Path, root_key: str, title: str) -> tuple[dict, dict]:
     entries = []
     search_entries = []
@@ -86,9 +198,20 @@ def build_catalogs(root_dir: Path, root_key: str, title: str) -> tuple[dict, dic
         })
         search_entries.append({
             "path": rel,
+            "kind": "page",
             "title": heading,
-            "text": markdown_search_text(text),
+            "text": markdown_page_intro(text),
         })
+        for section in markdown_sections(text):
+            search_entries.append({
+                "path": rel,
+                "kind": "section",
+                "title": section["title"],
+                "fragment": section["fragment"],
+                "pageTitle": heading,
+                "text": section["text"],
+            })
+    search_entries.extend(entity_search_entries(root_key))
     manifest = {
         "root": root_key,
         "title": title,

@@ -4,8 +4,6 @@
 
 [← Tables and calculations](../README.md)
 
-**Derived** report. Considered from `data.json` script [`compute/compute_vision.py`](../../../compute/compute_vision.py).
-
 Cossacks 3 has two concentric radii of "awareness":
 
 - **vision** — fog-of-war (FOW) deployment radius. How many tiles around the unit are open to the owner on the minimap and game screen.

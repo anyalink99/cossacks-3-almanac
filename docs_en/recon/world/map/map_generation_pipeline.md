@@ -317,8 +317,8 @@ Z coordinates run from `pointy + 0` to `pointy + 1.5`, so the grid is shifted
 downward rather than centered. X is centered correctly, from
 `pointx - 2.25` to `pointx + 1.5`.
 
-Coincides with the empirically observed **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-sec × 32/20000 × 120 g-sec ≈ 214 food, see also [`docs/reference/01_economy/README.md`](../../../reference/01_economy/README.md) §Famine).
-If `gMap.settings.additional.startingunits > 0` (not "Default") → instead of 18 peasants, `CreateUniqueStartingUnits` is called (nation-specific unit: officer + drummer + several infantrymen). All 14 presets with canonical Russian names - [`reports/map/lobby_settings.md`](../../../reports/map/lobby_settings.md#startingunits--стартовая-армия); behavior - [`game_settings.md`](game_settings.md) §3.1.
+Coincides with the empirically observed **18 idle peasant** (verified 2026-04-29: 18 × (32 + 30) food/g-sec × 32/20000 × 120 g-sec ≈ 214 food, see also [economy guide](../../../reference/01_economy/README.md) §Famine).
+If `gMap.settings.additional.startingunits > 0` (not "Default") → instead of 18 peasants, `CreateUniqueStartingUnits` is called (nation-specific unit: officer + drummer + several infantrymen). All 14 presets with canonical Russian names - [lobby settings](../../../reports/map/lobby_settings.md#startingunits--стартовая-армия); behavior - [match settings](game_settings.md) §3.1.
 
 ---
 

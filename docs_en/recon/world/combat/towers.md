@@ -153,7 +153,7 @@ enters range.
 5 levels `eurtow.1..5`, each one reduces `weapon_pause`
 by −20% / −20% / −10% / −10% / −10% (multipliers accumulate,
 total ≈ 0.8 × 0.8 × 0.9³ ≈ 0.467 → **fire frequency × 2.14**). Full
-list - in [`05_upgrades/README.md` → `tow`](../../../reference/05_upgrades/README.md).
+list - in [upgrades](../../../reference/05_upgrades/README.md).
 
 The cost of leveling up increases with level: level 1 - several hundred
 resources; level 5 – several thousand. See numerical data there.
@@ -165,7 +165,7 @@ resources; level 5 – several thousand. See numerical data there.
 
 `buildtime = 3937 × 10 / 32 = 1,230 game seconds`
 for one peasant. With 6 builders (see
-[`../../reports/economy/builder_slots.md`](../../../reports/economy/builder_slots.md))
+[builder limits](../../../reports/economy/builder_slots.md))
 - about `1230 / 6 × 1.13 ≈ 232 game seconds`, or roughly four game minutes.
 
 Demolition: `20 000 HP / 1800 dmg cannonball ≈ 11 hits` → about 2 minutes

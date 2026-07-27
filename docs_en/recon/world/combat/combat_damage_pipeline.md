@@ -136,7 +136,7 @@ sets `bdead := True` and calls `_misc_OnDeath`, which:
 - death animation starts,
 - a slot in the formation is freed,
 - `bfamine` is checked because a food consumer has been removed (see
-  [`hunger_and_rebellion.md`](../economy/hunger_and_rebellion.md)).
+  [hunger and rebellion](../economy/hunger_and_rebellion.md)).
 
 ---
 
@@ -199,7 +199,7 @@ which requires a `myplmask` match.
 
 Capturing an enemy unit (`bcapture`) is a separate mechanic and is
 not based on damage. See
-[`capture_mechanics.md`](../economy/capture_mechanics.md).
+[building capture](../economy/capture_mechanics.md).
 
 ---
 
@@ -245,7 +245,7 @@ at the start of the game), the formula is skipped by a special branch [^6]. Beha
 
 “Foreign territory” is determined via `_unit_IsOnEnemyTerritory(handle)`
 - this checks `OwnerMap`, filled during map generation
-(see [`map_generation_pipeline.md`](../map/map_generation_pipeline.md) about
+(see [map generation](../map/map_generation_pipeline.md) about
 `FillOwnerMap`).
 
 Peace time ends when `peacetime`-seconds have elapsed in

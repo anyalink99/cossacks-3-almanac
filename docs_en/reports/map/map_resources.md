@@ -156,7 +156,7 @@ Distances from start (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):
 - On non-Tiny / non-Highlands settings placement rates **may vary** - no data.
 
 **Open spaces:**
-- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **not predicted** `compute_counts` (~50% of all cluster occurrences in replay-data). It is necessary to expand the model - see [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) §13 Q7.
+- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **not predicted** `compute_counts` (~50% of all cluster occurrences in replay-data). It is necessary to expand the model - see [map generation](../../recon/world/map/map_generation_pipeline.md) §13 Q7.
 - `desert_*` (season=3) not implemented - 1/20 replays.
 - Non-Land mine formula is different - open question §13 Q6.
 

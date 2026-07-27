@@ -67,7 +67,7 @@ appears as a single red flash.
 
 Resource consumption tick - `_player_DoTickResources` or similar,
 called once every **`_misc_GetTickRes()` seconds**, usually ~1 g-sec
-(See [`internals/engine/ticks_and_subticks.md`](../../../../internals_en/engine/ticks_and_subticks.md)).
+(See [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md)).
 The flag is therefore checked about 14 times per real second at
 Fast game speed.
 
@@ -117,7 +117,7 @@ on the player's difficulty [^3]:
 
 `_misc_RandomInt = floor(random × 32768)`, so the actual
 chance - `threshold / 32768`. The transition to death occurs at
-`Nothing`-tike (see [`internals/engine/ticks_and_subticks.md`](../../../../internals_en/engine/ticks_and_subticks.md)).
+`Nothing`-tike (see [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md)).
 
 Practical guide:
 
@@ -165,7 +165,7 @@ Food consumption per game second and unit (for `bnohungry = False`):
 ### 2.4. Population-limit connection
 
 Falling below the population limit `farmused` (see
-[`reference/01_economy/README.md`](../../../reference/01_economy/README.md))
+[economy guide](../../../reference/01_economy/README.md))
 does **not** set `bfamine`. Famine starts only when Food is actually
 zero. A shortage of Houses does not kill units; a real Food shortage does.
 

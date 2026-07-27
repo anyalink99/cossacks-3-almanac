@@ -6,7 +6,7 @@
 
 How many peasants can build a building at the same time? Counted from `collisionmaskproperty.Mask` of each `.prop` file in `data/objects/buildings/` according to a rule empirically consistent with the game.
 
-**Formula** (see [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md), section about slots):
+**Formula** (see [construction and repair](../../recon/world/economy/building_mechanics.md), section about slots):
 
 - For normal buildings - exact bypass of the perimeter `_unit_CalcBuilderPoints` [^1] using the top-left component of the collision mask. For convex shapes, the result is `bbox_cols + bbox_rows` (Manhattan-perimeter); for non-convex (arches, crosses) walker gives more.
 - If the mask is **torn into several linear** “support” strips 1×N (warehouses) - the engine behaves as if the bbox union of all the strips is filled with solid material. We use `bbox_cols + bbox_rows` joins (see the “method” column).

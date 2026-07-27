@@ -138,9 +138,12 @@ python compute/compute_nations_overview.py      # → docs/reports/nations/overv
 python parser/parse_animations.py               # → derived/animations.json
 python parser/parse_generator_cfg.py            # → derived/pattern_types.json
 python parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json
+python scripts/build_entity_catalog.py           # → assets/data/entity-catalog.json + игровые UI-иконки
 ```
 
-`parser/build_data.py` — единственный скрипт, который читает игровые файлы. Все остальные потребляют `data.json` и работают за <30 сек суммарно.
+`parser/build_data.py` читает игровые данные, а `scripts/build_entity_catalog.py` —
+таблицу материалов и UI-атласы. Остальные генераторы потребляют `data.json` и
+работают без повторного разбора установки игры.
 
 ### Diff снапшотов после патча
 
@@ -176,4 +179,9 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 
 ## Лицензия и атрибуция
 
-Этот репозиторий содержит **только производные данные** из публично распространяемых игровых файлов Cossacks 3 (GSC Game World). Игровые ресурсы и торговые марки принадлежат их владельцам. Скрипты в этом репозитории — отдельная работа, распространяются без специальной лицензии (используй на свой страх и риск).
+Репозиторий в основном содержит производные данные из публично распространяемых
+файлов Cossacks 3 (GSC Game World). Для наглядных карточек объектов также
+включены небольшие UI-иконки, автоматически вырезанные из игровых атласов.
+Игровая графика, названия и торговые марки принадлежат их владельцам. Скрипты
+этого репозитория — отдельная работа и распространяются без специальной
+лицензии (используйте на свой страх и риск).

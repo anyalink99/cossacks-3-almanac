@@ -6,14 +6,14 @@
 
 Construction time (from scratch, new building) and repair (totally damaged → full HP) for each building. It is calculated for different numbers of peasants.
 
-**Formulas** (see [`recon/world/economy/building_mechanics.md`](../../recon/world/economy/building_mechanics.md)):
+**Formulas** (see [construction and repair](../../recon/world/economy/building_mechanics.md)):
 
 - **Building**, time with N peasants: `buildtime_sec × 1.13 / N` (limited by slot cap)
 - **Repair**, time with N peasants: `maxhp / (20 × N / 0.406)` g-sec
 - 1 animation cycle construct = 13 frames / 32 fps = **0.406 g-sec**
 - At fast speed: real-time = g-sec / 1.4
 
-**Slot caps** (exact simulation of `_unit_CalcBuilderPoints` for each building, see [`builder_slots.md`](builder_slots.md)):
+**Slot caps** (exact simulation of `_unit_CalcBuilderPoints` for each building, see [builder limits](builder_slots.md)):
 
 - Cap depends on the **perimeter of the collision mask** of a particular building - for different nations the same category (for example, an 18th century barracks) can have from 19 to 30 slots.
 - Walls/gates: **4** slots per segment (value from `wallcustom.cfg`, for sids not in `builder_slots.json`).

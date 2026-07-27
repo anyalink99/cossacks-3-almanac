@@ -156,7 +156,7 @@ Vision and targeting are **separate** mechanics:
 - Vision uses the radius `20 + 4 × vision` (see §1).
 - Target acquisition (`_unit_SearchEnemy*`) uses weapon radii:
   `weapon.radiusmin`, `weapon.radiusmax`. See
-  [`target_selection.md`](target_selection.md).
+  [target selection](target_selection.md).
 
 A unit can therefore **see** farther than it can **shoot**. A Tower with
 `vision = 3` (32 tiles) sees its surroundings, but its

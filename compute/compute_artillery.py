@@ -29,6 +29,14 @@ from citations import Citations
 
 MD_PATH = REPORTS_COMBAT_DIR / "artillery.md"
 FAST_SPEED_MULT = 1.4
+RESOURCE_ABBR_RU = {
+    "food": "ед.",
+    "wood": "дер.",
+    "stone": "кам.",
+    "gold": "зол.",
+    "iron": "жел.",
+    "coal": "уг.",
+}
 
 # Per-depot artillery slots (`unit.script:2441-2444`, applies to `<nat>art`).
 ARTDEPO_SLOTS = {
@@ -59,7 +67,7 @@ def fmt_dispertion(w: dict | None) -> str:
     t = w.get("dispertion_tiles")
     if px is None:
         return "—"
-    return f"{px} px · {t} t"
+    return f"{px} пикс. · {t} клет."
 
 
 def fmt_unit_cost(u: dict) -> str:
@@ -67,7 +75,7 @@ def fmt_unit_cost(u: dict) -> str:
     for r in ("food", "wood", "stone", "gold", "iron", "coal"):
         v = u.get(r)
         if v:
-            parts.append(f"{v} {r[:1].upper()}")
+            parts.append(f"{v} {RESOURCE_ABBR_RU[r]}")
     return " · ".join(parts) if parts else "—"
 
 
@@ -113,18 +121,21 @@ def render_header(cites: Citations) -> list[str]:
         "lib/unit.script:1725, 1757, 1788, 1815, 1847",
         label="`objprop.bartillery := True` для пяти артиллерийских юнитов",
     )
-    A(f"Артиллерийский юнит в коде — это тот, у кого `objprop.bartillery = True` "
+    A(f"Артиллерийское орудие в коде — это объект с признаком "
+      f"`objprop.bartillery = True` "
       f"{bartillery_cite}. Подгруппа `bartprepare` включает анимацию подготовки "
-      f"выстрела перед каждым залпом — это `cannon`, `howitzer`, `framegun`. "
-      f"У `mortar` и `multicannon` подготовки нет: они стреляют непрерывно. "
+      f"выстрела перед каждым залпом — это пушка (`cannon`), гаубица "
+      f"(`howitzer`) и рибадекин (`framegun`). У мортиры (`mortar`) и "
+      f"многоствольного орудия (`multicannon`) подготовки нет: они стреляют "
+      f"непрерывно. "
       f"Поведение приказа `attackpoint` для артиллерии — в "
-      f"[`recon/world/combat/target_selection.md`](../../recon/world/combat/target_selection.md) §5.2.")
+      f"[статье о выборе цели](../../recon/world/combat/target_selection.md), §5.2.")
     A("")
-    A("Морская артиллерия (battleship, galley, frigate и т. п.) — отдельная "
-      "категория, см. [`reference/07_naval/README.md`](../../reference/07_naval/README.md). "
+    A("Морская артиллерия — линейные корабли, галеры, фрегаты и другие суда — "
+      "отдельная категория, см. [главу «Флот»](../../reference/07_naval/README.md). "
       "Гренадёр стреляет осколочным `mortarball`, но в `bartillery`-группу "
       "не входит и относится к пехоте — см. "
-      "[`reports/combat/combat_stats.md`](combat_stats.md).")
+      "[сводные боевые характеристики](combat_stats.md).")
     A("")
     A("Содержание:")
     A("")
@@ -142,13 +153,15 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
     A = L.append
     A("## §1. Орудия и боевые характеристики")
     A("")
-    A("Одна строка на уникальный набор статов основного оружия — если у нации "
-      "стат отличается, она выносится в отдельную строку. Колонка **Подготовка** "
+    A("Одна строка соответствует уникальному набору характеристик основного "
+      "оружия. Если у нации характеристика отличается, она выносится в "
+      "отдельную строку. Колонка **Подготовка** "
       "= `bartprepare`: задержка-анимация перед каждым выстрелом, фиксируется "
       "в скрипте, но точная длительность в `data.json` не извлечена и здесь "
       "не приводится. **Пауза** — холодная перезарядка после выстрела "
-      "(`weapon.pause` в g-сек). **Точность** — `weapon.dispertion` в пикселях "
-      "и тайлах; меньше = точнее. Радиус — `weapon.radiusmax` (тайлы); "
+      "(`weapon.pause` в игровых секундах). **Точность** — "
+      "`weapon.dispertion` в пикселях и клетках; меньше = точнее. Радиус — "
+      "`weapon.radiusmax` в клетках; "
       "`radiusmin` показан, если у юнита есть мёртвая зона ближнего боя.")
     A("")
     A("| Орудие | Класс | Нации | Урон | Перезарядка, игр. с | Урон/с | Радиус | Разброс | Подготовка |")
@@ -178,7 +191,11 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
             dps = round(d / p, 2) if p else None
             rmin = w.get("radiusmin_tiles") or 0
             rmax = w.get("radiusmax_tiles") or 0
-            range_str = f"{rmax} t" if rmin <= 0 else f"{rmin}..{rmax} t"
+            range_str = (
+                f"{rmax} клет."
+                if rmin <= 0
+                else f"{rmin}–{rmax} клет."
+            )
             disp = fmt_dispertion(w)
             prep = "✓" if rep.get("bartprepare") else "—"
             usage_ru = USAGE_RU.get(rep.get("usage_short"), rep.get("usage_short", "—"))
@@ -194,7 +211,7 @@ def render_section_1(art_units: list[dict], cites: Citations) -> list[str]:
     A("Колонка **Урон/с** показывает урон за игровую секунду без учёта "
       "защиты цели и ограничения числа поражаемых взрывом юнитов. "
       "Реальный урон по толпе обычно ниже из-за ограничения "
-      "floor(1 + (r/0.35)²)` (см. [`recon/world/combat/combat_damage_pipeline.md` §6.5]"
+      "`floor(1 + (r/0.35)²)` (см. [разбор расчёта урона, §6.5]"
       "(../../recon/world/combat/combat_damage_pipeline.md)).")
     A("")
     return L
@@ -216,10 +233,10 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
       "делённый на «золотой эквивалент выстрела». Эквивалент считается по "
       "стандартному курсу `mar.def` (`reference/06_market/README.md`): "
       "`iron × 140 + coal × 140 + wood × 50 + stone × 50 + food × 25 + gold × 1` "
-      "— то есть переводим расход в условные единицы золота по дефолтным buy-ценам. "
+      "— то есть переводим расход в условные единицы золота по базовым ценам покупки. "
       "Это удобная грубая мера, чтобы сравнить, сколько ты «платишь» за единицу "
       "урона при разных типах артиллерии. Не учитывает закупочную цену самой "
-      "пушки, food-апкип и износ от ответного огня.")
+      "пушки, расход еды на содержание и износ от ответного огня.")
     A("")
 
     DEF_BUY = {"food": 25, "wood": 50, "stone": 50, "gold": 1, "iron": 140, "coal": 140}
@@ -240,10 +257,10 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
         gold = cost.get("gold") or 0
         food = cost.get("food") or 0
         misc_parts = []
-        if wood: misc_parts.append(f"{wood} W")
-        if stone: misc_parts.append(f"{stone} S")
-        if gold: misc_parts.append(f"{gold} G")
-        if food: misc_parts.append(f"{food} F")
+        if wood: misc_parts.append(f"{wood} {RESOURCE_ABBR_RU['wood']}")
+        if stone: misc_parts.append(f"{stone} {RESOURCE_ABBR_RU['stone']}")
+        if gold: misc_parts.append(f"{gold} {RESOURCE_ABBR_RU['gold']}")
+        if food: misc_parts.append(f"{food} {RESOURCE_ABBR_RU['food']}")
         misc = " · ".join(misc_parts) or "—"
         gold_eq = sum((cost.get(r) or 0) * DEF_BUY[r] for r in DEF_BUY)
         eff = round(d / gold_eq, 2) if gold_eq else None
@@ -265,17 +282,18 @@ def render_section_2(art_units: list[dict], cites: Citations) -> list[str]:
     A("")
     cannister_cite = cites.cite(
         "lib/weapon.script:529",
-        label="sub-projectile-механизм картечи (`_weapon_SyncWeapon`)",
+        label="механизм подснарядов картечи (`_weapon_SyncWeapon`)",
     )
-    A(f"**Картечь** (cannister) у `cannon` и `multicannon` — отдельное оружие "
+    A(f"**Картечь** (`cannister`) у пушки (`cannon`) и многоствольного орудия "
+      f"(`multicannon`) — отдельное оружие "
       f"со своей `pause` и стоимостью. У `cannon` `weapon[1].damage = 0`: "
       f"картечь у обычной пушки реализована не прямой записью в `damage`, "
-      f"а через sub-projectile-механизм `_weapon_SyncWeapon` {cannister_cite}. "
+      f"а через механизм подснарядов `_weapon_SyncWeapon` {cannister_cite}. "
       f"Каждый выстрел картечью порождает несколько подснарядов; их урон "
-      f"выставлен в момент создания weapon-определения и в `data.json` напрямую "
+      f"выставлен при создании определения оружия и в `data.json` напрямую "
       f"не сводится. У `multicannon` `weapon[0]` уже типа `cannister`, и вся "
-      f"характеристика там и сидит. Сравнивать DPS картечи и ядра напрямую по "
-      f"`data.json` поэтому нельзя без чтения weapon-script'а.")
+      f"характеристика там и хранится. Сравнивать урон в секунду картечи и ядра "
+      f"напрямую по `data.json` поэтому нельзя без чтения сценария оружия.")
     A("")
     return L
 
@@ -328,7 +346,7 @@ def render_section_3(art_units: list[dict], cites: Citations) -> list[str]:
       "эту формулу. Артиллерия — единственный класс, у которого `consume.gold > 0` "
       "для всех юнитов: пушку нужно «содержать», даже если она не стреляет. "
       "У пехоты и кавалерии `consume.gold = 0`. Подробнее — в "
-      "[`../../recon/world/economy/hunger_and_rebellion.md` §2.3]"
+      "[разбор голода и бунта, §2.3]"
       "(../../recon/world/economy/hunger_and_rebellion.md).")
     A("")
     return L
@@ -433,39 +451,42 @@ def render_section_5(cites: Citations) -> list[str]:
       f"(`standtime < 0.25 g-сек`) теряют до `gc_obj_maxattackradiusdisp = 3` "
       f"тайлов эффективного радиуса {move_penalty_cite}. Дополнительное "
       f"рассеивание `dispertion` остаётся прежним. Подробнее — "
-      f"[`recon/world/combat/ranged_units_behavior.md` §4]"
+      f"[разбор поведения стрелков, §4]"
       f"(../../recon/world/combat/ranged_units_behavior.md#4-штраф-к-дальности-при-движении-standtime).")
     A("")
 
-    A("- **Точность улучшается апгрейдами Академии.** `aca.20` (Research "
-      "new sighting devices for artillery) — −35% к dispertion. `aca.27` "
-      "(Develop mathematics) — ещё −35%, накапливается с aca.20. После "
+    A("- **Точность улучшают исследования Академии.** «Разработать новые "
+      "прицельные системы для пушек» (`aca.20`) уменьшает рассеивание на 35%. "
+      "«Развивать математику» (`aca.27`) уменьшает его ещё на 35%; эффекты "
+      "складываются последовательно. После "
       "обоих остаётся `0.65 × 0.65 ≈ 0.42` от исходного, то есть точность "
       "вырастает примерно в 2.4 раза. Применяется только к артиллерии; "
-      "у мушкетеров и лучников прямого dispertion-апгрейда нет.")
+      "у мушкетеров и лучников прямого улучшения рассеивания нет.")
     A("")
 
     aoe_cite = cites.cite(
         "lib/miscext2.script:_misc_DoRoundDamage",
-        label="`AoE damage cap = floor(1 + (r/0.35)²)`",
+        label="ограничение числа поражённых целей: `floor(1 + (r/0.35)²)`",
     )
-    A(f"- **AoE-кап ловит толпу.** При взрыве снаряда урон получают только "
+    A(f"- **Взрыв поражает ограниченное число целей.** При взрыве снаряда "
+      f"урон получают только "
       f"первые `count = floor(1 + (r/0.35)²)` юнитов в радиусе {aoe_cite}. "
-      f"Для cannon (`r ≈ 1`) это 9 юнитов, для mortar (`r ≈ 2`) — 33. "
+      f"Для пушки (`r ≈ 1`) это 9 юнитов, для мортиры (`r ≈ 2`) — 33. "
       f"Растянутая линия страдает гораздо больше, чем плотная толпа.")
     A("")
 
     longrange_cite = cites.cite(
         "lib/unit.script:11184",
-        label="`_unit_SearchEnemyLongRangeArtillery` (отдельная ветка для AI-арты)",
+        label="`_unit_SearchEnemyLongRangeArtillery` (отдельная ветка для компьютерной артиллерии)",
     )
-    A(f"- **AI цели для артиллерии.** Решение, куда стрелять, идёт через "
+    A(f"- **Выбор цели компьютерным игроком.** Решение, куда стрелять, идёт через "
       f"`_unit_SearchEnemyLongRangeArtillery` {longrange_cite} — это отдельная "
-      f"ветка, не общий `_unit_SearchVictimOnProgress`. AI-юниты артиллерии "
-      f"целят прицельно по дистанции `[radiusmin .. radiusmax]`, учитывая "
-      f"`bsearchmaxattradius`. Эта ветка отличается от обычной scan-cells и "
-      f"описана только косвенно — см. [`recon/world/target_selection.md`]"
-      f"(../../recon/world/combat/target_selection.md) §7 (open question № 4).")
+      f"ветка, не общий `_unit_SearchVictimOnProgress`. Орудия "
+      f"компьютерного игрока "
+      f"выбирают цель по дистанции `[radiusmin .. radiusmax]`, учитывая "
+      f"`bsearchmaxattradius`. Эта ветка отличается от обычного поиска по клеткам и "
+      f"описана только косвенно — см. [статью о выборе цели]"
+      f"(../../recon/world/combat/target_selection.md) §7 (нерешённый вопрос № 4).")
     A("")
 
     order_attackpoint_cite = cites.cite(
@@ -477,7 +498,7 @@ def render_section_5(cites: Citations) -> list[str]:
       f"`_player_OrderUnitsToAttackPoint` {order_attackpoint_cite} — это "
       f"стрельба по координате, не по конкретной цели. Поведение для "
       f"не-артиллерийских юнитов другое — они движутся с `move_mode_attack`. "
-      f"Подробности — [`recon/world/target_selection.md`]"
+      f"Подробности — в [статье о выборе цели]"
       f"(../../recon/world/combat/target_selection.md) §5.")
     A("")
     return L

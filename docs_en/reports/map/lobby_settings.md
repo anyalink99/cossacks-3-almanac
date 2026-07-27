@@ -92,7 +92,7 @@ All 6 resources (food / wood / stone / gold / iron / coal) receive the same star
 | 1 | Medium | Medium |
 | 2 | Rich | Rich |
 
-Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines per level are in [`map_resources.md`](map_resources.md) and in [`recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md).
+Default `resourcemines = 1` (“Medium”) [^6]. The specific numbers of mines per level are in [map resource estimates](map_resources.md) and in [map generation](../../recon/world/map/map_generation_pipeline.md).
 
 <a id="season--сезон"></a>
 <a id="правила-захвата-capture"></a>
@@ -177,7 +177,7 @@ The option “Expensive Cannons” increases the prices of guns through an upgra
 
 Minutes are **game minutes**. At fast speed (`gamespeed = 2`, ×1.4) one game minute = 60 / 1.4 ≈ 42.9 real seconds: a 10-minute world lasts ≈ 7 real minutes. The value of `value = 11` (15 minut) lies between `1` and `2` - historical unevenness; movement to the end of the table.
 
-Details of the mechanics (how the engine blocks the search for enemies, unoccupied cells, the transition from peace to war) are in [`recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
+Details of the mechanics (how the engine blocks the search for enemies, unoccupied cells, the transition from peace to war) are in [match settings](../../recon/world/map/game_settings.md#peacetime--как-устроен-мир).
 
 <a id="century18--переход-в-18-век"></a>
 ### Advancing to the 18th century (`century18`)
@@ -200,7 +200,7 @@ On 17th century-only nations (Ukraine, Turkey, Algeria) the option “Immediatel
 | 2 | No Capturing Peasants or Centers | No Capturing Peasants or Centres |
 | 3 | Artillery Only | Artillery Only |
 
-Capture geometry (radii, who is captured and who is not) - in [`recon/world/economy/capture_mechanics.md`](../../recon/world/economy/capture_mechanics.md).
+Capture geometry (radii, who is captured and who is not) - in [building capture](../../recon/world/economy/capture_mechanics.md).
 
 <a id="marketdip--рынок-и-дипцентр"></a>
 <a id="рынок-и-дипломатический-центр-marketdip"></a>
@@ -214,7 +214,7 @@ Capture geometry (radii, who is captured and who is not) - in [`recon/world/econ
 | 3 | Without both | Without both |
 | 4 | Expensive Mercenaries | Dear mercenaries |
 
-Option `value = 4` (“Dear Mercenaries”) multiplies the hiring price in the deep center by `gc_gameplay_expensivemercskoef = 3`. Details about mercenaries are in [`recon/systems/mercenaries_diplomacy.md`](../../recon/systems/mercenaries_diplomacy.md).
+Option `value = 4` (“Dear Mercenaries”) multiplies the hiring price in the deep center by `gc_gameplay_expensivemercskoef = 3`. Details about mercenaries are in [mercenaries and diplomacy](../../recon/systems/mercenaries_diplomacy.md).
 
 <a id="teams--расположение-союзников"></a>
 <a id="расположение-союзников-teams"></a>
@@ -282,7 +282,7 @@ Contextual clues in the corner of the screen. Does not affect the simulation - o
 | 3 | 1.0 | Very Hard | Very difficult |
 | 4 | 1.25 | Impossible | Impossible |
 
-AI players only. The “advantage” of difficulty is a multiplier to the speed of construction/hiring (`koef`), AI **does not receive** starting resources on any difficulty. AI behavior is discussed in [`recon/systems/ai_behavior.md`](../../recon/systems/ai_behavior.md).
+AI players only. The “advantage” of difficulty is a multiplier to the speed of construction/hiring (`koef`), AI **does not receive** starting resources on any difficulty. AI behavior is discussed in [computer-player behavior](../../recon/systems/ai_behavior.md).
 
 <a id="значения-по-умолчанию"></a>
 ## Default values
@@ -313,9 +313,9 @@ From [^9] (for `gen`) and general engine behavior (for `additional`):
 
 **Cm. also:**
 
-- [`docs/recon/world/map/game_settings.md`](../../recon/world/map/game_settings.md) - engine behavior for each option (peacetime, peace mode, captureradius, ...).
+- [match settings](../../recon/world/map/game_settings.md) - engine behavior for each option (peacetime, peace mode, captureradius, ...).
 - [`derived/game_settings.json`](../../../derived/game_settings.json) - the same in machine-readable form.
-- [`docs/recon/world/map/map_generation_pipeline.md`](../../recon/world/map/map_generation_pipeline.md) - what exactly does the map generator do with these values.
+- [map generation](../../recon/world/map/map_generation_pipeline.md) - what exactly does the map generator do with these values.
 
 
 <a id="источники"></a>

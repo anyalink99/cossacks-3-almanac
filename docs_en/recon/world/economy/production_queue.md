@@ -331,7 +331,7 @@ The exact UI logic is in `lib/gui.script`, not in the production logic.
       selecting the minimum `produceind`.
 
 [^6]: `_unit_CheckCapturersStopProduce` - `lib/unit.script` (see.
-      See also the section on `bcancapture` in [`capture_mechanics.md`](capture_mechanics.md)).
+      See also the section on `bcancapture` in [building capture](capture_mechanics.md)).
 
 [^7]: `OnDeath` building hook - `data/scripts/units/building.inc/ondeath.inc:11-25`.
       Scrolls through all `produce`/`performupgrade` orders through

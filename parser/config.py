@@ -213,6 +213,13 @@ def decode_upg_type(itype_str, lang: str = "en") -> tuple[str, str]:
     if not itype_str:
         return ("", "")
     s = str(itype_str).strip()
+    # ``AddUpgradePack`` rows use these short tokens instead of the regular
+    # ``gc_upg_type_*`` constants.  They describe the same player-facing
+    # effects and must not leak as untranslated English in Russian output.
+    s = {
+        "damage": "gc_upg_type_damage",
+        "protection": "gc_upg_type_protection",
+    }.get(s, s)
     short_idx = 3 if lang == "ru" else 1
     if s in UPG_TYPE_DECODE:
         tup = UPG_TYPE_DECODE[s]

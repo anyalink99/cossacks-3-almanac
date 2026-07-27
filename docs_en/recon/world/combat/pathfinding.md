@@ -12,12 +12,12 @@ Pascal excerpts are collected in [Sources](#sources).
 
 **Related documents:**
 
-- [ticks_and_subticks.md](../../../../internals_en/engine/ticks_and_subticks.md) - main progress-loop
+- [ticks and subticks](../../../../internals_en/engine/ticks_and_subticks.md) - main progress-loop
   (`gc_progress_Interval = 0.02 s`), unit-tick = 100 ms.
 - [server_sync_architecture.md](../../../../internals_en/engine/server_sync_architecture.md) —
   `WriteMove` / `ReadMove`, server-authoritative model, serialization
   queue in save.
-- [building_mechanics.md](../economy/building_mechanics.md) – footprint and `CIMass`
+- [construction and repair](../economy/building_mechanics.md) – footprint and `CIMass`
   near buildings (massive “anchors” for collisions).
 
 <a id="коротко"></a>
@@ -243,7 +243,7 @@ Buildings are initialized with `CollisionInertia=true`,
 
 **Conclusion:** buildings are massive immovable obstacles with a radius
 of 0.35 (plus a separate footprint mask on the cell grid; see
-[building_mechanics.md](../economy/building_mechanics.md)). Pathfinding
+[construction and repair](../economy/building_mechanics.md)). Pathfinding
 calculates the global route around them; local collision avoidance only
 keeps a unit from pressing directly into a wall.
 

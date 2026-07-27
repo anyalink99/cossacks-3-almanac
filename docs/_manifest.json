@@ -161,7 +161,7 @@
     {
       "path": "reference/01_economy/README.md",
       "title": "Экономика",
-      "size": 11153,
+      "size": 11160,
       "lines": 165
     },
     {
@@ -173,19 +173,19 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 65347,
+      "size": 65371,
       "lines": 480
     },
     {
       "path": "reference/04_units/README.md",
       "title": "Юниты",
-      "size": 32746,
+      "size": 32861,
       "lines": 266
     },
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Улучшения",
-      "size": 277572,
+      "size": 281042,
       "lines": 1594
     },
     {
@@ -281,7 +281,7 @@
     {
       "path": "reference/compare/buildings/temples.md",
       "title": "Соборы / Церкви / Мечети",
-      "size": 4247,
+      "size": 4272,
       "lines": 32
     },
     {
@@ -383,7 +383,7 @@
     {
       "path": "reference/compare/units/priests.md",
       "title": "Священники",
-      "size": 2417,
+      "size": 2457,
       "lines": 16
     },
     {
@@ -563,7 +563,7 @@
     {
       "path": "reports/combat/artillery.md",
       "title": "Артиллерия",
-      "size": 17286,
+      "size": 18305,
       "lines": 138
     },
     {
@@ -575,7 +575,7 @@
     {
       "path": "reports/combat/combat_stats.md",
       "title": "Боевые характеристики",
-      "size": 40525,
+      "size": 41581,
       "lines": 235
     },
     {
@@ -623,7 +623,7 @@
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Настройки матча",
-      "size": 13882,
+      "size": 13962,
       "lines": 273
     },
     {
@@ -641,7 +641,7 @@
     {
       "path": "reports/nations/overview.md",
       "title": "Сравнение наций",
-      "size": 17142,
+      "size": 17151,
       "lines": 138
     },
     {
@@ -653,7 +653,7 @@
     {
       "path": "reports/tech/tech_tree.md",
       "title": "Дерево развития",
-      "size": 488089,
+      "size": 488017,
       "lines": 3016
     }
   ]

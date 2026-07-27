@@ -435,7 +435,7 @@ Summary: for each type of building - parameters for all nations (where they exis
 #### Tower summary
 
 A complete analysis of shooting, review, garrison and strategy - in
-[`../../recon/world/combat/towers.md`](../../recon/world/combat/towers.md).
+[tower and garrison mechanics](../../recon/world/combat/towers.md).
 Brief parameters of the basic European tower (`eurtow`):
 
 | Parameter | Meaning | Note |
@@ -453,7 +453,7 @@ Brief parameters of the basic European tower (`eurtow`):
 
 5 upgrade levels `eurtow.1..5` reduce `weapon_pause` to
 × 0.467 from base → fire frequency **× 2.14**. The full list is in
-[05_upgrades/README.md → tow](../05_upgrades/README.md#tow--башня-скорость-перезарядки).
+[upgrades](../05_upgrades/README.md#tow--башня-скорость-перезарядки).
 <a id="gol--золотая-шахта"></a>
 <a id="золотая-шахта-gol"></a>
 ### Gold Mine (`gol`)

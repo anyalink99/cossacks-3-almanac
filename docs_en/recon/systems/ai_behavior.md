@@ -58,9 +58,9 @@ level [^6].
 Difficulty is stored in `gMap.players[i].aidifficulty` [^7], copied
 to `gPlayer[i].difficulty` when the match starts [^8]. The lobby default
 is `easy` [^9]. The full table of multipliers is in
-[`reports/map/lobby_settings.md`](../../reports/map/lobby_settings.md#difficulty--сложность);
+[lobby settings](../../reports/map/lobby_settings.md#difficulty--сложность);
 and engine behavior is covered by
-[`game_settings.md`](../world/map/game_settings.md) §4.
+[match settings](../world/map/game_settings.md) §4.
 
 <a id="что-меняется-между-уровнями"></a>
 ### What changes between levels

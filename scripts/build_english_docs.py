@@ -730,6 +730,101 @@ def canonicalize_reader_table_codes(text: str) -> str:
     return "\n".join(output) + ("\n" if had_final_newline else "")
 
 
+def canonicalize_english_upgrade_names(text: str) -> str:
+    """Replace generated mixed SID/English labels with canonical card names."""
+    catalog_path = ROOT / "assets" / "data" / "entity-catalog.json"
+    if not catalog_path.is_file():
+        return text
+    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    names = {
+        sid: str(entity.get("name", {}).get("en") or "").strip()
+        for sid, entity in (
+            catalog.get("entities", {}).get("upgrade", {}) or {}
+        ).items()
+    }
+
+    def replace(match: re.Match[str]) -> str:
+        sid = match.group("sid")
+        name = names.get(sid)
+        if not name:
+            return match.group(0)
+        return f"**{name}** `{sid}`"
+
+    return re.sub(
+        r"\*\*[^*\n]+\*\*\s+`(?P<sid>[a-z0-9.]+)`",
+        replace,
+        text,
+    )
+
+
+def canonicalize_english_reader_links(text: str) -> str:
+    """Give repository-path links ordinary reader-facing English labels."""
+    labels = {
+        "recon/world/combat/towers.md": "tower and garrison mechanics",
+        "reference/05_upgrades/README.md": "upgrades",
+        "05_upgrades/README.md": "upgrades",
+        "reference/compare/README.md": "comparison index",
+        "compare/README.md": "comparison index",
+        "reference/compare/units/priests.md": "priest comparison",
+        "internals_en/engine/ticks_and_subticks.md": "ticks and subticks",
+        "recon/world/combat/target_selection.md": "target selection",
+        "reference/07_naval/README.md": "Navy",
+        "reports/combat/combat_stats.md": "combat statistics",
+        "recon/world/combat/combat_damage_pipeline.md": "damage calculation",
+        "recon/world/economy/hunger_and_rebellion.md": "hunger and rebellion",
+        "recon/world/combat/ranged_units_behavior.md": "ranged-unit behavior",
+        "recon/world/economy/building_mechanics.md": "construction and repair",
+        "reports/economy/builder_slots.md": "builder limits",
+        "reports/map/map_resources.md": "map resource estimates",
+        "recon/world/map/map_generation_pipeline.md": "map generation",
+        "recon/world/map/game_settings.md": "match settings",
+        "recon/world/economy/capture_mechanics.md": "building capture",
+        "recon/systems/mercenaries_diplomacy.md": "mercenaries and diplomacy",
+        "recon/systems/ai_behavior.md": "computer-player behavior",
+        "recon/world/economy/peasant_extraction.md": "peasant resource gathering",
+        "reports/map/lobby_settings.md": "lobby settings",
+        "reference/01_economy/README.md": "economy guide",
+        "reference/03_buildings/README.md": "building guide",
+        "reference/06_market/README.md": "market guide",
+        "reports/economy/scaling_prices.md": "building price growth",
+    }
+    link_re = re.compile(r"\[([^\]\n]*\.md[^\]\n]*)\]\(([^)\n]+)\)")
+    had_final_newline = text.endswith("\n")
+    output: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            output.append(line)
+            continue
+        if in_fence:
+            output.append(line)
+            continue
+
+        def replace(match: re.Match[str]) -> str:
+            target = urllib.parse.unquote(match.group(2)).split("#", 1)[0]
+            normalized = target.replace("\\", "/").lstrip("./")
+            visible = match.group(1).replace("`", "")
+            friendly = next(
+                (
+                    label
+                    for suffix, label in labels.items()
+                    if normalized.endswith(suffix)
+                    or visible.endswith(suffix)
+                    or suffix.endswith(visible)
+                ),
+                None,
+            )
+            return (
+                f"[{friendly}]({match.group(2)})"
+                if friendly
+                else match.group(0)
+            )
+
+        output.append(link_re.sub(replace, line))
+    return "\n".join(output) + ("\n" if had_final_newline else "")
+
+
 def canonicalize_reader_nation_headings(text: str) -> str:
     """Put canonical nation names before internal codes in report headings."""
     canonical = json.loads(
@@ -759,7 +854,11 @@ def clean_english_nation_page(text: str) -> str:
         for sid, names in (canonical.get("units") or {}).items()
     }
 
-    heading = re.search(r"^#\s+(.+?)\s+\(`([a-z]{3})`\)\s*$", text, re.MULTILINE)
+    heading = re.search(
+        r"^#\s+(.+?)[ \t]+\(`([a-z]{3})`\)[ \t]*$",
+        text,
+        re.MULTILINE,
+    )
     if heading:
         name, sid = heading.groups()
         text = text.replace(f"_{name}_\n\n", "", 1)
@@ -772,6 +871,15 @@ def clean_english_nation_page(text: str) -> str:
             "[← Quick reference](../README.md) · [← All nations](README.md)",
             "[← All nations](README.md) · [← Quick reference](../README.md)",
             1,
+        )
+        # Older cleanup passes could accumulate a blank line because ``\s*$``
+        # consumed the line breaks after the heading.  Keep the intentionally
+        # airy three-line separation stable and idempotent.
+        text = re.sub(
+            rf"({re.escape(heading.group(0))}\n)\n{{4,}}",
+            r"\1\n\n\n",
+            text,
+            count=1,
         )
 
     cluster_pattern = re.compile(
@@ -1207,6 +1315,9 @@ def main() -> int:
             if target.is_relative_to(ROOT / "docs_en"):
                 cleaned = canonicalize_reader_table_codes(cleaned)
                 cleaned = canonicalize_reader_nation_headings(cleaned)
+                cleaned = canonicalize_english_reader_links(cleaned)
+            if target == ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md":
+                cleaned = canonicalize_english_upgrade_names(cleaned)
             if (
                 target.parent == ROOT / "docs_en" / "reference" / "nations"
                 and target.name != "README.md"
@@ -1263,6 +1374,9 @@ def main() -> int:
         if target.is_relative_to(ROOT / "docs_en"):
             translated = canonicalize_reader_table_codes(translated)
             translated = canonicalize_reader_nation_headings(translated)
+            translated = canonicalize_english_reader_links(translated)
+        if target == ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md":
+            translated = canonicalize_english_upgrade_names(translated)
         if (
             target.parent == ROOT / "docs_en" / "reference" / "nations"
             and target.name != "README.md"

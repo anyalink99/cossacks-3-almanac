@@ -189,6 +189,36 @@ def name_cell_full(item: dict) -> str:
     return name_cell_short(item)
 
 
+def upgrade_member_sid(item: dict) -> str | None:
+    """Return the upgraded unit SID even for access-control fallback rows."""
+    member = str(item.get("member") or "").strip()
+    if member:
+        return member
+    match = re.match(
+        r"^[a-z0-9]+\.([a-z0-9]+)\.[12]\.\d+$",
+        str(item.get("sid") or ""),
+    )
+    return match.group(1) if match else None
+
+
+def upgrade_display_name_ru(item: dict) -> str:
+    """Reader-facing upgrade name without raw unit IDs or English effect words."""
+    member = upgrade_member_sid(item)
+    effect_match = re.search(r"\.([12])\.(\d+)$", str(item.get("sid") or ""))
+    if member and effect_match:
+        effect = "урон" if effect_match.group(1) == "1" else "защита"
+        value = item.get("value")
+        value_text = f"+{value}" if isinstance(value, (int, float)) and value >= 0 else fmt(value)
+        level = item.get("level")
+        return f"{unit_ru(member)}: {effect} {value_text} (уровень {level})"
+    return name_ru_en(item).replace("%value%", fmt(item.get("value")))
+
+
+def upgrade_name_cell(item: dict) -> str:
+    """Canonical localized upgrade name first, technical SID second."""
+    return f"**{upgrade_display_name_ru(item)}** `{item.get('sid', '')}`"
+
+
 def uniqueness_ru(value: str | None) -> str:
     """Translate parser uniqueness labels for reader-facing tables."""
     if not value:
@@ -1314,7 +1344,7 @@ def write_upgrades(data: dict) -> None:
     A("| Улучшение | Уровень | Доп. рабочих | Еда | Золото |")
     A("|---|---:|---:|---:|---:|")
     for u in mine_ups:
-        A(f"| {name_cell_short(u)} | {fmt(u['level'])} | +{u['value']} | {u['food']} | {u['gold']} |")
+        A(f"| {upgrade_name_cell(u)} | {fmt(u['level'])} | +{u['value']} | {u['food']} | {u['gold']} |")
     A("")
 
     for place in [p for p in PLACE_ORDER if p != "mines"]:
@@ -1358,7 +1388,7 @@ def write_upgrades(data: dict) -> None:
                 else:
                     pcts_str = "—"
                 effect_ru, _ = decode_upg_type(first.get("itype"), lang="ru")
-                A(f"| {name_cell_short(first)} | {nat_str} "
+                A(f"| {upgrade_name_cell(first)} | {nat_str} "
                   f"| {effect_ru or '—'} | {upgrade_value_ru(first)} "
                   f"| {pcts_str} "
                   f"| {fmt(first['food'])} | {fmt(first['wood'])} | {fmt(first['stone'])} "
@@ -2041,7 +2071,7 @@ def write_compare(data: dict) -> None:
     A("")
     A("> **Перезарядка равна нулю:** жрец начинает лечить сразу после выбора цели. "
       "Реальный темп лечения равен силе лечения за такт, умноженной на число тактов в секунду (см. "
-      "[ticks_and_subticks.md](../../../../internals/engine/ticks_and_subticks.md) — heal-такт "
+      "[описание тактов и подтактов](../../../../internals/engine/ticks_and_subticks.md) — такт лечения "
       "управляется тем же `gc_time_to_frames` циклом).\n")
     A("> **Источник характеристик:** `unit.script:1151-1188`. Игра задаёт "
       "общую основу для священников, а затем отдельно меняет параметры "
@@ -2238,7 +2268,7 @@ def write_compare(data: dict) -> None:
                             "уникальные тяжёлые всадники.")
     write_building_compare("temples.md", "tem", "Соборы / Церкви / Мечети",
                             "Тренируют священника, православного священника, муллу или падре. Разная стоимость и "
-                            "время постройки. См. также [units/priests.md](../units/priests.md) — "
+                            "время постройки. См. также [сравнение священников](../units/priests.md) — "
                             "сравнение самих жрецов.")
 
     # Common-cluster buildings (mill/market/storehouse/port/towers/mines/walls) live in

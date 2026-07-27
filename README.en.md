@@ -133,8 +133,12 @@ python compute/compute_nations_overview.py      # → docs/reports/nations/overv
 python parser/parse_animations.py               # → derived/animations.json
 python parser/parse_generator_cfg.py            # → derived/pattern_types.json
 python parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json
+python scripts/build_entity_catalog.py           # → assets/data/entity-catalog.json + game UI icons
 ```
-`parser/build_data.py` is the only script that reads game files. All others consume `data.json` and work in <30 seconds.
+`parser/build_data.py` reads gameplay data, while
+`scripts/build_entity_catalog.py` reads the HUD material map and UI atlases.
+The other generators consume `data.json` without parsing the game installation
+again.
 
 <a id="diff-снапшотов-после-патча"></a>
 ### Compare snapshots after a patch
@@ -155,18 +159,26 @@ After the regeneration in `diff.md`, you can see all stat changes between versio
 
 ## Sanity checks
 
-`parser/build_data.py` runs **112 autochecks** at each launch and feils if the game changes something key (time constants, base portions, known numbers of specific units, mine upgrade chain, market rates). Coverage – `parser/README.md` contains a list of categories.
+`parser/build_data.py` runs **112 automatic checks** on each launch and fails if
+an update changes a key invariant: timing constants, base resource portions,
+known unit values, the mine-upgrade chain, or market rates. The coverage
+categories are listed in `parser/README.md`.
 
 <a id="что-сейчас-в-данных"></a>
 ## What's in the data now
 
-- **Nations:**21 (playable; mis/tat/lit excluded)
-** Buildings:** 456 lines (sid×nation)
-- ** Units: ** 714 lines
-* Upgrades:** 4483 lines (with full cost/value/itype/prereqs allowed)
+- **Nations:** 21 playable nations (`mis`, `tat`, and `lit` excluded)
+- **Buildings:** 456 nation-specific rows
+- **Units:** 714 rows
+- **Upgrades:** 4,483 rows with complete cost, value, effect, and prerequisite data
 - **Officers/formations:** 231 groups
 
 <a id="лицензия-и-атрибуция"></a>
 ## License and attribution
 
-This repository contains **only derived data** from publicly distributed Cossacks 3 (GSC Game World) game files. Game resources and trademarks belong to their owners. Scripts in this repository are a separate work, distributed without a special license (use at your own risk).
+This repository primarily contains derived data from publicly distributed
+Cossacks 3 files (GSC Game World). The visual object cards also include small
+UI icons cropped automatically from the game's atlases. Game artwork, names,
+and trademarks belong to their respective owners. The repository's scripts are
+a separate work distributed without a specific license; use them at your own
+risk.

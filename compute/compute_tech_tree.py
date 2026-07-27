@@ -55,7 +55,8 @@ def name_ru_en(item: dict) -> str:
     ru = (item.get("name_ru") or "").strip()
     en = (item.get("name_en") or "").strip()
     sid = str(item.get("sid") or "")
-    return unit_ru(sid, ru or en or "—")
+    name = unit_ru(sid, ru or en or "—")
+    return name.replace("%value%", str(item.get("value") or 0))
 
 
 def _short_bld_label(sid: str, nat: str) -> str:

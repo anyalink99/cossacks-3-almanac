@@ -55,7 +55,7 @@ attack-move).
 | `move` | Go to the point | x, z |
 | `attack` | Attack a specific target | trg |
 | `attack_move` | Go to the point, attack those you meet along the way | x, z + `bMoveAttack = True` |
-| `garrison` | Enter the transport ship (see [`towers.md`](towers.md): other buildings do not accept infantry) | trg |
+| `garrison` | Enter the transport ship (see [tower and garrison mechanics](towers.md): other buildings do not accept infantry) | trg |
 | `ungarrison` | Get out of transport | (no arguments) |
 | `patrol` | Patrol between two points | x, z + second waypoint |
 | `guard` | Protect the building/unit - don't go far | trg |
@@ -80,7 +80,7 @@ attack-move).
 5. When the order is completed, it is deleted via `_unit_ClearOrder`,
    The queue is shifted via `_unit_OrdersOffset`.
 6. If the queue is empty, the unit becomes idle and starts
-   auto search for targets (see [`target_selection.md`](target_selection.md)).
+   auto search for targets (see [target selection](target_selection.md)).
 
 ---
 
@@ -229,7 +229,7 @@ Management:
 In Cossacks 3 the only building that supports this order is for
 **infantry**, is a **transport ship** (`btransport = True`).
 Towers, houses and barracks do not accept infantry inside (see.
-[`towers.md`](towers.md), quote at the beginning of the file). Mines -
+[tower and garrison mechanics](towers.md), quote at the beginning of the file). Mines -
 special case: peasants enter there automatically through
 `_unit_OrderExtractResources`, not via `garrison`.
 

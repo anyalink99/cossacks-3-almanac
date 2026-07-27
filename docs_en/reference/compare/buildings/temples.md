@@ -3,7 +3,7 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Train the priest (`priest`/`pope`/`mullah`/`padre`). Different cost and construction time. See also [units/priests.md](../units/priests.md) - a comparison of the priests themselves.
+Train the priest (`priest`/`pope`/`mullah`/`padre`). Different cost and construction time. See also [priest comparison](../units/priests.md) - a comparison of the priests themselves.
 
 > **Base values** (column mode): HP = 4200, Time (g-sec) = 156.25, cost% = 300, W = 1000, S = 1200, G = 0, farm = 0.
 > **Bold** in the table below indicates deviations from these values.
