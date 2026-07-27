@@ -386,6 +386,9 @@ class ReaderFacingDocumentation(unittest.TestCase):
         units = (DOCS / "reference" / "04_units" / "README.md").read_text(
             encoding="utf-8"
         )
+        tech_tree = (DOCS / "reports" / "tech" / "tech_tree.md").read_text(
+            encoding="utf-8"
+        )
         buildings = "\n".join(
             path.read_text(encoding="utf-8")
             for path in sorted(
@@ -394,8 +397,25 @@ class ReaderFacingDocumentation(unittest.TestCase):
         )
         self.assertIn("**Крестьянин** `peaaus`", units)
         self.assertIn("**Чайка** `chaika`", units)
+        self.assertIn("**Чайка** (`chaika`)", tech_tree)
         self.assertIn("Крестьянин", buildings)
         self.assertNotIn("производит: peasant", buildings.lower())
+
+    def test_naval_units_use_canonical_russian_names(self):
+        offenders = []
+        for path in DOCS.rglob("*.md"):
+            text = path.read_text(encoding="utf-8")
+            noncanonical = (
+                r"\bпаром(?:а|у|ом|е|ы|ов|ам|ами|ах)?\b",
+                r"\bрыбач",
+                r"\bбаттлшип",
+            )
+            if any(
+                re.search(pattern, text, flags=re.IGNORECASE)
+                for pattern in noncanonical
+            ):
+                offenders.append(path.relative_to(ROOT).as_posix())
+        self.assertEqual(offenders, [])
 
     def test_canonical_terms_include_units_outside_units_locale_file(self):
         terms = json.loads(

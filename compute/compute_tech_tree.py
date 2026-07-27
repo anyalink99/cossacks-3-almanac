@@ -51,11 +51,11 @@ def heading_anchor(text: str) -> str:
     return s.replace(" ", "-")
 
 
-def name_ru_en(item: dict) -> str:
+def name_ru_en(item: dict, sid: str | None = None) -> str:
     ru = (item.get("name_ru") or "").strip()
     en = (item.get("name_en") or "").strip()
-    sid = str(item.get("sid") or "")
-    name = unit_ru(sid, ru or en or "—")
+    object_sid = sid or str(item.get("sid") or "")
+    name = unit_ru(object_sid, ru or en or "—")
     return name.replace("%value%", str(item.get("value") or 0))
 
 
@@ -173,7 +173,7 @@ def write_tree_md(tree: dict) -> None:
         L.append(f"## {nation_ru(nat)}")
         L.append("")
         labels = {
-            sid: name_ru_en(item)
+            sid: name_ru_en(item, sid)
             for category in ("buildings", "units", "upgrades")
             for sid, item in nt[category].items()
         }
@@ -187,7 +187,7 @@ def write_tree_md(tree: dict) -> None:
             prereqs_str = ", ".join(_fmt_prereq(p, labels) for p in b["prereqs"]) or "—"
             time_str = f"{b['buildtime_sec']:.1f}" if b['buildtime_sec'] else "—"
             farm_str = str(b["farm"] or "—")
-            L.append(f"| **{name_ru_en(b)}** (`{sid}`) | {time_str} | {cost_str} | {farm_str} | {prereqs_str} |")
+            L.append(f"| **{name_ru_en(b, sid)}** (`{sid}`) | {time_str} | {cost_str} | {farm_str} | {prereqs_str} |")
         L.append("")
 
         L.append(f"### Юниты — {nation_ru(nat)}")
@@ -202,7 +202,7 @@ def write_tree_md(tree: dict) -> None:
             tr_str = ", ".join(
                 f"{labels.get(host, host)} (`{host}`)" for host in u["trained_in"]
             ) or "—"
-            L.append(f"| **{name_ru_en(u)}** (`{sid}`) | {time_str} | {cost_str} | {tr_str} | {prereqs_str} |")
+            L.append(f"| **{name_ru_en(u, sid)}** (`{sid}`) | {time_str} | {cost_str} | {tr_str} | {prereqs_str} |")
         L.append("")
 
         ug_with_reqs = [(sid, ug) for sid, ug in nt["upgrades"].items() if ug["prereqs"]]
@@ -215,7 +215,7 @@ def write_tree_md(tree: dict) -> None:
                 cost_str = _fmt_cost(ug["cost"])
                 time_str = f"{ug['time_sec']:.1f}" if ug['time_sec'] else "—"
                 prereqs_str = ", ".join(_fmt_prereq(p, labels) for p in ug["prereqs"]) or "—"
-                L.append(f"| **{name_ru_en(ug)}** (`{sid}`) | {time_str} | {cost_str} | {prereqs_str} |")
+                L.append(f"| **{name_ru_en(ug, sid)}** (`{sid}`) | {time_str} | {cost_str} | {prereqs_str} |")
             L.append("")
         L.append("[↑ к содержанию](#содержание)")
         L.append("")

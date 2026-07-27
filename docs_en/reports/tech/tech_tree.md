@@ -2944,7 +2944,7 @@ graph LR
 | `archerdip` | Archer (mercenary) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
 | `cannon` | Cannon | 75.00 | W250 G400 I400 | ukrart | [B] `ukrbla` |
-| `chaika` | — | 40.00 | W1050 G600 I200 C400 | ukrpor | [B] `ukrart` |
+| `chaika` | Chaika | 40.00 | W1050 G600 I200 C400 | ukrpor | [B] `ukrart` |
 | `cossackregister` | Register Cossack | 10.50 | F70 G15 | ukrsta | [B] `ukrbla` |
 | `cossacksich` | Sich Cossack | 13.50 | F130 I2 | ukrsta | — |
 | `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | ukrdip | [B] `ukraca`, [B] `ukrcen` |

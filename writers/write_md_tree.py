@@ -704,9 +704,9 @@ def write_combat_legacy(data: dict) -> None:
         "yacht": "яхта (стрелковый корабль)",
         "yachttur": "турецкая яхта (быстрее стандартной)",
         "frigate": "фрегат",
-        "battleship": "баттлшип — самый медленный военный корабль",
+        "battleship": "линейный корабль — самый медленный военный корабль",
         "chaika": "украинская чайка — мобильная",
-        "ferry": "паром (transport)",
+        "ferry": "транспорт",
     }
     for k in ["default","peasant","hardhorse","fasthorse","cannon","mortar","howitzer",
               "multicannon","fishboat","ferry","yacht","yachttur","chaika","galley",
@@ -1474,7 +1474,7 @@ def write_market(data: dict) -> None:
 # в шаблоне `reference/07_naval/main.md`. Цифры (HP / speed / cost / weapons)
 # подтягиваются из `data.json`.
 NAVAL_SHIPS: list[tuple[str, str]] = [
-    ("fishboat",  "Рыбачья лодка"),
+    ("fishboat",  "Рыбацкая лодка"),
     ("ferry",     "Транспорт"),
     ("yacht",     "Лёгкий стрелок"),
     ("chaika",    "Украинский лёгкий корабль"),

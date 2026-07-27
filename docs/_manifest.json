@@ -113,7 +113,7 @@
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Строительство, ремонт и разрушение зданий",
-      "size": 36621,
+      "size": 36625,
       "lines": 589
     },
     {
@@ -131,7 +131,7 @@
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Как крестьяне добывают ресурсы",
-      "size": 49550,
+      "size": 49557,
       "lines": 782
     },
     {
@@ -161,7 +161,7 @@
     {
       "path": "reference/01_economy/README.md",
       "title": "Экономика",
-      "size": 11160,
+      "size": 11162,
       "lines": 165
     },
     {
@@ -437,7 +437,7 @@
     {
       "path": "reference/07_naval/README.md",
       "title": "Флот",
-      "size": 8851,
+      "size": 8865,
       "lines": 121
     },
     {
@@ -893,7 +893,7 @@
     {
       "path": "reports/tech/tech_tree.md",
       "title": "Дерево развития",
-      "size": 488017,
+      "size": 488024,
       "lines": 3016
     }
   ]
