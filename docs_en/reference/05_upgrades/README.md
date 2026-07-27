@@ -3,9 +3,8 @@
 
 [← Quick reference](../README.md)
 
-Upgrades are grouped by the building where they are researched: Academy,
-Blacksmith, Mill, Stable, Barracks, Mine, Tower, Wall, and Shipyard.
-The canonical localized name is shown first; the internal code is secondary.
+Upgrades are grouped by the building where they are researched. The canonical
+localized name is shown first; the internal code is secondary.
 
 <a id="выберите-место-исследования"></a>
 ## Choose a research location
@@ -25,6 +24,9 @@ The canonical localized name is shown first; the internal code is secondary.
 | [Walls and Palisades](walls_and_gates.md) | Converting a fortification section into a gate |
 | [Shipyard and Ferry](shipyard.md) | Ship healing and Ferry capacity |
 
+The internal code after a name is only needed for exact comparison with game
+files. Most readers only need the canonical name, effect, cost, and research
+time.
 
 <a id="расшифровка-колонок"></a>
 ## Column guide

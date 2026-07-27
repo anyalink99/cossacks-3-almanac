@@ -10,11 +10,16 @@
 
 **Готовый справочник для игроков** — открывай прямо на GitHub, ничего запускать не надо. Всё лежит в [`docs/`](docs/):
 
-- [`docs/reference/`](docs/reference/) — каноническая справка: 7 глав по темам, 21 нация, 15 side-by-side сравнений
+- [`docs/reference/`](docs/reference/) — каноническая справка: 7 глав по темам,
+  21 нация и 33 сравнительные таблицы
 - [`docs/recon/`](docs/recon/) — handwritten reverse-engineering механик игры, разбито по темам:
   `world/economy/` (добыча, постройка, захват, голод, очередь, апгрейды), `world/combat/` (урон, формации, выбор цели, башни, стены, артиллерия, флот, обзор), `world/map/` (генерация карты, опции лобби), `systems/` (AI, наёмники, условия победы, сценарии, UI/ввод)
 - [`docs/reports/`](docs/reports/) — производные расчёты, сгруппированные по теме:
-  `combat/` (DPS, контр-матрица, скорость атаки, vision, артиллерия), `economy/` (scaling, builder slots, construction, production, efficiency), `tech/` (tech tree), `map/` (ресурсы, стартовая раскладка, валидация по реплеям), `nations/` (overview, deviations)
+  `combat/` (боевые показатели, матрица противодействия, темп атак, обзор,
+  артиллерия), `economy/` (рост цен, места строителей, время строительства,
+  производство, эффективность), `tech/` (дерево развития), `map/` (ресурсы,
+  стартовая раскладка, настройки матча), `nations/` (обзор и национальные
+  отличия)
 
 **Техническая документация (для разработчиков / моддеров)** — отдельно от `docs/` в [`internals/`](internals/):
 
@@ -66,7 +71,7 @@
 │       ├── combat/          DPS / EHP / counter matrix / attack rates / vision / artillery
 │       ├── economy/         scaling / builder_slots / construction / production / efficiency
 │       ├── tech/            tech tree
-│       ├── map/             map resources / starting layout / replay validation
+│       ├── map/             ресурсы карты / стартовая раскладка / настройки матча
 │       └── nations/         cross-nation overview / deviations
 │
 └── internals/               техническое устройство движка и скриптов
@@ -87,7 +92,16 @@ GitHub рендерит markdown — открывай нужный файл. Т�
 
 ### Регенерировать после патча игры
 
-Требования: Python 3.11+ и установленный Cossacks 3 (Steam). По умолчанию ищется в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3` — для другого пути установи env-переменную:
+Требования: Python 3.11+ и установленный Cossacks 3 (Steam). Основной
+конвейер использует стандартную библиотеку Python. Для извлечения иконок и
+анализа исполняемого файла установите дополнительные зависимости:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+По умолчанию игра ищется в `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3`
+— для другого пути установите переменную окружения:
 
 ```bash
 # Linux/macOS
@@ -133,7 +147,7 @@ python compute/compute_tech_tree.py             # → docs/reports/tech/tech_tre
 python compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
 python compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md
-python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
+python compute/validate_map_predictions.py      # → internals{_en}/data/map_predictions_validation.md
 python compute/compute_nations_overview.py      # → docs/reports/nations/overview.md
 python parser/parse_animations.py               # → derived/animations.json
 python parser/parse_generator_cfg.py            # → derived/pattern_types.json
@@ -167,7 +181,11 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 
 ## Sanity checks
 
-`parser/build_data.py` гоняет **112 автопроверок** на каждом запуске и фейлится, если игра поменяла что-то ключевое (константы времени, базовые порции, известные числа конкретных юнитов, mine upgrade chain, market rates). Покрытие — `parser/README.md` содержит список категорий.
+`make sanity` или `python scripts/regen.py sanity` пересобирает данные и
+проверяет **112 инвариантов**. Команда завершится с ошибкой, если игра
+поменяла что-то ключевое: константы времени, базовые порции, известные числа
+конкретных юнитов, цепочку улучшений шахт или курсы рынка. Список категорий
+приведён в [`parser/README.md`](parser/README.md).
 
 ## Что сейчас в данных
 
@@ -179,9 +197,8 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 
 ## Лицензия и атрибуция
 
-Репозиторий в основном содержит производные данные из публично распространяемых
-файлов Cossacks 3 (GSC Game World). Для наглядных карточек объектов также
-включены небольшие UI-иконки, автоматически вырезанные из игровых атласов.
-Игровая графика, названия и торговые марки принадлежат их владельцам. Скрипты
-этого репозитория — отдельная работа и распространяются без специальной
-лицензии (используйте на свой страх и риск).
+Оригинальный код и авторская документация распространяются по
+[лицензии MIT](LICENSE). Производные игровые данные, интерфейсные иконки,
+названия и торговые марки этой лицензией не покрываются и принадлежат их
+правообладателям. Подробности и лицензии браузерных библиотек приведены в
+[уведомлении о сторонних материалах](THIRD_PARTY_NOTICES.md).

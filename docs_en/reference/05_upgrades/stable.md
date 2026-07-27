@@ -9,8 +9,8 @@ Cavalry damage and protection upgrades are divided by troop type.
 
 | Section | Troops |
 |---|---|
-| [Cossacks and Eastern Cavalry](stable_cossacks.md) | Don, Register, and Sich Cossacks, the Hetman, and the Tatar |
 | [Dragoons and Mounted Musketeers](stable_dragoons.md) | 17th- and 18th-century Dragoons, the Pospolite ruszenie, and the King's Musketeer |
-| [Hussars and Light Cavalry](stable_light_cavalry.md) | Hussars, Croats, Hakkapeliitta, Mounted Jaegers, Lancers, and Raiders |
 | [Heavy Cavalry](stable_heavy_cavalry.md) | Cuirassiers, Reiters, Vityaz, Winged Hussars, and Cavalry Guards |
-| [Ottoman Cavalry](stable_ottoman_cavalry.md) | Sipahi and Mamelukes |
+| [Hussars and Light Cavalry](stable_light_cavalry.md) | Hussars, Croats, Hakkapeliitta, Mounted Jaegers, Lancers, and Raiders |
+| [Cossacks and Eastern Cavalry](stable_cossacks.md) | Don, Register, and Sich Cossacks, the Hetman, and the Tatar |
+| [Ottoman Cavalry](stable_ottoman_cavalry.md) | Light Sipahi, Heavy Sipahi, and Mameluke |

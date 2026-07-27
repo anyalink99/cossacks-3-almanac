@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import struct
 import sys
 import unittest
@@ -204,6 +205,56 @@ class ReplayUpgradeCatalog(unittest.TestCase):
         )
 
         self.assertEqual(committed, build_catalog(data))
+
+
+class RealReplayGolden(unittest.TestCase):
+    """Regression coverage against a complete, anonymized game replay."""
+
+    FIXTURE = ROOT / "tests" / "fixtures" / "replays" / "real_anonymized.rep"
+
+    def test_real_replay_matches_golden_summary(self) -> None:
+        raw = self.FIXTURE.read_bytes()
+        parsed = parse_replay_from_bytes(raw)
+
+        self.assertEqual(
+            hashlib.sha256(raw).hexdigest(),
+            "c0c93dc1d35e748981d49a3d35d1c519f81a61e1fe9e4dfac0429bf4c32154fe",
+        )
+        self.assertEqual(parsed["replay"]["build_version"], "2.0.0.1199")
+        self.assertEqual(parsed["replay"]["map_format_version"], 13)
+        self.assertEqual(parsed["replay"]["file_size"], 226_871)
+        self.assertEqual(
+            [player["name"] for player in parsed["players"]],
+            ["Player01____", "Player0"],
+        )
+        self.assertEqual(parsed["settings"]["maskname"], "2pl_mask_continent_27_gauss.tga")
+        self.assertEqual(parsed["settings"]["randkey1"], 1_718_677_668)
+        self.assertEqual(parsed["settings"]["mapsize"], 3)
+        self.assertEqual(parsed["settings"]["terraintype"], 5)
+        self.assertEqual(len(parsed["pattern_placements"]), 97)
+        self.assertEqual(parsed["n_entries"], 277)
+        self.assertEqual(parsed["n_sub_packages"], 358)
+        self.assertEqual(parsed["format_warnings"], [])
+        self.assertEqual(
+            parsed["by_handler"],
+            {
+                "ReadConstruct": 4,
+                "ReadSyncUnitsParams": 5,
+                "WritePlayer": 1,
+                "class_09_sync": 113,
+                "engine_ReadFree": 159,
+                "engine_ReadSquadListAction": 72,
+                "engine_WriteMove": 1,
+                "unknown_sub_0x04_begin_0x00": 2,
+                "unknown_sub_0x04_begin_0x01": 1,
+            },
+        )
+        self.assertEqual(parsed["units_built_per_pid"], {0: {"netcen": 4}})
+        self.assertTrue(parsed["footer"]["complete"])
+        self.assertEqual(
+            (parsed["footer"]["map_width"], parsed["footer"]["map_height"]),
+            (256, 256),
+        )
 
 
 class CompactEventDecode(unittest.TestCase):

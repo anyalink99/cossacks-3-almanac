@@ -31,7 +31,7 @@ PY = sys.executable
 
 # Targets that MUST run sequentially (output of one feeds input of another).
 # All other targets fan out their scripts in parallel.
-SEQUENTIAL_TARGETS = {"data", "tech"}
+SEQUENTIAL_TARGETS = {"data", "tech", "sanity"}
 
 
 def run_one(args: list[str], capture: bool) -> tuple[list[str], int, float, str]:
@@ -81,6 +81,11 @@ def run_group(group: list[list[str]], parallel: bool) -> None:
 # Targets are pure shell-callable: a list of argv-tails, each launched via `python <tail>`.
 
 TARGETS: dict[str, list[list[str]]] = {
+
+    "sanity": [
+        ["parser/build_data.py"],
+        ["scripts/check_data_sanity.py"],
+    ],
 
     "data": [
         ["parser/build_data.py"],
@@ -142,19 +147,20 @@ TARGETS: dict[str, list[list[str]]] = {
 ALIASES: dict[str, list[str]] = {
     "reports": ["reports-combat", "reports-economy", "reports-map",
                 "reports-nations", "tech"],
-    "all":     ["data", "reference", "reports-combat", "reports-economy",
-                "reports-map", "reports-nations", "tech", "derived",
+    "all":     ["data", "derived", "reference", "reports-combat",
+                "reports-economy", "reports-map", "reports-nations", "tech",
                 "manifests"],
 }
 
 
 def help_text() -> str:
     lines = ["Usage: python scripts/regen.py [target]", "", "Targets:"]
-    for name in ["all", "data", "reference", "reports", "reports-combat",
+    for name in ["all", "sanity", "data", "reference", "reports", "reports-combat",
                  "reports-economy", "reports-map", "reports-nations",
                  "tech", "derived", "manifests"]:
         descr = {
             "all":             "full regen (data + reference + reports + tech + derived + manifests)",
+            "sanity":          "rebuild data.json and fail if any parser sanity check regresses",
             "data":            "parser only (game scripts → data.json)",
             "reference":       "writers (data.json → docs/reference/, legacy md, xlsx)",
             "reports":         "all derived reports",

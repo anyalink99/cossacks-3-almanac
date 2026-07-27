@@ -222,6 +222,8 @@ def translation_pairs() -> dict[Path, Path]:
             continue
         if any(part in {
             ".git", ".pytest_cache", ".codex_probe",
+            ".venv", "venv", "node_modules", "test-results",
+            "playwright-report",
             "docs", "docs_en", "internals", "internals_en",
         }
                for part in source.relative_to(ROOT).parts):

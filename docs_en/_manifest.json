@@ -263,7 +263,7 @@
     {
       "path": "reference/03_buildings/tower.md",
       "title": "Tower",
-      "size": 2134,
+      "size": 2085,
       "lines": 39
     },
     {
@@ -359,14 +359,14 @@
     {
       "path": "reference/05_upgrades/mines.md",
       "title": "Mine Upgrades",
-      "size": 2392,
-      "lines": 31
+      "size": 2307,
+      "lines": 29
     },
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Upgrades",
-      "size": 2880,
-      "lines": 58
+      "size": 2954,
+      "lines": 60
     },
     {
       "path": "reference/05_upgrades/shipyard.md",
@@ -377,7 +377,7 @@
     {
       "path": "reference/05_upgrades/stable.md",
       "title": "Stable Upgrades",
-      "size": 924,
+      "size": 939,
       "lines": 17
     },
     {
@@ -533,8 +533,8 @@
     {
       "path": "reference/compare/buildings/town_halls.md",
       "title": "Town Halls",
-      "size": 5247,
-      "lines": 36
+      "size": 5269,
+      "lines": 38
     },
     {
       "path": "reference/compare/README.md",
@@ -869,7 +869,7 @@
     {
       "path": "reports/map/map_resources.md",
       "title": "How Many Resources Appear on the Map",
-      "size": 2666,
+      "size": 2669,
       "lines": 73
     },
     {

@@ -91,7 +91,7 @@ def upgrade_value_ru(upgrade: dict) -> str:
 
 def write_md(path: Path, lines: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines), encoding="utf-8")
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
@@ -1052,134 +1052,251 @@ COMMON_NAMES = {
     "wga": "Деревянные ворота", "wwa": "Палисад",
 }
 
+BUILDING_PAGE_NAMES = {
+    "cen": "town_hall.md",
+    "hou": "housing.md",
+    "bar": "barracks_17.md",
+    "ba2": "barracks_18.md",
+    "bla": "blacksmith.md",
+    "sta": "stable.md",
+    "tem": "cathedral.md",
+    "aca": "academy.md",
+    "art": "artillery_depot.md",
+    "dip": "diplomatic_center.md",
+    "mil": "mill.md",
+    "sto": "storehouse.md",
+    "mar": "market.md",
+    "por": "shipyard.md",
+    "tow": "tower.md",
+}
+
+BUILDING_PAGE_TITLES = {
+    "cen": "Городской центр",
+    "hou": "Дом",
+    "bar": "Казарма XVII века",
+    "ba2": "Казарма XVIII века",
+    "bla": "Кузница",
+    "sta": "Конюшня",
+    "tem": "Собор",
+    "aca": "Академия",
+    "art": "Артиллерийское депо",
+    "dip": "Дипломатический центр",
+    "mil": "Мельница",
+    "sto": "Склад",
+    "mar": "Рынок",
+    "por": "Порт",
+    "tow": "Башня",
+}
+
+
+def _building_produces(building: dict, sid_labels: dict[str, str]) -> str:
+    produces = building.get("produces") or []
+    return ", ".join(
+        canonical_sid_text(sid, sid_labels, show_sid=False)
+        for sid in produces[:5]
+    ) + (f" (+{len(produces) - 5})" if len(produces) > 5 else "")
+
+
+def _write_per_nation_building_page(
+    suffix: str,
+    rows: list[dict],
+    sid_labels: dict[str, str],
+) -> None:
+    out = [
+        f"# {BUILDING_PAGE_TITLES[suffix]}\n",
+        "[← Все здания](README.md)\n",
+        "В таблице собраны доступные национальные варианты. Жирным отмечены "
+        "значения, которые отличаются от наиболее распространённого варианта.\n",
+    ]
+    A = out.append
+    baseline_cols = [
+        "hp", "buildtime_sec", "costpercent",
+        "food", "wood", "stone", "gold", "iron", "coal", "farm",
+    ]
+    baselines = compute_baselines(rows, baseline_cols)
+    A("| Здание | Нация | Здоровье | Время строительства, игр. с | Рост цены, % | Еда | Дерево | Камень | Золото | Железо | Уголь | Места населения | Производит |")
+    A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
+    for building in rows:
+        A(
+            f"| {name_cell_short(building)} | {nation_ru(building['nation'])} "
+            f"| {bold_if(building['hp'], baselines['hp'])} "
+            f"| {bold_if(building['buildtime_sec'], baselines['buildtime_sec'])} "
+            f"| {bold_if(building['costpercent'], baselines['costpercent'])} "
+            f"| {bold_if(building['food'], baselines['food'])} "
+            f"| {bold_if(building['wood'], baselines['wood'])} "
+            f"| {bold_if(building['stone'], baselines['stone'])} "
+            f"| {bold_if(building['gold'], baselines['gold'])} "
+            f"| {bold_if(building['iron'], baselines['iron'])} "
+            f"| {bold_if(building['coal'], baselines['coal'])} "
+            f"| {bold_if(building['farm'], baselines['farm'])} "
+            f"| {_building_produces(building, sid_labels) or '—'} |"
+        )
+    write_md(
+        TREE_ROOT / "03_buildings" / BUILDING_PAGE_NAMES[suffix],
+        out,
+    )
+
+
+def _common_building_rows(rows: list[dict]) -> list[str]:
+    out = [
+        "| Здание | Нации | Здоровье | Время строительства, игр. с | Рост цены, % | Еда | Дерево | Камень | Золото | Железо | Уголь | Особенности |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|",
+    ]
+    by_sid: dict[str, list[dict]] = defaultdict(list)
+    for building in rows:
+        by_sid[building["sid"]].append(building)
+    for sid in sorted(by_sid):
+        entries = by_sid[sid]
+        building = entries[0]
+        extra = []
+        if building["weapon_damage"]:
+            extra.append(f"урон {building['weapon_damage']}")
+            if building["weapon_radiusmax"]:
+                extra.append(
+                    "дальность "
+                    f"{str(round(building['weapon_radiusmax'] / 53.3333, 1)).replace('.', ',')} "
+                    "клетки"
+                )
+        if building["consume"]:
+            extra.append(
+                f"содержание: {resource_values_ru(building['consume'])}"
+            )
+        if building["produce"]:
+            extra.append(f"добывает: {resource_values_ru(building['produce'])}")
+        if building["peasantabsorber"]:
+            extra.append(f"крестьян {building['peasantabsorber']}")
+        out.append(
+            f"| {name_cell_short(building)} "
+            f"| {nations_ru([item['nation'] for item in entries])} "
+            f"| {fmt(building['hp'])} | {fmt(building['buildtime_sec'])} "
+            f"| {fmt(building['costpercent'])} | {fmt(building['food'])} "
+            f"| {fmt(building['wood'])} | {fmt(building['stone'])} "
+            f"| {fmt(building['gold'])} | {fmt(building['iron'])} "
+            f"| {fmt(building['coal'])} "
+            f"| {'; '.join(extra) if extra else '—'} |"
+        )
+    return out
+
+
+def _write_common_building_page(suffix: str, rows: list[dict]) -> None:
+    out = [
+        f"# {BUILDING_PAGE_TITLES[suffix]}\n",
+        "[← Все здания](README.md)\n",
+        "В таблице собраны доступные национальные варианты. Жирным отмечены "
+        "значения, которые отличаются от наиболее распространённого варианта.\n",
+        *_common_building_rows(rows),
+    ]
+    if suffix == "tow":
+        out.append("")
+        out.extend(render_template("reference/03_buildings/tow_combat.md"))
+    write_md(
+        TREE_ROOT / "03_buildings" / BUILDING_PAGE_NAMES[suffix],
+        out,
+    )
+
+
+def _write_mines_page(
+    by_suffix_common: dict[str, list[dict]],
+    mine_upgrades: list[dict],
+) -> None:
+    out = [
+        "# Шахты\n",
+        "[← Все здания](README.md)\n",
+        "Характеристики золотых, железных и угольных шахт одинаковы; "
+        "различается только добываемый ресурс.\n",
+    ]
+    for suffix in ("gol", "iro", "coa"):
+        out.append(f"## {COMMON_NAMES[suffix]}\n")
+        out.extend(_common_building_rows(by_suffix_common[suffix]))
+        out.append("")
+    out.extend([
+        "## Вместимость и улучшения\n",
+        "Каждая шахта вмещает пять рабочих. Шесть улучшений накопительно "
+        "доводят предел до **95 крестьян** на шахту.\n",
+        "| Уровень | +работников | Еда | Золото | Накопительно |",
+        "|---|---:|---:|---:|---:|",
+    ])
+    cumulative = 5
+    for upgrade in mine_upgrades:
+        cumulative += upgrade.get("value") or 0
+        out.append(
+            f"| `{upgrade['sid']}` | +{upgrade['value']} "
+            f"| {upgrade['food']} | {upgrade['gold']} | {cumulative} |"
+        )
+    write_md(TREE_ROOT / "03_buildings" / "mines.md", out)
+
+
+def _write_walls_page(by_suffix_common: dict[str, list[dict]]) -> None:
+    out = [
+        "# Стены, ворота и частокол\n",
+        "[← Все здания](README.md)\n",
+        "Здесь собраны каменные и деревянные оборонительные сооружения.\n",
+    ]
+    labels = {
+        "swa": "Каменная стена",
+        "sga": "Каменные ворота",
+        "wga": "Деревянные ворота",
+        "wwa": "Частокол",
+    }
+    for suffix in ("swa", "sga", "wga", "wwa"):
+        out.append(f"## {labels[suffix]}\n")
+        out.extend(_common_building_rows(by_suffix_common[suffix]))
+        out.append("")
+    if out[-1] == "":
+        out.pop()
+    write_md(TREE_ROOT / "03_buildings" / "walls_and_gates.md", out)
+
 
 def write_buildings(data: dict) -> None:
-    out = []
-    A = out.append
     sid_labels = canonical_sid_labels(data)
-    A("# Здания\n")
-    A("[← Краткий справочник](../README.md)\n")
-    A("Часть зданий имеет отдельный вариант для каждой нации, а внешний вид "
-      "остальных зависит от архитектурной группы. Каноническое название всегда "
-      "показано первым; внутренний код рядом нужен только для точной сверки.\n")
-    A("Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = "
-      "базовая цена с учётом накопительного роста. Готовые таблицы для первых "
-      "шести экземпляров находятся в разделе "
-      "[«Цена следующих зданий»](../../reports/economy/scaling_prices.md).\n")
-    out.extend(render_template("reference/03_buildings/legend.md"))
-    A("")
-    out.extend(render_template("reference/03_buildings/lifecycle.md"))
-    A("")
-    out.extend(render_template("reference/03_buildings/era_progression.md"))
-    A("")
-    # TOC
-    A("## Содержание\n")
-    by_suffix_pn = defaultdict(list)
+    by_suffix_pn: dict[str, list[dict]] = defaultdict(list)
     for b in data["buildings"]:
         if b["kind"] != "per-nation":
             continue
         suf = b["sid"][len(b["nation"]):]
         by_suffix_pn[suf].append(b)
-    by_suffix_c = defaultdict(list)
+    by_suffix_c: dict[str, list[dict]] = defaultdict(list)
     for b in data["buildings"]:
         if b["kind"] != "common":
             continue
         suf = b["sid"][3:]
         by_suffix_c[suf].append(b)
-    A("**[Постройки по нациям](#постройки-по-нациям)**")
-    for suf in ["cen", "hou", "bar", "ba2", "bla", "sta", "tem", "aca", "art", "dip"]:
-        if by_suffix_pn.get(suf):
-            label = f"{PER_NAT_NAMES.get(suf, suf)} (`{suf}`)"
-            anchor = heading_anchor(label)
-            A(f"  - [{label}](#{anchor})")
-    A("**[Общие постройки (по архитектурным группам)](#общие-постройки-по-архитектурным-группам)**")
-    for suf in ["mil", "sto", "mar", "por", "tow", "gol", "iro", "coa", "swa", "sga", "wga", "wwa"]:
-        if by_suffix_c.get(suf):
-            label = f"{COMMON_NAMES.get(suf, suf)} (`{suf}`)"
-            anchor = heading_anchor(label)
-            A(f"  - [{label}](#{anchor})")
-    mines_label = "Улучшения шахт"
-    A(f"**[{mines_label}](#{heading_anchor(mines_label)})**")
-    A("")
-    A("## Постройки по нациям\n")
-    A("Сводка: для каждого типа зданий — параметры по всем нациям (где они есть). "
-      "**Жирным** — отклонения от базового значения (мода по столбцу).\n")
-    for suf in ["cen", "hou", "bar", "ba2", "bla", "sta", "tem", "aca", "art", "dip"]:
-        rows = sorted(by_suffix_pn.get(suf, []), key=lambda x: x["nation"])
-        if not rows:
-            continue
-        A(f"### {PER_NAT_NAMES.get(suf, suf)} (`{suf}`)\n")
-        baseline_cols = ["hp", "buildtime_sec", "costpercent",
-                          "food", "wood", "stone", "gold", "iron", "coal", "farm"]
-        baselines = compute_baselines(rows, baseline_cols)
-        A("| Здание | Нация | Здоровье | Время строительства, игр. с | Рост цены, % | Еда | Дерево | Камень | Золото | Железо | Уголь | Места населения | Производит |")
-        A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
-        for b in rows:
-            produces = b.get("produces") or []
-            prod_str = ", ".join(
-                canonical_sid_text(sid, sid_labels, show_sid=False)
-                for sid in produces[:5]
-            ) + (f" (+{len(produces)-5})" if len(produces) > 5 else "")
-            A(f"| {name_cell_short(b)} | {nation_ru(b['nation'])} "
-              f"| {bold_if(b['hp'], baselines['hp'])} "
-              f"| {bold_if(b['buildtime_sec'], baselines['buildtime_sec'])} "
-              f"| {bold_if(b['costpercent'], baselines['costpercent'])} "
-              f"| {bold_if(b['food'], baselines['food'])} "
-              f"| {bold_if(b['wood'], baselines['wood'])} "
-              f"| {bold_if(b['stone'], baselines['stone'])} "
-              f"| {bold_if(b['gold'], baselines['gold'])} "
-              f"| {bold_if(b['iron'], baselines['iron'])} "
-              f"| {bold_if(b['coal'], baselines['coal'])} "
-              f"| {bold_if(b['farm'], baselines['farm'])} "
-              f"| {prod_str or '—'} |")
-        A("")
-    A("## Общие постройки (по архитектурным группам)\n")
-    for suf in ["mil", "sto", "mar", "por", "tow", "gol", "iro", "coa", "swa", "sga", "wga", "wwa"]:
-        rows = by_suffix_c.get(suf, [])
-        if not rows:
-            continue
-        by_sid = defaultdict(list)
-        for b in rows:
-            by_sid[b["sid"]].append(b)
-        A(f"### {COMMON_NAMES.get(suf, suf)} (`{suf}`)\n")
-        A("| Здание | Нации | Здоровье | Время строительства, игр. с | Рост цены, % | Еда | Дерево | Камень | Золото | Железо | Уголь | Особенности |")
-        A("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
-        for sid in sorted(by_sid.keys()):
-            entries = by_sid[sid]
-            nats = nations_ru([b["nation"] for b in entries])
-            b = entries[0]
-            extra = []
-            if b["weapon_damage"]:
-                extra.append(f"урон {b['weapon_damage']}")
-                if b["weapon_radiusmax"]:
-                    extra.append(f"дальн. {round(b['weapon_radiusmax']/53.3333, 1)}t")
-            if b["consume"]:
-                extra.append(f"содержание: {resource_values_ru(b['consume'])}")
-            if b["produce"]:
-                extra.append(f"добывает: {resource_values_ru(b['produce'])}")
-            if b["peasantabsorber"]:
-                extra.append(f"крестьян {b['peasantabsorber']}")
-            extra_str = "; ".join(extra) if extra else "—"
-            A(f"| {name_cell_short(b)} | {nats} | {fmt(b['hp'])} | {fmt(b['buildtime_sec'])} "
-              f"| {fmt(b['costpercent'])} | {fmt(b['food'])} | {fmt(b['wood'])} "
-              f"| {fmt(b['stone'])} | {fmt(b['gold'])} | {fmt(b['iron'])} "
-              f"| {fmt(b['coal'])} | {extra_str} |")
-        A("")
-        if suf == "tow":
-            out.extend(render_template("reference/03_buildings/tow_combat.md"))
-    A("## Улучшения шахт\n")
-    A("Каждая шахта вмещает пять рабочих. Шесть улучшений накопительно доводят предел до "
-      "**95 крестьян** на шахту.\n")
+
+    out = [
+        "# Здания\n",
+        "[← Краткий справочник](../README.md)\n",
+        "Часть зданий имеет отдельный вариант для каждой нации, а внешний вид "
+        "остальных зависит от архитектурной группы. Каноническое название всегда "
+        "показано первым; внутренний код рядом нужен только для точной сверки.\n",
+        "Цены ниже — для **первого** экземпляра. Цена N-го здания того же типа = "
+        "базовая цена с учётом накопительного роста. Готовые таблицы для первых "
+        "шести экземпляров находятся в разделе "
+        "[«Цена следующих зданий»](../../reports/economy/scaling_prices.md).\n",
+    ]
+    out.extend(render_template("reference/03_buildings/navigation.md"))
+    out.append("")
+    out.extend(render_template("reference/03_buildings/legend.md"))
+    out.append("")
+    out.extend(render_template("reference/03_buildings/lifecycle.md"))
+    out.append("")
+    out.extend(render_template("reference/03_buildings/era_progression.md"))
+    write_md(TREE_ROOT / "03_buildings" / "README.md", out)
+
+    for suffix, filename in BUILDING_PAGE_NAMES.items():
+        if suffix in by_suffix_pn:
+            _write_per_nation_building_page(
+                suffix,
+                sorted(by_suffix_pn[suffix], key=lambda row: row["nation"]),
+                sid_labels,
+            )
+        elif suffix in by_suffix_c:
+            _write_common_building_page(suffix, by_suffix_c[suffix])
+
     mine_ups = sorted([u for u in data["upgrades"]
                        if u["sid"].startswith("eurgol.") and u["nation"] == "aus"],
-                       key=lambda x: x["sid"])
-    A("| Уровень | +работников | Еда | Золото | Накопительно |")
-    A("|---|---:|---:|---:|---:|")
-    cum = 5
-    for u in mine_ups:
-        cum += u.get("value") or 0
-        A(f"| `{u['sid']}` | +{u['value']} | {u['food']} | {u['gold']} | {cum} |")
-    write_md(TREE_ROOT / "03_buildings" / "README.md", out)
+                      key=lambda x: x["sid"])
+    _write_mines_page(by_suffix_c, mine_ups)
+    _write_walls_page(by_suffix_c)
 
 
 # ---------- 04_units.md ----------
@@ -1260,142 +1377,319 @@ def write_units(data: dict) -> None:
 
 # ---------- 05_upgrades.md ----------
 
-def write_upgrades(data: dict) -> None:
-    out = []
-    A = out.append
-    A("# Улучшения\n")
-    A("[← Краткий справочник](../README.md)\n")
-    A("Улучшения сгруппированы по зданию, в котором их исследуют: Академия, "
-      "Кузница, Мельница, Конюшня, Казарма, шахта, Башня, стена и Порт. "
-      "Каноническое название показано первым, внутренний код — после него.\n")
-    out.extend(render_template("reference/05_upgrades/legend.md"))
-    A("")
-    # TOC will be inserted here after we know which places have content; we build it below
+UPGRADE_PLACES = {
+    "aca": "Академия",
+    "bla": "Кузница",
+    "bar": "Казарма XVII века",
+    "ba2": "Казарма XVIII века",
+    "sta": "Конюшня",
+    "mil": "Мельница",
+    "art": "Артиллерийское депо",
+    "cen": "Городской центр",
+    "tow": "Башня",
+    "swa": "Каменная стена",
+    "wwa": "Частокол",
+    "por": "Порт",
+    "ferry": "Транспорт",
+}
+MINE_PLACES = {"eurgol", "eurcoa", "euriro"}
+UPGRADE_PREFIXES = set(PLAYABLE_NATIONS) | {"eur", "rus", "tur", "ukr", "spa", "por"}
+UPGRADE_TABLE_HEADER = [
+    "| Улучшение | Нации | Эффект | Значение | Изменение цены | Еда | Дерево | Камень | Золото | Железо | Уголь | Время, игр. с |",
+    "|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|",
+]
 
-    PLACE_NAMES = {
-        # per-nation places (`<nat><place>.<...>`)
-        "aca": "Академия (исследования)",
-        "bla": "Кузница (по юнитам — урон и защита)",
-        "bar": "Казарма 17 в. (по юнитам)",
-        "ba2": "Казарма 18 в. (по юнитам)",
-        "sta": "Конюшня (по юнитам — кавалерия)",
-        "mil": "Мельница (эффективность еды)",
-        "art": "Артиллерийское депо (апгрейды пушек)",
-        "tem": "Собор (апгрейды священников)",
-        "cen": "Городской центр (переход эпохи)",
-        "dip": "Дипломатический центр",
-        # common-building places (`<cluster><place>.<...>`)
-        "tow": "Башня (скорость перезарядки)",
-        "swa": "Каменная стена (постройка ворот)",
-        "wwa": "Палисад (постройка ворот)",
-        "por": "Порт (лечение)",
-        # bare-name common buildings (no cluster prefix)
-        "ferry": "Транспорт (вместимость)",
-    }
-    MINE_PLACES = {"eurgol", "eurcoa", "euriro"}
-    # Cluster prefixes that appear before common-building suffixes (config.building_cluster).
-    CLUSTER_PREFIXES = {"eur", "rus", "tur", "ukr", "spa", "por"}
-    STRIP_PREFIXES = set(PLAYABLE_NATIONS) | CLUSTER_PREFIXES
 
-    # Group by place. Try `<3-letter-prefix><place>.<...>` first (prefix ∈ playable
-    # nation or cluster), fall back to bare `<place>.<...>` (e.g. `ferry.1`).
-    # Note: `ba2` contains a digit, so we match literal place suffixes instead of `[a-z]+`.
-    def _classify(sid: str) -> str | None:
-        if sid in MINE_PLACES or any(sid.startswith(p + ".") for p in MINE_PLACES):
-            return "mines"
-        if len(sid) >= 3 and sid[:3] in STRIP_PREFIXES:
-            for place in PLACE_NAMES:
-                if sid[3:].startswith(place + ".") or sid[3:] == place:
-                    return place
-        for place in PLACE_NAMES:
-            if sid.startswith(place + ".") or sid == place:
-                return place
+def _upgrade_place(sid: str) -> str | None:
+    if sid in MINE_PLACES or any(sid.startswith(place + ".") for place in MINE_PLACES):
+        return "mines"
+    body = sid[3:] if len(sid) >= 3 and sid[:3] in UPGRADE_PREFIXES else sid
+    for place in UPGRADE_PLACES:
+        if body == place or body.startswith(place + "."):
+            return place
+    return None
+
+
+def _upgrade_member(sid: str, place: str) -> str | None:
+    body = sid[3:] if len(sid) >= 3 and sid[:3] in UPGRADE_PREFIXES else sid
+    prefix = place + "."
+    if not body.startswith(prefix):
         return None
+    parts = body[len(prefix):].split(".")
+    return parts[0] if parts else None
 
+
+def _upgrade_table_rows(upgrades: list[dict], place: str) -> list[str]:
+    by_stripped: dict[str, list[dict]] = defaultdict(list)
+    for upgrade in upgrades:
+        stripped = upgrade["sid"]
+        for prefix in UPGRADE_PREFIXES:
+            if stripped.startswith(prefix) and stripped[len(prefix):].startswith(place):
+                stripped = stripped[len(prefix):]
+                break
+        by_stripped[stripped].append(upgrade)
+
+    rows = list(UPGRADE_TABLE_HEADER)
+    for stripped in sorted(by_stripped):
+        signatures: dict[tuple, list[dict]] = defaultdict(list)
+        for upgrade in by_stripped[stripped]:
+            percentages = upgrade.get("resource_pcts") or {}
+            key = (
+                upgrade.get("value"),
+                upgrade["food"],
+                upgrade["wood"],
+                upgrade["stone"],
+                upgrade["gold"],
+                upgrade["iron"],
+                upgrade["coal"],
+                tuple(sorted(percentages.items())),
+            )
+            signatures[key].append(upgrade)
+        for _key, group in sorted(signatures.items(), key=lambda item: -len(item[1])):
+            first = group[0]
+            percentages = first.get("resource_pcts") or {}
+            percentage_text = (
+                " / ".join(
+                    f"{RESOURCE_NAMES_RU.get(resource, resource)} {value:+d}%"
+                    for resource, value in sorted(percentages.items())
+                )
+                if percentages else "—"
+            )
+            effect_ru, _ = decode_upg_type(first.get("itype"), lang="ru")
+            rows.append(
+                f"| {upgrade_name_cell(first)} "
+                f"| {nations_ru([item['nation'] for item in group])} "
+                f"| {effect_ru or '—'} | {upgrade_value_ru(first)} "
+                f"| {percentage_text} "
+                f"| {fmt(first['food'])} | {fmt(first['wood'])} "
+                f"| {fmt(first['stone'])} | {fmt(first['gold'])} "
+                f"| {fmt(first['iron'])} | {fmt(first['coal'])} "
+                f"| {fmt(first['time_sec'])} |"
+            )
+    return rows
+
+
+def _write_upgrade_page(
+    filename: str,
+    title: str,
+    intro: str,
+    upgrades: list[dict],
+    place: str,
+    *,
+    back_label: str = "Все улучшения",
+    back_href: str = "README.md",
+) -> None:
+    write_md(
+        TREE_ROOT / "05_upgrades" / filename,
+        [
+            f"# {title}\n",
+            f"[← {back_label}]({back_href})\n",
+            f"{intro}\n",
+            *_upgrade_table_rows(upgrades, place),
+        ],
+    )
+
+
+def _write_upgrade_index_pages() -> None:
+    pages = {
+        "barracks_17.md": [
+            '<a id="казарма-17-в-по-юнитам-bar"></a>',
+            "# Улучшения Казармы XVII века\n",
+            "[← Все улучшения](README.md)\n",
+            "Улучшения пехоты XVII века разделены по роли войск.\n",
+            "| Раздел | Войска |",
+            "|---|---|",
+            "| [Стрелки](barracks_17_ranged.md) | Лучники, мушкетёры, гайдуки, стрельцы, сердюки, янычары и лёгкая пехота |",
+            "| [Рукопашная пехота](barracks_17_melee.md) | Пикинеры, копейщики, коселеты и рундаширы |",
+            "| [Офицеры, барабанщики и волынщики](barracks_17_command.md) | Офицеры, командиры, барабанщики и волынщики |",
+        ],
+        "barracks_18.md": [
+            '<a id="казарма-18-в-по-юнитам-ba2"></a>',
+            "# Улучшения Казармы XVIII века\n",
+            "[← Все улучшения](README.md)\n",
+            "Улучшения пехоты XVIII века разделены по роли войск.\n",
+            "| Раздел | Войска |",
+            "|---|---|",
+            "| [Линейная пехота](barracks_18_line.md) | Гренадеры, мушкетёры и пикинеры XVIII века |",
+            "| [Стрелки и национальная пехота](barracks_18_specialists.md) | Егери, пандуры, добровольцы, секеи и шотландская пехота |",
+            "| [Офицеры, барабанщики и волынщики](barracks_18_command.md) | Офицеры, барабанщики и волынщики XVIII века |",
+        ],
+        "stable.md": [
+            '<a id="конюшня-по-юнитам--кавалерия-sta"></a>',
+            "# Улучшения Конюшни\n",
+            "[← Все улучшения](README.md)\n",
+            "Улучшения урона и защиты кавалерии разделены по типам войск.\n",
+            "| Раздел | Войска |",
+            "|---|---|",
+            "| [Драгуны и конные стрелки](stable_dragoons.md) | Драгуны XVII и XVIII веков, Посполитое рушение и Королевский мушкетёр |",
+            "| [Тяжёлая кавалерия](stable_heavy_cavalry.md) | Кирасиры, рейтары, витязи, крылатые гусары и гвардейская кавалерия |",
+            "| [Гусары и лёгкая кавалерия](stable_light_cavalry.md) | Гусары, кроаты, гаккапелиты, конные егери, лансеры и рейдеры |",
+            "| [Казаки и восточная конница](stable_cossacks.md) | Донские, реестровые и сечевые казаки, гетьман и татарин |",
+            "| [Османская конница](stable_ottoman_cavalry.md) | Лёгкий сипах, тяжёлый сипах и мамлюк |",
+        ],
+    }
+    for filename, lines in pages.items():
+        write_md(TREE_ROOT / "05_upgrades" / filename, lines)
+
+
+def write_upgrades(data: dict) -> None:
     by_place: dict[str, list[dict]] = defaultdict(list)
-    for u in data["upgrades"]:
-        place = _classify(u["sid"])
-        by_place[place if place else "_other"].append(u)
+    for upgrade in data["upgrades"]:
+        place = _upgrade_place(upgrade["sid"])
+        if place:
+            by_place[place].append(upgrade)
 
-    # Build TOC of places that have content
-    PLACE_ORDER = ["mines", "aca", "mil", "bla", "sta", "bar", "ba2", "art", "tem",
-                   "cen", "dip", "tow", "swa", "wwa", "por", "ferry"]
-    A("## Содержание\n")
-    A("- [Как складываются улучшения]"
-      f"(#{heading_anchor('Как складываются улучшения')})")
-    for place in PLACE_ORDER:
-        if not by_place.get(place):
-            continue
-        if place == "mines":
-            label = "Улучшения шахт"
-        else:
-            label = f"{PLACE_NAMES.get(place, place)} (`{place}`)"
-        anchor = heading_anchor(label)
-        A(f"- [{label}](#{anchor})")
-    A("")
+    overview = [
+        "# Улучшения\n",
+        "[← Краткий справочник](../README.md)\n",
+        "Улучшения сгруппированы по зданию, в котором их исследуют. "
+        "Каноническое название показано первым, внутренний код — после него.\n",
+    ]
+    overview.extend(render_template("reference/05_upgrades/navigation.md"))
+    overview.append("")
+    overview.extend(render_template("reference/05_upgrades/legend.md"))
+    overview.append("")
+    overview.extend(render_template("reference/05_upgrades/order_math.md"))
+    write_md(TREE_ROOT / "05_upgrades" / "README.md", overview)
 
-    out.extend(render_template("reference/05_upgrades/order_math.md"))
-    A("")
+    simple_pages = {
+        "aca": ("academy.md", "Улучшения Академии"),
+        "mil": ("mill.md", "Улучшения Мельницы"),
+        "bla": ("blacksmith.md", "Улучшения Кузницы"),
+        "art": ("artillery_depot.md", "Улучшения Артиллерийского депо"),
+        "cen": ("town_hall.md", "Переход в XVIII век"),
+        "tow": ("tower.md", "Улучшения Башни"),
+    }
+    for place, (filename, title) in simple_pages.items():
+        _write_upgrade_page(
+            filename,
+            title,
+            "В таблице приведены канонические названия, эффект, цена и время исследования.",
+            by_place[place],
+            place,
+        )
 
-    A("## Улучшения шахт\n")
-    A("Одинаковы для всех наций: по шесть уровней для золотых, железных и угольных шахт.\n")
-    mine_ups = [u for u in by_place.get("mines", []) if u["nation"] == "aus"]
-    mine_ups.sort(key=lambda x: x["sid"])
-    A("| Улучшение | Уровень | Доп. рабочих | Еда | Золото |")
-    A("|---|---:|---:|---:|---:|")
-    for u in mine_ups:
-        A(f"| {upgrade_name_cell(u)} | {fmt(u['level'])} | +{u['value']} | {u['food']} | {u['gold']} |")
-    A("")
+    mine_upgrades = sorted(
+        (upgrade for upgrade in by_place["mines"] if upgrade["nation"] == "aus"),
+        key=lambda upgrade: upgrade["sid"],
+    )
+    mine_lines = [
+        "# Улучшения шахт\n",
+        "[← Все улучшения](README.md)\n",
+        "Одинаковы для всех наций: по шесть уровней для золотых, железных и угольных шахт.\n",
+        "| Улучшение | Уровень | Доп. рабочих | Еда | Золото |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for upgrade in mine_upgrades:
+        mine_lines.append(
+            f"| {upgrade_name_cell(upgrade)} | {fmt(upgrade['level'])} "
+            f"| +{upgrade['value']} | {upgrade['food']} | {upgrade['gold']} |"
+        )
+    write_md(TREE_ROOT / "05_upgrades" / "mines.md", mine_lines)
 
-    for place in [p for p in PLACE_ORDER if p != "mines"]:
-        ups = by_place.get(place, [])
-        if not ups:
-            continue
-        # Dedupe by stripped-sid (cross-nation/cross-cluster)
-        by_stripped: dict[str, list[dict]] = defaultdict(list)
-        for u in ups:
-            # Strip nation OR cluster prefix
-            stripped = u["sid"]
-            for pref in STRIP_PREFIXES:
-                if stripped.startswith(pref) and stripped[len(pref):].startswith(place):
-                    stripped = stripped[len(pref):]
-                    break
-            by_stripped[stripped].append(u)
-        A(f"## {PLACE_NAMES.get(place, place)} (`{place}`)\n")
-        A("| Улучшение | Нации | Эффект | Значение | Изменение цены | Еда | Дерево | Камень | Золото | Железо | Уголь | Время, игр. с |")
-        A("|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|")
-        for stripped in sorted(by_stripped.keys()):
-            entries = by_stripped[stripped]
-            sig: dict[tuple, list[dict]] = defaultdict(list)
-            for e in entries:
-                # Include resource_pcts in the dedup key so per-nation differences in
-                # priceperc % don't collapse incorrectly into one row.
-                pcts = e.get("resource_pcts") or {}
-                pcts_key = tuple(sorted(pcts.items()))
-                key = (e.get("value"), e["food"], e["wood"], e["stone"],
-                        e["gold"], e["iron"], e["coal"], pcts_key)
-                sig[key].append(e)
-            for key, group in sorted(sig.items(), key=lambda kv: -len(kv[1])):
-                first = group[0]
-                nat_count = len(group)
-                nat_str = nations_ru([g["nation"] for g in group])
-                pcts = first.get("resource_pcts") or {}
-                if pcts:
-                    pcts_str = " / ".join(
-                        f"{RESOURCE_NAMES_RU.get(k, k)} {v:+d}%"
-                        for k, v in sorted(pcts.items())
-                    )
-                else:
-                    pcts_str = "—"
-                effect_ru, _ = decode_upg_type(first.get("itype"), lang="ru")
-                A(f"| {upgrade_name_cell(first)} | {nat_str} "
-                  f"| {effect_ru or '—'} | {upgrade_value_ru(first)} "
-                  f"| {pcts_str} "
-                  f"| {fmt(first['food'])} | {fmt(first['wood'])} | {fmt(first['stone'])} "
-                  f"| {fmt(first['gold'])} | {fmt(first['iron'])} | {fmt(first['coal'])} "
-                  f"| {fmt(first['time_sec'])} |")
-        A("")
-    write_md(TREE_ROOT / "05_upgrades" / "README.md", out)
+    combined_pages = [
+        (
+            "walls_and_gates.md",
+            [
+                "# Улучшения стен и частокола\n",
+                "[← Все улучшения](README.md)\n",
+                "Эти исследования превращают выбранный участок стены или частокола в ворота.\n",
+                "## Каменная стена\n",
+                *_upgrade_table_rows(by_place["swa"], "swa"),
+                "",
+                "## Частокол\n",
+                *_upgrade_table_rows(by_place["wwa"], "wwa"),
+            ],
+        ),
+        (
+            "shipyard.md",
+            [
+                "# Улучшения Порта и транспорта\n",
+                "[← Все улучшения](README.md)\n",
+                "Порт восстанавливает корабли, а отдельное улучшение увеличивает вместимость транспорта.\n",
+                "## Лечение в Порту\n",
+                *_upgrade_table_rows(by_place["por"], "por"),
+                "",
+                "## Вместимость транспорта\n",
+                *_upgrade_table_rows(by_place["ferry"], "ferry"),
+            ],
+        ),
+    ]
+    for filename, lines in combined_pages:
+        write_md(TREE_ROOT / "05_upgrades" / filename, lines)
+
+    _write_upgrade_index_pages()
+    categories = [
+        ("bar", "barracks_17_ranged.md", "Стрелки XVII века",
+         "Улучшения Казармы XVII века", "barracks_17.md",
+         "Улучшения лучников, мушкетёров, гайдуков, стрельцов, сердюков, янычар и лёгкой пехоты.",
+         {"archer", "archertur", "gauduk", "jannisary", "lightinfantry", "musketeer",
+          "musketeeraus", "musketeernet", "musketeerpol", "musketeersco",
+          "musketeerspa", "serdiuk", "strelet"}),
+        ("bar", "barracks_17_melee.md", "Рукопашная пехота XVII века",
+         "Улучшения Казармы XVII века", "barracks_17.md",
+         "Улучшения пикинеров, копейщиков, коселетов и рундаширов.",
+         {"pikeman", "pikemanpol", "pikemanpor", "pikemanrus", "pikemansco",
+          "pikemanspa", "pikemanswi", "pikemantur", "roundshier"}),
+        ("bar", "barracks_17_command.md", "Офицеры, барабанщики и волынщики XVII века",
+         "Улучшения Казармы XVII века", "barracks_17.md",
+         "Улучшения офицеров, командиров, барабанщиков и волынщиков.",
+         {"bagpiper", "drummer", "drummerrus", "drummertur", "officer",
+          "officerrus", "officersco", "officertur"}),
+        ("ba2", "barracks_18_line.md", "Линейная пехота XVIII века",
+         "Улучшения Казармы XVIII века", "barracks_18.md",
+         "Улучшения гренадеров, мушкетёров и пикинеров XVIII века.",
+         {"grenadier", "grenadierbav", "grenadierden", "grenadierhun",
+          "grenadierpru", "grenadiersax", "musketeer18", "musketeer18bav",
+          "musketeer18den", "musketeer18pru", "musketeer18sax", "pikeman18",
+          "pikeman18swe"}),
+        ("ba2", "barracks_18_specialists.md", "Стрелки и национальная пехота XVIII века",
+         "Улучшения Казармы XVIII века", "barracks_18.md",
+         "Улучшения егерей, пандуров, добровольцев, секеев и шотландской пехоты.",
+         {"archersco", "chasseur", "highlander", "jagerpor", "jagerswi",
+          "pandur", "pandurhun", "swordsmansco"}),
+        ("ba2", "barracks_18_command.md", "Офицеры, барабанщики и волынщики XVIII века",
+         "Улучшения Казармы XVIII века", "barracks_18.md",
+         "Улучшения офицеров, барабанщиков и волынщиков XVIII века.",
+         {"bagpiper", "drummer18", "officer18"}),
+        ("sta", "stable_dragoons.md", "Драгуны и конные стрелки",
+         "Улучшения Конюшни", "stable.md",
+         "Улучшения драгунов XVII и XVIII веков, Посполитого рушения и Королевского мушкетёра.",
+         {"dragoon", "dragoon18", "dragoon18fra", "dragoon18net", "dragoon18pie",
+          "dragoonpol", "kingmusketeer"}),
+        ("sta", "stable_heavy_cavalry.md", "Тяжёлая кавалерия",
+         "Улучшения Конюшни", "stable.md",
+         "Улучшения кирасир, рейтар, витязей, крылатых гусар и гвардейской кавалерии.",
+         {"cuirassier", "guardcavalrysax", "reiter", "reiterpol", "reiterswe",
+          "vityaz", "wingedhussar"}),
+        ("sta", "stable_light_cavalry.md", "Гусары и лёгкая кавалерия",
+         "Улучшения Конюшни", "stable.md",
+         "Улучшения гусар, кроатов, гаккапелитов, конных егерей, лансеров, рейдеров и лёгкой кавалерии.",
+         {"croat", "hackapell", "hussar", "hussarhun", "hussarpru", "hussarswi",
+          "lancersco", "lightcavalry", "raidersco"}),
+        ("sta", "stable_cossacks.md", "Казаки и восточная конница",
+         "Улучшения Конюшни", "stable.md",
+         "Улучшения донских, реестровых и сечевых казаков, гетьмана и татарина.",
+         {"cossackdon", "cossackregister", "cossacksich", "hetman", "tatar"}),
+        ("sta", "stable_ottoman_cavalry.md", "Османская конница",
+         "Улучшения Конюшни", "stable.md",
+         "Улучшения лёгких и тяжёлых сипахов, а также мамлюков.",
+         {"mameluke", "sipahi", "spakh"}),
+    ]
+    for place, filename, title, back_label, back_href, intro, members in categories:
+        selected = [
+            upgrade for upgrade in by_place[place]
+            if _upgrade_member(upgrade["sid"], place) in members
+        ]
+        _write_upgrade_page(
+            filename,
+            title,
+            intro,
+            selected,
+            place,
+            back_label=back_label,
+            back_href=back_href,
+        )
 
 
 # ---------- 06_market.md ----------
@@ -2030,7 +2324,7 @@ def write_compare(data: dict) -> None:
                         "Офицер командует отрядом и нанимается в казармах. "
                         "Национальные варианты заметно различаются стоимостью, временем найма и уроном.")
     write_unit_compare("drummers.md", ["Drummer / Bagpiper"], "Барабанщики и волынщик",
-                        "Музыкант — второй обязательный участник отряда после офицера. Он не атакует. "
+                        "Барабанщик или волынщик — второй обязательный участник отряда после офицера. Он не атакует. "
                         "Российский и турецкий варианты заметно отличаются здоровьем и стоимостью.")
 
     # Priests need a heal-specific table (different columns than the generic
@@ -2204,9 +2498,9 @@ def write_compare(data: dict) -> None:
               f"| {prod_str or '—'} |")
         write_md(cmp_buildings / filename, out)
 
-    write_building_compare("town_halls.md", "cen", "Ратуши",
-                            "Главные здания всех 21 нации. Австрийская строится за 4.69 секунды "
-                            "(исключение). Украинская даёт 200 мест населения, Российская — 75.")
+    write_building_compare("town_halls.md", "cen", "Городские центры",
+                            "Главные здания всех 21 нации. Австрийский городской центр строится за 46,88 игровой секунды "
+                            "(исключение). Украинский даёт 200 мест населения, российский — 75.")
 
     # Barracks needs two sections (17c + 18c) — special-case
     out = []

@@ -3,14 +3,14 @@
   "note": "Normalized-LF SHA-256 of each Russian source and its committed English mirror.",
   "sources": {
     "CONTRIBUTING.md": {
-      "source_sha256": "b0082c48bbfc35cc199246931a93e53ecb9d403e662be0772804219ea492c2bc",
+      "source_sha256": "2d103d6fc656cc12abaac5ccd67f053e556719e7c82dd25bf6616c3ea8e0a663",
       "target": "CONTRIBUTING.en.md",
-      "target_sha256": "1e706ba225d2e018e39ea17f9a290b8ea82a30f4afbe0a01b20c74df6381f8eb"
+      "target_sha256": "b911c0930cb2be9f7a60c85e659731b0544fe98862d72ce3f923e7d7294a5505"
     },
     "README.md": {
-      "source_sha256": "eb22825bf8ea51fdb964fbb7ab7bd0864461c511a15853c10460dfd39fe58f3d",
+      "source_sha256": "6185fdec1b797f742cbc1c5f16d1191681a2cc34403de5d72d704e1fe2f30842",
       "target": "README.en.md",
-      "target_sha256": "d3d31c29d49fa9d31adc09b6e30c048d9910af8ceb72779d6f7a07fc910b8471"
+      "target_sha256": "f6c69378751956bdd8aa9e72b992bdeed5af11f9ac05bcd6e311d6f041a2a323"
     },
     "derived/README.md": {
       "source_sha256": "92eb588f7b035b68347911e8ccf832a8ef6f9b0235f8a0fda4e93174b290248b",
@@ -158,7 +158,7 @@
       "target_sha256": "786ffc83f0c73edddc502e0fb282c87b54622ad352de4f358523abba3fcc8cd0"
     },
     "docs/reference/03_buildings/README.md": {
-      "source_sha256": "a5aa383b07fa59e7f9e93d8f3bf75440d5725e15f7c09dbec3df726c5b7eb218",
+      "source_sha256": "615804ec1fa41402230930605665064169e477e769d1435328befc9afdc95802",
       "target": "docs_en/reference/03_buildings/README.md",
       "target_sha256": "4e7a8c00794fa95d692318ea4c6cb1cfc4d12f8059405b8068cc3d0addcf02a6"
     },
@@ -218,7 +218,7 @@
       "target_sha256": "81a48ad7d7d3efcd06c8b8a15d0d33a5fe6201d79141c51a1d04d15666c00c7c"
     },
     "docs/reference/03_buildings/shipyard.md": {
-      "source_sha256": "ea9f6188398491ca51dd3c87becc9e3e59f67d7a18da1c7ead151076806cb772",
+      "source_sha256": "e968db76b7d29370e1d60e708b7d1ba1d2326e3510bcb1da18638c6ec22ab9ce",
       "target": "docs_en/reference/03_buildings/shipyard.md",
       "target_sha256": "f4c40feb8a0dee874dd6a86496d76c1f23eb0bca66f5251a525fb6094624f47f"
     },
@@ -233,9 +233,9 @@
       "target_sha256": "afabe9a5b3fff052b8ed0fd0673b8f35105aea98097ab0be48eeb1fff5e1db43"
     },
     "docs/reference/03_buildings/tower.md": {
-      "source_sha256": "8626f6e61164158a78e4868704754c1f41f15d6831418368871ad5b7afec5701",
+      "source_sha256": "ee7d44e6fa28c69999d83ad4a697681cf2dafcfe771ef49b528a8b66447dca82",
       "target": "docs_en/reference/03_buildings/tower.md",
-      "target_sha256": "3f36b141e3d03718bc8c6673813537267c5fdd4321715200c2107dac8aa5ef66"
+      "target_sha256": "f1a2d0edcde917317756d7d1b27e69ee81bdc0f6fc7ee887c3b69bae9ce5ca47"
     },
     "docs/reference/03_buildings/town_hall.md": {
       "source_sha256": "afc6c23d74581806e1309a1d43dca78feda46fa2f85a606b3999208421f6153a",
@@ -253,9 +253,9 @@
       "target_sha256": "02db07c918f94a232f709147669385b034e2c45af031f96c332d1f2130a9fb4f"
     },
     "docs/reference/05_upgrades/README.md": {
-      "source_sha256": "9ed99792fb87b665be7d55591e1aff51f4aef8f4daa7c63f2842132ab24754e4",
+      "source_sha256": "860fb799fe7c366774f9ed3cbeecec5084e0825336dbee0fccca38bea1c3bd4f",
       "target": "docs_en/reference/05_upgrades/README.md",
-      "target_sha256": "2844373691c015d62b338afe558cd84ed0784d01be5380e1553e106d1cfafc09"
+      "target_sha256": "32658455da78b99c86b8399124a2c3b5071e8ccabcd3afa299214dd8fd80d773"
     },
     "docs/reference/05_upgrades/academy.md": {
       "source_sha256": "917d8102546191dffa1738cb49219f280082347516cae66556b94d02dbec930b",
@@ -288,7 +288,7 @@
       "target_sha256": "7d07493a30d6215dd2b8d6f6444fb09c4a0566bf4e658f3732e4ab2376509d37"
     },
     "docs/reference/05_upgrades/barracks_18.md": {
-      "source_sha256": "3331749de9216a6976990fd3047ce8f7a0a7f5820fdd9ad0adb782cff8734691",
+      "source_sha256": "e2d017909de113458ecfc22d62a3bb36831575209e8335f8309ad09365be145f",
       "target": "docs_en/reference/05_upgrades/barracks_18.md",
       "target_sha256": "f078c7cb08e62921a50a4e77d9e051163ce5d2b944b9db560175a9919581eb4c"
     },
@@ -318,9 +318,9 @@
       "target_sha256": "7f21e3f3779208627f17d840b8d1e68b302e11d9033c6425def0887e1f2ebdd1"
     },
     "docs/reference/05_upgrades/mines.md": {
-      "source_sha256": "346d8869729caa0d17f735bd38e04a1c0e92ffee41f2befc63845a9d98fd493e",
+      "source_sha256": "a90877c5e37eca771100431651642162c4478fd23529f56f2bc0572b7603209e",
       "target": "docs_en/reference/05_upgrades/mines.md",
-      "target_sha256": "ffdde4d458d75868fd05b954dedcab04ca1abd26d3776e2cb026a83019045cd3"
+      "target_sha256": "eab5655e3218588c2d83445c1d6358d57addd97b735ae71af82315a7287ecea2"
     },
     "docs/reference/05_upgrades/shipyard.md": {
       "source_sha256": "7fea9b2d85afee406804f3526126cd9894679371ead210e35364c24e5df2e2b2",
@@ -328,9 +328,9 @@
       "target_sha256": "9ef7c0d54ba35d8e5254ad05bd9ad603b0f43071b74dfb4502f483966100edb9"
     },
     "docs/reference/05_upgrades/stable.md": {
-      "source_sha256": "0275368b638fa7f241e0a2c9d14236e28e75ac07c5a0d8916542b90a2d77d607",
+      "source_sha256": "8ed5895086d6c0709781202534bb304b5d1edd06fad85b3e265129069bc0cafd",
       "target": "docs_en/reference/05_upgrades/stable.md",
-      "target_sha256": "9497bb80404a2314332132692a26b8104d36b212cfd00463ad6632381d56f0ca"
+      "target_sha256": "94aa3a63882ef121575e43ba15ac5751e207496a336ee1e9fdbee71fb0b88cb8"
     },
     "docs/reference/05_upgrades/stable_cossacks.md": {
       "source_sha256": "2e90f2520662a554f8bb463d5c0d1ea446cace01f6045093c23f54397111ebb2",
@@ -373,12 +373,12 @@
       "target_sha256": "a819be142b202df691a90ea55f85c8f78046bae33e9a3ec484751a6c6357a54c"
     },
     "docs/reference/06_market/README.md": {
-      "source_sha256": "77309720ca221bd1ae032773f88b4912bc01908242a7591e0ecbafd08ec3cd0d",
+      "source_sha256": "59be80a141270da86a44e20192a4057a2ca4589d4a9336599025960c801dfeb1",
       "target": "docs_en/reference/06_market/README.md",
       "target_sha256": "f0ea60a308eb6dabec6dd3652d2ae7e028adca0e9ba16a093d7843bd66844613"
     },
     "docs/reference/07_naval/README.md": {
-      "source_sha256": "6dff8159ac67d4f5cf9a57baae5aeecb261ed51de92ae891725a80cafc5bdd5e",
+      "source_sha256": "3ea514e01146c7f05c9dc82e7a360bf1fde0dd6daa5003c810f6b7fe0dee4fa6",
       "target": "docs_en/reference/07_naval/README.md",
       "target_sha256": "41e364380f2c7c30f514986fdc7aab113477810aa38c71243c89a2026a05a35c"
     },
@@ -388,22 +388,22 @@
       "target_sha256": "c63039a49d9b053a6ce7f8927a33ec6f6a1e6868b343c71f1def30db40268431"
     },
     "docs/reference/compare/README.md": {
-      "source_sha256": "60dc5bc77702b5ca3d6b6bdfc38504903e0d8f1d387352118cf5fb62d392dcff",
+      "source_sha256": "4a77fbdf515a8ef7ec10bf4d70874096f915349b2d84246b71c25dd45648724f",
       "target": "docs_en/reference/compare/README.md",
       "target_sha256": "32da2b00bdd7b19bb86d0977fc200c5819c19b81147d65a670256795d690ca76"
     },
     "docs/reference/compare/buildings/README.md": {
-      "source_sha256": "fec073bc01f0de3cbf7b96c1fa3487589dea928d39483c4015e256a110eacdcc",
+      "source_sha256": "f46a2b6d8f8626f14d728a5ac32e4b51a0b634fc5cb295a8df3d53303ea3ece5",
       "target": "docs_en/reference/compare/buildings/README.md",
       "target_sha256": "75b5f0a9a20d94208e2d1c8c1b3c4586acab011c4737af0e84e066b82683c544"
     },
     "docs/reference/compare/buildings/academies.md": {
-      "source_sha256": "720760bbcc700e35f1aabfc2cdee540e08867cd681f66b0bf7c9e15c27ca728c",
+      "source_sha256": "d221fa9203d6d2fe5320dcc3014a819bad2a05edb8971849e25ba85a816bfffc",
       "target": "docs_en/reference/compare/buildings/academies.md",
       "target_sha256": "c6db74f559efadfa178a68625689cc507ee7fc98cb5978f53f7bdff70603f4a6"
     },
     "docs/reference/compare/buildings/artillery_depots.md": {
-      "source_sha256": "12ad4499805a8d5d55418c7d2dbfac00f50e0581bf50b2045c87fde206516874",
+      "source_sha256": "a8235e9b7a4f100a2432c677d61a1ee30300ce359019e9fc473f998704a298d5",
       "target": "docs_en/reference/compare/buildings/artillery_depots.md",
       "target_sha256": "1a8a868678953b000f4cee1bf89d133586e10354ad60d0a533cae0969ffc6a7f"
     },
@@ -413,77 +413,77 @@
       "target_sha256": "5e4fe7bb4717275eac43153dbc41bd07a7ef204101466c15e46145db4a837081"
     },
     "docs/reference/compare/buildings/blacksmiths.md": {
-      "source_sha256": "a05af84e1f0327af9af797d52955913bd477d1b18c67d97bfe3b6d47fa0c76fd",
+      "source_sha256": "f0f43bb9859e5671693eb3b24fe4ed7290cbc62734af149e2bc37c3d28d7ccd2",
       "target": "docs_en/reference/compare/buildings/blacksmiths.md",
       "target_sha256": "52a36f14f4a7b733b7ee4a22d330dab8ff92283092ad74156b177ff36d136ef9"
     },
     "docs/reference/compare/buildings/diplomatic_centers.md": {
-      "source_sha256": "1ccdcc642b91e8cdee181f9e34ff6b807096c141385b68ba2babc9d61dce7a7f",
+      "source_sha256": "efc6116016e628a035df0de37fab13807f1e5c181baf59487bada0f710605380",
       "target": "docs_en/reference/compare/buildings/diplomatic_centers.md",
       "target_sha256": "7244088fe3befa1efa8b4510115224a851e6685624b628e87d3e5b039afd08e8"
     },
     "docs/reference/compare/buildings/houses.md": {
-      "source_sha256": "318dfbaadf2e2ee9ba6b970c7f7681dbb03d3fe2be85cc5aa119d0628ecef556",
+      "source_sha256": "4668310ea934cf3b70cb01c957cb720f9191e8fffa8135372745dcf0e4c7b35f",
       "target": "docs_en/reference/compare/buildings/houses.md",
       "target_sha256": "460d1b894a99e4244aac5e52ed4bba4667ff46e474d49132a7f32d5de1d8c3d1"
     },
     "docs/reference/compare/buildings/markets.md": {
-      "source_sha256": "efcc1fa75930cd4d19a8c76cba186814cd90961081c93669e3ee54cae8f408c1",
+      "source_sha256": "4ef3107af611b6f232eff71ef0de4cffdd51f35b5da494695ea340291b5243af",
       "target": "docs_en/reference/compare/buildings/markets.md",
       "target_sha256": "67769507e0c6768efc7282947602d54966f9ea49fc1bd33f1fe1ac5d206618a4"
     },
     "docs/reference/compare/buildings/mills.md": {
-      "source_sha256": "4e2f610ffb6cdbfd66d6ad8b694147a25bb93e7605f43dc9a7d28025e281810c",
+      "source_sha256": "167cf561d33efb0e1d8ab45ace096b5944d85b79b2d04c164391d09414a8a197",
       "target": "docs_en/reference/compare/buildings/mills.md",
       "target_sha256": "1b67d1a0719f8a699ee0f8c1ec12a70f72a04e3fa73b27d25a9cdaa26359a9d7"
     },
     "docs/reference/compare/buildings/mines.md": {
-      "source_sha256": "4d7f3e560bc279db5859e89934fa7fc20de756b1c92088f6fe3685abaa3371dd",
+      "source_sha256": "af71c165abec1055c8e53620f3e83616b943d3fb98637dd4e05c54f0feee54f1",
       "target": "docs_en/reference/compare/buildings/mines.md",
       "target_sha256": "365197db3b6ba92bceb414d24a3a8af8151fefad999af3963202c6e61e5be499"
     },
     "docs/reference/compare/buildings/ports.md": {
-      "source_sha256": "4f9d31743a87e03c3c797ee912d1973672b0dbbaf6bcef723fa87ca3e10d14bc",
+      "source_sha256": "2f452b50c75ec809d17a5ee352a53890069f02c501898e1028bb5d3bfa3313f7",
       "target": "docs_en/reference/compare/buildings/ports.md",
       "target_sha256": "eefffcf40ed70bf4296f1a3afa86aef75a7d7a97ca75ccfaf793870dc3eacf32"
     },
     "docs/reference/compare/buildings/stables.md": {
-      "source_sha256": "ff683afb6a271fb443228a7b756898e8eed3ebb06583d1d7eb0ac485bfe3321a",
+      "source_sha256": "ac91bc026c90d6afc971e5280905c19a512ea8c88120de2e4fa4fd2f58cb8dbb",
       "target": "docs_en/reference/compare/buildings/stables.md",
       "target_sha256": "47ff13f26b28ad049b56d35368883b9ac5aecf8a6646a38737affea65967bccc"
     },
     "docs/reference/compare/buildings/storehouses.md": {
-      "source_sha256": "b6169b5164e374ff80506d4a09a384e25918882fc51d37c0343e5bcc5d7a2111",
+      "source_sha256": "611df3dc9cb251822b630372643f28e9008ed4cab14ce0046bf2c88f06323b64",
       "target": "docs_en/reference/compare/buildings/storehouses.md",
       "target_sha256": "5e92ac01e9815bc62bf9e17bd67c58621f9640a2048af8ef8a2d29c1ea9a4d52"
     },
     "docs/reference/compare/buildings/temples.md": {
-      "source_sha256": "19a62cd80c7bcc6d623d305818b976001a0af2583d80a6c75e749b981e4dc9a6",
+      "source_sha256": "a0b25e2fd34751ba7cf40792fbd5d4f56885c63f8958db4c05453ea5d19d78fa",
       "target": "docs_en/reference/compare/buildings/temples.md",
       "target_sha256": "7b10a1f6a122ee9f3c22532cfd66781311b0c7bf7b5d58c3efeae3cee9acbfc3"
     },
     "docs/reference/compare/buildings/towers.md": {
-      "source_sha256": "e4d6f5d43ea9628637760856b896853f6724dd888c4c53991fdae9c46747d4c2",
+      "source_sha256": "d8c67adccbbfe0d4404bc238005b5c1ecd41d0ec66a2d0799cad6a643b8180ba",
       "target": "docs_en/reference/compare/buildings/towers.md",
       "target_sha256": "dce3f226e03b7eae0e51f16e82fa50ce30af5156b54360edbe2eed56b41b201c"
     },
     "docs/reference/compare/buildings/town_halls.md": {
-      "source_sha256": "ced5bfe0aedaaf7c69616ed097d77f60325ee93839e4a2b12db788a43a0bfb71",
+      "source_sha256": "4fd7c4b3a06ab1a412b01e7297635992910caff53fbd45f9652ae17543534a97",
       "target": "docs_en/reference/compare/buildings/town_halls.md",
-      "target_sha256": "505bb9c7440f0fc4655bdb837c46b7705ac6550de2d625c43bb050ee712d01ba"
+      "target_sha256": "0c7c3600ce091fe329009931156da791a99b59f3dcd9a9c7926898eb176af796"
     },
     "docs/reference/compare/units/README.md": {
-      "source_sha256": "90d4fa9c5d559ceefeefc51eb72995b3ba601e397fb9695a3a6cb9c8f853bf26",
+      "source_sha256": "dae318ac37979546fa7029ada041fe9d0334f4c4d69d92d3b2905e9bace5849d",
       "target": "docs_en/reference/compare/units/README.md",
       "target_sha256": "4c0d55dfc407a7c5bab797c7b26b8b64dc2ad4737c3d30a36c7ba57bf0e9b046"
     },
     "docs/reference/compare/units/archers.md": {
-      "source_sha256": "d70d30f591a8e2984dabed1ba035bc8db6a54c4a1f5450f87cedcedcd5766d85",
+      "source_sha256": "2893d00f69de3b6d603ff149067b09993a4b25c29c00a4200a177938940d2bfe",
       "target": "docs_en/reference/compare/units/archers.md",
       "target_sha256": "01b8b1aaee7fc87256ff00aa1105b37fb77f8b99da27c0e502a56fb44105243b"
     },
     "docs/reference/compare/units/dragoons.md": {
-      "source_sha256": "ab7971bf7831ee1976a24d966b1cf95745972facb68e700749ffe465bd58017e",
+      "source_sha256": "d0479beca141dd35c35154102de9ca6d02e5a81c7487df0abf94f4fb5ba72968",
       "target": "docs_en/reference/compare/units/dragoons.md",
       "target_sha256": "5c3506e6367a57a5eda3c20b0dcf027297974042858faa5289aff7e3df0a60d5"
     },
@@ -493,82 +493,82 @@
       "target_sha256": "9a0f3480eaa730d7ca107c5fd189a9acd80bee854a62e72b8aeae64a7265afde"
     },
     "docs/reference/compare/units/grenadiers.md": {
-      "source_sha256": "83c5c68c6056604fb100a462c4dbb55befe52bafd1dc6248ef030074c2574e6d",
+      "source_sha256": "05dbacd22795715e44435bc9825d28fb8733a897ca97e90bc2cf7626785fd509",
       "target": "docs_en/reference/compare/units/grenadiers.md",
       "target_sha256": "cdc8bceb00e00b75a19fa5e864f9aa1830b65ac959cbacce2ce5791c61771771"
     },
     "docs/reference/compare/units/heavy_cavalry.md": {
-      "source_sha256": "10471cb9e28d5e2a7627808f71474a7ac15771c633a53e3308503f9df543f829",
+      "source_sha256": "57ff7eddd165029ea084bb14a70138edc9678e4a5badffd89713387ae62d4902",
       "target": "docs_en/reference/compare/units/heavy_cavalry.md",
       "target_sha256": "f59c22a6c3975796b3bae8d06ecb87baae07d23dfe9d814fae7e52a11eebb49c"
     },
     "docs/reference/compare/units/light_cavalry.md": {
-      "source_sha256": "c075a4c42af9e0b3b25a6e74045459cad0e7995c7c2b7c432d16c34c2b3cc3d4",
+      "source_sha256": "9b828224679f53190d0a4f310926bac3022e22558479f1228afe106e2507bef3",
       "target": "docs_en/reference/compare/units/light_cavalry.md",
       "target_sha256": "5cd36eb5a92e09e05cec0f44f79e9c0b5be8368092f365b1c5cf9cd0afc3244a"
     },
     "docs/reference/compare/units/light_infantry.md": {
-      "source_sha256": "236ed942c215add49efb16c4f1ab597a1632979d7108960ff0ba65444ee60d4b",
+      "source_sha256": "c2c5cd0eef20da06179d1f3c3ab775b54e925a6c150268f89d9dcda82838afda",
       "target": "docs_en/reference/compare/units/light_infantry.md",
       "target_sha256": "faeb94eee69585bdbabebbc5c3f09a223113934e5a5e03c62b7d02018c65e6d3"
     },
     "docs/reference/compare/units/musketeers17.md": {
-      "source_sha256": "7d321a1a7c3fd568c73e3a00879e88c889702f4d11bbea0ae856ad7a289f62d8",
+      "source_sha256": "b54bbdcc72973bd708132a59cbed9a9219aedafb77a933a7fb8f54e7ee8b68b7",
       "target": "docs_en/reference/compare/units/musketeers17.md",
       "target_sha256": "01851aad4757c33e9512a97f21e3793757633b490215009ea44f2d7cc24ef341"
     },
     "docs/reference/compare/units/musketeers18.md": {
-      "source_sha256": "089f273a7c48618431b6797659e65d8ac58947ba8003843f1409715ae74810b5",
+      "source_sha256": "37b4a0b8e27858584db3e750f2539967661d0433c6f88dfc15c44d1dcefa02ab",
       "target": "docs_en/reference/compare/units/musketeers18.md",
       "target_sha256": "9c4a87f84cd6ba0edcf575a5da3aaad4baa8cb0215e315a6512ab564866177df"
     },
     "docs/reference/compare/units/officers.md": {
-      "source_sha256": "587f751e220c4cb78de8e6f366f1f6875387d28171e3bc8e5fe0c135e76bec36",
+      "source_sha256": "43df9ef5a3f8dc74df2be34f3a2149b68d25c10513efa8e17a4ebb136037f5f0",
       "target": "docs_en/reference/compare/units/officers.md",
       "target_sha256": "cebfe69a5953c8b74945b21651de67d18e0769f15d5d0c052ba81c735a61d4da"
     },
     "docs/reference/compare/units/peasants.md": {
-      "source_sha256": "767b4d49c3fd2402da97d1a8230eb56cdf71ca7b0ee03b308050c5d89cb420bb",
+      "source_sha256": "af0f76d4368d0147e449533adefa4724bda5c378ff84daf1004b9d311eaf3bb1",
       "target": "docs_en/reference/compare/units/peasants.md",
       "target_sha256": "36a2a90ec715d5c21056be5dbd8c25ddd8e963dc6bb10dbc366291b3d69124b5"
     },
     "docs/reference/compare/units/pikemen.md": {
-      "source_sha256": "6e624d15e9449f172bd16be930f1bcfae3c98f1fbcf47f876efcdc8e8c78a546",
+      "source_sha256": "9f8a1f5540e95909ecea0e0a191f15a1aede85ba46396246e72a4f7c2dd8c76c",
       "target": "docs_en/reference/compare/units/pikemen.md",
       "target_sha256": "769103e1ef8b382be7f1e5e608f9e177e7f7c5f0951e16ca7af41ec1b801f67d"
     },
     "docs/reference/compare/units/pikemen18.md": {
-      "source_sha256": "ecda40bb6f2f42662764cf5d0d07a064239032f9f46804361d67106b0f817f9d",
+      "source_sha256": "6f16b1b9ff417d4c99c0c0ed9035431ff05006781baf8479c099ded93e135aeb",
       "target": "docs_en/reference/compare/units/pikemen18.md",
       "target_sha256": "0f959aeab74ac97ba062f58e16602940865deb7ee8e61499cad083b782b25607"
     },
     "docs/reference/compare/units/priests.md": {
-      "source_sha256": "6974878c7ae5d2c6665dbce22bf5044e9ed942163fdfc806b0b3e65bce4f004f",
+      "source_sha256": "102a0f865688b0b3246d7e0f55ccce59e3de9510ac6163c377aede04b44cd6fe",
       "target": "docs_en/reference/compare/units/priests.md",
       "target_sha256": "3d02bf7f5e36b0a82d617fd48a4653eda3a451c59b11997a1dadef8633c9ade7"
     },
     "docs/reference/compare/units/ships.md": {
-      "source_sha256": "f0f32c0553a5517769a84e488cb18c12f3a03ee99169df3551caad4a0f458116",
+      "source_sha256": "0757fe7feb0f3cb753b9e1f591e377ef3c2788c1ce68bb809445e76b923082e4",
       "target": "docs_en/reference/compare/units/ships.md",
       "target_sha256": "4309d4c230855f5fabd5ee8d4fd3f0258462ca0b238e24f86edade339993bb47"
     },
     "docs/reference/compare/units/siege.md": {
-      "source_sha256": "f5bd1b01b57934da912dd2cd855c82f08344a86ea1b101c86788202b289239bc",
+      "source_sha256": "aec11ee93c9b423065daf84c60a2d72843e6a7bbe9be1e434185d970ce8563b3",
       "target": "docs_en/reference/compare/units/siege.md",
       "target_sha256": "a4337995731513d340294cec7abdf71dfa3fbb21640572f2ee068c46c56dec0f"
     },
     "docs/reference/compare/units/special_infantry_18c.md": {
-      "source_sha256": "6b42d20341bd444a868167d8bb88dc081a7cd9961e7f8bd586cd139bd745fc3a",
+      "source_sha256": "c49fe5b085e7bb4c5cdac39d092c7270a73f4ea2238415a3a79b990afec25c21",
       "target": "docs_en/reference/compare/units/special_infantry_18c.md",
       "target_sha256": "28ad2004aa768aa510bacc95db2fbce727e2d6b2fa70be1ec6d199a9d0a8382d"
     },
     "docs/reference/compare/weapons/README.md": {
-      "source_sha256": "c0511c57376dfc6199e7fd37d7887d03e3cc476ec9d383724f8e45af71583a5b",
+      "source_sha256": "2f3b35727b2ed86f32a8838b20bb276c6ef58c0f5f783eb80330654ce5643e67",
       "target": "docs_en/reference/compare/weapons/README.md",
       "target_sha256": "a451e799c89f98d65f93f0361ee6b10d86eec1c135ecd3c82801c0fde058e143"
     },
     "docs/reference/compare/weapons/projectiles.md": {
-      "source_sha256": "a7eff3281200872098abd7d46bb4e307df9f1239b898bcaf6adf5ea0db74abbb",
+      "source_sha256": "bf5e44887c48841cce7bd6ab8959af6ece506bed9b7df1bff4fd34b0c40cda53",
       "target": "docs_en/reference/compare/weapons/projectiles.md",
       "target_sha256": "698922e65494e8320a83da9a4d2f21513043f10ab966d18b81d60a6a1c03f067"
     },
@@ -578,107 +578,107 @@
       "target_sha256": "af59c76e61281fd9b8372ea5df4ae106d6870374cf709e3246e0b6112c721413"
     },
     "docs/reference/nations/alg.md": {
-      "source_sha256": "42864dc2f59921c5697fe45cc1c323faacc649321c2039a167fc80581c1050ce",
+      "source_sha256": "436285c8ab7755a34b469e812a09199dc7d87c2aa683bcd26c3d82ec4ec39a8a",
       "target": "docs_en/reference/nations/alg.md",
       "target_sha256": "7c61d7d3ad7134ebdd0e47e4bdc190d2154cbf9c5b8461bcd631c93274287cc2"
     },
     "docs/reference/nations/aus.md": {
-      "source_sha256": "34459e5d5f9358257741ba6c471475edcfbddc6446a6a7814d6599fabc714d6d",
+      "source_sha256": "b453b2fc92d78b1fc0929300a771fb87fda386d2ee358d95a942ea3743f36493",
       "target": "docs_en/reference/nations/aus.md",
       "target_sha256": "754d12bdc363e4830dcaf8b0d1eb644827686f297d4d07db016e1ba41ac6b72d"
     },
     "docs/reference/nations/bav.md": {
-      "source_sha256": "00beb818d0e048fded34e393d02809f7b09e150c9ae10f549482b96a749f7b21",
+      "source_sha256": "e22495080ca73f22286e63d6ca83f2a8a8a96e9d43f2dda69f8a2f8bf96bcdd9",
       "target": "docs_en/reference/nations/bav.md",
       "target_sha256": "ddf5c417a5148141796cc9ba7cbc8b6f4c742c60eef02364cfd952d7e8040f52"
     },
     "docs/reference/nations/den.md": {
-      "source_sha256": "34cd0ee6b90f05812ce9261dee4c5e94f3d3f777b9e834af437c4a175255221f",
+      "source_sha256": "a06774d30fbd17dd2735bf84e8ee4b45b30b22b9f516add2fe2ca42e3d3c26cf",
       "target": "docs_en/reference/nations/den.md",
       "target_sha256": "2a90853278a8807ba25d181ae8b87ee28f8324bcd1e81513a0092fb0a540eb93"
     },
     "docs/reference/nations/eng.md": {
-      "source_sha256": "cea19e7b219b71450ab59d9408c1a66a765f314f33c444ac046a8911b83dc1e0",
+      "source_sha256": "50183a7bf92972cef48b0075d582c953429aaed43a2669dcc248487350cb0cf1",
       "target": "docs_en/reference/nations/eng.md",
       "target_sha256": "bc2625597c65d11d67be73b81e7239128929a0c107684a3b6ef06fef11605313"
     },
     "docs/reference/nations/fra.md": {
-      "source_sha256": "6083e6c8ca1dcdf7d6b54cf1a10f7e884f86bdc9d1d1ced8b4c464f8b0ba9235",
+      "source_sha256": "d9463000e5b8ebf89392eba5ec6c142204b0d3e982916c208e8d8b315d1f39c2",
       "target": "docs_en/reference/nations/fra.md",
       "target_sha256": "43b78bfd870d6f4d8dc4bcc8d77d9261167b9e0112232385c77150e79e9a7d26"
     },
     "docs/reference/nations/hun.md": {
-      "source_sha256": "b14a3ae8c28e96ce9a9e9c8b8e2d08e3845ea305273924adb39d7eb05fea7045",
+      "source_sha256": "8bed3d1e4b113be388c25df6faa9a1b97749c37bbba65df4a7fc4f079589c56a",
       "target": "docs_en/reference/nations/hun.md",
       "target_sha256": "7613e0357b3d0751a2cbf3010cff7491fc9450d322ef5bfab54786ca512f727d"
     },
     "docs/reference/nations/net.md": {
-      "source_sha256": "e0ee5b50a47c9845612964239e06fae47491f01be81ee9d622aead0dcfd7b9aa",
+      "source_sha256": "c5a2c8ec92fb349d73544352f282792d372180b0795d545d199c5fe57f1a61e8",
       "target": "docs_en/reference/nations/net.md",
       "target_sha256": "e0b5434b871dd0b64fe865af93104435c1778285c29525534f0923aa757055c6"
     },
     "docs/reference/nations/pie.md": {
-      "source_sha256": "77e43c1868c79b189772e08724493794259b9e07c10ae30e3abc066f64759197",
+      "source_sha256": "4955b6b62432a4f18cb2dd045a19247f511ccf3e65679eca3d5fc8c7be4d6c64",
       "target": "docs_en/reference/nations/pie.md",
       "target_sha256": "4d39b5a302d8c460c00e4d24bfc19cf8a07818f99c1fd14f63e23deb48244a35"
     },
     "docs/reference/nations/pol.md": {
-      "source_sha256": "91ec717efe53d18e6f44c22a65d84dc0c38636a96d4e3b7df2b67b0dcaf941fe",
+      "source_sha256": "4a5585af6dd4796e827bd080829736c6e2342ad252515f446a8c1750aaae5071",
       "target": "docs_en/reference/nations/pol.md",
       "target_sha256": "d75b998ed4102e2368ea5873eb55635ddc9d9a0651f909a4ccea6d70935a3231"
     },
     "docs/reference/nations/por.md": {
-      "source_sha256": "2148e770ab861a1de73bfe56ccd28aa20009f94f667222513b59b13d3a9add80",
+      "source_sha256": "e72c28cbe0e3639e0a2043c3edd509daedd085d244abdd0a9fb9305975a7ae8a",
       "target": "docs_en/reference/nations/por.md",
       "target_sha256": "772b42c428e9014a1378747693876cc45fa58e3eeca9c0cb44d0f696e23afc24"
     },
     "docs/reference/nations/pru.md": {
-      "source_sha256": "2360a854faa60db5b8f19e605eaa0304738735bf4f94ddc64e60716f69f15241",
+      "source_sha256": "f3e9ad7541ec085b71b1aa80371c81858cbd7fe02373321b8852e0487ea1be0f",
       "target": "docs_en/reference/nations/pru.md",
       "target_sha256": "b471cceb28f75054a1131b86c01868ac59e776a14f16e89a1e24ec537db9cd89"
     },
     "docs/reference/nations/rus.md": {
-      "source_sha256": "ec9f0128e60f5e1bd7445ba3cdab5547d4b3f3aa34479a92fe0734d39f66a0df",
+      "source_sha256": "adb3be363f6c14a026a1b157c710f82786bfc4a734c5ebbc6a45f84148f4fc67",
       "target": "docs_en/reference/nations/rus.md",
       "target_sha256": "39baa9c914dfaf1a868d39d04a11515d412b742e17b31e4328b2a0d4eeb8c522"
     },
     "docs/reference/nations/sax.md": {
-      "source_sha256": "69869e3f6e76b37873a51afcbd5c9288000d77c257019c2483d4f66588f2d6c1",
+      "source_sha256": "3175f7ae5cdb6cc81bfaef9baee2aff29b50dbc313206b6548edb7d11bcb6d5d",
       "target": "docs_en/reference/nations/sax.md",
       "target_sha256": "26ff2ecadacbf9331fde9e1fb7adc953810f994762e7b88d5cef9ccc5c77182d"
     },
     "docs/reference/nations/sco.md": {
-      "source_sha256": "285fb1cc8d86113bceaa7903c23c4cb6f97335840ae3d7faf0ec1d4357b24310",
+      "source_sha256": "f17028b3689b47b61ded1680a98d94d655f1e1acd4b8ddf387a568ac4316433f",
       "target": "docs_en/reference/nations/sco.md",
       "target_sha256": "5ab63f5d0d27fc6343d2c8bbe951cdb13b09f6fc862356df835bbffac0f8ce34"
     },
     "docs/reference/nations/spa.md": {
-      "source_sha256": "333f3a5fb799c10cfd96f916c125ed05ce9721940751bac47932d0f3cf98527d",
+      "source_sha256": "20cdd10315ba7eba6a60ba78869c51b15eaf8de72cb40b70806b6e32caa883e4",
       "target": "docs_en/reference/nations/spa.md",
       "target_sha256": "c42c37a741443ac49b3b865f3ebd7cad5860fe6fc8d84aff3777ea06df6fc0f1"
     },
     "docs/reference/nations/swe.md": {
-      "source_sha256": "cd4f7f3bc0e27ee705e24fbd05a6a9e1c1ff9a371a1dc97ae7490280915b26f6",
+      "source_sha256": "a6a1c3a136f24ac8ce450d4dd567c1f36f075d988d61489b7b1b4a9888534ec6",
       "target": "docs_en/reference/nations/swe.md",
       "target_sha256": "9d5f9fb4fcbb9bbeda20223a3e6a01a587bea54e00d1cbad9c8fcee9e92c4a38"
     },
     "docs/reference/nations/swi.md": {
-      "source_sha256": "a4acfdfdd3b042589e3d5484795790aaf8712284404428e5a902265c0fe030fc",
+      "source_sha256": "ed12d6fdecb2c5313e7b215778391fbde4d6fe6717d934473824215f78ad6815",
       "target": "docs_en/reference/nations/swi.md",
       "target_sha256": "3986e54d8db6a6f65081fe8f89a69ebe8ec9ef9359c720cae8fb3f8abc463966"
     },
     "docs/reference/nations/tur.md": {
-      "source_sha256": "8c09d767d54e9ed6e18cf46faf43786ffb1695fd4d69b64fe2dc8f0aee449e4b",
+      "source_sha256": "234f20ec49ba238e9d816af4459126488286866e43c9ab13e695e4329711d471",
       "target": "docs_en/reference/nations/tur.md",
       "target_sha256": "6c4b896a36dc60c4e421651eb8f7e9c1b4f1d9b5e4cecfe4dcc9f53d8d11eed6"
     },
     "docs/reference/nations/ukr.md": {
-      "source_sha256": "7b7adff3678781e9bd5294ac090b9fbfa070f970c2a4fb1423033f79c9193002",
+      "source_sha256": "a0d5feff23b8308bb33ea9248cb8b2e597bf4e3ac3f73e5f1f1f667730f99f3c",
       "target": "docs_en/reference/nations/ukr.md",
       "target_sha256": "5017ec9a64438a56e1bb8bca0c1b59b88017397a54c2d567fb1f35526fbc149a"
     },
     "docs/reference/nations/ven.md": {
-      "source_sha256": "1e20330c4c08ff5831631bac11252d834572437fa11db71dddc61f91f689988e",
+      "source_sha256": "e73eabdd0dbe5d62ebb898cbd9e020aee8097bb033a7b583ff5a6341418a7b5e",
       "target": "docs_en/reference/nations/ven.md",
       "target_sha256": "23ef8c1ebdfcdb0c9e171e85cd70266a3d8af38ec55d6440111814466ce9ee63"
     },
@@ -745,7 +745,7 @@
     "docs/reports/map/map_resources.md": {
       "source_sha256": "1a9320ba27cbbf496c188604018a28be97c3b7fc46b62569465db040ab2ea749",
       "target": "docs_en/reports/map/map_resources.md",
-      "target_sha256": "a0ea2b84700879f1db59650513abd4cdd0a2991a00312697cc441ca3f0db9437"
+      "target_sha256": "7fd06762ef47fcb9ad4227fb26df64b289abf81c61b26523872fc5320cad170a"
     },
     "docs/reports/map/starting_layout.md": {
       "source_sha256": "30a279f60220aba3d4c990deb50321c942af3c557bc9619d5b763e51a8dc1dc0",
@@ -763,9 +763,9 @@
       "target_sha256": "7a2ae18af412986553efc0ba3da3564cc590a0e28155248a49b6280741abe6c2"
     },
     "editor/README.md": {
-      "source_sha256": "0fb93bb4cca12f5e78a586db5dd593e7df5037335554f01b31be23bc782bbc08",
+      "source_sha256": "4024e4433f4bc180316d824ec377656605ad5a9fbc8806869547e7a834e79355",
       "target": "editor/README.en.md",
-      "target_sha256": "cceae9cbeff05185dd59bd5d2b9ba5dad776ce48db5d1924bd52fb37442006f1"
+      "target_sha256": "a307c398d8050177e11ac72b3b069b3e78d64fadf82f0b2fc6452836334552d3"
     },
     "internals/README.md": {
       "source_sha256": "60c91a56f4988a2e7cde485d2d5162f4c448fb59cbd7e760c0e9ba75f3a08f0f",
@@ -788,9 +788,9 @@
       "target_sha256": "f188cf77c9d576b8aff95fd92d7059e0ccb99e99be516bce84ea8ecf7544b646"
     },
     "internals/data/map_predictions_validation.md": {
-      "source_sha256": "eb6850559318243ce5aba4f39d37a9ec39cfddb69d9ba3de3b774b0fd8775b81",
+      "source_sha256": "215fed545a7126908735155bdcf17c58eea39e98afedc380bf3c2d8a04c7894c",
       "target": "internals_en/data/map_predictions_validation.md",
-      "target_sha256": "716e59ecf8161d8dbf964283121893c22179a002841f0d10ced3d5b5888a83ab"
+      "target_sha256": "f77e1aed8ec54c653d1425d132341e6b8bf2fb784d5ed1312435983995c1f08e"
     },
     "internals/data/nation_deviations.md": {
       "source_sha256": "981a72d82c06a77f51be978c56b5492cee07aa949e5c1ff6df8d613da508135e",
@@ -948,17 +948,22 @@
       "target_sha256": "40e66395b0b601a9ba05744101a092a479434a9ac586422ad82df3163f0cd190"
     },
     "parser/README.md": {
-      "source_sha256": "09d5087c0d08cecd74123a1be4cf8139069af96b6e7c9e5f5563a19605943f8a",
+      "source_sha256": "9a2d139e0a02c6c63c06dad555403b2d17a28e1872787ee3d4c56d5a4ec32fa3",
       "target": "parser/README.en.md",
-      "target_sha256": "599e8517f80335996045145c40a9bc65075a22157f373a172c5cde2a07cef7f2"
+      "target_sha256": "56aa078a25700664a8a8fc56a28f6e806882a7b3a7e22b0a14c6b6aa3fed5ec8"
+    },
+    "tests/fixtures/replays/README.md": {
+      "source_sha256": "4e6e5a347c668e61fc10fd3983ea48a5e0b5044ee34c8e72f3fd725571a5e517",
+      "target": "tests/fixtures/replays/README.en.md",
+      "target_sha256": "4983e749c9cb656c2d6c8093ee0edd074ca8c9c0bc2ca6a4009f2c8fd434fca2"
     },
     "writers/templates/README.md": {
-      "source_sha256": "55986cf376a44cf3899d49f543c9a0ee93719dd8e692c0842078f4328efc3b36",
+      "source_sha256": "5f36ce219a6afa589f2326c9691ee847073775ef152794ba7e56e64ae0add662",
       "target": "writers/templates/README.en.md",
-      "target_sha256": "908e38b90859340916206cd35fbe216d53e090645acabe40ec488d74b6033c77"
+      "target_sha256": "f8b2f35df56bd26757e67c9c029a0db96ae7430aae8e95aa19243e7ce8d2c6ac"
     },
     "writers/templates/reference/compare/readme.md": {
-      "source_sha256": "e5ee622d6614c98ff7403f7b01e2c4bd506ae10ce29d42b41bec0449d24a27ff",
+      "source_sha256": "4a77fbdf515a8ef7ec10bf4d70874096f915349b2d84246b71c25dd45648724f",
       "target": "writers/templates/reference/compare/README.en.md",
       "target_sha256": "2623683d5f613277f6995402c1f59d2a9614ec02b90bee7708eae4f477289dd7"
     }

@@ -9,15 +9,11 @@ their normal assets have loaded.
 from __future__ import annotations
 
 import argparse
-import concurrent.futures as futures
 import json
 import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-
-from build_english_docs import Protector, canonical_dictionary, translate_chunk
-
 
 ROOT = Path(__file__).resolve().parent.parent
 CYRILLIC_RE = re.compile(r"[\u0400-\u04ff]")
@@ -367,79 +363,6 @@ def extract_phrases(source_root: Path) -> list[str]:
     return sorted(phrases, key=lambda value: (-len(value), value))
 
 
-def translate_phrases_google(phrases: list[str]) -> dict[str, str]:
-    canonical = canonical_dictionary()
-    result = {source: target for source, target in OVERRIDES.items() if source in phrases}
-    pending = [phrase for phrase in phrases if phrase not in result]
-    batches: list[list[str]] = []
-    current: list[str] = []
-    size = 0
-    for phrase in pending:
-        if current and size + len(phrase) > 3200:
-            batches.append(current)
-            current = []
-            size = 0
-        current.append(phrase)
-        size += len(phrase) + 24
-    if current:
-        batches.append(current)
-
-    def translate_batch(index_and_batch: tuple[int, list[str]]) -> dict[str, str]:
-        index, batch = index_and_batch
-        separator = f"\nZXQSEP{index:05d}QXZ\n"
-        translated = translate_chunk(separator.join(batch), canonical)
-        parts = translated.split(separator)
-        if len(parts) != len(batch):
-            # Rare service-side whitespace folding: retry this small batch
-            # phrase-by-phrase rather than producing a shifted dictionary.
-            return {
-                source: translate_chunk(source, canonical).strip()
-                for source in batch
-            }
-        return {
-            source: target.strip()
-            for source, target in zip(batch, parts)
-        }
-
-    with futures.ThreadPoolExecutor(max_workers=6) as pool:
-        tasks = [
-            pool.submit(translate_batch, item)
-            for item in enumerate(batches)
-        ]
-        for index, task in enumerate(futures.as_completed(tasks), 1):
-            result.update(task.result())
-            print(f"  batch {index}/{len(tasks)}", flush=True)
-    return dict(sorted(result.items()))
-
-
-def translate_phrases_argos(phrases: list[str]) -> dict[str, str]:
-    try:
-        import argostranslate.translate
-    except ImportError as error:
-        raise RuntimeError(
-            "Argos Translate is not installed. Install argostranslate and its "
-            "Russian → English model, or run with --engine google."
-        ) from error
-
-    canonical = canonical_dictionary()
-    result = {source: target for source, target in OVERRIDES.items() if source in phrases}
-    pending = [phrase for phrase in phrases if phrase not in result]
-    for index, source in enumerate(pending, 1):
-        protector = Protector(canonical)
-        protected = protector.protect(source)
-        translated = argostranslate.translate.translate(protected, "ru", "en")
-        # The current ru→en model trims the final Z from our placeholder.
-        # Restore it before handing the text back to the shared protector.
-        for marker in protector.restore:
-            shortened = marker[:-1]
-            if marker not in translated and shortened in translated:
-                translated = translated.replace(shortened, marker)
-        result[source] = protector.unprotect(translated).strip()
-        if index % 25 == 0 or index == len(pending):
-            print(f"  phrase {index}/{len(pending)}", flush=True)
-    return dict(sorted(result.items()))
-
-
 def write_module(path: Path, translations: dict[str, str]) -> None:
     payload = json.dumps(translations, ensure_ascii=False, indent=2)
     path.write_text(
@@ -469,10 +392,9 @@ def main() -> int:
         help="verify that committed dictionaries cover every Russian UI literal",
     )
     parser.add_argument(
-        "--engine",
-        choices=("argos", "google"),
-        default="google",
-        help="Draft translation engine; canonical overrides are always applied.",
+        "--adopt-existing",
+        action="store_true",
+        help="rebuild dictionaries from reviewed existing values and manual OVERRIDES",
     )
     args = parser.parse_args()
     errors: list[str] = []
@@ -503,13 +425,39 @@ def main() -> int:
                 flush=True,
             )
             continue
-        print(f"{name}: {len(phrases)} phrases", flush=True)
-        if args.engine == "argos":
-            translations = translate_phrases_argos(phrases)
-        else:
-            translations = translate_phrases_google(phrases)
-        write_module(target, translations)
-        print(f"wrote {target.relative_to(ROOT)}", flush=True)
+        if args.adopt_existing:
+            translations = read_module(target) if target.is_file() else {}
+            translations.update(OVERRIDES)
+            translations = {
+                source: translations[source]
+                for source in phrases
+                if source in translations
+            }
+            missing = sorted(set(phrases) - set(translations))
+            untranslated = sorted(
+                source for source, value in translations.items()
+                if CYRILLIC_RE.search(value)
+            )
+            if missing:
+                errors.append(
+                    f"{name}: manually translate {len(missing)} missing phrase(s): "
+                    f"{missing[:5]}"
+                )
+                continue
+            if untranslated:
+                errors.append(
+                    f"{name}: review {len(untranslated)} value(s) containing Cyrillic: "
+                    f"{untranslated[:5]}"
+                )
+                continue
+            write_module(target, dict(sorted(translations.items())))
+            print(f"wrote {target.relative_to(ROOT)}", flush=True)
+            continue
+        errors.append(
+            "Automatic translation is disabled. Edit OVERRIDES or the reviewed "
+            "translation modules manually, then run --adopt-existing and --check."
+        )
+        break
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1

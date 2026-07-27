@@ -1,0 +1,10 @@
+{
+  "name": "cossacks-3-almanac",
+  "private": true,
+  "scripts": {
+    "test:web": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.0"
+  }
+}

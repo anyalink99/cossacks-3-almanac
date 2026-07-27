@@ -15,12 +15,19 @@ All new and edited articles must also follow the
 ## Before you begin
 
 ```bash
-# Requirements: Python 3.11+; the project itself uses only the standard library.
+# Requirements: Python 3.11+; the project core uses only the standard library.
+# Optional tools used to extract game assets:
+python -m pip install -r requirements.txt
 # Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.
 
 # Check that the pipeline works:
 python -m unittest discover -s tests -v
 python scripts/regen.py sanity   # parser + 112 automatic checks
+
+# Browser smoke tests also require Node.js and Chromium:
+npm ci
+npx playwright install chromium
+npm run test:web
 ```
 
 Continuous integration runs smoke tests for every pull request. It also checks
@@ -92,6 +99,9 @@ that `canonical_terms.json` and `data.json` are valid and that
    together, and only then run
    `python scripts/build_english_docs.py --adopt-existing`. Published prose
    must not be machine-translated.
+   Translate web-tool text manually as well; after reviewing it, run
+   `python scripts/build_ui_translations.py --adopt-existing`, followed by
+   `python scripts/build_ui_translations.py --check`.
 
 <a id="как-делается-изменение"></a>
 ## Making a change
@@ -107,6 +117,10 @@ python scripts/regen.py reports-economy
 # 3. Verify:
 python -m unittest discover -s tests
 python scripts/regen.py sanity    # 112/112 PASS
+python scripts/check_markdown_links.py
+python scripts/build_english_docs.py --check
+python scripts/build_ui_translations.py --check
+npm run test:web
 
 # 4. Commit one logical change without co-authorship trailers.
 git add <files>

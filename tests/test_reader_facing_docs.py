@@ -471,10 +471,15 @@ class ReaderFacingDocumentation(unittest.TestCase):
         script = (ROOT / "scripts" / "build_english_docs.py").read_text(
             encoding="utf-8"
         )
+        ui_script = (
+            ROOT / "scripts" / "build_ui_translations.py"
+        ).read_text(encoding="utf-8")
         guide = (
             ROOT / "internals" / "project" / "documentation_style.md"
         ).read_text(encoding="utf-8")
         self.assertIn("Automatic translation is disabled", script)
+        self.assertIn("Automatic translation is disabled", ui_script)
+        self.assertNotIn('parser.add_argument(\n        "--engine"', ui_script)
         self.assertIn("переводится и редактируется вручную", guide)
 
     def test_documentation_style_guide_is_linked_and_mirrored(self):

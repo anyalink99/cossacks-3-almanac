@@ -112,11 +112,11 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json
 
 `build_data.py` выводит результат **112 автопроверок** в конце:
 - 10 проверок на `gc_*` константы (time_to_frames=32, hits_needed_*, base portions)
-- 5 проверок на counts (≥21 наций, ≥410 buildings, ≥750 units, ≥4000 upgrades)
+- 5 проверок на количество (≥21 нации, ≥410 зданий, ≥700 юнитов, ≥4000 улучшений)
 - 21 проверка building counts по каждой нации (≥15 зданий)
 - 49 проверок наличия Town Hall + Barracks 17c у каждой нации
 - 4 проверки mine upgrade chain (5+5+8+10+12+15+40 = 95 workers, total cost 104550 food + 80950 gold)
-- 15 проверок specific units (Strelet/Janissary/Vityaz unique, Strelet HP=50 dmg=9 range=15.0t weaponsid=SHOTMUSKET)
+- 15 проверок отдельных юнитов (уникальность Стрельца, Янычара и Витязя; у Стрельца 85 здоровья, 12 урона, дальность 13,13 клетки и мушкет)
 - 4 проверки trained_in mappings
 - 3 проверки market default rates
 - 1 проверка pixels_to_tile=53.33

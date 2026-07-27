@@ -1,0 +1,4 @@
+# The core parser, generators, tests, and simulator use the Python standard library.
+# These packages enable optional icon-atlas and executable-analysis tools.
+Pillow>=10.0
+pefile>=2023.2.7

@@ -4,8 +4,6 @@
 
 [← All upgrades](README.md)
 
-The table gives each upgrade’s canonical name, effect, cost, and research time.
-
 All nations share the same six upgrade levels for each of the three Mine types.
 
 | Upgrade | Level | Additional workers | Food | Gold |

@@ -99,8 +99,13 @@ GitHub renders Markdown directly. Start with:
 <a id="регенерировать-после-патча-игры"></a>
 ### Regenerate after a game patch
 
-Requirements: Python 3.11+ and an installed Steam copy of Cossacks 3. The
-default path is
+Requirements: Python 3.11+ and an installed Steam copy of Cossacks 3. The core
+pipeline uses only the Python standard library. Install the optional
+dependencies for icon-atlas and executable analysis:
+```bash
+python -m pip install -r requirements.txt
+```
+The default game path is
 `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3`. Set
 `COSSACKS3_PATH` when the game is installed elsewhere:
 ```bash
@@ -143,7 +148,7 @@ python compute/compute_tech_tree.py             # → docs/reports/tech/tech_tre
 python compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)
 python compute/compute_map_resources.py         # → docs/reports/map/map_resources.md
 python compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md
-python compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md
+python compute/validate_map_predictions.py      # → internals{_en}/data/map_predictions_validation.md
 python compute/compute_nations_overview.py      # → docs/reports/nations/overview.md
 python parser/parse_animations.py               # → derived/animations.json
 python parser/parse_generator_cfg.py            # → derived/pattern_types.json
@@ -175,10 +180,11 @@ game versions.
 
 ## Sanity checks
 
-`parser/build_data.py` runs **112 automatic checks** on each launch and fails if
-an update changes a key invariant: timing constants, base resource portions,
-known unit values, the mine-upgrade chain, or market rates. The coverage
-categories are listed in `parser/README.md`.
+`make sanity` or `python scripts/regen.py sanity` rebuilds the data and checks
+**112 invariants**. It exits with an error when an update changes a timing
+constant, base resource portion, known unit value, the mine-upgrade chain, or
+a market rate. The coverage categories are listed in
+[`parser/README.en.md`](parser/README.en.md).
 
 <a id="что-сейчас-в-данных"></a>
 ## What's in the data now
@@ -192,9 +198,8 @@ categories are listed in `parser/README.md`.
 <a id="лицензия-и-атрибуция"></a>
 ## License and attribution
 
-This repository primarily contains derived data from publicly distributed
-Cossacks 3 files (GSC Game World). The visual object cards also include small
-UI icons cropped automatically from the game's atlases. Game artwork, names,
-and trademarks belong to their respective owners. The repository's scripts are
-a separate work distributed without a specific license; use them at your own
-risk.
+Original source code and original documentation are available under the
+[MIT License](LICENSE). Derived game data, interface icons, names, and
+trademarks are not covered by that license and remain the property of their
+respective owners. See [Third-party material](THIRD_PARTY_NOTICES.md) for
+details and the licenses of browser libraries.

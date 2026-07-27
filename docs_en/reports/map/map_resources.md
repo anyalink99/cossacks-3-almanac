@@ -69,4 +69,4 @@ free cell.
 For the complete algorithm, see
 [How a Random Map Is Created](../../recon/world/map/map_generation_pipeline.md).
 Replay-based calibration of this estimate is documented in
-[Map Prediction Validation](../../../internals/data/map_predictions_validation.md).
+[Map Prediction Validation](../../../internals_en/data/map_predictions_validation.md).

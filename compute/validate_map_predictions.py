@@ -14,6 +14,7 @@ without needing to play 100 games — we already have replays.
 """
 from __future__ import annotations
 import collections
+import functools
 import json
 import re
 import sys
@@ -28,6 +29,24 @@ from compute_map_resources import compute_counts
 GROUND_TRUTH = DERIVED_DIR / "replay_ground_truth.json"
 OUT_MD = INTERNALS_DIR / "data" / "map_predictions_validation.md"
 OUT_MD_EN = PROJECT_ROOT / "internals_en" / "data" / "map_predictions_validation.md"
+
+
+@functools.lru_cache(maxsize=None)
+def _compute_counts_cached(
+    mapsize: int,
+    relief: int,
+    mines: int,
+    foreststype: int,
+) -> dict:
+    """Reuse the expensive deterministic model for identical lobby settings."""
+    return compute_counts(
+        mapsize_tag=mapsize,
+        relieftype=relief,
+        resourcemines=mines,
+        foreststype=foreststype,
+        water_blocking_pct=0.02,
+        placement_success=0.65,
+    )
 
 
 def spcount_from_maskname(maskname: str | None) -> int:
@@ -127,14 +146,7 @@ def predict_for_replay(d: dict) -> dict[str, int]:
     # it can vary. We assume 0 here — non-Land replays will diverge somewhat.
     foreststype = 0
     try:
-        r = compute_counts(
-            mapsize_tag=mapsize,
-            relieftype=relief,
-            resourcemines=mines,
-            foreststype=foreststype,
-            water_blocking_pct=0.02,
-            placement_success=0.65,
-        )
+        r = _compute_counts_cached(mapsize, relief, mines, foreststype)
     except Exception as e:
         return {"_error": str(e), "_spcount": spcount}
     # Extract per-type cluster predictions
@@ -267,58 +279,61 @@ def main():
     OUT_MD.parent.mkdir(parents=True, exist_ok=True)
     L = []
     A = L.append
-    A("# Map predictions vs replay ground truth")
+    A("# Проверка расчётной модели ресурсов карты по реплеям")
     A("")
     A("Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
-      "cluster counts из replay / save файлов "
-      "(`derived/replay_ground_truth.json`). Расшифровка значений "
-      "`mapsize` / `relieftype` / `terraintype` / `season` — "
-      "[справочник по настройкам матча](../../docs/reports/map/lobby_settings.md).")
+      "числами размещённых фрагментов карты из реплеев и сохранений "
+      "(`derived/replay_ground_truth.json`). Значения служебных полей "
+      "`mapsize`, `relieftype`, `terraintype` и `season` расшифрованы в "
+      "[справочнике по настройкам матча](../../docs/reports/map/lobby_settings.md).")
     A("")
-    A(f"**Replays processed:** {len(rows)}")
+    A(f"**Обработано реплеев:** {len(rows)}")
     A("")
-    A("## Buckets")
+    A("## Группы одинаковых настроек")
     A("")
-    A("Replays сгруппированы по `(mapsize, relieftype, terraintype, mask_kind)` — "
-      "**только внутри одного bucket** калибровка имеет смысл (там одинаковые predictions). "
-      "Cross-bucket averages могут оказаться ratio≈1.0 чисто случайно (Tiny занижено, Huge завышено — кросс-сумма ~ правде).")
+    A("Реплеи сгруппированы по размеру карты, рельефу, типу местности и маске. "
+      "Сравнивать расчёт с игрой корректно **только внутри одной группы**: "
+      "в ней модель получает одинаковые исходные настройки. Общее среднее по "
+      "разным группам может случайно оказаться близким к единице.")
     A("")
-    A("| msz | rel | tt | mask | n_replays |")
+    A("| Размер (`mapsize`) | Рельеф (`relieftype`) | Местность (`terraintype`) | Маска | Реплеев |")
     A("| --- | --- | --- | --- | ---: |")
     for key, brows in sorted_buckets:
         msz, rel, tt, mk = key
         rel_str = f"{rel}" + (" (Random)" if rel == 5 else "")
         A(f"| {msz} | {rel_str} | {tt} | `{mk}` | {len(brows)} |")
     A("")
-    A(f"## Per-type calibration — LARGEST BUCKET (n={len(biggest[1])})")
+    A(f"## Проверка по типам для крупнейшей группы ({len(biggest[1])} реплеев)")
     A("")
-    A(f"Bucket: msz={biggest[0][0]} (Tiny=3, Normal=0, Large=1, Huge=2), "
-      f"rel={biggest[0][1]} (Highlands=3, Random=5), tt={biggest[0][2]} (Land=0), "
-      f"mask=`{biggest[0][3]}`.")
+    A(f"Настройки группы: размер (`mapsize`) — {biggest[0][0]}, "
+      f"рельеф (`relieftype`) — {biggest[0][1]}, "
+      f"местность (`terraintype`) — {biggest[0][2]}, "
+      f"маска — `{biggest[0][3]}`.")
     A("")
-    A("| pattern_type | actual avg | predicted avg | ratio | n_replays |")
+    A("| Внутренний тип шаблона | Среднее в реплеях | Расчётное среднее | Отношение | Реплеев |")
     A("| --- | ---: | ---: | ---: | ---: |")
     for t, a, p, ratio, n in bucket_summary:
         ratio_str = f"{ratio:.2f}" if ratio is not None else "—"
         warn = " ⚠" if (ratio is not None and (ratio < 0.5 or ratio > 2.0)) else ""
         A(f"| `{t}` | {a:.1f} | {p:.1f} | {ratio_str}{warn} | {n} |")
     A("")
-    A("## Per-pattern-type calibration — MIXED (all replays)")
+    A("## Общее сравнение по всем реплеям")
     A("")
-    A("⚠ Усреднение через разные mapsizes/reliefs. Может маскировать per-setting bias. "
-      "См. bucket выше.")
+    A("Среднее по картам разных размеров и рельефов может скрывать систематическую "
+      "ошибку отдельных настроек. Для калибровки используйте крупнейшую группу выше.")
     A("")
-    A("| pattern_type | actual avg | predicted avg | ratio | n_replays |")
+    A("| Внутренний тип шаблона | Среднее в реплеях | Расчётное среднее | Отношение | Реплеев |")
     A("| --- | ---: | ---: | ---: | ---: |")
     for t, a, p, ratio, n in type_summary:
         ratio_str = f"{ratio:.2f}" if ratio is not None else "—"
         A(f"| `{t}` | {a:.1f} | {p:.1f} | {ratio_str} | {n} |")
     A("")
-    A("## Per-replay detail")
+    A("## Данные по отдельным реплеям")
     A("")
-    A("Для каждой replay-выборки: settings + diff таблица. Pattern types с большими "
-      "расхождениями отмечены ⚠. Имена опаковые (`Replay NN` назначены детерминированно по "
-      "хешу содержимого — см. `parse_replay_aggregates.py`).")
+    A("Для каждого реплея приведены настройки и разница между наблюдаемыми и "
+      "расчётными значениями. Большие расхождения отмечены знаком ⚠. Обозначения "
+      "вида `Replay NN` присваиваются детерминированно по хешу содержимого; "
+      "см. `parse_replay_aggregates.py`.")
     A("")
     # Sort replays by bucket key for stable output, then by mask + randkey for tie-break
     sorted_rows = sorted(rows, key=lambda r: (
@@ -333,13 +348,14 @@ def main():
         sp = r["predicted"].get("_spcount", "?")
         A(f"### {r['id']}")
         A("")
-        A(f"- mask: `{s.get('maskname', '?')}`")
-        A(f"- mapsize={s.get('mapsize')}, relief={s.get('relieftype')}, "
-          f"mines={s.get('resourcemines')}, terraintype={s.get('terraintype')}, "
-          f"season={s.get('season')}")
-        A(f"- inferred players: **{nrp}/{sp}** (from mng count, Land only)")
+        A(f"- маска: `{s.get('maskname', '?')}`")
+        A(f"- размер (`mapsize`) — {s.get('mapsize')}, рельеф (`relieftype`) — "
+          f"{s.get('relieftype')}, месторождения (`resourcemines`) — "
+          f"{s.get('resourcemines')}, местность (`terraintype`) — "
+          f"{s.get('terraintype')}, сезон (`season`) — {s.get('season')}")
+        A(f"- определено игроков: **{nrp}/{sp}** (по числу золотых месторождений; только суша)")
         A("")
-        A("| pattern_type | actual | predicted | actual/pred |")
+        A("| Внутренний тип шаблона | В реплее | По расчёту | Отношение |")
         A("| --- | ---: | ---: | ---: |")
         for t, (a, p, ratio) in sorted(
             r["diff"].items(),
@@ -352,15 +368,15 @@ def main():
             A(f"| `{t}` | {a} | {p} | {ratio_str}{warn} |")
         A("")
 
-    report = "\n".join(L)
+    report = "\n".join(L).rstrip() + "\n"
     OUT_MD.write_text(report, encoding="utf-8")
     english_report = report
     english_report = english_report.replace(
         "Сравнение модели `compute_map_resources.compute_counts(...)` с фактическими "
-        "cluster counts из replay / save файлов "
-        "(`derived/replay_ground_truth.json`). Расшифровка значений "
-        "`mapsize` / `relieftype` / `terraintype` / `season` — "
-        "[справочник по настройкам матча](../../docs/reports/map/lobby_settings.md).",
+        "числами размещённых фрагментов карты из реплеев и сохранений "
+        "(`derived/replay_ground_truth.json`). Значения служебных полей "
+        "`mapsize`, `relieftype`, `terraintype` и `season` расшифрованы в "
+        "[справочнике по настройкам матча](../../docs/reports/map/lobby_settings.md).",
         "Comparison of `compute_map_resources.compute_counts(...)` with actual "
         "cluster counts from replay and save files "
         "(`derived/replay_ground_truth.json`). See "
@@ -368,29 +384,69 @@ def main():
         "`mapsize`, `relieftype`, `terraintype`, and `season`.",
     )
     english_report = english_report.replace(
-        "Replays сгруппированы по `(mapsize, relieftype, terraintype, mask_kind)` — "
-        "**только внутри одного bucket** калибровка имеет смысл (там одинаковые predictions). "
-        "Cross-bucket averages могут оказаться ratio≈1.0 чисто случайно (Tiny занижено, Huge завышено — кросс-сумма ~ правде).",
+        "Реплеи сгруппированы по размеру карты, рельефу, типу местности и маске. "
+        "Сравнивать расчёт с игрой корректно **только внутри одной группы**: "
+        "в ней модель получает одинаковые исходные настройки. Общее среднее по "
+        "разным группам может случайно оказаться близким к единице.",
         "Replays are grouped by `(mapsize, relieftype, terraintype, mask_kind)`. "
         "Calibration is meaningful **only within one bucket**, where predictions "
         "are comparable. A cross-bucket average can approach 1.0 by accident "
         "(Tiny underestimates while Huge overestimates).",
     )
     english_report = english_report.replace(
-        "⚠ Усреднение через разные mapsizes/reliefs. Может маскировать per-setting bias. "
-        "См. bucket выше.",
-        "⚠ Averaging across map sizes and relief types can hide per-setting bias. "
-        "Use the bucket above for calibration.",
+        "Среднее по картам разных размеров и рельефов может скрывать систематическую "
+        "ошибку отдельных настроек. Для калибровки используйте крупнейшую группу выше.",
+        "Averaging across map sizes and relief types can hide a systematic error "
+        "for an individual setting. Use the largest group above for calibration.",
     )
     english_report = english_report.replace(
-        "Для каждой replay-выборки: settings + diff таблица. Pattern types с большими "
-        "расхождениями отмечены ⚠. Имена опаковые (`Replay NN` назначены детерминированно по "
-        "хешу содержимого — см. `parse_replay_aggregates.py`).",
+        "Для каждого реплея приведены настройки и разница между наблюдаемыми и "
+        "расчётными значениями. Большие расхождения отмечены знаком ⚠. Обозначения "
+        "вида `Replay NN` присваиваются детерминированно по хешу содержимого; "
+        "см. `parse_replay_aggregates.py`.",
         "Each replay sample includes its settings and a difference table. Pattern "
         "types with large discrepancies are marked ⚠. Names are opaque: `Replay NN` "
         "is assigned deterministically from the content hash; see "
         "`parse_replay_aggregates.py`.",
     )
+    replacements = {
+        "# Проверка расчётной модели ресурсов карты по реплеям":
+            '<a id="проверка-расчётной-модели-ресурсов-карты-по-реплеям"></a>\n'
+            "# Replay-based validation of the map resource model",
+        "**Обработано реплеев:**": "**Replays processed:**",
+        "## Группы одинаковых настроек":
+            '<a id="группы-одинаковых-настроек"></a>\n'
+            "## Groups with identical settings",
+        "| Размер (`mapsize`) | Рельеф (`relieftype`) | Местность (`terraintype`) | Маска | Реплеев |":
+            "| Size (`mapsize`) | Relief (`relieftype`) | Terrain (`terraintype`) | Mask | Replays |",
+        f"## Проверка по типам для крупнейшей группы ({len(biggest[1])} реплеев)":
+            f'<a id="проверка-по-типам-для-крупнейшей-группы-{len(biggest[1])}-реплеев"></a>\n'
+            f"## Per-type validation for the largest group ({len(biggest[1])} replays)",
+        " реплеев)": " replays)",
+        "Настройки группы: размер (`mapsize`) —": "Group settings: size (`mapsize`) —",
+        "рельеф (`relieftype`) —": "relief (`relieftype`) —",
+        "местность (`terraintype`) —": "terrain (`terraintype`) —",
+        "маска —": "mask —",
+        "| Внутренний тип шаблона | Среднее в реплеях | Расчётное среднее | Отношение | Реплеев |":
+            "| Internal pattern type | Replay average | Predicted average | Ratio | Replays |",
+        "## Общее сравнение по всем реплеям":
+            '<a id="общее-сравнение-по-всем-реплеям"></a>\n'
+            "## Combined comparison across all replays",
+        "## Данные по отдельным реплеям":
+            '<a id="данные-по-отдельным-реплеям"></a>\n'
+            "## Per-replay data",
+        "- маска:": "- mask:",
+        "- размер (`mapsize`) —": "- size (`mapsize`) —",
+        "месторождения (`resourcemines`) —": "mines (`resourcemines`) —",
+        "сезон (`season`) —": "season (`season`) —",
+        "- определено игроков:": "- inferred players:",
+        "(по числу золотых месторождений; только суша)":
+            "(from the gold-mine count; Land only)",
+        "| Внутренний тип шаблона | В реплее | По расчёту | Отношение |":
+            "| Internal pattern type | Replay | Predicted | Ratio |",
+    }
+    for source, target in replacements.items():
+        english_report = english_report.replace(source, target)
     OUT_MD_EN.parent.mkdir(parents=True, exist_ok=True)
     OUT_MD_EN.write_text(english_report, encoding="utf-8")
     print(f"\nWrote {OUT_MD}")

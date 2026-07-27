@@ -41,6 +41,7 @@ templates/
     │                             (бóльшая часть прозы вынесена в docs/recon/world/combat/)
     │
     ├── 03_buildings/
+    │   ├── navigation.md      ← оглавление отдельных страниц зданий
     │   ├── legend.md          ← расшифровка колонок таблиц зданий
     │   ├── era_progression.md ← переход эпох (ссылка на recon)
     │   ├── lifecycle.md       ← lifecycle: postroika / repair / destruction (ссылка на recon)
@@ -50,6 +51,7 @@ templates/
     │   └── legend.md          ← расшифровка колонок таблиц юнитов
     │
     ├── 05_upgrades/
+    │   ├── navigation.md      ← оглавление отдельных страниц улучшений
     │   ├── legend.md          ← структура sid + расшифровка колонок таблиц апгрейдов
     │   └── order_math.md      ← вступление + ссылка на recon (упрощённая версия)
     │
@@ -83,9 +85,9 @@ templates/
 | `docs/reference/README.md` | `write_md_tree.py:write_readme` | `reference/readme/glossary.md` |
 | `docs/reference/01_economy/README.md` | `write_md_tree.py:write_economy` | `reference/01_economy/*.md` |
 | `docs/reference/02_combat/README.md` | `write_md_tree.py:write_combat` | `reference/02_combat/main.md` |
-| `docs/reference/03_buildings/README.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/{legend,era_progression,lifecycle,tow_combat}.md` |
+| `docs/reference/03_buildings/*.md` | `write_md_tree.py:write_buildings` | `reference/03_buildings/{navigation,legend,era_progression,lifecycle,tow_combat}.md` |
 | `docs/reference/04_units/README.md` | `write_md_tree.py:write_units` | `reference/04_units/legend.md` |
-| `docs/reference/05_upgrades/README.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{legend,order_math}.md` |
+| `docs/reference/05_upgrades/*.md` | `write_md_tree.py:write_upgrades` | `reference/05_upgrades/{navigation,legend,order_math}.md` |
 | `docs/reference/06_market/README.md` | `write_md_tree.py:write_market` | `reference/06_market/{intro,mechanics,strategy}.md` |
 | `docs/reference/07_naval/README.md` | `write_md_tree.py:write_naval` | `reference/07_naval/main.md` |
 | `docs/reference/nations/README.md` | `write_md_tree.py:write_nations` | `reference/nations/readme_intro.md` |

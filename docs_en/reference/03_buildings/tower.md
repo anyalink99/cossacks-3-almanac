@@ -23,12 +23,12 @@ The basic European Tower has the following characteristics:
 | Parameter | Value | Note |
 |---|---:|---|
 | Health | 20,000 | Russian: 21,000; Ottoman: 22,500 |
-| Vision | 32 in internal fog-of-war coordinates | Shorter than that of an average Hussar |
+| Vision radius | 32 cells | Shorter than that of an average Hussar |
 | Automatic target detection | 26.25 cells | |
 | Cannonball damage | 1,000 | |
 | Reload time | 12.5 game seconds | Russian: 9.4; Ottoman: 15.6 |
 | Firing range | 28.13 cells | Ottoman: 30 |
-| Maximum deviation at full range | about 1.41 cells on each axis | Russian: about 1.76 |
+| Spread | 1.88 cells | The Russian variant is less accurate |
 | Shot cost | 10 Iron + 30 Coal | Ottoman: 15 Iron + 40 Coal |
 | Upkeep | 0.8 Gold per game second | The Tower stops firing when its owner runs out of Gold |
 | Capture | Impossible | A completed Tower cannot be captured |

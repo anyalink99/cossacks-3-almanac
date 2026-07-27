@@ -23,8 +23,8 @@
     {
       "path": "data/map_predictions_validation.md",
       "title": "Проверка расчётной модели ресурсов карты по реплеям",
-      "size": 31279,
-      "lines": 851
+      "size": 41277,
+      "lines": 915
     },
     {
       "path": "data/nation_deviations.md",

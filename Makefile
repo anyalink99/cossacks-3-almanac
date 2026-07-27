@@ -40,17 +40,13 @@ simulations:
 
 # Snapshot diff: keep current data.json as old, regen, diff against new.
 diff:
-	cp docs/data.json /tmp/data_old.json
+	cp data.json /tmp/data_old.json
 	$(PY) parser/build_data.py
-	$(PY) writers/diff_snapshots.py /tmp/data_old.json docs/data.json --out diff.md
+	$(PY) writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 
 # Run parser, fail if any sanity check regresses.
 sanity:
-	$(PY) parser/build_data.py
-	@$(PY) -c "import json; d=json.load(open('docs/data.json',encoding='utf-8')); \
-		c=d['sanity_checks']; p=sum(1 for x in c if x['pass']); \
-		print(f'{p}/{len(c)} passed'); \
-		exit(0 if p==len(c) else 1)"
+	$(PY) scripts/regen.py sanity
 
 help:
 	$(PY) scripts/regen.py help

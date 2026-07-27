@@ -5,7 +5,9 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Town Halls are the central economic buildings of all 21 nations. Austria's variant has the shortest construction time. Ukraine's raises the population limit by 200, while Russia's raises it by 75.
+Town Halls are the central economic buildings of all 21 nations. Austria's
+variant has the shortest construction time at 46.88 game seconds. Ukraine's
+raises the population limit by 200, while Russia's raises it by 75.
 
 > **Baseline values** are the most common values in each column: health = 4000, construction time = 156.25 game seconds, price growth = 300%, wood = 700, stone = 700, gold = 0, population = 100.
 > **Bold** in the table below indicates deviations from these values.

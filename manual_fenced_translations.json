@@ -2,14 +2,6 @@
   "schema": 1,
   "note": "Reviewed English replacements for author-written Cyrillic fenced blocks. Keys are SHA-256 hashes of the exact Russian fence body; literal=true preserves a whole genuine game-data block, while literal_cyrillic=true permits reviewed localization literals inside an otherwise translated block.",
   "blocks": {
-    "076a5e35f229bbfb5a4826705d1052e0666d2456fe5daccd137718bd5c53c4e8": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "templates/\n├── README.md                  ← this file\n├── output_readme.md           ← docs/README.md (artifact catalog)\n│\n└── reference/                 ← all blocks used by docs/reference/*\n    ├── readme/                ← main reference README\n    │   └── glossary.md        ← glossary of game tags (sid, eff, bnohungry, …)\n    │\n    ├── 01_economy/            ← blocks used by 01_economy/README.md\n    │   ├── recon_refs.md      ← “In-depth research for this chapter” block\n    │   ├── summary.md         ← summary\n    │   ├── extraction_formula.md\n    │   ├── mines_intro.md     ← introduction + mine-upgrade table heading\n    │   ├── fields_intro.md    ← “Field” section heading\n    │   ├── fishing.md         ← ships and fishing\n    │   └── famine_rebellion.md ← Famine + Rebellion\n    │\n    ├── 02_combat/\n    │   └── main.md            ← chapter introduction, weapon types, recon links\n    │                             (most prose lives in docs/recon/world/combat/)\n    │\n    ├── 03_buildings/\n    │   ├── legend.md          ← building-table column legend\n    │   ├── era_progression.md ← age progression (recon link)\n    │   ├── lifecycle.md       ← construction, repair, and destruction (recon link)\n    │   └── tow_combat.md      ← wall artillery: numeric tower parameters (recon link)\n    │\n    ├── 04_units/\n    │   └── legend.md          ← unit-table column legend\n    │\n    ├── 05_upgrades/\n    │   ├── legend.md          ← sid structure + upgrade-table column legend\n    │   └── order_math.md      ← introduction + recon link (condensed version)\n    │\n    ├── 06_market/\n    │   ├── intro.md           ← heading + TL;DR\n    │   ├── mechanics.md       ← global rates and conversion formulas\n    │   └── strategy.md        ← practical conclusions + sources\n    │\n    ├── 07_naval/\n    │   └── main.md            ← naval chapter introduction (numbers generated from data.json)\n    │\n    ├── compare/\n    │   └── readme.md          ← compare/README.md (side-by-side table index)\n    │\n    └── nations/\n        └── readme_intro.md    ← nations/README.md heading",
-      "sources": [
-        "writers/templates/README.md:21"
-      ]
-    },
     "08281a3cfc24f58410b65c0de603f2b036a40973ef15b5e6e4478f64dc7cf557": {
       "literal": false,
       "literal_cyrillic": false,
@@ -23,7 +15,7 @@
       "literal_cyrillic": false,
       "text": "python parser/build_data.py\ncp data.json /tmp/data_old.json\n# … update the game …\npython parser/build_data.py\npython writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md",
       "sources": [
-        "README.md:158"
+        "README.md:172"
       ]
     },
     "0f452ff830ecb95791b2737d7cdd8540466242525c40553595578f5536f225b7": {
@@ -186,14 +178,6 @@
         "internals/data/replay_format.md:552"
       ]
     },
-    "40b15cef6a9dd352ad183c6269ecfec9fe947a7f24eaa49c4b9d3fd69bab2d07": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "# 1. Edit the source: parser, computation script, template, or handwritten Markdown.\n# 2. Rebuild its dependants:\npython scripts/regen.py all       # complete rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change without co-authorship trailers.\ngit add <files>\ngit commit -m \"<concise message>\"",
-      "sources": [
-        "CONTRIBUTING.md:84"
-      ]
-    },
     "40e8471e688a396ec0f75b950f269b2a9c4cbaa34223b5fb7596ddb8856fa5fa": {
       "literal": false,
       "literal_cyrillic": false,
@@ -280,14 +264,6 @@
       "text": "python scripts/regen.py derived          # all game-data JSON files in this directory\n# Or regenerate individual datasets:\npython parser/build_replay_upgrades.py\npython parser/build_canonical_terms.py\npython parser/parse_animations.py\npython parser/parse_generator_cfg.py\npython parser/parse_pattern_inventory.py\npython parser/parse_replay_aggregates.py\npython compute/compute_game_settings.py\npython parser/build_tech_graph.py\npython compute/compute_builder_slots.py\n\n# Engine reverse-engineering dumps (regenerate only when cossacks.exe changes):\npython parser/engine_recon/dump_exe_strings.py        # → derived/exe_strings.json\npython parser/engine_recon/extract_primitives.py      # → derived/engine_primitives.json + engine_primitive_matches.json\npython parser/engine_recon/extract_dws_signatures.py  # → derived/dws_native_signatures.json + internals/engine/native_primitives.md",
       "sources": [
         "derived/README.md:65"
-      ]
-    },
-    "57569af795c7cb15b7466b92146251e2ab087d04cd01e3545c2deea8e0dea555": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "editor/\n├── index.html\n├── README.md\n├── css/\n│   └── editor.css           # Dark theme with gold accents\n└── js/\n    ├── main.js              # Entry point and UI orchestrator\n    ├── data_loader.js       # fetch data.json + tech_tree.json + builder_slots.json\n    ├── pyodide_runner.js    # Pyodide bootstrap + simulate_in_memory\n    ├── build_order.js       # Model, LocalStorage, import/export\n    └── ui/\n        ├── i18n.js          # Localized names and resource icons\n        ├── catalog.js       # Per-nation building, unit, and upgrade selections\n        ├── action_form.js   # Inline action form\n        ├── action_list.js   # Action cards\n        └── charts.js        # Chart.js wrappers",
-      "sources": [
-        "editor/README.md:43"
       ]
     },
     "599d5fd65082d7de2e5a8174532813d6d24c916dc93545a493f7df9010837733": {
@@ -407,15 +383,7 @@
       "literal_cyrillic": false,
       "text": "# Option 1 — cross-platform Python runner:\npython scripts/regen.py                         # full regeneration\npython scripts/regen.py reference               # writers only\npython scripts/regen.py reports-combat          # docs/reports/combat only\npython scripts/regen.py help                    # list all targets\n\n# Option 2 — make:\nmake all          # = python scripts/regen.py all\nmake reference\nmake reports\nmake sanity       # parser + 112 sanity checks\nmake help",
       "sources": [
-        "README.md:102"
-      ]
-    },
-    "6ec986c0a3ea6d6809037a966f9e691429351d944cba81fb34e00f8e5cb86e89": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "# Requirements: Python 3.11+; the project itself uses only the standard library.\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Check that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks",
-      "sources": [
-        "CONTRIBUTING.md:15"
+        "README.md:116"
       ]
     },
     "76e16e0fbfae62441e54dd23fea2d4d421f7c9bfa7122dae16f4d5ac88a09a7c": {
@@ -490,6 +458,14 @@
         "internals/scripts/structure.md:31"
       ]
     },
+    "94d05014b82469012e9b8918f754a2444b2a9af2931972c8b7a22778b7a6b902": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → internals{_en}/data/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json\npython scripts/build_entity_catalog.py           # → assets/data/entity-catalog.json + game UI icons",
+      "sources": [
+        "README.md:133"
+      ]
+    },
     "95420d87a10e6c65739d064aa29ad2824ed67a6cb8f7ebe0cd97be48fe31bfc1": {
       "literal": false,
       "literal_cyrillic": false,
@@ -520,6 +496,14 @@
       "text": "Standard Delphi RandSeed (32-bit)\n                        ↑\n                  Random  (Delphi 32-bit LCG: seed = seed * 0x8088405 + 1)\n                        (Randomize / direct System.RandSeed write — DWS does not expose it)\n\nExtended 64-bit seed\n                        ↑\n                  RandomExt  (64-bit LCG with its own constant pair)\n                        ↑\n                  SetRandomKey (sign-extend 32→64), SetRandomExtKey64 (full 64-bit)\n\nMapGenerator seed       (64-bit, separate storage in map state)\n                        ↑\n                  SetMapGeneratorRandomKey\n\nGlobalMapGenerator seed (64-bit, separate storage)\n                        ↑\n                  SetGlobalMapGeneratorRandomKey\n\n(Separate weather and cloud channels use the AirWeatherRandom family; not shown)",
       "sources": [
         "internals/engine/rng_implementation.md:202"
+      ]
+    },
+    "a309c8c4b15d70021cb7b338fac73b2a25c08aa5b08f7943bf36b3c46cd23f4f": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "templates/\n├── README.md                  ← this file\n├── output_readme.md           ← docs/README.md (artifact catalog)\n│\n└── reference/                 ← all blocks used by docs/reference/*\n    ├── readme/                ← main reference README\n    │   └── glossary.md        ← glossary of game tags (sid, eff, bnohungry, …)\n    │\n    ├── 01_economy/            ← blocks used by 01_economy/README.md\n    │   ├── recon_refs.md      ← “In-depth research for this chapter” block\n    │   ├── summary.md         ← summary\n    │   ├── extraction_formula.md\n    │   ├── mines_intro.md     ← introduction + mine-upgrade table heading\n    │   ├── fields_intro.md    ← “Field” section heading\n    │   ├── fishing.md         ← ships and fishing\n    │   └── famine_rebellion.md ← Famine + Rebellion\n    │\n    ├── 02_combat/\n    │   └── main.md            ← chapter introduction, weapon types, recon links\n    │                             (most prose lives in docs/recon/world/combat/)\n    │\n    ├── 03_buildings/\n    │   ├── navigation.md      ← index of separate building pages\n    │   ├── legend.md          ← building-table column legend\n    │   ├── era_progression.md ← age progression (recon link)\n    │   ├── lifecycle.md       ← construction, repair, and destruction (recon link)\n    │   └── tow_combat.md      ← wall artillery: numeric tower parameters (recon link)\n    │\n    ├── 04_units/\n    │   └── legend.md          ← unit-table column legend\n    │\n    ├── 05_upgrades/\n    │   ├── navigation.md      ← index of separate upgrade pages\n    │   ├── legend.md          ← sid structure + upgrade-table column legend\n    │   └── order_math.md      ← introduction + recon link (condensed version)\n    │\n    ├── 06_market/\n    │   ├── intro.md           ← heading + TL;DR\n    │   ├── mechanics.md       ← global rates and conversion formulas\n    │   └── strategy.md        ← practical conclusions + sources\n    │\n    ├── 07_naval/\n    │   └── main.md            ← naval chapter introduction (numbers generated from data.json)\n    │\n    ├── compare/\n    │   └── readme.md          ← compare/README.md (side-by-side table index)\n    │\n    └── nations/\n        └── readme_intro.md    ← nations/README.md heading",
+      "sources": [
+        "writers/templates/README.md:21"
       ]
     },
     "a7595361755edb04fffdac058256820753616191157b3c8c889d22349dbd189a": {
@@ -615,7 +599,7 @@
       "literal_cyrillic": false,
       "text": "make diff   # snapshot data.json, regenerate, write diff.md",
       "sources": [
-        "README.md:152"
+        "README.md:166"
       ]
     },
     "c3ad8ca5409e2dddc6a0e81c75076de1fa63c1e0245abd2bab3b5be002c6069f": {
@@ -666,14 +650,6 @@
         "docs/reference/06_market/README.md:27"
       ]
     },
-    "cdf3a6c4e67d687ee38ac98a352124c3f20f1aa380b6a365a364955c104055d2": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": "python parser/build_data.py                     # → data.json (master data)\npython parser/build_canonical_terms.py          # → derived/canonical_terms.json\npython writers/write_md_tree.py                 # → docs/reference/ + docs/README.md\npython compute/compute_combat_stats.py          # → docs/reports/combat/combat_stats.md\npython compute/compute_counter_matrix.py        # → docs/reports/combat/counter_matrix.md\npython compute/compute_attack_rates.py          # → docs/reports/combat/attack_rates.md\npython compute/compute_vision.py                # → docs/reports/combat/vision_radii.md\npython compute/compute_scaling.py               # → docs/reports/economy/scaling_prices.md\npython compute/compute_efficiency_upgrades.py   # → docs/reports/economy/efficiency_upgrades.md\npython compute/compute_construction_times.py    # → docs/reports/economy/construction_times.md\npython compute/compute_builder_slots.py         # → docs/reports/economy/builder_slots.md (+derived/builder_slots.json)\npython parser/build_tech_graph.py               # → derived/tech_tree.json\npython compute/compute_tech_tree.py             # → docs/reports/tech/tech_tree.md + economy/production_rates.md\npython compute/compute_game_settings.py         # → docs/reports/map/lobby_settings.md (+derived/game_settings.json)\npython compute/compute_map_resources.py         # → docs/reports/map/map_resources.md\npython compute/compute_starting_layout.py       # → docs/reports/map/starting_layout.md\npython compute/validate_map_predictions.py      # → docs/reports/map/map_predictions_validation.md\npython compute/compute_nations_overview.py      # → docs/reports/nations/overview.md\npython parser/parse_animations.py               # → derived/animations.json\npython parser/parse_generator_cfg.py            # → derived/pattern_types.json\npython parser/parse_pattern_inventory.py        # → derived/pattern_{inventory,type_stats}.json\npython scripts/build_entity_catalog.py           # → assets/data/entity-catalog.json + game UI icons",
-      "sources": [
-        "README.md:119"
-      ]
-    },
     "ce6c5076d6401b539e465d33bd09191dbb24513c9c17206f7f6921c013a3e0a8": {
       "literal": false,
       "literal_cyrillic": false,
@@ -714,6 +690,22 @@
         "internals/engine/server_sync_packet_format.md:229"
       ]
     },
+    "d9d042155f8a58210ab2800dac6b935704277da6c9f9fcda62346235cee0746f": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# Requirements: Python 3.11+; the project core uses only the standard library.\n# Optional tools used to extract game assets:\npython -m pip install -r requirements.txt\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Check that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks\n\n# Browser smoke tests also require Node.js and Chromium:\nnpm ci\nnpx playwright install chromium\nnpm run test:web",
+      "sources": [
+        "CONTRIBUTING.md:15"
+      ]
+    },
+    "db566ec9c7b97c98df89a05027b201f7d0b466971f1649012bfe48e4ace50850": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": ".\n├── data.json                master data (~5.7 MB; downstream source of truth)\n├── derived/                 machine-readable JSON datasets and engine RE dumps\n├── parser/                  game .script parsers → data.json\n│   └── engine_recon/        extractors for the DWS native API, RTTI, and primitives\n├── compute/                 derived calculations → docs/reports/<topic>/\n├── writers/                 data.json → Markdown plus prose templates\n├── simulator/               timeline economy simulator used through Pyodide\n├── editor/                  browser-based build-order editor\n├── mods/                    mods, each with build.py + src/ + build/\n├── scripts/                 pipeline runner (regen.py)\n│\n├── docs/                    Russian player documentation\n├── docs_en/                 English player documentation\n│   ├── reference/           canonical reference, nations, and comparisons\n│   ├── recon/               handwritten mechanics research\n│   └── reports/             generated combat, economy, tech, map, and nation reports\n│\n├── internals/               Russian technical documentation\n└── internals_en/            English technical documentation\n    ├── engine/              cossacks.exe, DWS, RNG, synchronization, ticks, animations\n    ├── scripts/             data/scripts/* load order and entry points\n    └── data/                data/ directory layout and file formats",
+      "sources": [
+        "README.md:52"
+      ]
+    },
     "dfb95d833089c29eca3c082096763a743477f23191835c0b908122fc5cf79bce": {
       "literal": false,
       "literal_cyrillic": false,
@@ -728,6 +720,14 @@
       "text": "rate_per_trip = portion × eff / 100             # resource per trip\ntime_per_trip_game = hitsneeded × t_hit_game    # game seconds\nrate = rate_per_trip / time_per_trip_game       # resource per game second",
       "sources": [
         "internals/scripts/peasant_extraction_evidence.md:238"
+      ]
+    },
+    "e6045a74feeb9d4cb0556c2541a2e7ea5ae0f5b0026fb46be36a2e02f8255921": {
+      "literal": false,
+      "literal_cyrillic": false,
+      "text": "# 1. Edit the source: parser, computation script, template, or handwritten Markdown.\n# 2. Rebuild its dependants:\npython scripts/regen.py all       # complete rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\npython scripts/check_markdown_links.py\npython scripts/build_english_docs.py --check\npython scripts/build_ui_translations.py --check\nnpm run test:web\n\n# 4. Commit one logical change without co-authorship trailers.\ngit add <files>\ngit commit -m \"<concise message>\"",
+      "sources": [
+        "CONTRIBUTING.md:94"
       ]
     },
     "e647f174c5a89efb894bc52dcfb3b970ecbc5fc91643098a6e3da9f1b60b229b": {
@@ -792,14 +792,6 @@
       "text": "    117: if (gWaterPathList.GetCount>0) and ((gGOPathList.GetCount=0) or (gProgress.progresstick mod 2=0)) then\n    118:    pList := gWaterPathList; landPath := false;\n    123: else\n    124:    pList := gGOPathList; landPath := true;\n    128:\n    129: var count : Integer = TIntegerList(pList).GetCount;\n    130: if (count>0) then begin\n    131:    TopologyClearPathGameObjects;\n    132:    for i := 0 to count-1 do begin\n    135:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    144:       TopologyAddPathGameObjectByHandle(goHnd);\n    149:       if TObjProp(pObjProp).media = gc_obj_media_land then\n    150:          SetGameObjectTagFloatByHandle(goHnd, TObj(pObj).squad)   // squad id for group cost\n    151:       else\n    152:          SetGameObjectTagFloatByHandle(goHnd, -1);\n    153:    end;\n    155:    _misc_ProfilerBegin('progress.GetPath');\n    157:    if landPath then\n    158:       TopologyGetPath\n    159:    else begin\n    161:       var quadTree : Integer = TopologyGetTopologyQuadTree;\n    162:       TopologyGetPathExt(quadTree, gc_collisiontag_water, gc_TestPriorityOption_Water);\n    163:    end;\n    165:    _misc_ProfilerEnd('progress.GetPath');\n    167:    for i:=0 to count-1 do begin\n    169:       var goHnd : Integer = TIntegerList(pList).Get(i);\n    171:       var noPath : Boolean = (GetGameObjectTrackPointCountByHandle(goHnd) = 0);\n    177:       TObj(pobj).bpathrequested := False;\n           ...     // insert building exit points, turn transport ramps away, etc.\n    307:       DoSetupMoveAnimation(goHnd);\n    308:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 0);\n    309:       SetGameObjectTrackPointCurrentPointIndexByHandle(goHnd, 1);\n           ...\n    322:    TIntegerList(pList).Clear;\n    323: end;",
       "sources": [
         "internals/scripts/pathfinding_evidence.md:640"
-      ]
-    },
-    "f75b88ac955ec03010573acffb417e2a21d0c6773ac2cb1a6937f4a7382b0bf9": {
-      "literal": false,
-      "literal_cyrillic": false,
-      "text": ".\n├── data.json                master data (~5.7 MB; downstream source of truth)\n├── derived/                 machine-readable JSON datasets and engine RE dumps\n├── parser/                  game .script parsers → data.json\n│   └── engine_recon/        extractors for the DWS native API, RTTI, and primitives\n├── compute/                 derived calculations → docs/reports/<topic>/\n├── writers/                 data.json → Markdown plus prose templates\n├── simulator/               timeline economy simulator used through Pyodide\n├── editor/                  browser-based build-order editor\n├── mods/                    mods, each with build.py + src/ + build/\n├── scripts/                 pipeline runner (regen.py)\n│\n├── docs/                    Russian player documentation\n├── docs_en/                 English player documentation\n│   ├── reference/           canonical reference, nations, and comparisons\n│   ├── recon/               handwritten mechanics research\n│   └── reports/             generated combat, economy, tech, map, and nation reports\n│\n├── internals/               Russian technical documentation\n└── internals_en/            English technical documentation\n    ├── engine/              cossacks.exe, DWS, RNG, synchronization, ticks, animations\n    ├── scripts/             data/scripts/* load order and entry points\n    └── data/                data/ directory layout and file formats",
-      "sources": [
-        "README.md:47"
       ]
     },
     "f98a2be92044d474d72ab17b0f6c0019bb81c0dc2114dc531c288c70b70920c9": {

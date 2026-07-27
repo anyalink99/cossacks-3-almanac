@@ -114,11 +114,11 @@ python writers/diff_snapshots.py /tmp/data_old.json data.json
 
 `build_data.py` prints the result of **112 autochecks** at the end:
 - 10 checks for `gc_*` constants (time_to_frames=32, hits_needed_*, base portions)
-- 5 checks for counts (≥21 nations, ≥410 buildings, ≥750 units, ≥4000 upgrades)
+- 5 count checks (≥21 nations, ≥410 buildings, ≥700 units, ≥4000 upgrades)
 - 21 building counts checks for each nation (≥15 buildings)
 - 49 checks for the presence of Town Hall + Barracks 17c for each nation
 - 4 mine upgrade chain checks (5+5+8+10+12+15+40 = 95 workers, total cost 104550 food + 80950 gold)
-- 15 checks specific units (Strelet/Janissary/Vityaz unique, Strelet HP=50 dmg=9 range=15.0t weaponsid=SHOTMUSKET)
+- 15 checks for individual units (Strelet, Janissary, and Vityaz uniqueness; Strelet has 85 health, 12 damage, 13.13-cell range, and a musket)
 - 4 trained_in mappings checks
 - 3 checks of market default rates
 - 1 check pixels_to_tile=53.33

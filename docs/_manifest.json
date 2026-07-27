@@ -5,7 +5,7 @@
     {
       "path": "README.md",
       "title": "Энциклопедия Cossacks 3",
-      "size": 7445,
+      "size": 7462,
       "lines": 83
     },
     {
@@ -161,13 +161,13 @@
     {
       "path": "reference/01_economy/README.md",
       "title": "Экономика",
-      "size": 11338,
+      "size": 11345,
       "lines": 168
     },
     {
       "path": "reference/02_combat/README.md",
       "title": "Бой и движение",
-      "size": 5423,
+      "size": 5500,
       "lines": 78
     },
     {
@@ -239,13 +239,13 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 8235,
-      "lines": 100
+      "size": 8332,
+      "lines": 99
     },
     {
       "path": "reference/03_buildings/shipyard.md",
       "title": "Порт",
-      "size": 1447,
+      "size": 1466,
       "lines": 14
     },
     {
@@ -263,7 +263,7 @@
     {
       "path": "reference/03_buildings/tower.md",
       "title": "Башня",
-      "size": 3197,
+      "size": 3107,
       "lines": 35
     },
     {
@@ -299,13 +299,13 @@
     {
       "path": "reference/05_upgrades/barracks_17.md",
       "title": "Улучшения Казармы XVII века",
-      "size": 785,
+      "size": 788,
       "lines": 13
     },
     {
       "path": "reference/05_upgrades/barracks_17_command.md",
       "title": "Офицеры, барабанщики и волынщики XVII века",
-      "size": 6114,
+      "size": 6115,
       "lines": 40
     },
     {
@@ -323,13 +323,13 @@
     {
       "path": "reference/05_upgrades/barracks_18.md",
       "title": "Улучшения Казармы XVIII века",
-      "size": 792,
+      "size": 795,
       "lines": 13
     },
     {
       "path": "reference/05_upgrades/barracks_18_command.md",
       "title": "Офицеры, барабанщики и волынщики XVIII века",
-      "size": 4544,
+      "size": 4545,
       "lines": 30
     },
     {
@@ -359,14 +359,14 @@
     {
       "path": "reference/05_upgrades/mines.md",
       "title": "Улучшения шахт",
-      "size": 3706,
-      "lines": 29
+      "size": 3560,
+      "lines": 27
     },
     {
       "path": "reference/05_upgrades/README.md",
       "title": "Улучшения",
-      "size": 5086,
-      "lines": 62
+      "size": 5009,
+      "lines": 59
     },
     {
       "path": "reference/05_upgrades/shipyard.md",
@@ -377,7 +377,7 @@
     {
       "path": "reference/05_upgrades/stable.md",
       "title": "Улучшения Конюшни",
-      "size": 1169,
+      "size": 1211,
       "lines": 15
     },
     {
@@ -431,26 +431,26 @@
     {
       "path": "reference/06_market/README.md",
       "title": "Рынок",
-      "size": 7989,
-      "lines": 108
+      "size": 7991,
+      "lines": 109
     },
     {
       "path": "reference/07_naval/README.md",
       "title": "Флот",
-      "size": 8865,
-      "lines": 121
+      "size": 8867,
+      "lines": 122
     },
     {
       "path": "reference/compare/buildings/academies.md",
       "title": "Академии",
-      "size": 3229,
-      "lines": 32
+      "size": 3231,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/artillery_depots.md",
       "title": "Артиллерийские депо",
-      "size": 5820,
-      "lines": 32
+      "size": 5822,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/barracks.md",
@@ -461,278 +461,278 @@
     {
       "path": "reference/compare/buildings/blacksmiths.md",
       "title": "Кузницы",
-      "size": 3056,
-      "lines": 32
+      "size": 3058,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/diplomatic_centers.md",
       "title": "Дипломатические центры",
-      "size": 8958,
-      "lines": 32
+      "size": 8960,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/houses.md",
       "title": "Дома",
-      "size": 2985,
-      "lines": 32
+      "size": 2987,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/markets.md",
       "title": "Рынки",
-      "size": 2962,
-      "lines": 32
+      "size": 2964,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/mills.md",
       "title": "Мельницы",
-      "size": 3182,
-      "lines": 32
+      "size": 3184,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/mines.md",
       "title": "Шахты",
-      "size": 1062,
-      "lines": 11
+      "size": 1064,
+      "lines": 12
     },
     {
       "path": "reference/compare/buildings/ports.md",
       "title": "Порты",
-      "size": 5562,
-      "lines": 32
+      "size": 5564,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/README.md",
       "title": "Сравнения зданий",
-      "size": 260,
-      "lines": 5
+      "size": 262,
+      "lines": 6
     },
     {
       "path": "reference/compare/buildings/stables.md",
       "title": "Конюшни",
-      "size": 6155,
-      "lines": 32
+      "size": 6157,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/storehouses.md",
       "title": "Склады",
-      "size": 2949,
-      "lines": 32
+      "size": 2951,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/temples.md",
       "title": "Соборы / Церкви / Мечети",
-      "size": 4272,
-      "lines": 32
+      "size": 4274,
+      "lines": 33
     },
     {
       "path": "reference/compare/buildings/towers.md",
       "title": "Башни",
-      "size": 3000,
-      "lines": 31
+      "size": 3002,
+      "lines": 32
     },
     {
       "path": "reference/compare/buildings/town_halls.md",
       "title": "Городские центры",
-      "size": 6336,
+      "size": 6414,
       "lines": 33
     },
     {
       "path": "reference/compare/README.md",
       "title": "Сравнения",
-      "size": 4569,
+      "size": 4570,
       "lines": 60
     },
     {
       "path": "reference/compare/units/archers.md",
       "title": "Лучники",
-      "size": 12142,
-      "lines": 58
+      "size": 12144,
+      "lines": 59
     },
     {
       "path": "reference/compare/units/dragoons.md",
       "title": "Драгуны",
-      "size": 13999,
-      "lines": 67
+      "size": 14001,
+      "lines": 68
     },
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Барабанщики и волынщик",
-      "size": 8747,
+      "size": 8797,
       "lines": 51
     },
     {
       "path": "reference/compare/units/grenadiers.md",
       "title": "Гренадёры",
-      "size": 10569,
-      "lines": 52
+      "size": 10571,
+      "lines": 53
     },
     {
       "path": "reference/compare/units/heavy_cavalry.md",
       "title": "Тяжёлая кавалерия",
-      "size": 16779,
-      "lines": 79
+      "size": 16781,
+      "lines": 80
     },
     {
       "path": "reference/compare/units/light_cavalry.md",
       "title": "Лёгкая кавалерия",
-      "size": 12081,
-      "lines": 56
+      "size": 12083,
+      "lines": 57
     },
     {
       "path": "reference/compare/units/light_infantry.md",
       "title": "Лёгкая пехота",
-      "size": 12786,
-      "lines": 59
+      "size": 12788,
+      "lines": 60
     },
     {
       "path": "reference/compare/units/musketeers17.md",
       "title": "Мушкетёры (17 в.)",
-      "size": 5779,
-      "lines": 33
+      "size": 5781,
+      "lines": 34
     },
     {
       "path": "reference/compare/units/musketeers18.md",
       "title": "Мушкетёры (18 в.)",
-      "size": 4955,
-      "lines": 30
+      "size": 4957,
+      "lines": 31
     },
     {
       "path": "reference/compare/units/officers.md",
       "title": "Офицеры",
-      "size": 9026,
-      "lines": 50
+      "size": 9028,
+      "lines": 51
     },
     {
       "path": "reference/compare/units/peasants.md",
       "title": "Крестьяне",
-      "size": 5651,
-      "lines": 34
+      "size": 5653,
+      "lines": 35
     },
     {
       "path": "reference/compare/units/pikemen.md",
       "title": "Пикинёры (17 в.)",
-      "size": 5828,
-      "lines": 34
+      "size": 5830,
+      "lines": 35
     },
     {
       "path": "reference/compare/units/pikemen18.md",
       "title": "Пикинёры (18 в.)",
-      "size": 4657,
-      "lines": 30
+      "size": 4659,
+      "lines": 31
     },
     {
       "path": "reference/compare/units/priests.md",
       "title": "Священники",
-      "size": 2457,
-      "lines": 16
+      "size": 2459,
+      "lines": 17
     },
     {
       "path": "reference/compare/units/README.md",
       "title": "Сравнения юнитов",
-      "size": 262,
-      "lines": 5
+      "size": 264,
+      "lines": 6
     },
     {
       "path": "reference/compare/units/ships.md",
       "title": "Корабли",
-      "size": 29779,
-      "lines": 135
+      "size": 29781,
+      "lines": 136
     },
     {
       "path": "reference/compare/units/siege.md",
       "title": "Артиллерия",
-      "size": 20406,
-      "lines": 94
+      "size": 20408,
+      "lines": 95
     },
     {
       "path": "reference/compare/units/special_infantry_18c.md",
       "title": "Особая пехота (18 в.)",
-      "size": 3452,
-      "lines": 19
+      "size": 3454,
+      "lines": 20
     },
     {
       "path": "reference/compare/weapons/projectiles.md",
       "title": "Оружие и снаряды",
-      "size": 5366,
-      "lines": 33
+      "size": 5368,
+      "lines": 34
     },
     {
       "path": "reference/compare/weapons/README.md",
       "title": "Оружие и снаряды",
-      "size": 427,
-      "lines": 5
+      "size": 429,
+      "lines": 6
     },
     {
       "path": "reference/nations/alg.md",
       "title": "Алжир",
-      "size": 15822,
-      "lines": 190
+      "size": 15824,
+      "lines": 191
     },
     {
       "path": "reference/nations/aus.md",
       "title": "Австрия",
-      "size": 18850,
-      "lines": 227
+      "size": 18852,
+      "lines": 228
     },
     {
       "path": "reference/nations/bav.md",
       "title": "Бавария",
-      "size": 18050,
-      "lines": 217
+      "size": 18052,
+      "lines": 218
     },
     {
       "path": "reference/nations/den.md",
       "title": "Дания",
-      "size": 18058,
-      "lines": 217
+      "size": 18060,
+      "lines": 218
     },
     {
       "path": "reference/nations/eng.md",
       "title": "Англия",
-      "size": 18408,
-      "lines": 222
+      "size": 18410,
+      "lines": 223
     },
     {
       "path": "reference/nations/fra.md",
       "title": "Франция",
-      "size": 18747,
-      "lines": 225
+      "size": 18749,
+      "lines": 226
     },
     {
       "path": "reference/nations/hun.md",
       "title": "Венгрия",
-      "size": 18779,
-      "lines": 226
+      "size": 18781,
+      "lines": 227
     },
     {
       "path": "reference/nations/net.md",
       "title": "Нидерланды",
-      "size": 18084,
-      "lines": 217
+      "size": 18086,
+      "lines": 218
     },
     {
       "path": "reference/nations/pie.md",
       "title": "Пьемонт",
-      "size": 18038,
-      "lines": 217
+      "size": 18040,
+      "lines": 218
     },
     {
       "path": "reference/nations/pol.md",
       "title": "Польша",
-      "size": 18701,
-      "lines": 222
+      "size": 18703,
+      "lines": 223
     },
     {
       "path": "reference/nations/por.md",
       "title": "Португалия",
-      "size": 18519,
-      "lines": 223
+      "size": 18521,
+      "lines": 224
     },
     {
       "path": "reference/nations/pru.md",
       "title": "Пруссия",
-      "size": 18282,
-      "lines": 219
+      "size": 18284,
+      "lines": 220
     },
     {
       "path": "reference/nations/README.md",
@@ -743,61 +743,61 @@
     {
       "path": "reference/nations/rus.md",
       "title": "Россия",
-      "size": 18780,
-      "lines": 223
+      "size": 18782,
+      "lines": 224
     },
     {
       "path": "reference/nations/sax.md",
       "title": "Саксония",
-      "size": 18336,
-      "lines": 219
+      "size": 18338,
+      "lines": 220
     },
     {
       "path": "reference/nations/sco.md",
       "title": "Шотландия",
-      "size": 17523,
-      "lines": 207
+      "size": 17525,
+      "lines": 208
     },
     {
       "path": "reference/nations/spa.md",
       "title": "Испания",
-      "size": 18166,
-      "lines": 218
+      "size": 18168,
+      "lines": 219
     },
     {
       "path": "reference/nations/swe.md",
       "title": "Швеция",
-      "size": 18334,
-      "lines": 219
+      "size": 18336,
+      "lines": 220
     },
     {
       "path": "reference/nations/swi.md",
       "title": "Швейцария",
-      "size": 18591,
-      "lines": 224
+      "size": 18593,
+      "lines": 225
     },
     {
       "path": "reference/nations/tur.md",
       "title": "Турция",
-      "size": 17065,
-      "lines": 204
+      "size": 17067,
+      "lines": 205
     },
     {
       "path": "reference/nations/ukr.md",
       "title": "Украина",
-      "size": 15021,
-      "lines": 178
+      "size": 15023,
+      "lines": 179
     },
     {
       "path": "reference/nations/ven.md",
       "title": "Венеция",
-      "size": 17741,
-      "lines": 214
+      "size": 17743,
+      "lines": 215
     },
     {
       "path": "reference/README.md",
       "title": "Краткий справочник Cossacks 3",
-      "size": 5570,
+      "size": 5578,
       "lines": 78
     },
     {

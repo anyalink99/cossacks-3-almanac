@@ -13,12 +13,19 @@
 ## Перед началом работы
 
 ```bash
-# Окружение: Python 3.11+, ничего больше (только stdlib).
+# Окружение: Python 3.11+; ядро проекта работает только на stdlib.
+# Необязательные инструменты для извлечения ресурсов игры:
+python -m pip install -r requirements.txt
 # Игра: Cossacks 3 в стандартном Steam-пути либо переменная COSSACKS3_PATH.
 
 # Проверь что pipeline вообще работает:
 python -m unittest discover -s tests -v
 python scripts/regen.py sanity   # парсер + 112 авто-проверок
+
+# Для браузерных smoke-тестов нужны Node.js и Chromium:
+npm ci
+npx playwright install chromium
+npm run test:web
 ```
 
 CI на каждый PR прогоняет smoke-тесты, проверяет что `canonical_terms.json`
@@ -78,6 +85,9 @@ CI на каждый PR прогоняет smoke-тесты, проверяет 
    соответствующий файл в `docs_en/` или `internals_en/`, проверь пару и
    только затем выполни `python scripts/build_english_docs.py --adopt-existing`.
    Машинный перевод для публикуемого текста не используется.
+   Тексты веб-инструментов также переводятся вручную; после их проверки выполни
+   `python scripts/build_ui_translations.py --adopt-existing`, а затем
+   `python scripts/build_ui_translations.py --check`.
 
 ## Как делается изменение
 
@@ -92,6 +102,10 @@ python scripts/regen.py reports-economy
 # 3. Проверяешь:
 python -m unittest discover -s tests
 python scripts/regen.py sanity    # 112/112 PASS
+python scripts/check_markdown_links.py
+python scripts/build_english_docs.py --check
+python scripts/build_ui_translations.py --check
+npm run test:web
 
 # 4. Коммит. Логические коммиты, без co-authoring.
 git add <files>

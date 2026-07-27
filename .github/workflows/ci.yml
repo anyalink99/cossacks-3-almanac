@@ -42,15 +42,19 @@ jobs:
           python scripts/regen.py reference reports --serial
           python compute/build_md_manifest.py
           git diff --exit-code -- \
-            docs/reference docs/reports \
-            docs_en/reports/map/map_predictions_validation.md \
+            docs/README.md docs/reference docs/reports \
+            derived/builder_slots.json derived/game_settings.json \
+            internals/data/nation_deviations.md \
+            internals/data/map_predictions_validation.md \
+            internals_en/data/map_predictions_validation.md \
             docs/_manifest.json docs_en/_manifest.json \
             internals/_manifest.json internals_en/_manifest.json \
             docs/_search.json docs_en/_search.json \
             internals/_search.json internals_en/_search.json
 
       - name: Verify canonical_terms loads
-        run: python -c "import json; d = json.loads(open('derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"
+        run: |
+          python -c "import json; d = json.loads(open('derived/canonical_terms.json', encoding='utf-8').read()); assert len(d['nations']) == 21, 'expected 21 nations'; print(f'canonical_terms ok: {len(d[\"nations\"])} nations, {len(d[\"buildings\"])} buildings')"
 
       - name: Verify config.py imports + canonical maps populate
         run: |
@@ -58,4 +62,30 @@ jobs:
           python -c "from config import NATION_NAMES_RU, USAGE_RU, BUILDING_NAMES_RU, decode_usage, nation_label; assert NATION_NAMES_RU['aus'] == 'Австрия'; assert USAGE_RU['Town Hall'] == 'Городской центр'; assert decode_usage('gc_obj_usage_center', 'ru') == 'Городской центр'; assert nation_label('aus') == 'AUS — Austria (Австрия)'; print('config.py ok')"
 
       - name: Verify data.json sanity checks
-        run: python -c "import json; d = json.loads(open('data.json', encoding='utf-8').read()); checks = d.get('sanity_checks', []); failed = [c for c in checks if not c.get('pass')]; assert not failed, f'{len(failed)} sanity check(s) failed: {[(c[\"category\"], c[\"name\"]) for c in failed[:3]]}'; print(f'sanity ok: {len(checks)}/{len(checks)} passed')"
+        run: |
+          python -c "import json; d = json.loads(open('data.json', encoding='utf-8').read()); checks = d.get('sanity_checks', []); failed = [c for c in checks if not c.get('pass')]; assert not failed, f'{len(failed)} sanity check(s) failed: {[(c[\"category\"], c[\"name\"]) for c in failed[:3]]}'; print(f'sanity ok: {len(checks)}/{len(checks)} passed')"
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install browser-test dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser smoke tests
+        run: npm run test:web
