@@ -2,46 +2,48 @@
 
 [English](../internals_en/README.md) · **Русский**
 
-Эта папка — **не справочник для игрока**. Здесь живут документы про
-то, как игра устроена изнутри: бинарь движка, скриптовая среда DWS,
-структура `data/` каталога, форматы файлов. Если ты пришёл узнать
-«сколько HP у мушкетёра» — это не сюда; это в [`docs/`](../docs/).
+Эта папка — **не справочник для игрока**. Здесь описано внутреннее устройство
+игры: исполняемый файл, скриптовая среда DWS, структура каталога `data/` и
+форматы файлов. Игровые характеристики, сравнения и объяснения механик
+находятся в [энциклопедии](../docs/README.md).
 
 Сюда попадает всё, что:
 
-- описывает движок (`cossacks.exe`) — Delphi/DWS/Indy/FastMM4;
-- описывает структуру скриптов (`data/scripts/*`) — какой файл за
-  что отвечает, как они вызывают друг друга;
+- описывает исполняемый файл (`cossacks.exe`) и используемые в нём
+  Delphi, DWS, Indy и FastMM4;
+- описывает структуру скриптов (`data/scripts/*`), порядок их загрузки и связи;
 - описывает форматы и расположение файлов в `data/` (`.parser`,
   `.pattern`, `.aaf`, локали, генерация карт);
-- закрывает «как именно» работают вещи, у которых в `docs/recon/`
-  описан только «что».
+- дополняет читательские статьи из `docs/recon/` точными путями, внутренними
+  полями и фрагментами исходных скриптов.
 
 ## Структура
 
 | Раздел | Что внутри |
 |---|---|
-| [engine/](engine/) | Бинарь, скриптовый VM, сетевая модель, тики, RNG. |
-| [scripts/](scripts/) | Структура `data/scripts/*` — load order, точки входа, что в каждом файле. |
+| [engine/](engine/) | Исполняемый файл, виртуальная машина DWS, сетевая модель, время и генераторы случайных чисел. |
+| [scripts/](scripts/) | Структура `data/scripts/*`, порядок загрузки, точки входа и технические приложения к статьям о механиках. |
 | [data/](data/) | Структура `data/`: подпапки, форматы файлов (`.parser`, `.pattern`, `.aaf`). |
-| [project/](project/) | Архитектура этого репозитория, ограничения и журнал решённых проблем. |
+| [project/](project/) | Архитектура репозитория, правила документации, планы исследований и известные ограничения. |
 
 ## engine/
 
-Реверс-инжиниринг через статический анализ `cossacks.exe` — без
-Ghidra/IDA, только через парсинг бинарника на Python.
+Документы основаны на статическом анализе `cossacks.exe`. Скрипты Python
+извлекают сведения непосредственно из исполняемого файла; проекты Ghidra или
+IDA для воспроизведения результатов не требуются.
 
 | Файл | Что внутри |
 |---|---|
-| [engine/native_api.md](engine/native_api.md) | Главный документ. **4 856 native DWS-сигнатур** (имя, типы аргументов, RVA), извлечены прямо из exe через AnsiString-паттерн `\xFF\xFF\xFF\xFF<len><chars>\x00`. 100 % покрытие 884 примитивов, которые скрипт реально вызывает. Подсистемы (`game_object`, `player`, `save_load`, `path_command`, …). |
-| [engine/native_primitives.md](engine/native_primitives.md) | Машинно-сгенерированный быстрый поиск: топ-50 + 10 примеров на подсистему. |
-| [engine/rtti_class_map.md](engine/rtti_class_map.md) | Карта **1 779 Delphi-классов** в exe по подсистемам: `TXGameObject`, `TXBehaviour*` (22 класса), `TXAIRegion*` (5), `TXPath*` / `TPathData` (6), `TXTrigger*` (8), `TXStateMachine*` (9), `TXLan*` (8 — multiplayer), `TXMapGenerator`, `TXPattern*` (25), `TAIX*` (4 — редактор `.aix`) и т. д. |
-| [engine/determinism_audit.md](engine/determinism_audit.md) | RNG-аудит: какие RNG-функции используются в горячем пути добычи и боя, что персистится, мод-loader готовность. |
-| [engine/rng_implementation.md](engine/rng_implementation.md) | Реализация `Random` (Delphi LCG `X = X × 134775813 + 1 mod 2³²`, использует `System.RandSeed`) и `RandomExt` (64-бит LCG над **отдельным** расширенным seed'ом, который ставится через `SetRandomKey`/`SetRandomExtKey64`). Главный паттерн: per-decision deterministic seed. RE-валидировано через приватный `cossacks-deep`. |
-| [engine/server_sync_architecture.md](engine/server_sync_architecture.md) | C3 — server-authoritative (не lockstep). Net modes, sync-периоды, паттерн `bProcess`. |
-| [engine/server_sync_packet_format.md](engine/server_sync_packet_format.md) | Bit-layout сетевых пакетов: `EconomyPackage` (бинарь 1–18 байт) + parser-text для unit-state. |
-| [engine/ticks_and_subticks.md](engine/ticks_and_subticks.md) | Модель времени: real / game / frames. Главный progress-loop. Sub-tick state-machine intervals (135 мс у крестьян, 100 мс у юнитов). |
-| [engine/animation_system.md](engine/animation_system.md) | Animation system: формат `.aaf` (1 382 трека) и `.acl` (FSM-граф циклов), `refspeed.acl` (скорости движения по классам), `OnAclAnimationReachedAttack` callback (момент удара), `_unit_ApplyWeaponCost` / `ApplyAttackPause`, RNG-фильтр звуков выстрела. |
+| [engine/native_api.md](engine/native_api.md) | **4 856 сигнатур встроенных функций DWS**: имена, типы аргументов и RVA, извлечённые из исполняемого файла по шаблону `AnsiString`. Покрыты все 884 примитива, которые вызывают игровые скрипты; функции сгруппированы по подсистемам. |
+| [engine/native_primitives.md](engine/native_primitives.md) | Машинно-сгенерированный указатель: 50 самых часто используемых примитивов и по 10 примеров на подсистему. |
+| [engine/rtti_class_map.md](engine/rtti_class_map.md) | Карта **1 779 классов Delphi** по подсистемам: игровые объекты, поведение, поиск пути, триггеры, сеть, генерация карт, редактор `.aix` и другие группы. |
+| [engine/determinism_audit.md](engine/determinism_audit.md) | Какие генераторы случайных чисел участвуют в добыче и бою, какие состояния сохраняются и что можно изменить модификацией. |
+| [engine/rng_implementation.md](engine/rng_implementation.md) | Реализация `Random` и `RandomExt`, их отдельные начальные состояния и приём с детерминированным ключом для каждого решения. |
+| [engine/server_sync_architecture.md](engine/server_sync_architecture.md) | Серверная модель синхронизации, сетевые режимы, интервалы обновлений и назначение `bProcess`. |
+| [engine/server_sync_packet_format.md](engine/server_sync_packet_format.md) | Битовая раскладка сетевых пакетов: двоичные записи `EconomyPackage` и текстовые снимки состояния юнитов. |
+| [engine/ticks_and_subticks.md](engine/ticks_and_subticks.md) | Реальное и игровое время, кадры, основной цикл обновления и интервалы внутренних автоматов состояния. |
+| [engine/animation_system.md](engine/animation_system.md) | Форматы анимации `.aaf` и `.acl`, скорости движения, момент нанесения удара, стоимость оружия и выбор звука выстрела. |
+| [engine/script_modding_constraints.md](engine/script_modding_constraints.md) | Практические ограничения скриптовых модификаций: что можно изменить через DWS-скрипты, где нужны данные игры, а где возможности упираются в движок. |
 
 ## scripts/
 
@@ -50,7 +52,15 @@ Ghidra/IDA, только через парсинг бинарника на Pytho
 
 | Файл | Что внутри |
 |---|---|
-| [scripts/structure.md](scripts/structure.md) | Load order, главные `.script` файлы и их назначение, точки входа в скриптовую среду. |
+| [scripts/structure.md](scripts/structure.md) | Порядок загрузки, основные файлы `.script`, их назначение и точки входа в скриптовую среду. |
+
+### Технические приложения к игровым механикам
+
+| Тема | Приложения |
+|---|---|
+| Экономика и строительство | [Добыча ресурсов](scripts/peasant_extraction_evidence.md), [строительство и ремонт](scripts/building_mechanics_evidence.md), [захват](scripts/capture_mechanics_evidence.md), [улучшения](scripts/upgrades_application_evidence.md), [голод и бунт](scripts/hunger_and_rebellion_evidence.md), [очередь производства](scripts/production_queue_evidence.md) |
+| Бой и движение | [Выбор цели](scripts/target_selection_evidence.md), [поиск пути](scripts/pathfinding_evidence.md) |
+| Карта | [Генерация случайной карты](scripts/map_generation_evidence.md) |
 
 ## data/
 
@@ -63,6 +73,7 @@ Ghidra/IDA, только через парсинг бинарника на Pytho
 | [data/game_fields_glossary.md](data/game_fields_glossary.md) | Глоссарий технических полей из `data.json` и скриптов игры. |
 | [data/nation_deviations.md](data/nation_deviations.md) | Технические отпечатки национальных вариантов зданий и юнитов. |
 | [data/map_predictions_validation.md](data/map_predictions_validation.md) | Калибровка расчётной модели ресурсов карты по данным реплеев. |
+| [data/replay_format.md](data/replay_format.md) | Устройство файлов реплеев и сохранений `OSWMap13`: заголовок, записи, пакеты команд и синхронизация состояния. |
 
 ## Чем это отличается от `docs/recon/`
 
@@ -72,19 +83,21 @@ Ghidra/IDA, только через парсинг бинарника на Pytho
 | «Почему один сейв даёт разную добычу?» | «Какой именно LCG использует Delphi `Random`, и что зависит от какого RNG-потока?» |
 | «Как ходят юниты в формации?» | «Как pathfinding-thread-pool взаимодействует с скриптовым тиком?» |
 
-Граница: если для понимания нужны имена нативных функций / форматы
-байт-уровня / бинарь exe — это сюда. Если нужны игровые числа /
-поведение в активной партии — это в `docs/`.
+Граница проста: имена встроенных функций, форматы на уровне байтов и анализ
+исполняемого файла относятся сюда. Игровые числа и наблюдаемое в партии
+поведение относятся к [энциклопедии](../docs/README.md).
 
 ## Связанные машинные дампы
 
 Все JSON-датасеты, генерируемые из этих документов или из бинаря, — в
 [`../derived/`](../derived/):
 
-- `dws_native_signatures.json` — 4 856 native сигнатур (см. [engine/native_api.md](engine/native_api.md)).
-- `engine_primitives.json` — 884 native + 46 type-cast'ов из скриптов.
-- `exe_strings.json` — 61k ASCII + 15k Pascal ShortString из exe.
-- Прочие (game_settings, tech_tree, builder_slots, ...) — для игровой стороны.
+- `dws_native_signatures.json` — 4 856 сигнатур встроенных функций (см. [engine/native_api.md](engine/native_api.md)).
+- `engine_primitives.json` — 884 встроенных примитива и 46 приведений типов из скриптов.
+- `exe_strings.json` — 61 000 ASCII-строк и 15 000 значений Pascal
+  `ShortString` из исполняемого файла.
+- Другие наборы (`game_settings`, `tech_tree`, `builder_slots` и прочие)
+  используются в игровой энциклопедии.
 
 ## Инструменты
 

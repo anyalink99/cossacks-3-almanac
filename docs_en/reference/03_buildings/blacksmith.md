@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Blacksmith** `algbla` | Algeria | **6500** | **109.38** | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |
 | **Blacksmith** `ausbla` | Austria | 5500 | 93.75 | 400 | 0 | 100 | 30 | 0 | 640 | 0 | 0 | — |

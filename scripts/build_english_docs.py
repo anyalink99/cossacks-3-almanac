@@ -30,6 +30,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+from typing import Callable
 
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -52,8 +53,10 @@ URL_RE = re.compile(r"https?://[^\s)>]+")
 FOOTNOTE_RE = re.compile(r"\[\^[^\]]+]")
 MARKER_RE = re.compile(r"ZXQ[A-Z]+\d{5}QXZ")
 PROTECTOR_ARTIFACT_RE = re.compile(r"\b(?:ZXQ|ZXX)[A-Z0-9]*\d+[A-Z0-9]*\b")
-EXPLICIT_ID_RE = re.compile(
-    r'<(?:a|span)\s+[^>]*\bid="([^"]+)"',
+EXPLICIT_ID_LINE_RE = re.compile(
+    r"\s*<(?:a|span)\s+[^>]*\bid=(?P<quote>[\"'])"
+    r"(?P<id>[^\"']+)(?P=quote)[^>]*>\s*"
+    r"</(?:a|span)>\s*",
     re.IGNORECASE,
 )
 MALFORMED_ATX_RE = re.compile(r"^#{1,6}[^#\s]")
@@ -132,14 +135,14 @@ TRANSLATION_CLEANUPS = {
     "+7 `щит`": "+7 `armor`",
     "+атакующий": "+attacker",
     "−цель": "−target",
-    "g-сек": "game sec",
+    "g-сек": "game s",
     "g-минуты": "game minutes",
     "g-минуту": "game minute",
     "g-мин": "game min",
     "g-минут": "game min",
     "game minы": "game minutes",
     " попаданий": " hits",
-    " тайла": " tiles",
+    " тайла": " cells",
     "% юнитов": "% units",
     "%value% юнитов": "%value% units",
     "минус i=4 если Tiny": "minus i=4 when Tiny",
@@ -169,8 +172,30 @@ TRANSLATION_CLEANUPS = {
     "У сегмента стены `consume.stone`": "A wall segment has `consume.stone`",
     "`, после чего `_player_OrderUnitsToBuild`": "`, after which `_player_OrderUnitsToBuild`",
     "(sid, оружие)": "(sid, weapon)",
-    "gold/г-сек": "gold/game sec",
+    "gold/г-сек": "gold/game s",
     ". То есть `random`": ". That is, `random`",
+    "| Unit | nations | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | peak | sword | bullet | buckshot | arrow | core |":
+        "| Unit | Nations | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball |",
+    "| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |":
+        "| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |",
+    "| Unit | Nation | HP | Time (g-sec) | F | G | I | upkeep F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |":
+        "| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |",
+    "| Unit | Nation | Health | Time for hiring, games. with | Food | Gold | Iron | Food/games. with | Gold/games. with | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Buckshot | Arrow | Core | Prevalence |":
+        "| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |",
+    "| Unit | Sid | HP | Time (g-sec) | F | G | Heal/tact | Healing radius (tile) | Gold-upkeep (per tick = 1 game-sec) | Use nations |":
+        "| Unit | Internal ID | Health | Training time (game s) | Food | Gold | Healing per update | Healing range (cells) | Gold upkeep (per game s) | Nations |",
+    "| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |":
+        "| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |",
+    "| Building | Nation | Health | Time for construction and games. with | Price growth, % | Wood | Stone | Gold | Population places | Produces |":
+        "| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |",
+    "| Building | Cluster | Resource | HP | Time (g-sec) | W | S | G | rate (per beat) | Add. workers |":
+        "| Building | Architectural group | Resource | Health | Construction time, game s | Wood | Stone | Gold | Income value per worker | Initial worker slots |",
+    "| weaponsid | kind | dmg | reload(s) | range(t) | cost (per shot) | Carrier units |":
+        "| Internal weapon ID | Damage type | Damage | Reload (s) | Range (cells) | Shot cost | Units |",
+    "| HP % |": "| Health, % |",
+    "| +field HP % |": "| Field capacity, % |",
+    "| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |":
+        "| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |",
 }
 
 
@@ -251,7 +276,47 @@ def canonical_dictionary() -> list[tuple[str, str]]:
     return sorted(labels.items(), key=lambda item: (-len(item[0]), item[0]))
 
 
+def markdown_heading_text(text: str) -> str:
+    """Return the text a rendered Markdown heading exposes to the DOM."""
+
+    protected_code: dict[str, str] = {}
+
+    def preserve_code(match: re.Match[str]) -> str:
+        marker = f"\x00CODE{len(protected_code)}\x00"
+        protected_code[marker] = match.group(1)
+        return marker
+
+    value = re.sub(r"`([^`\n]+)`", preserve_code, text)
+    value = re.sub(r"!\[([^\]]*)\]\([^)]+\)", r"\1", value)
+    value = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", value)
+    value = re.sub(r"<[^>]+>", "", value)
+    # Remove Markdown emphasis delimiters, but keep literal underscores exposed
+    # by the rendered heading (for example ``state_id`` or ``game_object``).
+    value = re.sub(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", r"\2", value)
+    value = re.sub(
+        r"(?<![\w\\])([*_])(?=\S)(.+?)(?<=\S)\1(?!\w)",
+        r"\2",
+        value,
+    )
+    value = re.sub(r"~~(?=\S)(.+?)(?<=\S)~~", r"\1", value)
+    for marker, code_text in protected_code.items():
+        value = value.replace(marker, code_text)
+    return html.unescape(value)
+
+
 def github_slug(text: str) -> str:
+    value = markdown_heading_text(text).strip().lower()
+    value = re.sub(r"[^\w\s-]", "", value, flags=re.UNICODE)
+    return re.sub(r"\s", "-", value)
+
+
+def _legacy_github_slug(text: str) -> str:
+    """Return IDs emitted by the pre-rendered-text heading slugger.
+
+    This intentionally retains the old parser's mistakes so existing bad
+    aliases can be identified and migrated without guessing from their shape.
+    """
+
     value = re.sub(r"<[^>]+>", "", text)
     value = re.sub(r"[`*_~]", "", value).strip().lower()
     value = re.sub(r"[^\w\s-]", "", value, flags=re.UNICODE)
@@ -515,7 +580,10 @@ def write_manual_fenced_translations(
     )
 
 
-def markdown_headings(text: str) -> list[tuple[int, str, int]]:
+def _markdown_headings_with(
+    text: str,
+    slugger: Callable[[str], str],
+) -> list[tuple[int, str, int]]:
     """Return (level, slug, line index) for headings outside fenced blocks."""
     headings: list[tuple[int, str, int]] = []
     used: set[str] = set()
@@ -528,7 +596,7 @@ def markdown_headings(text: str) -> list[tuple[int, str, int]]:
             continue
         match = HEADING_RE.match(line)
         if match:
-            base = github_slug(match.group(2))
+            base = slugger(match.group(2))
             if not base:
                 continue
             slug = base
@@ -541,27 +609,141 @@ def markdown_headings(text: str) -> list[tuple[int, str, int]]:
     return headings
 
 
-def ensure_heading_aliases(source_text: str, translated_text: str) -> str:
-    """Preserve Russian heading fragments as aliases in the English mirror."""
+def markdown_headings(text: str) -> list[tuple[int, str, int]]:
+    return _markdown_headings_with(text, github_slug)
+
+
+def _legacy_markdown_headings(text: str) -> list[tuple[int, str, int]]:
+    return _markdown_headings_with(text, _legacy_github_slug)
+
+
+def _aligned_heading_pairs(
+    source_text: str,
+    translated_text: str,
+) -> list[tuple[tuple[int, str, int], tuple[int, str, int]]]:
+    """Pair source and translated headings in document order.
+
+    Normal mirrors have identical heading-level sequences and can be paired
+    directly. The fallback tolerates extra translated headings at other
+    levels without discarding the next unmatched source heading.
+    """
     source_headings = markdown_headings(source_text)
     target_headings = markdown_headings(translated_text)
-    if not source_headings or not target_headings:
+    if [level for level, _, _ in source_headings] == [
+        level for level, _, _ in target_headings
+    ]:
+        return list(zip(source_headings, target_headings))
+
+    pairs = []
+    target_cursor = 0
+    for source_heading in source_headings:
+        source_level = source_heading[0]
+        while (
+            target_cursor < len(target_headings)
+            and target_headings[target_cursor][0] != source_level
+        ):
+            target_cursor += 1
+        if target_cursor >= len(target_headings):
+            break
+        pairs.append((source_heading, target_headings[target_cursor]))
+        target_cursor += 1
+    return pairs
+
+
+def _standalone_explicit_id(line: str) -> str | None:
+    """Return the ID when *line* contains only one explicit heading anchor."""
+    match = re.fullmatch(r'\s*<a\s+id="([^"]+)"\s*></a>\s*', line)
+    return match.group(1) if match else None
+
+
+def _explicit_ids_outside_fences(text: str) -> list[str]:
+    """Return standalone HTML anchor IDs exposed in the rendered DOM."""
+    ids: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if not in_fence:
+            match = EXPLICIT_ID_LINE_RE.fullmatch(line)
+            if match:
+                ids.append(match.group("id"))
+    return ids
+
+
+def _aliases_immediately_before_headings(text: str) -> dict[int, set[str]]:
+    """Return standalone alias IDs attached to each heading line index."""
+    lines = text.splitlines()
+    attached: dict[int, set[str]] = {}
+    for _, _, heading_line in markdown_headings(text):
+        aliases: set[str] = set()
+        cursor = heading_line - 1
+        while cursor >= 0:
+            alias = _standalone_explicit_id(lines[cursor])
+            if alias is None:
+                break
+            aliases.add(alias)
+            cursor -= 1
+        attached[heading_line] = aliases
+    return attached
+
+
+def ensure_heading_aliases(source_text: str, translated_text: str) -> str:
+    """Preserve Russian heading fragments as aliases in the English mirror."""
+    heading_pairs = _aligned_heading_pairs(source_text, translated_text)
+    if not heading_pairs:
         return translated_text
 
-    existing_ids = set(re.findall(r'<a\s+id="([^"]+)"\s*></a>', translated_text))
+    target_heading_slugs = {
+        slug for _, slug, _ in markdown_headings(translated_text)
+    }
+    movable_aliases = {
+        source_slug
+        for (_, source_slug, _), (_, target_slug, _) in heading_pairs
+        if source_slug != target_slug and source_slug not in target_heading_slugs
+    }
+    current_source_slugs = {
+        slug for _, slug, _ in markdown_headings(source_text)
+    }
+    legacy_source_slugs = {
+        line: slug for _, slug, line in _legacy_markdown_headings(source_text)
+    }
+    obsolete_legacy_aliases = {
+        legacy_source_slugs[source_line]
+        for (source_level, source_slug, source_line), _ in heading_pairs
+        if source_line in legacy_source_slugs
+        and legacy_source_slugs[source_line] != source_slug
+        and legacy_source_slugs[source_line] not in current_source_slugs
+        and legacy_source_slugs[source_line] not in target_heading_slugs
+    }
+    removable_aliases = movable_aliases | obsolete_legacy_aliases
+
+    had_final_newline = translated_text.endswith("\n")
+    lines = [
+        line
+        for line in translated_text.splitlines()
+        if _standalone_explicit_id(line) not in removable_aliases
+    ]
+    without_movable_aliases = "\n".join(lines) + (
+        "\n" if had_final_newline else ""
+    )
+    heading_pairs = _aligned_heading_pairs(source_text, without_movable_aliases)
+    existing_ids = set(
+        re.findall(
+            r'<a\s+id="([^"]+)"\s*></a>',
+            without_movable_aliases,
+        )
+    )
+    target_heading_slugs = {
+        slug for _, slug, _ in markdown_headings(without_movable_aliases)
+    }
     insertions: dict[int, list[str]] = {}
-    source_cursor = 0
-    for target_level, target_slug, target_line in target_headings:
-        while (
-            source_cursor < len(source_headings)
-            and source_headings[source_cursor][0] != target_level
+    for (_, source_slug, _), (_, target_slug, target_line) in heading_pairs:
+        if (
+            source_slug == target_slug
+            or source_slug in target_heading_slugs
+            or source_slug in existing_ids
         ):
-            source_cursor += 1
-        if source_cursor >= len(source_headings):
-            break
-        _, source_slug, _ = source_headings[source_cursor]
-        source_cursor += 1
-        if source_slug == target_slug or source_slug in existing_ids:
             continue
         insertions.setdefault(target_line, []).append(
             f'<a id="{html.escape(source_slug)}"></a>'
@@ -569,10 +751,9 @@ def ensure_heading_aliases(source_text: str, translated_text: str) -> str:
         existing_ids.add(source_slug)
 
     if not insertions:
-        return translated_text
-    had_final_newline = translated_text.endswith("\n")
+        return without_movable_aliases
     output: list[str] = []
-    for index, line in enumerate(translated_text.splitlines()):
+    for index, line in enumerate(without_movable_aliases.splitlines()):
         output.extend(insertions.get(index, ()))
         output.append(line)
     return "\n".join(output) + ("\n" if had_final_newline else "")
@@ -741,6 +922,12 @@ def canonicalize_english_upgrade_names(text: str) -> str:
             catalog.get("entities", {}).get("upgrade", {}) or {}
         ).items()
     }
+    names.update(
+        {
+            "eurswa.1": "Convert Stone Wall to Gate",
+            "ukrwwa.1": "Convert Palisade to Gate",
+        }
+    )
 
     def replace(match: re.Match[str]) -> str:
         sid = match.group("sid")
@@ -749,10 +936,135 @@ def canonicalize_english_upgrade_names(text: str) -> str:
             return match.group(0)
         return f"**{name}** `{sid}`"
 
-    return re.sub(
+    text = re.sub(
         r"\*\*[^*\n]+\*\*\s+`(?P<sid>[a-z0-9.]+)`",
         replace,
         text,
+    )
+
+    def replace_bare(match: re.Match[str]) -> str:
+        sid = match.group("sid")
+        name = names.get(sid)
+        if not name:
+            return match.group(0)
+        return f"| **{name}** `{sid}` |"
+
+    return re.sub(
+        r"^\|\s*`(?P<sid>[a-z0-9.]+)`\s*\|",
+        replace_bare,
+        text,
+        flags=re.MULTILINE,
+    )
+
+
+def _is_markdown_table_separator(line: str) -> bool:
+    """Return whether *line* is the separator immediately below a table header."""
+    if not line.startswith("|") or not line.rstrip().endswith("|"):
+        return False
+    cells = line.split("|")[1:-1]
+    return bool(cells) and all(
+        re.fullmatch(r"\s*:?-{3,}:?\s*", cell) for cell in cells
+    )
+
+
+def clean_english_upgrade_table(text: str) -> str:
+    """Replace generator labels with reader-facing English in upgrade tables."""
+    effect_labels = {
+        "build time %": "Construction time",
+        "price %": "Price, %",
+        "enable unit": "Unlocks unit",
+        "+shield": "Durability / protection",
+        "+food eff %": "Food gathering, %",
+        "accuracy %": "Accuracy, %",
+        "+damage %": "Damage, %",
+        "+damage": "Damage",
+        "single reload %": "Building reload, %",
+        "range %": "Range, %",
+        "healing": "Healing",
+        "speed %": "Speed, %",
+        "+fish eff %": "Fishing, %",
+        "+stone eff %": "Stone gathering, %",
+        "balloon": "Reveals map",
+        "reload %": "Reload, %",
+        "build gate": "Converts to gate",
+        "geology": "Reveals deposits",
+        "+wood eff %": "Wood gathering, %",
+        "+building capacity": "Capacity",
+    }
+    lines = text.splitlines()
+    effect_column: int | None = None
+    value_column: int | None = None
+    for line_index, line in enumerate(lines):
+        if not line.startswith("|"):
+            effect_column = None
+            value_column = None
+            continue
+        cells = line.split("|")
+        normalized = [cell.strip() for cell in cells]
+        if (
+            "Effect" in normalized
+            and "Value" in normalized
+            and line_index + 1 < len(lines)
+            and _is_markdown_table_separator(lines[line_index + 1])
+        ):
+            effect_column = normalized.index("Effect")
+            value_column = normalized.index("Value")
+            continue
+        if (
+            effect_column is None
+            or value_column is None
+            or value_column >= len(cells) - 1
+        ):
+            continue
+        raw_effect = cells[effect_column].strip()
+        if raw_effect == "build time %":
+            raw_value = cells[value_column].strip()
+            if re.fullmatch(r"-?\d+", raw_value):
+                percentage = int(raw_value) / 100_000
+                formatted = f"{percentage:.4f}".rstrip("0").rstrip(".")
+                cells[value_column] = f" {formatted}% "
+        label = effect_labels.get(raw_effect)
+        if label:
+            cells[effect_column] = f" {label} "
+            lines[line_index] = "|".join(cells)
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
+def canonicalize_english_unit_names(text: str) -> str:
+    """Use the game's canonical English unit label before every preserved SID."""
+    canonical = json.loads(
+        (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+    )
+    names = {
+        sid: str(value.get("en") or "").strip()
+        for sid, value in (canonical.get("units") or {}).items()
+        if isinstance(value, dict)
+    }
+    names["unitbox"] = "Mission placeholder"
+
+    def replace(match: re.Match[str]) -> str:
+        sid = match.group("sid")
+        name = names.get(sid)
+        return f"**{name}** `{sid}`" if name else match.group(0)
+
+    text = re.sub(
+        r"\*\*[^*\n]+\*\*(?:\s*/\s*[^`|\n]+)?\s+`(?P<sid>[a-z0-9_]+)`",
+        replace,
+        text,
+    )
+
+    def replace_bare(match: re.Match[str]) -> str:
+        sid = match.group("sid")
+        name = names.get(sid)
+        if not name:
+            return match.group(0)
+        return f"| **{name}** `{sid}` |"
+
+    return re.sub(
+        r"^\|\s*`(?P<sid>[a-z0-9_]+)`\s*\|",
+        replace_bare,
+        text,
+        flags=re.MULTILINE,
     )
 
 
@@ -868,6 +1180,125 @@ def canonicalize_reader_nation_headings(text: str) -> str:
     return text
 
 
+def canonicalize_english_unit_list_column(
+    text: str,
+    column_name: str,
+) -> str:
+    """Show canonical unit names before preserved IDs in generated list cells."""
+    canonical = json.loads(
+        (ROOT / "derived" / "canonical_terms.json").read_text(encoding="utf-8")
+    )
+    unit_names = {
+        sid: str(names.get("en") or sid)
+        for sid, names in (canonical.get("units") or {}).items()
+    }
+    unit_names["unitbox"] = "Mission placeholder"
+    lines = text.splitlines()
+    target_column: int | None = None
+    for line_index, line in enumerate(lines):
+        if not line.startswith("|"):
+            target_column = None
+            continue
+        cells = line.split("|")
+        normalized = [cell.strip().casefold() for cell in cells]
+        if (
+            column_name.casefold() in normalized
+            and line_index + 1 < len(lines)
+            and _is_markdown_table_separator(lines[line_index + 1])
+        ):
+            target_column = normalized.index(column_name.casefold())
+            continue
+        if target_column is None or target_column >= len(cells) - 1:
+            continue
+        value = cells[target_column].strip()
+        if not value or value == "—" or set(value) <= {":", "-", " "}:
+            continue
+        converted: list[str] = []
+        changed = False
+        for item in value.split(","):
+            raw = item.strip()
+            match = re.fullmatch(
+                r"`?([a-z0-9_]+)`?(\s+\(\+\d+\))?",
+                raw,
+            )
+            if not match:
+                converted.append(raw)
+                continue
+            unit_sid, suffix = match.groups()
+            name = unit_names.get(unit_sid)
+            if not name:
+                converted.append(raw)
+                continue
+            converted.append(f"{name} (`{unit_sid}`){suffix or ''}")
+            changed = True
+        if changed:
+            cells[target_column] = " " + ", ".join(converted) + " "
+            lines[line_index] = "|".join(cells)
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
+def clean_english_building_comparison(text: str) -> str:
+    """Expand resource abbreviations in reader-facing comparison prose."""
+    replacements = {
+        "HP": "health",
+        "W": "wood",
+        "S": "stone",
+        "G": "gold",
+    }
+    output: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            output.append(line)
+            continue
+        if in_fence:
+            output.append(line)
+            continue
+        segments = re.split(r"(`[^`\r\n]+`)", line)
+        for index in range(0, len(segments), 2):
+            for token, label in replacements.items():
+                segments[index] = re.sub(
+                    rf"(?<![A-Za-z0-9_]){token}(?=\s*=)",
+                    label,
+                    segments[index],
+                )
+        output.append("".join(segments))
+    return "\n".join(output) + ("\n" if text.endswith("\n") else "")
+
+
+def _replace_english_table_column_values(
+    text: str,
+    column_name: str,
+    replacements: dict[str, str],
+) -> str:
+    """Replace exact values in one named Markdown-table column."""
+    lines = text.splitlines()
+    target_column: int | None = None
+    for line_index, line in enumerate(lines):
+        if not line.startswith("|"):
+            target_column = None
+            continue
+        cells = line.split("|")
+        normalized = [cell.strip().casefold() for cell in cells]
+        if (
+            column_name.casefold() in normalized
+            and line_index + 1 < len(lines)
+            and _is_markdown_table_separator(lines[line_index + 1])
+        ):
+            target_column = normalized.index(column_name.casefold())
+            continue
+        if target_column is None or target_column >= len(cells) - 1:
+            continue
+        value = cells[target_column].strip()
+        replacement = replacements.get(value)
+        if replacement is None:
+            continue
+        cells[target_column] = f" {replacement} "
+        lines[line_index] = "|".join(cells)
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+
+
 def clean_english_nation_page(text: str) -> str:
     """Turn generated nation sheets into reader-facing reference pages."""
     canonical = json.loads(
@@ -919,14 +1350,31 @@ def clean_english_nation_page(text: str) -> str:
         return (
             "## Shared features\n\n"
             f"- **Base peasant:** **{peasant_name}** (`{peasant}`).\n"
-            "- The Mill, Storehouse, Market, and Tower use one of the game's "
-            f"shared architectural sets (internal group `{cluster}`)."
+            "- The Mill, Storehouse, Market, and Tower use the same shared "
+            "architectural set."
         )
 
     text = cluster_pattern.sub(replace_cluster, text)
+    text = re.sub(
+        r"The Mill, Storehouse, Market, and Tower use one of the game's "
+        r"shared architectural sets \(internal group `[^`]+`\)\.",
+        "The Mill, Storehouse, Market, and Tower use the same shared "
+        "architectural set.",
+        text,
+    )
     text = text.replace(
         "| Unit | role | HP | damage | recharge | far (tile) |",
-        "| Unit | Role | Health | Damage | Reload, game s | Range, tiles |",
+        "| Unit | Role | Health | Damage | Reload, game s | Range, cells |",
+    )
+    text = _replace_english_table_column_values(
+        text,
+        "Role",
+        {
+            "Shooter": "Ranged Infantry",
+            "Horse Rifleman": "Mounted Ranged Unit",
+            "Cannon": "Artillery",
+            "Yacht": "Warship",
+        },
     )
     text = text.replace(
         "> **Bold** - values that differ from the basic ones (fashion for all nations) for the same type of building.",
@@ -936,7 +1384,82 @@ def clean_english_nation_page(text: str) -> str:
         "| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | farm | produces |",
         "| Building | Health | Build time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |",
     )
-
+    text = text.replace(
+        "| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |",
+        "| Building | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Details |",
+    )
+    text = text.replace(
+        "| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |",
+        "| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |",
+    )
+    text = text.replace(
+        "Each officer leads the formation of his units. Standard formations: **LINE / SQUARE / KARE × 15/36/72/120/196/400**.",
+        "Officers command formations of the compatible units listed below. Standard formation sizes are 15, 36, 72, 120, 196, and 400.",
+    )
+    text = text.replace(
+        "| officer | drummer | units |",
+        "| Officer | Drummer or Bagpiper | Compatible units |",
+    )
+    text = re.sub(
+        r"^### (?:Drummers and pipers|Drummer, 17th century and bagpipers)$",
+        "### Drummers and Bagpipers",
+        text,
+        flags=re.MULTILINE,
+    )
+    text = re.sub(
+        r"^### Mortars$",
+        "### Bombards and Howitzers",
+        text,
+        flags=re.MULTILINE,
+    )
+    text = re.sub(
+        r"^By buildings:$",
+        "Upgrade counts by research building:",
+        text,
+        flags=re.MULTILINE,
+    )
+    research_buildings = {
+        "aca": "Academy",
+        "mil": "Mill",
+        "bla": "Blacksmith",
+        "sta": "Stable",
+        "bar": "Barracks, 17th century",
+        "ba2": "Barracks, 18th century",
+        "art": "Artillery Depot",
+        "tem": "Cathedral, Church, or Mosque",
+        "cen": "Town Hall",
+        "dip": "Diplomatic Center",
+        "mines": "Mines",
+    }
+    for code, label in research_buildings.items():
+        text = re.sub(
+            rf"^- \*\*{re.escape(code)}\*\* \({re.escape(code)}\):",
+            f"- **{label}** (`{code}`):",
+            text,
+            flags=re.MULTILINE,
+        )
+    detail_labels = {
+        'content {"wood": 32}': "Contains 32 Wood",
+        'content {"wood": 40}': "Contains 40 Wood",
+        'content {"stone": 150}': "Contains 150 Stone",
+        'content {"stone": 200}': "Contains 200 Stone",
+        'content {"stone": 250}': "Contains 250 Stone",
+        'produces {"coal": 13}; +5 workers':
+            "Produces Coal; 5 initial worker slots",
+        'produces {"gold": 13}; +5 workers':
+            "Produces Gold; 5 initial worker slots",
+        'produces {"iron": 13}; +5 workers':
+            "Produces Iron; 5 initial worker slots",
+        'damage 1000; content {"gold": 500}':
+            "Damage 1,000; upkeep 0.8 Gold/game s",
+        'damage 1200; content {"gold": 500}':
+            "Damage 1,200; upkeep 0.8 Gold/game s",
+        'damage 1000; content {"gold": 250}':
+            "Damage 1,000; upkeep 0.4 Gold/game s",
+    }
+    for raw, label in detail_labels.items():
+        text = text.replace(raw, label)
+    text = text.replace("- **mines** (Mine):", "- **Mines**:")
     lines = text.splitlines()
     produces_column: int | None = None
     for line_index, line in enumerate(lines):
@@ -1086,7 +1609,7 @@ def translation_artifact_errors(text: str) -> list[str]:
     malformed_links = len(MALFORMED_LINK_RE.findall(text))
     if malformed_links:
         errors.append(f"contains {malformed_links} malformed '] (' link(s)")
-    ids = EXPLICIT_ID_RE.findall(text)
+    ids = _explicit_ids_outside_fences(text)
     duplicate_ids = [
         value
         for value, count in collections.Counter(ids).items()
@@ -1094,6 +1617,15 @@ def translation_artifact_errors(text: str) -> list[str]:
     ]
     if duplicate_ids:
         errors.append(f"contains duplicate explicit IDs {duplicate_ids[:5]}")
+    natural_heading_ids = {
+        slug for _, slug, _ in markdown_headings(text)
+    }
+    heading_id_collisions = sorted(natural_heading_ids.intersection(ids))
+    if heading_id_collisions:
+        errors.append(
+            "contains explicit IDs that duplicate natural heading IDs "
+            f"{heading_id_collisions[:5]}"
+        )
     return errors
 
 
@@ -1151,7 +1683,7 @@ def validate_pair_text(
                 f"{target_structure['table_rows']} target"
             )
 
-    target_ids = set(EXPLICIT_ID_RE.findall(target_text))
+    target_ids = set(_explicit_ids_outside_fences(target_text))
     target_ids.update(slug for _, slug, _ in markdown_headings(target_text))
     missing_aliases = [
         slug
@@ -1161,6 +1693,20 @@ def validate_pair_text(
     if missing_aliases:
         errors.append(
             f"{rel}: missing source heading aliases {missing_aliases[:5]}"
+        )
+    attached_aliases = _aliases_immediately_before_headings(target_text)
+    misplaced_aliases = []
+    for (_, source_slug, _), (_, target_slug, target_line) in (
+        _aligned_heading_pairs(source_text, target_text)
+    ):
+        if source_slug == target_slug or source_slug in missing_aliases:
+            continue
+        if source_slug not in attached_aliases.get(target_line, set()):
+            misplaced_aliases.append(source_slug)
+    if misplaced_aliases:
+        errors.append(
+            f"{rel}: source heading aliases are attached to the wrong "
+            f"translated headings {misplaced_aliases[:5]}"
         )
     return errors
 
@@ -1330,13 +1876,42 @@ def main() -> int:
                 cleaned = canonicalize_reader_table_codes(cleaned)
                 cleaned = canonicalize_reader_nation_headings(cleaned)
                 cleaned = canonicalize_english_reader_links(cleaned, target)
-            if target == ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md":
+            if target.is_relative_to(ROOT / "docs_en" / "reference"):
+                cleaned = canonicalize_english_unit_names(cleaned)
                 cleaned = canonicalize_english_upgrade_names(cleaned)
+            if (
+                target.parent
+                == ROOT / "docs_en" / "reference" / "compare" / "buildings"
+            ):
+                cleaned = clean_english_building_comparison(cleaned)
+                cleaned = canonicalize_english_unit_list_column(
+                    cleaned,
+                    "Produces",
+                )
+            if (
+                target.parent
+                == ROOT / "docs_en" / "reference" / "compare" / "weapons"
+            ):
+                cleaned = canonicalize_english_unit_list_column(
+                    cleaned,
+                    "Units",
+                )
+            if target.parent == ROOT / "docs_en" / "reference" / "05_upgrades":
+                cleaned = clean_english_upgrade_table(cleaned)
             if (
                 target.parent == ROOT / "docs_en" / "reference" / "nations"
                 and target.name != "README.md"
             ):
                 cleaned = clean_english_nation_page(cleaned)
+                for column_name in (
+                    "Officer",
+                    "Drummer or Bagpiper",
+                    "Compatible units",
+                ):
+                    cleaned = canonicalize_english_unit_list_column(
+                        cleaned,
+                        column_name,
+                    )
             if (
                 target.is_relative_to(ROOT / "docs_en" / "reports")
                 and target.name != "README.md"
@@ -1357,7 +1932,6 @@ def main() -> int:
         if validation_errors:
             print("\n".join(validation_errors), file=sys.stderr)
             return 1
-        write_manifest(pairs)
         print(f"Cleaned {changed_count} existing translations")
         return 0
 

@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Artillery Depot** `algart` | Algeria | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |
 | **Artillery Depot** `ausart` | Austria | 40000 | 245.94 | 200 | 0 | 100 | 1000 | 0 | 0 | 1400 | 0 | Cannon (`cannon`), Frame gun (`framegun`), Howitzer (`howitzer`), Bombard (`mortar`), Multi-barrelled Cannon (`multicannon`) |

@@ -1,98 +1,75 @@
-<a id="cossacks-3--starting-layout"></a>
 <a id="стартовое-расположение-и-ресурсы"></a>
-# Cossacks 3 - Starting layout
+# Starting Positions and Resources
 
 [← Tables and calculations](../README.md)
 
-<a id="1-расстановка-крестьян-режим-default"></a>
+This page explains how the first Peasants are arranged and where the map
+generator tries to place the nearest forests and stone clusters. The exact
+layout varies from match to match because of terrain shape and the random
+selection of valid positions.
+
 <a id="первые-крестьяне"></a>
-## §1. Peasant placement (default mode)
+## The First Peasants
 
-The arrangement is done in `CreateStartPointPeasants` [^1].
+With the standard starting option, **18 Peasants** appear in a **6×3** grid
+with 0.75 cells between them [^1]. The entire group occupies approximately
+4.5×2.25 cells, and each Peasant's position receives a small random offset.
 
-- **18 peasants** will spawn in the **6×3** grid (`i div 3`, `i mod 3`)
-- Step between peasants: `cUnitR = 0.75` tile
-- The grid is centered at the starting point: a total of `(6×0.75) × (3×0.75) = 4.5×2.25` tiles
-- Random displacement of each peasant: ±0.125 tiles on both axes
-- Originals peasant sid is taken from `gCountry[cid].members[]` for the first unit with `usage = gc_obj_usage_peasant` (for example `peaaus` for Austria, `peaeng` for England, etc.)
+The generator does not place natural resources inside this small area, so
+the Peasants do not start inside a forest or stone cluster.
 
-**In practice:** at the start you have a pile of 18 peasants occupying approximately `5×3` tiles, which fits into the inner clearing circle `cCircle1` (see §2). Nothing else will spawn there - this is a safe “home” for the first minute.
-
-<a id="2-кольца-спавна-ресурсов-вокруг-старт-точки"></a>
 <a id="ближайшие-леса-и-камни"></a>
-## §2. Resource spawn rings around the starting point
+## Nearby Forests and Stone
 
-The arrangement of the rings is done by `SetupStartingResources` [^2].
+The generator uses three approximate zones around each starting point:
 
-Around each player’s starting point there are three ellipses (X-radius × Y-radius, tiles):
+| Zone | Approximate distance | What appears there |
+| --- | ---: | --- |
+| Inner | Up to 5 cells | Clear space for the starting group |
+| Middle | Roughly 5–12 cells | The nearest stone and parts of forests |
+| Outer | Roughly 12–22 cells | Additional forests and stone |
 
-| Ring | X-radius | Y-radius | What spawns on the border |
-| --- | ---: | ---: | --- |
-| Inner (`cCircle1`) | 5 | 7 | cleared, resources will NOT spawn (peasants only) |
-| Mid (`cCircle2`) | 12 | 15 | 1× stoneforests + 1× stones at the inner border |
-| — _between mid+4 and outer_ | — | — | additional 2× forests + 1× stones |
-| Outer (`cCircle3`) | 22 | 18 | 1× forest at the border (then the mask is filled) |
+The generator makes several attempts to place each object at a random angle
+and distance. Terrain can block an attempt, so the final position may fall
+outside the approximate range shown here. Gold, iron, and coal deposits use
+a separate placement algorithm.
 
-**Spawn algorithm** (`for [MAIN]i:=0 to 127 do begin … VectorRotateY(px, …, angle); _misc_CheckStandPattern… end`): in each “ring” - 128 attempts × 3 sub-attempts to find a valid position for the selected pattern. Angle `angle` - `RandomExt × 360°`. The distance from the center is `mindst + RandomExt × N + (i+j) × 0.5` tile. This means:
+For more detail, see [Random-map generation](../../recon/world/map/map_generation_pipeline.md)
+and [Estimated map resources](map_resources.md).
 
-- **Inner stoneforest:** distance ~5-8 tiles
-- **Inner stones:** distance ~5-8 tiles (separate random angle, maybe on the back side)
-- **Mid forests** (×2): distance ~12-18 tiles (mindst=12, +2 random)
-- **Mid stones:** distance ~16-22 tiles (mindst=12+4=16, +2 random)
-- **Outer forest:** distance ~22-28 tiles
-
-The forest type is determined by the `foreststype` parameter in the map generation settings: 0 = pinefir/spruce/pine (coniferous, 7 options), 1 = leaf (deciduous), 2 = mixed. In desert maps, `desert_forests_*` patterns are used instead of forests.
-
-Mines (gold / iron / coal) - separate function `SetupMines` [^3]. Mine spawning follows a different logic (in rounds according to distance, see [peasant resource gathering](../../recon/world/economy/peasant_extraction.md) §8.3 + [map generation](../../recon/world/map/map_generation_pipeline.md) §8).
-
-<a id="3-пресеты-стартовых-юнитов"></a>
 <a id="варианты-стартовых-ресурсов"></a>
-## §3. Starting unit presets
+## Starting Resource Presets
 
-Preset source - `data/game/var/startingsettings.cfg` + enum `gc_mapsettings_startingunits_*` [^4]. All 14 presets with canonical Russian names - [lobby settings](lobby_settings.md). Engine behavior (how units and resources are added) - [match settings](../../recon/world/map/game_settings.md) §3.1.
+The lobby offers ready-made combinations of starting troops and resources.
+The table lists the current entry for each option, using the names shown in
+the English game localization.
 
-The player selects one of these modes in the lobby. **default** (id=0) is what is described in §1 (just 18 peasants, no additional resources or units). The remaining modes add resources and/or additional units + buildings (through complex ASCII masks in the cfg file).
+| Preset | Food | Wood | Stone | Gold | Iron | Coal |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| (Template—not selectable) | 0 | 0 | 0 | 0 | 0 | 0 |
+| Default | 0 | 0 | 0 | 0 | 0 | 0 |
+| Army | 1000 | 0 | 0 | 0 | 0 | 0 |
+| Big Army | 20000 | 0 | 0 | 0 | 0 | 0 |
+| Huge Army | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| Army of Peasants | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| Different Nations | 5000 | 5000 | 5000 | 5000 | 5000 | 5000 |
+| Towers | 20000 | 0 | 0 | 0 | 6000 | 9000 |
+| Cannons | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
+| Cannons and Howitzers | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
+| 18th Century Barracks | 65000 | 2000 | 2000 | 15000 | 6000 | 9000 |
+| Barrack17 | 5000 | 1000 | 1000 | 2500 | 3000 | 3000 |
+| Village | 1000 | 1000 | 1000 | 1000 | 2500 | 2500 |
+| Logcabins | 0 | 0 | 0 | 0 | 2500 | 2500 |
+| Union | 1000 | 0 | 0 | 0 | 0 | 0 |
 
-**Summary of startid → preset → starting resources (on top of default):**
-| startid | preset | dataversion | +F | +W | +S | +G | +I | +C |
-| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| -1 | (template - not selectable) | — | 0 | 0 | 0 | 0 | 0 | 0 |
-| 0 | default | — | 0 | 0 | 0 | 0 | 0 | 0 |
-| 1 | armysmall | 60…1000 | 1000 | 0 | 0 | 0 | 0 | 0 |
-| 1 | armysmall | 0…59 | 1000 | 0 | 0 | 0 | 0 | 0 |
-| 2 | armymedium | 60…1000 | 20000 | 0 | 0 | 0 | 0 | 0 |
-| 2 | armymedium | 0…59 | 20000 | 0 | 0 | 0 | 0 | 0 |
-| 3 | armylarge | 60…1000 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
-| 3 | armylarge | 0…59 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
-| 4 | peasantslot | 60…1000 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
-| 4 | peasantslot | 0…59 | 20000 | 0 | 0 | 0 | 6000 | 9000 |
-| 5 | differentnations | — | 5000 | 5000 | 5000 | 5000 | 5000 | 5000 |
-| 6 | towers | — | 20000 | 0 | 0 | 0 | 6000 | 9000 |
-| 7 | cannons | — | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
-| 8 | cannonsandhowitzers | — | 20000 | 0 | 0 | 1000 | 6000 | 9000 |
-| 9 | barrack18 | — | 65000 | 2000 | 2000 | 15000 | 6000 | 9000 |
-| 10 | barrack17 | — | 5000 | 1000 | 1000 | 2500 | 3000 | 3000 |
-| 11 | village | — | 1000 | 1000 | 1000 | 1000 | 2500 | 2500 |
-| 12 | logcabins | — | 0 | 0 | 0 | 0 | 2500 | 2500 |
-| 13 | union | — | 1000 | 0 | 0 | 0 | 0 | 0 |
-
-**Notes:**
-- Resources are an **increase** to the standard starting 0/0/0/0/0/0. Players start with exactly these numbers on the counters.
-- `dataversion` indicates the range of engine versions in which this entry is active. Old entries (`dataversion 0…59`) have been retained for compatibility with replays. For the current version, entries with `dataversionmin ≥ 60` are used.
-- In addition to resources, each non-default preset spawns **additional buildings and units** through ASCII masks (`mask : struct.begin`), which are not parsed here (too variable among nations). Open `startingsettings.cfg` in its entirety if you need exact locations.
-- `legends : struct.begin` under each `allowedcountries` is a dictionary of mask characters (`X = peasant`, `O = officer17`, `B = drummer17`, `P = polish unit`, etc.). The specific sid of the unit is taken via `role` (= gc_ai_unit_*) or explicit `basename`.
-
----
+Some presets also add buildings and troops. Their composition depends on
+the selected nation; the complete list of option names is available in the
+[match settings reference](lobby_settings.md).
 
 <a id="источники"></a>
 ## Sources
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
-[^1]: `CreateStartPointPeasants` - arrangement of 18 peasants 6x3 - `common.inc/dogenerate.inc:1231-1281`.
-
-[^2]: `SetupStartingResources` + `cCircle*Mask` constants - `common.inc/dogenerate.inc:407-414, 720-978`.
-
-[^3]: `SetupMines` - placement of deposits - `common.inc/dogenerate.inc:985`.
-
-[^4]: enum `gc_mapsettings_startingunits_*` - `dmscript.global:1032-1045`.
+[^1]: Starting Peasant placement —
+      `common.inc/dogenerate.inc:1231-1281`.

@@ -1,14 +1,20 @@
 <a id="национальные-отклонения--здания-и-юниты"></a>
-# National deviations — buildings and units
+# National Variants of Buildings and Units
 
 [← Technical documentation](../README.md)
 
 This calculated report is built from [`data.json`](../../data.json) by
 [`compute/compute_nation_deviations.py`](../../compute/compute_nation_deviations.py).
 
-The goal is to collect in one place ALL the places where a particular nation has a stat value for a building or a general unit that differs from what the majority have. The source of the deltas is `case i of nation:` branches in `unit.script`, which overwrite `SetObjBuildingProperties` / `SetObjBaseWeapon` for individual nations.
+This report collects every building or shared-unit statistic that differs
+from the most common value across nations. The differences originate in
+`case i of nation:` branches in `unit.script`, which override
+`SetObjBuildingProperties` or `SetObjBaseWeapon` for individual nations.
 
-Format: for each family (for example, `<nat>cen` - Town Hall) 21 nations are grouped by “fingerprint” - a tuple of significant stats. The majority group is considered the base case; smaller groups are listed as outliers, with an explicit indication of how exactly they differ.
+For each family—for example, `<nat>cen` for the Town Hall—the 21 nations
+are grouped by a fingerprint of significant statistics. The largest group
+defines the baseline; smaller groups are listed as variants with their
+differences shown explicitly.
 
 This report complements the reader-facing
 [nation comparison](../../docs_en/reports/nations/overview.md), which summarizes
@@ -17,20 +23,27 @@ The full stat fingerprints are listed here.
 
 Contents:
 
-- [§1. General class buildings (Town Hall, Barracks, Academy, etc.)](#1-здания-общего-класса)
+- [§1. Shared building families (Town Hall, Barracks, Academy, etc.)](#1-здания-общего-класса)
 - [§2. Units common to several nations](#2-юниты-общие-для-нескольких-наций)
 
 <a id="1-здания-общего-класса"></a>
-## §1. General class buildings
+## §1. Shared Building Families
 
-For each building family - `<nat>` + suffix - records of all nations that have that building are collected. Nations are then grouped by stat fingerprint identity: values read by `SetObjBuildingProperties` / `SetObjBuildingExtProperties`. If a nation does not have this building (for example, Ukraine has no towers or stone walls; see the [nation comparison](../../docs_en/reports/nations/overview.md)), it does not appear in this group.
+For each `<nat>`-plus-suffix building family, the report collects every
+nation that has the building and groups identical fingerprints together.
+The values come from `SetObjBuildingProperties` and
+`SetObjBuildingExtProperties`. A nation without that building does not
+appear in the group; for example, Ukraine has no towers or stone walls.
+See the [nation comparison](../../docs_en/reports/nations/overview.md).
 
-Fingerprint type: HP · buildtime · costpercent · price · score · vision · farm · peasantabsorber · consume · weapon (damage/pause/radiusmax) · produces.
+Fingerprint fields: HP · buildtime · costpercent · price · score · vision ·
+farm · peasantabsorber · consume · weapon (damage/pause/radiusmax) · production
+roster.
 
-<a id="cen--городской-центр"></a>
+<a id="natcen--городской-центр"></a>
 ### `<nat>cen` — Town Hall
 
-- **Basic option** (7/21): **bav** Bavaria, **hun** Hungary, **pie** Piedmont, **por** Portugal, **sax** Saxony … (+2)
+- **Baseline** (7/21): **bav** Bavaria, **hun** Hungary, **pie** Piedmont, **por** Portugal, **sax** Saxony … (+2)
   - HP **4000**, buildtime **156.25** g-sec, costpercent **300**
   - price: 700 W · 700 S
   - score=1000, farm=100
@@ -70,7 +83,7 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - HP **5300**, buildtime **156.25** g-sec, costpercent **400**
   - price: 700 W
   - score=1000, farm=200
-- produces: peaaus, peaeng, peapol, pearus, peasco, peaspa, peatur, peaukr
+  - produces: peaaus, peaeng, peapol, pearus, peasco, peaspa, peatur, peaukr
 
 - **Deviation 7** (1/21): **pol** Poland
   - HP **4300**, buildtime **156.25** g-sec, costpercent **300**
@@ -115,10 +128,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: peaaus, peaeng, peapol, pearus, peasco, peaspa, peatur, peaukr
 
 
-<a id="hou--дом--ферма"></a>
-### `<nat>hou` - Housing / farm
+<a id="nathou--дом--ферма"></a>
+### `<nat>hou` — House
 
-- **Basic option** (10/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **hun** Hungary … (+5)
+- **Baseline** (10/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **hun** Hungary … (+5)
   - HP **4000**, buildtime **31.25** g-sec, costpercent **104**
   - price: 100 W · 100 S
   - score=100, farm=25
@@ -173,10 +186,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: —
 
 
-<a id="bar--казарма-xvii-в"></a>
-### `<nat>bar` — Barracks XVII century.
+<a id="natbar--казарма-xvii-в"></a>
+### `<nat>bar` — Barracks, 17th century
 
-- **Basic option** (16/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+11)
+- **Baseline** (16/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+11)
 - HP **40000**, buildtime **93.75** g-sec, costpercent **500**
   - price: 100 W · 100 S · 500 G
   - score=500, farm=150
@@ -207,10 +220,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: archer, archertur, bagpiper, drummer, drummerrus, drummertur, gauduk, jannisary, lightinfantry, musketeer, musketeeraus, musketeernet, musketeerpol, musketeersco, musketeerspa, officer, officerrus, officersco, officertur, pikeman, pikemanpol, pikemanpor, pikemanrus, pikemansco, pikemanspa, pikemanswi, pikemantur, roundshier, serdiuk, strelet
 
 
-<a id="ba2--казарма-xviii-в"></a>
-### `<nat>ba2` — Barracks XVIII century.
+<a id="natba2--казарма-xviii-в"></a>
+### `<nat>ba2` — Barracks, 18th century
 
-- **Basic option** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+12)
+- **Baseline** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+12)
   - HP **55000**, buildtime **5625.0** g-sec, costpercent **200**
   - price: 1700 W · 2950 S · 4000 G
   - score=500, farm=250
@@ -221,10 +234,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - price: 640 W · 2400 S · 2400 G
   - score=500, farm=150
   - produces: archersco, chasseur, drummer18, grenadier, grenadierbav, grenadierden, grenadierhun, grenadierpru, grenadiersax, highlander, jagerpor, jagerswi, musketeer18, musketeer18bav, musketeer18den, musketeer18pru, musketeer18sax, officer18, pandur, pandurhun, pikeman18, pikeman18swe, swordsmansco
-<a id="sta--конюшня"></a>
+<a id="natsta--конюшня"></a>
 ### `<nat>sta` — Stable
 
-- **Basic option** (14/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **net** Netherlands … (+9)
+- **Baseline** (14/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **net** Netherlands … (+9)
   - HP **20000**, buildtime **625.0** g-sec, costpercent **200**
   - price: 2500 W · 100 S · 600 G
   - score=500
@@ -267,10 +280,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
 - produces: cossackdon, cossackregister, cossacksich, croat, cuirassier, dragoon, dragoon18, dragoon18fra, dragoon18net, dragoon18pie, dragoonpol, guardcavalrysax, hackapell, hetman, hussar, hussarhun, hussarpru, hussarswi, kingmusketeer, lancersco, lightcavalry, mameluke, raidersco, reiter, reiterpol, reiterswe, sipahi, spakh, tatar, vityaz, wingedhussar
 
 
-<a id="aca--академия"></a>
+<a id="nataca--академия"></a>
 ### `<nat>aca` — Academy
 
-- **Basic option** (8/21): **bav** Bavaria, **fra** France, **hun** Hungary, **pie** Piedmont, **por** Portugal … (+3)
+- **Baseline** (8/21): **bav** Bavaria, **fra** France, **hun** Hungary, **pie** Piedmont, **por** Portugal … (+3)
   - HP **63000**, buildtime **625.0** g-sec, costpercent **300**
   - price: 1250 W 1100 S
   - score=500
@@ -343,10 +356,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: —
 
 
-<a id="bla--кузница"></a>
+<a id="natbla--кузница"></a>
 ### `<nat>bla` — Blacksmith
 
-- **Basic option** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **hun** Hungary … (+12)
+- **Baseline** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **hun** Hungary … (+12)
   - HP **5500**, buildtime **93.75** g-sec, costpercent **400**
   - price: 100 W 30 S 640 I
   - score=500
@@ -371,10 +384,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: —
 
 
-<a id="art--артиллерийское-депо"></a>
+<a id="natart--артиллерийское-депо"></a>
 ### `<nat>art` — Artillery Depot
 
-- **Basic option** (19/21): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+14)
+- **Baseline** (19/21): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+14)
   - HP **40000**, buildtime **245.94** g-sec, costpercent **200**
   - price: 100 W · 1000 S · 1400 C
   - score=500
@@ -393,10 +406,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: cannon, framegun, howitzer, mortar, multicannon
 
 
-<a id="dip--дипломатический-центр"></a>
+<a id="natdip--дипломатический-центр"></a>
 ### `<nat>dip` — Diplomatic Center
 
-- **Basic option** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+12)
+- **Baseline** (17/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+12)
   - HP **4500**, buildtime **312.5** g-sec, costpercent **100**
   - price: 4900 W 1700 S
   - score=500
@@ -421,10 +434,10 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
   - produces: archerdip, archerturdip, cossacksichdip, dragoon18dip, grenadierdip, lightcavalrydip, lightinfantrydip, roundshierdip
 
 
-<a id="tem--храм"></a>
+<a id="nattem--храм"></a>
 ### `<nat>tem` – Temple
 
-- **Basic option** (16/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **hun** Hungary … (+11)
+- **Baseline** (16/21): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **hun** Hungary … (+11)
   - HP **4200**, buildtime **156.25** g-sec, costpercent **300**
   - price: 1000 W · 1200 S · 500 I
   - score=500
@@ -460,12 +473,14 @@ Fingerprint type: HP · buildtime · costpercent · price · score · vision · 
 
 Each unit `sid` with records in at least two nations is included; units unique to one nation are covered by the [nation comparison](../../docs_en/reports/nations/overview.md). Entries are grouped by stat fingerprint (HP / build time / price / armor / speed / defense / upkeep / weapon set). Units with the same fingerprint are merged into one group.
 
-If a sid has one group for all available nations, there are no deviations, and he is not shown here. If different, the base option (majority) and deviations are listed.
+If a SID has the same fingerprint in every available nation, it has no
+variant and is omitted. Otherwise, the majority fingerprint and all
+deviations are listed.
 
 <a id="archerdip--лучник"></a>
-### `archerdip` — Archer
+### `archerdip` — Archer (mercenary)
 
-- **Basic option** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
+- **Baseline** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
 - HP **20**, price: 15 G, buildtime **1.25** g-sec, speed 32
   - score=1, costpercent=100.5
   - consume: 16 G/tick
@@ -480,9 +495,9 @@ If a sid has one group for all available nations, there are no deviations, and h
   - weapon[1]: 100 dmg pause 0.78 s range 14.06 t firearrow, disp 3.75t
 
 <a id="archerturdip--лучник"></a>
-### `archerturdip` — Archer
+### `archerturdip` — Turkish archer (mercenary)
 
-- **Basic option** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
+- **Baseline** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
   - HP **20**, price: 15 G, buildtime **1.25** g-sec, speed 32
   - score=1, costpercent=100.5
   - consume: 16 G/tick
@@ -497,9 +512,9 @@ If a sid has one group for all available nations, there are no deviations, and h
   - weapon[1]: 100 dmg pause 0.78 s range 14.06 t firearrow, disp 3.75t
 
 <a id="drummer18--лёгкая-пехота"></a>
-### `drummer18` - Light Infantry
+### `drummer18` — Drummer, 18th century
 
-- **Basic option** (15 nations): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **hun** Hungary … (+10)
+- **Baseline** (15 nations): **aus** Austria, **bav** Bavaria, **den** Denmark, **fra** France, **hun** Hungary … (+10)
   - HP **100**, price: 50 F · 30 G, buildtime **6.0** g-sec, speed 32
   - score=10
 
@@ -508,9 +523,9 @@ If a sid has one group for all available nations, there are no deviations, and h
   - score=10
 
 <a id="pikeman--лёгкая-пехота"></a>
-### `pikeman` - Light Infantry
+### `pikeman` — Pikeman, 17th century
 
-- **Basic option** (12 nations): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+7)
+- **Baseline** (12 nations): **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England, **fra** France … (+7)
   - HP **90**, price: 25 F · 3 G · 20 I, buildtime **4.5** g-sec, speed 32
   - score=10
   - prot: pike=3, sword=2, bullet=4, cannister=210, arrow=6, cannonball=40
@@ -523,9 +538,9 @@ If a sid has one group for all available nations, there are no deviations, and h
   - weapon[0]: 10 dmg pause 0.0 s range 1.88 t pike
 
 <a id="roundshierdip--лёгкая-пехота"></a>
-### `roundshierdip` - Light Infantry
+### `roundshierdip` — Roundshier (mercenary)
 
-- **Basic option** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
+- **Baseline** (20 nations): **alg** Algeria, **aus** Austria, **bav** Bavaria, **den** Denmark, **eng** England … (+15)
   - HP **75**, price: 12 G, buildtime **1.5** g-sec, speed 32
   - score=1
   - prot: pike=5, sword=3, bullet=8, cannister=225, arrow=17, cannonball=80
@@ -540,4 +555,4 @@ If a sid has one group for all available nations, there are no deviations, and h
   - weapon[0]: 6 dmg pause 0.0 s range 1.13 t sword
 
 
-Total units with interethnic deviations: **5**.
+Total shared units with national deviations: **5**.

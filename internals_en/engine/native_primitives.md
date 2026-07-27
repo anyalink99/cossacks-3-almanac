@@ -1,14 +1,20 @@
 <a id="native-primitives-in-cossacksexe--dws-signatures-подробный-список"></a>
-# Native primitives in cossacks.exe - DWS signatures (detailed list)
+# Native Primitives in `cossacks.exe`: Detailed DWS Signature List
 
-> **Analytics and architectural findings - in [native_api.md](native_api.md).**
-> Here is a machine-generated table for quickly searching for primitives.
+> See [native_api.md](native_api.md) for analysis and architectural findings.
+> This page is a machine-generated lookup table for individual primitives.
 
-Extracted directly from `cossacks.exe`: each native DWS primitive is registered as a Delphi AnsiString of the form `function NAME(args): ReturnType`. The script below scans the exe against the AnsiString header signature (`refcount=-1, length, chars, NUL`) and extracts 100% of those strings.
+The list is extracted directly from `cossacks.exe`. Each native DWS primitive
+is registered as a Delphi `AnsiString` of the form
+`function NAME(args): ReturnType`. The extractor scans for the `AnsiString`
+header layout (`refcount=-1, length, chars, NUL`) and recovers all such
+declarations.
 
 **Total signatures in exe:** 4856.  
 **Of these called from DMscript:** 884 (100.0% of 884 native calls in scripts).  
-**Only in exe (not used by the script):** 3972 - these are either dead/legacy primitives, or an API for the editor/AI, or primitives that the script calls via class.method syntax (not caught by our extractor).
+**Present only in the executable (not called by game scripts):** 3,972. These
+may be unused or legacy primitives, editor/AI APIs, or methods called through
+class syntax that the script-call extractor does not detect.
 
 <a id="подсистемы-грубая-классификация-по-префиксу"></a>
 ## Subsystems (rough classification by prefix)
@@ -259,15 +265,23 @@ Extracted directly from `cossacks.exe`: each native DWS primitive is registered 
 - `function FindUniqIdByGameObject(const gohnd: Integer): Integer` *(rva 0x006a3eb4)*
 
 <a id="где-данные"></a>
-## Where is the data
+## Data Files
 
-- `docs/derived/dws_native_signatures.json` - a complete machine-readable list of all signatures.
-- `docs/derived/engine_primitives.json` - native primitives from the script side (970 names + frequencies).
+- `docs/derived/dws_native_signatures.json` — complete machine-readable list of
+  all signatures.
+- `docs/derived/engine_primitives.json` — primitives observed in scripts (970
+  names with call frequencies).
 - Generator: `parser/engine_recon/extract_dws_signatures.py`.
 
 <a id="как-использовать-дальше"></a>
-## How to use further
+## How to Use the Catalog
 
-1. **Search for a primitive algorithm:** take `rva` from JSON, open the exe in Ghidra/IDA at this address - next to it there will be a pointer to the native wrapper function (DWS callback). Decompilation shows the real algorithm (for example, BFS vs k-d tree for `findnearestresource`).
-2. **Subsystem map:** names `Get*ByHandle/Set*ByHandle` identify the ECS-style API of the engine. `RecordCustom*` - save format. `SwitchTo` - root scheduler primitive (146 files = almost all script code).
-3. **Documentation without RE:** signatures already include argument names and types - this is the de facto public API of the C3 DWS engine.
+1. **Find a primitive's implementation:** take its `rva` from the JSON file and
+   open the executable at that address in Ghidra or IDA. A pointer to the native
+   DWS callback should be nearby. Decompilation reveals the actual algorithm,
+   such as BFS versus a k-d tree for a nearest-object search.
+2. **Map subsystems:** `Get*ByHandle` / `Set*ByHandle` names identify the
+   engine's ECS-style API; `RecordCustom*` covers serialization; `SwitchTo` is
+   the root state-machine primitive used throughout the scripts.
+3. **Document the API without binary analysis:** signatures already expose
+   argument names and types, forming the de facto public API of C3's DWS engine.

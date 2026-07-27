@@ -1,46 +1,43 @@
 <a id="формат-сетевых-пакетов-c3-через-анализ-скриптовых-вызовов"></a>
-# C3 network packet format (via script call analysis)
+# Cossacks 3 Network Packet Format
 
-Bit-layout of synchronization packages, restored **without decompilation
-exe** - only through analysis of native API calls in scripts
+This document reconstructs synchronization-packet layouts **without
+decompiling the executable**, using only native API calls found under
 `data/scripts/lib/`.
 
->Accompanies [`server_sync_architecture.md`](server_sync_architecture.md)
-> (general model) and [`native_api.md`](native_api.md) (full list
-> serialization primitives in exe).
+> Companion documents: [`server_sync_architecture.md`](server_sync_architecture.md)
+> describes the overall model, and [`native_api.md`](native_api.md) lists
+> the serialization primitives exported by the executable.
 
 <a id="1-двойная-система-сериализации"></a>
-## 1. Double serialization system
+## 1. Two serialization systems
 
-C3 is home to **two different state recording systems** using
-various native APIs:
+Cossacks 3 records state through **two separate serialization systems**:
 
 | System | API | Format | Where it is used |
 |---|---|---|---|
-| **Binary** | `RecordCustomWrite{Bit, Byte, Word, Int24, Integer, Float, PackedFloat, ShortString, String}` | bit-packed binary stream | Real-time sync economy, small delta packages in multiplayer. |
+| **Binary** | `RecordCustomWrite{Bit, Byte, Word, Int24, Integer, Float, PackedFloat, ShortString, String}` | bit-packed binary stream | Real-time economy synchronization and small multiplayer deltas. |
 | **Parser-text** | `ParserSet{Int, Float, Bool, String}ValueByKeyByHandle` | flat key=value text in `.parser` format | Unit/squad state snapshots, save files, debug sync. |
 
-This can be seen in fact: in scripts `RecordCustomWrite*` is called **15
-times** (in `lib/miscext2.script`, mostly **commented out** -
-old code), and really active calls are only in
-`lib/classes.script` for economics. Most unit synchronization
-(29 ParserSet calls in `AddUnitInfoToParser`) uses
-parser-format.
+The scripts contain 15 `RecordCustomWrite*` calls. Most calls in
+`lib/miscext2.script` belong to commented-out code; the active calls are
+the economy writers in `lib/classes.script`. Most unit synchronization
+uses parser format through the 29 `ParserSet*` calls in
+`AddUnitInfoToParser`.
 
 <a id="почему-так"></a>
-### Why so
+### Why both exist
 
-The binary is compact (1–18 bytes per packet), the parser format is
-flexibility and debug-friendly (you can open the package in a text editor).
-C3 selects the format based on the criterion “how often it is sent”: what is sent
-**each game-tick** is a binary; what is sent **for an event** or for
-save - parser-text.
+Binary packets are compact at 1–18 bytes each. Parser-format payloads are
+flexible, easy to inspect, and tolerant of added fields. Frequently sent
+per-tick data uses binary encoding; event-driven and save data uses parser
+text.
 
 <a id="2-бинарный-пакет-economypackage"></a>
 ## 2. Binary package: `EconomyPackage`
 
-The hottest sync package in C3 is economic synchronization
-player indicators. Source:
+The most frequently sent synchronization packet carries player economy
+counters. Its source is
 `data/scripts/lib/classes.script` → `TLanSyncPlayerData.WriteEconomyPackage`.
 
 <a id="21-структура"></a>
@@ -65,7 +62,7 @@ struct EconomyPackage {
 };
 ```
 <a id="22-размеры"></a>
-### 2.2. Dimensions
+### 2.2. Sizes
 
 | Script | Package Size |
 |---|---:|
@@ -97,9 +94,9 @@ type TLanSyncPlayerData = class
 end;
 ```
 <a id="24-полный-пакет"></a>
-### 2.4. Complete package
+### 2.4. Full package
 
-The scripts also have a covering type:
+The scripts wrap these records in:
 ```pascal
 type TLanSyncData = class
     playerstosync : Word;                                    // bitmask: players included in the packet
@@ -107,28 +104,28 @@ type TLanSyncData = class
     netplayer : array [0..11] of TLanSyncPlayerData;
 end;
 ```
-That is, full economy-snapshot = `Word`-player mask + 12 packages
-`EconomyPackage`. Maximum - 2 + 12 × 18 = **218 bytes** per 12-player
-map (everything with everything). In reality, changes are rare, and the package is usually
-weighs 5–30 bytes.
+A full economy snapshot is a `Word` player mask followed by up to 12
+`EconomyPackage` records. The maximum size is
+2 + 12 × 18 = **218 bytes** in a 12-player match. Most packets include
+only a few changes and occupy 5–30 bytes.
 
 <a id="3-parser-формат-unit-state-snapshots"></a>
 ## 3. Parser format: unit state snapshots
 
 Source: `data/scripts/lib/miscext2.script` →
 `AddUnitInfoToParser(pSync, syncuid : Integer)`. Unit fields
-are written as `key=value` in parser-handle:
+are written as `key=value` entries in a parser handle:
 
 <a id="31-список-полей-29-штук"></a>
-### 3.1. List of fields (29 pieces)
+### 3.1. Field list (29 fields)
 
-Group | Key | Type | What |
+| Group | Key | Type | Meaning |
 |---|---|---|---|
 | **identity** | `syncuid` | int | sync-UID of unit (stable) |
 | | `bexists` | bool | alive or deleted |
 | | `racename` | string | nation sid (`aus`, `fra`, ...) |
 | | `basename` | string | unit sid (`musket18`, `cen`, ...) |
-| | `cid` | int | country id (0..23) |
+| | `cid` | int | nation ID (0..23) |
 | | `id` | int | internal id |
 | | `pl` | int | player handle |
 | **position** | `posx`, `posz` | float | coordinates on the map (tiles) |
@@ -144,14 +141,13 @@ Group | Key | Type | What |
 | | `buildprogress` | float | construction progress |
 | **rng** | `uniqrnd` | float | per-unit random seed `[0,1)` (for headshot reproducibility) |
 
-(field `angle` is present in the code, but **commented out** - that is
-angle is not synchronized through this channel.)
+The `angle` field appears in the code but is **commented out**, so this
+channel does not synchronize it.
 
 <a id="32-формат-на-проводе"></a>
 ### 3.2. Format on wire
 
-A package is a serialized parser-handle that turns into
-flat text like:
+A package serializes the parser handle into flat text:
 ```
 unit_<syncuid> begin
    syncuid = 12345
@@ -171,54 +167,48 @@ unit_<syncuid> begin
    uniqrnd = 0.4827
 end
 ```
-(The exact syntax is the format `.parser` in C3, exactly the same as in
-`dmscript.global` and other configs.)
+This is the standard Cossacks 3 `.parser` syntax also used by
+`dmscript.global` and other configuration files.
 
-In parallel, the function `LoadUnitInfoFromParser` in the same file reads
-back. Paired `Get*ValueByKeyByHandle` allows you to read any field
-without knowing the order - therefore the format is version tolerant (new
-fields can be added without breaking compatibility).
+`LoadUnitInfoFromParser` reads the same payload. The paired
+`Get*ValueByKeyByHandle` functions retrieve fields by name, so field order
+does not matter and new fields can be added without breaking compatibility.
 
 <a id="33-размер"></a>
 ### 3.3. Size
 
-One unit ≈ **400–600 bytes** in text form (plus/minus, depends
-depending on name lengths). For 200 units on a four-player map, the result is
-about 100 KB.
-state-snapshot.
+One unit occupies about **400–600 bytes** in text form, depending on name
+lengths. A 200-unit state snapshot is therefore roughly 100 KB.
 
-This is **more** than a packaged binary would give (in the same place ~ 80 bytes per unit
-using `Int24`+`PackedFloat`+bit-fields), but C3 prefers
-text: delta between ticks is small (most units do not move
-every tick), and a full snapshot is rarely sent (only when connecting
-new client and with ON-DEMAND synchronization).
+This is larger than an equivalent binary record, which would need roughly
+80 bytes per unit with `Int24`, `PackedFloat`, and bitfields. Full snapshots
+are sent infrequently, however—primarily when a client connects or requests
+on-demand synchronization—and most units do not change on every tick.
 
 <a id="4-что-мы-не-нашли-в-скриптах"></a>
-## 4. What we didn't find in the scripts
+## 4. Native APIs Not Called by Scripts
 
-There is an API in the exe, but it is **not called in scripts**:
+The executable exposes the following APIs, but scripts **do not call them**:
 
 - `RecordCustomBeginGUI` / `RecordCustomBeginMap` /
   `RecordCustomBeginStateMachine` / `RecordCustomBeginTagObject` —
-  not a single call. These functions remained on the engine side and
-  used by the engine directly for other sync channels
-  (for example, GUI-state, FSM, map updates).
-- `RecordSynch*` (40+ functions) - **completely** not called from
-  scripts. This means "delta-mark and stack-based sync" - this is
-  purely internal mechanism of the engine. On the wire we only see
+  have no script call sites. The engine itself may use them for other
+  synchronization channels, such as GUI state, state machines, or map updates.
+- `RecordSynch*` (more than 40 functions) is **never** called from scripts.
+  Delta marking and stack-based synchronization are therefore internal
+  engine mechanisms. On the wire, scripts expose only
   `RecordCustom*`-serialized results.
 - `RecordCustomReadBit` / `RecordCustomBeginReadBitFields` /
-  `RecordCustomReadInt24` / `RecordCustomReadPackedFloat` - available in
-  exe, but the scripts don't call them. Again, the engine can decode
-  packages without a script (if the structure is hardwired).
+  `RecordCustomReadInt24` / `RecordCustomReadPackedFloat` — available in
+  the executable, but scripts do not call them. The engine can decode
+  hard-coded packet layouts without script involvement.
 
-<a id="5-что-это-меняет-в-существующем-serversyncarchitecturemd"></a>
-## 5. What does this change in the existing `server_sync_architecture.md`
+<a id="5-что-это-меняет-в-существующем-server_sync_architecturemd"></a>
+## 5. Implications for `server_sync_architecture.md`
 
-Document
-[`server_sync_architecture.md`](server_sync_architecture.md) described
-pattern `bProcess` as an abstraction, without specifying a specific format.
-Now we know:
+[`server_sync_architecture.md`](server_sync_architecture.md) describes
+`bProcess` as an abstraction without committing to a payload format. The
+concrete implementations are:
 
 | `bProcess`-stream | Real implementation |
 |---|---|
@@ -226,13 +216,13 @@ Now we know:
 | Periodic real-time sync economy | Binary `EconomyPackage` (see §2) |
 | On-demand full state | Parser snapshot of all units (large) |
 
-Net I/O (network sending itself) - Indy 10, not available to scripts.
-The scripts only prepare **payload** in one of two formats.
+Indy 10 handles network I/O outside the scripting environment. Scripts only
+prepare a **payload** in one of the two formats.
 
 <a id="6-воспроизведение-результатов"></a>
-## 6. Reproduction of results
+## 6. Reproducing the analysis
 
-All this data is obtained statically. To repeat:
+The analysis is entirely static and can be reproduced with:
 ```powershell
 # List the available native synchronization functions
 python -c "import json; d=json.load(open('derived/dws_native_signatures.json',encoding='utf-8')); print('\n'.join(s['raw'] for s in d['signatures'] if 'record' in s['name'].lower() or 'serial' in s['name'].lower()))"
@@ -241,13 +231,14 @@ python -c "import json; d=json.load(open('derived/dws_native_signatures.json',en
 grep -rn -E 'RecordCustom|ParserSet.*ValueByKey' "C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3\data\scripts"
 ```
 <a id="7-что-осталось-закопанным"></a>
-## 7. What remains buried
+## 7. Remaining unknowns
 
-1. **Exact semantics of `Word playerstosync`** - bit order: bit 0
-   = player 0, or bit 0 = first "available in the package"? Without sniff
-   original traffic cannot be allowed unambiguously.
-2. **Compression**. Perhaps the engine compresses the text
-   parser-payload by zlib before sending. The native API has
-   `ECompressionError` (Pascal class in exe) - hints at zlib/gzip.
-3. **MAC/signing**. A way to protect against dishonest clients in exe
-   definitely there (Steam-auth + Indy SSL?), but not visible through scripts.
+1. **Exact meaning of `Word playerstosync`.** Bit 0 may represent player 0
+   or the first player included in the packet. Capturing network traffic is
+   required to distinguish the two.
+2. **Compression.** The engine may compress parser-text payloads with zlib
+   before transmission. The executable contains the Pascal class
+   `ECompressionError`, suggesting zlib or gzip support.
+3. **Authentication or signing.** Protection against modified clients is
+   not visible in scripts; it may be implemented through Steam
+   authentication, Indy SSL, or another native mechanism.

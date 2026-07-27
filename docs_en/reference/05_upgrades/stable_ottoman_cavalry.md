@@ -5,7 +5,7 @@
 
 Upgrades for Light and Heavy Sipahi and Mamelukes.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Mameluke: damage +1 (level 2)** `algsta.mameluke.1.1` | Algeria | damage | 1 | — | 1000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
 | **Mameluke: damage +1 (level 3)** `algsta.mameluke.1.2` | Algeria | damage | 1 | — | 2000 | 0 | 0 | 2000 | 0 | 0 | 15.62 |

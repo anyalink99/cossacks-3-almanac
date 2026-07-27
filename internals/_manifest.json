@@ -101,80 +101,110 @@
     {
       "path": "project/architecture.md",
       "title": "Архитектура проекта",
-      "size": 18383,
-      "lines": 233
+      "size": 19859,
+      "lines": 241
     },
     {
       "path": "project/documentation_style.md",
       "title": "Правила читательской документации",
-      "size": 11369,
-      "lines": 176
+      "size": 12991,
+      "lines": 194
     },
     {
       "path": "project/known_issues.md",
-      "title": "Known issues и оговорки",
-      "size": 13067,
-      "lines": 177
+      "title": "Известные ограничения и оговорки",
+      "size": 10005,
+      "lines": 128
     },
     {
       "path": "project/known_issues_archive.md",
-      "title": "Known issues — архив исправленных проблем",
-      "size": 5407,
-      "lines": 70
+      "title": "Архив исправленных ограничений",
+      "size": 7159,
+      "lines": 87
     },
     {
       "path": "project/README.md",
       "title": "Устройство и сопровождение проекта",
-      "size": 954,
-      "lines": 11
+      "size": 1719,
+      "lines": 15
+    },
+    {
+      "path": "project/research_backlog_combat.md",
+      "title": "План исследований: боевые механики",
+      "size": 11832,
+      "lines": 152
+    },
+    {
+      "path": "project/research_backlog_systems.md",
+      "title": "Исследовательский план: игровые системы",
+      "size": 17411,
+      "lines": 171
     },
     {
       "path": "README.md",
       "title": "Internals — техническое устройство Cossacks 3",
-      "size": 8462,
-      "lines": 99
+      "size": 10424,
+      "lines": 112
     },
     {
       "path": "scripts/building_mechanics_evidence.md",
       "title": "Технический разбор зданий",
-      "size": 37856,
-      "lines": 598
+      "size": 40293,
+      "lines": 620
     },
     {
       "path": "scripts/capture_mechanics_evidence.md",
       "title": "Технический разбор захвата зданий и юнитов",
-      "size": 40771,
-      "lines": 641
+      "size": 41092,
+      "lines": 642
     },
     {
       "path": "scripts/hunger_and_rebellion_evidence.md",
       "title": "Технический разбор голода и бунта наёмников",
-      "size": 18752,
-      "lines": 303
+      "size": 21001,
+      "lines": 320
+    },
+    {
+      "path": "scripts/map_generation_evidence.md",
+      "title": "Технический разбор генерации случайной карты",
+      "size": 54059,
+      "lines": 756
+    },
+    {
+      "path": "scripts/pathfinding_evidence.md",
+      "title": "Технический разбор поиска пути и движения",
+      "size": 58044,
+      "lines": 981
     },
     {
       "path": "scripts/peasant_extraction_evidence.md",
       "title": "Техническая модель добычи ресурсов крестьянами",
-      "size": 49429,
-      "lines": 782
+      "size": 50281,
+      "lines": 786
     },
     {
       "path": "scripts/production_queue_evidence.md",
       "title": "Технический разбор очереди производства",
-      "size": 19494,
-      "lines": 320
+      "size": 20471,
+      "lines": 327
     },
     {
       "path": "scripts/structure.md",
       "title": "Структура скриптовой среды Cossacks 3",
-      "size": 19313,
-      "lines": 316
+      "size": 20038,
+      "lines": 322
+    },
+    {
+      "path": "scripts/target_selection_evidence.md",
+      "title": "Технический разбор выбора цели и атаки с движением",
+      "size": 51121,
+      "lines": 805
     },
     {
       "path": "scripts/upgrades_application_evidence.md",
       "title": "Технический разбор применения улучшений",
-      "size": 29262,
-      "lines": 480
+      "size": 31439,
+      "lines": 505
     }
   ]
 }

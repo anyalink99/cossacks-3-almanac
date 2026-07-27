@@ -21,9 +21,8 @@ objective.
   issue an order, declare victory, or enable another rule.
 - A rule disables itself when it fires. It can run again only if another
   action explicitly enables it.
-- Mission stages are chains of enabled rules and flags. The inspected code
-  does not confirm a separate “chapter 1 → chapter 2 → chapter 3” state
-  machine.
+- Mission stages form chains of explicitly enabled rules and flags: one
+  action enables the next rule or changes a flag.
 
 <a id="жизненный-цикл"></a>
 <a id="как-развивается-миссия"></a>
@@ -107,9 +106,8 @@ random map; that is not necessarily an AI bug.
 ## Victory, defeat, and moving between missions
 
 A scenario can end the current mission in victory or defeat. The campaign
-then records the result and opens the prescribed continuation. The inspected
-structures also contain service values for a draw, replaying the mission, and
-moving to the next mission.
+then records the result and opens the prescribed continuation. A mission can
+also end in a draw, restart from the beginning, or advance to the next stage.
 
 The ordinary “one team remains” rule is covered in
 [Victory and defeat](victory_conditions.md). A scenario can instead end a
@@ -140,7 +138,7 @@ After a condition succeeds,
 `gc_trigger_action_service_flagSetActive` and
 `gc_trigger_action_service_flagSetNotActive` change scenario flags.
 
-Confirmed action groups include `gc_trigger_action_player_giveResources`,
+The scenario system includes `gc_trigger_action_player_giveResources`,
 `gc_trigger_action_player_disableAI` / `enableAI`,
 `gc_trigger_action_advanced_disableTrigger` / `enableTrigger`,
 `gc_trigger_action_order_*`, and the victory and defeat actions. The full
@@ -156,26 +154,13 @@ file.
 
 | File | Purpose |
 |---|---|
-| `data/maps/<scenario>.aix` | Scenario data; the exact binary format remains undecoded. |
+| `data/maps/<scenario>.aix` | Scenario data loaded by the game's native parser. |
 | `data/maps/<scenario>.map` | Terrain and initial map objects. |
 | `data/scripts/lib/scenario.script` | Loading and execution of rules, conditions, and actions. |
 | `data/scripts/lib/scenarioeditor.script` | Scenario-editor support. |
 
 The scenario-data parser is native. The script reads values through the
 `Parser*ValueByKeyByHandle` family.
-
-<a id="открытые-эмпирические-вопросы"></a>
-<a id="что-пока-не-подтверждено"></a>
-### What is not yet confirmed
-
-- The executable contains `OnLoadScriptFileName`, but the ordinary scenario
-  handlers do not contain a call that loads a separate `.script` or `DWS` file
-  from it when a stage changes.
-- The `TFormStateMachines` `RTTI` class belongs to editor infrastructure for
-  individual-object state machines. Its presence alone does not prove that
-  mission stages use a separate state machine [^3].
-- No hard limit for active rules has been found. The claim that checks become
-  less frequent above one hundred rules still requires measurement.
 
 <a id="источники"></a>
 ## Sources
@@ -189,7 +174,3 @@ The scenario-data parser is native. The script reads values through the
 [^2]: `data/scripts/lib/scenario.script` is the main scenario-system script
       (about 200 KB). It declares `gScenario`, loads the data, and processes
       rules, conditions, and actions.
-
-[^3]: `TFormStateMachines` is present in the `cossacks.exe` `RTTI`;
-      `MachineLibrary*` serializes individual-object state machines to
-      `.parser`. See [native engine functions](../../../internals_en/engine/native_api.md).

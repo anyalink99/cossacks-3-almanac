@@ -1,9 +1,11 @@
 <a id="known-issues--архив-исправленных-проблем"></a>
+<a id="архив-исправленных-ограничений"></a>
 # Known Issues: Resolved
 
+**English** · [Русский](../../internals/project/known_issues_archive.md)
+
 Entries move here from [`known_issues.md`](known_issues.md) after the parser or
-dataset has been corrected. The archive records what changed in `data.json`
-and why.
+dataset is corrected. The archive records what changed in `data.json` and why.
 
 Format: correction date → brief description → previous and corrected behavior
 → commit or pull request, when available.
@@ -11,63 +13,74 @@ Format: correction date → brief description → previous and corrected behavio
 ## 2026-04-30
 
 <a id="bmercenary-override-не-разрешался--168-dip-юнитов-в-datajson-имели-не-наёмничьи-статы"></a>
-### `bmercenary` override was not allowed - 168 dip units in `../data.json` had non-mercenary stats
+<a id="переопределение-bmercenary-не-применялось-к-168-вариантам-наёмников-дипломатического-центра"></a>
+### The `bmercenary` override was ignored for 168 Diplomatic Center units
 
-**Was:** `parser/parse_units.py` did not take into account the `if (bmercenary)` branch in
-`unit.script` for units with the suffix `dip` (8 sid × 21 nations = 168 lines).
+**Before:** `parser/parse_units.py` ignored the `if (bmercenary)` branch in
+`unit.script` for units whose SID ends in `dip`: 8 SIDs across 21 nations, or
+168 records. Their entries in `data.json` therefore contained the ordinary
+unit statistics rather than the mercenary variants.
 
-**Fix:** added `BMERCENARY_SIDS` and `find_bmercenary_block_body()` to
-[`parse_units.py`](../../parser/parse_units.py); `_compute_effective_unit()` in
-[`build_data.py`](../../parser/build_data.py) applies merc-override to sids
-from `BMERCENARY_SIDS`. At the same time, parsing `objprop.costpercent := X;` was added
-for unit branches (3 non-merc units also had it: 1867, 1889, 2018
-unit.script).
+**Fix:** [`parse_units.py`](../../parser/parse_units.py) now defines
+`BMERCENARY_SIDS` and uses `find_bmercenary_block_body()`.
+`_compute_effective_unit()` in
+[`build_data.py`](../../parser/build_data.py) applies the override to those
+SIDs. The same change added parsing for `objprop.costpercent := X;` in unit
+branches; three non-mercenary units also use that field at lines 1867, 1889,
+and 2018 of `unit.script`.
 
-**Confirmed:** 8 dip-sid × 21 nations = 168 lines now have correct
-merc stats - HP, gold, `consume.gold`, `bmercenary = True`, `bnohungry = True`,
-`costpercent` (100 / 100.5 / 102) match
-[`recon/systems/mercenaries_diplomacy.md`](../../docs_en/recon/systems/mercenaries_diplomacy.md) §2.2. Stat
-identical between nations (nation-independent). 112 / 112 sanity checks PASS.
+**Verified:** all 168 records now contain the correct mercenary statistics.
+Health, gold cost and upkeep, `bmercenary = True`, `bnohungry = True`, and
+`costpercent` values of 100, 100.5, or 102 agree with
+[Mercenaries and the Diplomatic Center](../../docs_en/recon/systems/mercenaries_diplomacy.md)
+§2.2. The statistics are identical across nations, as the scripts specify.
+All 112 data sanity checks pass.
 
 <a id="ценовые-проценты-priceperc-апгрейдов-не-извлекались"></a>
-### Price percentages `priceperc` upgrades were not retrieved
+<a id="процентные-изменения-цены-улучшений-priceperc-не-извлекались"></a>
+### Percentage-cost upgrades lacked `resource_pcts`
 
-**Was:** 291 priceperc upgrade in `../data.json` had the correct base price
-research (food / wood / stone / gold / iron / coal), but **didn’t**
-`resource_pcts` - percentage reduction in the cost of target units and buildings. These
-interest is billed in `country.script` via
+**Before:** the 291 `priceperc` upgrades in `data.json` had the correct base
+research prices in food, wood, stone, gold, iron, and coal, but lacked
+`resource_pcts`: the percentage reductions applied to the cost of affected
+units and buildings. `country.script` writes these percentages through
 `country.upgrade[ind-1].sarrparam2[gc_upgrade_maxarrparam2count - gc_ResCount + gc_resource_type_X - 1] := 'NN';`
-after `_country_AddUpgrade*` call. Existing `_attach_resource_pcts`
-tried to re-resolve sid from text position and couldn't cope with per-nation
-templates (`csid + 'art.' + member + ...`).
+after calling `_country_AddUpgrade*`. The old `_attach_resource_pcts`
+implementation tried to recover the SID from the surrounding text and could
+not handle nation-specific templates such as
+`csid + 'art.' + member + ...`.
 
-**Fix:** added handler to `walk_sim`'s `assign` branch
-([`simulate_upgrades.py:870-887`](../../parser/simulate_upgrades.py)) —
-`_SARR2_RES_LHS_RE` recognizes LHS, parses RHS as a percentage and assigns
-`state["last_upgrade"]["resource_pcts"][resource]`. AST has already treated these
-assigns are correct - the handler ignored them.
+**Fix:** the `assign` branch in `walk_sim` now handles these statements
+([`simulate_upgrades.py:870-887`](../../parser/simulate_upgrades.py)).
+`_SARR2_RES_LHS_RE` recognizes the left-hand side, parses the right-hand side
+as a percentage, and assigns it to
+`state["last_upgrade"]["resource_pcts"][resource]`. The AST already represented
+the assignments correctly; the simulation walker had simply ignored them.
 
-**Confirmed:** 291 / 291 priceperc upgrades have `resource_pcts` (previously
-0 / 291). The numbers match the direct reading `country.script` (`artillery
-.1.1-.1.6` = `wood / gold / iron −25%`, `aca.7` = `wood −85%`, `aca.32` = `gold
-/ iron −50%`). Full coverage: 13–14 priceperc per nation × 21 nations = 291.
-`_attach_resource_pcts` is left as a backstop for upgrades whose `if` conditions
-returned `False` to AST-walk.
+**Verified:** all 291 `priceperc` upgrades now have `resource_pcts`, up from
+none. The values match a direct reading of `country.script`: `artillery
+.1.1-.1.6` reduces wood, gold, and iron costs by 25%; `aca.7` reduces wood by
+85%; and `aca.32` reduces gold and iron by 50%. This covers 13 or 14 upgrades
+per nation across all 21 nations. `_attach_resource_pcts` remains as a
+fallback for upgrades skipped when an `if` condition evaluates to `False`
+during the AST walk.
 
 <a id="прежние-ошибки-в-самом-репо-исправлены--но-осторожно-с-форками"></a>
-## Previous errors in the repo itself (fixed - but be careful with forks)
+<a id="исправления-в-старых-версиях-и-внешних-ответвлениях"></a>
+## Historical corrections
 
-If you are reading old versions of files or external forks, check:
+Old revisions and external forks may still contain these claims:
 
-- **"Capture units work with a 5% chance per tick"** - was incorrect. Capture pure
-  **geometric**, check every 1.9 game seconds (0.5 for
-  artillery). See
-  [`docs/recon/world/economy/capture_mechanics.md`](../../docs_en/recon/world/economy/capture_mechanics.md).
-- **"Ukrainian/Scottish peasants are immune to capture"** - was incorrect. All
-  8 peasant sids have `bcapture = True` (`unit.script:1199`); in standard
-  Deathmatch / Historical Battle capture of peasants is disabled by the map via
-  `capture_nopeasants`, but specific nations do not have flag-level immunity.
-- **Building names “Town Hall / Barracks 17c”** - remained in English throughout
-several writer's dictionaries until 2026-04-29. Canon - official
-  localization: “Town Hall”, “Barracks 17th century”, “Cathedral”, “Artillery
-  depot", "Diplomatic Center", "Shipyard", "Ferry", "Hetman", "kozak".
+- Unit capture was once described as having a 5% chance per tick. Capture is
+  geometric and deterministic; the game checks ordinary units every 1.9 game
+  seconds and artillery every 0.5 game seconds. See
+  [Capturing objects](../../docs_en/recon/world/economy/capture_mechanics.md).
+- Ukrainian and Scottish Peasants were once described as immune to capture.
+  All eight Peasant SIDs have `bcapture = True` (`unit.script:1199`). Standard
+  Deathmatch and Historical Battle settings disable Peasant capture through
+  `capture_nopeasants`; no nation-specific immunity flag exists.
+- Until 2026-04-29, several dictionaries used by the Russian documentation
+  retained English placeholder names such as “Town Hall” and “Barracks 17c”.
+  They now use the official Russian localization: «Городской центр», «Казарма
+  17 в.», «Собор», «Артиллерийское депо», «Дипломатический центр», «Порт»,
+  «Транспорт», «Гетьман» and «козак».

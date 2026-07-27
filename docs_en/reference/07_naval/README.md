@@ -15,7 +15,7 @@
 >   fields and hunting on water-heavy maps.
 
 See [How naval combat works](../../recon/world/combat/naval_combat.md) for
-water regions, transports, Battleships, real damage per second at Fast speed,
+water regions, transports, Ships of the Line, real damage per second at Fast speed,
 and national ship variants.
 
 <a id="содержание"></a>
@@ -40,7 +40,7 @@ Shipyard parameters are the same for every architectural set.
 | Cost | 1,600 wood / 800 stone / 400 iron |
 | Requirement | Market |
 | Capture | Cannot be captured; can only be destroyed |
-| Vision | 32 tiles |
+| Vision | 32 cells |
 
 **Produces:** Ship of the Line; Chaika, Yacht, or Ottoman Yacht depending on
 the nation; Ferry; Fishing Boat; Frigate or Xebec; and Galley.
@@ -55,13 +55,13 @@ for the general scaling rule.
 The game has seven main naval units plus Ukrainian, Ottoman, and Algerian
 variants. Names use the English game localization where available.
 
-| Ship | Role | Health | Speed | Vision, tiles | Target acquisition, tiles | Cost | Build time, game seconds |
+| Ship | Role | Health | Speed | Vision, cells | Target acquisition, cells | Cost | Build time, game seconds |
 |---|---|---:|---:|---:|---:|---|---:|
-| **Fishing Boat** `fishboat` | Fishing Boat | 300 | 16 | 24 | — | 600 wood | 40.0 |
+| **Boat** `fishboat` | Fishing Boat | 300 | 16 | 24 | — | 600 wood | 40.0 |
 | **Ferry** `ferry` | Transport | 62,000 | 28 | 24 | — | 300 wood / 50 gold / 100 iron | 56.0 |
 | **Yacht** `yacht` | Light warship | 31,000 | 40 | 32 | 19.69 | 900 wood / 450 gold / 150 iron / 200 coal | 48.0 |
 | **Chaika** `chaika` | Ukrainian light warship | 25,000 | 55 | 36 | 19.69 | 1,050 wood / 600 gold / 200 iron / 400 coal | 40.0 |
-| **Ottoman Yacht** `yachttur` | Ottoman light warship | 35,000 | 70 | 32 | 19.69 | 900 wood / 450 gold / 150 iron / 200 coal | 48.0 |
+| **Yacht** `yachttur` | Ottoman light warship | 35,000 | 70 | 32 | 19.69 | 900 wood / 450 gold / 150 iron / 200 coal | 48.0 |
 | **Galley** `galley` | Artillery ship | 35,000 | 40 | 28 | 20.63 | 9,500 wood / 900 gold / 800 iron | 50.0 |
 | **Frigate** `frigate` | Heavy warship | 50,000 | 30 | 52 | 33.75 | 5,000 wood / 1,100 gold / 600 iron / 800 coal | 230.0 |
 | **Xebec** `xebec` | Algerian and Ottoman heavy warship | 65,000 | 28 | 52 | 33.75 | 7,000 wood / 1,600 gold / 320 iron / 960 coal | 230.0 |
@@ -75,14 +75,14 @@ usually has 80–96, and ships range from 16 to 55.
 
 Iron and coal are deducted when a ship fires.
 
-| Ship | Weapon | Damage | Reload, game seconds | Range, tiles | Damage type | Shot cost |
+| Ship | Weapon | Damage | Reload, game seconds | Range, cells | Damage type | Shot cost |
 |---|:---:|---:|---:|---:|---|---|
 | **Yacht** `yacht` | 0 | 1,000 | 10.94 | 20.63 | cannonball | 4 iron + 9 coal |
 | **Chaika** `chaika` | 0 | 1,000 | 2.34 | 20.63 | cannonball | 4 iron + 9 coal |
-| **Ottoman Yacht** `yachttur` | 0 | 30 | 12.5 | 18.75 | cannonball | 5 iron + 15 coal |
+| **Yacht** `yachttur` | 0 | 30 | 12.5 | 18.75 | cannonball | 5 iron + 15 coal |
 |  | 1 | 0 | 21.88 | 30.94 | — | 5 iron + 15 coal |
 | **Galley** `galley` | 0 | 100 | 4.69 | 22.5 | cannonball | 4 iron + 9 coal |
-|  | 1 | 1,000 | 1.56 | 58.13 | mortar blast | 4 iron + 9 coal |
+|  | 1 | 1,000 | 1.56 | 58.13 | explosive shell | 4 iron + 9 coal |
 | **Frigate** `frigate` | 0 | 1,800 | 2.34 | 30.94 | cannonball | 25 iron + 35 coal |
 | **Xebec** `xebec` | 0 | 1,800 | 1.56 | 31.88 | cannonball | 25 iron + 35 coal |
 | **Ship of the Line** `battleship` | 0 | 1,800 | 0.62 | 36.56 | cannonball | 5 iron + 15 coal |
@@ -102,7 +102,7 @@ Real damage per second at Fast speed is discussed in
 | Build time | 56.0 game seconds; 40.0 real seconds at Fast speed |
 | Cost | 300 wood / 50 gold / 100 iron |
 | Weapon | none |
-| Vision | 24 tiles |
+| Vision | 24 cells |
 
 A capacity of 120 means one Ferry holds up to **120 population slots**.
 Most infantry use one slot, cavalry two or three, and artillery five or more.

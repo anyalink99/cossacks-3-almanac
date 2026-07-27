@@ -3,12 +3,12 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Housing increases the population limit (`farm`). The base farm is the same (25), the price and HP are different.
+Every Housing variant raises the population limit by 25. Cost and durability vary by nation.
 
-> **Base values** (column mode): HP = 4000, Time (g-sec) = 31.25, cost% = 104, W = 100, S = 100, G = 0, farm = 25.
+> **Baseline values** are the most common values in each column: health = 4000, construction time = 31.25 game seconds, price growth = 104%, wood = 100, stone = 100, gold = 0, population = 25.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | **Housing** `alghou` | Algeria | **4300** | 31.25 | 104 | 100 | 100 | 0 | 25 | — |
 | **Housing** `aushou` | Austria | 4000 | 31.25 | 104 | 100 | 100 | 0 | 25 | — |

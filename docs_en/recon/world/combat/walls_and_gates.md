@@ -4,9 +4,9 @@
 
 [← How the game works](../../README.md)
 
-How Wall lines are placed and built, where a Gate is allowed, and why enemy
-infantry destroys a segment instead of capturing it. Internal structures
-and call sequences are collected under
+This article explains how Wall lines are placed and built, where a Gate is
+allowed, and why any enemy non-building object can destroy a segment instead
+of capturing it. Internal structures and call sequences are collected under
 [Technical Details](#technical-details).
 
 <a id="коротко"></a>
@@ -14,11 +14,11 @@ and call sequences are collected under
 
 - The player drags a line with the mouse; Peasants then construct every
   segment **like an ordinary building** [^2][^3].
-- One segment occupies one tile. A longer Wall is a gapless sequence of
+- One segment occupies one cell. A longer Wall is a gapless sequence of
   connected segments [^4].
 - Segment orientation determines the available builder positions, with up
   to 16 positions supported [^5].
-- All 21 nations have a **Palisade** and Wooden Gate. Every nation except
+- All 21 nations have a **Palisade** and its **Gate**. Every nation except
   Ukraine also has a **Stone Wall** [^6].
 - A Gate upgrades one selected completed segment [^7]. It costs 400 Wood for
   a Palisade or 500 stone for a Stone Wall. It requires **a straight run of
@@ -26,8 +26,10 @@ and call sequences are collected under
   T-intersections, and unfinished sections are rejected [^8].
 - A Gate appears **instantly and at full durability**. Peasants do not
   participate [^9][^10].
-- Enemy infantry within four tiles **does not take ownership** of a Wall or
-  Gate; it destroys the segment [^11]. Below one-third durability,
+- Any enemy non-building object within four cells—including a Peasant or an
+  artillery piece—**does not take ownership** of a Wall or Gate; it destroys
+  the segment [^11]. A friendly defender within roughly eight cells prevents
+  demolition. Below one-third durability,
   this capture check is skipped and the segment must be finished with
   weapons [^12].
 
@@ -36,32 +38,23 @@ and call sequences are collected under
 <a id="1-типы-стен-и-их-доступность"></a>
 ## 1. Wall Types and Availability
 
-The game has two broad Wall classes [^1]:
+The game has Palisades and Stone Walls [^1]. All 21 nations can build a
+Palisade. Every nation except Ukraine can build a Stone Wall; its appearance
+and parameters differ for European nations, Russia, Turkey, and Algeria
+[^6].
 
-| Class | Internal wall / gate IDs | Engine properties | Availability |
-|---|---|---|---|
-| **Palisade and Wooden Gate** | `ukrwwa` / `ukrwga` | `gc_obj_usage_weakwall`, `gc_obj_material_woodwall` | **All 21 nations** |
-| **European Stone Wall and Gate** | `eurswa` / `eursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | All except Ukraine, Russia, Turkey, and Algeria |
-| **Russia Stone Wall and Gate** | `russwa` / `russga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | Russia |
-| **Turkey Stone Wall and Gate** | `turswa` / `tursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` | Turkey and Algeria |
+| Variant | Availability | Wall / Gate durability | Segment price | Build time | Segment upkeep |
+|---|---|---:|---:|---:|---:|
+| **Palisade** | every nation except Ukraine's special variant | 1,500 / 1,000 | 10 Wood | 18 frames | none |
+| **Ukrainian Palisade** | Ukraine | 2,500 / 1,500 | 12 Wood | 26 frames | none |
+| **European Stone Wall** | all except Ukraine, Russia, Turkey, and Algeria | 50,000 / 32,000 | 50 Stone | 288 frames | 0.4 Stone/s |
+| **Russian Stone Wall** | Russia | 50,000 / 32,000 | 60 Stone | 640 frames | 0.32 Stone/s |
+| **Turkish Stone Wall** | Turkey and Algeria | 50,000 / 32,000 | 60 Stone | 384 frames | 0.24 Stone/s |
 
-Ukraine has only the Palisade; it has no Stone Wall [^6].
-
-Parameters from code [^1]:
-
-**Palisade (`ukrwwa`) and Wooden Gate (`ukrwga`).** Palisade durability
-is 1,500 normally and 2,500 for Ukraine; Gate durability is 1,000 and
-1,500 respectively. The price is 10 Wood, or 12 for Ukraine.
-`buildtime` is 18 frames, or 26 for Ukraine. Only the Gate carries the
-`bgate` flag.
-
-**Stone Wall (`*swa`) and Gate (`*sga`).** The Wall has 50,000
-durability and the Gate 32,000. The European version costs 50 Stone;
-the Russia and Turkey versions cost 60. Their `buildtime` values are
-288, 640, and 384 frames respectively. All three versions set
-`bwall = True`, `bgate = True` (only for `*sga`), `usage =
-gc_obj_usage_hardwall`. A standing segment continuously consumes Stone:
-250 for the European version, 200 for Russia, and 150 for Turkey [^1].
+Stone Wall upkeep is consumed continuously while a segment stands [^1].
+One European segment consumes 24 Stone per game minute, a Russian segment
+19.2, and a Turkish segment 14.4. Ukraine has only the Palisade and cannot
+build a Stone Wall.
 
 Nation-by-nation values are listed in the
 [building guide](../../../reference/03_buildings/README.md).
@@ -70,15 +63,15 @@ Nation-by-nation values are listed in the
 <a id="2-занимаемая-площадь-и-линии-стен"></a>
 ## 2. Footprint and Wall Lines
 
-One Wall segment occupies one tile. Consecutive segments connect without
+One Wall segment occupies one cell. Consecutive segments connect without
 gaps:
 
 ```
-[wall][wall][wall]   ← a 3-tile line
+[wall][wall][wall]   ← a 3-cell line
 ```
 
 An unbroken line is a continuous pathfinding obstacle. Destroying one
-segment opens a passage, and the remaining neighbours reconnect [^13].
+segment opens a passage, and the remaining neighbors reconnect [^13].
 
 <a id="21-wall-variations-и-builder-slots"></a>
 <a id="21-варианты-сегментов-и-места-для-строителей"></a>
@@ -100,25 +93,28 @@ completion. See
 An ordinary Wall uses the ordinary building rate, and completion is the
 current durability divided by maximum durability [^10][^16].
 
-Resources are charged separately for every segment. Cancelling an unfinished
+Resources are charged separately for every segment. Canceling an unfinished
 segment uses the ordinary demolition and refund rules.
 
 <a id="4-захват-и-снос-сегмента"></a>
 ## 4. Capturing and Demolishing a Segment
 
-An ordinary capturable building changes owner when enemy infantry comes
-within four tiles and no defender is nearby. Walls and Gates use a special
-rule [^11]:
+An ordinary capturable building changes owner when an enemy unit capable of
+capturing buildings comes within four cells and no defender is nearby. Walls
+and Gates use a special rule [^11]:
 
-1. The game looks for any nearby enemy object that is not a building. The
-   ability to capture ordinary buildings is not required.
-2. Below one-third of `maxhp`, the remaining capture logic is skipped
+1. The game looks for any nearby enemy non-building object. The ability to
+   capture ordinary buildings is not required, so Peasants and artillery
+   pieces also qualify.
+2. Below one-third of maximum durability, the remaining capture logic is skipped
    and weapons must finish the segment [^12].
-3. Otherwise, finding a valid enemy destroys the segment immediately.
+3. A friendly defender within roughly eight cells cancels demolition.
+4. Otherwise, finding a valid enemy destroys the segment immediately.
 
-This applies to both a completed Wall and an unfinished one
-(`bbuilt = False`): enemy infantry within four tiles demolishes the
-segment instantly. Ownership is never transferred.
+This applies to both completed and unfinished segments **while they have at
+least one third of their maximum durability**. Below that threshold, the
+capture-based demolition check is skipped and weapons must finish the
+segment. Ownership is never transferred.
 
 The rule is identical for Walls and Gates.
 
@@ -134,19 +130,19 @@ A Gate is an individual upgrade applied to one selected Wall segment
 |---|---|---|
 | **Palisade** | 400 Wood | selected Palisade segment |
 | **European Stone Wall** | 500 Stone | selected European segment |
-| **Russia Stone Wall** | 500 Stone | selected Russia segment |
-| **Turkey Stone Wall** | 500 Stone | selected Turkey segment |
+| **Russian Stone Wall** | 500 Stone | selected Russian segment |
+| **Turkish Stone Wall** | 500 Stone | selected Turkish segment |
 
 Before the upgrade starts, the game checks the Wall's geometry [^8]. It
 accepts the placement only when:
 
 1. the selected segment is **not at the end** of the line, with
-   neighbours on both sides;
-2. both neighbours use the same sprite, so the Wall is straight rather
+   neighbors on both sides;
+2. both neighbors use the same sprite, so the Wall is straight rather
    than a corner or T-intersection;
 3. all three segments are **complete**;
-4. exactly three Wall segments, no more, lie within 1.85 tiles of the
-   centre.
+4. exactly three Wall segments, no more, lie within 1.85 cells of the
+   center.
 
 If any condition fails, the upgrade is blocked. A Gate can therefore be
 placed only in the middle of a straight run of at least three completed
@@ -176,21 +172,34 @@ Replacing the object has a practical combat consequence:
 - the attackers lose their target and need a new attack order against
   the Gate;
 - damage accumulated on the old segment does not carry over. The Gate
-  appears at full durability: 32,000 for a Stone Gate and 1,000–1,500
-  for a Wooden Gate. A damaged Wall segment has effectively been replaced
-  with a fresh Gate.
+  appears at full durability: 32,000 when made from a Stone Wall and
+  1,000–1,500 when made from a Palisade. A damaged Wall segment has
+  effectively been replaced with a fresh Gate.
 
 <a id="6-стенные-башни"></a>
 ## 6. Wall Towers
 
 Some nations have dedicated Wall Towers. They fit into a Wall line without
-a gap and fire like an ordinary Tower. Their targeting and ammunition costs are covered
-in [Tower mechanics](towers.md).
+a gap and fire like an ordinary Tower. Their targeting and ammunition costs
+are covered in [Tower mechanics](towers.md).
 
 <a id="technical-details"></a>
 <a id="технические-подробности"></a>
 <a id="7-технические-подробности"></a>
 ## 7. Technical Details
+
+| Game variant | Wall / Gate | Class and material |
+|---|---|---|
+| Palisade | `ukrwwa` / `ukrwga` | `gc_obj_usage_weakwall`, `gc_obj_material_woodwall` |
+| European Stone Wall | `eurswa` / `eursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` |
+| Russian Stone Wall | `russwa` / `russga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` |
+| Turkish Stone Wall | `turswa` / `tursga` | `gc_obj_usage_hardwall`, `gc_obj_material_building` |
+
+The `buildtime` and `consume.stone` fields set construction time and
+continuous upkeep. The `consume.stone` values are 250 for the European,
+200 for the Russian, and 150 for the Turkish variant; the per-second
+deduction is `consume.stone × 32 / 20000`. A Gate is distinguished by
+`bgate = True`; ordinary Wall completion is stored in `bbuilt`.
 
 A Wall has `usage = gc_obj_usage_hardwall` or
 `gc_obj_usage_weakwall` and `bwall = True`; a Gate additionally has
@@ -208,11 +217,14 @@ ordinary `gCustomObjPoints` instead [^5]. The limit is
 `gc_MaxWallBuilderPointsCount = 16`, with data loaded from
 `data/game/var/wallcustom.cfg` [^14].
 
-Demolition by nearby infantry runs through `_misc_CheckCapture`.
-`_unit_SearchCapturersForWall` does not require `bcancapture`. When a valid
-enemy is found, the `bwall` branch sets `bDie := True` and
-`gc_statetag_essential_death`; at `hp < maxhp / 3`, this check is skipped
-[^11][^12].
+Demolition runs through `_misc_CheckCapture`.
+`_unit_SearchCapturersForWall` requires only an enemy owner and
+`not bbuilding`, not `bcancapture`, so Peasants and artillery pieces also
+qualify. `_unit_SearchProtectors` then looks for a friendly `bprotector`
+within `gc_gameplay_protectionradius` (roughly eight cells) and clears
+`bcapture` if one is present. Otherwise, the `bwall` branch sets
+`bDie := True` and `gc_statetag_essential_death`; at
+`hp < maxhp / 3`, this check is skipped [^11][^12].
 
 The individual `gc_upg_type_single_buildgate` upgrade creates a Gate.
 `_misc_GetGateBaseSprite` permits it only on a straight, completed,
@@ -225,29 +237,13 @@ object and increments `individual.upglevel` [^9]. Then
 `gbool_gui_gatefinished` also changes the visual Stone Wall explosion path
 in `_unit_DoExplosion` [^19].
 
-<a id="7-открытые-эмпирические-вопросы"></a>
-<a id="7-что-ещё-требует-проверки"></a>
-<a id="8-что-ещё-требует-проверки"></a>
-## 8. Questions Requiring Further Testing
-
-1. Does `costpercent` apply separately to every Wall segment in a drawn
-   line, or once to the entire placement?
-2. What is the exact Peasant construction rate for every
-   `wallvariation`? Variation 0 follows the ordinary formula; the others
-   use explicit `builderPoints`.
-3. If a Gate upgrade (`buildgate`) starts and neighbouring segments are
-   destroyed before it resolves, does the Gate remain in the Wall line
-   or become a detached building?
-
----
-
 <a id="источники"></a>
 ## Sources
 
 [^1]: `data/scripts/lib/unit.script:2258-2310` —
       `commonsid+'swa'` / `commonsid+'sga'` for Stone Walls and Gates
       in the `eur`, `rus`, and `tur` families; `'ukrwwa'` /
-      `'ukrwga'` for the Palisade and Wooden Gate. This code assigns
+      `'ukrwga'` for the Palisade and its Gate. This code assigns
       `usage`, `bwall`, `bgate`, `material`, `maxhp`, prices, and
       continuing resource consumption.
       ```pascal
@@ -387,7 +383,12 @@ in `_unit_DoExplosion` [^19].
        `_misc_CheckCapture`. Line 975 reads `bwall :=
        TObjProp(pobjprop).bwall`. Lines 1003–1006 use
        `_unit_SearchCapturersForWall`, without the ordinary
-       `bcancapture` requirement. Line 1106 enters the special `bwall`
+       `bcancapture` requirement. The exact condition in
+       `data/scripts/lib/unit.script:4666-4691` accepts any enemy object with
+       `not bbuilding`, including Peasants and artillery. Lines
+       `miscext.script:1041-1068` search for a friendly `bprotector` within
+       `gc_gameplay_protectionradius` and clear `bcapture` when one is
+       present. Line 1106 enters the special `bwall`
        branch:
        ```pascal
        var bDie : Boolean;

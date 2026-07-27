@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Light cavalry with saber or spear; `fasthorse speed = 96`.
+Light cavalry fights with sabers or lances and relies on speed rather than heavy protection.
 
-> **Basic values** (column mode - what is considered "normal" in this class): HP = 100, Time (g-sec) = 2.0, F = 0, G = 120, I = 0, upkeep F (raw) = 60, upkeep G (raw) = 120, speed = 56, damage = 18, range (tile) = 15.0, reload (s) = 0.0, lance = 0, sword = 1, bullet = 3, buckshot = 75, arrow = 3, cannonball = 15.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 100, training time = 2.0 game seconds, food = 0, gold = 120, iron = 0, raw food upkeep = 60, raw gold upkeep = 120, speed = 56, damage = 18, range = 15.0 cells, reload time = 0.0 seconds, and protection values of 0/1/3/75/3/15 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Croat** `croat` | Austria | **260** | **15.75** | **80** | **6** | **2** | 0.0960 (60) | — | **96** | **9** | **1.22** | 0.0 | — | — | — | — | — | — | unique |
 | **Hetman** `hetman` | Ukraine | **320** | **16.5** | **150** | **150** | **10** | 0.1440 (90) | 0.3200 (200) | 56 | **70** | **1.22** | 0.0 | 0 | 1 | 3 | 75 | 3 | 15 | unique |

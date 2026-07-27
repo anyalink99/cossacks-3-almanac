@@ -6,7 +6,7 @@
 
 Upgrades for Officers, Commanders, Drummers, and Bagpipers.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Bagpiper: protection +10 (level 2)** `scobar.bagpiper.2.1` | Scotland | protection | 10 | — | 706 | 0 | 0 | 50 | 0 | 0 | 15.62 |
 | **Drummer, 17th century: protection +12 (level 2)** `prubar.drummer.2.1` | Denmark, Hungary, Prussia, Saxony | protection | 12 | — | 1205 | 0 | 0 | 90 | 0 | 0 | 15.62 |

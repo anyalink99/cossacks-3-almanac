@@ -1,5 +1,5 @@
 <a id="сравнения-юнитов"></a>
-# Unit comparisons
+# Unit Comparisons
 
 [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 

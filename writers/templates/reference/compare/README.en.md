@@ -9,7 +9,7 @@ Here similar units and buildings of different nations can be matched row by row.
 The most common value is considered the base value, and differences are highlighted
 **bold**.
 
-<a id="юнитыunitsreadmemd"></a>
+<a id="юниты"></a>
 ## [Units](units/README.md)
 
 | Comparison | What's inside |
@@ -32,7 +32,7 @@ The most common value is considered the base value, and differences are highligh
 | [Drummers](units/drummers.md) | Drummers and the piper |
 | [Priests](units/priests.md) | Healing radius and strength for `priest`, `pope`, `mullah`, and `padre` |
 
-<a id="зданияbuildingsreadmemd"></a>
+<a id="здания"></a>
 ## [Buildings](buildings/README.md)
 
 | Comparison | What's inside |
@@ -53,7 +53,7 @@ The most common value is considered the base value, and differences are highligh
 | [Towers](buildings/towers.md) | Towers |
 | [Mines](buildings/mines.md) | Coal, gold, and iron mines |
 
-<a id="оружие-и-снарядыweaponsreadmemd"></a>
+<a id="оружие-и-снаряды"></a>
 ## [Weapons and projectiles](weapons/README.md)
 
 Types of projectiles tied to the units using them.

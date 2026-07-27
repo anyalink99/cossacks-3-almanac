@@ -7,8 +7,8 @@ These tables place similar units and buildings from different nations side by
 side. The most common value is treated as the baseline; differences are shown
 in **bold**.
 
-<a id="юнитыunitsreadmemd"></a>
 <a id="unitsreadmemd--сравнения-юнитов"></a>
+<a id="юниты"></a>
 ## [Units](units/README.md)
 
 | Comparison | What it covers |
@@ -18,21 +18,21 @@ in **bold**.
 | [Light infantry](units/light_infantry.md) | Light infantry and swordsmen |
 | [17th-century musketeers](units/musketeers17.md) | Musketeers, Strelets, Janissaries, and other variants |
 | [18th-century musketeers](units/musketeers18.md) | Every national variant |
-| [Special 18th-century infantry](units/special_infantry_18c.md) | Highlander, Pandur, Szekely, Chasseur, and Jäger |
+| [Special 18th-century infantry](units/special_infantry_18c.md) | Highlander, Pandur, Szekely, Chasseur, Jaeger, and Volunteer |
 | [Grenadiers](units/grenadiers.md) | Every national variant |
 | [Archers](units/archers.md) | Every national variant |
 | [Light cavalry](units/light_cavalry.md) | Hussars, lancers, Cossacks, and other variants |
 | [Dragoons](units/dragoons.md) | Every national variant |
 | [Heavy cavalry](units/heavy_cavalry.md) | Reiters, cuirassiers, Vityaz, and other variants |
-| [Artillery](units/siege.md) | Cannons, howitzers, and mortars |
+| [Artillery](units/siege.md) | Cannons, Howitzers, Bombards, and Frame guns |
 | [Ships](units/ships.md) | Fishing boats, warships, and transports |
 | [Peasants](units/peasants.md) | Eight national types |
 | [Officers](units/officers.md) | Five national variants |
 | [Drummers and Bagpipers](units/drummers.md) | Required formation members alongside the Officer |
 | [Priests](units/priests.md) | Healing range and power, price, and upkeep |
 
-<a id="зданияbuildingsreadmemd"></a>
 <a id="buildingsreadmemd--сравнения-зданий"></a>
+<a id="здания"></a>
 ## [Buildings](buildings/README.md)
 
 | Comparison | What it covers |
@@ -53,7 +53,7 @@ in **bold**.
 | [Towers](buildings/towers.md) | Architectural variants |
 | [Mines](buildings/mines.md) | Coal, gold, and iron mines |
 
-<a id="оружие-и-снарядыweaponsreadmemd"></a>
+<a id="оружие-и-снаряды"></a>
 ## [Weapons and projectiles](weapons/README.md)
 
 Projectile types linked to the units that use them.

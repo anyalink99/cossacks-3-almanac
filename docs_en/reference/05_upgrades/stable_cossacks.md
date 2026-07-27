@@ -5,7 +5,7 @@
 
 Upgrades for Don, Register, and Sich Cossacks, the Hetman, and the Tatar.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Don Cossack: damage +1 (level 2)** `russta.cossackdon.1.1` | Russia | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
 | **Don Cossack: damage +1 (level 3)** `russta.cossackdon.1.2` | Russia | damage | 1 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |

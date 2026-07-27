@@ -1,25 +1,31 @@
 <a id="cossacks-3--время-постройки-и-ремонта"></a>
 <a id="время-строительства-и-ремонта"></a>
-# Cossacks 3 - Time to build and repair
+# Construction and Repair Times
 
 [← Tables and calculations](../README.md)
 
-Construction time (from scratch, new building) and repair (totally damaged → full HP) for each building. It is calculated for different numbers of peasants.
+The tables compare the time needed to construct a new building and to repair
+a completely damaged one. Results are shown for several numbers of Peasants.
 
 **Formulas** (see [construction and repair](../../recon/world/economy/building_mechanics.md)):
 
-- **Building**, time with N peasants: `buildtime_sec × 1.13 / N` (limited by slot cap)
-- **Repair**, time with N peasants: `maxhp / (20 × N / 0.406)` g-sec
-- 1 animation cycle construct = 13 frames / 32 fps = **0.406 g-sec**
-- At fast speed: real-time = g-sec / 1.4
+- **Construction with N Peasants:** `buildtime_sec × 1.13 / N`, subject to
+  the building's builder limit.
+- **Repair with N Peasants:** `maxhp / (20 × N / 0.406)` game seconds.
+- One construction animation cycle lasts 13 frames, or **0.406 game
+  seconds**.
+- At Fast speed, divide game time by 1.4 to obtain real time.
 
 **Slot caps** (exact simulation of `_unit_CalcBuilderPoints` for each building, see [builder limits](builder_slots.md)):
 
-- Cap depends on the **perimeter of the collision mask** of a particular building - for different nations the same category (for example, an 18th century barracks) can have from 19 to 30 slots.
-- Walls/gates: **4** slots per segment (value from `wallcustom.cfg`, for sids not in `builder_slots.json`).
-- Hard engine limit: `gc_MaxBuilderCount = 30`.
+- The limit depends on the building's collision-mask perimeter. National
+  versions of the same building can therefore accept different numbers of
+  builders.
+- A wall segment accepts **four** builders.
+- The engine never allows more than **30**.
 
-**Columns:** time in `<g-sec>g (<real-sec>r fast)` format. For long-term values - in minutes.
+Each duration explicitly distinguishes game time from real time at Fast speed.
+Long durations are shown in minutes.
 
 <a id="alg--algeria-алжир"></a>
 <a id="алжир-alg"></a>
@@ -27,55 +33,55 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `algaca` | Minaret | 156g | 25 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `algart` | Artillery Depot | 246g | 24 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 12g (8r) |
-| `algbar` | Barracks | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `algbla` | Blacksmith | 109g | 15 | 2.1m g (1.5m r) | 1.0m g (0.7m r) | 25g (18r) | 12g (9r) | 8g (6r) |
-| `algcen` | Town Hall | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `algdip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `alghou` | Housing | 31g | 16 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `algsta` | Stable | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `algtem` | Mosque | 94g | 30 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 4g (3r) |
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `turmar` | Bazaar | 234g | 19 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 14g (10r) |
-| `turmil` | Mill | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `turpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `tursga` | Gate | 120g | 13 | 2.3m g (1.6m r) | 1.1m g (0.8m r) | 27g (19r) | 14g (10r) | 10g (7r) |
-| `tursto` | Storehouse | 31g | 8 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `turswa` | Wall | 120g | 4 | 2.3m g (1.6m r) | 1.1m g (0.8m r) | 34g (24r) | 34g (24r) | 34g (24r) |
-| `turtow` | Tower | 984g | 14 | 18.5m g (13.2m r) | 9.3m g (6.6m r) | 3.7m g (2.6m r) | 1.9m g (1.3m r) | 1.3m g (0.9m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Minaret** (`algaca`) | 156 | 25 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Artillery Depot** (`algart`) | 246 | 24 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 12 game s (8 real s) |
+| **Barracks** (`algbar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`algbla`) | 109 | 15 | 2.1 game min (1.5 real min) | 1.0 game min (0.7 real min) | 25 game s (18 real s) | 12 game s (9 real s) | 8 game s (6 real s) |
+| **Town Hall** (`algcen`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`algdip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`alghou`) | 31 | 16 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Stable** (`algsta`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Mosque** (`algtem`) | 94 | 30 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Bazaar** (`turmar`) | 234 | 19 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 14 game s (10 real s) |
+| **Mill** (`turmil`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Shipyard** (`turpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`tursga`) | 120 | 13 | 2.3 game min (1.6 real min) | 1.1 game min (0.8 real min) | 27 game s (19 real s) | 14 game s (10 real s) | 10 game s (7 real s) |
+| **Storehouse** (`tursto`) | 31 | 8 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`turswa`) | 120 | 4 | 2.3 game min (1.6 real min) | 1.1 game min (0.8 real min) | 34 game s (24 real s) | 34 game s (24 real s) | 34 game s (24 real s) |
+| **Tower** (`turtow`) | 984 | 14 | 18.5 game min (13.2 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.6 real min) | 1.9 game min (1.3 real min) | 1.3 game min (0.9 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт"></a>
 ### Full repair (0 → max HP)
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `algaca` | Minaret | 65000 | 25 | 22.0m g (15.7m r) | 11.0m g (7.9m r) | 4.4m g (3.1m r) | 2.2m g (1.6m r) | 53g (38r) |
-| `algart` | Artillery Depot | 40000 | 24 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 34g (24r) |
-| `algbar` | Barracks | 35000 | 23 | 11.8m g (8.5m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 31g (22r) |
-| `algbla` | Blacksmith | 6500 | 15 | 2.2m g (1.6m r) | 1.1m g (0.8m r) | 26g (19r) | 13g (9r) | 9g (6r) |
-| `algcen` | Town Hall | 5500 | 21 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 5g (4r) |
-| `algdip` | Diplomatic Center | 5500 | 18 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 6g (4r) |
-| `alghou` | Housing | 4300 | 16 | 1.5m g (1.0m r) | 44g (31r) | 17g (12r) | 9g (6r) | 5g (4r) |
-| `algsta` | Stable | 55000 | 22 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 51g (36r) |
-| `algtem` | Mosque | 5000 | 30 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 3g (2r) |
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `turmar` | Bazaar | 4500 | 19 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (3r) |
-| `turmil` | Mill | 20000 | 16 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 25g (18r) |
-| `turpor` | Shipyard | 40000 | 30 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 27g (19r) |
-| `tursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `tursto` | Storehouse | 10000 | 8 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 25g (18r) | 25g (18r) |
-| `turswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `turtow` | Tower | 22500 | 14 | 7.6m g (5.4m r) | 3.8m g (2.7m r) | 1.5m g (1.1m r) | 46g (33r) | 33g (23r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Minaret** (`algaca`) | 65000 | 25 | 22.0 game min (15.7 real min) | 11.0 game min (7.9 real min) | 4.4 game min (3.1 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) |
+| **Artillery Depot** (`algart`) | 40000 | 24 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 34 game s (24 real s) |
+| **Barracks** (`algbar`) | 35000 | 23 | 11.8 game min (8.5 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 31 game s (22 real s) |
+| **Blacksmith** (`algbla`) | 6500 | 15 | 2.2 game min (1.6 real min) | 1.1 game min (0.8 real min) | 26 game s (19 real s) | 13 game s (9 real s) | 9 game s (6 real s) |
+| **Town Hall** (`algcen`) | 5500 | 21 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 5 game s (4 real s) |
+| **Diplomatic Center** (`algdip`) | 5500 | 18 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Housing** (`alghou`) | 4300 | 16 | 1.5 game min (1.0 real min) | 44 game s (31 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 5 game s (4 real s) |
+| **Stable** (`algsta`) | 55000 | 22 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 51 game s (36 real s) |
+| **Mosque** (`algtem`) | 5000 | 30 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 3 game s (2 real s) |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Bazaar** (`turmar`) | 4500 | 19 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (3 real s) |
+| **Mill** (`turmil`) | 20000 | 16 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 25 game s (18 real s) |
+| **Shipyard** (`turpor`) | 40000 | 30 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 27 game s (19 real s) |
+| **Gate** (`tursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`tursto`) | 10000 | 8 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Wall** (`turswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`turtow`) | 22500 | 14 | 7.6 game min (5.4 real min) | 3.8 game min (2.7 real min) | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 33 game s (23 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="aus--austria-австрия"></a>
 <a id="австрия-aus"></a>
@@ -83,59 +89,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-1"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `ausaca` | Academy | 625g | 26 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 27g (19r) |
-| `ausart` | Artillery Depot | 246g | 22 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 13g (9r) |
-| `ausba2` | Barracks, 18th century | 5625g | 29 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 3.7m g (2.6m r) |
-| `ausbar` | Barracks, 17th century | 94g | 25 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 4g (3r) |
-| `ausbla` | Blacksmith | 94g | 17 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 6g (4r) |
-| `auscen` | Town Hall | 47g | 23 | 53g (38r) | 26g (19r) | 11g (8r) | 5g (4r) | 2g (2r) |
-| `ausdip` | Diplomatic Center | 312g | 24 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 15g (11r) |
-| `aushou` | Housing | 31g | 15 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `aussta` | Stable | 625g | 21 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 34g (24r) |
-| `austem` | Cathedral | 156g | 28 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (5r) |
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`ausaca`) | 625 | 26 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 27 game s (19 real s) |
+| **Artillery Depot** (`ausart`) | 246 | 22 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 13 game s (9 real s) |
+| **Barracks, 18th century** (`ausba2`) | 5625 | 29 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 3.7 game min (2.6 real min) |
+| **Barracks, 17th century** (`ausbar`) | 94 | 25 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Blacksmith** (`ausbla`) | 94 | 17 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Town Hall** (`auscen`) | 47 | 23 | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) | 5 game s (4 real s) | 2 game s (2 real s) |
+| **Diplomatic Center** (`ausdip`) | 312 | 24 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 15 game s (11 real s) |
+| **Housing** (`aushou`) | 31 | 15 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Stable** (`aussta`) | 625 | 21 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 34 game s (24 real s) |
+| **Cathedral** (`austem`) | 156 | 28 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (5 real s) |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp"></a>
 <a id="полный-ремонт-1"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `ausaca` | Academy | 65000 | 26 | 22.0m g (15.7m r) | 11.0m g (7.9m r) | 4.4m g (3.1m r) | 2.2m g (1.6m r) | 51g (36r) |
-| `ausart` | Artillery Depot | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `ausba2` | Barracks, 18th century | 55000 | 29 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 39g (28r) |
-| `ausbar` | Barracks, 17th century | 40000 | 25 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 32g (23r) |
-| `ausbla` | Blacksmith | 5500 | 17 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `auscen` | Town Hall | 4000 | 23 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `ausdip` | Diplomatic Center | 4500 | 24 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 4g (3r) |
-| `aushou` | Housing | 4000 | 15 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 5g (4r) |
-| `aussta` | Stable | 20000 | 21 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 19g (14r) |
-| `austem` | Cathedral | 4200 | 28 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`ausaca`) | 65000 | 26 | 22.0 game min (15.7 real min) | 11.0 game min (7.9 real min) | 4.4 game min (3.1 real min) | 2.2 game min (1.6 real min) | 51 game s (36 real s) |
+| **Artillery Depot** (`ausart`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Barracks, 18th century** (`ausba2`) | 55000 | 29 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 39 game s (28 real s) |
+| **Barracks, 17th century** (`ausbar`) | 40000 | 25 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 32 game s (23 real s) |
+| **Blacksmith** (`ausbla`) | 5500 | 17 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`auscen`) | 4000 | 23 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`ausdip`) | 4500 | 24 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 4 game s (3 real s) |
+| **Housing** (`aushou`) | 4000 | 15 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 5 game s (4 real s) |
+| **Stable** (`aussta`) | 20000 | 21 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 19 game s (14 real s) |
+| **Cathedral** (`austem`) | 4200 | 28 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="bav--bavaria-бавария"></a>
 <a id="бавария-bav"></a>
@@ -143,59 +149,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-2"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `bavaca` | Academy | 625g | 22 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `bavart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `bavba2` | Barracks, 18th century | 5625g | 23 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.6m g (3.3m r) |
-| `bavbar` | Barracks, 17th century | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `bavbla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `bavcen` | Town Hall | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `bavdip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `bavhou` | Housing | 31g | 16 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `bavsta` | Stable | 625g | 21 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 34g (24r) |
-| `bavtem` | Cathedral | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`bavaca`) | 625 | 22 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Artillery Depot** (`bavart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`bavba2`) | 5625 | 23 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.6 game min (3.3 real min) |
+| **Barracks, 17th century** (`bavbar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`bavbla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`bavcen`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`bavdip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`bavhou`) | 31 | 16 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Stable** (`bavsta`) | 625 | 21 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 34 game s (24 real s) |
+| **Cathedral** (`bavtem`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-1"></a>
 <a id="полный-ремонт-2"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `bavaca` | Academy | 63000 | 22 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 58g (42r) |
-| `bavart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `bavba2` | Barracks, 18th century | 55000 | 23 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 49g (35r) |
-| `bavbar` | Barracks, 17th century | 40000 | 23 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 35g (25r) |
-| `bavbla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `bavcen` | Town Hall | 4000 | 21 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `bavdip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `bavhou` | Housing | 4000 | 16 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 5g (4r) |
-| `bavsta` | Stable | 20000 | 21 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 19g (14r) |
-| `bavtem` | Cathedral | 4200 | 22 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`bavaca`) | 63000 | 22 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 58 game s (42 real s) |
+| **Artillery Depot** (`bavart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`bavba2`) | 55000 | 23 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 49 game s (35 real s) |
+| **Barracks, 17th century** (`bavbar`) | 40000 | 23 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 35 game s (25 real s) |
+| **Blacksmith** (`bavbla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`bavcen`) | 4000 | 21 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`bavdip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`bavhou`) | 4000 | 16 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 5 game s (4 real s) |
+| **Stable** (`bavsta`) | 20000 | 21 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 19 game s (14 real s) |
+| **Cathedral** (`bavtem`) | 4200 | 22 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="den--denmark-дания"></a>
 <a id="дания-den"></a>
@@ -203,59 +209,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-3"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `denaca` | Academy | 625g | 17 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 42g (30r) |
-| `denart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `denba2` | Barracks, 18th century | 5625g | 22 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.8m g (3.4m r) |
-| `denbar` | Barracks, 17th century | 94g | 20 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (4r) |
-| `denbla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `dencen` | Town Hall | 156g | 20 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 9g (6r) |
-| `dendip` | Diplomatic Center | 312g | 21 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 17g (12r) |
-| `denhou` | Housing | 31g | 13 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `densta` | Stable | 625g | 20 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 35g (25r) |
-| `dentem` | Cathedral | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`denaca`) | 625 | 17 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 42 game s (30 real s) |
+| **Artillery Depot** (`denart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`denba2`) | 5625 | 22 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.8 game min (3.4 real min) |
+| **Barracks, 17th century** (`denbar`) | 94 | 20 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (4 real s) |
+| **Blacksmith** (`denbla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`dencen`) | 156 | 20 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 9 game s (6 real s) |
+| **Diplomatic Center** (`dendip`) | 312 | 21 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 17 game s (12 real s) |
+| **Housing** (`denhou`) | 31 | 13 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`densta`) | 625 | 20 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) |
+| **Cathedral** (`dentem`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-2"></a>
 <a id="полный-ремонт-3"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `denaca` | Academy | 63000 | 17 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.3m g (0.9m r) |
-| `denart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `denba2` | Barracks, 18th century | 55000 | 22 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 51g (36r) |
-| `denbar` | Barracks, 17th century | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `denbla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `dencen` | Town Hall | 4030 | 20 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `dendip` | Diplomatic Center | 4500 | 21 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 4g (3r) |
-| `denhou` | Housing | 4000 | 13 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `densta` | Stable | 20000 | 20 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 20g (15r) |
-| `dentem` | Cathedral | 4200 | 22 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`denaca`) | 63000 | 17 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.3 game min (0.9 real min) |
+| **Artillery Depot** (`denart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`denba2`) | 55000 | 22 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 51 game s (36 real s) |
+| **Barracks, 17th century** (`denbar`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Blacksmith** (`denbla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`dencen`) | 4030 | 20 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`dendip`) | 4500 | 21 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 4 game s (3 real s) |
+| **Housing** (`denhou`) | 4000 | 13 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Stable** (`densta`) | 20000 | 20 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 20 game s (15 real s) |
+| **Cathedral** (`dentem`) | 4200 | 22 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="eng--england-англия"></a>
 <a id="англия-eng"></a>
@@ -263,59 +269,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-4"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `engaca` | Academy | 625g | 23 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 31g (22r) |
-| `engart` | Artillery Depot | 246g | 22 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 13g (9r) |
-| `engba2` | Barracks, 18th century | 5625g | 23 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.6m g (3.3m r) |
-| `engbar` | Barracks, 17th century | 94g | 22 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `engbla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `engcen` | Town Hall | 156g | 23 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (5r) |
-| `engdip` | Diplomatic Center | 312g | 16 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 22g (16r) |
-| `enghou` | Housing | 31g | 15 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `engsta` | Stable | 375g | 22 | 7.1m g (5.0m r) | 3.5m g (2.5m r) | 1.4m g (1.0m r) | 42g (30r) | 19g (14r) |
-| `engtem` | Cathedral | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`engaca`) | 625 | 23 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 31 game s (22 real s) |
+| **Artillery Depot** (`engart`) | 246 | 22 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 13 game s (9 real s) |
+| **Barracks, 18th century** (`engba2`) | 5625 | 23 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.6 game min (3.3 real min) |
+| **Barracks, 17th century** (`engbar`) | 94 | 22 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`engbla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`engcen`) | 156 | 23 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (5 real s) |
+| **Diplomatic Center** (`engdip`) | 312 | 16 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 22 game s (16 real s) |
+| **Housing** (`enghou`) | 31 | 15 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Stable** (`engsta`) | 375 | 22 | 7.1 game min (5.0 real min) | 3.5 game min (2.5 real min) | 1.4 game min (1.0 real min) | 42 game s (30 real s) | 19 game s (14 real s) |
+| **Cathedral** (`engtem`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-3"></a>
 <a id="полный-ремонт-4"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `engaca` | Academy | 63000 | 23 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 56g (40r) |
-| `engart` | Artillery Depot | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `engba2` | Barracks, 18th century | 55000 | 23 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 49g (35r) |
-| `engbar` | Barracks, 17th century | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `engbla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `engcen` | Town Hall | 4030 | 23 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `engdip` | Diplomatic Center | 4500 | 16 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 6g (4r) |
-| `enghou` | Housing | 5000 | 15 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 7g (5r) |
-| `engsta` | Stable | 25000 | 22 | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 1.7m g (1.2m r) | 51g (36r) | 23g (16r) |
-| `engtem` | Cathedral | 4200 | 24 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Academy** (`engaca`) | 63000 | 23 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 56 game s (40 real s) |
+| **Artillery Depot** (`engart`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Barracks, 18th century** (`engba2`) | 55000 | 23 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 49 game s (35 real s) |
+| **Barracks, 17th century** (`engbar`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Blacksmith** (`engbla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`engcen`) | 4030 | 23 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`engdip`) | 4500 | 16 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 6 game s (4 real s) |
+| **Housing** (`enghou`) | 5000 | 15 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 7 game s (5 real s) |
+| **Stable** (`engsta`) | 25000 | 22 | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 23 game s (16 real s) |
+| **Cathedral** (`engtem`) | 4200 | 24 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="fra--france-франция"></a>
 <a id="франция-fra"></a>
@@ -323,59 +329,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-5"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `fraaca` | Academy | 625g | 24 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 29g (21r) |
-| `fraart` | Artillery Depot | 246g | 24 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 12g (8r) |
-| `fraba2` | Barracks, 18th century | 5625g | 29 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 3.7m g (2.6m r) |
-| `frabar` | Barracks, 17th century | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `frabla` | Blacksmith | 94g | 13 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (6r) |
-| `fracen` | Town Hall | 156g | 27 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `fradip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `frahou` | Housing | 31g | 10 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `frasta` | Stable | 625g | 22 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `fratem` | Cathedral | 312g | 30 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 12g (8r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`fraaca`) | 625 | 24 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 29 game s (21 real s) |
+| **Artillery Depot** (`fraart`) | 246 | 24 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 12 game s (8 real s) |
+| **Barracks, 18th century** (`fraba2`) | 5625 | 29 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 3.7 game min (2.6 real min) |
+| **Barracks, 17th century** (`frabar`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Blacksmith** (`frabla`) | 94 | 13 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`fracen`) | 156 | 27 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Diplomatic Center** (`fradip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`frahou`) | 31 | 10 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Stable** (`frasta`) | 625 | 22 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Cathedral** (`fratem`) | 312 | 30 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 12 game s (8 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-4"></a>
 <a id="полный-ремонт-5"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `fraaca` | Academy | 63000 | 24 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 53g (38r) |
-| `fraart` | Artillery Depot | 40000 | 24 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 34g (24r) |
-| `fraba2` | Barracks, 18th century | 55000 | 29 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 39g (28r) |
-| `frabar` | Barracks, 17th century | 40000 | 16 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 51g (36r) |
-| `frabla` | Blacksmith | 5500 | 13 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 9g (6r) |
-| `fracen` | Town Hall | 4500 | 27 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 3g (2r) |
-| `fradip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `frahou` | Housing | 4000 | 10 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 8g (6r) |
-| `frasta` | Stable | 20000 | 22 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 18g (13r) |
-| `fratem` | Cathedral | 6000 | 30 | 2.0m g (1.5m r) | 1.0m g (0.7m r) | 24g (17r) | 12g (9r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`fraaca`) | 63000 | 24 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 53 game s (38 real s) |
+| **Artillery Depot** (`fraart`) | 40000 | 24 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 34 game s (24 real s) |
+| **Barracks, 18th century** (`fraba2`) | 55000 | 29 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 39 game s (28 real s) |
+| **Barracks, 17th century** (`frabar`) | 40000 | 16 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 51 game s (36 real s) |
+| **Blacksmith** (`frabla`) | 5500 | 13 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 9 game s (6 real s) |
+| **Town Hall** (`fracen`) | 4500 | 27 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 3 game s (2 real s) |
+| **Diplomatic Center** (`fradip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`frahou`) | 4000 | 10 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 8 game s (6 real s) |
+| **Stable** (`frasta`) | 20000 | 22 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 18 game s (13 real s) |
+| **Cathedral** (`fratem`) | 6000 | 30 | 2.0 game min (1.5 real min) | 1.0 game min (0.7 real min) | 24 game s (17 real s) | 12 game s (9 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="hun--hungary-венгрия"></a>
 <a id="венгрия-hun"></a>
@@ -383,59 +389,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-6"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `hunaca` | Academy | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `hunart` | Artillery Depot | 246g | 18 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 15g (11r) |
-| `hunba2` | Barracks, 18th century | 5625g | 26 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.1m g (2.9m r) |
-| `hunbar` | Barracks, 17th century | 94g | 22 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `hunbla` | Blacksmith | 94g | 13 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (6r) |
-| `huncen` | Town Hall | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `hundip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `hunhou` | Housing | 31g | 14 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `hunsta` | Stable | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `huntem` | Cathedral | 156g | 28 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (5r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`hunaca`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Artillery Depot** (`hunart`) | 246 | 18 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 15 game s (11 real s) |
+| **Barracks, 18th century** (`hunba2`) | 5625 | 26 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.1 game min (2.9 real min) |
+| **Barracks, 17th century** (`hunbar`) | 94 | 22 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`hunbla`) | 94 | 13 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`huncen`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`hundip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`hunhou`) | 31 | 14 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`hunsta`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Cathedral** (`huntem`) | 156 | 28 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (5 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-5"></a>
 <a id="полный-ремонт-6"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `hunaca` | Academy | 63000 | 19 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.1m g (0.8m r) |
-| `hunart` | Artillery Depot | 40000 | 18 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 45g (32r) |
-| `hunba2` | Barracks, 18th century | 55000 | 26 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 43g (31r) |
-| `hunbar` | Barracks, 17th century | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `hunbla` | Blacksmith | 5500 | 13 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 9g (6r) |
-| `huncen` | Town Hall | 4000 | 22 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `hundip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `hunhou` | Housing | 4000 | 14 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `hunsta` | Stable | 20000 | 19 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 21g (15r) |
-| `huntem` | Cathedral | 4200 | 28 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`hunaca`) | 63000 | 19 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.1 game min (0.8 real min) |
+| **Artillery Depot** (`hunart`) | 40000 | 18 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 45 game s (32 real s) |
+| **Barracks, 18th century** (`hunba2`) | 55000 | 26 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 43 game s (31 real s) |
+| **Barracks, 17th century** (`hunbar`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Blacksmith** (`hunbla`) | 5500 | 13 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 9 game s (6 real s) |
+| **Town Hall** (`huncen`) | 4000 | 22 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`hundip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`hunhou`) | 4000 | 14 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Stable** (`hunsta`) | 20000 | 19 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 21 game s (15 real s) |
+| **Cathedral** (`huntem`) | 4200 | 28 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="net--netherlands-нидерланды"></a>
 <a id="нидерланды-net"></a>
@@ -443,59 +449,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-7"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `netaca` | Academy | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `netart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `netba2` | Barracks, 18th century | 5625g | 21 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 5.0m g (3.6m r) |
-| `netbar` | Barracks, 17th century | 94g | 20 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (4r) |
-| `netbla` | Blacksmith | 94g | 14 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (5r) |
-| `netcen` | Town Hall | 156g | 19 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 9g (7r) |
-| `netdip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `nethou` | Housing | 31g | 13 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `netsta` | Stable | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `nettem` | Cathedral | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`netaca`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Artillery Depot** (`netart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`netba2`) | 5625 | 21 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 5.0 game min (3.6 real min) |
+| **Barracks, 17th century** (`netbar`) | 94 | 20 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (4 real s) |
+| **Blacksmith** (`netbla`) | 94 | 14 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (5 real s) |
+| **Town Hall** (`netcen`) | 156 | 19 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 9 game s (7 real s) |
+| **Diplomatic Center** (`netdip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`nethou`) | 31 | 13 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`netsta`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Cathedral** (`nettem`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-6"></a>
 <a id="полный-ремонт-7"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `netaca` | Academy | 63000 | 18 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.2m g (0.8m r) |
-| `netart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `netba2` | Barracks, 18th century | 55000 | 21 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 53g (38r) |
-| `netbar` | Barracks, 17th century | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `netbla` | Blacksmith | 5500 | 14 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 8g (6r) |
-| `netcen` | Town Hall | 4950 | 19 | 1.7m g (1.2m r) | 50g (36r) | 20g (14r) | 10g (7r) | 5g (4r) |
-| `netdip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `nethou` | Housing | 4500 | 13 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 7g (5r) |
-| `netsta` | Stable | 20000 | 18 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 23g (16r) |
-| `nettem` | Cathedral | 4200 | 21 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`netaca`) | 63000 | 18 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.2 game min (0.8 real min) |
+| **Artillery Depot** (`netart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`netba2`) | 55000 | 21 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 53 game s (38 real s) |
+| **Barracks, 17th century** (`netbar`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Blacksmith** (`netbla`) | 5500 | 14 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`netcen`) | 4950 | 19 | 1.7 game min (1.2 real min) | 50 game s (36 real s) | 20 game s (14 real s) | 10 game s (7 real s) | 5 game s (4 real s) |
+| **Diplomatic Center** (`netdip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`nethou`) | 4500 | 13 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 7 game s (5 real s) |
+| **Stable** (`netsta`) | 20000 | 18 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 23 game s (16 real s) |
+| **Cathedral** (`nettem`) | 4200 | 21 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="pie--piedmont-пьемонт"></a>
 <a id="пьемонт-pie"></a>
@@ -503,59 +509,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-8"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `pieaca` | Academy | 625g | 22 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `pieart` | Artillery Depot | 246g | 19 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 15g (10r) |
-| `pieba2` | Barracks, 18th century | 5625g | 22 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.8m g (3.4m r) |
-| `piebar` | Barracks, 17th century | 94g | 24 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 4g (3r) |
-| `piebla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `piecen` | Town Hall | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `piedip` | Diplomatic Center | 312g | 16 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 22g (16r) |
-| `piehou` | Housing | 31g | 13 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `piesta` | Stable | 625g | 24 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 29g (21r) |
-| `pietem` | Cathedral | 156g | 20 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 9g (6r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`pieaca`) | 625 | 22 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Artillery Depot** (`pieart`) | 246 | 19 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 15 game s (10 real s) |
+| **Barracks, 18th century** (`pieba2`) | 5625 | 22 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.8 game min (3.4 real min) |
+| **Barracks, 17th century** (`piebar`) | 94 | 24 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Blacksmith** (`piebla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`piecen`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Diplomatic Center** (`piedip`) | 312 | 16 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 22 game s (16 real s) |
+| **Housing** (`piehou`) | 31 | 13 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`piesta`) | 625 | 24 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 29 game s (21 real s) |
+| **Cathedral** (`pietem`) | 156 | 20 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 9 game s (6 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-7"></a>
 <a id="полный-ремонт-8"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `pieaca` | Academy | 63000 | 22 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 58g (42r) |
-| `pieart` | Artillery Depot | 40000 | 19 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 43g (31r) |
-| `pieba2` | Barracks, 18th century | 55000 | 22 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 51g (36r) |
-| `piebar` | Barracks, 17th century | 40000 | 24 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 34g (24r) |
-| `piebla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `piecen` | Town Hall | 4000 | 24 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `piedip` | Diplomatic Center | 4500 | 16 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 6g (4r) |
-| `piehou` | Housing | 4000 | 13 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `piesta` | Stable | 20000 | 24 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 17g (12r) |
-| `pietem` | Cathedral | 4200 | 20 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`pieaca`) | 63000 | 22 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 58 game s (42 real s) |
+| **Artillery Depot** (`pieart`) | 40000 | 19 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 43 game s (31 real s) |
+| **Barracks, 18th century** (`pieba2`) | 55000 | 22 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 51 game s (36 real s) |
+| **Barracks, 17th century** (`piebar`) | 40000 | 24 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 34 game s (24 real s) |
+| **Blacksmith** (`piebla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`piecen`) | 4000 | 24 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Diplomatic Center** (`piedip`) | 4500 | 16 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 6 game s (4 real s) |
+| **Housing** (`piehou`) | 4000 | 13 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Stable** (`piesta`) | 20000 | 24 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 17 game s (12 real s) |
+| **Cathedral** (`pietem`) | 4200 | 20 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="pol--poland-польша"></a>
 <a id="польша-pol"></a>
@@ -563,59 +569,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-9"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `polaca` | Academy | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `polart` | Artillery Depot | 246g | 19 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 15g (10r) |
-| `polba2` | Barracks, 18th century | 5625g | 25 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.2m g (3.0m r) |
-| `polbar` | Barracks, 17th century | 94g | 27 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 4g (3r) |
-| `polbla` | Blacksmith | 94g | 18 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 6g (4r) |
-| `polcen` | Town Hall | 156g | 18 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 10g (7r) |
-| `poldip` | Diplomatic Center | 312g | 16 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 22g (16r) |
-| `polhou` | Housing | 31g | 17 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (1r) |
-| `polsta` | Stable | 625g | 26 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 27g (19r) |
-| `poltem` | Cathedral | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `russto` | Storehouse | 31g | 8 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`polaca`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Artillery Depot** (`polart`) | 246 | 19 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 15 game s (10 real s) |
+| **Barracks, 18th century** (`polba2`) | 5625 | 25 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.2 game min (3.0 real min) |
+| **Barracks, 17th century** (`polbar`) | 94 | 27 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Blacksmith** (`polbla`) | 94 | 18 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Town Hall** (`polcen`) | 156 | 18 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 10 game s (7 real s) |
+| **Diplomatic Center** (`poldip`) | 312 | 16 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 22 game s (16 real s) |
+| **Housing** (`polhou`) | 31 | 17 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (1 real s) |
+| **Stable** (`polsta`) | 625 | 26 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 27 game s (19 real s) |
+| **Cathedral** (`poltem`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Storehouse** (`russto`) | 31 | 8 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-8"></a>
 <a id="полный-ремонт-9"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `polaca` | Academy | 63000 | 18 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.2m g (0.8m r) |
-| `polart` | Artillery Depot | 40000 | 19 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 43g (31r) |
-| `polba2` | Barracks, 18th century | 55000 | 25 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 45g (32r) |
-| `polbar` | Barracks, 17th century | 40000 | 27 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 30g (21r) |
-| `polbla` | Blacksmith | 5500 | 18 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 6g (4r) |
-| `polcen` | Town Hall | 4300 | 18 | 1.5m g (1.0m r) | 44g (31r) | 17g (12r) | 9g (6r) | 5g (3r) |
-| `poldip` | Diplomatic Center | 4500 | 16 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 6g (4r) |
-| `polhou` | Housing | 4100 | 17 | 1.4m g (1.0m r) | 42g (30r) | 17g (12r) | 8g (6r) | 5g (3r) |
-| `polsta` | Stable | 20000 | 26 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 16g (11r) |
-| `poltem` | Cathedral | 4200 | 22 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `russto` | Storehouse | 10000 | 8 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 25g (18r) | 25g (18r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`polaca`) | 63000 | 18 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.2 game min (0.8 real min) |
+| **Artillery Depot** (`polart`) | 40000 | 19 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 43 game s (31 real s) |
+| **Barracks, 18th century** (`polba2`) | 55000 | 25 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 45 game s (32 real s) |
+| **Barracks, 17th century** (`polbar`) | 40000 | 27 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 30 game s (21 real s) |
+| **Blacksmith** (`polbla`) | 5500 | 18 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Town Hall** (`polcen`) | 4300 | 18 | 1.5 game min (1.0 real min) | 44 game s (31 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 5 game s (3 real s) |
+| **Diplomatic Center** (`poldip`) | 4500 | 16 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 6 game s (4 real s) |
+| **Housing** (`polhou`) | 4100 | 17 | 1.4 game min (1.0 real min) | 42 game s (30 real s) | 17 game s (12 real s) | 8 game s (6 real s) | 5 game s (3 real s) |
+| **Stable** (`polsta`) | 20000 | 26 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (11 real s) |
+| **Cathedral** (`poltem`) | 4200 | 22 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Storehouse** (`russto`) | 10000 | 8 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="por--portugal-португалия"></a>
 <a id="португалия-por"></a>
@@ -623,59 +629,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-10"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `poraca` | Academy | 625g | 16 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 44g (32r) |
-| `porart` | Artillery Depot | 246g | 22 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 13g (9r) |
-| `porba2` | Barracks, 18th century | 5625g | 24 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.4m g (3.2m r) |
-| `porbar` | Barracks, 17th century | 94g | 22 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `porbla` | Blacksmith | 94g | 15 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `porcen` | Town Hall | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `pordip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `porhou` | Housing | 31g | 13 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `porpor` | Shipyard | 1562g | 21 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.4m g (1.0m r) |
-| `porsta` | Stable | 625g | 24 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 29g (21r) |
-| `portem` | Cathedral | 156g | 25 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `spamar` | Market | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `spasto` | Storehouse | 31g | 7 | 35g (25r) | 18g (13r) | 7g (5r) | 5g (4r) | 5g (4r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`poraca`) | 625 | 16 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 44 game s (32 real s) |
+| **Artillery Depot** (`porart`) | 246 | 22 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 13 game s (9 real s) |
+| **Barracks, 18th century** (`porba2`) | 5625 | 24 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.4 game min (3.2 real min) |
+| **Barracks, 17th century** (`porbar`) | 94 | 22 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`porbla`) | 94 | 15 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`porcen`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`pordip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`porhou`) | 31 | 13 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Shipyard** (`porpor`) | 1562 | 21 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.4 game min (1.0 real min) |
+| **Stable** (`porsta`) | 625 | 24 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 29 game s (21 real s) |
+| **Cathedral** (`portem`) | 156 | 25 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Market** (`spamar`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Storehouse** (`spasto`) | 31 | 7 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 5 game s (4 real s) | 5 game s (4 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-9"></a>
 <a id="полный-ремонт-10"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `poraca` | Academy | 63000 | 16 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.3m g (1.0m r) |
-| `porart` | Artillery Depot | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `porba2` | Barracks, 18th century | 55000 | 24 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 47g (33r) |
-| `porbar` | Barracks, 17th century | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `porbla` | Blacksmith | 5500 | 15 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `porcen` | Town Hall | 4000 | 21 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `pordip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `porhou` | Housing | 4000 | 13 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `porpor` | Shipyard | 50000 | 21 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 48g (35r) |
-| `porsta` | Stable | 20000 | 24 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 17g (12r) |
-| `portem` | Cathedral | 4200 | 25 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `spamar` | Market | 4000 | 24 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `spasto` | Storehouse | 10000 | 7 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 29g (21r) | 29g (21r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`poraca`) | 63000 | 16 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.3 game min (1.0 real min) |
+| **Artillery Depot** (`porart`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Barracks, 18th century** (`porba2`) | 55000 | 24 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 47 game s (33 real s) |
+| **Barracks, 17th century** (`porbar`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Blacksmith** (`porbla`) | 5500 | 15 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`porcen`) | 4000 | 21 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`pordip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`porhou`) | 4000 | 13 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Shipyard** (`porpor`) | 50000 | 21 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 48 game s (35 real s) |
+| **Stable** (`porsta`) | 20000 | 24 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 17 game s (12 real s) |
+| **Cathedral** (`portem`) | 4200 | 25 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Market** (`spamar`) | 4000 | 24 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Storehouse** (`spasto`) | 10000 | 7 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 29 game s (21 real s) | 29 game s (21 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="pru--prussia-пруссия"></a>
 <a id="пруссия-pru"></a>
@@ -683,59 +689,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-11"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `pruaca` | Academy | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `pruart` | Artillery Depot | 246g | 22 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 13g (9r) |
-| `pruba2` | Barracks, 18th century | 5625g | 22 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.8m g (3.4m r) |
-| `prubar` | Barracks, 17th century | 94g | 18 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 6g (4r) |
-| `prubla` | Blacksmith | 94g | 14 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (5r) |
-| `prucen` | Town Hall | 156g | 20 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 9g (6r) |
-| `prudip` | Diplomatic Center | 312g | 19 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 19g (13r) |
-| `pruhou` | Housing | 31g | 12 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `prusta` | Stable | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `prutem` | Cathedral | 156g | 25 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`pruaca`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Artillery Depot** (`pruart`) | 246 | 22 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 13 game s (9 real s) |
+| **Barracks, 18th century** (`pruba2`) | 5625 | 22 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.8 game min (3.4 real min) |
+| **Barracks, 17th century** (`prubar`) | 94 | 18 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Blacksmith** (`prubla`) | 94 | 14 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (5 real s) |
+| **Town Hall** (`prucen`) | 156 | 20 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 9 game s (6 real s) |
+| **Diplomatic Center** (`prudip`) | 312 | 19 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 19 game s (13 real s) |
+| **Housing** (`pruhou`) | 31 | 12 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`prusta`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Cathedral** (`prutem`) | 156 | 25 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-10"></a>
 <a id="полный-ремонт-11"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `pruaca` | Academy | 63000 | 18 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.2m g (0.8m r) |
-| `pruart` | Artillery Depot | 40000 | 22 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 37g (26r) |
-| `pruba2` | Barracks, 18th century | 55000 | 22 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 51g (36r) |
-| `prubar` | Barracks, 17th century | 40000 | 18 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 45g (32r) |
-| `prubla` | Blacksmith | 5500 | 14 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 8g (6r) |
-| `prucen` | Town Hall | 4200 | 20 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `prudip` | Diplomatic Center | 4500 | 19 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (3r) |
-| `pruhou` | Housing | 4500 | 12 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 8g (5r) |
-| `prusta` | Stable | 20000 | 19 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 21g (15r) |
-| `prutem` | Cathedral | 4200 | 25 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`pruaca`) | 63000 | 18 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.2 game min (0.8 real min) |
+| **Artillery Depot** (`pruart`) | 40000 | 22 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 37 game s (26 real s) |
+| **Barracks, 18th century** (`pruba2`) | 55000 | 22 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 51 game s (36 real s) |
+| **Barracks, 17th century** (`prubar`) | 40000 | 18 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 45 game s (32 real s) |
+| **Blacksmith** (`prubla`) | 5500 | 14 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`prucen`) | 4200 | 20 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`prudip`) | 4500 | 19 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (3 real s) |
+| **Housing** (`pruhou`) | 4500 | 12 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 8 game s (5 real s) |
+| **Stable** (`prusta`) | 20000 | 19 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 21 game s (15 real s) |
+| **Cathedral** (`prutem`) | 4200 | 25 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="rus--russia-россия"></a>
 <a id="россия-rus"></a>
@@ -743,59 +749,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-12"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `rusaca` | Academy | 844g | 25 | 15.9m g (11.4m r) | 7.9m g (5.7m r) | 3.2m g (2.3m r) | 1.6m g (1.1m r) | 38g (27r) |
-| `rusart` | Artillery Depot | 246g | 24 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 12g (8r) |
-| `rusba2` | Barracks, 18th century | 5625g | 30 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 3.5m g (2.5m r) |
-| `rusbar` | Strelets Barracks | 78g | 23 | 1.5m g (1.1m r) | 44g (32r) | 18g (13r) | 9g (6r) | 4g (3r) |
-| `rusbla` | Blacksmith | 94g | 15 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `ruscen` | Town Hall | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `rusdip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `rushou` | Izba | 31g | 17 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (1r) |
-| `rusmar` | Market | 234g | 23 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 12g (8r) |
-| `rusmil` | Mill | 94g | 7 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 15g (11r) | 15g (11r) |
-| `ruspor` | Shipyard | 1562g | 27 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.1m g (0.8m r) |
-| `russga` | Gate | 200g | 13 | 3.8m g (2.7m r) | 1.9m g (1.3m r) | 45g (32r) | 23g (16r) | 17g (12r) |
-| `russta` | Stable | 375g | 22 | 7.1m g (5.0m r) | 3.5m g (2.5m r) | 1.4m g (1.0m r) | 42g (30r) | 19g (14r) |
-| `russto` | Storehouse | 31g | 8 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `russwa` | Wall | 200g | 4 | 3.8m g (2.7m r) | 1.9m g (1.3m r) | 56g (40r) | 56g (40r) | 56g (40r) |
-| `rustem` | Orthodox Cathedral | 156g | 30 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
-| `rustow` | Tower | 1477g | 10 | 27.8m g (19.9m r) | 13.9m g (9.9m r) | 5.6m g (4.0m r) | 2.8m g (2.0m r) | 2.8m g (2.0m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Academy** (`rusaca`) | 844 | 25 | 15.9 game min (11.4 real min) | 7.9 game min (5.7 real min) | 3.2 game min (2.3 real min) | 1.6 game min (1.1 real min) | 38 game s (27 real s) |
+| **Artillery Depot** (`rusart`) | 246 | 24 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 12 game s (8 real s) |
+| **Barracks, 18th century** (`rusba2`) | 5625 | 30 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 3.5 game min (2.5 real min) |
+| **Strelets Barracks** (`rusbar`) | 78 | 23 | 1.5 game min (1.1 real min) | 44 game s (32 real s) | 18 game s (13 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Blacksmith** (`rusbla`) | 94 | 15 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`ruscen`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Diplomatic Center** (`rusdip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Izba** (`rushou`) | 31 | 17 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (1 real s) |
+| **Market** (`rusmar`) | 234 | 23 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 12 game s (8 real s) |
+| **Mill** (`rusmil`) | 94 | 7 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 15 game s (11 real s) | 15 game s (11 real s) |
+| **Shipyard** (`ruspor`) | 1562 | 27 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.1 game min (0.8 real min) |
+| **Gate** (`russga`) | 200 | 13 | 3.8 game min (2.7 real min) | 1.9 game min (1.3 real min) | 45 game s (32 real s) | 23 game s (16 real s) | 17 game s (12 real s) |
+| **Stable** (`russta`) | 375 | 22 | 7.1 game min (5.0 real min) | 3.5 game min (2.5 real min) | 1.4 game min (1.0 real min) | 42 game s (30 real s) | 19 game s (14 real s) |
+| **Storehouse** (`russto`) | 31 | 8 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`russwa`) | 200 | 4 | 3.8 game min (2.7 real min) | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 56 game s (40 real s) | 56 game s (40 real s) |
+| **Orthodox Cathedral** (`rustem`) | 156 | 30 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (4 real s) |
+| **Tower** (`rustow`) | 1477 | 10 | 27.8 game min (19.9 real min) | 13.9 game min (9.9 real min) | 5.6 game min (4.0 real min) | 2.8 game min (2.0 real min) | 2.8 game min (2.0 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-11"></a>
 <a id="полный-ремонт-12"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `rusaca` | Academy | 65000 | 25 | 22.0m g (15.7m r) | 11.0m g (7.9m r) | 4.4m g (3.1m r) | 2.2m g (1.6m r) | 53g (38r) |
-| `rusart` | Artillery Depot | 40000 | 24 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 34g (24r) |
-| `rusba2` | Barracks, 18th century | 55000 | 30 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 37g (27r) |
-| `rusbar` | Strelets Barracks | 25000 | 23 | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 1.7m g (1.2m r) | 51g (36r) | 22g (16r) |
-| `rusbla` | Blacksmith | 5500 | 15 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `ruscen` | Town Hall | 4050 | 24 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `rusdip` | Diplomatic Center | 6500 | 18 | 2.2m g (1.6m r) | 1.1m g (0.8m r) | 26g (19r) | 13g (9r) | 7g (5r) |
-| `rushou` | Izba | 5000 | 17 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 6g (4r) |
-| `rusmar` | Market | 4000 | 23 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `rusmil` | Mill | 15000 | 7 | 5.1m g (3.6m r) | 2.5m g (1.8m r) | 1.0m g (0.7m r) | 44g (31r) | 44g (31r) |
-| `ruspor` | Shipyard | 45000 | 27 | 15.2m g (10.9m r) | 7.6m g (5.4m r) | 3.0m g (2.2m r) | 1.5m g (1.1m r) | 34g (24r) |
-| `russga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `russta` | Stable | 25000 | 22 | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 1.7m g (1.2m r) | 51g (36r) | 23g (16r) |
-| `russto` | Storehouse | 10000 | 8 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 25g (18r) | 25g (18r) |
-| `russwa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `rustem` | Orthodox Cathedral | 4500 | 30 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 3g (2r) |
-| `rustow` | Tower | 21000 | 10 | 7.1m g (5.1m r) | 3.6m g (2.5m r) | 1.4m g (1.0m r) | 43g (30r) | 43g (30r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Academy** (`rusaca`) | 65000 | 25 | 22.0 game min (15.7 real min) | 11.0 game min (7.9 real min) | 4.4 game min (3.1 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) |
+| **Artillery Depot** (`rusart`) | 40000 | 24 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 34 game s (24 real s) |
+| **Barracks, 18th century** (`rusba2`) | 55000 | 30 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 37 game s (27 real s) |
+| **Strelets Barracks** (`rusbar`) | 25000 | 23 | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 22 game s (16 real s) |
+| **Blacksmith** (`rusbla`) | 5500 | 15 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`ruscen`) | 4050 | 24 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Diplomatic Center** (`rusdip`) | 6500 | 18 | 2.2 game min (1.6 real min) | 1.1 game min (0.8 real min) | 26 game s (19 real s) | 13 game s (9 real s) | 7 game s (5 real s) |
+| **Izba** (`rushou`) | 5000 | 17 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 6 game s (4 real s) |
+| **Market** (`rusmar`) | 4000 | 23 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Mill** (`rusmil`) | 15000 | 7 | 5.1 game min (3.6 real min) | 2.5 game min (1.8 real min) | 1.0 game min (0.7 real min) | 44 game s (31 real s) | 44 game s (31 real s) |
+| **Shipyard** (`ruspor`) | 45000 | 27 | 15.2 game min (10.9 real min) | 7.6 game min (5.4 real min) | 3.0 game min (2.2 real min) | 1.5 game min (1.1 real min) | 34 game s (24 real s) |
+| **Gate** (`russga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Stable** (`russta`) | 25000 | 22 | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 23 game s (16 real s) |
+| **Storehouse** (`russto`) | 10000 | 8 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Wall** (`russwa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Orthodox Cathedral** (`rustem`) | 4500 | 30 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 3 game s (2 real s) |
+| **Tower** (`rustow`) | 21000 | 10 | 7.1 game min (5.1 real min) | 3.6 game min (2.5 real min) | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 43 game s (30 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="sax--saxony-саксония"></a>
 <a id="саксония-sax"></a>
@@ -803,59 +809,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-13"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `saxaca` | Academy | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `saxart` | Artillery Depot | 246g | 19 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 15g (10r) |
-| `saxba2` | Barracks, 18th century | 5625g | 20 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 5.3m g (3.8m r) |
-| `saxbar` | Barracks, 17th century | 94g | 20 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (4r) |
-| `saxbla` | Blacksmith | 94g | 14 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (5r) |
-| `saxcen` | Town Hall | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `saxdip` | Diplomatic Center | 312g | 17 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 21g (15r) |
-| `saxhou` | Housing | 31g | 13 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `saxsta` | Stable | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `saxtem` | Cathedral | 156g | 26 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`saxaca`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Artillery Depot** (`saxart`) | 246 | 19 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 15 game s (10 real s) |
+| **Barracks, 18th century** (`saxba2`) | 5625 | 20 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 5.3 game min (3.8 real min) |
+| **Barracks, 17th century** (`saxbar`) | 94 | 20 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (4 real s) |
+| **Blacksmith** (`saxbla`) | 94 | 14 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (5 real s) |
+| **Town Hall** (`saxcen`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`saxdip`) | 312 | 17 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 21 game s (15 real s) |
+| **Housing** (`saxhou`) | 31 | 13 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`saxsta`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Cathedral** (`saxtem`) | 156 | 26 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-12"></a>
 <a id="полный-ремонт-13"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `saxaca` | Academy | 63000 | 19 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.1m g (0.8m r) |
-| `saxart` | Artillery Depot | 40000 | 19 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 43g (31r) |
-| `saxba2` | Barracks, 18th century | 55000 | 20 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 56g (40r) |
-| `saxbar` | Barracks, 17th century | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `saxbla` | Blacksmith | 5500 | 14 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 8g (6r) |
-| `saxcen` | Town Hall | 4000 | 21 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `saxdip` | Diplomatic Center | 4500 | 17 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `saxhou` | Housing | 4000 | 13 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `saxsta` | Stable | 20000 | 19 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 21g (15r) |
-| `saxtem` | Cathedral | 4200 | 26 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`saxaca`) | 63000 | 19 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.1 game min (0.8 real min) |
+| **Artillery Depot** (`saxart`) | 40000 | 19 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 43 game s (31 real s) |
+| **Barracks, 18th century** (`saxba2`) | 55000 | 20 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 56 game s (40 real s) |
+| **Barracks, 17th century** (`saxbar`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Blacksmith** (`saxbla`) | 5500 | 14 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`saxcen`) | 4000 | 21 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`saxdip`) | 4500 | 17 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`saxhou`) | 4000 | 13 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Stable** (`saxsta`) | 20000 | 19 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 21 game s (15 real s) |
+| **Cathedral** (`saxtem`) | 4200 | 26 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="sco--scotland-шотландия"></a>
 <a id="шотландия-sco"></a>
@@ -863,59 +869,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-14"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `scoaca` | Academy | 625g | 20 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 35g (25r) |
-| `scoart` | Artillery Depot | 246g | 21 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 13g (9r) |
-| `scoba2` | Castle | 625g | 30 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 24g (17r) |
-| `scobar` | Barracks, 17th century | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `scobla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `scocen` | Town Hall | 156g | 28 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (5r) |
-| `scodip` | Diplomatic Center | 312g | 19 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 19g (13r) |
-| `scohou` | Housing | 31g | 14 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `scosta` | Stable | 375g | 20 | 7.1m g (5.0m r) | 3.5m g (2.5m r) | 1.4m g (1.0m r) | 42g (30r) | 21g (15r) |
-| `scotem` | Cathedral | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`scoaca`) | 625 | 20 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) |
+| **Artillery Depot** (`scoart`) | 246 | 21 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 13 game s (9 real s) |
+| **Castle** (`scoba2`) | 625 | 30 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 24 game s (17 real s) |
+| **Barracks, 17th century** (`scobar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`scobla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`scocen`) | 156 | 28 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (5 real s) |
+| **Diplomatic Center** (`scodip`) | 312 | 19 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 19 game s (13 real s) |
+| **Housing** (`scohou`) | 31 | 14 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`scosta`) | 375 | 20 | 7.1 game min (5.0 real min) | 3.5 game min (2.5 real min) | 1.4 game min (1.0 real min) | 42 game s (30 real s) | 21 game s (15 real s) |
+| **Cathedral** (`scotem`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-13"></a>
 <a id="полный-ремонт-14"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `scoaca` | Academy | 63000 | 20 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.1m g (0.8m r) |
-| `scoart` | Artillery Depot | 40000 | 21 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 39g (28r) |
-| `scoba2` | Castle | 40000 | 30 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 27g (19r) |
-| `scobar` | Barracks, 17th century | 30000 | 23 | 10.2m g (7.3m r) | 5.1m g (3.6m r) | 2.0m g (1.5m r) | 1.0m g (0.7m r) | 26g (19r) |
-| `scobla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `scocen` | Town Hall | 4000 | 28 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `scodip` | Diplomatic Center | 4500 | 19 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (3r) |
-| `scohou` | Housing | 4000 | 14 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `scosta` | Stable | 25000 | 20 | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) |
-| `scotem` | Cathedral | 4200 | 22 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`scoaca`) | 63000 | 20 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.1 game min (0.8 real min) |
+| **Artillery Depot** (`scoart`) | 40000 | 21 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 39 game s (28 real s) |
+| **Castle** (`scoba2`) | 40000 | 30 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 27 game s (19 real s) |
+| **Barracks, 17th century** (`scobar`) | 30000 | 23 | 10.2 game min (7.3 real min) | 5.1 game min (3.6 real min) | 2.0 game min (1.5 real min) | 1.0 game min (0.7 real min) | 26 game s (19 real s) |
+| **Blacksmith** (`scobla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`scocen`) | 4000 | 28 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Diplomatic Center** (`scodip`) | 4500 | 19 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (3 real s) |
+| **Housing** (`scohou`) | 4000 | 14 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Stable** (`scosta`) | 25000 | 20 | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) |
+| **Cathedral** (`scotem`) | 4200 | 22 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="spa--spain-испания"></a>
 <a id="испания-spa"></a>
@@ -923,59 +929,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-15"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `spaaca` | Academy | 625g | 26 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 27g (19r) |
-| `spaart` | Artillery Depot | 246g | 23 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 12g (9r) |
-| `spaba2` | Barracks, 18th century | 5625g | 26 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.1m g (2.9m r) |
-| `spabar` | Barracks, 17th century | 94g | 18 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 6g (4r) |
-| `spabla` | Blacksmith | 94g | 13 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 8g (6r) |
-| `spacen` | Town Hall | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `spadip` | Diplomatic Center | 312g | 21 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 17g (12r) |
-| `spahou` | Housing | 31g | 14 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `spamar` | Market | 156g | 24 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `spasta` | Stable | 625g | 21 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 34g (24r) |
-| `spasto` | Storehouse | 31g | 7 | 35g (25r) | 18g (13r) | 7g (5r) | 5g (4r) | 5g (4r) |
-| `spatem` | Cathedral | 156g | 30 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`spaaca`) | 625 | 26 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 27 game s (19 real s) |
+| **Artillery Depot** (`spaart`) | 246 | 23 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 12 game s (9 real s) |
+| **Barracks, 18th century** (`spaba2`) | 5625 | 26 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.1 game min (2.9 real min) |
+| **Barracks, 17th century** (`spabar`) | 94 | 18 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Blacksmith** (`spabla`) | 94 | 13 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 8 game s (6 real s) |
+| **Town Hall** (`spacen`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Diplomatic Center** (`spadip`) | 312 | 21 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 17 game s (12 real s) |
+| **Housing** (`spahou`) | 31 | 14 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Market** (`spamar`) | 156 | 24 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Stable** (`spasta`) | 625 | 21 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 34 game s (24 real s) |
+| **Storehouse** (`spasto`) | 31 | 7 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 5 game s (4 real s) | 5 game s (4 real s) |
+| **Cathedral** (`spatem`) | 156 | 30 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (4 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-14"></a>
 <a id="полный-ремонт-15"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `spaaca` | Academy | 63000 | 26 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 49g (35r) |
-| `spaart` | Artillery Depot | 40000 | 23 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 35g (25r) |
-| `spaba2` | Barracks, 18th century | 55000 | 26 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 43g (31r) |
-| `spabar` | Barracks, 17th century | 40000 | 18 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 45g (32r) |
-| `spabla` | Blacksmith | 5500 | 13 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 9g (6r) |
-| `spacen` | Town Hall | 4250 | 24 | 1.4m g (1.0m r) | 43g (31r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `spadip` | Diplomatic Center | 4500 | 21 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 4g (3r) |
-| `spahou` | Housing | 4200 | 14 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 6g (4r) |
-| `spamar` | Market | 4000 | 24 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `spasta` | Stable | 20000 | 21 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 19g (14r) |
-| `spasto` | Storehouse | 10000 | 7 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 29g (21r) | 29g (21r) |
-| `spatem` | Cathedral | 4200 | 30 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`spaaca`) | 63000 | 26 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 49 game s (35 real s) |
+| **Artillery Depot** (`spaart`) | 40000 | 23 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 35 game s (25 real s) |
+| **Barracks, 18th century** (`spaba2`) | 55000 | 26 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 43 game s (31 real s) |
+| **Barracks, 17th century** (`spabar`) | 40000 | 18 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 45 game s (32 real s) |
+| **Blacksmith** (`spabla`) | 5500 | 13 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 9 game s (6 real s) |
+| **Town Hall** (`spacen`) | 4250 | 24 | 1.4 game min (1.0 real min) | 43 game s (31 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`spadip`) | 4500 | 21 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 4 game s (3 real s) |
+| **Housing** (`spahou`) | 4200 | 14 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 6 game s (4 real s) |
+| **Market** (`spamar`) | 4000 | 24 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Stable** (`spasta`) | 20000 | 21 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 19 game s (14 real s) |
+| **Storehouse** (`spasto`) | 10000 | 7 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 29 game s (21 real s) | 29 game s (21 real s) |
+| **Cathedral** (`spatem`) | 4200 | 30 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="swe--sweden-швеция"></a>
 <a id="швеция-swe"></a>
@@ -983,59 +989,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-16"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `sweaca` | Academy | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `sweart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `sweba2` | Barracks, 18th century | 5625g | 27 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 3.9m g (2.8m r) |
-| `swebar` | Barracks, 17th century | 94g | 25 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 4g (3r) |
-| `swebla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `swecen` | Town Hall | 156g | 27 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `swedip` | Diplomatic Center | 312g | 17 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 21g (15r) |
-| `swehou` | Housing | 31g | 15 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `swesta` | Stable | 625g | 21 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 34g (24r) |
-| `swetem` | Cathedral | 156g | 23 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (5r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`sweaca`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Artillery Depot** (`sweart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`sweba2`) | 5625 | 27 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 3.9 game min (2.8 real min) |
+| **Barracks, 17th century** (`swebar`) | 94 | 25 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Blacksmith** (`swebla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`swecen`) | 156 | 27 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Diplomatic Center** (`swedip`) | 312 | 17 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 21 game s (15 real s) |
+| **Housing** (`swehou`) | 31 | 15 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Stable** (`swesta`) | 625 | 21 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 34 game s (24 real s) |
+| **Cathedral** (`swetem`) | 156 | 23 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (5 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-15"></a>
 <a id="полный-ремонт-16"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `sweaca` | Academy | 63000 | 18 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 1.2m g (0.8m r) |
-| `sweart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `sweba2` | Barracks, 18th century | 55000 | 27 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 41g (30r) |
-| `swebar` | Barracks, 17th century | 40000 | 25 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 32g (23r) |
-| `swebla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `swecen` | Town Hall | 5000 | 27 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 4g (3r) |
-| `swedip` | Diplomatic Center | 4500 | 17 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `swehou` | Housing | 5000 | 15 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 7g (5r) |
-| `swesta` | Stable | 20000 | 21 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 19g (14r) |
-| `swetem` | Cathedral | 4200 | 23 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`sweaca`) | 63000 | 18 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 1.2 game min (0.8 real min) |
+| **Artillery Depot** (`sweart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`sweba2`) | 55000 | 27 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 41 game s (30 real s) |
+| **Barracks, 17th century** (`swebar`) | 40000 | 25 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 32 game s (23 real s) |
+| **Blacksmith** (`swebla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`swecen`) | 5000 | 27 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`swedip`) | 4500 | 17 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`swehou`) | 5000 | 15 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 7 game s (5 real s) |
+| **Stable** (`swesta`) | 20000 | 21 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 19 game s (14 real s) |
+| **Cathedral** (`swetem`) | 4200 | 23 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="swi--switzerland-швейцария"></a>
 <a id="швейцария-swi"></a>
@@ -1043,59 +1049,59 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-17"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `swiaca` | Academy | 625g | 22 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `swiart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `swiba2` | Barracks, 18th century | 5625g | 22 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 4.8m g (3.4m r) |
-| `swibar` | Barracks, 17th century | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `swibla` | Blacksmith | 94g | 17 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 6g (4r) |
-| `swicen` | Town Hall | 156g | 23 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (5r) |
-| `swidip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `swihou` | Housing | 31g | 11 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `swista` | Stable | 625g | 18 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 39g (28r) |
-| `switem` | Cathedral | 156g | 21 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Academy** (`swiaca`) | 625 | 22 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Artillery Depot** (`swiart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`swiba2`) | 5625 | 22 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 4.8 game min (3.4 real min) |
+| **Barracks, 17th century** (`swibar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`swibla`) | 94 | 17 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 6 game s (4 real s) |
+| **Town Hall** (`swicen`) | 156 | 23 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (5 real s) |
+| **Diplomatic Center** (`swidip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`swihou`) | 31 | 11 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Stable** (`swista`) | 625 | 18 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 39 game s (28 real s) |
+| **Cathedral** (`switem`) | 156 | 21 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-16"></a>
 <a id="полный-ремонт-17"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `swiaca` | Academy | 63000 | 22 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 58g (42r) |
-| `swiart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `swiba2` | Barracks, 18th century | 55000 | 22 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 51g (36r) |
-| `swibar` | Barracks, 17th century | 40000 | 23 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 35g (25r) |
-| `swibla` | Blacksmith | 5500 | 17 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `swicen` | Town Hall | 4000 | 23 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `swidip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `swihou` | Housing | 4000 | 11 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 7g (5r) |
-| `swista` | Stable | 20000 | 18 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 23g (16r) |
-| `switem` | Cathedral | 4200 | 21 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 4g (3r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Academy** (`swiaca`) | 63000 | 22 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 58 game s (42 real s) |
+| **Artillery Depot** (`swiart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`swiba2`) | 55000 | 22 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 51 game s (36 real s) |
+| **Barracks, 17th century** (`swibar`) | 40000 | 23 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 35 game s (25 real s) |
+| **Blacksmith** (`swibla`) | 5500 | 17 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`swicen`) | 4000 | 23 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`swidip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`swihou`) | 4000 | 11 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 7 game s (5 real s) |
+| **Stable** (`swista`) | 20000 | 18 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 23 game s (16 real s) |
+| **Cathedral** (`switem`) | 4200 | 21 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="tur--turkey-турция"></a>
 <a id="турция-tur"></a>
@@ -1103,57 +1109,57 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-18"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `turaca` | Minaret | 156g | 6 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 29g (21r) | 29g (21r) |
-| `turart` | Artillery Depot | 246g | 28 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 10g (7r) |
-| `turbar` | Barracks | 94g | 22 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `turbla` | Blacksmith | 109g | 15 | 2.1m g (1.5m r) | 1.0m g (0.7m r) | 25g (18r) | 12g (9r) | 8g (6r) |
-| `turcen` | Town Hall | 156g | 22 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 8g (6r) |
-| `turdip` | Diplomatic Center | 312g | 22 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 16g (11r) |
-| `turhou` | Housing | 31g | 14 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 3g (2r) |
-| `turmar` | Bazaar | 234g | 19 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 14g (10r) |
-| `turmil` | Mill | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `turpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `tursga` | Gate | 120g | 13 | 2.3m g (1.6m r) | 1.1m g (0.8m r) | 27g (19r) | 14g (10r) | 10g (7r) |
-| `tursta` | Stable | 156g | 25 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `tursto` | Storehouse | 31g | 8 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `turswa` | Wall | 120g | 4 | 2.3m g (1.6m r) | 1.1m g (0.8m r) | 34g (24r) | 34g (24r) | 34g (24r) |
-| `turtem` | Mosque | 94g | 22 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `turtow` | Tower | 984g | 14 | 18.5m g (13.2m r) | 9.3m g (6.6m r) | 3.7m g (2.6m r) | 1.9m g (1.3m r) | 1.3m g (0.9m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Minaret** (`turaca`) | 156 | 6 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 29 game s (21 real s) | 29 game s (21 real s) |
+| **Artillery Depot** (`turart`) | 246 | 28 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 10 game s (7 real s) |
+| **Barracks** (`turbar`) | 94 | 22 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`turbla`) | 109 | 15 | 2.1 game min (1.5 real min) | 1.0 game min (0.7 real min) | 25 game s (18 real s) | 12 game s (9 real s) | 8 game s (6 real s) |
+| **Town Hall** (`turcen`) | 156 | 22 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 8 game s (6 real s) |
+| **Diplomatic Center** (`turdip`) | 312 | 22 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 16 game s (11 real s) |
+| **Housing** (`turhou`) | 31 | 14 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 3 game s (2 real s) |
+| **Bazaar** (`turmar`) | 234 | 19 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 14 game s (10 real s) |
+| **Mill** (`turmil`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Shipyard** (`turpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`tursga`) | 120 | 13 | 2.3 game min (1.6 real min) | 1.1 game min (0.8 real min) | 27 game s (19 real s) | 14 game s (10 real s) | 10 game s (7 real s) |
+| **Stable** (`tursta`) | 156 | 25 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Storehouse** (`tursto`) | 31 | 8 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`turswa`) | 120 | 4 | 2.3 game min (1.6 real min) | 1.1 game min (0.8 real min) | 34 game s (24 real s) | 34 game s (24 real s) | 34 game s (24 real s) |
+| **Mosque** (`turtem`) | 94 | 22 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Tower** (`turtow`) | 984 | 14 | 18.5 game min (13.2 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.6 real min) | 1.9 game min (1.3 real min) | 1.3 game min (0.9 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
 
 <a id="полный-ремонт-0--max-hp-17"></a>
 <a id="полный-ремонт-18"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `turaca` | Minaret | 65000 | 6 | 22.0m g (15.7m r) | 11.0m g (7.9m r) | 4.4m g (3.1m r) | 3.7m g (2.6m r) | 3.7m g (2.6m r) |
-| `turart` | Artillery Depot | 40000 | 28 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 29g (21r) |
-| `turbar` | Barracks | 35000 | 22 | 11.8m g (8.5m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `turbla` | Blacksmith | 6500 | 15 | 2.2m g (1.6m r) | 1.1m g (0.8m r) | 26g (19r) | 13g (9r) | 9g (6r) |
-| `turcen` | Town Hall | 4000 | 22 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `turdip` | Diplomatic Center | 5500 | 22 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 5g (4r) |
-| `turhou` | Housing | 4000 | 14 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 6g (4r) |
-| `turmar` | Bazaar | 4500 | 19 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (3r) |
-| `turmil` | Mill | 20000 | 16 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 25g (18r) |
-| `turpor` | Shipyard | 40000 | 30 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 27g (19r) |
-| `tursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `tursta` | Stable | 55000 | 25 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 45g (32r) |
-| `tursto` | Storehouse | 10000 | 8 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 25g (18r) | 25g (18r) |
-| `turswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `turtem` | Mosque | 5000 | 22 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 5g (3r) |
-| `turtow` | Tower | 22500 | 14 | 7.6m g (5.4m r) | 3.8m g (2.7m r) | 1.5m g (1.1m r) | 46g (33r) | 33g (23r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Minaret** (`turaca`) | 65000 | 6 | 22.0 game min (15.7 real min) | 11.0 game min (7.9 real min) | 4.4 game min (3.1 real min) | 3.7 game min (2.6 real min) | 3.7 game min (2.6 real min) |
+| **Artillery Depot** (`turart`) | 40000 | 28 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 29 game s (21 real s) |
+| **Barracks** (`turbar`) | 35000 | 22 | 11.8 game min (8.5 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Blacksmith** (`turbla`) | 6500 | 15 | 2.2 game min (1.6 real min) | 1.1 game min (0.8 real min) | 26 game s (19 real s) | 13 game s (9 real s) | 9 game s (6 real s) |
+| **Town Hall** (`turcen`) | 4000 | 22 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`turdip`) | 5500 | 22 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 5 game s (4 real s) |
+| **Housing** (`turhou`) | 4000 | 14 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 6 game s (4 real s) |
+| **Bazaar** (`turmar`) | 4500 | 19 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (3 real s) |
+| **Mill** (`turmil`) | 20000 | 16 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 25 game s (18 real s) |
+| **Shipyard** (`turpor`) | 40000 | 30 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 27 game s (19 real s) |
+| **Gate** (`tursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Stable** (`tursta`) | 55000 | 25 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 45 game s (32 real s) |
+| **Storehouse** (`tursto`) | 10000 | 8 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Wall** (`turswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Mosque** (`turtem`) | 5000 | 22 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 5 game s (3 real s) |
+| **Tower** (`turtow`) | 22500 | 14 | 7.6 game min (5.4 real min) | 3.8 game min (2.7 real min) | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 33 game s (23 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
 
 <a id="ukr--ukraine-украина"></a>
 <a id="украина-ukr"></a>
@@ -1161,51 +1167,51 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-19"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `rusmar` | Market | 234g | 23 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 12g (8r) |
-| `rusmil` | Mill | 94g | 7 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 15g (11r) | 15g (11r) |
-| `russto` | Storehouse | 31g | 8 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `ukraca` | Academy | 47g | 30 | 53g (38r) | 26g (19r) | 11g (8r) | 5g (4r) | 2g (1r) |
-| `ukrart` | Artillery Depot | 246g | 30 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 9g (7r) |
-| `ukrbar` | Cossack House | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `ukrbla` | Blacksmith | 62g | 19 | 1.2m g (0.8m r) | 35g (25r) | 14g (10r) | 7g (5r) | 4g (3r) |
-| `ukrcen` | Town Hall | 156g | 29 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
-| `ukrdip` | Diplomatic Center | 312g | 22 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 16g (11r) |
-| `ukrhou` | Hut | 31g | 16 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 2g (2r) |
-| `ukrpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `ukrsta` | Stable | 156g | 26 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 7g (5r) |
-| `ukrtem` | Orthodox Cathedral | 156g | 30 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
-| `ukrwga` | Gate | 8g | 13 | 9g (7r) | 5g (3r) | 2g (1r) | 1g (1r) | 1g (1r) |
-| `ukrwwa` | Palisade | 8g | 4 | 9g (7r) | 5g (3r) | 2g (2r) | 2g (2r) | 2g (2r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`rusmar`) | 234 | 23 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 12 game s (8 real s) |
+| **Mill** (`rusmil`) | 94 | 7 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 15 game s (11 real s) | 15 game s (11 real s) |
+| **Storehouse** (`russto`) | 31 | 8 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Academy** (`ukraca`) | 47 | 30 | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) | 5 game s (4 real s) | 2 game s (1 real s) |
+| **Artillery Depot** (`ukrart`) | 246 | 30 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 9 game s (7 real s) |
+| **Cossack House** (`ukrbar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`ukrbla`) | 62 | 19 | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 14 game s (10 real s) | 7 game s (5 real s) | 4 game s (3 real s) |
+| **Town Hall** (`ukrcen`) | 156 | 29 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (4 real s) |
+| **Diplomatic Center** (`ukrdip`) | 312 | 22 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 16 game s (11 real s) |
+| **Hut** (`ukrhou`) | 31 | 16 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 2 game s (2 real s) |
+| **Shipyard** (`ukrpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Stable** (`ukrsta`) | 156 | 26 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) |
+| **Orthodox Cathedral** (`ukrtem`) | 156 | 30 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (4 real s) |
+| **Gate** (`ukrwga`) | 8 | 13 | 9 game s (7 real s) | 5 game s (3 real s) | 2 game s (1 real s) | 1 game s (1 real s) | 1 game s (1 real s) |
+| **Palisade** (`ukrwwa`) | 8 | 4 | 9 game s (7 real s) | 5 game s (3 real s) | 2 game s (2 real s) | 2 game s (2 real s) | 2 game s (2 real s) |
 
 <a id="полный-ремонт-0--max-hp-18"></a>
 <a id="полный-ремонт-19"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `rusmar` | Market | 4000 | 23 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 4g (3r) |
-| `rusmil` | Mill | 15000 | 7 | 5.1m g (3.6m r) | 2.5m g (1.8m r) | 1.0m g (0.7m r) | 44g (31r) | 44g (31r) |
-| `russto` | Storehouse | 10000 | 8 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 25g (18r) | 25g (18r) |
-| `ukraca` | Academy | 65000 | 30 | 22.0m g (15.7m r) | 11.0m g (7.9m r) | 4.4m g (3.1m r) | 2.2m g (1.6m r) | 44g (31r) |
-| `ukrart` | Artillery Depot | 40000 | 30 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 27g (19r) |
-| `ukrbar` | Cossack House | 20000 | 23 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 18g (13r) |
-| `ukrbla` | Blacksmith | 4500 | 19 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (3r) |
-| `ukrcen` | Town Hall | 5300 | 29 | 1.8m g (1.3m r) | 54g (38r) | 22g (15r) | 11g (8r) | 4g (3r) |
-| `ukrdip` | Diplomatic Center | 5000 | 22 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 5g (3r) |
-| `ukrhou` | Hut | 4150 | 16 | 1.4m g (1.0m r) | 42g (30r) | 17g (12r) | 8g (6r) | 5g (4r) |
-| `ukrpor` | Shipyard | 45000 | 30 | 15.2m g (10.9m r) | 7.6m g (5.4m r) | 3.0m g (2.2m r) | 1.5m g (1.1m r) | 30g (22r) |
-| `ukrsta` | Stable | 10000 | 26 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 20g (15r) | 8g (6r) |
-| `ukrtem` | Orthodox Cathedral | 5300 | 30 | 1.8m g (1.3m r) | 54g (38r) | 22g (15r) | 11g (8r) | 4g (3r) |
-| `ukrwga` | Gate | 2500 | 13 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 4g (3r) |
-| `ukrwwa` | Palisade | 2500 | 4 | 51g (36r) | 25g (18r) | 13g (9r) | 13g (9r) | 13g (9r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`rusmar`) | 4000 | 23 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 4 game s (3 real s) |
+| **Mill** (`rusmil`) | 15000 | 7 | 5.1 game min (3.6 real min) | 2.5 game min (1.8 real min) | 1.0 game min (0.7 real min) | 44 game s (31 real s) | 44 game s (31 real s) |
+| **Storehouse** (`russto`) | 10000 | 8 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Academy** (`ukraca`) | 65000 | 30 | 22.0 game min (15.7 real min) | 11.0 game min (7.9 real min) | 4.4 game min (3.1 real min) | 2.2 game min (1.6 real min) | 44 game s (31 real s) |
+| **Artillery Depot** (`ukrart`) | 40000 | 30 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 27 game s (19 real s) |
+| **Cossack House** (`ukrbar`) | 20000 | 23 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 18 game s (13 real s) |
+| **Blacksmith** (`ukrbla`) | 4500 | 19 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (3 real s) |
+| **Town Hall** (`ukrcen`) | 5300 | 29 | 1.8 game min (1.3 real min) | 54 game s (38 real s) | 22 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`ukrdip`) | 5000 | 22 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 5 game s (3 real s) |
+| **Hut** (`ukrhou`) | 4150 | 16 | 1.4 game min (1.0 real min) | 42 game s (30 real s) | 17 game s (12 real s) | 8 game s (6 real s) | 5 game s (4 real s) |
+| **Shipyard** (`ukrpor`) | 45000 | 30 | 15.2 game min (10.9 real min) | 7.6 game min (5.4 real min) | 3.0 game min (2.2 real min) | 1.5 game min (1.1 real min) | 30 game s (22 real s) |
+| **Stable** (`ukrsta`) | 10000 | 26 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 20 game s (15 real s) | 8 game s (6 real s) |
+| **Orthodox Cathedral** (`ukrtem`) | 5300 | 30 | 1.8 game min (1.3 real min) | 54 game s (38 real s) | 22 game s (15 real s) | 11 game s (8 real s) | 4 game s (3 real s) |
+| **Gate** (`ukrwga`) | 2500 | 13 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 4 game s (3 real s) |
+| **Palisade** (`ukrwwa`) | 2500 | 4 | 51 game s (36 real s) | 25 game s (18 real s) | 13 game s (9 real s) | 13 game s (9 real s) | 13 game s (9 real s) |
 
 <a id="ven--venice-венеция"></a>
 <a id="венеция-ven"></a>
@@ -1213,56 +1219,56 @@ Construction time (from scratch, new building) and repair (totally damaged → f
 <a id="постройка-с-нуля-20"></a>
 ### Building from scratch
 
-| sid | name | buildtime_g | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurgol` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `euriro` | Mine | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `eurmar` | Market | 234g | 25 | 4.4m g (3.2m r) | 2.2m g (1.6m r) | 53g (38r) | 26g (19r) | 11g (8r) |
-| `eurmil` | Mill | 94g | 10 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 11g (8r) |
-| `eurpor` | Shipyard | 1562g | 30 | 29.4m g (21.0m r) | 14.7m g (10.5m r) | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 59g (42r) |
-| `eursga` | Gate | 90g | 13 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 8g (6r) |
-| `eursto` | Storehouse | 31g | 9 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `eurswa` | Wall | 90g | 4 | 1.7m g (1.2m r) | 51g (36r) | 25g (18r) | 25g (18r) | 25g (18r) |
-| `eurtow` | Tower | 1230g | 10 | 23.2m g (16.6m r) | 11.6m g (8.3m r) | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 2.3m g (1.7m r) |
-| `ukrwga` | Gate | 6g | 13 | 6g (5r) | 3g (2r) | 1g (1r) | 1g (0r) | 0g (0r) |
-| `ukrwwa` | Palisade | 6g | 4 | 6g (5r) | 3g (2r) | 2g (1r) | 2g (1r) | 2g (1r) |
-| `venaca` | Academy | 625g | 22 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 32g (23r) |
-| `venart` | Artillery Depot | 246g | 20 | 4.6m g (3.3m r) | 2.3m g (1.7m r) | 56g (40r) | 28g (20r) | 14g (10r) |
-| `venba2` | Barracks, 18th century | 5625g | 19 | 105.9m g (75.7m r) | 53.0m g (37.8m r) | 21.2m g (15.1m r) | 10.6m g (7.6m r) | 5.6m g (4.0m r) |
-| `venbar` | Barracks, 17th century | 94g | 23 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 5g (3r) |
-| `venbla` | Blacksmith | 94g | 16 | 1.8m g (1.3m r) | 53g (38r) | 21g (15r) | 11g (8r) | 7g (5r) |
-| `vencen` | Town Hall | 156g | 28 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (5r) |
-| `vendip` | Diplomatic Center | 312g | 18 | 5.9m g (4.2m r) | 2.9m g (2.1m r) | 1.2m g (0.8m r) | 35g (25r) | 20g (14r) |
-| `venhou` | Housing | 31g | 10 | 35g (25r) | 18g (13r) | 7g (5r) | 4g (3r) | 4g (3r) |
-| `vensta` | Stable | 625g | 19 | 11.8m g (8.4m r) | 5.9m g (4.2m r) | 2.4m g (1.7m r) | 1.2m g (0.8m r) | 37g (27r) |
-| `ventem` | Cathedral | 156g | 30 | 2.9m g (2.1m r) | 1.5m g (1.1m r) | 35g (25r) | 18g (13r) | 6g (4r) |
+| Building | Base build time, game s | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`eurgol`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Mine** (`euriro`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Market** (`eurmar`) | 234 | 25 | 4.4 game min (3.2 real min) | 2.2 game min (1.6 real min) | 53 game s (38 real s) | 26 game s (19 real s) | 11 game s (8 real s) |
+| **Mill** (`eurmil`) | 94 | 10 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 11 game s (8 real s) |
+| **Shipyard** (`eurpor`) | 1562 | 30 | 29.4 game min (21.0 real min) | 14.7 game min (10.5 real min) | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 59 game s (42 real s) |
+| **Gate** (`eursga`) | 90 | 13 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 8 game s (6 real s) |
+| **Storehouse** (`eursto`) | 31 | 9 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Wall** (`eurswa`) | 90 | 4 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 25 game s (18 real s) | 25 game s (18 real s) | 25 game s (18 real s) |
+| **Tower** (`eurtow`) | 1230 | 10 | 23.2 game min (16.6 real min) | 11.6 game min (8.3 real min) | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 2.3 game min (1.7 real min) |
+| **Gate** (`ukrwga`) | 6 | 13 | 6 game s (5 real s) | 3 game s (2 real s) | 1 game s (1 real s) | 1 game s (0 real s) | 0 game s (0 real s) |
+| **Palisade** (`ukrwwa`) | 6 | 4 | 6 game s (5 real s) | 3 game s (2 real s) | 2 game s (1 real s) | 2 game s (1 real s) | 2 game s (1 real s) |
+| **Academy** (`venaca`) | 625 | 22 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 32 game s (23 real s) |
+| **Artillery Depot** (`venart`) | 246 | 20 | 4.6 game min (3.3 real min) | 2.3 game min (1.7 real min) | 56 game s (40 real s) | 28 game s (20 real s) | 14 game s (10 real s) |
+| **Barracks, 18th century** (`venba2`) | 5625 | 19 | 105.9 game min (75.7 real min) | 53.0 game min (37.8 real min) | 21.2 game min (15.1 real min) | 10.6 game min (7.6 real min) | 5.6 game min (4.0 real min) |
+| **Barracks, 17th century** (`venbar`) | 94 | 23 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 5 game s (3 real s) |
+| **Blacksmith** (`venbla`) | 94 | 16 | 1.8 game min (1.3 real min) | 53 game s (38 real s) | 21 game s (15 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`vencen`) | 156 | 28 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (5 real s) |
+| **Diplomatic Center** (`vendip`) | 312 | 18 | 5.9 game min (4.2 real min) | 2.9 game min (2.1 real min) | 1.2 game min (0.8 real min) | 35 game s (25 real s) | 20 game s (14 real s) |
+| **Housing** (`venhou`) | 31 | 10 | 35 game s (25 real s) | 18 game s (13 real s) | 7 game s (5 real s) | 4 game s (3 real s) | 4 game s (3 real s) |
+| **Stable** (`vensta`) | 625 | 19 | 11.8 game min (8.4 real min) | 5.9 game min (4.2 real min) | 2.4 game min (1.7 real min) | 1.2 game min (0.8 real min) | 37 game s (27 real s) |
+| **Cathedral** (`ventem`) | 156 | 30 | 2.9 game min (2.1 real min) | 1.5 game min (1.1 real min) | 35 game s (25 real s) | 18 game s (13 real s) | 6 game s (4 real s) |
 
 <a id="полный-ремонт-0--max-hp-19"></a>
 <a id="полный-ремонт-20"></a>
 ### Full repair (0 → max HP)
 
-| sid | name | maxhp | slot_cap | 1 is building. | 2 is building. | 5 is building. | 10 is building. | Max. builds. |
-|---|---|---|---|---|---|---|---|---|
-| `eurcoa` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurgol` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `euriro` | Mine | 2500 | 16 | 51g (36r) | 25g (18r) | 10g (7r) | 5g (4r) | 3g (2r) |
-| `eurmar` | Market | 4000 | 25 | 1.4m g (1.0m r) | 41g (29r) | 16g (12r) | 8g (6r) | 3g (2r) |
-| `eurmil` | Mill | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `eurpor` | Shipyard | 50000 | 30 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 34g (24r) |
-| `eursga` | Gate | 32000 | 13 | 10.8m g (7.7m r) | 5.4m g (3.9m r) | 2.2m g (1.5m r) | 1.1m g (0.8m r) | 50g (36r) |
-| `eursto` | Storehouse | 10000 | 9 | 3.4m g (2.4m r) | 1.7m g (1.2m r) | 41g (29r) | 23g (16r) | 23g (16r) |
-| `eurswa` | Wall | 50000 | 4 | 16.9m g (12.1m r) | 8.5m g (6.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) | 4.2m g (3.0m r) |
-| `eurtow` | Tower | 20000 | 10 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 41g (29r) |
-| `ukrwga` | Gate | 1500 | 13 | 30g (22r) | 15g (11r) | 6g (4r) | 3g (2r) | 2g (2r) |
-| `ukrwwa` | Palisade | 1500 | 4 | 30g (22r) | 15g (11r) | 8g (5r) | 8g (5r) | 8g (5r) |
-| `venaca` | Academy | 63000 | 22 | 21.3m g (15.2m r) | 10.7m g (7.6m r) | 4.3m g (3.0m r) | 2.1m g (1.5m r) | 58g (42r) |
-| `venart` | Artillery Depot | 40000 | 20 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 41g (29r) |
-| `venba2` | Barracks, 18th century | 55000 | 19 | 18.6m g (13.3m r) | 9.3m g (6.6m r) | 3.7m g (2.7m r) | 1.9m g (1.3m r) | 59g (42r) |
-| `venbar` | Barracks, 17th century | 40000 | 23 | 13.5m g (9.7m r) | 6.8m g (4.8m r) | 2.7m g (1.9m r) | 1.4m g (1.0m r) | 35g (25r) |
-| `venbla` | Blacksmith | 5500 | 16 | 1.9m g (1.3m r) | 56g (40r) | 22g (16r) | 11g (8r) | 7g (5r) |
-| `vencen` | Town Hall | 5100 | 28 | 1.7m g (1.2m r) | 52g (37r) | 21g (15r) | 10g (7r) | 4g (3r) |
-| `vendip` | Diplomatic Center | 4500 | 18 | 1.5m g (1.1m r) | 46g (33r) | 18g (13r) | 9g (7r) | 5g (4r) |
-| `venhou` | Housing | 5000 | 10 | 1.7m g (1.2m r) | 51g (36r) | 20g (15r) | 10g (7r) | 10g (7r) |
-| `vensta` | Stable | 20000 | 19 | 6.8m g (4.8m r) | 3.4m g (2.4m r) | 1.4m g (1.0m r) | 41g (29r) | 21g (15r) |
-| `ventem` | Cathedral | 4200 | 30 | 1.4m g (1.0m r) | 43g (30r) | 17g (12r) | 9g (6r) | 3g (2r) |
+| Building | Maximum health | Builder limit | 1 Peasant | 2 Peasants | 5 Peasants | 10 Peasants | At slot limit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Mine** (`eurcoa`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`eurgol`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Mine** (`euriro`) | 2500 | 16 | 51 game s (36 real s) | 25 game s (18 real s) | 10 game s (7 real s) | 5 game s (4 real s) | 3 game s (2 real s) |
+| **Market** (`eurmar`) | 4000 | 25 | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 16 game s (12 real s) | 8 game s (6 real s) | 3 game s (2 real s) |
+| **Mill** (`eurmil`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Shipyard** (`eurpor`) | 50000 | 30 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 34 game s (24 real s) |
+| **Gate** (`eursga`) | 32000 | 13 | 10.8 game min (7.7 real min) | 5.4 game min (3.9 real min) | 2.2 game min (1.5 real min) | 1.1 game min (0.8 real min) | 50 game s (36 real s) |
+| **Storehouse** (`eursto`) | 10000 | 9 | 3.4 game min (2.4 real min) | 1.7 game min (1.2 real min) | 41 game s (29 real s) | 23 game s (16 real s) | 23 game s (16 real s) |
+| **Wall** (`eurswa`) | 50000 | 4 | 16.9 game min (12.1 real min) | 8.5 game min (6.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) | 4.2 game min (3.0 real min) |
+| **Tower** (`eurtow`) | 20000 | 10 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 41 game s (29 real s) |
+| **Gate** (`ukrwga`) | 1500 | 13 | 30 game s (22 real s) | 15 game s (11 real s) | 6 game s (4 real s) | 3 game s (2 real s) | 2 game s (2 real s) |
+| **Palisade** (`ukrwwa`) | 1500 | 4 | 30 game s (22 real s) | 15 game s (11 real s) | 8 game s (5 real s) | 8 game s (5 real s) | 8 game s (5 real s) |
+| **Academy** (`venaca`) | 63000 | 22 | 21.3 game min (15.2 real min) | 10.7 game min (7.6 real min) | 4.3 game min (3.0 real min) | 2.1 game min (1.5 real min) | 58 game s (42 real s) |
+| **Artillery Depot** (`venart`) | 40000 | 20 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) |
+| **Barracks, 18th century** (`venba2`) | 55000 | 19 | 18.6 game min (13.3 real min) | 9.3 game min (6.6 real min) | 3.7 game min (2.7 real min) | 1.9 game min (1.3 real min) | 59 game s (42 real s) |
+| **Barracks, 17th century** (`venbar`) | 40000 | 23 | 13.5 game min (9.7 real min) | 6.8 game min (4.8 real min) | 2.7 game min (1.9 real min) | 1.4 game min (1.0 real min) | 35 game s (25 real s) |
+| **Blacksmith** (`venbla`) | 5500 | 16 | 1.9 game min (1.3 real min) | 56 game s (40 real s) | 22 game s (16 real s) | 11 game s (8 real s) | 7 game s (5 real s) |
+| **Town Hall** (`vencen`) | 5100 | 28 | 1.7 game min (1.2 real min) | 52 game s (37 real s) | 21 game s (15 real s) | 10 game s (7 real s) | 4 game s (3 real s) |
+| **Diplomatic Center** (`vendip`) | 4500 | 18 | 1.5 game min (1.1 real min) | 46 game s (33 real s) | 18 game s (13 real s) | 9 game s (7 real s) | 5 game s (4 real s) |
+| **Housing** (`venhou`) | 5000 | 10 | 1.7 game min (1.2 real min) | 51 game s (36 real s) | 20 game s (15 real s) | 10 game s (7 real s) | 10 game s (7 real s) |
+| **Stable** (`vensta`) | 20000 | 19 | 6.8 game min (4.8 real min) | 3.4 game min (2.4 real min) | 1.4 game min (1.0 real min) | 41 game s (29 real s) | 21 game s (15 real s) |
+| **Cathedral** (`ventem`) | 4200 | 30 | 1.4 game min (1.0 real min) | 43 game s (30 real s) | 17 game s (12 real s) | 9 game s (6 real s) | 3 game s (2 real s) |

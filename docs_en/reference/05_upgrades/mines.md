@@ -6,7 +6,7 @@
 
 The table gives each upgrade’s canonical name, effect, cost, and research time.
 
-Universal for all nations (sid does not depend on nation). 6 levels × 3 types of mines.
+All nations share the same six upgrade levels for each of the three Mine types.
 
 | Upgrade | Level | Additional workers | Food | Gold |
 |---|---:|---:|---:|---:|

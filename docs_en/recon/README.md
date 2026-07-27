@@ -23,10 +23,10 @@ for verification.
 | Where mines, forests, and starting positions come from | [Random-map generation](world/map/map_generation_pipeline.md) |
 | Which rules are changed by lobby settings | [Match settings](world/map/game_settings.md) |
 
-The main sections of each article describe what happens during play. Internal
-fields, function names, script excerpts, and open questions are collected
-toward the end: they support verification but are not required to understand
-the mechanic.
+The main sections of each article describe what happens during play. Brief
+technical notes remain beside the explanation, while lengthy script excerpts
+and descriptions of internal fields live in linked appendices in the
+[technical documentation](../../internals_en/README.md#scripts).
 
 <a id="экономика-и-строительство"></a>
 ## Economy and construction

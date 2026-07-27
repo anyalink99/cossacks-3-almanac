@@ -61,26 +61,96 @@ def markdown_search_text(text: str) -> str:
     text = text.replace("`", "")
     text = re.sub(r"^\s{0,3}#{1,6}\s+", "", text, flags=re.MULTILINE)
     text = re.sub(r"^\s*[-*+]\s+", "", text, flags=re.MULTILINE)
-    text = re.sub(r"^\s*\d+[.)]\s+", "", text, flags=re.MULTILINE)
+    lines = []
+    ordered_list = False
+    previous_blank = True
+    for line in text.splitlines():
+        marker = re.match(r"^\s*\d+[.)]\s+(.*)$", line)
+        if marker and (previous_blank or ordered_list):
+            line = marker.group(1)
+            ordered_list = True
+        elif not line.strip():
+            ordered_list = False
+        previous_blank = not line.strip()
+        lines.append(line)
+    text = "\n".join(lines)
     text = text.replace("|", " ")
     text = html.unescape(text)
     return re.sub(r"\s+", " ", text).strip()
 
 
+def markdown_heading_text(value: str) -> str:
+    """Return the text a rendered Markdown heading exposes to the DOM."""
+
+    protected_code: dict[str, str] = {}
+
+    def preserve_code(match: re.Match[str]) -> str:
+        marker = f"\x00CODE{len(protected_code)}\x00"
+        protected_code[marker] = match.group(1)
+        return marker
+
+    value = re.sub(r"`([^`\n]+)`", preserve_code, value)
+    value = re.sub(r"!\[([^\]]*)\]\([^)]+\)", r"\1", value)
+    value = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", value)
+    value = re.sub(r"<[^>]+>", "", value)
+    # Remove Markdown emphasis delimiters, but keep literal underscores exposed
+    # by the rendered heading (for example ``state_id`` or ``game_object``).
+    value = re.sub(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", r"\2", value)
+    value = re.sub(
+        r"(?<![\w\\])([*_])(?=\S)(.+?)(?<=\S)\1(?!\w)",
+        r"\2",
+        value,
+    )
+    value = re.sub(r"~~(?=\S)(.+?)(?<=\S)~~", r"\1", value)
+    for marker, code_text in protected_code.items():
+        value = value.replace(marker, code_text)
+    return html.unescape(value)
+
+
 def heading_slug(value: str) -> str:
     """Match the GitHub-style heading IDs assigned by ``md-viewer.js``."""
 
-    value = value.strip().lower()
+    value = markdown_heading_text(value).strip().lower()
     value = re.sub(r"[^\w\s_-]", "", value, flags=re.UNICODE)
-    return value.replace(" ", "-")
+    return re.sub(r"\s", "-", value)
+
+
+EXPLICIT_ID_LINE_RE = re.compile(
+    r"\s*<(?:a|span)\s+[^>]*\bid=(?P<quote>[\"'])"
+    r"(?P<id>[^\"']+)(?P=quote)[^>]*>\s*"
+    r"</(?:a|span)>\s*",
+    re.IGNORECASE,
+)
+
+
+def explicit_heading_ids(text: str) -> set[str]:
+    """Return standalone HTML IDs that participate in heading ID allocation."""
+
+    ids: set[str] = set()
+    fenced = False
+    fence_marker = ""
+    for line in text.splitlines():
+        fence_match = re.match(r"^\s*(```+|~~~+)", line)
+        if fence_match:
+            marker = fence_match.group(1)[0]
+            if not fenced:
+                fenced = True
+                fence_marker = marker
+            elif marker == fence_marker:
+                fenced = False
+            continue
+        if fenced:
+            continue
+        match = EXPLICIT_ID_LINE_RE.fullmatch(line)
+        if match:
+            ids.add(match.group("id"))
+    return ids
 
 
 def markdown_sections(text: str) -> list[dict[str, str]]:
     """Return searchable article sections with exact heading fragments."""
 
-    explicit_ids = set(
-        re.findall(r"<a\s+id=[\"']([^\"']+)[\"']\s*></a>", text)
-    )
+    explicit_ids = explicit_heading_ids(text)
     used_ids = set(explicit_ids)
     headings: list[tuple[int, str, str, int, int]] = []
     fenced = False

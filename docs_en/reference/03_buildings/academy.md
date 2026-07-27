@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Minaret** `algaca` | Algeria | **65000** | **156.25** | 300 | 0 | **1450** | 1100 | 0 | 0 | 0 | 0 | — |
 | **Academy** `ausaca` | Austria | **65000** | 625.0 | 300 | 0 | 1250 | 1100 | 0 | 0 | 0 | 0 | — |

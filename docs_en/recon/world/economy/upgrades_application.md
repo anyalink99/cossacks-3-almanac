@@ -5,21 +5,22 @@
 [← How the game works](../../README.md)
 
 An upgrade takes effect when research finishes. Combat attributes and
-gathering efficiency change on existing objects, while discounts and faster
-production apply only to new orders.
+gathering efficiency change on existing objects, and faster construction or
+training immediately affects work already in progress. Discounts apply only
+to new orders.
 
 <a id="коротко-о-главном"></a>
 ## In brief
 
 - A completed upgrade affects both existing and future objects.
-- Damage, protection, durability, and gathering change immediately: the next
-  attack or delivered portion uses the new value.
+- Damage, protection, durability, and gathering efficiency change
+  immediately: the next attack or delivered portion uses the new value.
 - A price reduction does not refund the difference for existing orders.
-- Reduced production or construction time does not accelerate a process that
-  has already started.
+- Reduced production or construction time accelerates a process that has
+  already started from its next progress update.
 - Most bonuses combine in a way that makes final attributes independent of
   research order.
-- Research can be cancelled before completion. No effect is applied, the queue
+- Research can be canceled before completion. No effect is applied, the queue
   slot is released, and the full base cost is refunded.
 - Every ordinary upgrade is researched once. Levels in one chain are separate
   upgrades and their effects combine.
@@ -35,11 +36,11 @@ the upgrade as done, finds every eligible target, and applies the effect.
 | Damage, protection, durability | change immediately | are created with the bonus |
 | Gathering efficiency | the next delivered portion uses the bonus | new Peasants receive the same bonus |
 | Price | paid orders are not recalculated | new orders receive the discount |
-| Construction or training time | the current process keeps its old duration | a new process uses the reduced time |
+| Construction or training time | the next progress step uses the reduced base duration | a new process uses the reduced duration immediately |
 
 A Mill upgrade therefore improves every Peasant already working on the map,
-whereas faster construction does not help a building started before research
-finished.
+while faster construction immediately accelerates a building started before
+research finished.
 
 <a id="на-кого-действует-улучшение"></a>
 ## Upgrade targets
@@ -96,14 +97,16 @@ A discount may affect individual resources. An artillery upgrade can reduce
 gold and iron costs without changing the wood or coal component. The discount
 is applied when a new order is created.
 
-A speed upgrade reduces the base training or construction time by its stated
-percentage. It likewise begins affecting only orders created after research
-completion.
+A production- or construction-speed upgrade reduces the corresponding base
+time by its stated percentage. A production queue reads that duration again
+on every progress update, while a building under construction uses it on
+every subsequent builder strike. Both new and ongoing work therefore
+accelerate; progress accumulated before the upgrade is not recalculated.
 
 <a id="отмена-исследования"></a>
-## Cancelling research
+## Canceling research
 
-Before completion, research can be cancelled in its building:
+Before completion, research can be canceled in its building:
 
 1. progress is reset;
 2. the effect is not applied;
@@ -147,9 +150,9 @@ hammer cycles, one Peasant finishes it in about 6,356 game seconds. Additional
 builders reduce this time according to the rules in
 [Building Construction, Repair, and Destruction](building_mechanics.md).
 
-Ukraine, Turkey, and Algeria do not have the Barracks, 18th century. Their
-transition opens some late upgrades but not European 18th-century infantry.
-These nations continue developing their own 17th-century strengths.
+Ukraine, Turkey, and Algeria have neither an available 18th-century transition
+nor the Barracks, 18th century. These nations remain in the 17th century and
+develop their own national unit and upgrade chains.
 
 <a id="требования-и-дерево-развития"></a>
 ## Prerequisites and the technology tree
@@ -164,14 +167,6 @@ still account for which benefit arrived first.
 
 The full prerequisite graph is available in the
 [technology tree](../../../reports/tech/tech_tree.md).
-
-<a id="что-ещё-нужно-проверить"></a>
-## What still needs verification
-
-- Whether a new order receives a discount when the building interface was
-  already open before the corresponding upgrade finished.
-- Every case where successive rounding of price, durability, or fishing
-  capacity produces a one-point difference.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Diplomatic Center** `algdip` | Algeria | **5500** | 312.5 | 100 | 0 | **4600** | **2020** | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |
 | **Diplomatic Center** `ausdip` | Austria | 4500 | 312.5 | 100 | 0 | 4900 | 1700 | 0 | 0 | 0 | 0 | Archer (mercenary) (`archerdip`), Turkish archer (mercenary) (`archerturdip`), Sich Cossack (mercenary) (`cossacksichdip`), Dragoon, 18th century (mercenary) (`dragoon18dip`), Grenadier (mercenary) (`grenadierdip`), +3 more |

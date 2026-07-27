@@ -11,8 +11,8 @@ is primarily about scouting.
 <a id="коротко"></a>
 ## At a Glance
 
-- Base vision radius is 20 tiles and grows by four tiles for each point of
-  the vision rating [^1].
+- The base vision value is 20 and grows by four for each point of the vision
+  rating [^1].
 - Only living, visible, and fully completed objects provide vision.
 - A **Balloon** reveals the entire map to its owner. The same happens after
   the match ends and when the “with Balloon” lobby option is enabled [^2].
@@ -33,7 +33,7 @@ rating, usually between 0 and 8 [^1].
 | 2 | Cavalry and horse artillery. |
 | 3 | 18th-century firearm infantry: Musketeers and Grenadiers. |
 
-| Unit or building | Vision rating | Radius, tiles |
+| Unit or building | Vision rating | Nominal radius |
 |---|---:|---:|
 | Peasant | 0 | 20 |
 | 17th-century Pikeman | 0 | 20 |
@@ -41,10 +41,11 @@ rating, usually between 0 and 8 [^1].
 | 18th-century Musketeer | 3 | 32 |
 | Tower | 3 | 32 |
 
-**The formula already returns tiles.** Unlike weapon ranges, it does not
-need conversion from pixels. A **Tower** therefore sees 32 tiles but searches
-for targets only within 26.25 tiles; see
-[How Towers Work §2.2](towers.md).
+Unlike weapon range, this value is passed directly to the fog-of-war system
+rather than converted from pixels. A **Tower** receives a nominal vision
+radius of 32 and a separate target-search radius of 26.25 cells; see
+[How Towers Work](towers.md). These values come from different
+coordinate systems and should not be compared directly.
 
 <a id="2-условия-выдачи-обзора"></a>
 <a id="2-когда-объект-даёт-обзор"></a>
@@ -57,8 +58,8 @@ An object reveals the map only when all three conditions hold:
 3. if it is a building, construction is complete.
 
 If any condition fails, its vision radius becomes zero. A **Tower** under
-construction reveals nothing; immediately after completion, it reveals a
-32-tile radius.
+construction reveals nothing; immediately after completion, it begins
+providing its full nominal radius of 32.
 
 <a id="3-снаряды-разведчики-fogreveal"></a>
 <a id="3-снаряды-открывающие-местность"></a>
@@ -114,18 +115,20 @@ therefore still be heard when close enough. See
 ### 5.2. Target Acquisition
 
 Vision and target acquisition are **separate mechanics**. The former uses
-the radius described above; the latter uses the weapon's minimum and maximum
-ranges. A unit may see farther than it can shoot. A **Tower** with 32-tile
-vision notices an enemy before it enters the Tower's 26.25-tile target-search
-area. See [Target Selection and Attack-Move](target_selection.md).
+the fog-of-war coordinates described above, while the latter uses combat
+range coordinates. For example, a **Tower** has a vision value of 32 and a
+26.25-cell target-search radius; those numbers cannot be compared directly.
+See [Target Selection and Attack-Move](target_selection.md).
 
 <a id="52-поиск-пути"></a>
 <a id="53-поиск-пути"></a>
 ### 5.3. Pathfinding
 
-Vision **does not affect** route planning. Paths use the complete obstacle
-map rather than only the visible area. If an enemy builds a wall while your
-formation is moving, your units route around it even before it enters vision.
+Vision **does not affect** route planning. Paths use the obstacle map rather
+than only the visible area. Automatic rebuilding of an already issued route
+after a new wall appears is a separate matter: if the formation stops,
+issuing the movement order again is the reliable response. See
+[Pathfinding and Movement](pathfinding.md).
 
 <a id="53-компьютерный-игрок"></a>
 <a id="54-компьютерный-игрок"></a>
@@ -157,20 +160,6 @@ when `plInd = 0`.
 For projectiles with
 `StringPropertyTag = gc_properties_stringtag_fogreveal`, the temporary
 reveal radius is `floor(TProj(pproj).dx)` [^3].
-
-<a id="6-открытые-эмпирические-вопросы"></a>
-<a id="6-что-ещё-требует-проверки"></a>
-<a id="7-что-ещё-требует-проверки"></a>
-## 7. Questions Requiring Further Testing
-
-1. **Exact correspondence between radius and tiles.** The script returns a
-   value in the fog-of-war system's own unit. Treating it as tiles agrees
-   with observed behavior but still deserves a controlled measurement.
-2. **Update rate.** It is unknown whether vision is recalculated every frame
-   or at a fixed interval. Fast cavalry can expose any visible lag.
-3. **Fog memory.** Explored terrain remains under grey fog, but which objects
-   are remembered there is not yet established. The working hypothesis is
-   that terrain persists while units and buildings require current vision.
 
 <a id="источники"></a>
 ## Sources

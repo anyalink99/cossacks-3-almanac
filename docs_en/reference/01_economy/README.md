@@ -41,7 +41,7 @@ All available bonuses are listed in [Upgrades](../05_upgrades/README.md).
 ## Mines
 
 Gold, iron, and coal mines work in the same way. A basic mine holds
-**5 peasants**, costs 100 wood and 100 stone, and takes about 9.38 game seconds
+**5 peasants**, costs 100 wood and 100 stone, and takes about 93.75 game seconds
 to build.
 
 ```text
@@ -53,12 +53,12 @@ one peasant = 1.664 resources per game second
 
 | Upgrade | Additional slots | Food | Gold | Total slots |
 |---|---:|---:|---:|---:|
-| **Extend the mine and build a branching rail network (+5)** `eurgol.1` | +5 | 1,000 | 1,250 | 10 |
-| **Extend the mine and build a branching rail network (+8)** `eurgol.2` | +8 | 5,250 | 4,950 | 18 |
-| **Extend the mine and build a branching rail network (+10)** `eurgol.3` | +10 | 12,500 | 9,250 | 28 |
-| **Extend the mine and build a branching rail network (+12)** `eurgol.4` | +12 | 15,800 | 18,500 | 40 |
-| **Extend the mine and build a branching rail network (+15)** `eurgol.5` | +15 | 19,800 | 21,050 | 55 |
-| **Extend the mine and build a branching rail network (+40)** `eurgol.6` | +40 | 50,200 | 25,950 | 95 |
+| **Enlarge mines and build extensive railroad network for them (+5)** `eurgol.1` | +5 | 1,000 | 1,250 | 10 |
+| **Enlarge mines and build extensive railroad network for them (+8)** `eurgol.2` | +8 | 5,250 | 4,950 | 18 |
+| **Enlarge mines and build extensive railroad network for them (+10)** `eurgol.3` | +10 | 12,500 | 9,250 | 28 |
+| **Enlarge mines and build extensive railroad network for them (+12)** `eurgol.4` | +12 | 15,800 | 18,500 | 40 |
+| **Enlarge mines and build extensive railroad network for them (+15)** `eurgol.5` | +15 | 19,800 | 21,050 | 55 |
+| **Enlarge mines and build extensive railroad network for them (+40)** `eurgol.6` | +40 | 50,200 | 25,950 | 95 |
 
 The base 5 slots plus all upgrades allow **95 peasants in one mine**, producing
 up to 158.1 resources per game second, or 9,485 per game minute.
@@ -92,13 +92,13 @@ the boat’s construction cost by 85%.
 
 See [Ship comparisons](../compare/units/ships.md) for the full fleet.
 
-<a id="содержание-армии-голод-и-бунт"></a>
 <a id="famine-голод-и-rebellion-восстание"></a>
+<a id="содержание-армии-голод-и-бунт"></a>
 ## Army upkeep, famine, and rebellion
 
-A normal army continuously consumes food. When food runs out, famine begins
-and may be followed by rebellion. Buildings and mercenaries do not consume
-food.
+A normal army continuously consumes Food; when it runs out, famine begins.
+Mercenary rebellion is a separate state: it begins when Gold is empty and
+upkeep exceeds income. Buildings and mercenaries do not consume Food.
 
 <a id="расход-еды-одним-юнитом"></a>
 ### Food consumption per unit
@@ -138,14 +138,14 @@ food, but require continuous gold upkeep.
 
 | Mercenary | Health | Training time, game seconds | Gold | Gold upkeep | Weapon |
 |---|---:|---:|---:|---:|---|
-| **Light Infantry (mercenary)** `lightinfantrydip` | 50 | 1.25 | **4** | 4 | sword 16 |
+| **Light Infantryman (mercenary)** `lightinfantrydip` | 50 | 1.25 | **4** | 4 | sword 16 |
 | **Roundshier (mercenary)** `roundshierdip` | 75 | 1.5 | **12** | 20 | sword 6 |
 | **Archer (mercenary)** `archerdip` | 20 | 1.25 | **15** | 16 | arrows: 25, range 13.13 / fire arrow: 100, range 14.06 |
-| **Ottoman Archer (mercenary)** `archerturdip` | 20 | 1.25 | **15** | 16 | arrows: 25, range 13.13 / fire arrow: 100, range 14.06 |
-| **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | **25** | 60 | pike 30 / bullet: 16, range 15.0 / mortar blast: 200, range 7.5 |
+| **Turkish archer (mercenary)** `archerturdip` | 20 | 1.25 | **15** | 16 | arrows: 25, range 13.13 / fire arrow: 100, range 14.06 |
+| **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | **25** | 60 | pike 30 / bullet: 16, range 15.0 / grenade blast: 200, range 7.5 |
 | **Sich Cossack (mercenary)** `cossacksichdip` | 150 | 2.5 | **60** | 150 | sword 8 |
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | **120** | 120 | bullet: 18, range 15.0 |
-| **Light Cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | **120** | 120 | bullet: 18, range 15.0 |
+| **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | **120** | 120 | bullet: 18, range 15.0 |
 
 Fifty mercenary Dragoons, for example, consume about **9.6 gold per game
 second**, or **576 gold per game minute**.

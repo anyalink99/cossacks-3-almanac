@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Late musketeers - higher damage, better armor.
+Eighteenth-century Musketeers combine higher damage with better protection.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 100, Time (g-sec) = 4.5, F = 50, G = 40, I = 40, speed = 32, damage = 16, range (tile) = 16.88, reload (s) = 4.69.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 100, training time = 4.5 game seconds, food = 50, gold = 40, iron = 40, speed = 32, damage = 16, range = 16.88 cells, and reload time = 4.69 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Musketeer, 18th century** `musketeer18` | Austria | 100 | 4.5 | 50 | 40 | 40 | — | — | 32 | 16 | 16.88 | 4.69 | — | — | — | — | — | — | shared(13n) |
 | **Musketeer, 18th century** `musketeer18` | England | 100 | 4.5 | 50 | 40 | 40 | — | — | 32 | 16 | 16.88 | 4.69 | — | — | — | — | — | — | shared(13n) |

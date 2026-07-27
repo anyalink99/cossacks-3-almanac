@@ -15,8 +15,9 @@ resources continuously while Peasants remain inside.
 - A Peasant works a source several times, fills a carried portion, delivers it
   to an eligible building, and then searches for another source near the
   original work location.
-- Ignoring travel, one Peasant can gather at most 178 food or 213 wood or
-  stone per game minute at initial efficiency.
+- Ignoring travel, most Peasants can gather at most 178 food per game minute,
+  while the Russian Serf reaches about 171. The travel-free ceiling for wood
+  and stone is 213 per game minute at initial efficiency.
 - Actual wood and stone income is lower because of travel to a Storehouse.
   Food also depends on the distance to a Mill and on field regrowth.
 - No more than two Peasants normally work one tree at once; a field or stone
@@ -51,7 +52,8 @@ preferred over one that other Peasants are already approaching or working.
 
 | Resource | Hits before delivery | Portion | One hit | Maximum per game minute |
 |---|---:|---:|---:|---:|
-| Food | 22 | 45 | 0.6875 game seconds | about 178 |
+| Food — most nations | 22 | 45 | 0.6875 game seconds | about 178 |
+| Food — **Serf** (Russia) | 22 | 45 | 0.7188 game seconds (23 frames) | about 171 |
 | Wood | 14 | 28 | 0.5625 game seconds | about 213 |
 | Stone | 20 | 40 | 0.5625 game seconds | about 213 |
 
@@ -72,8 +74,8 @@ there.
 - The Peasant walks to a fixed point rather than the nearest edge of the
   building model. Architectural variants place this point differently.
 
-The Spanish and Portuguese Storehouse has no separate offset and uses the
-building centre. Other main variants place the point on the northern side.
+The Spanish and Portuguese Storehouses have no separate offset and use the
+building center. Other main variants place the point on the northern side.
 Exact coordinates for Storehouses, Mills, and Town Halls remain in the
 [technical model](../../../../internals_en/scripts/peasant_extraction_evidence.md).
 
@@ -99,9 +101,9 @@ rare but contain vastly more durability than small ones.
 
 | Variant | Probability | Durability | Approximate wood reserve |
 |---|---:|---:|---:|
-| Giant tree | 20% | 8,000–16,000 | 16,000–32,000 |
+| Giant tree | 20% | 8,000–15,999 | 16,000–31,998 |
 | Medium tree | 15% | 125–624 | 250–1,248 |
-| Small tree | 45% | about 20–75 | about 40–150 |
+| Small tree | 45% | 20–74 | 40–148 |
 | Spawned stump | 20% | 10 | about 20 |
 
 Every hit yields an average of two wood. A rough expectation for a newly
@@ -186,12 +188,21 @@ They are individual: every Mine must be upgraded separately.
 Efficiency starts at 100. Bonuses increase the delivered portion but do not
 shorten the journey or speed up the work animation.
 
-Common upgrades include:
+The main food-gathering chain has two parts:
 
-- three successive Mill upgrades: +40%, +50%, and another +50% food
-  gathering;
-- an Academy upgrade granting +100% wood gathering;
-- two Academy upgrades granting +100% and +200% stone gathering.
+- at the Mill, **Improve grain crops treatment** grants +140%, followed by
+  **Improve grain crops storage** at +180%; Turkey and Algeria do not have
+  the second upgrade;
+- at the Academy, **Cultivate new cultures of wheat** grants +40%,
+  **Cultivate new cultures of rye** grants +50%, and
+  **Raise agriculturists' salary** grants another +50%.
+
+These bonuses are added to the initial efficiency of 100. A nation with the
+complete common set therefore reaches 560% efficiency, while Turkey and
+Algeria reach 380% without the second Mill upgrade.
+
+The Academy also offers +100% wood gathering, while two stone-gathering
+upgrades grant +100% and +200%.
 
 The exact set and prerequisites vary by nation. Canonical names, prices, and
 chains are listed in the [upgrade reference](../../../reference/05_upgrades/README.md).
@@ -237,15 +248,6 @@ Deposit, forest, and starting-resource placement is explained in
 - An exhausted Field must be replaced or allowed to complete its growth cycle.
 - Complete depletion of wood or stone is not a realistic concern in an
   ordinary match; worker throughput remains the main limit.
-
-<a id="что-ещё-нужно-проверить"></a>
-## What still needs verification
-
-- The complete efficiency-upgrade set for each of the 21 nations.
-- The real share of working time lost to obstacle avoidance.
-- The effect of water transport on isolated forests.
-- How animation-speed changes interact with physical walking speed.
-- A more precise ratio between a forest-pattern mask and available trees.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

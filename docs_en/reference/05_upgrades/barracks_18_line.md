@@ -5,7 +5,7 @@
 
 Upgrades for 18th-century Grenadiers, Musketeers, and Pikemen.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Grenadier: damage +2 (level 2)** `ausba2.grenadier.1.1` | Austria, Netherlands, Piedmont, Portugal, Russia, Spain, Switzerland, Venice | damage | 2 | — | 2000 | 0 | 0 | 800 | 0 | 0 | 15.62 |
 | **Grenadier: damage +2 (level 2)** `fraba2.grenadier.1.1` | France | damage | 2 | — | 1800 | 0 | 0 | 800 | 0 | 0 | 15.62 |

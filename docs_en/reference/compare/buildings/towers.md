@@ -3,12 +3,12 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Defensive tower with a cannon. One option per cluster.
+Towers are stationary defensive buildings armed with a cannon. Each architectural group uses one variant.
 
-> **Base values** (column mode): HP = 20000, Time (g-sec) = 1230.31, cost% = 120, W = 100, S = 100, G = 150, farm = 0.
+> **Baseline values** are the most common values in each column: health = 20000, construction time = 1230.31 game seconds, price growth = 120%, wood = 100, stone = 100, gold = 150, population = 0.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | **Tower** `turtow` | Algeria | **22500** | **984.38** | **125** | **150** | **90** | **100** | 0 | — |
 | **Tower** `eurtow` | Austria | 20000 | 1230.31 | 120 | 100 | 100 | 150 | 0 | — |

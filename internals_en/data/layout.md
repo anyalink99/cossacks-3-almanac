@@ -1,8 +1,9 @@
 <a id="структура-data-в-cossacks-3"></a>
-# Structure `data/` in Cossacks 3
+# The `data/` Directory in Cossacks 3
 
-What is in each subfolder of the game directory (`Steam/steamapps/
-common/Cossacks 3/data/`), what format is there and who parses it.
+This page describes each subfolder under
+`Steam/steamapps/common/Cossacks 3/data/`, the formats it contains, and
+the repository tools that parse it.
 
 <a id="сводка"></a>
 ## Summary
@@ -12,7 +13,7 @@ common/Cossacks 3/data/`), what format is there and who parses it.
 | `actors/` | 5 220 | 894 MiB | 3D models of units and buildings (.actor, .tlf, .lib) |
 | `animations/` | 282 | 0.5 MiB | Animation tracks (.aaf), libraries (.lib) |
 | `brushes/` | 21 | 3.6 MiB | Texture brushes for the map editor |
-| `cameras/` | 4 | 7 KiB | Camera Configuration |
+| `cameras/` | 4 | 7 KiB | Camera configuration |
 | `cursors/` | 23 | 100 KiB | Cursors (.cur, .bmp) |
 | `env/` | 92 | 9 MiB | Environment (sky, fog, lighting presets) |
 | `game/` | 11 | 1.9 MiB | Gameplay configs (.cfg) |
@@ -32,40 +33,40 @@ common/Cossacks 3/data/`), what format is there and who parses it.
 | `scripts/` | 222 | 4.3 MiB | **DWS scripts + .parser configs** (see [`../scripts/structure.md`](../scripts/structure.md)) |
 | `shaders/` | 109 | 0.3 MiB | GLSL shaders (.vert, .frag) |
 | `sounds/` | 330 | 282 MiB | OGG sounds + configs |
-| `terrain/` | 607 | 685 MiB | Terain tiles (textures by season) |
-| `video/` | 1 | 0.1 KiB | (only .lib index - video in DLC) |
+| `terrain/` | 607 | 685 MiB | Terrain tiles (textures by season) |
+| `video/` | 1 | 0.1 KiB | `.lib` index only; video is supplied by DLC |
 | `water/` | 11 | 5 MiB | Water shader assets |
 
-**Total:** ~7.7 GiB. Data = ~94% game size.
+**Total:** about 7.7 GiB, roughly 94% of the installed game.
 
 <a id="что-нас-интересует-для-парсинга"></a>
-## What we are interested in for parsing
+## Data used by the parsers
 
-Of all 26 folders they actually parse:
+The extraction pipeline uses these folders:
 
 - `scripts/` is the main source of truth for gameplay. See
   [`../scripts/structure.md`](../scripts/structure.md).
-- `objects/` - per-entity `.parser`-configs (example: each unit
-  has a .parser file with behavior and animation settings).
-- `animations/` — `.aaf` tracks for frame-accurate timing attacks.
-- `pattern/` - binary `.pattern` for generating maps.
+- `objects/` — per-entity `.parser` configurations, including behavior and
+  animation settings.
+- `animations/` — `.aaf` tracks for frame-accurate attack timing.
+- `pattern/` — binary `.pattern` map-generation templates.
 - `gen/` — terrainmasks for the seed map system (`gen/terrainmasks/
   land/4pl_*.tga` — ~230 basic masks for 4-player Land).
-- `locale/` - text files `.lng` and `.loc` for Russian titles
-  units/upgrades.
-- `maps/` - ready-made `.map` for Historical Battles (binary).
+- `locale/` — `.lng` and `.loc` text files containing canonical unit and
+  upgrade names.
+- `maps/` — prebuilt binary `.map` files for Historical Battles.
 
 ## scripts/
 
-The most important folder for us. Completely disassembled
-[`../scripts/structure.md`](../scripts/structure.md). Key
-files:
+This is the main source of gameplay rules. Its layout is documented in
+[`../scripts/structure.md`](../scripts/structure.md). Key files:
 
-- `dmscript.global` - global `gc_*` constants (.parser format).
+- `dmscript.global` — global `gc_*` constants in `.parser` format.
 - `dmscript.source` — initial state of global vars.
-- `lib/*.script` - 29 DWS libraries (unit, country, ai, gui, ...).
-- `units/<sid>/*.parser` - per-unit configs.
-- `gui/*.aix` - UI descriptions.
+- `lib/*.script` — 29 DWS libraries covering units, nations, AI, UI, and
+  other systems.
+- `units/<sid>/*.parser` — per-unit configurations.
+- `gui/*.aix` — UI descriptions.
 
 ## objects/
 
@@ -77,32 +78,31 @@ objects/
 ├── *.prop          Properties
 └── ...
 ```
-Each GameObject class in C3 has a `.objects` config with a list
-behavior, animations, materials. Parses the engine via
-`ParserLoadFromFile` (native function, available in RTTI).
+Each Cossacks 3 `GameObject` class has an `.objects` configuration listing
+its behaviors, animations, and materials. The engine loads these files
+through the native `ParserLoadFromFile` function.
 
 ## animations/
 
 Animation tracks. Files:
 
 - `<sid>.aaf` - Actor Animation File. Contains timings of each
-  frame: melee swing point, projectile-spawn frame, footsteps and
-  etc.
-- `*.acl` - animation cycles libraries.
-- `*.library` - index.
+  frame, including melee impact, projectile spawning, and footsteps.
+- `*.acl` — animation-cycle libraries.
+- `*.library` — indexes.
 
-Parses in [`../../parser/parse_animations.py`](../../parser/parse_animations.py)
+Parsed by [`../../parser/parse_animations.py`](../../parser/parse_animations.py)
 → [`../../derived/animations.json`](../../derived/animations.json).
-1,382 anim tracks from 194 .aaf files.
+The output contains 1,382 animation tracks from 194 `.aaf` files.
 
 ## pattern/
 
 Binary brushes for placing groups of objects on the map. 711 files.
 Used by the map generator.
 
-Completely disassembled
-[`../../docs/recon/world/map_generation_pipeline.md`](../../docs_en/recon/world/map/map_generation_pipeline.md)
-and
+The format is documented in
+[`Random-map generation`](../../docs_en/recon/world/map/map_generation_pipeline.md)
+and parsed by
 [`../../parser/parse_patterns.py`](../../parser/parse_patterns.py)
 → [`../../derived/pattern_inventory.json`](../../derived/pattern_inventory.json).
 
@@ -114,13 +114,13 @@ Map generation pipeline. Contains:
   each terrain type × player count. For example, for Land 4 players
   — ~230 templates in `gen/terrainmasks/land/4pl_*.tga`.
 - `gen/*.cfg` — generator.cfg with PatternList → 60 types of patterns.
-- `gen/*.bmp` - service bitmaps.
+- `gen/*.bmp` — auxiliary bitmaps.
 
-Parses in `parser/parse_generator_cfg.py`.
+Parsed by `parser/parse_generator_cfg.py`.
 
 ## locale/
 
-Localization. For each language - a folder with `.lng`/`.loc` files:
+Each language has a folder containing `.lng` and `.loc` files:
 ```
 locale/
 ├── english/
@@ -130,14 +130,14 @@ locale/
 ├── russian/
 └── ...
 ```
-Parses in `parser/parse_locale.py` → `derived/canonical_terms.json`.
-In `data.json`, each name is in the `name_ru` (Russian) field.
+Parsed by `parser/parse_locale.py` into `derived/canonical_terms.json`.
+In `data.json`, Russian names are stored in `name_ru`.
 
 ## maps/
 
-Ready-made maps (Historical Battles, campaign missions). 68 files,
-1.7 GiB. Binary format `.map` - not yet **parsed**. Plans for
-There is no parsing either (maps for skirmish are generated procedurally).
+Prebuilt maps for Historical Battles and campaign missions: 68 files,
+1.7 GiB in total. The binary `.map` format is not parsed, and current
+work does not require it because skirmish maps are generated procedurally.
 
 ## actors/
 
@@ -148,12 +148,13 @@ formats:
 - `.tlf` — Top-Level Frame (separate animated part).
 - `.osm`/`.oss` - internal indexes.
 
-Can't be parsed - we don't work with 3D data.
+The repository does not parse them because its generated datasets do not
+use 3D assets.
 
 ## materials/
 
-Materials (shaders + textures). 2.9 GiB. `.mat` files configure
-binding textures to shaders. `.dds` - actual textures.
+Materials and textures occupy 2.9 GiB. `.mat` files bind textures to
+shaders; `.dds` files contain the texture images.
 
 ## sounds/
 
@@ -161,14 +162,14 @@ Sound effects. OGG format. 330 files, 282 MiB.
 
 ## DLC
 
-In addition to `data/`, in the root of the game there is:
+The game root also contains:
 ```
 dlcs/
 ├── summer/        Summer map (map data only)
 └── winter/        Winter map
 ```
-DLC **do not contain** override rules - only additional ones
-maps. Units, nations, and upgrades are defined primarily under `data/`.
+These DLC directories contain additional maps rather than gameplay-rule
+overrides. Units, nations, and upgrades are defined primarily under `data/`.
 
 <a id="что-не-парсится-и-не-планируется"></a>
 ## What is not parsed (and is not planned)
@@ -181,9 +182,9 @@ maps. Units, nations, and upgrades are defined primarily under `data/`.
 - Maps (`maps/.map` files).
 
 <a id="где-у-нас-точки-парсинга"></a>
-## Where are our parsing points?
+## Parser entry points
 
-| Parser | What does |
+| Parser | Output |
 |---|---|
 | [`../../parser/parse_units.py`](../../parser/parse_units.py) | `lib/unit.script` → unit and building records. |
 | [`../../parser/parse_country.py`](../../parser/parse_country.py) | `lib/country.script` → nations and roster. |

@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Town Hall** `algcen` | Algeria | **5500** | 156.25 | 300 | 0 | **450** | 700 | 0 | 0 | 0 | **50** | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |
 | **Town Hall** `auscen` | Austria | 4000 | **46.88** | 300 | 0 | 700 | 700 | 0 | 0 | 0 | 100 | Peasant (`peaaus`), Peasant (`peaeng`), Peasant (`peapol`), Serf (`pearus`), Peasant (`peasco`), +3 more |

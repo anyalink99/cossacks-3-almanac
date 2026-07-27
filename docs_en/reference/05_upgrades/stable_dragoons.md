@@ -5,7 +5,7 @@
 
 Upgrades for 17th- and 18th-century Dragoons, the Pospolite ruszenie, and the King's Musketeer.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Dragoon, 17th century: damage +1 (level 2)** `aussta.dragoon.1.1` | Austria, Bavaria, France, Piedmont, Portugal, Spain, Sweden, Switzerland, Venice | damage | 1 | — | 500 | 0 | 0 | 150 | 0 | 0 | 15.62 |
 | **Dragoon, 17th century: damage +1 (level 2)** `prusta.dragoon.1.1` | Denmark, Hungary, Netherlands, Prussia, Saxony | damage | 1 | — | 700 | 0 | 0 | 250 | 0 | 0 | 15.62 |

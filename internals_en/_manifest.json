@@ -5,8 +5,8 @@
     {
       "path": "data/file_formats.md",
       "title": "File formats in `data/`",
-      "size": 9027,
-      "lines": 245
+      "size": 9473,
+      "lines": 251
     },
     {
       "path": "data/game_fields_glossary.md",
@@ -16,9 +16,9 @@
     },
     {
       "path": "data/layout.md",
-      "title": "Structure `data/` in Cossacks 3",
-      "size": 8074,
-      "lines": 197
+      "title": "The `data/` Directory in Cossacks 3",
+      "size": 8158,
+      "lines": 198
     },
     {
       "path": "data/map_predictions_validation.md",
@@ -28,153 +28,183 @@
     },
     {
       "path": "data/nation_deviations.md",
-      "title": "National deviations — buildings and units",
-      "size": 25198,
-      "lines": 544
+      "title": "National Variants of Buildings and Units",
+      "size": 25682,
+      "lines": 559
     },
     {
       "path": "data/replay_format.md",
-      "title": "Replay / Save (`.rep`, `.map`) - format `OSWMap13`",
-      "size": 39947,
-      "lines": 847
+      "title": "Replay and Save Files (`.rep`, `.map`): `OSWMap13`",
+      "size": 39438,
+      "lines": 838
     },
     {
       "path": "engine/animation_system.md",
-      "title": "Animation system: timings, cycles, impact point",
-      "size": 21076,
-      "lines": 500
+      "title": "Animation System: Timing, Cycles, and Impact Frames",
+      "size": 21256,
+      "lines": 496
     },
     {
       "path": "engine/determinism_audit.md",
-      "title": "Recon: determinism of loot and combat (RNG audit)",
-      "size": 26197,
-      "lines": 521
+      "title": "Recon: Determinism in Resource Gathering and Combat (RNG Audit)",
+      "size": 26703,
+      "lines": 552
     },
     {
       "path": "engine/native_api.md",
-      "title": "Native API of the Cossacks 3 engine (Delphi + DWS)",
-      "size": 22700,
-      "lines": 407
+      "title": "Cossacks 3 Engine Native API (Delphi + DWS)",
+      "size": 22500,
+      "lines": 399
     },
     {
       "path": "engine/native_primitives.md",
-      "title": "Native primitives in cossacks.exe - DWS signatures (detailed list)",
-      "size": 20617,
-      "lines": 273
+      "title": "Native Primitives in `cossacks.exe`: Detailed DWS Signature List",
+      "size": 20651,
+      "lines": 288
     },
     {
       "path": "engine/rng_implementation.md",
-      "title": "Implementation of RNG in Cossacks 3",
-      "size": 12451,
-      "lines": 262
+      "title": "RNG Implementation in Cossacks 3",
+      "size": 11755,
+      "lines": 246
     },
     {
       "path": "engine/rtti_class_map.md",
-      "title": "Delphi engine class map (RTTI)",
-      "size": 15296,
-      "lines": 333
+      "title": "Delphi Engine Class Map (RTTI)",
+      "size": 15491,
+      "lines": 334
     },
     {
       "path": "engine/script_modding_constraints.md",
-      "title": "Scripting restrictions when modding: DoDamage and unit death",
-      "size": 6538,
-      "lines": 149
+      "title": "Scripting Constraints: `DoDamage` and Unit Death",
+      "size": 6491,
+      "lines": 153
     },
     {
       "path": "engine/server_sync_architecture.md",
-      "title": "Recon: server architecture and network synchronization",
-      "size": 23963,
-      "lines": 534
+      "title": "Recon: Server Architecture and Network Synchronization",
+      "size": 24292,
+      "lines": 535
     },
     {
       "path": "engine/server_sync_packet_format.md",
-      "title": "C3 network packet format (via script call analysis)",
-      "size": 10654,
-      "lines": 254
+      "title": "Cossacks 3 Network Packet Format",
+      "size": 10435,
+      "lines": 245
     },
     {
       "path": "engine/ticks_and_subticks.md",
-      "title": "Recon: ticks, subtics, time",
-      "size": 25141,
-      "lines": 542
+      "title": "Recon: Ticks, Sub-Tick State, and Time",
+      "size": 24778,
+      "lines": 543
     },
     {
       "path": "project/architecture.md",
       "title": "Project architecture",
-      "size": 16868,
-      "lines": 243
+      "size": 17224,
+      "lines": 248
     },
     {
       "path": "project/documentation_style.md",
       "title": "Reader-facing documentation rules",
-      "size": 8112,
-      "lines": 183
+      "size": 9107,
+      "lines": 201
     },
     {
       "path": "project/known_issues.md",
       "title": "Known Issues and Caveats",
-      "size": 10477,
-      "lines": 198
+      "size": 6763,
+      "lines": 140
     },
     {
       "path": "project/known_issues_archive.md",
       "title": "Known Issues: Resolved",
-      "size": 4331,
-      "lines": 74
+      "size": 5221,
+      "lines": 87
     },
     {
       "path": "project/README.md",
       "title": "Project architecture and maintenance",
-      "size": 665,
-      "lines": 12
+      "size": 1149,
+      "lines": 16
+    },
+    {
+      "path": "project/research_backlog_combat.md",
+      "title": "Research Backlog: Combat Mechanics",
+      "size": 7391,
+      "lines": 165
+    },
+    {
+      "path": "project/research_backlog_systems.md",
+      "title": "Research Backlog: Game Systems",
+      "size": 11339,
+      "lines": 180
     },
     {
       "path": "README.md",
       "title": "Cossacks 3 Internals",
-      "size": 7046,
-      "lines": 106
+      "size": 8241,
+      "lines": 118
     },
     {
       "path": "scripts/building_mechanics_evidence.md",
       "title": "Technical Evidence for Building Mechanics",
-      "size": 30167,
-      "lines": 679
+      "size": 32068,
+      "lines": 702
     },
     {
       "path": "scripts/capture_mechanics_evidence.md",
       "title": "Technical Evidence for Building and Unit Capture",
-      "size": 31466,
-      "lines": 624
+      "size": 31034,
+      "lines": 643
     },
     {
       "path": "scripts/hunger_and_rebellion_evidence.md",
       "title": "Technical Evidence for Famine and Mercenary Rebellion",
-      "size": 13465,
-      "lines": 314
+      "size": 14460,
+      "lines": 326
+    },
+    {
+      "path": "scripts/map_generation_evidence.md",
+      "title": "Technical Evidence for Random-Map Generation",
+      "size": 38304,
+      "lines": 753
+    },
+    {
+      "path": "scripts/pathfinding_evidence.md",
+      "title": "Technical Evidence for Pathfinding and Movement",
+      "size": 46042,
+      "lines": 983
     },
     {
       "path": "scripts/peasant_extraction_evidence.md",
       "title": "Technical Model of Peasant Resource Gathering",
-      "size": 36371,
-      "lines": 771
+      "size": 36488,
+      "lines": 812
     },
     {
       "path": "scripts/production_queue_evidence.md",
       "title": "Technical Evidence for Production Queues",
-      "size": 14503,
-      "lines": 340
+      "size": 14499,
+      "lines": 336
     },
     {
       "path": "scripts/structure.md",
-      "title": "Structure of the Cossacks 3 scripting environment",
-      "size": 16093,
-      "lines": 332
+      "title": "Cossacks 3 Scripting Environment",
+      "size": 17448,
+      "lines": 350
+    },
+    {
+      "path": "scripts/target_selection_evidence.md",
+      "title": "Technical Evidence for Target Selection and Attack-Move",
+      "size": 36262,
+      "lines": 764
     },
     {
       "path": "scripts/upgrades_application_evidence.md",
       "title": "Technical Evidence for Upgrade Application",
-      "size": 21814,
-      "lines": 501
+      "size": 21945,
+      "lines": 499
     }
   ]
 }

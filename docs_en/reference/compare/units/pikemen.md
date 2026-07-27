@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Basic melee infantry with pikes. Effective against cavalry - high protection against buckshot.
+Pikemen are basic melee infantry and are most effective against cavalry.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 90, Time (g-sec) = 4.5, F = 25, G = 3, I = 20, speed = 32, damage = 8, range (tile) = 1.88, reload (s) = 0.0, lance = 3, sword = 2, bullet = 4, Buckshot = 210, arrow = 6, cannonball = 40.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 90, training time = 4.5 game seconds, food = 25, gold = 3, iron = 20, speed = 32, damage = 8, range = 1.88 cells, reload time = 0.0 seconds, and protection values of 3/2/4/210/6/40 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 17th century** `pikeman` | Austria | 90 | 4.5 | 25 | 3 | 20 | — | — | 32 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 | shared(13n) |
 | **Pikeman, 17th century** `pikeman` | Bavaria | 90 | 4.5 | 25 | 3 | 20 | — | — | 32 | 8 | 1.88 | 0.0 | 3 | 2 | 4 | 210 | 6 | 40 | shared(13n) |

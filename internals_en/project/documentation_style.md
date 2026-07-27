@@ -21,7 +21,7 @@ field, or function name appears only after that name and is formatted as
 |---|---|
 | the `eurtow` object | the **Tower** (`eurtow`) |
 | `gainres` is a Peasant order | the “gather resource” order (`gainres`) |
-| a unit with `priest` heals the target | the **Chaplain** (`priest`) heals an ally |
+| a unit with `priest` heals the target | the **Priest** (`priest`) heals an ally |
 | the `capture` setting | object-capture rules (`capture`) |
 
 In a table, put the canonical name in the first column. If readers need the
@@ -76,11 +76,19 @@ An article under `docs/` should present information in this order:
 2. a plain-language explanation of the mechanic;
 3. formulas and numerical examples;
 4. internal fields, functions, and supporting excerpts;
-5. sources and open questions.
+5. sources and concise caveats where they prevent overclaiming.
 
 Do not open with a list of functions, SIDs, or unresolved research tasks.
 Material intended only for developers or modders belongs under `internals/`;
 the reader-facing article can link to it.
+
+Do not duplicate detailed hypotheses or experiment plans in reader articles or
+`known_issues.md`. Keep them in
+`internals/project/research_backlog_combat.md` or
+`internals/project/research_backlog_systems.md`. A technical evidence article
+under `internals/` may link to the relevant section when needed; a
+reader-facing article should not. Reserve `known_issues.md` for current parser
+limitations, data discrepancies, and verified caveats.
 
 An internal key may appear in a heading only after a descriptive label:
 “Peace time (`peacetime`)”, not just “`peacetime`”.
@@ -92,12 +100,17 @@ An internal key may appear in a heading only after a descriptive label:
   source.
 - A conclusion derived from several sources is explicitly identified as an
   inference.
-- Unverified behavior is labeled as a hypothesis or open question.
+- Unverified behavior is omitted from reader-facing articles. Record it in a
+  research backlog and label it there as a hypothesis or open question.
 - If a function, state machine, or loader was not found, do not claim that it
   exists.
 - Readers see only the current verified rule. Do not write that an earlier
   article was wrong, that a previous version confused two cases, or that “we
   fixed” an error. Correction history belongs in Git, not in the encyclopedia.
+
+A technical correction log is allowed only in
+`internals/project/known_issues_archive.md`; do not carry that narrative into
+reader-facing articles.
 
 Do not rewrite literal names, values, or source excerpts for stylistic
 reasons. Translate the explanation around them; keep the literal content
@@ -133,6 +146,9 @@ or `internals_en/`.
 - Use canonical English names from `canonical_terms.json`.
 - Translate and edit the English prose manually. Do not use machine
   translation, even as a publication draft.
+- Use American spelling in English prose: `behavior`, `armor`, `neighbor`,
+  `center`, `localization`, and `canceled`. Preserve canonical names and
+  literal quotations from the game unchanged.
 - Keep real SIDs, fields, functions, and values unchanged.
 - Translate meaning rather than Russian word order.
 - Add each new Russian heading slug to the English file as a compatible
@@ -152,6 +168,8 @@ or `internals_en/`.
 - Russian reader-facing text uses “клетка”, “игровая секунда” (`игр. с` in
   compact tables), and “попадание в голову” instead of the borrowed terms
   “тайл”, “game sec”, and “хедшот”.
+- English reader-facing text uses `cells` and `game seconds` (`game s` in
+  compact tables), not `tiles` or `g-sec`.
 - Test in-page links in the browser after renaming a heading.
 - Articles under `docs/recon/` link back to “How the Game Works”; technical
   articles link to the appropriate `internals/` index.

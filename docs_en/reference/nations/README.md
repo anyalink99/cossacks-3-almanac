@@ -27,5 +27,5 @@ building differences, access to the 18th century, and upgrades.
 | [**Saxony**](sax.md) | `sax` | ✓ | Grenadier, Guard Cavalryman, Musketeer (18th century) |
 | [**Bavaria**](bav.md) | `bav` | ✓ | Grenadier, Musketeer (18th century) |
 | [**Hungary**](hun.md) | `hun` | ✓ | Hajduk, Grenadier, Hussar, Light Cavalryman, Szekely |
-| [**Switzerland**](swi.md) | `swi` | ✓ | Mounted Chasseur, Chasseur, Pikeman (17th century) |
-| [**Scotland**](sco.md) | `sco` | ✓ | Clan Archer, Frame Gun, Lancer, Covenanter Musketeer, Covenanter Pikeman (+2) |
+| [**Switzerland**](swi.md) | `swi` | ✓ | Mounted Jaeger, Jaeger, Pikeman (17th century) |
+| [**Scotland**](sco.md) | `sco` | ✓ | Bow Clansman, Frame gun, Lancer, Covenanter musketeer, Covenanter pikeman (+2) |

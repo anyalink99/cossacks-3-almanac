@@ -3,9 +3,9 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-The mines produce `coal` / `gold` / `iron`. The script accidentally uses `commonsid+'X'` for all clusters (eur/rus/tur/ukr/sco), but the stats are general: the surface parser only uses the `eur*` version, because all clusters inherit the same HP/price/rate. There are **no Cluster-specific mines** - this is a single model for all nations.
+Coal, Gold, and Iron Mines share one set of characteristics across all nations. The rows differ only by resource: each Mine has 2,500 durability, costs 100 Wood and 100 Stone, and initially supports five workers.
 
-| Building | Cluster | Resource | HP | Time (g-sec) | W | S | G | rate (per beat) | Add. workers |
+| Building | Architectural group | Resource | Health | Construction time, game s | Wood | Stone | Gold | Income value per worker | Initial worker slots |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|
 | **Mine** `eurcoa` | eur | coal | 2500 | 93.75 | 100 | 100 | 0 | 13 | 5 |
 | **Mine** `eurgol` | eur | gold | 2500 | 93.75 | 100 | 100 | 0 | 13 | 5 |

@@ -16,25 +16,54 @@ representation and script references are collected under
   Prussian and historical arrangements, and naval formations [^1].
 - Each formation defines positions for rank-and-file units and officers,
   plus one pair of bonuses while moving and another while holding.
-- Bonuses are additive, not percentage: `+2` to damage = simple
-  `damage += 2` after all other modifiers [^2].
-- Standard 15–196-unit combat formations give **+2 damage and +2 defence**
-  while moving and **+7 damage and +7 defence** after entering Hold Position.
+- Bonuses are flat values rather than percentages: a 2-point bonus adds
+  exactly 2 to each eligible hit [^2].
+- Standard 15–196-unit combat formations give **+2 damage and +2 defense**
+  while moving and **+7 damage and +7 defense** after entering Hold Position.
 - Attacker and defender bonuses are applied independently on every hit.
 - A normal large formation holds up to 196 units; special variants hold 400.
 
 ---
 
+<a id="что-построение-меняет-в-бою"></a>
+## What a Formation Changes in Battle
+
+A formation changes more than unit placement. A standard line or square of
+sufficient size gives the squad 2 points of damage and defense. In Hold
+Position, the stronger 7-point bonus activates after 37.5 game seconds of
+continuous idleness without movement or autonomous aggression. Any movement
+order resets that wait.
+
+The bonuses are flat values rather than percentages. Formation defense is
+subtracted from every incoming hit, while formation damage is added to every
+attack by a member. This makes a formation particularly effective against
+many weak attacks that can be reduced to the minimum of one health point.
+
+Hold Position is usually disabled for a charge or pursuit because the squad
+otherwise prioritizes its places. After stopping, soldiers occupy the grid
+again; a casualty leaves a gap until the next rearrangement or reinforcement.
+
+An Officer's death does not by itself remove bonuses already stored on the
+squad. The formation disbands and loses them when the remaining rank and file
+fall below one quarter of the original count.
+
+<a id="подробный-справочник-и-техническое-приложение"></a>
+## Detailed Reference and Technical Appendix
+
+The sections below preserve the formation families, exact bonuses, placement
+grids, and internal squad behavior. For ordinary play, the rules above and
+the first size tables provide the essential information.
+
 <a id="1-каталог-формаций"></a>
 <a id="1-какие-построения-есть"></a>
-## 1. Available Formations
+### 1. Available Formations
 
 The game uses several formation families. Variants within one family differ
 in size, unit placement, and sometimes combat bonuses. Internal family names
 are included only to make the table verifiable against the game files.
 
 <a id="11-семейства"></a>
-### 1.1. Families
+#### 1.1. Families
 
 | Formation | Internal family | Variants | Description |
 |---|---|---:|---|
@@ -50,11 +79,11 @@ are included only to make the table verifiable against the game files.
 | No formation | `none` | 1 | The empty entry. |
 
 <a id="12-бонусы-по-размерам"></a>
-### 1.2. Bonuses by size
+#### 1.2. Bonuses by size
 
 Standard values that a squad receives *in formation*:
 
-| Size | Internal variant | Moving damage | Moving defence | Holding damage | Holding defence |
+| Size | Internal variant | Moving damage | Moving defense | Holding damage | Holding defense |
 |---|---|---:|---:|---:|---:|
 | 3–10 | `LINE3..LINE10` | 0 | 0 | 0 | 0 |
 | 15 | `LINE15`, `SQUARE15`, `KARE15` | 2 | 2 | 7 | 7 |
@@ -64,48 +93,49 @@ Standard values that a squad receives *in formation*:
 | historical | `TRI`, `PRUS`, `SHER` (without `_OLD`) | 1 | 1 | 1 | 1 |
 | `*_OLD` | `TRI_OLD`, `PRUS_OLD` | −10..+5 | −5..+9 | −27..+95 | −19..+80 |
 
-Variants ending in `_OLD` are remnants of early game versions and are
-rarely used in the current rosters.
+Variants ending in `_OLD` are not used by the standard current rosters and
+mainly matter to scenarios and modding.
 
 The `NB` suffix means “No Bonus”: the formation keeps its layout without
 granting a combat advantage. This is useful in scenarios or AI behavior
 where the shape itself matters.
 <a id="13-лимиты-на-нацию-и-отряд"></a>
-### 1.3. Limits per nation and squad
+#### 1.3. Limits per nation and squad
 
-- Per nation - `gc_country_maxformationcount = 3` available
-  formational sets (for example, in Prussia it is `LINE`/`SQUARE`/`PRUS`).
-- In one formation - no more than `gc_country_maxformationunitcount = 12`
-  units of **different types** (that is, mask marks the positions of 12 different
-  unit classes).
-- Officer mask - up to `gc_country_maxofficersformationmask = 50`
-  marked “officer here.”
+- Each nation has at most `gc_country_maxformationcount = 3` formation
+  families—for example, Prussia uses `LINE`, `SQUARE`, and `PRUS`.
+- One formation can contain no more than
+  `gc_country_maxformationunitcount = 12` **different unit types**. The mask
+  can therefore assign positions to at most 12 unit classes.
+- The officer mask contains at most
+  `gc_country_maxofficersformationmask = 50` reserved positions.
 
 ---
 
 <a id="3-применение-бонуса-в-формуле-урона"></a>
 <a id="2-как-прибавки-влияют-на-урон"></a>
-## 2. How Bonuses Affect Damage
+### 2. How Bonuses Affect Damage
 
-The attacker and target may belong to different squads. A defence bonus
+The attacker and target may belong to different squads. A defense bonus
 reduces damage received by the target, while a damage bonus strengthens the
 attacker's hit. Moving and holding squads use different values [^4].
 
-This happens **after** subtracting `shield` and `protection[kind]`, but
-before checking `damage < 1 → damage := 1`. Therefore, formational
-the boost **can push a weak hit out of the "1 HP minimum"
-back to operating range**.
+Both formation bonuses are applied **after** subtracting `shield`, but
+**before** `protection[kind]` and the `damage < 1 → damage := 1` check.
+An attack bonus can therefore
+raise a weak hit above the one-point minimum, while a defense bonus can push
+it down to that minimum.
 
-Conversely, if the defender holds formation (`+7` defence), a small hit
+Conversely, if the defender holds formation (`+7` defense), a small hit
 of 4–6 damage can fall below one and be clamped to the minimum of 1 HP.
 Holding formation is therefore especially effective against light hits.
 
 <a id="31-числовые-примеры"></a>
 <a id="21-числовые-примеры"></a>
-### 2.1. Numerical Examples
+#### 2.1. Numerical Examples
 
 A Musketeer, 18th century, with 14 base damage (`damage = 14`) fires at
-an 18th-century infantryman with one point of general defence
+an 18th-century infantryman with one point of general defense
 (`shield = 1`) and one point of bullet protection
 (`protection[bullet] = 1`):
 
@@ -125,23 +155,25 @@ target is outside a squad:
 | `LINE15` | no | `12 + 2 = 14` |
 | `LINE15` | yes | `12 + 7 = 19` |
 
-If both are in formations, the bonuses are summed up: `+attacker` and
-`−target` are independent.
+If both are in formations, the two modifiers are independent: add the
+attacker's bonus and subtract the target's bonus.
 
 ---
 
 <a id="4-hold-mode-fholdmode--стоять-насмерть"></a>
 <a id="4-режим-стоять-насмерть-fholdmode"></a>
 <a id="3-режим-стоять-насмерть"></a>
-## 3. Hold Position
+### 3. Hold Position
 
 When the mode is active:
 
 1. The stronger bonuses are used—usually `+7/+7` instead of `+2/+2`
    while moving.
-2. Units do not lose formation because of the path of their own comrades.
-3. The unit **does not move** voluntarily: even when ordered to “attack”
-   The units will first deploy into formation and only then move.
+2. Units are less likely to lose their places while moving around their own
+   squadmates.
+3. The squad does not break formation to pursue enemies on its own. After a
+   direct attack order, its members first take their assigned places and
+   only then advance.
 
 Preventing units from firing without an explicit order is a separate mode.
 Players often enable it together with Hold Position, but one does not imply
@@ -150,11 +182,11 @@ the other.
 <a id="41-когда-выгоден-hold"></a>
 <a id="41-когда-выгодно-удерживать-строй"></a>
 <a id="31-когда-выгодно-удерживать-строй"></a>
-### 3.1. When Holding Formation Helps
+#### 3.1. When Holding Formation Helps
 
-- **Defence.** Ranged units in the 15-unit square (`SQUARE15`) gain
-  `+7` defence and survive a volley
-  better than no formation. In numbers: 14 musket damage → 14 − 1 −
+- **Defense.** Ranged units in the 15-unit square (`SQUARE15`) gain
+  `+7` defense and survive a volley
+  better than units outside a formation. In numbers: 14 musket damage → 14 − 1 −
   1 − 7 = **5** versus 12 without formation.
 - **18th-century line infantry.** `LINE` formations are quick to assume,
   making a held line a common defensive tactic.
@@ -162,7 +194,7 @@ the other.
 <a id="42-когда-невыгоден-hold"></a>
 <a id="42-когда-удержание-строя-мешает"></a>
 <a id="32-когда-удержание-строя-мешает"></a>
-### 3.2. When Holding Formation Gets in the Way
+#### 3.2. When Holding Formation Gets in the Way
 
 - **Cavalry attack.** For an immediate strike, disable hold position;
   otherwise the riders first take their assigned places.
@@ -173,7 +205,7 @@ the other.
 <a id="5-mask-как-юниты-раскладываются-по-строю"></a>
 <a id="5-схема-мест-в-строю"></a>
 <a id="4-как-бойцы-располагаются-в-строю"></a>
-## 4. How Units Are Placed
+### 4. How Units Are Placed
 
 Each formation has one grid for rank-and-file units and another for officers.
 For example, a five-unit line uses double spacing:
@@ -197,9 +229,9 @@ A 15-unit hollow square places melee units around the perimeter:
 *...*
 *****
 ```
-Cell size - `gc_obj_radius_formation_default = 8` pixels (for
-cavalry - `gc_obj_radius_formation_horse = 12`) [^5]. That is
-`LINE5` has a width of `5 × 8 = 40` pixels × visual scale.
+The base spacing is `gc_obj_radius_formation_default = 8` internal pixels,
+or `gc_obj_radius_formation_horse = 12` for cavalry [^5]. A `LINE5`
+therefore spans five eight-pixel intervals before visual scaling.
 
 When direction changes, the grid may be mirrored horizontally, vertically,
 or across both axes. The Officer, Drummer, and Standard Bearer use reserved
@@ -209,7 +241,7 @@ positions, usually central or protected by rank-and-file units.
 
 <a id="6-когда-меняется-формация"></a>
 <a id="5-когда-меняется-построение"></a>
-## 5. When the Formation Changes
+### 5. When the Formation Changes
 
 | Trigger | Result |
 |---|---|
@@ -227,7 +259,7 @@ depending on when the formation is cleaned up.
 <a id="7-морские-формации"></a>
 <a id="8-морские-построения"></a>
 <a id="6-морские-построения"></a>
-## 6. Naval Formations
+### 6. Naval Formations
 
 Separate families are intended for ships. Their combat bonuses are either
 similar to land formations or zero, but their placement grids account for a
@@ -239,7 +271,7 @@ For the ships themselves, see [How Naval Combat Works](naval_combat.md).
 <a id="8-влияние-построения-на-движение"></a>
 <a id="9-влияние-построения-на-движение"></a>
 <a id="7-влияние-построения-на-движение"></a>
-## 7. How Formations Affect Movement
+### 7. How Formations Affect Movement
 
 Within one squad:
 
@@ -250,18 +282,19 @@ Within one squad:
 - if a unit is knocked out of place, the squad does not wait for it to
   return, leaving a gap.
 
-Squads on the same side pass through one another more gently than scattered
-units. Alignment on the Standard Bearer reduces pushing within the formation.
+Friendly squads negotiate one another more smoothly than loose groups.
+Arranging the squad around its Standard Bearer also reduces internal
+collisions.
 
 ---
 
 <a id="technical-details"></a>
 <a id="технические-подробности"></a>
 <a id="8-технические-подробности"></a>
-## 8. Technical Details
+### 8. Technical Details
 
 <a id="81-хранение-построения-и-прибавок"></a>
-### 8.1. Formation and Bonus Storage
+#### 8.1. Formation and Bonus Storage
 
 The global `gFormation[160]` array contains 149 loaded records. Each stores
 `id`, `sid`, `symmetry`, the `bonusdamage` / `bonusshield` and
@@ -282,11 +315,11 @@ The grid is limited to `gc_formation_maskmaxwidth = 54` ×
 
 <a id="7-создание-и-расформирование-tsquad"></a>
 <a id="82-создание-и-расформирование-отряда"></a>
-### 8.2. Creating and Disbanding a Squad
+#### 8.2. Creating and Disbanding a Squad
 
 <a id="71-создание"></a>
 <a id="создание"></a>
-#### Creation
+##### Creation
 
 `_player_CreateSquad` assembles a formation only if
 `_unit_IsOfficer(officerHnd) = True` [^9]. The assembly entry point,
@@ -306,16 +339,17 @@ earlier and **do not depend on the composition of the grid**.
 <a id="72-расформирование-disband"></a>
 <a id="72-расформирование-отряда"></a>
 <a id="расформирование"></a>
-#### Disbanding
+##### Disbanding
 
 On every `Progress` tick, `CheckSquadsDisband` runs for each active
 player [^12]:
 
 | Condition | Result |
 |---|---|
-| `count(non-officer) < gc_player_SquadDismissPercent × fBaseCount` | `_misc_DisbandSquad` removes `TSquad`. After this, the `if (pSquad2 ≠ nil)` branch in the damage formula is skipped, and the bonus for the remaining units is not found. |
+| `count(non-officer) < gc_player_SquadDismissPercent × fBaseCount` | `_misc_DisbandSquad` removes `TSquad`. The remaining units then have no squad record from which the damage formula could read a bonus. |
 
-Parameters:
+Relevant parameters:
+
 - `gc_player_SquadDismissPercent = 0.25` [^13] — threshold share.
 - `_squad_GetBaseUnitCount(pSquad)` equals
   `TSquad.GetCount − 1 − 1` (minus officer, minus drummer, if
@@ -327,10 +361,10 @@ when the rank-and-file count drops below 25% of the original `fBaseCount`.
 <a id="73-hold-mode-fsm-порог-простоя"></a>
 <a id="73-переход-в-режим-удержания-после-простоя"></a>
 <a id="переход-в-режим-удержания-после-простоя"></a>
-#### Entering Hold Position After an Idle Period
+##### Entering Hold Position After an Idle Period
 
 The stronger hold bonus (for `LINE`, `SQUARE`, and `KARE`: `+7` damage
-and defence at sizes 15–196, or a change from `+3/+3` to `+7/+7` at
+and defense at sizes 15–196, or a change from `+3/+3` to `+7/+7` at
 size 400) is active while
 `TSquad.fHoldMode = True`. State machine [^14]:
 
@@ -350,25 +384,6 @@ starts again.
 
 ---
 
-<a id="9-открытые-эмпирические-вопросы"></a>
-<a id="10-что-ещё-требует-проверки"></a>
-<a id="9-что-ещё-требует-проверки"></a>
-## 9. Questions Requiring Further Testing
-
-1. **Do two formation bonuses apply simultaneously** if
-   the same unit falls under several formations (for example,
-   18th century infantry in the formation of a regiment under the common “banner of the commander”)?
-   Apparently not - `TSquad` only stores one set of bonuses.
-   Confirm with measurements.
-2. **Exact meaning of `symmetry = 3`.** When a squad turns 180° and its
-   mask is mirrored on both axes, where does the right-flank cavalry
-   move? This requires an editor test or screenshots.
-3. **Formation switching speed.** A full rearrangement appears to take
-   0.4–0.6 game seconds, depending on unit count and pathfinding. This
-   estimate needs measurement.
-
----
-
 <a id="источники"></a>
 ## Sources
 
@@ -377,8 +392,8 @@ starts again.
 
 [^2]: `data/scripts/lib/miscext2.script:_misc_DoDamage`. Bonus
       added as `damage := damage − bonus` (for target) or
-      `damage := damage + bonus` (for attacker) after `shield`,
-      `protection[kind]`, before checking `damage < 1 → 1`.
+      `damage := damage + bonus` (for attacker) after `shield`, but before
+      `protection[kind]` and the `damage < 1 → 1` check.
 
 [^3]: `data/scripts/lib/init.script:_init_InitializeFormations`.
       Loads `gc_filepath_formations = './data/game/var/formations.cfg'`
@@ -409,21 +424,22 @@ starts again.
          maskofficers : array [0..23, 0..53] of Boolean;
       end
       ```
-The dimensions of the mask are `gc_formation_maskmaxheight` × `gc_formation_maskmaxwidth`.
+      The mask dimensions are `gc_formation_maskmaxheight` ×
+      `gc_formation_maskmaxwidth`.
 
-[^8]: `data/scripts/lib/classes.script` - definition of `TSquad`.
+[^8]: `data/scripts/lib/classes.script` — definition of `TSquad`.
       Fields `fAddDamage`, `fAddShield`, `fAddDamageHold`,
-      `fAddShieldHold` and `fHoldMode` live on each unit and
-      are rewritten by the formation change procedure.
+      `fAddShieldHold`, and `fHoldMode` belong to the squad and are replaced
+      whenever its formation changes.
 
-[^9]: `data/scripts/lib/player.script:914` - tuning assembly only
-      under a living officer: `if _unit_IsOfficer(officerHnd) then ...`.
+[^9]: `data/scripts/lib/player.script:914` — squad assembly requires a
+      living Officer: `if _unit_IsOfficer(officerHnd) then ...`.
 
 [^10]: `data/scripts/lib/unit.script:6280-6315` —
-       `_unit_MakeSquadList(officerHnd)`. Looking for a drummer and
-       suitable rank-and-file units around the Officer.
+       `_unit_MakeSquadList(officerHnd)`, which searches for a Drummer and
+       suitable rank-and-file units near the Officer.
 
-[^11]: `data/scripts/lib/player.script:809-812` - record bonuses
+[^11]: `data/scripts/lib/player.script:809-812` — records the bonuses
        in `TSquad`:
        ```pascal
        TSquad(pSquad).fAddDamage     := gFormation[formInd].bonusdamage;
@@ -439,19 +455,21 @@ The dimensions of the mask are `gc_formation_maskmaxheight` × `gc_formation_mas
        if count < basecount * gc_player_SquadDismissPercent then
            _misc_DisbandSquad(plHnd, i, true);
        ```
-`_misc_DisbandSquad` - `data/scripts/lib/misc.script:2893-2935`.
+       `_misc_DisbandSquad` is defined in
+       `data/scripts/lib/misc.script:2893-2935`.
 
 [^13]: `data/scripts/dmscript.global:156` —
        `gc_player_SquadDismissPercent = 0.25`.
-       `_squad_GetBaseUnitCount` - `data/scripts/lib/squad.script:98-107`.
+       `_squad_GetBaseUnitCount` is defined in
+       `data/scripts/lib/squad.script:98-107`.
 
 [^14]: `data/scripts/units/global.inc/progress.inc:160-172` —
        Hold-mode state machine.
 
 [^15]: `data/scripts/units/global.inc/writemove.inc:42-44`,
-       `data/scripts/lib/player.script:1453-1455` - reset
-       `fHoldMode := False` when ordering movement.
+       `data/scripts/lib/player.script:1453-1455` — reset
+       `fHoldMode := False` on a movement order.
 
-[^16]: `data/scripts/dmscript.global:174, 180` - parameters
-       Hold-mode: `gc_squad_holdmode_time = 150 × 8 × gc_frames_to_time
+[^16]: `data/scripts/dmscript.global:174, 180` — Hold Position timing:
+       `gc_squad_holdmode_time = 150 × 8 × gc_frames_to_time
        = 37.5` game seconds.

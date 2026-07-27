@@ -1,27 +1,31 @@
 <a id="cossacks-3--tech-tree-по-нациям"></a>
 <a id="дерево-развития"></a>
-# Cossacks 3 - Tech Tree (by nation)
+# Technology Tree by Nation
 
 [← Tables and calculations](../README.md)
 
-Dependency graph: what needs to be built or researched before what. Extracted from `_country_AddFixedProduceWithAccessControl` and `_country_AddUpgradeWithAccessControl` (parameters `req0`..`req7`). The source of truth is [`derived/tech_tree.json`](../../../derived/tech_tree.json).
+This reference shows what must be built or researched before each building,
+unit, or upgrade becomes available. The canonical name appears first and
+the internal identifier follows in code formatting.
 
-**Legends:**
-- `[B]` - building, `[U]` - unit, `[T]` - upgrade (technology, research)
-- `→ X, Y` - to unlock you need X and Y at the same time
-- For buildings the base price is shown (see [building price growth](../economy/scaling_prices.md) for N>1)
+Requirement columns show the canonical name, internal identifier, and kind of
+each prerequisite. Several requirements separated by commas must all be met.
+Building tables show the price of the first copy; see
+[building price growth](../economy/scaling_prices.md) for later copies.
 
 <a id="граф-зданий-австрия-как-репрезентативный-пример"></a>
 <a id="схема-зданий-на-примере-австрии"></a>
-## Building graph (Austria as a representative example)
+## Building Diagram: Austria
 
-The graph shows the dependence of the construction of one building on another. Solid arrows - `prereqs` from `country.script`, dotted arrows - the connection “building → its upgrade” (for example, `auscen → auscen.1`, advance to the 18th century). For other nations, the graph is structurally identical - only the nation-specific names `<nat>cen`, `<nat>bar`, etc. differ.
+Each arrow runs from a requirement to the building it unlocks. The dotted
+arrow connects the Town Hall to the advance to the 18th century. Most
+nations use the same overall structure.
 ```mermaid
 graph LR
     ausaca["Academy<br/><code>ausaca</code>"]
     ausart["Artillery Depot<br/><code>ausart</code>"]
-    ausba2["Barracks 18<br/><code>ausba2</code>"]
-    ausbar["Barracks 17<br/><code>ausbar</code>"]
+    ausba2["Barracks, 18th century<br/><code>ausba2</code>"]
+    ausbar["Barracks, 17th century<br/><code>ausbar</code>"]
     ausbla["Blacksmith<br/><code>ausbla</code>"]
     auscen["Town Hall<br/><code>auscen</code>"]
     ausdip["Diplomatic Center<br/><code>ausdip</code>"]
@@ -42,7 +46,7 @@ graph LR
     ukrwwa["Palisade<br/><code>ukrwwa</code>"]
     ausbar --> ausaca
     ausaca --> ausart
-    auscen_1{"auscen.1<br/>(upgrade)"}
+    auscen_1{"Progress to the 18th Century<br/><code>auscen.1</code>"}
     auscen_1 --> ausba2
     auscen -.-> auscen_1
     ausbla --> ausbar
@@ -64,148 +68,148 @@ graph LR
 
 | Nation | Buildings | Units | Key upgrades |
 |---|---|---|---|
-| **[ALG - Algeria](#alg--algeria-алжир)** | [buildings](#alg--здания) | [units](#alg--юниты) | [upgrades](#alg--ключевые-апгрейды-с-зависимостями) |
-| **[AUS - Austria](#aus--austria-австрия)** | [buildings](#aus--здания) | [units](#aus--юниты) | [upgrades](#aus--ключевые-апгрейды-с-зависимостями) |
-| **[BAV - Bavaria](#bav--bavaria-бавария)** | [buildings](#bav--здания) | [units](#bav--юниты) | [upgrades](#bav--ключевые-апгрейды-с-зависимостями) |
-| **[DEN - Denmark](#den--denmark-дания)** | [buildings](#den--здания) | [units](#den--юниты) | [upgrades](#den--ключевые-апгрейды-с-зависимостями) |
-| **[ENG - England](#eng--england-англия)** | [buildings](#eng--здания) | [units](#eng--юниты) | [upgrades](#eng--ключевые-апгрейды-с-зависимостями) |
-| **[FRA - France](#fra--france-франция)** | [buildings](#fra--здания) | [units](#fra--юниты) | [upgrades](#fra--ключевые-апгрейды-с-зависимостями) |
-| **[HUN - Hungary](#hun--hungary-венгрия)** | [buildings](#hun--здания) | [units](#hun--юниты) | [upgrades](#hun--ключевые-апгрейды-с-зависимостями) |
-| **[NET - Netherlands](#net--netherlands-нидерланды)** | [buildings](#net--здания) | [units](#net--юниты) | [upgrades](#net--ключевые-апгрейды-с-зависимостями) |
-| **[PIE - Piedmont](#pie--piedmont-пьемонт)** | [buildings](#pie--здания) | [units](#pie--юниты) | [upgrades](#pie--ключевые-апгрейды-с-зависимостями) |
-| **[POL - Poland](#pol--poland-польша)** | [buildings](#pol--здания) | [units](#pol--юниты) | [upgrades](#pol--ключевые-апгрейды-с-зависимостями) |
-| **[POR - Portugal](#por--portugal-португалия)** | [buildings](#por--здания) | [units](#por--юниты) | [upgrades](#por--ключевые-апгрейды-с-зависимостями) |
-| **[PRU - Prussia](#pru--prussia-пруссия)** | [buildings](#pru--здания) | [units](#pru--юниты) | [upgrades](#pru--ключевые-апгрейды-с-зависимостями) |
-| **[RUS — Russia](#rus--russia-россия)** | [buildings](#rus--здания) | [units](#rus--юниты) | [upgrades](#rus--ключевые-апгрейды-с-зависимостями) |
-| **[SAX - Saxony](#sax--saxony-саксония)** | [buildings](#sax--здания) | [units](#sax--юниты) | [upgrades](#sax--ключевые-апгрейды-с-зависимостями) |
-| **[SCO - Scotland](#sco--scotland-шотландия)** | [buildings](#sco--здания) | [units](#sco--юниты) | [upgrades](#sco--ключевые-апгрейды-с-зависимостями) |
-| **[SPA - Spain](#spa--spain-испания)** | [buildings](#spa--здания) | [units](#spa--юниты) | [upgrades](#spa--ключевые-апгрейды-с-зависимостями) |
-| **[SWE - Sweden](#swe--sweden-швеция)** | [buildings](#swe--здания) | [units](#swe--юниты) | [upgrades](#swe--ключевые-апгрейды-с-зависимостями) |
-| **[SWI - Switzerland](#swi--switzerland-швейцария)** | [buildings](#swi--здания) | [units](#swi--юниты) | [upgrades](#swi--ключевые-апгрейды-с-зависимостями) |
-| **[TUR - Turkey](#tur--turkey-турция)** | [buildings](#tur--здания) | [units](#tur--юниты) | [upgrades](#tur--ключевые-апгрейды-с-зависимостями) |
-| **[UKR - Ukraine](#ukr--ukraine-украина)** | [buildings](#ukr--здания) | [units](#ukr--юниты) | [upgrades](#ukr--ключевые-апгрейды-с-зависимостями) |
-| **[VEN - Venice](#ven--venice-венеция)** | [buildings](#ven--здания) | [units](#ven--юниты) | [upgrades](#ven--ключевые-апгрейды-с-зависимостями) |
+| **[Algeria](#alg--algeria-алжир)** | [buildings](#alg--здания) | [units](#alg--юниты) | [upgrades](#alg--ключевые-апгрейды-с-зависимостями) |
+| **[Austria](#aus--austria-австрия)** | [buildings](#aus--здания) | [units](#aus--юниты) | [upgrades](#aus--ключевые-апгрейды-с-зависимостями) |
+| **[Bavaria](#bav--bavaria-бавария)** | [buildings](#bav--здания) | [units](#bav--юниты) | [upgrades](#bav--ключевые-апгрейды-с-зависимостями) |
+| **[Denmark](#den--denmark-дания)** | [buildings](#den--здания) | [units](#den--юниты) | [upgrades](#den--ключевые-апгрейды-с-зависимостями) |
+| **[England](#eng--england-англия)** | [buildings](#eng--здания) | [units](#eng--юниты) | [upgrades](#eng--ключевые-апгрейды-с-зависимостями) |
+| **[France](#fra--france-франция)** | [buildings](#fra--здания) | [units](#fra--юниты) | [upgrades](#fra--ключевые-апгрейды-с-зависимостями) |
+| **[Hungary](#hun--hungary-венгрия)** | [buildings](#hun--здания) | [units](#hun--юниты) | [upgrades](#hun--ключевые-апгрейды-с-зависимостями) |
+| **[Netherlands](#net--netherlands-нидерланды)** | [buildings](#net--здания) | [units](#net--юниты) | [upgrades](#net--ключевые-апгрейды-с-зависимостями) |
+| **[Piedmont](#pie--piedmont-пьемонт)** | [buildings](#pie--здания) | [units](#pie--юниты) | [upgrades](#pie--ключевые-апгрейды-с-зависимостями) |
+| **[Poland](#pol--poland-польша)** | [buildings](#pol--здания) | [units](#pol--юниты) | [upgrades](#pol--ключевые-апгрейды-с-зависимостями) |
+| **[Portugal](#por--portugal-португалия)** | [buildings](#por--здания) | [units](#por--юниты) | [upgrades](#por--ключевые-апгрейды-с-зависимостями) |
+| **[Prussia](#pru--prussia-пруссия)** | [buildings](#pru--здания) | [units](#pru--юниты) | [upgrades](#pru--ключевые-апгрейды-с-зависимостями) |
+| **[Russia](#rus--russia-россия)** | [buildings](#rus--здания) | [units](#rus--юниты) | [upgrades](#rus--ключевые-апгрейды-с-зависимостями) |
+| **[Saxony](#sax--saxony-саксония)** | [buildings](#sax--здания) | [units](#sax--юниты) | [upgrades](#sax--ключевые-апгрейды-с-зависимостями) |
+| **[Scotland](#sco--scotland-шотландия)** | [buildings](#sco--здания) | [units](#sco--юниты) | [upgrades](#sco--ключевые-апгрейды-с-зависимостями) |
+| **[Spain](#spa--spain-испания)** | [buildings](#spa--здания) | [units](#spa--юниты) | [upgrades](#spa--ключевые-апгрейды-с-зависимостями) |
+| **[Sweden](#swe--sweden-швеция)** | [buildings](#swe--здания) | [units](#swe--юниты) | [upgrades](#swe--ключевые-апгрейды-с-зависимостями) |
+| **[Switzerland](#swi--switzerland-швейцария)** | [buildings](#swi--здания) | [units](#swi--юниты) | [upgrades](#swi--ключевые-апгрейды-с-зависимостями) |
+| **[Turkey](#tur--turkey-турция)** | [buildings](#tur--здания) | [units](#tur--юниты) | [upgrades](#tur--ключевые-апгрейды-с-зависимостями) |
+| **[Ukraine](#ukr--ukraine-украина)** | [buildings](#ukr--здания) | [units](#ukr--юниты) | [upgrades](#ukr--ключевые-апгрейды-с-зависимостями) |
+| **[Venice](#ven--venice-венеция)** | [buildings](#ven--здания) | [units](#ven--юниты) | [upgrades](#ven--ключевые-апгрейды-с-зависимостями) |
 
 <a id="alg--algeria-алжир"></a>
 <a id="алжир"></a>
 ## Algeria (`alg`)
 <a id="alg--здания"></a>
 <a id="здания--алжир"></a>
-### `alg` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `algaca` | Minaret | 156.2 | W1450 S1100 | — | [B] `algbar` |
-| `algart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `algaca` |
-| `algbar` | Barracks | 93.8 | W400 S400 | 50 | [B] `algbla` |
-| `algbla` | Blacksmith | 109.4 | W100 S30 I640 | — | [B] `algcen` |
-| `algcen` | Town Hall | 156.2 | W450 S700 | 50 | — |
-| `algdip` | Diplomatic Center | 312.5 | W4600 S2020 | — | [B] `algaca` |
-| `alghou` | Housing | 31.2 | W100 S100 | 25 | [B] `algcen` |
-| `algsta` | Stable | 156.2 | W1000 S2200 | — | [B] `algbla` |
-| `algtem` | Mosque | 93.8 | W1000 S1200 I500 | — | [B] `algcen` |
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `turmar` | Bazaar | 234.4 | W450 S150 | — | [B] `turmil`, [B] `tursto` |
-| `turmil` | Mill | 93.8 | W30 S150 | — | — |
-| `turpor` | Shipyard | 1562.5 | W800 S800 I400 | — | [B] `turmar` |
-| `tursga` | Gate | 120.0 | S60 | — | — |
-| `tursto` | Storehouse | 31.2 | W30 S10 | — | [B] `algcen` |
-| `turswa` | Wall | 120.0 | S60 | — | [B] `tursto` |
-| `turtow` | Tower | 984.4 | W150 S90 G100 | — | [B] `tursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `tursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Minaret** (`algaca`) | 156.2 | wood 1,450, stone 1,100 | — | Barracks (`algbar`; building) |
+| **Artillery Depot** (`algart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Minaret (`algaca`; building) |
+| **Barracks** (`algbar`) | 93.8 | wood 400, stone 400 | 50 | Blacksmith (`algbla`; building) |
+| **Blacksmith** (`algbla`) | 109.4 | wood 100, stone 30, iron 640 | — | Town Hall (`algcen`; building) |
+| **Town Hall** (`algcen`) | 156.2 | wood 450, stone 700 | 50 | — |
+| **Diplomatic Center** (`algdip`) | 312.5 | wood 4,600, stone 2,020 | — | Minaret (`algaca`; building) |
+| **Housing** (`alghou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`algcen`; building) |
+| **Stable** (`algsta`) | 156.2 | wood 1,000, stone 2,200 | — | Blacksmith (`algbla`; building) |
+| **Mosque** (`algtem`) | 93.8 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`algcen`; building) |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Bazaar** (`turmar`) | 234.4 | wood 450, stone 150 | — | Mill (`turmil`; building), Storehouse (`tursto`; building) |
+| **Mill** (`turmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`turpor`) | 1562.5 | wood 800, stone 800, iron 400 | — | Bazaar (`turmar`; building) |
+| **Gate** (`tursga`) | 120.0 | stone 60 | — | — |
+| **Storehouse** (`tursto`) | 31.2 | wood 30, stone 10 | — | Town Hall (`algcen`; building) |
+| **Wall** (`turswa`) | 120.0 | stone 60 | — | Storehouse (`tursto`; building) |
+| **Tower** (`turtow`) | 984.4 | wood 150, stone 90, gold 100 | — | Storehouse (`tursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`tursto`; building) |
 
 <a id="alg--юниты"></a>
 <a id="юниты--алжир"></a>
-### `alg` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archer` | Archer | 1.50 | F20 W2 G1 | algbar | — |
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | algdip | [B] `algaca`, [B] `algcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | algdip | [B] `algaca`, [B] `algcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | turpor | [T] `algaca.29`, [B] `algart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | algart | [B] `algbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | algdip | [B] `algaca`, [B] `algcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | algdip | [B] `algaca`, [B] `algcen` |
-| `drummertur` | Drummer, 17th century | 4.00 | F30 G15 | algbar | [B] `algaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | turpor | [B] `algart` |
-| `fishboat` | Boat | 40.00 | W600 | turpor | — |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | turpor | [B] `algart` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | algdip | [B] `algaca`, [B] `algcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | algart | [B] `algbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | algdip | [B] `algaca`, [B] `algcen` |
-| `lightinfantry` | Light Infantryman | 1.00 | F25 I1 | algbar | — |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | algdip | [B] `algaca`, [B] `algcen` |
-| `mameluke` | Mameluke | 12.00 | F100 W5 G8 | algsta | — |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | algart | [B] `algbla` |
-| `mullah` | Mullah | 15.00 | F30 G10 | algtem | — |
-| `officertur` | Officer | 7.50 | F50 G100 | algbar | [B] `algaca` |
-| `peatur` | Peasant | 12.50 | F100 | algcen | — |
-| `pikemantur` | Ottoman Pikeman | 5.50 | F55 G5 | algbar | [B] `algbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | algdip | [B] `algaca`, [B] `algcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `xebec` | Xebec | 230.00 | W7000 G1600 I320 C960 | turpor | [T] `algaca.6`, [B] `algart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer** (`archer`) | 1.50 | food 20, wood 2, gold 1 | Barracks (`algbar`) | — |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`turpor`) | Design new rib system and new hulls (battleship construction) (`algaca.29`; upgrade), Artillery Depot (`algart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`algart`) | Blacksmith (`algbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Drummer, 17th century** (`drummertur`) | 4.00 | food 30, gold 15 | Barracks (`algbar`) | Minaret (`algaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`turpor`) | Artillery Depot (`algart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`turpor`) | — |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`turpor`) | Artillery Depot (`algart`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`algart`) | Blacksmith (`algbla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Light Infantryman** (`lightinfantry`) | 1.00 | food 25, iron 1 | Barracks (`algbar`) | — |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Mameluke** (`mameluke`) | 12.00 | food 100, wood 5, gold 8 | Stable (`algsta`) | — |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`algart`) | Blacksmith (`algbla`; building) |
+| **Mullah** (`mullah`) | 15.00 | food 30, gold 10 | Mosque (`algtem`) | — |
+| **Officer** (`officertur`) | 7.50 | food 50, gold 100 | Barracks (`algbar`) | Minaret (`algaca`; building) |
+| **Peasant** (`peatur`) | 12.50 | food 100 | Town Hall (`algcen`) | — |
+| **Ottoman Pikeman** (`pikemantur`) | 5.50 | food 55, gold 5 | Barracks (`algbar`) | Blacksmith (`algbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`algdip`) | Minaret (`algaca`; building), Town Hall (`algcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Xebec** (`xebec`) | 230.00 | wood 7,000, gold 1,600, iron 320, coal 960 | Shipyard (`turpor`) | Develop new woodworking methods (xebec building) (`algaca.6`; upgrade), Artillery Depot (`algart`; building) |
 
 <a id="alg--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--алжир"></a>
-### `alg` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `algaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 | [B] `algart` |
-| `algaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 | [B] `algart` |
-| `algaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `algart` |
-| `algaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `algart` |
-| `algaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `algart` |
-| `algaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `algart` |
-| `algaca.28` | Design new rigging types (ship speed +40%) | 15.6 | G1900 | [B] `turpor` |
-| `algaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `turpor` |
-| `algaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | S42700 | [B] `turpor` |
-| `algaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `turpor` |
-| `algaca.6` | Develop new woodworking methods (xebec building) | 15.6 | W9500 G7040 | [B] `turpor` |
-| `algaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `turpor` |
-| `algaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `algbla` |
-| `algart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `algbla` |
-| `algart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `algbla` |
-| `algart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `algbla` |
-| `algart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.cannon.2.1` | — | 10.0 | G950 I1000 | [B] `algbla` |
-| `algart.cannon.2.2` | — | 10.0 | G150 I2000 | [B] `algbla` |
-| `algart.cannon.2.3` | — | 10.0 | G250 I3000 | [B] `algbla` |
-| `algart.cannon.2.4` | — | 15.6 | F2560 G1350 | [B] `algbla` |
-| `algart.cannon.2.5` | — | 15.6 | F3560 G2500 | [B] `algbla` |
-| `algart.cannon.2.6` | — | 15.6 | F5560 G3350 | [B] `algbla` |
-| `algart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `algbla` |
-| `algart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `algbla` |
-| `algart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `algbla` |
-| `algart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `algbla` |
-| `algart.howitzer.2.1` | — | 10.0 | G350 I1000 | [B] `algbla` |
-| `algart.howitzer.2.2` | — | 10.0 | G450 I2000 | [B] `algbla` |
-| `algart.howitzer.2.3` | — | 10.0 | G550 I3000 | [B] `algbla` |
-| `algart.howitzer.2.4` | — | 31.2 | F2560 G1150 | [B] `algbla` |
-| `algart.howitzer.2.5` | — | 31.2 | F3560 G3200 | [B] `algbla` |
-| `algart.howitzer.2.6` | — | 31.2 | F5560 G4500 | [B] `algbla` |
-| `algbar.lightinfantry.1.4` | — | 15.6 | F3000 G360 | [B] `algbla` |
-| `algbar.lightinfantry.1.5` | — | 15.6 | F4500 G540 | [B] `algbla` |
-| `algbar.lightinfantry.1.6` | — | 15.6 | F9375 G1125 | [B] `algbla` |
-| `algbar.lightinfantry.2.4` | — | 15.6 | F3600 G600 | [B] `algbla` |
-| `algbar.lightinfantry.2.5` | — | 15.6 | F5400 G900 | [B] `algbla` |
-| `algbar.lightinfantry.2.6` | — | 15.6 | F11250 G1875 | [B] `algbla` |
-| `algbar.pikemantur.1.6` | — | 15.6 | F18750 G2350 | [B] `algbla` |
-| `algbar.pikemantur.2.6` | — | 15.6 | F16875 G2250 | [B] `algbla` |
-| `turpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `algart` |
-| `turtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `algart` |
-| `turtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `algart` |
-| `turtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `algart` |
-| `turtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `algart` |
-| `turtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `algart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`algaca.16`) | 15.6 | gold 2,000 | Artillery Depot (`algart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`algaca.17`) | 15.6 | stone 3,000, gold 4,550 | Artillery Depot (`algart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`algaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`algart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`algaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`algart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`algaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`algart`; building) |
+| **Develop mathematics (artillery accuracy +35%)** (`algaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`algart`; building) |
+| **Design new rigging types (ship speed +40%)** (`algaca.28`) | 15.6 | gold 1,900 | Shipyard (`turpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`algaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`turpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`algaca.30`) | 15.6 | stone 42,700 | Shipyard (`turpor`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`algaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`turpor`; building) |
+| **Develop new woodworking methods (xebec building)** (`algaca.6`) | 15.6 | wood 9,500, gold 7,040 | Shipyard (`turpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`algaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`turpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`algaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.1`) | 10.0 | gold 950, iron 1,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.2`) | 10.0 | gold 150, iron 2,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.3`) | 10.0 | gold 250, iron 3,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.4`) | 15.6 | food 2,560, gold 1,350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.5`) | 15.6 | food 3,560, gold 2,500 | Blacksmith (`algbla`; building) |
+| **—** (`algart.cannon.2.6`) | 15.6 | food 5,560, gold 3,350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.1`) | 10.0 | gold 350, iron 1,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.2`) | 10.0 | gold 450, iron 2,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.3`) | 10.0 | gold 550, iron 3,000 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.4`) | 31.2 | food 2,560, gold 1,150 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.5`) | 31.2 | food 3,560, gold 3,200 | Blacksmith (`algbla`; building) |
+| **—** (`algart.howitzer.2.6`) | 31.2 | food 5,560, gold 4,500 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.1.4`) | 15.6 | food 3,000, gold 360 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.1.5`) | 15.6 | food 4,500, gold 540 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.1.6`) | 15.6 | food 9,375, gold 1,125 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.2.4`) | 15.6 | food 3,600, gold 600 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.2.5`) | 15.6 | food 5,400, gold 900 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.lightinfantry.2.6`) | 15.6 | food 11,250, gold 1,875 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.pikemantur.1.6`) | 15.6 | food 18,750, gold 2,350 | Blacksmith (`algbla`; building) |
+| **—** (`algbar.pikemantur.2.6`) | 15.6 | food 16,875, gold 2,250 | Blacksmith (`algbla`; building) |
+| **Train woodworkers (repair all ships)** (`turpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`algart`; building) |
+| **Increase number of defensive cannons (20%)** (`turtow.1`) | 31.2 | gold 250 | Artillery Depot (`algart`; building) |
+| **Increase number of defensive cannons (20%)** (`turtow.2`) | 31.2 | iron 350 | Artillery Depot (`algart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.3`) | 31.2 | coal 400 | Artillery Depot (`algart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.4`) | 31.2 | iron 450 | Artillery Depot (`algart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.5`) | 31.2 | coal 500 | Artillery Depot (`algart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -214,157 +218,157 @@ graph LR
 ## Austria (`aus`)
 <a id="aus--здания"></a>
 <a id="здания--австрия"></a>
-### `aus` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `ausaca` | Academy | 625.0 | W1250 S1100 | — | [B] `ausbar` |
-| `ausart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `ausaca` |
-| `ausba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `auscen.1` |
-| `ausbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `ausbla` |
-| `ausbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `auscen` |
-| `auscen` | Town Hall | 46.9 | W700 S700 | 100 | — |
-| `ausdip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `ausaca` |
-| `aushou` | Housing | 31.2 | W100 S100 | 25 | [B] `auscen` |
-| `aussta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `ausbla` |
-| `austem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `auscen` |
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `auscen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Academy** (`ausaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`ausbar`; building) |
+| **Artillery Depot** (`ausart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`ausaca`; building) |
+| **Barracks, 18th century** (`ausba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Barracks, 17th century** (`ausbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`ausbla`; building) |
+| **Blacksmith** (`ausbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`auscen`; building) |
+| **Town Hall** (`auscen`) | 46.9 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`ausdip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`ausaca`; building) |
+| **Housing** (`aushou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`auscen`; building) |
+| **Stable** (`aussta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`ausbla`; building) |
+| **Cathedral** (`austem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`auscen`; building) |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`auscen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="aus--юниты"></a>
 <a id="юниты--австрия"></a>
-### `aus` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `ausaca.29`, [B] `ausart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | ausart | [B] `ausbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `croat` | Croat | 15.75 | F80 G6 I2 | aussta | [B] `ausbla` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | aussta | [B] `ausbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | ausbar | [B] `ausaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | ausba2 | [B] `ausaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `ausart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `ausaca.6`, [B] `ausart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `ausart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | ausba2 | [B] `ausbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | ausart | [B] `ausbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | aussta | [B] `ausbla`, [T] `auscen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | ausart | [B] `ausbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | ausart | [T] `ausaca.19`, [B] `ausbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | ausba2 | [B] `ausbla` |
-| `musketeeraus` | Musketeer, 17th century | 6.50 | F35 G9 I15 | ausbar | [B] `ausbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | ausbar | [B] `ausaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | ausba2 | [B] `ausaca` |
-| `pandur` | Pandur | 5.50 | F40 G15 I10 | ausba2 | [B] `ausbla` |
-| `peaaus` | Peasant | 12.50 | F100 | auscen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | ausbar | [B] `ausbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | ausba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | austem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | aussta | [B] `ausbla` |
-| `roundshier` | Roundshier | 4.00 | F20 G3 I25 | ausbar | [B] `ausbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | ausdip | [B] `ausaca`, [B] `auscen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `ausart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`ausaca.29`; upgrade), Artillery Depot (`ausart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`ausart`) | Blacksmith (`ausbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Croat** (`croat`) | 15.75 | food 80, gold 6, iron 2 | Stable (`aussta`) | Blacksmith (`ausbla`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`aussta`) | Blacksmith (`ausbla`; building), Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`aussta`) | Blacksmith (`ausbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`aussta`) | Blacksmith (`ausbla`; building), Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`ausbar`) | Academy (`ausaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`ausba2`) | Academy (`ausaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`ausart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`ausaca.6`; upgrade), Artillery Depot (`ausart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`ausart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`ausba2`) | Blacksmith (`ausbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`ausart`) | Blacksmith (`ausbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`aussta`) | Blacksmith (`ausbla`; building), Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`ausart`) | Blacksmith (`ausbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`ausart`) | Design multi-barrelled cannon (`ausaca.19`; upgrade), Blacksmith (`ausbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`ausba2`) | Blacksmith (`ausbla`; building) |
+| **Musketeer, 17th century** (`musketeeraus`) | 6.50 | food 35, gold 9, iron 15 | Barracks, 17th century (`ausbar`) | Blacksmith (`ausbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`ausbar`) | Academy (`ausaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`ausba2`) | Academy (`ausaca`; building) |
+| **Pandur** (`pandur`) | 5.50 | food 40, gold 15, iron 10 | Barracks, 18th century (`ausba2`) | Blacksmith (`ausbla`; building) |
+| **Peasant** (`peaaus`) | 12.50 | food 100 | Town Hall (`auscen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`ausbar`) | Blacksmith (`ausbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`ausba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`austem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`aussta`) | Blacksmith (`ausbla`; building) |
+| **Roundshier** (`roundshier`) | 4.00 | food 20, gold 3, iron 25 | Barracks, 17th century (`ausbar`) | Blacksmith (`ausbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`ausdip`) | Academy (`ausaca`; building), Town Hall (`auscen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`ausart`; building) |
 
 <a id="aus--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--австрия"></a>
-### `aus` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `ausaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `ausbla` |
-| `ausaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `ausbla` |
-| `ausaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `ausbla` |
-| `ausaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `ausbla` |
-| `ausaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `ausart` |
-| `ausaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `ausart` |
-| `ausaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `ausart` |
-| `ausaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `ausart` |
-| `ausaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `ausart` |
-| `ausaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `ausart` |
-| `ausaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `auscen.1` |
-| `ausaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `ausart` |
-| `ausaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `ausaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `ausaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `ausaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `auscen.1` |
-| `ausaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `ausbla` |
-| `ausaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `auscen.1`, [B] `ausbla` |
-| `ausaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `auscen.1`, [B] `ausbla` |
-| `ausaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `ausaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `ausaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `ausaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `ausbla` |
-| `ausart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `ausbla` |
-| `ausart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `ausbla` |
-| `ausart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `ausbla` |
-| `ausart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `ausbla` |
-| `ausart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `ausbla` |
-| `ausart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `ausbla` |
-| `ausart.cannon.2.4` | — | 15.6 | F2560 | [B] `ausbla` |
-| `ausart.cannon.2.5` | — | 15.6 | F3560 | [B] `ausbla` |
-| `ausart.cannon.2.6` | — | 15.6 | F5560 | [B] `ausbla` |
-| `ausart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `ausbla` |
-| `ausart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `ausbla` |
-| `ausart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `ausbla` |
-| `ausart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `ausbla` |
-| `ausart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `ausbla` |
-| `ausart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `ausbla` |
-| `ausart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `ausbla` |
-| `ausart.howitzer.2.4` | — | 31.2 | F2560 | [B] `ausbla` |
-| `ausart.howitzer.2.5` | — | 31.2 | F3560 | [B] `ausbla` |
-| `ausart.howitzer.2.6` | — | 31.2 | F5560 | [B] `ausbla` |
-| `ausbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `ausbla` |
-| `ausbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `ausbla` |
-| `ausbar.roundshier.1.4` | — | 15.6 | F7500 G900 | [B] `ausbla` |
-| `ausbar.roundshier.1.5` | — | 15.6 | F9000 G1080 | [B] `ausbla` |
-| `ausbar.roundshier.1.6` | — | 15.6 | F18750 G2250 | [B] `ausbla` |
-| `ausbar.roundshier.2.4` | — | 15.6 | F3750 G450 | [B] `ausbla` |
-| `ausbar.roundshier.2.5` | — | 15.6 | F6750 G810 | [B] `ausbla` |
-| `ausbar.roundshier.2.6` | — | 15.6 | F9375 G1125 | [B] `ausbla` |
-| `ausbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `auscen.1` |
-| `auscen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `ausaca`, [B] `austem`, [B] `ausart` |
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `auscen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `auscen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `auscen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `auscen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `auscen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `auscen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `auscen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `auscen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `auscen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `ausart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `ausart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `ausart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `ausart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `ausart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `ausart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `auscen.1` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`ausaca.12`) | 15.6 | iron 5,000 | Blacksmith (`ausbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`ausaca.13`) | 15.6 | gold 4,000 | Blacksmith (`ausbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`ausaca.14`) | 15.6 | gold 7,000 | Blacksmith (`ausbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`ausaca.15`) | 15.6 | coal 11,000 | Blacksmith (`ausbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`ausaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`ausart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`ausaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`ausart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`ausaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`ausart`; building) |
+| **Design multi-barrelled cannon** (`ausaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`ausart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`ausaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`ausart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`ausaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`ausart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`ausaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`ausaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`ausart`; building) |
+| **Design new rigging types (ship speed +40%)** (`ausaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`ausaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`ausaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`ausaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`ausaca.34`) | 15.6 | gold 9,750 | Blacksmith (`ausbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`ausaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`auscen.1`; upgrade), Blacksmith (`ausbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`ausaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`auscen.1`; upgrade), Blacksmith (`ausbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`ausaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`ausaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`ausaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`ausaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.1.4`) | 15.6 | food 7,500, gold 900 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.1.5`) | 15.6 | food 9,000, gold 1,080 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.1.6`) | 15.6 | food 18,750, gold 2,250 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.2.4`) | 15.6 | food 3,750, gold 450 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.2.5`) | 15.6 | food 6,750, gold 810 | Blacksmith (`ausbla`; building) |
+| **—** (`ausbar.roundshier.2.6`) | 15.6 | food 9,375, gold 1,125 | Blacksmith (`ausbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`ausbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Progress to the 18th Century** (`auscen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`ausaca`; building), Cathedral (`austem`; building), Artillery Depot (`ausart`; building) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`auscen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`ausart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`ausart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`ausart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`ausart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`ausart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`ausart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`auscen.1`; upgrade) |
 
 [↑ to contents](#содержание)
 
@@ -373,148 +377,148 @@ graph LR
 ## Bavaria (`bav`)
 <a id="bav--здания"></a>
 <a id="здания--бавария"></a>
-### `bav` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `bavaca` | Academy | 625.0 | W1250 S1100 | — | [B] `bavbar` |
-| `bavart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `bavaca` |
-| `bavba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `bavcen.1` |
-| `bavbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `bavbla` |
-| `bavbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `bavcen` |
-| `bavcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `bavdip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `bavaca` |
-| `bavhou` | Housing | 31.2 | W100 S100 | 25 | [B] `bavcen` |
-| `bavsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `bavbla` |
-| `bavtem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `bavcen` |
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `bavcen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Academy** (`bavaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`bavbar`; building) |
+| **Artillery Depot** (`bavart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`bavaca`; building) |
+| **Barracks, 18th century** (`bavba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Barracks, 17th century** (`bavbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`bavbla`; building) |
+| **Blacksmith** (`bavbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`bavcen`; building) |
+| **Town Hall** (`bavcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`bavdip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`bavaca`; building) |
+| **Housing** (`bavhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`bavcen`; building) |
+| **Stable** (`bavsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`bavbla`; building) |
+| **Cathedral** (`bavtem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`bavcen`; building) |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`bavcen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="bav--юниты"></a>
 <a id="юниты--бавария"></a>
-### `bav` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `bavaca.29`, [B] `bavart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | bavart | [B] `bavbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | bavsta | [B] `bavbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | bavbar | [B] `bavaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | bavba2 | [B] `bavaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `bavart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `bavaca.6`, [B] `bavart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `bavart` |
-| `grenadierbav` | Grenadier | 6.00 | F95 G70 I40 | bavba2 | [B] `bavbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | bavart | [B] `bavbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | bavsta | [B] `bavbla`, [T] `bavcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | bavart | [B] `bavbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | bavart | [T] `bavaca.19`, [B] `bavbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | bavbar | [B] `bavbla` |
-| `musketeer18bav` | Musketeer, 18th century | 5.00 | F60 G55 I35 | bavba2 | [B] `bavbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | bavbar | [B] `bavaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | bavba2 | [B] `bavaca` |
-| `peaaus` | Peasant | 12.50 | F100 | bavcen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | bavbar | [B] `bavbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | bavba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | bavtem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | bavsta | [B] `bavbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | bavdip | [B] `bavaca`, [B] `bavcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `bavart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`bavaca.29`; upgrade), Artillery Depot (`bavart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`bavart`) | Blacksmith (`bavbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`bavsta`) | Blacksmith (`bavbla`; building), Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`bavsta`) | Blacksmith (`bavbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`bavsta`) | Blacksmith (`bavbla`; building), Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`bavbar`) | Academy (`bavaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`bavba2`) | Academy (`bavaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`bavart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`bavaca.6`; upgrade), Artillery Depot (`bavart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`bavart`; building) |
+| **Grenadier** (`grenadierbav`) | 6.00 | food 95, gold 70, iron 40 | Barracks, 18th century (`bavba2`) | Blacksmith (`bavbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`bavart`) | Blacksmith (`bavbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`bavsta`) | Blacksmith (`bavbla`; building), Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`bavart`) | Blacksmith (`bavbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`bavart`) | Design multi-barrelled cannon (`bavaca.19`; upgrade), Blacksmith (`bavbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`bavbar`) | Blacksmith (`bavbla`; building) |
+| **Musketeer, 18th century** (`musketeer18bav`) | 5.00 | food 60, gold 55, iron 35 | Barracks, 18th century (`bavba2`) | Blacksmith (`bavbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`bavbar`) | Academy (`bavaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`bavba2`) | Academy (`bavaca`; building) |
+| **Peasant** (`peaaus`) | 12.50 | food 100 | Town Hall (`bavcen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`bavbar`) | Blacksmith (`bavbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`bavba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`bavtem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`bavsta`) | Blacksmith (`bavbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`bavdip`) | Academy (`bavaca`; building), Town Hall (`bavcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`bavart`; building) |
 
 <a id="bav--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--бавария"></a>
-### `bav` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `bavaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `bavbla` |
-| `bavaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `bavbla` |
-| `bavaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `bavbla` |
-| `bavaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `bavbla` |
-| `bavaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `bavart` |
-| `bavaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `bavart` |
-| `bavaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `bavart` |
-| `bavaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `bavart` |
-| `bavaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `bavart` |
-| `bavaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `bavart` |
-| `bavaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `bavcen.1` |
-| `bavaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `bavart` |
-| `bavaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `bavaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `bavaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `bavaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `bavcen.1` |
-| `bavaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `bavbla` |
-| `bavaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `bavcen.1`, [B] `bavbla` |
-| `bavaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `bavcen.1`, [B] `bavbla` |
-| `bavaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `bavaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `bavaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `bavaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `bavbla` |
-| `bavart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `bavbla` |
-| `bavart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `bavbla` |
-| `bavart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `bavbla` |
-| `bavart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `bavbla` |
-| `bavart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `bavbla` |
-| `bavart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `bavbla` |
-| `bavart.cannon.2.4` | — | 15.6 | F2560 | [B] `bavbla` |
-| `bavart.cannon.2.5` | — | 15.6 | F3560 | [B] `bavbla` |
-| `bavart.cannon.2.6` | — | 15.6 | F5560 | [B] `bavbla` |
-| `bavart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `bavbla` |
-| `bavart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `bavbla` |
-| `bavart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `bavbla` |
-| `bavart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `bavbla` |
-| `bavart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `bavbla` |
-| `bavart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `bavbla` |
-| `bavart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `bavbla` |
-| `bavart.howitzer.2.4` | — | 31.2 | F2560 | [B] `bavbla` |
-| `bavart.howitzer.2.5` | — | 31.2 | F3560 | [B] `bavbla` |
-| `bavart.howitzer.2.6` | — | 31.2 | F5560 | [B] `bavbla` |
-| `bavbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `bavbla` |
-| `bavbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `bavbla` |
-| `bavbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `bavcen.1` |
-| `bavcen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `bavaca`, [B] `bavtem`, [B] `bavart` |
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `bavcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `bavcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `bavcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `bavcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `bavcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `bavcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `bavcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `bavcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `bavcen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `bavart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `bavart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `bavart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `bavart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `bavart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `bavart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `bavcen.1` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`bavaca.12`) | 15.6 | iron 5,000 | Blacksmith (`bavbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`bavaca.13`) | 15.6 | gold 4,000 | Blacksmith (`bavbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`bavaca.14`) | 15.6 | gold 7,000 | Blacksmith (`bavbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`bavaca.15`) | 15.6 | coal 11,000 | Blacksmith (`bavbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`bavaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`bavart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`bavaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`bavart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`bavaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`bavart`; building) |
+| **Design multi-barrelled cannon** (`bavaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`bavart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`bavaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`bavart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`bavaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`bavart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`bavaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`bavaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`bavart`; building) |
+| **Design new rigging types (ship speed +40%)** (`bavaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`bavaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`bavaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`bavaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`bavaca.34`) | 15.6 | gold 9,750 | Blacksmith (`bavbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`bavaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`bavcen.1`; upgrade), Blacksmith (`bavbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`bavaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`bavcen.1`; upgrade), Blacksmith (`bavbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`bavaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`bavaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`bavaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`bavaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`bavbla`; building) |
+| **—** (`bavbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`bavbla`; building) |
+| **—** (`bavbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`bavbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`bavbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Progress to the 18th Century** (`bavcen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`bavaca`; building), Cathedral (`bavtem`; building), Artillery Depot (`bavart`; building) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`bavcen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`bavart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`bavart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`bavart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`bavart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`bavart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`bavart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`bavcen.1`; upgrade) |
 
 [↑ to contents](#содержание)
 
@@ -523,147 +527,147 @@ graph LR
 ## Denmark (`den`)
 <a id="den--здания"></a>
 <a id="здания--дания"></a>
-### `den` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `denaca` | Academy | 625.0 | W1450 S900 | — | [B] `denbar` |
-| `denart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `denaca` |
-| `denba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `dencen.1` |
-| `denbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `denbla` |
-| `denbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `dencen` |
-| `dencen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `dendip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `denaca` |
-| `denhou` | Housing | 31.2 | W100 S100 | 25 | [B] `dencen` |
-| `densta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `denbla` |
-| `dentem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `dencen` |
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `dencen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Academy** (`denaca`) | 625.0 | wood 1,450, stone 900 | — | Barracks, 17th century (`denbar`; building) |
+| **Artillery Depot** (`denart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`denaca`; building) |
+| **Barracks, 18th century** (`denba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Barracks, 17th century** (`denbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`denbla`; building) |
+| **Blacksmith** (`denbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`dencen`; building) |
+| **Town Hall** (`dencen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`dendip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`denaca`; building) |
+| **Housing** (`denhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`dencen`; building) |
+| **Stable** (`densta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`denbla`; building) |
+| **Cathedral** (`dentem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`dencen`; building) |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`dencen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="den--юниты"></a>
 <a id="юниты--дания"></a>
-### `den` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | dendip | [B] `denaca`, [B] `dencen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | dendip | [B] `denaca`, [B] `dencen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `denaca.29`, [B] `denart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | denart | [B] `denbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | dendip | [B] `denaca`, [B] `dencen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | densta | [B] `denbla`, [T] `dencen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | densta | [B] `denbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | densta | [B] `denbla`, [T] `dencen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | dendip | [B] `denaca`, [B] `dencen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | denbar | [B] `denaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | denba2 | [B] `denaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `denart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `denaca.6`, [B] `denart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `denart` |
-| `grenadierden` | Grenadier | 6.50 | F100 G90 I40 | denba2 | [B] `denbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | dendip | [B] `denaca`, [B] `dencen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | denart | [B] `denbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | densta | [B] `denbla`, [T] `dencen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | dendip | [B] `denaca`, [B] `dencen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | dendip | [B] `denaca`, [B] `dencen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | denart | [B] `denbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | denart | [T] `denaca.19`, [B] `denbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | denbar | [B] `denbla` |
-| `musketeer18den` | Musketeer, 18th century | 5.50 | F50 G80 I40 | denba2 | [B] `denbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | denbar | [B] `denaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | denba2 | [B] `denaca` |
-| `peaeng` | Peasant | 12.50 | F100 | dencen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | denbar | [B] `denbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | denba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | dentem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | densta | [B] `denbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | dendip | [B] `denaca`, [B] `dencen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `denart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`denaca.29`; upgrade), Artillery Depot (`denart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`denart`) | Blacksmith (`denbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`densta`) | Blacksmith (`denbla`; building), Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`densta`) | Blacksmith (`denbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`densta`) | Blacksmith (`denbla`; building), Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`denbar`) | Academy (`denaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`denba2`) | Academy (`denaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`denart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`denaca.6`; upgrade), Artillery Depot (`denart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`denart`; building) |
+| **Grenadier** (`grenadierden`) | 6.50 | food 100, gold 90, iron 40 | Barracks, 18th century (`denba2`) | Blacksmith (`denbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`denart`) | Blacksmith (`denbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`densta`) | Blacksmith (`denbla`; building), Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`denart`) | Blacksmith (`denbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`denart`) | Design multi-barrelled cannon (`denaca.19`; upgrade), Blacksmith (`denbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`denbar`) | Blacksmith (`denbla`; building) |
+| **Musketeer, 18th century** (`musketeer18den`) | 5.50 | food 50, gold 80, iron 40 | Barracks, 18th century (`denba2`) | Blacksmith (`denbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`denbar`) | Academy (`denaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`denba2`) | Academy (`denaca`; building) |
+| **Peasant** (`peaeng`) | 12.50 | food 100 | Town Hall (`dencen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`denbar`) | Blacksmith (`denbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`denba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`dentem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`densta`) | Blacksmith (`denbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`dendip`) | Academy (`denaca`; building), Town Hall (`dencen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`denart`; building) |
 
 <a id="den--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--дания"></a>
-### `den` - key upgrades (with dependencies)
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `denaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `denbla` |
-| `denaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `denbla` |
-| `denaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `denbla` |
-| `denaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `denbla` |
-| `denaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `denart` |
-| `denaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `denart` |
-| `denaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `denart` |
-| `denaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `denart` |
-| `denaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `denart` |
-| `denaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `denart` |
-| `denaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `dencen.1` |
-| `denaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `denart` |
-| `denaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `denaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `denaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `denaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `dencen.1` |
-| `denaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `denbla` |
-| `denaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `dencen.1`, [B] `denbla` |
-| `denaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `dencen.1`, [B] `denbla` |
-| `denaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `denaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `denaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `denaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `denbla` |
-| `denart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `denbla` |
-| `denart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `denbla` |
-| `denart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `denbla` |
-| `denart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `denbla` |
-| `denart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `denbla` |
-| `denart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `denbla` |
-| `denart.cannon.2.4` | — | 15.6 | F2560 | [B] `denbla` |
-| `denart.cannon.2.5` | — | 15.6 | F3560 | [B] `denbla` |
-| `denart.cannon.2.6` | — | 15.6 | F5560 | [B] `denbla` |
-| `denart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `denbla` |
-| `denart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `denbla` |
-| `denart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `denbla` |
-| `denart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `denbla` |
-| `denart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `denbla` |
-| `denart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `denbla` |
-| `denart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `denbla` |
-| `denart.howitzer.2.4` | — | 31.2 | F2560 | [B] `denbla` |
-| `denart.howitzer.2.5` | — | 31.2 | F3560 | [B] `denbla` |
-| `denart.howitzer.2.6` | — | 31.2 | F5560 | [B] `denbla` |
-| `denbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `denbla` |
-| `denbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `denbla` |
-| `denbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `dencen.1` |
-| `dencen.1` | Progress to the 18th Century | 9.4 | F20000 G6500 I1100 C1100 | [B] `denaca`, [B] `dentem`, [B] `denart` |
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `dencen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `dencen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `dencen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `dencen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `dencen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `dencen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `dencen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `dencen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `dencen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `denart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `denart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `denart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `denart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `denart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `denart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `dencen.1` |
+### Key Upgrades
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`denaca.12`) | 15.6 | iron 5,000 | Blacksmith (`denbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`denaca.13`) | 15.6 | gold 4,000 | Blacksmith (`denbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`denaca.14`) | 15.6 | gold 7,000 | Blacksmith (`denbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`denaca.15`) | 15.6 | coal 11,000 | Blacksmith (`denbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`denaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`denart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`denaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`denart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`denaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`denart`; building) |
+| **Design multi-barrelled cannon** (`denaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`denart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`denaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`denart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`denaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`denart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`denaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`denaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`denart`; building) |
+| **Design new rigging types (ship speed +40%)** (`denaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`denaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`denaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`denaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`denaca.34`) | 15.6 | gold 9,750 | Blacksmith (`denbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`denaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`dencen.1`; upgrade), Blacksmith (`denbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`denaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`dencen.1`; upgrade), Blacksmith (`denbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`denaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`denaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`denaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`denaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`denbla`; building) |
+| **—** (`denart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`denbla`; building) |
+| **—** (`denart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`denbla`; building) |
+| **—** (`denbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`denbla`; building) |
+| **—** (`denbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`denbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`denbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Progress to the 18th Century** (`dencen.1`) | 9.4 | food 20,000, gold 6,500, iron 1,100, coal 1,100 | Academy (`denaca`; building), Cathedral (`dentem`; building), Artillery Depot (`denart`; building) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`dencen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`denart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`denart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`denart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`denart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`denart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`denart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`dencen.1`; upgrade) |
 
 [↑ to contents](#содержание)
 
@@ -672,152 +676,152 @@ graph LR
 ## England (`eng`)
 <a id="eng--здания"></a>
 <a id="здания--англия"></a>
-### `eng` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `engaca` | Academy | 625.0 | W1150 S1200 | — | [B] `engbar` |
-| `engart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `engaca` |
-| `engba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `engcen.1` |
-| `engbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `engbla` |
-| `engbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `engcen` |
-| `engcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `engdip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `engaca` |
-| `enghou` | Housing | 31.2 | W100 S100 | 25 | [B] `engcen` |
-| `engsta` | Stable | 375.0 | W2350 G800 | — | [B] `engbla` |
-| `engtem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `engcen` |
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `engcen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Academy** (`engaca`) | 625.0 | wood 1,150, stone 1,200 | — | Barracks, 17th century (`engbar`; building) |
+| **Artillery Depot** (`engart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`engaca`; building) |
+| **Barracks, 18th century** (`engba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Barracks, 17th century** (`engbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`engbla`; building) |
+| **Blacksmith** (`engbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`engcen`; building) |
+| **Town Hall** (`engcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`engdip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`engaca`; building) |
+| **Housing** (`enghou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`engcen`; building) |
+| **Stable** (`engsta`) | 375.0 | wood 2,350, gold 800 | — | Blacksmith (`engbla`; building) |
+| **Cathedral** (`engtem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`engcen`; building) |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`engcen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="eng--юниты"></a>
 <a id="юниты--англия"></a>
-### `eng` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | engdip | [B] `engaca`, [B] `engcen` |
-| `bagpiper` | Bagpiper | 7.00 | F120 G20 | engba2 | [B] `engaca` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `engaca.29`, [B] `engart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | engart | [B] `engbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | engdip | [B] `engaca`, [B] `engcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | engsta | [B] `engbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | engbar | [B] `engaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `engart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `engaca.6`, [B] `engart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `engart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | engba2 | [B] `engbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | engdip | [B] `engaca`, [B] `engcen` |
-| `highlander` | Highlander | 6.50 | F90 G25 I10 | engba2 | [B] `engbla` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | engart | [B] `engbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | engsta | [B] `engbla`, [T] `engcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | engdip | [B] `engaca`, [B] `engcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | engdip | [B] `engaca`, [B] `engcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | engart | [B] `engbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | engart | [T] `engaca.19`, [B] `engbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | engbar | [B] `engbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | engba2 | [B] `engbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | engbar | [B] `engaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | engba2 | [B] `engaca` |
-| `peaeng` | Peasant | 12.50 | F100 | engcen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | engbar | [B] `engbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | engba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | engthem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | engsta | [B] `engbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | engdip | [B] `engaca`, [B] `engcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `engart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Bagpiper** (`bagpiper`) | 7.00 | food 120, gold 20 | Barracks, 18th century (`engba2`) | Academy (`engaca`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`engaca.29`; upgrade), Artillery Depot (`engart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`engart`) | Blacksmith (`engbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`engsta`) | Blacksmith (`engbla`; building), Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`engsta`) | Blacksmith (`engbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`engsta`) | Blacksmith (`engbla`; building), Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`engbar`) | Academy (`engaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`engart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`engaca.6`; upgrade), Artillery Depot (`engart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`engart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`engba2`) | Blacksmith (`engbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Highlander** (`highlander`) | 6.50 | food 90, gold 25, iron 10 | Barracks, 18th century (`engba2`) | Blacksmith (`engbla`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`engart`) | Blacksmith (`engbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`engsta`) | Blacksmith (`engbla`; building), Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`engart`) | Blacksmith (`engbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`engart`) | Design multi-barrelled cannon (`engaca.19`; upgrade), Blacksmith (`engbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`engbar`) | Blacksmith (`engbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`engba2`) | Blacksmith (`engbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`engbar`) | Academy (`engaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`engba2`) | Academy (`engaca`; building) |
+| **Peasant** (`peaeng`) | 12.50 | food 100 | Town Hall (`engcen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`engbar`) | Blacksmith (`engbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`engba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`engtem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`engsta`) | Blacksmith (`engbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`engdip`) | Academy (`engaca`; building), Town Hall (`engcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`engart`; building) |
 
 <a id="eng--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--англия"></a>
-### `eng` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `engaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `engbla` |
-| `engaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `engbla` |
-| `engaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `engbla` |
-| `engaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `engbla` |
-| `engaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `engart` |
-| `engaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `engart` |
-| `engaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `engart` |
-| `engaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `engart` |
-| `engaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `engart` |
-| `engaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `engart` |
-| `engaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `engcen.1` |
-| `engaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `engart` |
-| `engaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W53400 G22050 | [B] `eurpor` |
-| `engaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W22300 G6800 I7500 C13200 | [B] `eurpor` |
-| `engaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `engaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `engcen.1` |
-| `engaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `engbla` |
-| `engaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `engcen.1`, [B] `engbla` |
-| `engaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `engcen.1`, [B] `engbla` |
-| `engaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G3520 | [B] `eurpor` |
-| `engaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `engaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `engaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `engbla` |
-| `engart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `engbla` |
-| `engart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `engbla` |
-| `engart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `engbla` |
-| `engart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `engbla` |
-| `engart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `engbla` |
-| `engart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `engbla` |
-| `engart.cannon.2.4` | — | 15.6 | F2560 | [B] `engbla` |
-| `engart.cannon.2.5` | — | 15.6 | F3560 | [B] `engbla` |
-| `engart.cannon.2.6` | — | 15.6 | F5560 | [B] `engbla` |
-| `engart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `engbla` |
-| `engart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `engbla` |
-| `engart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `engbla` |
-| `engart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `engbla` |
-| `engart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `engbla` |
-| `engart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `engbla` |
-| `engart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `engbla` |
-| `engart.howitzer.2.4` | — | 31.2 | F2560 | [B] `engbla` |
-| `engart.howitzer.2.5` | — | 31.2 | F3560 | [B] `engbla` |
-| `engart.howitzer.2.6` | — | 31.2 | F5560 | [B] `engbla` |
-| `engba2.highlander.2.4` | — | 15.6 | F3600 G600 | [B] `engbla` |
-| `engba2.highlander.2.5` | — | 15.6 | F5400 G900 | [B] `engbla` |
-| `engba2.highlander.2.6` | — | 15.6 | F11250 G1875 | [B] `engbla` |
-| `engbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `engbla` |
-| `engbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `engbla` |
-| `engbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `engcen.1` |
-| `engcen.1` | Progress to the 18th Century | 9.4 | F25000 G5000 I5500 C5500 | [B] `engaca`, [B] `engtem`, [B] `engart` |
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `engcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `engcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `engcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `engcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `engcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `engcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `engcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `engcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `engcen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W12000 G500 | [B] `engart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `engart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `engart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `engart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `engart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `engart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `engcen.1` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`engaca.12`) | 15.6 | iron 5,000 | Blacksmith (`engbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`engaca.13`) | 15.6 | gold 4,000 | Blacksmith (`engbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`engaca.14`) | 15.6 | gold 7,000 | Blacksmith (`engbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`engaca.15`) | 15.6 | coal 11,000 | Blacksmith (`engbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`engaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`engart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`engaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`engart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`engaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`engart`; building) |
+| **Design multi-barrelled cannon** (`engaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`engart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`engaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`engart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`engaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`engart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`engaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`engaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`engart`; building) |
+| **Design new rigging types (ship speed +40%)** (`engaca.28`) | 15.6 | wood 53,400, gold 22,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`engaca.29`) | 15.6 | wood 22,300, gold 6,800, iron 7,500, coal 13,200 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`engaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`engaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`engaca.34`) | 15.6 | gold 9,750 | Blacksmith (`engbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`engaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`engcen.1`; upgrade), Blacksmith (`engbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`engaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`engcen.1`; upgrade), Blacksmith (`engbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`engaca.5`) | 15.6 | wood 12,400, gold 3,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`engaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`engaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`engaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`engbla`; building) |
+| **—** (`engart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`engbla`; building) |
+| **—** (`engart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`engbla`; building) |
+| **—** (`engba2.highlander.2.4`) | 15.6 | food 3,600, gold 600 | Blacksmith (`engbla`; building) |
+| **—** (`engba2.highlander.2.5`) | 15.6 | food 5,400, gold 900 | Blacksmith (`engbla`; building) |
+| **—** (`engba2.highlander.2.6`) | 15.6 | food 11,250, gold 1,875 | Blacksmith (`engbla`; building) |
+| **—** (`engbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`engbla`; building) |
+| **—** (`engbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`engbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`engbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Progress to the 18th Century** (`engcen.1`) | 9.4 | food 25,000, gold 5,000, iron 5,500, coal 5,500 | Academy (`engaca`; building), Cathedral (`engtem`; building), Artillery Depot (`engart`; building) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`engcen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 12,000, gold 500 | Artillery Depot (`engart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`engart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`engart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`engart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`engart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`engart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`engcen.1`; upgrade) |
 
 [↑ to contents](#содержание)
 
@@ -826,150 +830,150 @@ graph LR
 ## France (`fra`)
 <a id="fra--здания"></a>
 <a id="здания--франция"></a>
-### `fra` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `fracen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `fraaca` | Academy | 625.0 | W1250 S1100 | — | [B] `frabar` |
-| `fraart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `fraaca` |
-| `fraba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `fracen.1` |
-| `frabar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `frabla` |
-| `frabla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `fracen` |
-| `fracen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `fradip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `fraaca` |
-| `frahou` | Housing | 31.2 | W100 S100 | 25 | [B] `fracen` |
-| `frasta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `frabla` |
-| `fratem` | Cathedral | 312.5 | W1100 S2000 I600 | — | [B] `fracen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`fracen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`fraaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`frabar`; building) |
+| **Artillery Depot** (`fraart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`fraaca`; building) |
+| **Barracks, 18th century** (`fraba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Barracks, 17th century** (`frabar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`frabla`; building) |
+| **Blacksmith** (`frabla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`fracen`; building) |
+| **Town Hall** (`fracen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`fradip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`fraaca`; building) |
+| **Housing** (`frahou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`fracen`; building) |
+| **Stable** (`frasta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`frabla`; building) |
+| **Cathedral** (`fratem`) | 312.5 | wood 1,100, stone 2,000, iron 600 | — | Town Hall (`fracen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="fra--юниты"></a>
 <a id="юниты--франция"></a>
-### `fra` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | fradip | [B] `fraaca`, [B] `fracen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | fradip | [B] `fraaca`, [B] `fracen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `fraaca.29`, [B] `fraart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | fraart | [B] `frabla` |
-| `chasseur` | Chasseur | 7.50 | F50 G45 I15 | fraba2 | [B] `frabla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | fradip | [B] `fraaca`, [B] `fracen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | fast | [B] `frabla`, [T] `fracen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | fast | [B] `frabla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | fradip | [B] `fraaca`, [B] `fracen` |
-| `dragoon18fra` | Dragoon, 18th century | 15.00 | F50 G30 I6 | fast | [B] `frabla`, [T] `fracen.1` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | frabar | [B] `fraaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | fraba2 | [B] `fraaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `fraart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `fraaca.6`, [B] `fraart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `fraart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | fraba2 | [B] `frabla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | fradip | [B] `fraaca`, [B] `fracen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | fraart | [B] `frabla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | fast | [B] `frabla`, [T] `fracen.1` |
-| `kingmusketeer` | King's Musketeer | 27.00 | F100 G100 I8 | fast | [B] `frabla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | fradip | [B] `fraaca`, [B] `fracen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | fradip | [B] `fraaca`, [B] `fracen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | fraart | [B] `frabla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | fraart | [T] `fraaca.19`, [B] `frabla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | frabar | [B] `frabla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | fraba2 | [B] `frabla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | frabar | [B] `fraaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | fraba2 | [B] `fraaca` |
-| `peaeng` | Peasant | 12.50 | F100 | fracen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | frabar | [B] `frabla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | fraba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | frate | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | fast | [B] `frabla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | fradip | [B] `fraaca`, [B] `fracen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `fraart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`fraaca.29`; upgrade), Artillery Depot (`fraart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`fraart`) | Blacksmith (`frabla`; building) |
+| **Chasseur** (`chasseur`) | 7.50 | food 50, gold 45, iron 15 | Barracks, 18th century (`fraba2`) | Blacksmith (`frabla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`frasta`) | Blacksmith (`frabla`; building), Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`frasta`) | Blacksmith (`frabla`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Dragoon, 18th century** (`dragoon18fra`) | 15.00 | food 50, gold 30, iron 6 | Stable (`frasta`) | Blacksmith (`frabla`; building), Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`frabar`) | Academy (`fraaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`fraba2`) | Academy (`fraaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`fraart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`fraaca.6`; upgrade), Artillery Depot (`fraart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`fraart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`fraba2`) | Blacksmith (`frabla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`fraart`) | Blacksmith (`frabla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`frasta`) | Blacksmith (`frabla`; building), Progress to the 18th Century (`fracen.1`; upgrade) |
+| **King's Musketeer** (`kingmusketeer`) | 27.00 | food 100, gold 100, iron 8 | Stable (`frasta`) | Blacksmith (`frabla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`fraart`) | Blacksmith (`frabla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`fraart`) | Design multi-barrelled cannon (`fraaca.19`; upgrade), Blacksmith (`frabla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`frabar`) | Blacksmith (`frabla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`fraba2`) | Blacksmith (`frabla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`frabar`) | Academy (`fraaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`fraba2`) | Academy (`fraaca`; building) |
+| **Peasant** (`peaeng`) | 12.50 | food 100 | Town Hall (`fracen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`frabar`) | Blacksmith (`frabla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`fraba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`fratem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`frasta`) | Blacksmith (`frabla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`fradip`) | Academy (`fraaca`; building), Town Hall (`fracen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`fraart`; building) |
 
 <a id="fra--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--франция"></a>
-### `fra` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `fracen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `fracen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `fracen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `fracen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `fracen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `fracen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `fracen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `fracen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `fracen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `fraart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `fraart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `fraart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `fraart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `fraart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `fraart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `fracen.1` |
-| `fraaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `frabla` |
-| `fraaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `frabla` |
-| `fraaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `frabla` |
-| `fraaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `frabla` |
-| `fraaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `fraart` |
-| `fraaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `fraart` |
-| `fraaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `fraart` |
-| `fraaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `fraart` |
-| `fraaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W13540 G1500 C5950 | [B] `fraart` |
-| `fraaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `fraart` |
-| `fraaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `fracen.1` |
-| `fraaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W23580 G9800 C65400 | [B] `fraart` |
-| `fraaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `fraaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `fraaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `fraaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `fracen.1` |
-| `fraaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `frabla` |
-| `fraaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `fracen.1`, [B] `frabla` |
-| `fraaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `fracen.1`, [B] `frabla` |
-| `fraaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W13900 G2420 | [B] `eurpor` |
-| `fraaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W13500 G7250 | [B] `eurpor` |
-| `fraaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7800 G1110 | [B] `eurpor` |
-| `fraaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `frabla` |
-| `fraart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `frabla` |
-| `fraart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `frabla` |
-| `fraart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `frabla` |
-| `fraart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `frabla` |
-| `fraart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `frabla` |
-| `fraart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `frabla` |
-| `fraart.cannon.2.4` | — | 15.6 | F2560 | [B] `frabla` |
-| `fraart.cannon.2.5` | — | 15.6 | F3560 | [B] `frabla` |
-| `fraart.cannon.2.6` | — | 15.6 | F5560 | [B] `frabla` |
-| `fraart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `frabla` |
-| `fraart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `frabla` |
-| `fraart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `frabla` |
-| `fraart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `frabla` |
-| `fraart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `frabla` |
-| `fraart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `frabla` |
-| `fraart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `frabla` |
-| `fraart.howitzer.2.4` | — | 31.2 | F2560 | [B] `frabla` |
-| `fraart.howitzer.2.5` | — | 31.2 | F3560 | [B] `frabla` |
-| `fraart.howitzer.2.6` | — | 31.2 | F5560 | [B] `frabla` |
-| `frabar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `frabla` |
-| `frabar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `frabla` |
-| `frabla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `fracen.1` |
-| `fracen.1` | Progress to the 18th Century | 9.4 | F40000 G3500 I4000 C4000 | [B] `fraaca`, [B] `fratem`, [B] `fraart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`fraart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`fraart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`fraart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`fraart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`fraart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`fraart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`fraaca.12`) | 15.6 | iron 5,000 | Blacksmith (`frabla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`fraaca.13`) | 15.6 | gold 4,000 | Blacksmith (`frabla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`fraaca.14`) | 15.6 | gold 7,000 | Blacksmith (`frabla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`fraaca.15`) | 15.6 | coal 11,000 | Blacksmith (`frabla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`fraaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`fraart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`fraaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`fraart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`fraaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`fraart`; building) |
+| **Design multi-barrelled cannon** (`fraaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`fraart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`fraaca.20`) | 15.6 | wood 13,540, gold 1,500, coal 5,950 | Artillery Depot (`fraart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`fraaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`fraart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`fraaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`fraaca.27`) | 15.6 | wood 23,580, gold 9,800, coal 65,400 | Artillery Depot (`fraart`; building) |
+| **Design new rigging types (ship speed +40%)** (`fraaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`fraaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`fraaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`fraaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`fraaca.34`) | 15.6 | gold 9,750 | Blacksmith (`frabla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`fraaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`fracen.1`; upgrade), Blacksmith (`frabla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`fraaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`fracen.1`; upgrade), Blacksmith (`frabla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`fraaca.5`) | 15.6 | wood 13,900, gold 2,420 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`fraaca.6`) | 15.6 | wood 13,500, gold 7,250 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`fraaca.7`) | 15.6 | wood 7,800, gold 1,110 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`fraaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`frabla`; building) |
+| **—** (`fraart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`frabla`; building) |
+| **—** (`frabar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`frabla`; building) |
+| **—** (`frabar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`frabla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`frabla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`fracen.1`; upgrade) |
+| **Progress to the 18th Century** (`fracen.1`) | 9.4 | food 40,000, gold 3,500, iron 4,000, coal 4,000 | Academy (`fraaca`; building), Cathedral (`fratem`; building), Artillery Depot (`fraart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -978,149 +982,149 @@ graph LR
 ## Hungary (`hun`)
 <a id="hun--здания"></a>
 <a id="здания--венгрия"></a>
-### `hun` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `huncen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `hunaca` | Academy | 625.0 | W1250 S1100 | — | [B] `hunbar` |
-| `hunart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `hunaca` |
-| `hunba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `huncen.1` |
-| `hunbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `hunbla` |
-| `hunbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `huncen` |
-| `huncen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `hundip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `hunaca` |
-| `hunhou` | Housing | 31.2 | W100 S100 | 25 | [B] `huncen` |
-| `hunsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `hunbla` |
-| `huntem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `huncen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`huncen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`hunaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`hunbar`; building) |
+| **Artillery Depot** (`hunart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`hunaca`; building) |
+| **Barracks, 18th century** (`hunba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Barracks, 17th century** (`hunbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`hunbla`; building) |
+| **Blacksmith** (`hunbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`huncen`; building) |
+| **Town Hall** (`huncen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`hundip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`hunaca`; building) |
+| **Housing** (`hunhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`huncen`; building) |
+| **Stable** (`hunsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`hunbla`; building) |
+| **Cathedral** (`huntem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`huncen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="hun--юниты"></a>
 <a id="юниты--венгрия"></a>
-### `hun` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | hundip | [B] `hunaca`, [B] `huncen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | hundip | [B] `hunaca`, [B] `huncen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `hunaca.29`, [B] `hunart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | hunart | [B] `hunbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | hundip | [B] `hunaca`, [B] `huncen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | hunsta | [B] `hunbla`, [T] `huncen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | hunsta | [B] `hunbla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | hundip | [B] `hunaca`, [B] `huncen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | hunbar | [B] `hunaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | hunba2 | [B] `hunaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `hunart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `hunaca.6`, [B] `hunart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `hunart` |
-| `gauduk` | Hajduk | 4.50 | F35 G4 I4 | hunbar | [B] `hunbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | hundip | [B] `hunaca`, [B] `huncen` |
-| `grenadierhun` | Grenadier | 6.50 | F90 G80 I40 | hunba2 | [B] `hunbla` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | hunart | [B] `hunbla` |
-| `hussarhun` | Hussar | 21.00 | F100 G30 I2 | hunsta | [B] `hunbla` |
-| `lightcavalry` | Light cavalry | 21.00 | F90 G50 I6 | hunsta | [B] `hunbla`, [T] `huncen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | hundip | [B] `hunaca`, [B] `huncen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | hundip | [B] `hunaca`, [B] `huncen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | hunart | [B] `hunbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | hunart | [T] `hunaca.19`, [B] `hunbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | hunba2 | [B] `hunbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | hunbar | [B] `hunaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | hunba2 | [B] `hunaca` |
-| `pandurhun` | Szekely | 6.50 | F30 G25 I10 | hunba2 | [B] `hunbla` |
-| `peapol` | Peasant | 12.50 | F100 | huncen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | hunbar | [B] `hunbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | hunba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | huntem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | hunsta | [B] `hunbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | hundip | [B] `hunaca`, [B] `huncen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `hunart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`hunaca.29`; upgrade), Artillery Depot (`hunart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`hunart`) | Blacksmith (`hunbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`hunsta`) | Blacksmith (`hunbla`; building), Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`hunsta`) | Blacksmith (`hunbla`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`hunbar`) | Academy (`hunaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`hunba2`) | Academy (`hunaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`hunart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`hunaca.6`; upgrade), Artillery Depot (`hunart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`hunart`; building) |
+| **Hajduk** (`gauduk`) | 4.50 | food 35, gold 4, iron 4 | Barracks, 17th century (`hunbar`) | Blacksmith (`hunbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Grenadier** (`grenadierhun`) | 6.50 | food 90, gold 80, iron 40 | Barracks, 18th century (`hunba2`) | Blacksmith (`hunbla`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`hunart`) | Blacksmith (`hunbla`; building) |
+| **Hussar** (`hussarhun`) | 21.00 | food 100, gold 30, iron 2 | Stable (`hunsta`) | Blacksmith (`hunbla`; building) |
+| **Light cavalry** (`lightcavalry`) | 21.00 | food 90, gold 50, iron 6 | Stable (`hunsta`) | Blacksmith (`hunbla`; building), Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`hunart`) | Blacksmith (`hunbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`hunart`) | Design multi-barrelled cannon (`hunaca.19`; upgrade), Blacksmith (`hunbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`hunba2`) | Blacksmith (`hunbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`hunbar`) | Academy (`hunaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`hunba2`) | Academy (`hunaca`; building) |
+| **Szekely** (`pandurhun`) | 6.50 | food 30, gold 25, iron 10 | Barracks, 18th century (`hunba2`) | Blacksmith (`hunbla`; building) |
+| **Peasant** (`peapol`) | 12.50 | food 100 | Town Hall (`huncen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`hunbar`) | Blacksmith (`hunbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`hunba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`huntem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`hunsta`) | Blacksmith (`hunbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`hundip`) | Academy (`hunaca`; building), Town Hall (`huncen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`hunart`; building) |
 
 <a id="hun--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--венгрия"></a>
-### `hun` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `huncen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `huncen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `huncen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `huncen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `huncen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `huncen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `huncen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `huncen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `huncen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `hunart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `hunart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `hunart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `hunart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `hunart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `hunart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `huncen.1` |
-| `hunaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `hunbla` |
-| `hunaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `hunbla` |
-| `hunaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `hunbla` |
-| `hunaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `hunbla` |
-| `hunaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `hunart` |
-| `hunaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `hunart` |
-| `hunaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `hunart` |
-| `hunaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `hunart` |
-| `hunaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `hunart` |
-| `hunaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `hunart` |
-| `hunaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `huncen.1` |
-| `hunaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `hunart` |
-| `hunaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `hunaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `hunaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `hunaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `huncen.1` |
-| `hunaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `hunbla` |
-| `hunaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `huncen.1`, [B] `hunbla` |
-| `hunaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `huncen.1`, [B] `hunbla` |
-| `hunaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `hunaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `hunaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `hunaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `hunbla` |
-| `hunart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `hunbla` |
-| `hunart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `hunbla` |
-| `hunart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `hunbla` |
-| `hunart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `hunbla` |
-| `hunart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `hunbla` |
-| `hunart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `hunbla` |
-| `hunart.cannon.2.4` | — | 15.6 | F2560 | [B] `hunbla` |
-| `hunart.cannon.2.5` | — | 15.6 | F3560 | [B] `hunbla` |
-| `hunart.cannon.2.6` | — | 15.6 | F5560 | [B] `hunbla` |
-| `hunart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `hunbla` |
-| `hunart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `hunbla` |
-| `hunart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `hunbla` |
-| `hunart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `hunbla` |
-| `hunart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `hunbla` |
-| `hunart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `hunbla` |
-| `hunart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `hunbla` |
-| `hunart.howitzer.2.4` | — | 31.2 | F2560 | [B] `hunbla` |
-| `hunart.howitzer.2.5` | — | 31.2 | F3560 | [B] `hunbla` |
-| `hunart.howitzer.2.6` | — | 31.2 | F5560 | [B] `hunbla` |
-| `hunbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `hunbla` |
-| `hunbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `hunbla` |
-| `hunbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `huncen.1` |
-| `huncen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `hunaca`, [B] `huntem`, [B] `hunart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`hunart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`hunart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`hunart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`hunart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`hunart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`hunart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`hunaca.12`) | 15.6 | iron 5,000 | Blacksmith (`hunbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`hunaca.13`) | 15.6 | gold 4,000 | Blacksmith (`hunbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`hunaca.14`) | 15.6 | gold 7,000 | Blacksmith (`hunbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`hunaca.15`) | 15.6 | coal 11,000 | Blacksmith (`hunbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`hunaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`hunart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`hunaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`hunart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`hunaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`hunart`; building) |
+| **Design multi-barrelled cannon** (`hunaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`hunart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`hunaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`hunart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`hunaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`hunart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`hunaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`hunaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`hunart`; building) |
+| **Design new rigging types (ship speed +40%)** (`hunaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`hunaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`hunaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`hunaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`hunaca.34`) | 15.6 | gold 9,750 | Blacksmith (`hunbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`hunaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`huncen.1`; upgrade), Blacksmith (`hunbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`hunaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`huncen.1`; upgrade), Blacksmith (`hunbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`hunaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`hunaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`hunaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`hunaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`hunbla`; building) |
+| **—** (`hunbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`hunbla`; building) |
+| **—** (`hunbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`hunbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`hunbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`huncen.1`; upgrade) |
+| **Progress to the 18th Century** (`huncen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`hunaca`; building), Cathedral (`huntem`; building), Artillery Depot (`hunart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1129,148 +1133,148 @@ graph LR
 ## Netherlands (`net`)
 <a id="net--здания"></a>
 <a id="здания--нидерланды"></a>
-### `net` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `netcen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `netaca` | Academy | 625.0 | W1050 S1230 | — | [B] `netbar` |
-| `netart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `netaca` |
-| `netba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `netcen.1` |
-| `netbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `netbla` |
-| `netbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `netcen` |
-| `netcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `netdip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `netaca` |
-| `nethou` | Housing | 31.2 | W100 S100 | 25 | [B] `netcen` |
-| `netsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `netbla` |
-| `nettem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `netcen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`netcen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`netaca`) | 625.0 | wood 1,050, stone 1,230 | — | Barracks, 17th century (`netbar`; building) |
+| **Artillery Depot** (`netart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`netaca`; building) |
+| **Barracks, 18th century** (`netba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Barracks, 17th century** (`netbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`netbla`; building) |
+| **Blacksmith** (`netbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`netcen`; building) |
+| **Town Hall** (`netcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`netdip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`netaca`; building) |
+| **Housing** (`nethou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`netcen`; building) |
+| **Stable** (`netsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`netbla`; building) |
+| **Cathedral** (`nettem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`netcen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="net--юниты"></a>
 <a id="юниты--нидерланды"></a>
-### `net` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | netdip | [B] `netaca`, [B] `netcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | netdip | [B] `netaca`, [B] `netcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `netaca.29`, [B] `netart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | netart | [B] `netbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | netdip | [B] `netaca`, [B] `netcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | netsta | [B] `netbla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | netdip | [B] `netaca`, [B] `netcen` |
-| `dragoon18net` | Dragoon, 18th century | 24.00 | F100 G70 I7 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | netbar | [B] `netaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | netba2 | [B] `netaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `netart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `netaca.6`, [B] `netart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `netart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | netba2 | [B] `netbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | netdip | [B] `netaca`, [B] `netcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | netart | [B] `netbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | netsta | [B] `netbla`, [T] `netcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | netdip | [B] `netaca`, [B] `netcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | netdip | [B] `netaca`, [B] `netcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | netart | [B] `netbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | netart | [T] `netaca.19`, [B] `netbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | netba2 | [B] `netbla` |
-| `musketeernet` | Musketeer, 17th century | 5.00 | F50 G8 I4 | netbar | [B] `netbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | netbar | [B] `netaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | netba2 | [B] `netaca` |
-| `peaeng` | Peasant | 12.50 | F100 | netcen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | netbar | [B] `netbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | netba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | nettem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | netsta | [B] `netbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | netdip | [B] `netaca`, [B] `netcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `netart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`netaca.29`; upgrade), Artillery Depot (`netart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`netart`) | Blacksmith (`netbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`netsta`) | Blacksmith (`netbla`; building), Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`netsta`) | Blacksmith (`netbla`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Dragoon, 18th century** (`dragoon18net`) | 24.00 | food 100, gold 70, iron 7 | Stable (`netsta`) | Blacksmith (`netbla`; building), Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`netbar`) | Academy (`netaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`netba2`) | Academy (`netaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`netart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`netaca.6`; upgrade), Artillery Depot (`netart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`netart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`netba2`) | Blacksmith (`netbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`netart`) | Blacksmith (`netbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`netsta`) | Blacksmith (`netbla`; building), Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`netart`) | Blacksmith (`netbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`netart`) | Design multi-barrelled cannon (`netaca.19`; upgrade), Blacksmith (`netbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`netba2`) | Blacksmith (`netbla`; building) |
+| **Musketeer, 17th century** (`musketeernet`) | 5.00 | food 50, gold 8, iron 4 | Barracks, 17th century (`netbar`) | Blacksmith (`netbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`netbar`) | Academy (`netaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`netba2`) | Academy (`netaca`; building) |
+| **Peasant** (`peaeng`) | 12.50 | food 100 | Town Hall (`netcen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`netbar`) | Blacksmith (`netbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`netba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`nettem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`netsta`) | Blacksmith (`netbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`netdip`) | Academy (`netaca`; building), Town Hall (`netcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`netart`; building) |
 
 <a id="net--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--нидерланды"></a>
-### `net` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `netcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `netcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `netcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `netcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `netcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `netcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `netcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `netcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `netcen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `netart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `netart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `netart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `netart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `netart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `netart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `netcen.1` |
-| `netaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `netbla` |
-| `netaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `netbla` |
-| `netaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `netbla` |
-| `netaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `netbla` |
-| `netaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `netart` |
-| `netaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `netart` |
-| `netaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `netart` |
-| `netaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `netart` |
-| `netaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `netart` |
-| `netaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `netart` |
-| `netaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `netcen.1` |
-| `netaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `netart` |
-| `netaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `netaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `netaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `netaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `netcen.1` |
-| `netaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `netbla` |
-| `netaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `netcen.1`, [B] `netbla` |
-| `netaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `netcen.1`, [B] `netbla` |
-| `netaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `netaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `netaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `netaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `netbla` |
-| `netart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `netbla` |
-| `netart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `netbla` |
-| `netart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `netbla` |
-| `netart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `netbla` |
-| `netart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `netbla` |
-| `netart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `netbla` |
-| `netart.cannon.2.4` | — | 15.6 | F2560 | [B] `netbla` |
-| `netart.cannon.2.5` | — | 15.6 | F3560 | [B] `netbla` |
-| `netart.cannon.2.6` | — | 15.6 | F5560 | [B] `netbla` |
-| `netart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `netbla` |
-| `netart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `netbla` |
-| `netart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `netbla` |
-| `netart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `netbla` |
-| `netart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `netbla` |
-| `netart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `netbla` |
-| `netart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `netbla` |
-| `netart.howitzer.2.4` | — | 31.2 | F2560 | [B] `netbla` |
-| `netart.howitzer.2.5` | — | 31.2 | F3560 | [B] `netbla` |
-| `netart.howitzer.2.6` | — | 31.2 | F5560 | [B] `netbla` |
-| `netbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `netbla` |
-| `netbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `netbla` |
-| `netbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `netcen.1` |
-| `netcen.1` | Progress to the 18th Century | 9.4 | F33000 G4800 I1800 C1800 | [B] `netaca`, [B] `nettem`, [B] `netart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`netart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`netart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`netart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`netart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`netart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`netart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`netaca.12`) | 15.6 | iron 5,000 | Blacksmith (`netbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`netaca.13`) | 15.6 | gold 4,000 | Blacksmith (`netbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`netaca.14`) | 15.6 | gold 7,000 | Blacksmith (`netbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`netaca.15`) | 15.6 | coal 11,000 | Blacksmith (`netbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`netaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`netart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`netaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`netart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`netaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`netart`; building) |
+| **Design multi-barrelled cannon** (`netaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`netart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`netaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`netart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`netaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`netart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`netaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`netaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`netart`; building) |
+| **Design new rigging types (ship speed +40%)** (`netaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`netaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`netaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`netaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`netaca.34`) | 15.6 | gold 9,750 | Blacksmith (`netbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`netaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`netcen.1`; upgrade), Blacksmith (`netbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`netaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`netcen.1`; upgrade), Blacksmith (`netbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`netaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`netaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`netaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`netaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`netbla`; building) |
+| **—** (`netart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`netbla`; building) |
+| **—** (`netart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`netbla`; building) |
+| **—** (`netbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`netbla`; building) |
+| **—** (`netbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`netbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`netbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`netcen.1`; upgrade) |
+| **Progress to the 18th Century** (`netcen.1`) | 9.4 | food 33,000, gold 4,800, iron 1,800, coal 1,800 | Academy (`netaca`; building), Cathedral (`nettem`; building), Artillery Depot (`netart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1279,148 +1283,148 @@ graph LR
 ## Piedmont (`pie`)
 <a id="pie--здания"></a>
 <a id="здания--пьемонт"></a>
-### `pie` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `piecen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `pieaca` | Academy | 625.0 | W1250 S1100 | — | [B] `piebar` |
-| `pieart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `pieaca` |
-| `pieba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `piecen.1` |
-| `piebar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `piebla` |
-| `piebla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `piecen` |
-| `piecen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `piedip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `pieaca` |
-| `piehou` | Housing | 31.2 | W100 S100 | 25 | [B] `piecen` |
-| `piesta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `piebla` |
-| `pietem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `piecen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`piecen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`pieaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`piebar`; building) |
+| **Artillery Depot** (`pieart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`pieaca`; building) |
+| **Barracks, 18th century** (`pieba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Barracks, 17th century** (`piebar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`piebla`; building) |
+| **Blacksmith** (`piebla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`piecen`; building) |
+| **Town Hall** (`piecen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`piedip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`pieaca`; building) |
+| **Housing** (`piehou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`piecen`; building) |
+| **Stable** (`piesta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`piebla`; building) |
+| **Cathedral** (`pietem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`piecen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="pie--юниты"></a>
 <a id="юниты--пьемонт"></a>
-### `pie` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | piedip | [B] `pieaca`, [B] `piecen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | piedip | [B] `pieaca`, [B] `piecen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `pieaca.29`, [B] `pieart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | pieart | [B] `piebla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | piedip | [B] `pieaca`, [B] `piecen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | piesta | [B] `piebla` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | piedip | [B] `pieaca`, [B] `piecen` |
-| `dragoon18pie` | Dragoon, 18th century | 20.25 | F60 G65 I7 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | piebar | [B] `pieaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | pieba2 | [B] `pieaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `pieart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `pieaca.6`, [B] `pieart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `pieart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | pieba2 | [B] `piebla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | piedip | [B] `pieaca`, [B] `piecen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | pieart | [B] `piebla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | piesta | [B] `piebla`, [T] `piecen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | piedip | [B] `pieaca`, [B] `piecen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | piedip | [B] `pieaca`, [B] `piecen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | pieart | [B] `piebla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | pieart | [T] `pieaca.19`, [B] `piebla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | piebar | [B] `piebla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | pieba2 | [B] `piebla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | piebar | [B] `pieaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | pieba2 | [B] `pieaca` |
-| `padre` | Padre | 25.00 | F50 G40 | pietem | — |
-| `peaspa` | Peasant | 12.50 | F100 | piecen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | piebar | [B] `piebla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | pieba2 | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | piesta | [B] `piebla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | piedip | [B] `pieaca`, [B] `piecen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `pieart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`pieaca.29`; upgrade), Artillery Depot (`pieart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`pieart`) | Blacksmith (`piebla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`piesta`) | Blacksmith (`piebla`; building), Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`piesta`) | Blacksmith (`piebla`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Dragoon, 18th century** (`dragoon18pie`) | 20.25 | food 60, gold 65, iron 7 | Stable (`piesta`) | Blacksmith (`piebla`; building), Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`piebar`) | Academy (`pieaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`pieba2`) | Academy (`pieaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`pieart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`pieaca.6`; upgrade), Artillery Depot (`pieart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`pieart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`pieba2`) | Blacksmith (`piebla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`pieart`) | Blacksmith (`piebla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`piesta`) | Blacksmith (`piebla`; building), Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`pieart`) | Blacksmith (`piebla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`pieart`) | Design multi-barrelled cannon (`pieaca.19`; upgrade), Blacksmith (`piebla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`piebar`) | Blacksmith (`piebla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`pieba2`) | Blacksmith (`piebla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`piebar`) | Academy (`pieaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`pieba2`) | Academy (`pieaca`; building) |
+| **Padre** (`padre`) | 25.00 | food 50, gold 40 | Cathedral (`pietem`) | — |
+| **Peasant** (`peaspa`) | 12.50 | food 100 | Town Hall (`piecen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`piebar`) | Blacksmith (`piebla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`pieba2`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`piesta`) | Blacksmith (`piebla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`piedip`) | Academy (`pieaca`; building), Town Hall (`piecen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`pieart`; building) |
 
 <a id="pie--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--пьемонт"></a>
-### `pie` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `piecen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `piecen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `piecen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `piecen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `piecen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `piecen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `piecen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `piecen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `piecen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `pieart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `pieart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `pieart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `pieart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `pieart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `pieart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `piecen.1` |
-| `pieaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `piebla` |
-| `pieaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `piebla` |
-| `pieaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `piebla` |
-| `pieaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `piebla` |
-| `pieaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `pieart` |
-| `pieaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `pieart` |
-| `pieaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `pieart` |
-| `pieaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `pieart` |
-| `pieaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `pieart` |
-| `pieaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `pieart` |
-| `pieaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `piecen.1` |
-| `pieaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `pieart` |
-| `pieaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `pieaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `pieaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `pieaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `piecen.1` |
-| `pieaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `piebla` |
-| `pieaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `piecen.1`, [B] `piebla` |
-| `pieaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `piecen.1`, [B] `piebla` |
-| `pieaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `pieaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `pieaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `pieaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `piebla` |
-| `pieart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `piebla` |
-| `pieart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `piebla` |
-| `pieart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `piebla` |
-| `pieart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `piebla` |
-| `pieart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `piebla` |
-| `pieart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `piebla` |
-| `pieart.cannon.2.4` | — | 15.6 | F2560 | [B] `piebla` |
-| `pieart.cannon.2.5` | — | 15.6 | F3560 | [B] `piebla` |
-| `pieart.cannon.2.6` | — | 15.6 | F5560 | [B] `piebla` |
-| `pieart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `piebla` |
-| `pieart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `piebla` |
-| `pieart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `piebla` |
-| `pieart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `piebla` |
-| `pieart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `piebla` |
-| `pieart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `piebla` |
-| `pieart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `piebla` |
-| `pieart.howitzer.2.4` | — | 31.2 | F2560 | [B] `piebla` |
-| `pieart.howitzer.2.5` | — | 31.2 | F3560 | [B] `piebla` |
-| `pieart.howitzer.2.6` | — | 31.2 | F5560 | [B] `piebla` |
-| `piebar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `piebla` |
-| `piebar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `piebla` |
-| `piebla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `piecen.1` |
-| `piecen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `pieaca`, [B] `pietem`, [B] `pieart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`pieart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`pieart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`pieart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`pieart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`pieart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`pieart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`pieaca.12`) | 15.6 | iron 5,000 | Blacksmith (`piebla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`pieaca.13`) | 15.6 | gold 4,000 | Blacksmith (`piebla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`pieaca.14`) | 15.6 | gold 7,000 | Blacksmith (`piebla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`pieaca.15`) | 15.6 | coal 11,000 | Blacksmith (`piebla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`pieaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`pieart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`pieaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`pieart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`pieaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`pieart`; building) |
+| **Design multi-barrelled cannon** (`pieaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`pieart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`pieaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`pieart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`pieaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`pieart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`pieaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`pieaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`pieart`; building) |
+| **Design new rigging types (ship speed +40%)** (`pieaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`pieaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`pieaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`pieaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`pieaca.34`) | 15.6 | gold 9,750 | Blacksmith (`piebla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`pieaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`piecen.1`; upgrade), Blacksmith (`piebla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`pieaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`piecen.1`; upgrade), Blacksmith (`piebla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`pieaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`pieaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`pieaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`pieaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`piebla`; building) |
+| **—** (`pieart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`piebla`; building) |
+| **—** (`piebar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`piebla`; building) |
+| **—** (`piebar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`piebla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`piebla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`piecen.1`; upgrade) |
+| **Progress to the 18th Century** (`piecen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`pieaca`; building), Cathedral (`pietem`; building), Artillery Depot (`pieart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1429,150 +1433,150 @@ graph LR
 ## Poland (`pol`)
 <a id="pol--здания"></a>
 <a id="здания--польша"></a>
-### `pol` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `russto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `russto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `russto` |
-| `polaca` | Academy | 625.0 | W950 S800 | — | [B] `polbar` |
-| `polart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `polaca` |
-| `polba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `polcen.1` |
-| `polbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `polbla` |
-| `polbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `polcen` |
-| `polcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `poldip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `polaca` |
-| `polhou` | Housing | 31.2 | W100 S100 | 25 | [B] `polcen` |
-| `polsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `polbla` |
-| `poltem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `polcen` |
-| `russto` | Storehouse | 31.2 | W50 S20 | — | [B] `polcen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `russto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`russto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`russto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`russto`; building) |
+| **Academy** (`polaca`) | 625.0 | wood 950, stone 800 | — | Barracks, 17th century (`polbar`; building) |
+| **Artillery Depot** (`polart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`polaca`; building) |
+| **Barracks, 18th century** (`polba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Barracks, 17th century** (`polbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`polbla`; building) |
+| **Blacksmith** (`polbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`polcen`; building) |
+| **Town Hall** (`polcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`poldip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`polaca`; building) |
+| **Housing** (`polhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`polcen`; building) |
+| **Stable** (`polsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`polbla`; building) |
+| **Cathedral** (`poltem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`polcen`; building) |
+| **Storehouse** (`russto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`polcen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`russto`; building) |
 
 <a id="pol--юниты"></a>
 <a id="юниты--польша"></a>
-### `pol` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | poldip | [B] `polaca`, [B] `polcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | poldip | [B] `polaca`, [B] `polcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `polaca.29`, [B] `polart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | polar | [B] `polbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | poldip | [B] `polaca`, [B] `polcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | polsta | [B] `polbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | poldip | [B] `polaca`, [B] `polcen` |
-| `dragoonpol` | Pospolite ruszenie | 13.50 | F70 G5 I4 | polsta | [B] `polbla` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | polbar | [B] `polaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | polba2 | [B] `polaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `polart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `polaca.6`, [B] `polart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `polart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | polba2 | [B] `polbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | poldip | [B] `polaca`, [B] `polcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | polar | [B] `polbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | polsta | [B] `polbla`, [T] `polcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | poldip | [B] `polaca`, [B] `polcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | poldip | [B] `polaca`, [B] `polcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | polar | [B] `polbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | polar | [T] `polaca.19`, [B] `polbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | polba2 | [B] `polbla` |
-| `musketeerpol` | Musketeer, 17th century | 4.50 | F40 G3 I3 | polbar | [B] `polbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | polbar | [B] `polaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | polba2 | [B] `polaca` |
-| `peapol` | Peasant | 12.50 | F100 | polcen | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | polba2 | — |
-| `pikemanpol` | Pikeman, 17th century | 3.00 | F25 G1 | polbar | [B] `polbla` |
-| `priest` | Priest | 20.00 | F60 G25 | poltem | — |
-| `reiterpol` | Light Reiter | 8.25 | F60 G5 I2 | polsta | [B] `polbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | poldip | [B] `polaca`, [B] `polcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `wingedhussar` | Winged Hussar | 26.00 | F130 G30 I25 | polsta | [B] `polbla` |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `polart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`polaca.29`; upgrade), Artillery Depot (`polart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`polart`) | Blacksmith (`polbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`polsta`) | Blacksmith (`polbla`; building), Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`polsta`) | Blacksmith (`polbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`polsta`) | Blacksmith (`polbla`; building), Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Pospolite ruszenie** (`dragoonpol`) | 13.50 | food 70, gold 5, iron 4 | Stable (`polsta`) | Blacksmith (`polbla`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`polbar`) | Academy (`polaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`polba2`) | Academy (`polaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`polart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`polaca.6`; upgrade), Artillery Depot (`polart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`polart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`polba2`) | Blacksmith (`polbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`polart`) | Blacksmith (`polbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`polsta`) | Blacksmith (`polbla`; building), Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`polart`) | Blacksmith (`polbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`polart`) | Design multi-barrelled cannon (`polaca.19`; upgrade), Blacksmith (`polbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`polba2`) | Blacksmith (`polbla`; building) |
+| **Musketeer, 17th century** (`musketeerpol`) | 4.50 | food 40, gold 3, iron 3 | Barracks, 17th century (`polbar`) | Blacksmith (`polbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`polbar`) | Academy (`polaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`polba2`) | Academy (`polaca`; building) |
+| **Peasant** (`peapol`) | 12.50 | food 100 | Town Hall (`polcen`) | — |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`polba2`) | — |
+| **Pikeman, 17th century** (`pikemanpol`) | 3.00 | food 25, gold 1 | Barracks, 17th century (`polbar`) | Blacksmith (`polbla`; building) |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`poltem`) | — |
+| **Light Reiter** (`reiterpol`) | 8.25 | food 60, gold 5, iron 2 | Stable (`polsta`) | Blacksmith (`polbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`poldip`) | Academy (`polaca`; building), Town Hall (`polcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Winged Hussar** (`wingedhussar`) | 26.00 | food 130, gold 30, iron 25 | Stable (`polsta`) | Blacksmith (`polbla`; building) |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`polart`; building) |
 
 <a id="pol--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--польша"></a>
-### `pol` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `polcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `polcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `polcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `polcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `polcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `polcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `polcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `polcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `polcen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `polart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `polart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `polart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `polart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `polart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `polart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `polcen.1` |
-| `polaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `polbla` |
-| `polaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `polbla` |
-| `polaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `polbla` |
-| `polaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `polbla` |
-| `polaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `polart` |
-| `polaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `polart` |
-| `polaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `polart` |
-| `polaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `polart` |
-| `polaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `polart` |
-| `polaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `polart` |
-| `polaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `polcen.1` |
-| `polaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `polart` |
-| `polaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `polaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `polaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `polaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `polcen.1` |
-| `polaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `polbla` |
-| `polaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `polcen.1`, [B] `polbla` |
-| `polaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `polcen.1`, [B] `polbla` |
-| `polaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `polaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `polaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `polaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `polbla` |
-| `polart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `polbla` |
-| `polart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `polbla` |
-| `polart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `polbla` |
-| `polart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `polbla` |
-| `polart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `polbla` |
-| `polart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `polbla` |
-| `polart.cannon.2.4` | — | 15.6 | F2560 | [B] `polbla` |
-| `polart.cannon.2.5` | — | 15.6 | F3560 | [B] `polbla` |
-| `polart.cannon.2.6` | — | 15.6 | F5560 | [B] `polbla` |
-| `polart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `polbla` |
-| `polart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `polbla` |
-| `polart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `polbla` |
-| `polart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `polbla` |
-| `polart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `polbla` |
-| `polart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `polbla` |
-| `polart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `polbla` |
-| `polart.howitzer.2.4` | — | 31.2 | F2560 | [B] `polbla` |
-| `polart.howitzer.2.5` | — | 31.2 | F3560 | [B] `polbla` |
-| `polart.howitzer.2.6` | — | 31.2 | F5560 | [B] `polbla` |
-| `polbar.pikemanpol.1.6` | — | 15.6 | F22500 G2800 | [B] `polbla` |
-| `polbar.pikemanpol.2.6` | — | 15.6 | F15000 G1000 | [B] `polbla` |
-| `polbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `polcen.1` |
-| `polcen.1` | Progress to the 18th Century | 9.4 | F30000 G4800 I2200 C2200 | [B] `polaca`, [B] `poltem`, [B] `polart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`polart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`polart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`polart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`polart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`polart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`polart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`polaca.12`) | 15.6 | iron 5,000 | Blacksmith (`polbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`polaca.13`) | 15.6 | gold 4,000 | Blacksmith (`polbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`polaca.14`) | 15.6 | gold 7,000 | Blacksmith (`polbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`polaca.15`) | 15.6 | coal 11,000 | Blacksmith (`polbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`polaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`polart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`polaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`polart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`polaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`polart`; building) |
+| **Design multi-barrelled cannon** (`polaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`polart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`polaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`polart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`polaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`polart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`polaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`polaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`polart`; building) |
+| **Design new rigging types (ship speed +40%)** (`polaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`polaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`polaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`polaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`polaca.34`) | 15.6 | gold 9,750 | Blacksmith (`polbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`polaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`polcen.1`; upgrade), Blacksmith (`polbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`polaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`polcen.1`; upgrade), Blacksmith (`polbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`polaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`polaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`polaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`polaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`polbla`; building) |
+| **—** (`polart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`polbla`; building) |
+| **—** (`polart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`polbla`; building) |
+| **—** (`polbar.pikemanpol.1.6`) | 15.6 | food 22,500, gold 2,800 | Blacksmith (`polbla`; building) |
+| **—** (`polbar.pikemanpol.2.6`) | 15.6 | food 15,000, gold 1,000 | Blacksmith (`polbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`polbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`polcen.1`; upgrade) |
+| **Progress to the 18th Century** (`polcen.1`) | 9.4 | food 30,000, gold 4,800, iron 2,200, coal 2,200 | Academy (`polaca`; building), Cathedral (`poltem`; building), Artillery Depot (`polart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1581,149 +1585,149 @@ graph LR
 ## Portugal (`por`)
 <a id="por--здания"></a>
 <a id="здания--португалия"></a>
-### `por` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `spasto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `spasto` |
-| `poraca` | Academy | 625.0 | W1250 S1100 | — | [B] `porbar` |
-| `porart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `poraca` |
-| `porba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `porcen.1` |
-| `porbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `porbla` |
-| `porbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `porcen` |
-| `porcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `pordip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `poraca` |
-| `porhou` | Housing | 31.2 | W100 S100 | 25 | [B] `porcen` |
-| `porpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `spamar` |
-| `porsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `porbla` |
-| `portem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `porcen` |
-| `spamar` | Market | 156.2 | W450 | — | [B] `eurmil`, [B] `spasto` |
-| `spasto` | Storehouse | 31.2 | W20 S20 | — | [B] `porcen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `spasto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`spasto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`spasto`; building) |
+| **Academy** (`poraca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`porbar`; building) |
+| **Artillery Depot** (`porart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`poraca`; building) |
+| **Barracks, 18th century** (`porba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Barracks, 17th century** (`porbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`porbla`; building) |
+| **Blacksmith** (`porbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`porcen`; building) |
+| **Town Hall** (`porcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`pordip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`poraca`; building) |
+| **Housing** (`porhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`porcen`; building) |
+| **Shipyard** (`porpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`spamar`; building) |
+| **Stable** (`porsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`porbla`; building) |
+| **Cathedral** (`portem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`porcen`; building) |
+| **Market** (`spamar`) | 156.2 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`spasto`; building) |
+| **Storehouse** (`spasto`) | 31.2 | wood 20, stone 20 | — | Town Hall (`porcen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`spasto`; building) |
 
 <a id="por--юниты"></a>
 <a id="юниты--португалия"></a>
-### `por` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | pordip | [B] `poraca`, [B] `porcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | pordip | [B] `poraca`, [B] `porcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | porpor | [T] `poraca.29`, [B] `porart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | porart | [B] `porbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | pordip | [B] `poraca`, [B] `porcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | porta | [B] `porbla`, [T] `porcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | porta | [B] `porbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | porta | [B] `porbla`, [T] `porcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | porbar | [B] `poraca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | porba2 | [B] `poraca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | porpor | [B] `porart` |
-| `fishboat` | Boat | 40.00 | W600 | porpor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | porpor | [T] `poraca.6`, [B] `porart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | porpor | [B] `porart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | porba2 | [B] `porbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | pordip | [B] `poraca`, [B] `porcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | porart | [B] `porbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | porta | [B] `porbla`, [T] `porcen.1` |
-| `jagerpor` | Volunteer | 2.25 | F30 G2 I5 | porba2 | [B] `porbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | pordip | [B] `poraca`, [B] `porcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | pordip | [B] `poraca`, [B] `porcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | porart | [B] `porbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | porart | [T] `poraca.19`, [B] `porbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | porbar | [B] `porbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | porba2 | [B] `porbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | porbar | [B] `poraca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | porba2 | [B] `poraca` |
-| `peaspa` | Peasant | 12.50 | F100 | porcen | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | porba2 | — |
-| `pikemanpor` | Pikeman, 17th century | 4.00 | F40 G4 I5 | porbar | [B] `porbla` |
-| `priest` | Priest | 20.00 | F60 G25 | portem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | porta | [B] `porbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | pordip | [B] `poraca`, [B] `porcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | porpor | [B] `porart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`porpor`) | Design new rib system and new hulls (battleship construction) (`poraca.29`; upgrade), Artillery Depot (`porart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`porart`) | Blacksmith (`porbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`porsta`) | Blacksmith (`porbla`; building), Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`porsta`) | Blacksmith (`porbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`porsta`) | Blacksmith (`porbla`; building), Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`porbar`) | Academy (`poraca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`porba2`) | Academy (`poraca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`porpor`) | Artillery Depot (`porart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`porpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`porpor`) | Develop new woodworking methods (frigate building) (`poraca.6`; upgrade), Artillery Depot (`porart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`porpor`) | Artillery Depot (`porart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`porba2`) | Blacksmith (`porbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`porart`) | Blacksmith (`porbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`porsta`) | Blacksmith (`porbla`; building), Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Volunteer** (`jagerpor`) | 2.25 | food 30, gold 2, iron 5 | Barracks, 18th century (`porba2`) | Blacksmith (`porbla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`porart`) | Blacksmith (`porbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`porart`) | Design multi-barrelled cannon (`poraca.19`; upgrade), Blacksmith (`porbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`porbar`) | Blacksmith (`porbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`porba2`) | Blacksmith (`porbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`porbar`) | Academy (`poraca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`porba2`) | Academy (`poraca`; building) |
+| **Peasant** (`peaspa`) | 12.50 | food 100 | Town Hall (`porcen`) | — |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`porba2`) | — |
+| **Pikeman, 17th century** (`pikemanpor`) | 4.00 | food 40, gold 4, iron 5 | Barracks, 17th century (`porbar`) | Blacksmith (`porbla`; building) |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`portem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`porsta`) | Blacksmith (`porbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`pordip`) | Academy (`poraca`; building), Town Hall (`porcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`porpor`) | Artillery Depot (`porart`; building) |
 
 <a id="por--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--португалия"></a>
-### `por` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `porcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `porcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `porcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `porcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `porcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `porcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `porcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `porcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `porcen.1` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `porart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `porart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `porart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `porart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `porart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `porcen.1` |
-| `poraca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `porbla` |
-| `poraca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `porbla` |
-| `poraca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `porbla` |
-| `poraca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `porbla` |
-| `poraca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `porart` |
-| `poraca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `porart` |
-| `poraca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `porart` |
-| `poraca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `porart` |
-| `poraca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `porart` |
-| `poraca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `porart` |
-| `poraca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `porcen.1` |
-| `poraca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `porart` |
-| `poraca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `porpor` |
-| `poraca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `porpor` |
-| `poraca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `porpor` |
-| `poraca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `porcen.1` |
-| `poraca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `porbla` |
-| `poraca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `porcen.1`, [B] `porbla` |
-| `poraca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `porcen.1`, [B] `porbla` |
-| `poraca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `porpor` |
-| `poraca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `porpor` |
-| `poraca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `porpor` |
-| `poraca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `porbla` |
-| `porart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `porbla` |
-| `porart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `porbla` |
-| `porart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `porbla` |
-| `porart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `porbla` |
-| `porart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `porbla` |
-| `porart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `porbla` |
-| `porart.cannon.2.4` | — | 15.6 | F2560 | [B] `porbla` |
-| `porart.cannon.2.5` | — | 15.6 | F3560 | [B] `porbla` |
-| `porart.cannon.2.6` | — | 15.6 | F5560 | [B] `porbla` |
-| `porart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `porbla` |
-| `porart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `porbla` |
-| `porart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `porbla` |
-| `porart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `porbla` |
-| `porart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `porbla` |
-| `porart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `porbla` |
-| `porart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `porbla` |
-| `porart.howitzer.2.4` | — | 31.2 | F2560 | [B] `porbla` |
-| `porart.howitzer.2.5` | — | 31.2 | F3560 | [B] `porbla` |
-| `porart.howitzer.2.6` | — | 31.2 | F5560 | [B] `porbla` |
-| `porbar.pikemanpor.1.6` | — | 15.6 | F15000 G1875 | [B] `porbla` |
-| `porbar.pikemanpor.2.6` | — | 15.6 | F11250 G1500 | [B] `porbla` |
-| `porbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `porcen.1` |
-| `porcen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `poraca`, [B] `portem`, [B] `porart` |
-| `porpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `porart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`porart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`porart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`porart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`porart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`porart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`poraca.12`) | 15.6 | iron 5,000 | Blacksmith (`porbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`poraca.13`) | 15.6 | gold 4,000 | Blacksmith (`porbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`poraca.14`) | 15.6 | gold 7,000 | Blacksmith (`porbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`poraca.15`) | 15.6 | coal 11,000 | Blacksmith (`porbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`poraca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`porart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`poraca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`porart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`poraca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`porart`; building) |
+| **Design multi-barrelled cannon** (`poraca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`porart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`poraca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`porart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`poraca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`porart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`poraca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`poraca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`porart`; building) |
+| **Design new rigging types (ship speed +40%)** (`poraca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`porpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`poraca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`porpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`poraca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`porpor`; building) |
+| **Design flintlock (musket cost -50%)** (`poraca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`poraca.34`) | 15.6 | gold 9,750 | Blacksmith (`porbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`poraca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`porcen.1`; upgrade), Blacksmith (`porbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`poraca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`porcen.1`; upgrade), Blacksmith (`porbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`poraca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`porpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`poraca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`porpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`poraca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`porpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`poraca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`porbla`; building) |
+| **—** (`porart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`porbla`; building) |
+| **—** (`porart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`porbla`; building) |
+| **—** (`porbar.pikemanpor.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`porbla`; building) |
+| **—** (`porbar.pikemanpor.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`porbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`porbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`porcen.1`; upgrade) |
+| **Progress to the 18th Century** (`porcen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`poraca`; building), Cathedral (`portem`; building), Artillery Depot (`porart`; building) |
+| **Train woodworkers (repair all ships)** (`porpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`porart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1732,149 +1736,149 @@ graph LR
 ## Prussia (`pru`)
 <a id="pru--здания"></a>
 <a id="здания--пруссия"></a>
-### `pru` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `prucen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `pruaca` | Academy | 625.0 | W1200 S1150 | — | [B] `prubar` |
-| `pruart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `pruaca` |
-| `pruba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `prucen.1` |
-| `prubar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `prubla` |
-| `prubla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `prucen` |
-| `prucen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `prudip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `pruaca` |
-| `pruhou` | Housing | 31.2 | W100 S100 | 25 | [B] `prucen` |
-| `prusta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `prubla` |
-| `prutem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `prucen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`prucen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`pruaca`) | 625.0 | wood 1,200, stone 1,150 | — | Barracks, 17th century (`prubar`; building) |
+| **Artillery Depot** (`pruart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`pruaca`; building) |
+| **Barracks, 18th century** (`pruba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Barracks, 17th century** (`prubar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`prubla`; building) |
+| **Blacksmith** (`prubla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`prucen`; building) |
+| **Town Hall** (`prucen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`prudip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`pruaca`; building) |
+| **Housing** (`pruhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`prucen`; building) |
+| **Stable** (`prusta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`prubla`; building) |
+| **Cathedral** (`prutem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`prucen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="pru--юниты"></a>
 <a id="юниты--пруссия"></a>
-### `pru` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | prudip | [B] `pruaca`, [B] `prucen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | prudip | [B] `pruaca`, [B] `prucen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `pruaca.29`, [B] `pruart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | pruart | [B] `prubla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | prudip | [B] `pruaca`, [B] `prucen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | prusta | [B] `prubla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | prudip | [B] `pruaca`, [B] `prucen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | prubar | [B] `pruaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | pruba2 | [B] `pruaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `pruart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `pruaca.6`, [B] `pruart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `pruart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | pruba2 | [B] `prubla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | prudip | [B] `pruaca`, [B] `prucen` |
-| `grenadierpru` | Grenadier | 7.00 | F90 G100 I45 | pruba2 | [B] `prubla` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | pruart | [B] `prubla` |
-| `hussarpru` | Hussar | 11.25 | F80 G15 I2 | prusta | [B] `prubla`, [T] `prucen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | prudip | [B] `pruaca`, [B] `prucen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | prudip | [B] `pruaca`, [B] `prucen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | pruart | [B] `prubla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | pruart | [T] `pruaca.19`, [B] `prubla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | prubar | [B] `prubla` |
-| `musketeer18pru` | Musketeer, 18th century | 6.00 | F70 G80 I40 | pruba2 | [B] `prubla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | prubar | [B] `pruaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | pruba2 | [B] `pruaca` |
-| `peaaus` | Peasant | 12.50 | F100 | prucen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | prubar | [B] `prubla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | pruba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | prutem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | prusta | [B] `prubla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | prudip | [B] `pruaca`, [B] `prucen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `pruart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`pruaca.29`; upgrade), Artillery Depot (`pruart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`pruart`) | Blacksmith (`prubla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`prusta`) | Blacksmith (`prubla`; building), Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`prusta`) | Blacksmith (`prubla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`prusta`) | Blacksmith (`prubla`; building), Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`prubar`) | Academy (`pruaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`pruba2`) | Academy (`pruaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`pruart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`pruaca.6`; upgrade), Artillery Depot (`pruart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`pruart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`pruba2`) | Blacksmith (`prubla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Grenadier** (`grenadierpru`) | 7.00 | food 90, gold 100, iron 45 | Barracks, 18th century (`pruba2`) | Blacksmith (`prubla`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`pruart`) | Blacksmith (`prubla`; building) |
+| **Hussar** (`hussarpru`) | 11.25 | food 80, gold 15, iron 2 | Stable (`prusta`) | Blacksmith (`prubla`; building), Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`pruart`) | Blacksmith (`prubla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`pruart`) | Design multi-barrelled cannon (`pruaca.19`; upgrade), Blacksmith (`prubla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`prubar`) | Blacksmith (`prubla`; building) |
+| **Musketeer, 18th century** (`musketeer18pru`) | 6.00 | food 70, gold 80, iron 40 | Barracks, 18th century (`pruba2`) | Blacksmith (`prubla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`prubar`) | Academy (`pruaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`pruba2`) | Academy (`pruaca`; building) |
+| **Peasant** (`peaaus`) | 12.50 | food 100 | Town Hall (`prucen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`prubar`) | Blacksmith (`prubla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`pruba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`prutem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`prusta`) | Blacksmith (`prubla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`prudip`) | Academy (`pruaca`; building), Town Hall (`prucen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`pruart`; building) |
 
 <a id="pru--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--пруссия"></a>
-### `pru` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `prucen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `prucen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `prucen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `prucen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `prucen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `prucen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `prucen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `prucen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `prucen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `pruart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `pruart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `pruart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `pruart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `pruart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `pruart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `prucen.1` |
-| `pruaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `prubla` |
-| `pruaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `prubla` |
-| `pruaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `prubla` |
-| `pruaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `prubla` |
-| `pruaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `pruart` |
-| `pruaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `pruart` |
-| `pruaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `pruart` |
-| `pruaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `pruart` |
-| `pruaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W23540 G1900 C4250 | [B] `pruart` |
-| `pruaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `pruart` |
-| `pruaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `prucen.1` |
-| `pruaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W12540 G8500 C57200 | [B] `pruart` |
-| `pruaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `pruaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `pruaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `pruaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `prucen.1` |
-| `pruaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `prubla` |
-| `pruaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `prucen.1`, [B] `prubla` |
-| `pruaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `prucen.1`, [B] `prubla` |
-| `pruaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `pruaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `pruaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `pruaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `prubla` |
-| `pruart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `prubla` |
-| `pruart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `prubla` |
-| `pruart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `prubla` |
-| `pruart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `prubla` |
-| `pruart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `prubla` |
-| `pruart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `prubla` |
-| `pruart.cannon.2.4` | — | 15.6 | F2560 | [B] `prubla` |
-| `pruart.cannon.2.5` | — | 15.6 | F3560 | [B] `prubla` |
-| `pruart.cannon.2.6` | — | 15.6 | F5560 | [B] `prubla` |
-| `pruart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `prubla` |
-| `pruart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `prubla` |
-| `pruart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `prubla` |
-| `pruart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `prubla` |
-| `pruart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `prubla` |
-| `pruart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `prubla` |
-| `pruart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `prubla` |
-| `pruart.howitzer.2.4` | — | 31.2 | F2560 | [B] `prubla` |
-| `pruart.howitzer.2.5` | — | 31.2 | F3560 | [B] `prubla` |
-| `pruart.howitzer.2.6` | — | 31.2 | F5560 | [B] `prubla` |
-| `prubar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `prubla` |
-| `prubar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `prubla` |
-| `prubla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `prucen.1` |
-| `prucen.1` | Progress to the 18th Century | 9.4 | F20000 G6500 I1100 C1100 | [B] `pruaca`, [B] `prutem`, [B] `pruart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`pruart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`pruart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`pruart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`pruart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`pruart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`pruart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`pruaca.12`) | 15.6 | iron 5,000 | Blacksmith (`prubla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`pruaca.13`) | 15.6 | gold 4,000 | Blacksmith (`prubla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`pruaca.14`) | 15.6 | gold 7,000 | Blacksmith (`prubla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`pruaca.15`) | 15.6 | coal 11,000 | Blacksmith (`prubla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`pruaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`pruart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`pruaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`pruart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`pruaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`pruart`; building) |
+| **Design multi-barrelled cannon** (`pruaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`pruart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`pruaca.20`) | 15.6 | wood 23,540, gold 1,900, coal 4,250 | Artillery Depot (`pruart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`pruaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`pruart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`pruaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`pruaca.27`) | 15.6 | wood 12,540, gold 8,500, coal 57,200 | Artillery Depot (`pruart`; building) |
+| **Design new rigging types (ship speed +40%)** (`pruaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`pruaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`pruaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`pruaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`pruaca.34`) | 15.6 | gold 9,750 | Blacksmith (`prubla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`pruaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`prucen.1`; upgrade), Blacksmith (`prubla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`pruaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`prucen.1`; upgrade), Blacksmith (`prubla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`pruaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`pruaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`pruaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`pruaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`prubla`; building) |
+| **—** (`pruart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`prubla`; building) |
+| **—** (`prubar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`prubla`; building) |
+| **—** (`prubar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`prubla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`prubla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`prucen.1`; upgrade) |
+| **Progress to the 18th Century** (`prucen.1`) | 9.4 | food 20,000, gold 6,500, iron 1,100, coal 1,100 | Academy (`pruaca`; building), Cathedral (`prutem`; building), Artillery Depot (`pruart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -1883,148 +1887,148 @@ graph LR
 ## Russia (`rus`)
 <a id="rus--здания"></a>
 <a id="здания--россия"></a>
-### `rus` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `rusaca` | Academy | 843.8 | W1250 S1300 | — | [B] `rusbar` |
-| `rusart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `rusaca` |
-| `rusba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `ruscen.1` |
-| `rusbar` | Strelets Barracks | 78.1 | W200 S20 | 25 | [B] `rusbla` |
-| `rusbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `ruscen` |
-| `ruscen` | Town Hall | 156.2 | W680 S700 | 75 | — |
-| `rusdip` | Diplomatic Center | 312.5 | W7900 S3700 | — | [B] `rusaca` |
-| `rushou` | Izba | 31.2 | W120 | 25 | [B] `ruscen` |
-| `rusmar` | Market | 234.4 | W450 | — | [B] `rusmil`, [B] `russto` |
-| `rusmil` | Mill | 93.8 | W210 | — | — |
-| `ruspor` | Shipyard | 1562.5 | W1200 S800 I400 | — | [B] `rusmar` |
-| `russga` | Gate | 200.0 | S60 | — | — |
-| `russta` | Stable | 375.0 | W7950 G550 | — | [B] `rusbla` |
-| `russto` | Storehouse | 31.2 | W50 S20 | — | [B] `ruscen` |
-| `russwa` | Wall | 200.0 | S60 | — | [B] `russto` |
-| `rustem` | Orthodox Cathedral | 156.2 | W1150 S1650 G100 I500 | — | [B] `ruscen` |
-| `rustow` | Tower | 1476.6 | W100 S100 G150 | — | [B] `russto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `russto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Academy** (`rusaca`) | 843.8 | wood 1,250, stone 1,300 | — | Strelets Barracks (`rusbar`; building) |
+| **Artillery Depot** (`rusart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`rusaca`; building) |
+| **Barracks, 18th century** (`rusba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Strelets Barracks** (`rusbar`) | 78.1 | wood 200, stone 20 | 25 | Blacksmith (`rusbla`; building) |
+| **Blacksmith** (`rusbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`ruscen`; building) |
+| **Town Hall** (`ruscen`) | 156.2 | wood 680, stone 700 | 75 | — |
+| **Diplomatic Center** (`rusdip`) | 312.5 | wood 7,900, stone 3,700 | — | Academy (`rusaca`; building) |
+| **Izba** (`rushou`) | 31.2 | wood 120 | 25 | Town Hall (`ruscen`; building) |
+| **Market** (`rusmar`) | 234.4 | wood 450 | — | Mill (`rusmil`; building), Storehouse (`russto`; building) |
+| **Mill** (`rusmil`) | 93.8 | wood 210 | — | — |
+| **Shipyard** (`ruspor`) | 1562.5 | wood 1,200, stone 800, iron 400 | — | Market (`rusmar`; building) |
+| **Gate** (`russga`) | 200.0 | stone 60 | — | — |
+| **Stable** (`russta`) | 375.0 | wood 7,950, gold 550 | — | Blacksmith (`rusbla`; building) |
+| **Storehouse** (`russto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`ruscen`; building) |
+| **Wall** (`russwa`) | 200.0 | stone 60 | — | Storehouse (`russto`; building) |
+| **Orthodox Cathedral** (`rustem`) | 156.2 | wood 1,150, stone 1,650, gold 100, iron 500 | — | Town Hall (`ruscen`; building) |
+| **Tower** (`rustow`) | 1476.6 | wood 100, stone 100, gold 150 | — | Storehouse (`russto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`russto`; building) |
 
 <a id="rus--юниты"></a>
 <a id="юниты--россия"></a>
-### `rus` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | ruspor | [T] `rusaca.29`, [B] `rusart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | rusart | [B] `rusbla` |
-| `cossackdon` | Don Cossack | 13.50 | F100 W1 | russta | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `drummer18` | Drummer, 18th century | 6.00 | F90 G15 | rusba2 | [B] `rusaca` |
-| `drummerrus` | Drummer, 17th century | 6.00 | F90 G15 | rusbar | [B] `rusaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | ruspor | [B] `rusart` |
-| `fishboat` | Boat | 40.00 | W600 | ruspor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | ruspor | [T] `rusaca.6`, [B] `rusart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | ruspor | [B] `rusart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | rusba2 | [B] `rusbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | rusart | [B] `rusbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | russta | [B] `rusbla`, [T] `ruscen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | rusart | [B] `rusbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | rusart | [T] `rusaca.19`, [B] `rusbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | rusba2 | [B] `rusbla` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | rusba2 | [B] `rusaca` |
-| `officerrus` | Commander | 12.50 | F100 G125 I5 | rusbar | [B] `rusaca` |
-| `pearus` | Serf | 12.50 | F100 | ruscen | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | rusba2 | — |
-| `pikemanrus` | Spearman | 5.50 | F45 G4 I15 | rusbar | [B] `rusbla` |
-| `pope` | Pope | 20.00 | F40 G20 | rustem | — |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | rusdip | [B] `rusaca`, [B] `ruscen` |
-| `strelet` | Strelets | 8.50 | F70 G7 I9 | rusbar | [B] `rusbla` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `vityaz` | Vityaz | 25.50 | F160 G13 I25 | russta | [B] `rusbla` |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | ruspor | [B] `rusart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`ruspor`) | Design new rib system and new hulls (battleship construction) (`rusaca.29`; upgrade), Artillery Depot (`rusart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`rusart`) | Blacksmith (`rusbla`; building) |
+| **Don Cossack** (`cossackdon`) | 13.50 | food 100, wood 1 | Stable (`russta`) | — |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`russta`) | Blacksmith (`rusbla`; building), Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`russta`) | Blacksmith (`rusbla`; building), Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 90, gold 15 | Barracks, 18th century (`rusba2`) | Academy (`rusaca`; building) |
+| **Drummer, 17th century** (`drummerrus`) | 6.00 | food 90, gold 15 | Strelets Barracks (`rusbar`) | Academy (`rusaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`ruspor`) | Artillery Depot (`rusart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`ruspor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`ruspor`) | Develop new woodworking methods (frigate building) (`rusaca.6`; upgrade), Artillery Depot (`rusart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`ruspor`) | Artillery Depot (`rusart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`rusba2`) | Blacksmith (`rusbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`rusart`) | Blacksmith (`rusbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`russta`) | Blacksmith (`rusbla`; building), Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`rusart`) | Blacksmith (`rusbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`rusart`) | Design multi-barrelled cannon (`rusaca.19`; upgrade), Blacksmith (`rusbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`rusba2`) | Blacksmith (`rusbla`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`rusba2`) | Academy (`rusaca`; building) |
+| **Commander** (`officerrus`) | 12.50 | food 100, gold 125, iron 5 | Strelets Barracks (`rusbar`) | Academy (`rusaca`; building) |
+| **Serf** (`pearus`) | 12.50 | food 100 | Town Hall (`ruscen`) | — |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`rusba2`) | — |
+| **Spearman** (`pikemanrus`) | 5.50 | food 45, gold 4, iron 15 | Strelets Barracks (`rusbar`) | Blacksmith (`rusbla`; building) |
+| **Pope** (`pope`) | 20.00 | food 40, gold 20 | Orthodox Cathedral (`rustem`) | — |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`rusdip`) | Academy (`rusaca`; building), Town Hall (`ruscen`; building) |
+| **Strelets** (`strelet`) | 8.50 | food 70, gold 7, iron 9 | Strelets Barracks (`rusbar`) | Blacksmith (`rusbla`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Vityaz** (`vityaz`) | 25.50 | food 160, gold 13, iron 25 | Stable (`russta`) | Blacksmith (`rusbla`; building) |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`ruspor`) | Artillery Depot (`rusart`; building) |
 
 <a id="rus--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--россия"></a>
-### `rus` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `ruscen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `ruscen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `ruscen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `ruscen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `ruscen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `ruscen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `ruscen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `ruscen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `ruscen.1` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `ruscen.1` |
-| `rusaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `rusbla` |
-| `rusaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `rusbla` |
-| `rusaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `rusbla` |
-| `rusaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `rusbla` |
-| `rusaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `rusart` |
-| `rusaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `rusart` |
-| `rusaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `rusart` |
-| `rusaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `rusart` |
-| `rusaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `rusart` |
-| `rusaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `rusart` |
-| `rusaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `ruscen.1` |
-| `rusaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `rusart` |
-| `rusaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `ruspor` |
-| `rusaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `ruspor` |
-| `rusaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `ruspor` |
-| `rusaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `ruscen.1` |
-| `rusaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `rusbla` |
-| `rusaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `ruscen.1`, [B] `rusbla` |
-| `rusaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `ruscen.1`, [B] `rusbla` |
-| `rusaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `ruspor` |
-| `rusaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `ruspor` |
-| `rusaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `ruspor` |
-| `rusaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `rusbla` |
-| `rusart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `rusbla` |
-| `rusart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `rusbla` |
-| `rusart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `rusbla` |
-| `rusart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `rusbla` |
-| `rusart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `rusbla` |
-| `rusart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `rusbla` |
-| `rusart.cannon.2.4` | — | 15.6 | F2560 | [B] `rusbla` |
-| `rusart.cannon.2.5` | — | 15.6 | F3560 | [B] `rusbla` |
-| `rusart.cannon.2.6` | — | 15.6 | F5560 | [B] `rusbla` |
-| `rusart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `rusbla` |
-| `rusart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `rusbla` |
-| `rusart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `rusbla` |
-| `rusart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `rusbla` |
-| `rusart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `rusbla` |
-| `rusart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `rusbla` |
-| `rusart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `rusbla` |
-| `rusart.howitzer.2.4` | — | 31.2 | F2560 | [B] `rusbla` |
-| `rusart.howitzer.2.5` | — | 31.2 | F3560 | [B] `rusbla` |
-| `rusart.howitzer.2.6` | — | 31.2 | F5560 | [B] `rusbla` |
-| `rusbar.pikemanrus.1.6` | — | 15.6 | F15000 G1875 | [B] `rusbla` |
-| `rusbar.pikemanrus.2.6` | — | 15.6 | F11250 G1500 | [B] `rusbla` |
-| `rusbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `ruscen.1` |
-| `ruscen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `rusaca`, [B] `rustem`, [B] `rusart` |
-| `ruspor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `rusart` |
-| `rustow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `rusart` |
-| `rustow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `rusart` |
-| `rustow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `rusart` |
-| `rustow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `rusart` |
-| `rustow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `rusart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`rusaca.12`) | 15.6 | iron 5,000 | Blacksmith (`rusbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`rusaca.13`) | 15.6 | gold 4,000 | Blacksmith (`rusbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`rusaca.14`) | 15.6 | gold 7,000 | Blacksmith (`rusbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`rusaca.15`) | 15.6 | coal 11,000 | Blacksmith (`rusbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`rusaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`rusart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`rusaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`rusart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`rusaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`rusart`; building) |
+| **Design multi-barrelled cannon** (`rusaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`rusart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`rusaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`rusart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`rusaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`rusart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`rusaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`rusaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`rusart`; building) |
+| **Design new rigging types (ship speed +40%)** (`rusaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`ruspor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`rusaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`ruspor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`rusaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`ruspor`; building) |
+| **Design flintlock (musket cost -50%)** (`rusaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`rusaca.34`) | 15.6 | gold 9,750 | Blacksmith (`rusbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`rusaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`ruscen.1`; upgrade), Blacksmith (`rusbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`rusaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`ruscen.1`; upgrade), Blacksmith (`rusbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`rusaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`ruspor`; building) |
+| **Develop new woodworking methods (frigate building)** (`rusaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`ruspor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`rusaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`ruspor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`rusaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`rusbla`; building) |
+| **—** (`rusbar.pikemanrus.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`rusbla`; building) |
+| **—** (`rusbar.pikemanrus.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`rusbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`rusbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`ruscen.1`; upgrade) |
+| **Progress to the 18th Century** (`ruscen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`rusaca`; building), Orthodox Cathedral (`rustem`; building), Artillery Depot (`rusart`; building) |
+| **Train woodworkers (repair all ships)** (`ruspor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`rusart`; building) |
+| **Increase number of defensive cannons (20%)** (`rustow.1`) | 31.2 | gold 250 | Artillery Depot (`rusart`; building) |
+| **Increase number of defensive cannons (20%)** (`rustow.2`) | 31.2 | iron 350 | Artillery Depot (`rusart`; building) |
+| **Increase number of defensive cannons (10%)** (`rustow.3`) | 31.2 | coal 400 | Artillery Depot (`rusart`; building) |
+| **Increase number of defensive cannons (10%)** (`rustow.4`) | 31.2 | iron 450 | Artillery Depot (`rusart`; building) |
+| **Increase number of defensive cannons (10%)** (`rustow.5`) | 31.2 | coal 500 | Artillery Depot (`rusart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2033,149 +2037,149 @@ graph LR
 ## Saxony (`sax`)
 <a id="sax--здания"></a>
 <a id="здания--саксония"></a>
-### `sax` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `saxcen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `saxaca` | Academy | 625.0 | W1250 S1100 | — | [B] `saxbar` |
-| `saxart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `saxaca` |
-| `saxba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `saxcen.1` |
-| `saxbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `saxbla` |
-| `saxbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `saxcen` |
-| `saxcen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `saxdip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `saxaca` |
-| `saxhou` | Housing | 31.2 | W100 S100 | 25 | [B] `saxcen` |
-| `saxsta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `saxbla` |
-| `saxtem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `saxcen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`saxcen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`saxaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`saxbar`; building) |
+| **Artillery Depot** (`saxart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`saxaca`; building) |
+| **Barracks, 18th century** (`saxba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Barracks, 17th century** (`saxbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`saxbla`; building) |
+| **Blacksmith** (`saxbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`saxcen`; building) |
+| **Town Hall** (`saxcen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`saxdip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`saxaca`; building) |
+| **Housing** (`saxhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`saxcen`; building) |
+| **Stable** (`saxsta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`saxbla`; building) |
+| **Cathedral** (`saxtem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`saxcen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="sax--юниты"></a>
 <a id="юниты--саксония"></a>
-### `sax` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `saxaca.29`, [B] `saxart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | saxart | [B] `saxbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | saxsta | [B] `saxbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | saxbar | [B] `saxaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | saxba2 | [B] `saxaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `saxart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `saxaca.6`, [B] `saxart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `saxart` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `grenadiersax` | Grenadier | 6.00 | F50 G60 I40 | saxba2 | [B] `saxbla` |
-| `guardcavalrysax` | Cavalry Guard | 24.00 | F140 G50 I20 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | saxart | [B] `saxbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | saxsta | [B] `saxbla`, [T] `saxcen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | saxart | [B] `saxbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | saxart | [T] `saxaca.19`, [B] `saxbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | saxbar | [B] `saxbla` |
-| `musketeer18sax` | Musketeer, 18th century | 4.50 | F40 G45 I40 | saxba2 | [B] `saxbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | saxbar | [B] `saxaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | saxba2 | [B] `saxaca` |
-| `peaaus` | Peasant | 12.50 | F100 | saxcen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | saxbar | [B] `saxbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | saxba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | saxtem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | saxsta | [B] `saxbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | saxdip | [B] `saxaca`, [B] `saxcen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `saxart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`saxaca.29`; upgrade), Artillery Depot (`saxart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`saxart`) | Blacksmith (`saxbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`saxsta`) | Blacksmith (`saxbla`; building), Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`saxsta`) | Blacksmith (`saxbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`saxsta`) | Blacksmith (`saxbla`; building), Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`saxbar`) | Academy (`saxaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`saxba2`) | Academy (`saxaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`saxart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`saxaca.6`; upgrade), Artillery Depot (`saxart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`saxart`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Grenadier** (`grenadiersax`) | 6.00 | food 50, gold 60, iron 40 | Barracks, 18th century (`saxba2`) | Blacksmith (`saxbla`; building) |
+| **Cavalry Guard** (`guardcavalrysax`) | 24.00 | food 140, gold 50, iron 20 | Stable (`saxsta`) | Blacksmith (`saxbla`; building), Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`saxart`) | Blacksmith (`saxbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`saxsta`) | Blacksmith (`saxbla`; building), Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`saxart`) | Blacksmith (`saxbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`saxart`) | Design multi-barrelled cannon (`saxaca.19`; upgrade), Blacksmith (`saxbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`saxbar`) | Blacksmith (`saxbla`; building) |
+| **Musketeer, 18th century** (`musketeer18sax`) | 4.50 | food 40, gold 45, iron 40 | Barracks, 18th century (`saxba2`) | Blacksmith (`saxbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`saxbar`) | Academy (`saxaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`saxba2`) | Academy (`saxaca`; building) |
+| **Peasant** (`peaaus`) | 12.50 | food 100 | Town Hall (`saxcen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`saxbar`) | Blacksmith (`saxbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`saxba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`saxtem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`saxsta`) | Blacksmith (`saxbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`saxdip`) | Academy (`saxaca`; building), Town Hall (`saxcen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`saxart`; building) |
 
 <a id="sax--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--саксония"></a>
-### `sax` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `saxcen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `saxcen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `saxcen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `saxcen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `saxcen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `saxcen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `saxcen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `saxcen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `saxcen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `saxart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `saxart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `saxart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `saxart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `saxart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `saxart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `saxcen.1` |
-| `saxaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `saxbla` |
-| `saxaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `saxbla` |
-| `saxaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `saxbla` |
-| `saxaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `saxbla` |
-| `saxaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `saxart` |
-| `saxaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `saxart` |
-| `saxaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `saxart` |
-| `saxaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `saxart` |
-| `saxaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `saxart` |
-| `saxaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `saxart` |
-| `saxaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `saxcen.1` |
-| `saxaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `saxart` |
-| `saxaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `saxaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `saxaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `saxaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `saxcen.1` |
-| `saxaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `saxbla` |
-| `saxaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `saxcen.1`, [B] `saxbla` |
-| `saxaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `saxcen.1`, [B] `saxbla` |
-| `saxaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `saxaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `saxaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `saxaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `saxbla` |
-| `saxart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `saxbla` |
-| `saxart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `saxbla` |
-| `saxart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `saxbla` |
-| `saxart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `saxbla` |
-| `saxart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `saxbla` |
-| `saxart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `saxbla` |
-| `saxart.cannon.2.4` | — | 15.6 | F2560 | [B] `saxbla` |
-| `saxart.cannon.2.5` | — | 15.6 | F3560 | [B] `saxbla` |
-| `saxart.cannon.2.6` | — | 15.6 | F5560 | [B] `saxbla` |
-| `saxart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `saxbla` |
-| `saxart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `saxbla` |
-| `saxart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `saxbla` |
-| `saxart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `saxbla` |
-| `saxart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `saxbla` |
-| `saxart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `saxbla` |
-| `saxart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `saxbla` |
-| `saxart.howitzer.2.4` | — | 31.2 | F2560 | [B] `saxbla` |
-| `saxart.howitzer.2.5` | — | 31.2 | F3560 | [B] `saxbla` |
-| `saxart.howitzer.2.6` | — | 31.2 | F5560 | [B] `saxbla` |
-| `saxbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `saxbla` |
-| `saxbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `saxbla` |
-| `saxbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `saxcen.1` |
-| `saxcen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `saxaca`, [B] `saxtem`, [B] `saxart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`saxart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`saxart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`saxart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`saxart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`saxart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`saxart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`saxaca.12`) | 15.6 | iron 5,000 | Blacksmith (`saxbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`saxaca.13`) | 15.6 | gold 4,000 | Blacksmith (`saxbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`saxaca.14`) | 15.6 | gold 7,000 | Blacksmith (`saxbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`saxaca.15`) | 15.6 | coal 11,000 | Blacksmith (`saxbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`saxaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`saxart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`saxaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`saxart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`saxaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`saxart`; building) |
+| **Design multi-barrelled cannon** (`saxaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`saxart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`saxaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`saxart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`saxaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`saxart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`saxaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`saxaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`saxart`; building) |
+| **Design new rigging types (ship speed +40%)** (`saxaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`saxaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`saxaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`saxaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`saxaca.34`) | 15.6 | gold 9,750 | Blacksmith (`saxbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`saxaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`saxcen.1`; upgrade), Blacksmith (`saxbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`saxaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`saxcen.1`; upgrade), Blacksmith (`saxbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`saxaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`saxaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`saxaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`saxaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`saxbla`; building) |
+| **—** (`saxbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`saxbla`; building) |
+| **—** (`saxbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`saxbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`saxbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`saxcen.1`; upgrade) |
+| **Progress to the 18th Century** (`saxcen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`saxaca`; building), Cathedral (`saxtem`; building), Artillery Depot (`saxart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2184,139 +2188,139 @@ graph LR
 ## Scotland (`sco`)
 <a id="sco--здания"></a>
 <a id="здания--шотландия"></a>
-### `sco` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `scocen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `scoaca` | Academy | 625.0 | W1250 S1100 | — | [B] `scobar` |
-| `scoart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `scoaca` |
-| `scoba2` | Castle | 625.0 | W640 S2400 G2400 | 150 | [B] `scobla` |
-| `scobar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `scobla` |
-| `scobla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `scocen` |
-| `scocen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `scodip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `scoaca` |
-| `scohou` | Housing | 31.2 | W100 S100 | 25 | [B] `scocen` |
-| `scosta` | Stable | 375.0 | W2350 G800 | — | [B] `scobla` |
-| `scotem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `scocen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`scocen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`scoaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`scobar`; building) |
+| **Artillery Depot** (`scoart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`scoaca`; building) |
+| **Castle** (`scoba2`) | 625.0 | wood 640, stone 2,400, gold 2,400 | 150 | Blacksmith (`scobla`; building) |
+| **Barracks, 17th century** (`scobar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`scobla`; building) |
+| **Blacksmith** (`scobla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`scocen`; building) |
+| **Town Hall** (`scocen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`scodip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`scoaca`; building) |
+| **Housing** (`scohou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`scocen`; building) |
+| **Stable** (`scosta`) | 375.0 | wood 2,350, gold 800 | — | Blacksmith (`scobla`; building) |
+| **Cathedral** (`scotem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`scocen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="sco--юниты"></a>
 <a id="юниты--шотландия"></a>
-### `sco` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
-| `archersco` | Bow Clansman | 6.00 | F80 W5 G7 | scoba2 | [B] `scobla` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | scodip | [B] `scoaca`, [B] `scocen` |
-| `bagpiper` | Bagpiper | 7.00 | F120 G20 | scobar | [B] `scoaca` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `scoaca.29`, [B] `scoart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | scoart | [B] `scobla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | scodip | [B] `scoaca`, [B] `scocen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | scodip | [B] `scoaca`, [B] `scocen` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `scoart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `framegun` | Frame gun | 50.00 | W200 G300 I150 | scoart | [B] `scobla` |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `scoaca.6`, [B] `scoart` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | scodip | [B] `scoaca`, [B] `scocen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | scoart | [B] `scobla` |
-| `lancersco` | Lancer | 21.00 | F120 G6 | scosta | [B] `scobla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | scodip | [B] `scoaca`, [B] `scocen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | scodip | [B] `scoaca`, [B] `scocen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | scoart | [B] `scobla` |
-| `musketeersco` | Covenanter musketeer | 7.00 | F55 G8 I7 | scobar | [B] `scobla` |
-| `officersco` | Officer | 10.00 | F130 G130 I10 | scobar | [B] `scoaca` |
-| `peasco` | Peasant | 12.50 | F100 | scocen | — |
-| `pikemansco` | Covenanter pikeman | 4.00 | F35 G2 | scobar | [B] `scobla` |
-| `priest` | Priest | 20.00 | F60 G25 | scotem | — |
-| `raidersco` | Raider | 22.50 | F130 G8 I2 | scosta | [B] `scobla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | scodip | [B] `scoaca`, [B] `scocen` |
-| `swordsmansco` | Sword Clansman | 7.00 | F110 W5 G10 | scoba2 | [B] `scobla` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `scoart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Bow Clansman** (`archersco`) | 6.00 | food 80, wood 5, gold 7 | Castle (`scoba2`) | Blacksmith (`scobla`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Bagpiper** (`bagpiper`) | 7.00 | food 120, gold 20 | Barracks, 17th century (`scobar`) | Academy (`scoaca`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`scoaca.29`; upgrade), Artillery Depot (`scoart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`scoart`) | Blacksmith (`scobla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`scoart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frame gun** (`framegun`) | 50.00 | wood 200, gold 300, iron 150 | Artillery Depot (`scoart`) | Blacksmith (`scobla`; building) |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`scoaca.6`; upgrade), Artillery Depot (`scoart`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`scoart`) | Blacksmith (`scobla`; building) |
+| **Lancer** (`lancersco`) | 21.00 | food 120, gold 6 | Stable (`scosta`) | Blacksmith (`scobla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`scoart`) | Blacksmith (`scobla`; building) |
+| **Covenanter musketeer** (`musketeersco`) | 7.00 | food 55, gold 8, iron 7 | Barracks, 17th century (`scobar`) | Blacksmith (`scobla`; building) |
+| **Officer** (`officersco`) | 10.00 | food 130, gold 130, iron 10 | Barracks, 17th century (`scobar`) | Academy (`scoaca`; building) |
+| **Peasant** (`peasco`) | 12.50 | food 100 | Town Hall (`scocen`) | — |
+| **Covenanter pikeman** (`pikemansco`) | 4.00 | food 35, gold 2 | Barracks, 17th century (`scobar`) | Blacksmith (`scobla`; building) |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`scotem`) | — |
+| **Raider** (`raidersco`) | 22.50 | food 130, gold 8, iron 2 | Stable (`scosta`) | Blacksmith (`scobla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`scodip`) | Academy (`scoaca`; building), Town Hall (`scocen`; building) |
+| **Sword Clansman** (`swordsmansco`) | 7.00 | food 110, wood 5, gold 10 | Castle (`scoba2`) | Blacksmith (`scobla`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`scoart`; building) |
 
 <a id="sco--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--шотландия"></a>
-### `sco` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `scocen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `scocen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `scocen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `scocen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `scocen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `scocen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `scocen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `scocen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `scocen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `scoart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `scoart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `scoart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `scoart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `scoart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `scoart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `scocen.1` |
-| `scoaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `scobla` |
-| `scoaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `scobla` |
-| `scoaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `scobla` |
-| `scoaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `scobla` |
-| `scoaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `scoart` |
-| `scoaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `scoart` |
-| `scoaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `scoart` |
-| `scoaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `scoart` |
-| `scoaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `scoart` |
-| `scoaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `scoart` |
-| `scoaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `scoaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `scoaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `scoaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `scocen.1` |
-| `scoaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `scobla` |
-| `scoaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `scocen.1`, [B] `scobla` |
-| `scoaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `scocen.1`, [B] `scobla` |
-| `scoaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `scoaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `scoaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `scoaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `scobla` |
-| `scoart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `scobla` |
-| `scoart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `scobla` |
-| `scoart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `scobla` |
-| `scoart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `scobla` |
-| `scoart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `scobla` |
-| `scoart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `scobla` |
-| `scoart.cannon.2.4` | — | 15.6 | F2560 | [B] `scobla` |
-| `scoart.cannon.2.5` | — | 15.6 | F3560 | [B] `scobla` |
-| `scoart.cannon.2.6` | — | 15.6 | F5560 | [B] `scobla` |
-| `scoart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `scobla` |
-| `scoart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `scobla` |
-| `scoart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `scobla` |
-| `scoart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `scobla` |
-| `scoart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `scobla` |
-| `scoart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `scobla` |
-| `scoart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `scobla` |
-| `scoart.howitzer.2.4` | — | 31.2 | F2560 | [B] `scobla` |
-| `scoart.howitzer.2.5` | — | 31.2 | F3560 | [B] `scobla` |
-| `scoart.howitzer.2.6` | — | 31.2 | F5560 | [B] `scobla` |
-| `scobar.pikemansco.1.6` | — | 15.6 | F22500 G2800 | [B] `scobla` |
-| `scobar.pikemansco.2.6` | — | 15.6 | F16875 G2250 | [B] `scobla` |
-| `scobla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `scocen.1` |
-| `scocen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `scoaca`, [B] `scotem`, [B] `scoart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`scoart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`scoart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`scoart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`scoart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`scoart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`scoart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`scoaca.12`) | 15.6 | iron 5,000 | Blacksmith (`scobla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`scoaca.13`) | 15.6 | gold 4,000 | Blacksmith (`scobla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`scoaca.14`) | 15.6 | gold 7,000 | Blacksmith (`scobla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`scoaca.15`) | 15.6 | coal 11,000 | Blacksmith (`scobla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`scoaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`scoart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`scoaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`scoart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`scoaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`scoart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`scoaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`scoart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`scoaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`scoart`; building) |
+| **Develop mathematics (artillery accuracy +35%)** (`scoaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`scoart`; building) |
+| **Design new rigging types (ship speed +40%)** (`scoaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`scoaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`scoaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`scoaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`scoaca.34`) | 15.6 | gold 9,750 | Blacksmith (`scobla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`scoaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`scocen.1`; upgrade), Blacksmith (`scobla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`scoaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`scocen.1`; upgrade), Blacksmith (`scobla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`scoaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`scoaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`scoaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`scoaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`scobla`; building) |
+| **—** (`scoart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`scobla`; building) |
+| **—** (`scobar.pikemansco.1.6`) | 15.6 | food 22,500, gold 2,800 | Blacksmith (`scobla`; building) |
+| **—** (`scobar.pikemansco.2.6`) | 15.6 | food 16,875, gold 2,250 | Blacksmith (`scobla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`scobla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`scocen.1`; upgrade) |
+| **Progress to the 18th Century** (`scocen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`scoaca`; building), Cathedral (`scotem`; building), Artillery Depot (`scoart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2325,149 +2329,149 @@ graph LR
 ## Spain (`spa`)
 <a id="spa--здания"></a>
 <a id="здания--испания"></a>
-### `spa` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `spamar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `spasto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `spasto` |
-| `spaaca` | Academy | 625.0 | W1350 S1000 | — | [B] `spabar` |
-| `spaart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `spaaca` |
-| `spaba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `spacen.1` |
-| `spabar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `spabla` |
-| `spabla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `spacen` |
-| `spacen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `spadip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `spaaca` |
-| `spahou` | Housing | 31.2 | W100 S100 | 25 | [B] `spacen` |
-| `spamar` | Market | 156.2 | W450 | — | [B] `eurmil`, [B] `spasto` |
-| `spasta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `spabla` |
-| `spasto` | Storehouse | 31.2 | W20 S20 | — | [B] `spacen` |
-| `spatem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `spacen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `spasto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`spamar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`spasto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`spasto`; building) |
+| **Academy** (`spaaca`) | 625.0 | wood 1,350, stone 1,000 | — | Barracks, 17th century (`spabar`; building) |
+| **Artillery Depot** (`spaart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`spaaca`; building) |
+| **Barracks, 18th century** (`spaba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Barracks, 17th century** (`spabar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`spabla`; building) |
+| **Blacksmith** (`spabla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`spacen`; building) |
+| **Town Hall** (`spacen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`spadip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`spaaca`; building) |
+| **Housing** (`spahou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`spacen`; building) |
+| **Market** (`spamar`) | 156.2 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`spasto`; building) |
+| **Stable** (`spasta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`spabla`; building) |
+| **Storehouse** (`spasto`) | 31.2 | wood 20, stone 20 | — | Town Hall (`spacen`; building) |
+| **Cathedral** (`spatem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`spacen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`spasto`; building) |
 
 <a id="spa--юниты"></a>
 <a id="юниты--испания"></a>
-### `spa` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | spadip | [B] `spaaca`, [B] `spacen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | spadip | [B] `spaaca`, [B] `spacen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `spaaca.29`, [B] `spaart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | spaart | [B] `spabla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | spadip | [B] `spaaca`, [B] `spacen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | spasta | [B] `spabla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | spadip | [B] `spaaca`, [B] `spacen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | spabar | [B] `spaaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | spaba2 | [B] `spaaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `spaart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `spaaca.6`, [B] `spaart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `spaart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | spaba2 | [B] `spabla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | spadip | [B] `spaaca`, [B] `spacen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | spaart | [B] `spabla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | spasta | [B] `spabla`, [T] `spacen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | spadip | [B] `spaaca`, [B] `spacen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | spadip | [B] `spaaca`, [B] `spacen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | spaart | [B] `spabla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | spaart | [T] `spaaca.19`, [B] `spabla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | spaba2 | [B] `spabla` |
-| `musketeerspa` | Musketeer, 17th century | 7.50 | F40 G12 I20 | spabar | [B] `spabla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | spabar | [B] `spaaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | spaba2 | [B] `spaaca` |
-| `peaspa` | Peasant | 12.50 | F100 | spacen | — |
-| `pikeman` | Pikeman, 17th century | 5.50 | F35 G7 I30 | spabar | [B] `spabla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | spaba2 | — |
-| `pikemanspa` | Coselete | 5.50 | F35 G7 I30 | spabar | [B] `spabla` |
-| `priest` | Priest | 20.00 | F60 G25 | spatem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | spasta | [B] `spabla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | spadip | [B] `spaaca`, [B] `spacen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `spaart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`spaaca.29`; upgrade), Artillery Depot (`spaart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`spaart`) | Blacksmith (`spabla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`spasta`) | Blacksmith (`spabla`; building), Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`spasta`) | Blacksmith (`spabla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`spasta`) | Blacksmith (`spabla`; building), Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`spabar`) | Academy (`spaaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`spaba2`) | Academy (`spaaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`spaart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`spaaca.6`; upgrade), Artillery Depot (`spaart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`spaart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`spaba2`) | Blacksmith (`spabla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`spaart`) | Blacksmith (`spabla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`spasta`) | Blacksmith (`spabla`; building), Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`spaart`) | Blacksmith (`spabla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`spaart`) | Design multi-barrelled cannon (`spaaca.19`; upgrade), Blacksmith (`spabla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`spaba2`) | Blacksmith (`spabla`; building) |
+| **Musketeer, 17th century** (`musketeerspa`) | 7.50 | food 40, gold 12, iron 20 | Barracks, 17th century (`spabar`) | Blacksmith (`spabla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`spabar`) | Academy (`spaaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`spaba2`) | Academy (`spaaca`; building) |
+| **Peasant** (`peaspa`) | 12.50 | food 100 | Town Hall (`spacen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 5.50 | food 35, gold 7, iron 30 | Barracks, 17th century (`spabar`) | Blacksmith (`spabla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`spaba2`) | — |
+| **Coselete** (`pikemanspa`) | 5.50 | food 35, gold 7, iron 30 | Barracks, 17th century (`spabar`) | Blacksmith (`spabla`; building) |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`spatem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`spasta`) | Blacksmith (`spabla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`spadip`) | Academy (`spaaca`; building), Town Hall (`spacen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`spaart`; building) |
 
 <a id="spa--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--испания"></a>
-### `spa` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `spacen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `spacen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `spacen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `spacen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `spacen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `spacen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `spacen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `spacen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `spacen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `spaart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `spaart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `spaart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `spaart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `spaart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `spaart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `spacen.1` |
-| `spaaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `spabla` |
-| `spaaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `spabla` |
-| `spaaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `spabla` |
-| `spaaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `spabla` |
-| `spaaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `spaart` |
-| `spaaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `spaart` |
-| `spaaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `spaart` |
-| `spaaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `spaart` |
-| `spaaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `spaart` |
-| `spaaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `spaart` |
-| `spaaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `spacen.1` |
-| `spaaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `spaart` |
-| `spaaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `spaaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `spaaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `spaaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `spacen.1` |
-| `spaaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `spabla` |
-| `spaaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `spacen.1`, [B] `spabla` |
-| `spaaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `spacen.1`, [B] `spabla` |
-| `spaaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `spaaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `spaaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `spaaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `spabla` |
-| `spaart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `spabla` |
-| `spaart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `spabla` |
-| `spaart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `spabla` |
-| `spaart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `spabla` |
-| `spaart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `spabla` |
-| `spaart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `spabla` |
-| `spaart.cannon.2.4` | — | 15.6 | F2560 | [B] `spabla` |
-| `spaart.cannon.2.5` | — | 15.6 | F3560 | [B] `spabla` |
-| `spaart.cannon.2.6` | — | 15.6 | F5560 | [B] `spabla` |
-| `spaart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `spabla` |
-| `spaart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `spabla` |
-| `spaart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `spabla` |
-| `spaart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `spabla` |
-| `spaart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `spabla` |
-| `spaart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `spabla` |
-| `spaart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `spabla` |
-| `spaart.howitzer.2.4` | — | 31.2 | F2560 | [B] `spabla` |
-| `spaart.howitzer.2.5` | — | 31.2 | F3560 | [B] `spabla` |
-| `spaart.howitzer.2.6` | — | 31.2 | F5560 | [B] `spabla` |
-| `spabar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `spabla` |
-| `spabar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `spabla` |
-| `spabla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `spacen.1` |
-| `spacen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `spaaca`, [B] `spatem`, [B] `spaart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`spaart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`spaart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`spaart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`spaart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`spaart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`spaart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`spaaca.12`) | 15.6 | iron 5,000 | Blacksmith (`spabla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`spaaca.13`) | 15.6 | gold 4,000 | Blacksmith (`spabla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`spaaca.14`) | 15.6 | gold 7,000 | Blacksmith (`spabla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`spaaca.15`) | 15.6 | coal 11,000 | Blacksmith (`spabla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`spaaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`spaart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`spaaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`spaart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`spaaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`spaart`; building) |
+| **Design multi-barrelled cannon** (`spaaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`spaart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`spaaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`spaart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`spaaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`spaart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`spaaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`spaaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`spaart`; building) |
+| **Design new rigging types (ship speed +40%)** (`spaaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`spaaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`spaaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`spaaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`spaaca.34`) | 15.6 | gold 9,750 | Blacksmith (`spabla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`spaaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`spacen.1`; upgrade), Blacksmith (`spabla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`spaaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`spacen.1`; upgrade), Blacksmith (`spabla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`spaaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`spaaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`spaaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`spaaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`spabla`; building) |
+| **—** (`spaart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`spabla`; building) |
+| **—** (`spabar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`spabla`; building) |
+| **—** (`spabar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`spabla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`spabla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`spacen.1`; upgrade) |
+| **Progress to the 18th Century** (`spacen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`spaaca`; building), Cathedral (`spatem`; building), Artillery Depot (`spaart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2476,149 +2480,149 @@ graph LR
 ## Sweden (`swe`)
 <a id="swe--здания"></a>
 <a id="здания--швеция"></a>
-### `swe` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `swecen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `sweaca` | Academy | 625.0 | W1350 S1000 | — | [B] `swebar` |
-| `sweart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `sweaca` |
-| `sweba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `swecen.1` |
-| `swebar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `swebla` |
-| `swebla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `swecen` |
-| `swecen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `swedip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `sweaca` |
-| `swehou` | Housing | 31.2 | W100 S100 | 25 | [B] `swecen` |
-| `swesta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `swebla` |
-| `swetem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `swecen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`swecen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`sweaca`) | 625.0 | wood 1,350, stone 1,000 | — | Barracks, 17th century (`swebar`; building) |
+| **Artillery Depot** (`sweart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`sweaca`; building) |
+| **Barracks, 18th century** (`sweba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Barracks, 17th century** (`swebar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`swebla`; building) |
+| **Blacksmith** (`swebla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`swecen`; building) |
+| **Town Hall** (`swecen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`swedip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`sweaca`; building) |
+| **Housing** (`swehou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`swecen`; building) |
+| **Stable** (`swesta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`swebla`; building) |
+| **Cathedral** (`swetem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`swecen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="swe--юниты"></a>
 <a id="юниты--швеция"></a>
-### `swe` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | swedip | [B] `sweaca`, [B] `swecen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | swedip | [B] `sweaca`, [B] `swecen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `sweaca.29`, [B] `sweart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | sweart | [B] `swebla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | swedip | [B] `sweaca`, [B] `swecen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | swesta | [B] `swebla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | swedip | [B] `sweaca`, [B] `swecen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | swebar | [B] `sweaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | sweba2 | [B] `sweaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `sweart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `sweaca.6`, [B] `sweart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `sweart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | sweba2 | [B] `swebla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | swedip | [B] `sweaca`, [B] `swecen` |
-| `hackapell` | Hakkapeliitta | 18.00 | F80 G7 I2 | swesta | [B] `swebla` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | sweart | [B] `swebla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | swesta | [B] `swebla`, [T] `swecen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | swedip | [B] `sweaca`, [B] `swecen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | swedip | [B] `sweaca`, [B] `swecen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | sweart | [B] `swebla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | sweart | [T] `sweaca.19`, [B] `swebla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | swebar | [B] `swebla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | sweba2 | [B] `swebla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | swebar | [B] `sweaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | sweba2 | [B] `sweaca` |
-| `peaeng` | Peasant | 12.50 | F100 | swecen | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | swebar | [B] `swebla` |
-| `pikeman18swe` | Pikeman, 18th century | 1.50 | F40 G3 | sweba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | sweetem | — |
-| `reiterswe` | Swedish Reiter | 22.50 | F130 G7 I20 | swesta | [B] `swebla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | swedip | [B] `sweaca`, [B] `swecen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `sweart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`sweaca.29`; upgrade), Artillery Depot (`sweart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`sweart`) | Blacksmith (`swebla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`swesta`) | Blacksmith (`swebla`; building), Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`swesta`) | Blacksmith (`swebla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`swesta`) | Blacksmith (`swebla`; building), Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`swebar`) | Academy (`sweaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`sweba2`) | Academy (`sweaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`sweart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`sweaca.6`; upgrade), Artillery Depot (`sweart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`sweart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`sweba2`) | Blacksmith (`swebla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Hakkapeliitta** (`hackapell`) | 18.00 | food 80, gold 7, iron 2 | Stable (`swesta`) | Blacksmith (`swebla`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`sweart`) | Blacksmith (`swebla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`swesta`) | Blacksmith (`swebla`; building), Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`sweart`) | Blacksmith (`swebla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`sweart`) | Design multi-barrelled cannon (`sweaca.19`; upgrade), Blacksmith (`swebla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`swebar`) | Blacksmith (`swebla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`sweba2`) | Blacksmith (`swebla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`swebar`) | Academy (`sweaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`sweba2`) | Academy (`sweaca`; building) |
+| **Peasant** (`peaeng`) | 12.50 | food 100 | Town Hall (`swecen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`swebar`) | Blacksmith (`swebla`; building) |
+| **Pikeman, 18th century** (`pikeman18swe`) | 1.50 | food 40, gold 3 | Barracks, 18th century (`sweba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`swetem`) | — |
+| **Swedish Reiter** (`reiterswe`) | 22.50 | food 130, gold 7, iron 20 | Stable (`swesta`) | Blacksmith (`swebla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`swedip`) | Academy (`sweaca`; building), Town Hall (`swecen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`sweart`; building) |
 
 <a id="swe--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--швеция"></a>
-### `swe` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swecen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swecen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swecen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swecen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swecen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swecen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swecen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swecen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swecen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `sweart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `sweart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `sweart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `sweart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `sweart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `sweart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `swecen.1` |
-| `sweaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `swebla` |
-| `sweaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `swebla` |
-| `sweaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `swebla` |
-| `sweaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `swebla` |
-| `sweaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `sweart` |
-| `sweaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `sweart` |
-| `sweaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `sweart` |
-| `sweaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `sweart` |
-| `sweaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `sweart` |
-| `sweaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `sweart` |
-| `sweaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `swecen.1` |
-| `sweaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `sweart` |
-| `sweaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `sweaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `sweaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `sweaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `swecen.1` |
-| `sweaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `swebla` |
-| `sweaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `swecen.1`, [B] `swebla` |
-| `sweaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `swecen.1`, [B] `swebla` |
-| `sweaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `sweaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `sweaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `sweaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `swebla` |
-| `sweart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `swebla` |
-| `sweart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `swebla` |
-| `sweart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `swebla` |
-| `sweart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `swebla` |
-| `sweart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `swebla` |
-| `sweart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `swebla` |
-| `sweart.cannon.2.4` | — | 15.6 | F2560 | [B] `swebla` |
-| `sweart.cannon.2.5` | — | 15.6 | F3560 | [B] `swebla` |
-| `sweart.cannon.2.6` | — | 15.6 | F5560 | [B] `swebla` |
-| `sweart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `swebla` |
-| `sweart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `swebla` |
-| `sweart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `swebla` |
-| `sweart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `swebla` |
-| `sweart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `swebla` |
-| `sweart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `swebla` |
-| `sweart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `swebla` |
-| `sweart.howitzer.2.4` | — | 31.2 | F2560 | [B] `swebla` |
-| `sweart.howitzer.2.5` | — | 31.2 | F3560 | [B] `swebla` |
-| `sweart.howitzer.2.6` | — | 31.2 | F5560 | [B] `swebla` |
-| `swebar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `swebla` |
-| `swebar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `swebla` |
-| `swebla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `swecen.1` |
-| `swecen.1` | Progress to the 18th Century | 9.4 | F37000 G5500 I1500 C1500 | [B] `sweaca`, [B] `swetem`, [B] `sweart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`sweart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`sweart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`sweart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`sweart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`sweart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`sweart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`sweaca.12`) | 15.6 | iron 5,000 | Blacksmith (`swebla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`sweaca.13`) | 15.6 | gold 4,000 | Blacksmith (`swebla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`sweaca.14`) | 15.6 | gold 7,000 | Blacksmith (`swebla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`sweaca.15`) | 15.6 | coal 11,000 | Blacksmith (`swebla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`sweaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`sweart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`sweaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`sweart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`sweaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`sweart`; building) |
+| **Design multi-barrelled cannon** (`sweaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`sweart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`sweaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`sweart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`sweaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`sweart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`sweaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`sweaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`sweart`; building) |
+| **Design new rigging types (ship speed +40%)** (`sweaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`sweaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`sweaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`sweaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`sweaca.34`) | 15.6 | gold 9,750 | Blacksmith (`swebla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`sweaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`swecen.1`; upgrade), Blacksmith (`swebla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`sweaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`swecen.1`; upgrade), Blacksmith (`swebla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`sweaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`sweaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`sweaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`sweaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`swebla`; building) |
+| **—** (`sweart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`swebla`; building) |
+| **—** (`swebar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`swebla`; building) |
+| **—** (`swebar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`swebla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`swebla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`swecen.1`; upgrade) |
+| **Progress to the 18th Century** (`swecen.1`) | 9.4 | food 37,000, gold 5,500, iron 1,500, coal 1,500 | Academy (`sweaca`; building), Cathedral (`swetem`; building), Artillery Depot (`sweart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2627,149 +2631,149 @@ graph LR
 ## Switzerland (`swi`)
 <a id="swi--здания"></a>
 <a id="здания--швейцария"></a>
-### `swi` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `swicen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `swiaca` | Academy | 625.0 | W1250 S1100 | — | [B] `swibar` |
-| `swiart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `swiaca` |
-| `swiba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `swicen.1` |
-| `swibar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `swibla` |
-| `swibla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `swicen` |
-| `swicen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `swidip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `swiaca` |
-| `swihou` | Housing | 31.2 | W100 S100 | 25 | [B] `swicen` |
-| `swista` | Stable | 625.0 | W2500 S100 G600 | — | [B] `swibla` |
-| `switem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `swicen` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`swicen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Academy** (`swiaca`) | 625.0 | wood 1,250, stone 1,100 | — | Barracks, 17th century (`swibar`; building) |
+| **Artillery Depot** (`swiart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`swiaca`; building) |
+| **Barracks, 18th century** (`swiba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Barracks, 17th century** (`swibar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`swibla`; building) |
+| **Blacksmith** (`swibla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`swicen`; building) |
+| **Town Hall** (`swicen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`swidip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`swiaca`; building) |
+| **Housing** (`swihou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`swicen`; building) |
+| **Stable** (`swista`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`swibla`; building) |
+| **Cathedral** (`switem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`swicen`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
 
 <a id="swi--юниты"></a>
 <a id="юниты--швейцария"></a>
-### `swi` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | swidip | [B] `swiaca`, [B] `swicen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | swidip | [B] `swiaca`, [B] `swicen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `swiaca.29`, [B] `swiart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | swiart | [B] `swibla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | swidip | [B] `swiaca`, [B] `swicen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | swista | [B] `swibla`, [T] `swicen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | swista | [B] `swibla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | swista | [B] `swibla`, [T] `swicen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | swibar | [B] `swiaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | swiba2 | [B] `swiaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `swiart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `swiaca.6`, [B] `swiart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `swiart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | swiba2 | [B] `swibla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | swidip | [B] `swiaca`, [B] `swicen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | swiart | [B] `swibla` |
-| `hussarswi` | Mounted Jaeger | 19.50 | F120 G30 I2 | swista | [B] `swibla`, [T] `swicen.1` |
-| `jagerswi` | Chasseur | 8.50 | F40 G70 I20 | swiba2 | [B] `swibla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | swidip | [B] `swiaca`, [B] `swicen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | swidip | [B] `swiaca`, [B] `swicen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | swiart | [B] `swibla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | swiart | [T] `swiaca.19`, [B] `swibla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | swibar | [B] `swibla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | swiba2 | [B] `swibla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | swibar | [B] `swiaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | swiba2 | [B] `swiaca` |
-| `peaaus` | Peasant | 12.50 | F100 | swicen | — |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | swiba2 | — |
-| `pikemanswi` | Pikeman, 17th century | 5.00 | F40 G6 I20 | swibar | [B] `swibla` |
-| `priest` | Priest | 20.00 | F60 G25 | sweetem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | swista | [B] `swibla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | swidip | [B] `swiaca`, [B] `swicen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `swiart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`swiaca.29`; upgrade), Artillery Depot (`swiart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`swiart`) | Blacksmith (`swibla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`swista`) | Blacksmith (`swibla`; building), Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`swista`) | Blacksmith (`swibla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`swista`) | Blacksmith (`swibla`; building), Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`swibar`) | Academy (`swiaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`swiba2`) | Academy (`swiaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`swiart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`swiaca.6`; upgrade), Artillery Depot (`swiart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`swiart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`swiba2`) | Blacksmith (`swibla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`swiart`) | Blacksmith (`swibla`; building) |
+| **Mounted Jaeger** (`hussarswi`) | 19.50 | food 120, gold 30, iron 2 | Stable (`swista`) | Blacksmith (`swibla`; building), Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Jaeger** (`jagerswi`) | 8.50 | food 40, gold 70, iron 20 | Barracks, 18th century (`swiba2`) | Blacksmith (`swibla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`swiart`) | Blacksmith (`swibla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`swiart`) | Design multi-barrelled cannon (`swiaca.19`; upgrade), Blacksmith (`swibla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`swibar`) | Blacksmith (`swibla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`swiba2`) | Blacksmith (`swibla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`swibar`) | Academy (`swiaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`swiba2`) | Academy (`swiaca`; building) |
+| **Peasant** (`peaaus`) | 12.50 | food 100 | Town Hall (`swicen`) | — |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`swiba2`) | — |
+| **Pikeman, 17th century** (`pikemanswi`) | 5.00 | food 40, gold 6, iron 20 | Barracks, 17th century (`swibar`) | Blacksmith (`swibla`; building) |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`swetem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`swista`) | Blacksmith (`swibla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`swidip`) | Academy (`swiaca`; building), Town Hall (`swicen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`swiart`; building) |
 
 <a id="swi--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--швейцария"></a>
-### `swi` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swicen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swicen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swicen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swicen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swicen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swicen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `swicen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `swicen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `swicen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `swiart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `swiart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `swiart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `swiart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `swiart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `swiart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `swicen.1` |
-| `swiaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `swibla` |
-| `swiaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `swibla` |
-| `swiaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `swibla` |
-| `swiaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `swibla` |
-| `swiaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `swiart` |
-| `swiaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `swiart` |
-| `swiaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `swiart` |
-| `swiaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `swiart` |
-| `swiaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `swiart` |
-| `swiaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `swiart` |
-| `swiaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `swicen.1` |
-| `swiaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `swiart` |
-| `swiaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `swiaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `swiaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `swiaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `swicen.1` |
-| `swiaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `swibla` |
-| `swiaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `swicen.1`, [B] `swibla` |
-| `swiaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `swicen.1`, [B] `swibla` |
-| `swiaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `swiaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `swiaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `swiaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `swibla` |
-| `swiart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `swibla` |
-| `swiart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `swibla` |
-| `swiart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `swibla` |
-| `swiart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `swibla` |
-| `swiart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `swibla` |
-| `swiart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `swibla` |
-| `swiart.cannon.2.4` | — | 15.6 | F2560 | [B] `swibla` |
-| `swiart.cannon.2.5` | — | 15.6 | F3560 | [B] `swibla` |
-| `swiart.cannon.2.6` | — | 15.6 | F5560 | [B] `swibla` |
-| `swiart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `swibla` |
-| `swiart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `swibla` |
-| `swiart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `swibla` |
-| `swiart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `swibla` |
-| `swiart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `swibla` |
-| `swiart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `swibla` |
-| `swiart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `swibla` |
-| `swiart.howitzer.2.4` | — | 31.2 | F2560 | [B] `swibla` |
-| `swiart.howitzer.2.5` | — | 31.2 | F3560 | [B] `swibla` |
-| `swiart.howitzer.2.6` | — | 31.2 | F5560 | [B] `swibla` |
-| `swibar.pikemanswi.1.6` | — | 15.6 | F15000 G1875 | [B] `swibla` |
-| `swibar.pikemanswi.2.6` | — | 15.6 | F11250 G1500 | [B] `swibla` |
-| `swibla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `swicen.1` |
-| `swicen.1` | Progress to the 18th Century | 9.4 | F30000 G5000 I2000 C2000 | [B] `swiaca`, [B] `switem`, [B] `swiart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`swiart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`swiart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`swiart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`swiart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`swiart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`swiart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`swiaca.12`) | 15.6 | iron 5,000 | Blacksmith (`swibla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`swiaca.13`) | 15.6 | gold 4,000 | Blacksmith (`swibla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`swiaca.14`) | 15.6 | gold 7,000 | Blacksmith (`swibla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`swiaca.15`) | 15.6 | coal 11,000 | Blacksmith (`swibla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`swiaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`swiart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`swiaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`swiart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`swiaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`swiart`; building) |
+| **Design multi-barrelled cannon** (`swiaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`swiart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`swiaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`swiart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`swiaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`swiart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`swiaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`swiaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`swiart`; building) |
+| **Design new rigging types (ship speed +40%)** (`swiaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`swiaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`swiaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`swiaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`swiaca.34`) | 15.6 | gold 9,750 | Blacksmith (`swibla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`swiaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`swicen.1`; upgrade), Blacksmith (`swibla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`swiaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`swicen.1`; upgrade), Blacksmith (`swibla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`swiaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`swiaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`swiaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`swiaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`swibla`; building) |
+| **—** (`swiart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`swibla`; building) |
+| **—** (`swibar.pikemanswi.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`swibla`; building) |
+| **—** (`swibar.pikemanswi.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`swibla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`swibla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`swicen.1`; upgrade) |
+| **Progress to the 18th Century** (`swicen.1`) | 9.4 | food 30,000, gold 5,000, iron 2,000, coal 2,000 | Academy (`swiaca`; building), Cathedral (`switem`; building), Artillery Depot (`swiart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -2778,133 +2782,133 @@ graph LR
 ## Turkey (`tur`)
 <a id="tur--здания"></a>
 <a id="здания--турция"></a>
-### `tur` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `turaca` | Minaret | 156.2 | W1450 S1100 | — | [B] `turbar` |
-| `turart` | Artillery Depot | 245.9 | W500 S1200 C1400 | — | [B] `turaca` |
-| `turbar` | Barracks | 93.8 | W400 S400 | 50 | [B] `turbla` |
-| `turbla` | Blacksmith | 109.4 | W100 S30 I640 | — | [B] `turcen` |
-| `turcen` | Town Hall | 156.2 | W600 S500 | 100 | — |
-| `turdip` | Diplomatic Center | 312.5 | W4600 S2020 | — | [B] `turaca` |
-| `turhou` | Housing | 31.2 | W100 S100 | 25 | [B] `turcen` |
-| `turmar` | Bazaar | 234.4 | W450 S150 | — | [B] `turmil`, [B] `tursto` |
-| `turmil` | Mill | 93.8 | W30 S150 | — | — |
-| `turpor` | Shipyard | 1562.5 | W800 S800 I400 | — | [B] `turmar` |
-| `tursga` | Gate | 120.0 | S60 | — | — |
-| `tursta` | Stable | 156.2 | W1000 S2600 | — | [B] `turbla` |
-| `tursto` | Storehouse | 31.2 | W30 S10 | — | [B] `turcen` |
-| `turswa` | Wall | 120.0 | S60 | — | [B] `tursto` |
-| `turtem` | Mosque | 93.8 | W1000 S1200 I500 | — | [B] `turcen` |
-| `turtow` | Tower | 984.4 | W150 S90 G100 | — | [B] `tursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `tursto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Minaret** (`turaca`) | 156.2 | wood 1,450, stone 1,100 | — | Barracks (`turbar`; building) |
+| **Artillery Depot** (`turart`) | 245.9 | wood 500, stone 1,200, coal 1,400 | — | Minaret (`turaca`; building) |
+| **Barracks** (`turbar`) | 93.8 | wood 400, stone 400 | 50 | Blacksmith (`turbla`; building) |
+| **Blacksmith** (`turbla`) | 109.4 | wood 100, stone 30, iron 640 | — | Town Hall (`turcen`; building) |
+| **Town Hall** (`turcen`) | 156.2 | wood 600, stone 500 | 100 | — |
+| **Diplomatic Center** (`turdip`) | 312.5 | wood 4,600, stone 2,020 | — | Minaret (`turaca`; building) |
+| **Housing** (`turhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`turcen`; building) |
+| **Bazaar** (`turmar`) | 234.4 | wood 450, stone 150 | — | Mill (`turmil`; building), Storehouse (`tursto`; building) |
+| **Mill** (`turmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`turpor`) | 1562.5 | wood 800, stone 800, iron 400 | — | Bazaar (`turmar`; building) |
+| **Gate** (`tursga`) | 120.0 | stone 60 | — | — |
+| **Stable** (`tursta`) | 156.2 | wood 1,000, stone 2,600 | — | Blacksmith (`turbla`; building) |
+| **Storehouse** (`tursto`) | 31.2 | wood 30, stone 10 | — | Town Hall (`turcen`; building) |
+| **Wall** (`turswa`) | 120.0 | stone 60 | — | Storehouse (`tursto`; building) |
+| **Mosque** (`turtem`) | 93.8 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`turcen`; building) |
+| **Tower** (`turtow`) | 984.4 | wood 150, stone 90, gold 100 | — | Storehouse (`tursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`tursto`; building) |
 
 <a id="tur--юниты"></a>
 <a id="юниты--турция"></a>
-### `tur` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | turdip | [B] `turaca`, [B] `turcen` |
-| `archertur` | Turkish archer | 3.00 | F45 W3 G4 | turbo | [B] `turbla` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | turdip | [B] `turaca`, [B] `turcen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | turpor | [T] `turaca.29`, [B] `turart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | turart | [B] `turbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | turdip | [B] `turaca`, [B] `turcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | turdip | [B] `turaca`, [B] `turcen` |
-| `drummertur` | Drummer, 17th century | 4.00 | F30 G15 | turbo | [B] `turaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | turpor | [B] `turart` |
-| `fishboat` | Boat | 40.00 | W600 | turpor | — |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | turpor | [B] `turart` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | turdip | [B] `turaca`, [B] `turcen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | turart | [B] `turbla` |
-| `jannisary` | Janissary | 8.00 | F55 G13 I5 | turbo | [B] `turbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | turdip | [B] `turaca`, [B] `turcen` |
-| `lightinfantry` | Light Infantryman | 1.00 | F25 I1 | turbo | — |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | turdip | [B] `turaca`, [B] `turcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | turart | [B] `turbla` |
-| `mullah` | Mullah | 15.00 | F30 G10 | turtem | — |
-| `officertur` | Officer | 7.50 | F50 G100 | turbo | [B] `turaca` |
-| `peatur` | Peasant | 12.50 | F100 | turcen | — |
-| `pikemantur` | Ottoman Pikeman | 5.50 | F55 G5 | turbo | [B] `turbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | turdip | [B] `turaca`, [B] `turcen` |
-| `sipahi` | Heavy Sipahi | 18.00 | F130 G20 I70 | tursta | [B] `turbla` |
-| `spakh` | Light Sipahi | 9.00 | F80 G6 I5 | tursta | — |
-| `tatar` | Tatar | 11.25 | F70 W2 G6 | tursta | — |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `xebec` | Xebec | 230.00 | W7000 G1600 I320 C960 | turpor | [T] `turaca.6`, [B] `turart` |
-| `yachttur` | Yacht | 48.00 | W900 G450 I150 C200 | turpor | [B] `turart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Turkish archer** (`archertur`) | 3.00 | food 45, wood 3, gold 4 | Barracks (`turbar`) | Blacksmith (`turbla`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`turpor`) | Design new rib system and new hulls (battleship construction) (`turaca.29`; upgrade), Artillery Depot (`turart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`turart`) | Blacksmith (`turbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Drummer, 17th century** (`drummertur`) | 4.00 | food 30, gold 15 | Barracks (`turbar`) | Minaret (`turaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`turpor`) | Artillery Depot (`turart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`turpor`) | — |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`turpor`) | Artillery Depot (`turart`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`turart`) | Blacksmith (`turbla`; building) |
+| **Janissary** (`jannisary`) | 8.00 | food 55, gold 13, iron 5 | Barracks (`turbar`) | Blacksmith (`turbla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Light Infantryman** (`lightinfantry`) | 1.00 | food 25, iron 1 | Barracks (`turbar`) | — |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`turart`) | Blacksmith (`turbla`; building) |
+| **Mullah** (`mullah`) | 15.00 | food 30, gold 10 | Mosque (`turtem`) | — |
+| **Officer** (`officertur`) | 7.50 | food 50, gold 100 | Barracks (`turbar`) | Minaret (`turaca`; building) |
+| **Peasant** (`peatur`) | 12.50 | food 100 | Town Hall (`turcen`) | — |
+| **Ottoman Pikeman** (`pikemantur`) | 5.50 | food 55, gold 5 | Barracks (`turbar`) | Blacksmith (`turbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`turdip`) | Minaret (`turaca`; building), Town Hall (`turcen`; building) |
+| **Heavy Sipahi** (`sipahi`) | 18.00 | food 130, gold 20, iron 70 | Stable (`tursta`) | Blacksmith (`turbla`; building) |
+| **Light Sipahi** (`spakh`) | 9.00 | food 80, gold 6, iron 5 | Stable (`tursta`) | — |
+| **Tatar** (`tatar`) | 11.25 | food 70, wood 2, gold 6 | Stable (`tursta`) | — |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Xebec** (`xebec`) | 230.00 | wood 7,000, gold 1,600, iron 320, coal 960 | Shipyard (`turpor`) | Develop new woodworking methods (xebec building) (`turaca.6`; upgrade), Artillery Depot (`turart`; building) |
+| **Yacht** (`yachttur`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`turpor`) | Artillery Depot (`turart`; building) |
 
 <a id="tur--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--турция"></a>
-### `tur` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `turaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `turbla` |
-| `turaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `turbla` |
-| `turaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `turbla` |
-| `turaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `turbla` |
-| `turaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 | [B] `turart` |
-| `turaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 | [B] `turart` |
-| `turaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `turart` |
-| `turaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `turart` |
-| `turaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `turart` |
-| `turaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `turart` |
-| `turaca.28` | Design new rigging types (ship speed +40%) | 15.6 | G1900 | [B] `turpor` |
-| `turaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `turpor` |
-| `turaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | S42700 | [B] `turpor` |
-| `turaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G6950 | [B] `turbla` |
-| `turaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `turpor` |
-| `turaca.6` | Develop new woodworking methods (xebec building) | 15.6 | W9500 G7040 | [B] `turpor` |
-| `turaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `turpor` |
-| `turaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `turbla` |
-| `turart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `turbla` |
-| `turart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `turbla` |
-| `turart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `turbla` |
-| `turart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.cannon.2.1` | — | 10.0 | G950 I1000 | [B] `turbla` |
-| `turart.cannon.2.2` | — | 10.0 | G150 I2000 | [B] `turbla` |
-| `turart.cannon.2.3` | — | 10.0 | G250 I3000 | [B] `turbla` |
-| `turart.cannon.2.4` | — | 15.6 | F2560 G1350 | [B] `turbla` |
-| `turart.cannon.2.5` | — | 15.6 | F3560 G2500 | [B] `turbla` |
-| `turart.cannon.2.6` | — | 15.6 | F5560 G3350 | [B] `turbla` |
-| `turart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `turbla` |
-| `turart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `turbla` |
-| `turart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `turbla` |
-| `turart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `turbla` |
-| `turart.howitzer.2.1` | — | 10.0 | G350 I1000 | [B] `turbla` |
-| `turart.howitzer.2.2` | — | 10.0 | G450 I2000 | [B] `turbla` |
-| `turart.howitzer.2.3` | — | 10.0 | G550 I3000 | [B] `turbla` |
-| `turart.howitzer.2.4` | — | 31.2 | F2560 G1150 | [B] `turbla` |
-| `turart.howitzer.2.5` | — | 31.2 | F3560 G3200 | [B] `turbla` |
-| `turart.howitzer.2.6` | — | 31.2 | F5560 G4500 | [B] `turbla` |
-| `turbar.jannisary.1.4` | — | 15.6 | F5000 G1600 | [B] `turbla` |
-| `turbar.jannisary.1.5` | — | 15.6 | F7500 G3200 | [B] `turbla` |
-| `turbar.jannisary.1.6` | — | 15.6 | F10000 G4800 | [B] `turbla` |
-| `turbar.lightinfantry.1.4` | — | 15.6 | F3000 G360 | [B] `turbla` |
-| `turbar.lightinfantry.1.5` | — | 15.6 | F4500 G540 | [B] `turbla` |
-| `turbar.lightinfantry.1.6` | — | 15.6 | F9375 G1125 | [B] `turbla` |
-| `turbar.lightinfantry.2.4` | — | 15.6 | F3600 G600 | [B] `turbla` |
-| `turbar.lightinfantry.2.5` | — | 15.6 | F5400 G900 | [B] `turbla` |
-| `turbar.lightinfantry.2.6` | — | 15.6 | F11250 G1875 | [B] `turbla` |
-| `turbar.pikemantur.1.6` | — | 15.6 | F18750 G2350 | [B] `turbla` |
-| `turbar.pikemantur.2.6` | — | 15.6 | F16875 G2250 | [B] `turbla` |
-| `turpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `turart` |
-| `turtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `turart` |
-| `turtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `turart` |
-| `turtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `turart` |
-| `turtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `turart` |
-| `turtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `turart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`turaca.12`) | 15.6 | iron 5,000 | Blacksmith (`turbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`turaca.13`) | 15.6 | gold 4,000 | Blacksmith (`turbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`turaca.14`) | 15.6 | gold 7,000 | Blacksmith (`turbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`turaca.15`) | 15.6 | coal 11,000 | Blacksmith (`turbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`turaca.16`) | 15.6 | gold 2,000 | Artillery Depot (`turart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`turaca.17`) | 15.6 | stone 3,000, gold 4,550 | Artillery Depot (`turart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`turaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`turart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`turaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`turart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`turaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`turart`; building) |
+| **Develop mathematics (artillery accuracy +35%)** (`turaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`turart`; building) |
+| **Design new rigging types (ship speed +40%)** (`turaca.28`) | 15.6 | gold 1,900 | Shipyard (`turpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`turaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`turpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`turaca.30`) | 15.6 | stone 42,700 | Shipyard (`turpor`; building) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`turaca.34`) | 15.6 | gold 6,950 | Blacksmith (`turbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`turaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`turpor`; building) |
+| **Develop new woodworking methods (xebec building)** (`turaca.6`) | 15.6 | wood 9,500, gold 7,040 | Shipyard (`turpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`turaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`turpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`turaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.1`) | 10.0 | gold 950, iron 1,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.2`) | 10.0 | gold 150, iron 2,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.3`) | 10.0 | gold 250, iron 3,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.4`) | 15.6 | food 2,560, gold 1,350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.5`) | 15.6 | food 3,560, gold 2,500 | Blacksmith (`turbla`; building) |
+| **—** (`turart.cannon.2.6`) | 15.6 | food 5,560, gold 3,350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.1`) | 10.0 | gold 350, iron 1,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.2`) | 10.0 | gold 450, iron 2,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.3`) | 10.0 | gold 550, iron 3,000 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.4`) | 31.2 | food 2,560, gold 1,150 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.5`) | 31.2 | food 3,560, gold 3,200 | Blacksmith (`turbla`; building) |
+| **—** (`turart.howitzer.2.6`) | 31.2 | food 5,560, gold 4,500 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.jannisary.1.4`) | 15.6 | food 5,000, gold 1,600 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.jannisary.1.5`) | 15.6 | food 7,500, gold 3,200 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.jannisary.1.6`) | 15.6 | food 10,000, gold 4,800 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.1.4`) | 15.6 | food 3,000, gold 360 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.1.5`) | 15.6 | food 4,500, gold 540 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.1.6`) | 15.6 | food 9,375, gold 1,125 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.2.4`) | 15.6 | food 3,600, gold 600 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.2.5`) | 15.6 | food 5,400, gold 900 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.lightinfantry.2.6`) | 15.6 | food 11,250, gold 1,875 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.pikemantur.1.6`) | 15.6 | food 18,750, gold 2,350 | Blacksmith (`turbla`; building) |
+| **—** (`turbar.pikemantur.2.6`) | 15.6 | food 16,875, gold 2,250 | Blacksmith (`turbla`; building) |
+| **Train woodworkers (repair all ships)** (`turpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`turart`; building) |
+| **Increase number of defensive cannons (20%)** (`turtow.1`) | 31.2 | gold 250 | Artillery Depot (`turart`; building) |
+| **Increase number of defensive cannons (20%)** (`turtow.2`) | 31.2 | iron 350 | Artillery Depot (`turart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.3`) | 31.2 | coal 400 | Artillery Depot (`turart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.4`) | 31.2 | iron 450 | Artillery Depot (`turart`; building) |
+| **Increase number of defensive cannons (10%)** (`turtow.5`) | 31.2 | coal 500 | Artillery Depot (`turart`; building) |
 
 [↑ to contents](#содержание)
 <a id="ukr--ukraine-украина"></a>
@@ -2912,106 +2916,106 @@ graph LR
 ## Ukraine (`ukr`)
 <a id="ukr--здания"></a>
 <a id="здания--украина"></a>
-### `ukr` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `rusmar` | Market | 234.4 | W450 | — | [B] `rusmil`, [B] `russto` |
-| `rusmil` | Mill | 93.8 | W210 | — | — |
-| `russto` | Storehouse | 31.2 | W50 S20 | — | [B] `ukrcen` |
-| `ukraca` | Academy | 46.9 | W1350 S1200 | — | [B] `ukrbar` |
-| `ukrart` | Artillery Depot | 245.9 | W4250 S4400 G100 C1400 | — | [B] `ukraca` |
-| `ukrbar` | Cossack House | 93.8 | W150 S150 | 75 | [B] `ukrbla` |
-| `ukrbla` | Blacksmith | 62.5 | W100 S30 I640 | — | [B] `ukrcen` |
-| `ukrcen` | Town Hall | 156.2 | W700 | 200 | — |
-| `ukrdip` | Diplomatic Center | 312.5 | W3900 S2700 | — | [B] `ukraca` |
-| `ukrhou` | Hut | 31.2 | W120 | 25 | [B] `ukrcen` |
-| `ukrpor` | Shipyard | 1562.5 | W2000 | — | [B] `rusmar` |
-| `ukrsta` | Stable | 156.2 | W3200 S850 G850 | — | [B] `ukrbla` |
-| `ukrtem` | Orthodox Cathedral | 156.2 | W1100 S1400 I300 | — | [B] `ukrcen` |
-| `ukrwga` | Gate | 8.1 | W12 | — | — |
-| `ukrwwa` | Palisade | 8.1 | W12 | — | [B] `russto` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`rusmar`) | 234.4 | wood 450 | — | Mill (`rusmil`; building), Storehouse (`russto`; building) |
+| **Mill** (`rusmil`) | 93.8 | wood 210 | — | — |
+| **Storehouse** (`russto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`ukrcen`; building) |
+| **Academy** (`ukraca`) | 46.9 | wood 1,350, stone 1,200 | — | Cossack House (`ukrbar`; building) |
+| **Artillery Depot** (`ukrart`) | 245.9 | wood 4,250, stone 4,400, gold 100, coal 1,400 | — | Academy (`ukraca`; building) |
+| **Cossack House** (`ukrbar`) | 93.8 | wood 150, stone 150 | 75 | Blacksmith (`ukrbla`; building) |
+| **Blacksmith** (`ukrbla`) | 62.5 | wood 100, stone 30, iron 640 | — | Town Hall (`ukrcen`; building) |
+| **Town Hall** (`ukrcen`) | 156.2 | wood 700 | 200 | — |
+| **Diplomatic Center** (`ukrdip`) | 312.5 | wood 3,900, stone 2,700 | — | Academy (`ukraca`; building) |
+| **Hut** (`ukrhou`) | 31.2 | wood 120 | 25 | Town Hall (`ukrcen`; building) |
+| **Shipyard** (`ukrpor`) | 1562.5 | wood 2,000 | — | Market (`rusmar`; building) |
+| **Stable** (`ukrsta`) | 156.2 | wood 3,200, stone 850, gold 850 | — | Blacksmith (`ukrbla`; building) |
+| **Orthodox Cathedral** (`ukrtem`) | 156.2 | wood 1,100, stone 1,400, iron 300 | — | Town Hall (`ukrcen`; building) |
+| **Gate** (`ukrwga`) | 8.1 | wood 12 | — | — |
+| **Palisade** (`ukrwwa`) | 8.1 | wood 12 | — | Storehouse (`russto`; building) |
 
 <a id="ukr--юниты"></a>
 <a id="юниты--украина"></a>
-### `ukr` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | ukrart | [B] `ukrbla` |
-| `chaika` | Chaika | 40.00 | W1050 G600 I200 C400 | ukrpor | [B] `ukrart` |
-| `cossackregister` | Register Cossack | 10.50 | F70 G15 | ukrsta | [B] `ukrbla` |
-| `cossacksich` | Sich Cossack | 13.50 | F130 I2 | ukrsta | — |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | ukrpor | [B] `ukrart` |
-| `fishboat` | Boat | 40.00 | W600 | ukrpor | — |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | ukrpor | [B] `ukrart` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `hetman` | Hetman | 16.50 | F150 G150 I10 | ukrsta | — |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | ukrart | [B] `ukrbla` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | ukrart | [B] `ukrbla` |
-| `peaukr` | Peasant | 11.25 | F100 | ukrcen | — |
-| `pope` | Pope | 20.00 | F40 G20 | ukrtem | — |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | ukrdip | [B] `ukraca`, [B] `ukrcen` |
-| `serdiuk` | Serdiuk | 11.00 | F60 G11 I5 | ukrbar | — |
-| `unitbox` | — | 3.12 | F100 | — | — |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`ukrart`) | Blacksmith (`ukrbla`; building) |
+| **Chaika** (`chaika`) | 40.00 | wood 1,050, gold 600, iron 200, coal 400 | Shipyard (`ukrpor`) | Artillery Depot (`ukrart`; building) |
+| **Register Cossack** (`cossackregister`) | 10.50 | food 70, gold 15 | Stable (`ukrsta`) | Blacksmith (`ukrbla`; building) |
+| **Sich Cossack** (`cossacksich`) | 13.50 | food 130, iron 2 | Stable (`ukrsta`) | — |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`ukrpor`) | Artillery Depot (`ukrart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`ukrpor`) | — |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`ukrpor`) | Artillery Depot (`ukrart`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Hetman** (`hetman`) | 16.50 | food 150, gold 150, iron 10 | Stable (`ukrsta`) | — |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`ukrart`) | Blacksmith (`ukrbla`; building) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`ukrart`) | Blacksmith (`ukrbla`; building) |
+| **Peasant** (`peaukr`) | 11.25 | food 100 | Town Hall (`ukrcen`) | — |
+| **Pope** (`pope`) | 20.00 | food 40, gold 20 | Orthodox Cathedral (`ukrtem`) | — |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`ukrdip`) | Academy (`ukraca`; building), Town Hall (`ukrcen`; building) |
+| **Serdiuk** (`serdiuk`) | 11.00 | food 60, gold 11, iron 5 | Cossack House (`ukrbar`) | — |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
 
 <a id="ukr--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--украина"></a>
-### `ukr` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `ukraca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `ukrbla` |
-| `ukraca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `ukrbla` |
-| `ukraca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `ukrbla` |
-| `ukraca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `ukrbla` |
-| `ukraca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `ukrart` |
-| `ukraca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `ukrart` |
-| `ukraca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `ukrart` |
-| `ukraca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `ukrart` |
-| `ukraca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `ukrart` |
-| `ukraca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `ukrart` |
-| `ukraca.28` | Design new rigging types (ship speed +40%) | 15.6 | G900 | [B] `ukrpor` |
-| `ukraca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `ukrpor` |
-| `ukraca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `ukrpor` |
-| `ukraca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `ukrpor` |
-| `ukraca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `ukrbla` |
-| `ukrart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `ukrbla` |
-| `ukrart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `ukrbla` |
-| `ukrart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `ukrbla` |
-| `ukrart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `ukrbla` |
-| `ukrart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `ukrbla` |
-| `ukrart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `ukrbla` |
-| `ukrart.cannon.2.4` | — | 15.6 | F2560 | [B] `ukrbla` |
-| `ukrart.cannon.2.5` | — | 15.6 | F3560 | [B] `ukrbla` |
-| `ukrart.cannon.2.6` | — | 15.6 | F5560 | [B] `ukrbla` |
-| `ukrart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `ukrbla` |
-| `ukrart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `ukrbla` |
-| `ukrart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `ukrbla` |
-| `ukrart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `ukrbla` |
-| `ukrart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `ukrbla` |
-| `ukrart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `ukrbla` |
-| `ukrart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `ukrbla` |
-| `ukrart.howitzer.2.4` | — | 31.2 | F2560 | [B] `ukrbla` |
-| `ukrart.howitzer.2.5` | — | 31.2 | F3560 | [B] `ukrbla` |
-| `ukrart.howitzer.2.6` | — | 31.2 | F5560 | [B] `ukrbla` |
-| `ukrbar.serdiuk.1.6` | — | 15.6 | F60000 G8000 | [B] `ukrbla` |
-| `ukrbar.serdiuk.2.6` | — | 15.6 | F11250 G1125 | [B] `ukrbla` |
-| `ukrpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `ukrart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Improve firearms: rifled barrel (fire power +10%)** (`ukraca.12`) | 15.6 | iron 5,000 | Blacksmith (`ukrbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`ukraca.13`) | 15.6 | gold 4,000 | Blacksmith (`ukrbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`ukraca.14`) | 15.6 | gold 7,000 | Blacksmith (`ukrbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`ukraca.15`) | 15.6 | coal 11,000 | Blacksmith (`ukrbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`ukraca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`ukrart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`ukraca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`ukrart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`ukraca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`ukrart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`ukraca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`ukrart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`ukraca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`ukrart`; building) |
+| **Develop mathematics (artillery accuracy +35%)** (`ukraca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`ukrart`; building) |
+| **Design new rigging types (ship speed +40%)** (`ukraca.28`) | 15.6 | gold 900 | Shipyard (`ukrpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`ukraca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`ukrpor`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`ukraca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`ukrpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`ukraca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`ukrpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`ukraca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrbar.serdiuk.1.6`) | 15.6 | food 60,000, gold 8,000 | Blacksmith (`ukrbla`; building) |
+| **—** (`ukrbar.serdiuk.2.6`) | 15.6 | food 11,250, gold 1,125 | Blacksmith (`ukrbla`; building) |
+| **Train woodworkers (repair all ships)** (`ukrpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`ukrart`; building) |
 
 [↑ to contents](#содержание)
 
@@ -3020,147 +3024,147 @@ graph LR
 ## Venice (`ven`)
 <a id="ven--здания"></a>
 <a id="здания--венеция"></a>
-### `ven` - buildings
+### Buildings
 
-| sid | name | Time (g-sec) | price | farm | requires |
-|---|---|---:|---|---:|---|
-| `eurcoa` | Mine | 93.8 | W100 S100 | — | — |
-| `eurgol` | Mine | 93.8 | W100 S100 | — | — |
-| `euriro` | Mine | 93.8 | W100 S100 | — | — |
-| `eurmar` | Market | 234.4 | W450 | — | [B] `eurmil`, [B] `eursto` |
-| `eurmil` | Mill | 93.8 | W30 S150 | — | — |
-| `eurpor` | Shipyard | 1562.5 | W1600 S800 I400 | — | [B] `eurmar` |
-| `eursga` | Gate | 90.0 | S50 | — | — |
-| `eursto` | Storehouse | 31.2 | W50 S20 | — | [B] `vencen` |
-| `eurswa` | Wall | 90.0 | S50 | — | [B] `eursto` |
-| `eurtow` | Tower | 1230.3 | W100 S100 G150 | — | [B] `eursto` |
-| `ukrwga` | Gate | 5.6 | W10 | — | — |
-| `ukrwwa` | Palisade | 5.6 | W10 | — | [B] `eursto` |
-| `venaca` | Academy | 625.0 | W1090 S1260 | — | [B] `venbar` |
-| `venart` | Artillery Depot | 245.9 | W100 S1000 C1400 | — | [B] `venaca` |
-| `venba2` | Barracks, 18th century | 5625.0 | W1700 S2950 G4000 | 250 | [T] `vencen.1` |
-| `venbar` | Barracks, 17th century | 93.8 | W100 S100 G500 | 150 | [B] `venbla` |
-| `venbla` | Blacksmith | 93.8 | W100 S30 I640 | — | [B] `vencen` |
-| `vencen` | Town Hall | 156.2 | W700 S700 | 100 | — |
-| `vendip` | Diplomatic Center | 312.5 | W4900 S1700 | — | [B] `venaca` |
-| `venhou` | Housing | 31.2 | W100 S100 | 25 | [B] `vencen` |
-| `vensta` | Stable | 625.0 | W2500 S100 G600 | — | [B] `venbla` |
-| `ventem` | Cathedral | 156.2 | W1000 S1200 I500 | — | [B] `vencen` |
+| Building | Build time (game s) | Cost | Population | Requires |
+| --- | ---: | --- | ---: | --- |
+| **Mine** (`eurcoa`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`eurgol`) | 93.8 | wood 100, stone 100 | — | — |
+| **Mine** (`euriro`) | 93.8 | wood 100, stone 100 | — | — |
+| **Market** (`eurmar`) | 234.4 | wood 450 | — | Mill (`eurmil`; building), Storehouse (`eursto`; building) |
+| **Mill** (`eurmil`) | 93.8 | wood 30, stone 150 | — | — |
+| **Shipyard** (`eurpor`) | 1562.5 | wood 1,600, stone 800, iron 400 | — | Market (`eurmar`; building) |
+| **Gate** (`eursga`) | 90.0 | stone 50 | — | — |
+| **Storehouse** (`eursto`) | 31.2 | wood 50, stone 20 | — | Town Hall (`vencen`; building) |
+| **Wall** (`eurswa`) | 90.0 | stone 50 | — | Storehouse (`eursto`; building) |
+| **Tower** (`eurtow`) | 1230.3 | wood 100, stone 100, gold 150 | — | Storehouse (`eursto`; building) |
+| **Gate** (`ukrwga`) | 5.6 | wood 10 | — | — |
+| **Palisade** (`ukrwwa`) | 5.6 | wood 10 | — | Storehouse (`eursto`; building) |
+| **Academy** (`venaca`) | 625.0 | wood 1,090, stone 1,260 | — | Barracks, 17th century (`venbar`; building) |
+| **Artillery Depot** (`venart`) | 245.9 | wood 100, stone 1,000, coal 1,400 | — | Academy (`venaca`; building) |
+| **Barracks, 18th century** (`venba2`) | 5625.0 | wood 1,700, stone 2,950, gold 4,000 | 250 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Barracks, 17th century** (`venbar`) | 93.8 | wood 100, stone 100, gold 500 | 150 | Blacksmith (`venbla`; building) |
+| **Blacksmith** (`venbla`) | 93.8 | wood 100, stone 30, iron 640 | — | Town Hall (`vencen`; building) |
+| **Town Hall** (`vencen`) | 156.2 | wood 700, stone 700 | 100 | — |
+| **Diplomatic Center** (`vendip`) | 312.5 | wood 4,900, stone 1,700 | — | Academy (`venaca`; building) |
+| **Housing** (`venhou`) | 31.2 | wood 100, stone 100 | 25 | Town Hall (`vencen`; building) |
+| **Stable** (`vensta`) | 625.0 | wood 2,500, stone 100, gold 600 | — | Blacksmith (`venbla`; building) |
+| **Cathedral** (`ventem`) | 156.2 | wood 1,000, stone 1,200, iron 500 | — | Town Hall (`vencen`; building) |
 
 <a id="ven--юниты"></a>
 <a id="юниты--венеция"></a>
-### `ven` - units
+### Units
 
-| sid | name | Time (g-sec) | price | trains in | requires |
-|---|---|---:|---|---|---|
-| `archerdip` | Archer (mercenary) | 1.25 | G15 | vendip | [B] `venaca`, [B] `vencen` |
-| `archerturdip` | Turkish archer (mercenary) | 1.25 | G15 | vendip | [B] `venaca`, [B] `vencen` |
-| `battleship` | Ship of the Line | 390.00 | W9000 G3200 I700 C6500 | europor | [T] `venaca.29`, [B] `venart` |
-| `cannon` | Cannon | 75.00 | W250 G400 I400 | venart | [B] `venbla` |
-| `cossacksichdip` | Sich Cossack (mercenary) | 2.50 | G60 | vendip | [B] `venaca`, [B] `vencen` |
-| `cuirassier` | Cuirassier | 22.50 | F120 G35 I25 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `dragoon` | Dragoon, 17th century | 15.00 | F90 G7 I5 | vensta | [B] `venbla` |
-| `dragoon18` | Dragoon, 18th century | 22.50 | F70 G60 I7 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `dragoon18dip` | Dragoon, 18th century (mercenary) | 2.00 | G120 | vendip | [B] `venaca`, [B] `vencen` |
-| `drummer` | Drummer, 17th century | 5.00 | F60 G20 | venbar | [B] `venaca` |
-| `drummer18` | Drummer, 18th century | 6.00 | F50 G30 | venba2 | [B] `venaca` |
-| `ferry` | Ferry | 56.00 | W300 G50 I100 | europor | [B] `venart` |
-| `fishboat` | Boat | 40.00 | W600 | europor | — |
-| `frigate` | Frigate | 230.00 | W5000 G1100 I600 C800 | europor | [T] `venaca.6`, [B] `venart` |
-| `galley` | Galley | 50.00 | W9500 G900 I800 | europor | [B] `venart` |
-| `grenadier` | Grenadier | 6.00 | F80 G60 I40 | venba2 | [B] `venbla` |
-| `grenadierdip` | Grenadier (mercenary) | 1.50 | G25 | vendip | [B] `venaca`, [B] `vencen` |
-| `howitzer` | Howitzer | 94.00 | W250 G350 I300 | venart | [B] `venbla` |
-| `hussar` | Hussar | 15.00 | F70 G20 I2 | vensta | [B] `venbla`, [T] `vencen.1` |
-| `lightcavalrydip` | Light cavalry (mercenary) | 2.00 | G120 | vendip | [B] `venaca`, [B] `vencen` |
-| `lightinfantrydip` | Light Infantryman (mercenary) | 1.25 | G4 | vendip | [B] `venaca`, [B] `vencen` |
-| `mortar` | Bombard | 25.00 | W100 G75 I200 | venart | [B] `venbla` |
-| `multicannon` | Multi-barrelled Cannon | 50.00 | W200 G400 I250 | venart | [T] `venaca.19`, [B] `venbla` |
-| `musketeer` | Musketeer, 17th century | 6.00 | F45 G6 I5 | venbar | [B] `venbla` |
-| `musketeer18` | Musketeer, 18th century | 4.50 | F50 G40 I40 | venba2 | [B] `venbla` |
-| `officer` | Officer, 17th century | 10.00 | F50 G150 I30 | venbar | [B] `venaca` |
-| `officer18` | Officer, 18th century | 6.00 | F50 G200 I10 | venba2 | [B] `venaca` |
-| `peaspa` | Peasant | 12.50 | F100 | crowned | — |
-| `pikeman` | Pikeman, 17th century | 4.50 | F25 G3 I20 | venbar | [B] `venbla` |
-| `pikeman18` | Pikeman, 18th century | 1.25 | F30 G2 | venba2 | — |
-| `priest` | Priest | 20.00 | F60 G25 | ventem | — |
-| `reiter` | Reiter | 24.00 | F120 G10 I40 | vensta | [B] `venbla` |
-| `roundshierdip` | Roundshier (mercenary) | 1.50 | G12 | vendip | [B] `venaca`, [B] `vencen` |
-| `unitbox` | — | 3.12 | F100 | — | — |
-| `yacht` | Yacht | 48.00 | W900 G450 I150 C200 | europor | [B] `venart` |
+| Unit | Training time (game s) | Cost | Trained at | Requires |
+| --- | ---: | --- | --- | --- |
+| **Archer (mercenary)** (`archerdip`) | 1.25 | gold 15 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Turkish archer (mercenary)** (`archerturdip`) | 1.25 | gold 15 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Ship of the Line** (`battleship`) | 390.00 | wood 9,000, gold 3,200, iron 700, coal 6,500 | Shipyard (`eurpor`) | Design new rib system and new hulls (battleship construction) (`venaca.29`; upgrade), Artillery Depot (`venart`; building) |
+| **Cannon** (`cannon`) | 75.00 | wood 250, gold 400, iron 400 | Artillery Depot (`venart`) | Blacksmith (`venbla`; building) |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | 2.50 | gold 60 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Cuirassier** (`cuirassier`) | 22.50 | food 120, gold 35, iron 25 | Stable (`vensta`) | Blacksmith (`venbla`; building), Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Dragoon, 17th century** (`dragoon`) | 15.00 | food 90, gold 7, iron 5 | Stable (`vensta`) | Blacksmith (`venbla`; building) |
+| **Dragoon, 18th century** (`dragoon18`) | 22.50 | food 70, gold 60, iron 7 | Stable (`vensta`) | Blacksmith (`venbla`; building), Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 2.00 | gold 120 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Drummer, 17th century** (`drummer`) | 5.00 | food 60, gold 20 | Barracks, 17th century (`venbar`) | Academy (`venaca`; building) |
+| **Drummer, 18th century** (`drummer18`) | 6.00 | food 50, gold 30 | Barracks, 18th century (`venba2`) | Academy (`venaca`; building) |
+| **Ferry** (`ferry`) | 56.00 | wood 300, gold 50, iron 100 | Shipyard (`eurpor`) | Artillery Depot (`venart`; building) |
+| **Boat** (`fishboat`) | 40.00 | wood 600 | Shipyard (`eurpor`) | — |
+| **Frigate** (`frigate`) | 230.00 | wood 5,000, gold 1,100, iron 600, coal 800 | Shipyard (`eurpor`) | Develop new woodworking methods (frigate building) (`venaca.6`; upgrade), Artillery Depot (`venart`; building) |
+| **Galley** (`galley`) | 50.00 | wood 9,500, gold 900, iron 800 | Shipyard (`eurpor`) | Artillery Depot (`venart`; building) |
+| **Grenadier** (`grenadier`) | 6.00 | food 80, gold 60, iron 40 | Barracks, 18th century (`venba2`) | Blacksmith (`venbla`; building) |
+| **Grenadier (mercenary)** (`grenadierdip`) | 1.50 | gold 25 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Howitzer** (`howitzer`) | 94.00 | wood 250, gold 350, iron 300 | Artillery Depot (`venart`) | Blacksmith (`venbla`; building) |
+| **Hussar** (`hussar`) | 15.00 | food 70, gold 20, iron 2 | Stable (`vensta`) | Blacksmith (`venbla`; building), Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | 2.00 | gold 120 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | 1.25 | gold 4 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Bombard** (`mortar`) | 25.00 | wood 100, gold 75, iron 200 | Artillery Depot (`venart`) | Blacksmith (`venbla`; building) |
+| **Multi-barrelled Cannon** (`multicannon`) | 50.00 | wood 200, gold 400, iron 250 | Artillery Depot (`venart`) | Design multi-barrelled cannon (`venaca.19`; upgrade), Blacksmith (`venbla`; building) |
+| **Musketeer, 17th century** (`musketeer`) | 6.00 | food 45, gold 6, iron 5 | Barracks, 17th century (`venbar`) | Blacksmith (`venbla`; building) |
+| **Musketeer, 18th century** (`musketeer18`) | 4.50 | food 50, gold 40, iron 40 | Barracks, 18th century (`venba2`) | Blacksmith (`venbla`; building) |
+| **Officer, 17th century** (`officer`) | 10.00 | food 50, gold 150, iron 30 | Barracks, 17th century (`venbar`) | Academy (`venaca`; building) |
+| **Officer, 18th century** (`officer18`) | 6.00 | food 50, gold 200, iron 10 | Barracks, 18th century (`venba2`) | Academy (`venaca`; building) |
+| **Peasant** (`peaspa`) | 12.50 | food 100 | Town Hall (`vencen`) | — |
+| **Pikeman, 17th century** (`pikeman`) | 4.50 | food 25, gold 3, iron 20 | Barracks, 17th century (`venbar`) | Blacksmith (`venbla`; building) |
+| **Pikeman, 18th century** (`pikeman18`) | 1.25 | food 30, gold 2 | Barracks, 18th century (`venba2`) | — |
+| **Priest** (`priest`) | 20.00 | food 60, gold 25 | Cathedral (`ventem`) | — |
+| **Reiter** (`reiter`) | 24.00 | food 120, gold 10, iron 40 | Stable (`vensta`) | Blacksmith (`venbla`; building) |
+| **Roundshier (mercenary)** (`roundshierdip`) | 1.50 | gold 12 | Diplomatic Center (`vendip`) | Academy (`venaca`; building), Town Hall (`vencen`; building) |
+| **Test object** (`unitbox`) | 3.12 | food 100 | — | — |
+| **Yacht** (`yacht`) | 48.00 | wood 900, gold 450, iron 150, coal 200 | Shipyard (`eurpor`) | Artillery Depot (`venart`; building) |
 
 <a id="ven--ключевые-апгрейды-с-зависимостями"></a>
 <a id="ключевые-улучшения--венеция"></a>
-### `ven` - key upgrades (with dependencies)
+### Key Upgrades
 
-| sid | name | Time (g-sec) | price | requires |
-|---|---|---:|---|---|
-| `eurcoa.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `vencen.1` |
-| `eurcoa.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `vencen.1` |
-| `eurcoa.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `vencen.1` |
-| `eurgol.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `vencen.1` |
-| `eurgol.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `vencen.1` |
-| `eurgol.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `vencen.1` |
-| `euriro.4` | Enlarge mines and build extensive railroad network for them (+12) | 9.4 | F15800 G18500 | [T] `vencen.1` |
-| `euriro.5` | Enlarge mines and build extensive railroad network for them (+15) | 9.4 | F19800 G21050 | [T] `vencen.1` |
-| `euriro.6` | Enlarge mines and build extensive railroad network for them (+40) | 9.4 | F50200 G25950 | [T] `vencen.1` |
-| `eurpor.1` | Train woodworkers (repair all ships) | 46.9 | W20000 G1500 | [B] `venart` |
-| `eurtow.1` | Increase number of defensive cannons (20%) | 31.2 | G250 | [B] `venart` |
-| `eurtow.2` | Increase number of defensive cannons (20%) | 31.2 | I350 | [B] `venart` |
-| `eurtow.3` | Increase number of defensive cannons (10%) | 31.2 | C400 | [B] `venart` |
-| `eurtow.4` | Increase number of defensive cannons (10%) | 31.2 | I450 | [B] `venart` |
-| `eurtow.5` | Increase number of defensive cannons (10%) | 31.2 | C500 | [B] `venart` |
-| `ferry.1` | Improve transport vessel design (+200 capacity) | 15.6 | F1000 G1250 | [T] `vencen.1` |
-| `venaca.12` | Improve firearms: rifled barrel (fire power +10%) | 15.6 | I5000 | [B] `venbla` |
-| `venaca.13` | Research granular gunpowder (fire power +10%) | 15.6 | G4000 | [B] `venbla` |
-| `venaca.14` | Research new sulphur purification methods (fire power +15%) | 15.6 | G7000 | [B] `venbla` |
-| `venaca.15` | Research new nitre purification methods (fire power +25%) | 15.6 | C11000 | [B] `venbla` |
-| `venaca.16` | Research improved additions to gunpowder formula (artillery range +5%) | 15.6 | G2000 I12150 | [B] `venart` |
-| `venaca.17` | Design new barrel types: unicorn, carronade (artillery range +10%) | 15.6 | S3000 G4550 I19200 | [B] `venart` |
-| `venaca.18` | Design more durable gun carriage: Gribovalle system (artillery durability +50%) | 15.6 | G500 I3830 C1500 | [B] `venart` |
-| `venaca.19` | Design multi-barrelled cannon | 15.6 | G1500 C2500 | [B] `venart` |
-| `venaca.20` | Research new sighting devices for artillery (artillery accuracy +35%) | 15.6 | W3540 G2000 C7250 | [B] `venart` |
-| `venaca.21` | Finance artillery repair shops (repair all artillery) | 15.6 | W350 G100 C250 | [B] `venart` |
-| `venaca.25` | Design Montgolfier (reveals the whole map) | 15.6 | G5750 | [T] `vencen.1` |
-| `venaca.27` | Develop mathematics (artillery accuracy +35%) | 15.6 | W9540 G12000 C65200 | [B] `venart` |
-| `venaca.28` | Design new rigging types (ship speed +40%) | 15.6 | W65400 G24050 | [B] `eurpor` |
-| `venaca.29` | Design new rib system and new hulls (battleship construction) | 15.6 | W32300 G6800 I9000 C12800 | [B] `eurpor` |
-| `venaca.30` | Train carpenters (shipbuilding speed x10) | 15.6 | W2300 S42700 G1150 | [B] `eurpor` |
-| `venaca.32` | Design flintlock (musket cost -50%) | 15.6 | G6050 C7750 | [T] `vencen.1` |
-| `venaca.34` | Research improved steel grades for cuirasses (armoured soldier defence +2) | 15.6 | G9750 | [B] `venbla` |
-| `venaca.35` | Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5) | 15.6 | G11500 | [T] `vencen.1`, [B] `venbla` |
-| `venaca.36` | Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%) | 15.6 | G19500 | [T] `vencen.1`, [B] `venbla` |
-| `venaca.5` | Design new tackle and fishing nets (boat efficiency +100%) | 15.6 | W12400 G2520 | [B] `eurpor` |
-| `venaca.6` | Develop new woodworking methods (frigate building) | 15.6 | W12400 G7040 | [B] `eurpor` |
-| `venaca.7` | Build new shipyards for fishing boats (fishing boat cost -85%) | 15.6 | W7300 G1220 | [B] `eurpor` |
-| `venaca.8` | Design new woodworking tools (woodcutting efficiency +100%) | 15.6 | F5500 G550 | [B] `venbla` |
-| `venart.cannon.1.1` | — | 10.0 | W1000 S500 G300 | [B] `venbla` |
-| `venart.cannon.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `venbla` |
-| `venart.cannon.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `venbla` |
-| `venart.cannon.1.4` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.cannon.1.5` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.cannon.1.6` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.cannon.2.1` | — | 10.0 | G500 I1000 | [B] `venbla` |
-| `venart.cannon.2.2` | — | 10.0 | G1000 I2000 | [B] `venbla` |
-| `venart.cannon.2.3` | — | 10.0 | G2000 I3000 | [B] `venbla` |
-| `venart.cannon.2.4` | — | 15.6 | F2560 | [B] `venbla` |
-| `venart.cannon.2.5` | — | 15.6 | F3560 | [B] `venbla` |
-| `venart.cannon.2.6` | — | 15.6 | F5560 | [B] `venbla` |
-| `venart.howitzer.1.1` | — | 10.0 | W1000 S500 G300 | [B] `venbla` |
-| `venart.howitzer.1.2` | — | 10.0 | W3000 S1000 G500 | [B] `venbla` |
-| `venart.howitzer.1.3` | — | 10.0 | W6000 S2000 G1000 | [B] `venbla` |
-| `venart.howitzer.1.4` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.howitzer.1.5` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.howitzer.1.6` | — | 15.6 | F1760 G350 | [B] `venbla` |
-| `venart.howitzer.2.1` | — | 10.0 | G500 I1000 | [B] `venbla` |
-| `venart.howitzer.2.2` | — | 10.0 | G1000 I2000 | [B] `venbla` |
-| `venart.howitzer.2.3` | — | 10.0 | G2000 I3000 | [B] `venbla` |
-| `venart.howitzer.2.4` | — | 31.2 | F2560 | [B] `venbla` |
-| `venart.howitzer.2.5` | — | 31.2 | F3560 | [B] `venbla` |
-| `venart.howitzer.2.6` | — | 31.2 | F5560 | [B] `venbla` |
-| `venbar.pikeman.1.6` | — | 15.6 | F15000 G1875 | [B] `venbla` |
-| `venbar.pikeman.2.6` | — | 15.6 | F11250 G1500 | [B] `venbla` |
-| `venbla.4` | Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5) | 15.6 | W1300 G1500 I900 C5000 | [T] `vencen.1` |
-| `vencen.1` | Progress to the 18th Century | 9.4 | F40000 G3000 I2500 C2500 | [B] `venaca`, [B] `ventem`, [B] `venart` |
+| Upgrade | Research time (game s) | Cost | Requires |
+| --- | ---: | --- | --- |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurcoa.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurcoa.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurcoa.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`eurgol.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`eurgol.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`eurgol.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+12)** (`euriro.4`) | 9.4 | food 15,800, gold 18,500 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+15)** (`euriro.5`) | 9.4 | food 19,800, gold 21,050 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Enlarge mines and build extensive railroad network for them (+40)** (`euriro.6`) | 9.4 | food 50,200, gold 25,950 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Train woodworkers (repair all ships)** (`eurpor.1`) | 46.9 | wood 20,000, gold 1,500 | Artillery Depot (`venart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.1`) | 31.2 | gold 250 | Artillery Depot (`venart`; building) |
+| **Increase number of defensive cannons (20%)** (`eurtow.2`) | 31.2 | iron 350 | Artillery Depot (`venart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.3`) | 31.2 | coal 400 | Artillery Depot (`venart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.4`) | 31.2 | iron 450 | Artillery Depot (`venart`; building) |
+| **Increase number of defensive cannons (10%)** (`eurtow.5`) | 31.2 | coal 500 | Artillery Depot (`venart`; building) |
+| **Improve transport vessel design (+200 capacity)** (`ferry.1`) | 15.6 | food 1,000, gold 1,250 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Improve firearms: rifled barrel (fire power +10%)** (`venaca.12`) | 15.6 | iron 5,000 | Blacksmith (`venbla`; building) |
+| **Research granular gunpowder (fire power +10%)** (`venaca.13`) | 15.6 | gold 4,000 | Blacksmith (`venbla`; building) |
+| **Research new sulphur purification methods (fire power +15%)** (`venaca.14`) | 15.6 | gold 7,000 | Blacksmith (`venbla`; building) |
+| **Research new nitre purification methods (fire power +25%)** (`venaca.15`) | 15.6 | coal 11,000 | Blacksmith (`venbla`; building) |
+| **Research improved additions to gunpowder formula (artillery range +5%)** (`venaca.16`) | 15.6 | gold 2,000, iron 12,150 | Artillery Depot (`venart`; building) |
+| **Design new barrel types: unicorn, carronade (artillery range +10%)** (`venaca.17`) | 15.6 | stone 3,000, gold 4,550, iron 19,200 | Artillery Depot (`venart`; building) |
+| **Design more durable gun carriage: Gribovalle system (artillery durability +50%)** (`venaca.18`) | 15.6 | gold 500, iron 3,830, coal 1,500 | Artillery Depot (`venart`; building) |
+| **Design multi-barrelled cannon** (`venaca.19`) | 15.6 | gold 1,500, coal 2,500 | Artillery Depot (`venart`; building) |
+| **Research new sighting devices for artillery (artillery accuracy +35%)** (`venaca.20`) | 15.6 | wood 3,540, gold 2,000, coal 7,250 | Artillery Depot (`venart`; building) |
+| **Finance artillery repair shops (repair all artillery)** (`venaca.21`) | 15.6 | wood 350, gold 100, coal 250 | Artillery Depot (`venart`; building) |
+| **Design Montgolfier (reveals the whole map)** (`venaca.25`) | 15.6 | gold 5,750 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Develop mathematics (artillery accuracy +35%)** (`venaca.27`) | 15.6 | wood 9,540, gold 12,000, coal 65,200 | Artillery Depot (`venart`; building) |
+| **Design new rigging types (ship speed +40%)** (`venaca.28`) | 15.6 | wood 65,400, gold 24,050 | Shipyard (`eurpor`; building) |
+| **Design new rib system and new hulls (battleship construction)** (`venaca.29`) | 15.6 | wood 32,300, gold 6,800, iron 9,000, coal 12,800 | Shipyard (`eurpor`; building) |
+| **Train carpenters (shipbuilding speed x10)** (`venaca.30`) | 15.6 | wood 2,300, stone 42,700, gold 1,150 | Shipyard (`eurpor`; building) |
+| **Design flintlock (musket cost -50%)** (`venaca.32`) | 15.6 | gold 6,050, coal 7,750 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Research improved steel grades for cuirasses (armoured soldier defence +2)** (`venaca.34`) | 15.6 | gold 9,750 | Blacksmith (`venbla`; building) |
+| **Design bayonet: barrel-inserted, bayonet with a tube (cold steel weapons +5)** (`venaca.35`) | 15.6 | gold 11,500 | Progress to the 18th Century (`vencen.1`; upgrade), Blacksmith (`venbla`; building) |
+| **Research new steel grades (18c musketeer/grenadier melee attack efficiency +25%)** (`venaca.36`) | 15.6 | gold 19,500 | Progress to the 18th Century (`vencen.1`; upgrade), Blacksmith (`venbla`; building) |
+| **Design new tackle and fishing nets (boat efficiency +100%)** (`venaca.5`) | 15.6 | wood 12,400, gold 2,520 | Shipyard (`eurpor`; building) |
+| **Develop new woodworking methods (frigate building)** (`venaca.6`) | 15.6 | wood 12,400, gold 7,040 | Shipyard (`eurpor`; building) |
+| **Build new shipyards for fishing boats (fishing boat cost -85%)** (`venaca.7`) | 15.6 | wood 7,300, gold 1,220 | Shipyard (`eurpor`; building) |
+| **Design new woodworking tools (woodcutting efficiency +100%)** (`venaca.8`) | 15.6 | food 5,500, gold 550 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.4`) | 15.6 | food 2,560 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.5`) | 15.6 | food 3,560 | Blacksmith (`venbla`; building) |
+| **—** (`venart.cannon.2.6`) | 15.6 | food 5,560 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.1`) | 10.0 | wood 1,000, stone 500, gold 300 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.2`) | 10.0 | wood 3,000, stone 1,000, gold 500 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.3`) | 10.0 | wood 6,000, stone 2,000, gold 1,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.4`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.5`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.1.6`) | 15.6 | food 1,760, gold 350 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.1`) | 10.0 | gold 500, iron 1,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.2`) | 10.0 | gold 1,000, iron 2,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.3`) | 10.0 | gold 2,000, iron 3,000 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.4`) | 31.2 | food 2,560 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.5`) | 31.2 | food 3,560 | Blacksmith (`venbla`; building) |
+| **—** (`venart.howitzer.2.6`) | 31.2 | food 5,560 | Blacksmith (`venbla`; building) |
+| **—** (`venbar.pikeman.1.6`) | 15.6 | food 15,000, gold 1,875 | Blacksmith (`venbla`; building) |
+| **—** (`venbar.pikeman.2.6`) | 15.6 | food 11,250, gold 1,500 | Blacksmith (`venbla`; building) |
+| **Forge bayonets and broadswords for infantry (18c musketeer/grenadier melee attack +5)** (`venbla.4`) | 15.6 | wood 1,300, gold 1,500, iron 900, coal 5,000 | Progress to the 18th Century (`vencen.1`; upgrade) |
+| **Progress to the 18th Century** (`vencen.1`) | 9.4 | food 40,000, gold 3,000, iron 2,500, coal 2,500 | Academy (`venaca`; building), Cathedral (`ventem`; building), Artillery Depot (`venart`; building) |
 
 [↑ to contents](#содержание)

@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Light infantry with sword or saber. Cheaper than pikemen, but weaker against cavalry.
+Light infantry fights with swords or sabers. It is cheaper than Pikemen, but less effective against cavalry.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 50, Time (g-sec) = 1.25, F = 0, G = 4, I = 0, upkeep F (raw) = 45, upkeep G (raw) = 4, speed = 32, damage = 6, range (tile) = 0.94, cooldown (c) = 0.0, lance = 5, sword = 3, bullet = 8, buckshot = 225, arrow = 17, cannonball = 80.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 50, training time = 1.25 game seconds, food = 0, gold = 4, iron = 0, raw food upkeep = 45, raw gold upkeep = 4, speed = 32, damage = 6, range = 0.94 cells, reload time = 0.0 seconds, and protection values of 5/3/8/225/17/80 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkeep F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Light Infantryman** `lightinfantry` | Algeria | **55** | **1.0** | **25** | **0** | **1** | — | — | 32 | **5** | 0.94 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |
 | **Light Infantryman** `lightinfantry` | Turkey | **55** | **1.0** | **25** | **0** | **1** | — | — | 32 | **5** | 0.94 | 0.0 | — | — | — | — | — | — | semi-unique (2n) |

@@ -77,7 +77,7 @@ The full mechanics are covered in
   limited number can stand around each building.
 - An unfinished building has only one third of its normal protection.
 - Any building under construction can be captured, including a Tower.
-- One peasant repairs about 29 health per game second.
+- One Peasant restores about 49.3 durability per game second.
 - Canceling construction or an order refunds its full paid cost.
 - Destroying a working building refunds paid orders still in its queue.
 

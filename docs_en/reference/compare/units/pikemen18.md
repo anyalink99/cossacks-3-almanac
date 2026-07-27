@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Late pikemen with improved armor.
+Eighteenth-century Pikemen have improved protection.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 85, Time (g-sec) = 1.25, F = 30, G = 2, I = 0, speed = 32, damage = 9, range (tile) = 1.88, reload (s) = 0.0.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 85, training time = 1.25 game seconds, food = 30, gold = 2, iron = 0, speed = 32, damage = 9, range = 1.88 cells, and reload time = 0.0 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Pikeman, 18th century** `pikeman18` | Austria | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |
 | **Pikeman, 18th century** `pikeman18` | Bavaria | 85 | 1.25 | 30 | 2 | 0 | — | — | 32 | 9 | 1.88 | 0.0 | — | — | — | — | — | — | shared(16n) |

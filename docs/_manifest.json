@@ -5,164 +5,164 @@
     {
       "path": "README.md",
       "title": "Энциклопедия Cossacks 3",
-      "size": 6814,
-      "lines": 76
+      "size": 7445,
+      "lines": 83
     },
     {
       "path": "recon/README.md",
       "title": "Как устроена игра",
-      "size": 8034,
+      "size": 8096,
       "lines": 79
     },
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "Как играет компьютер",
-      "size": 32738,
-      "lines": 517
+      "size": 33931,
+      "lines": 519
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Наёмники и Дипломатический центр",
-      "size": 41927,
-      "lines": 685
+      "size": 36579,
+      "lines": 611
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
       "title": "Сценарии и события в миссиях",
-      "size": 13585,
-      "lines": 178
+      "size": 12240,
+      "lines": 162
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Управление и обратная связь",
-      "size": 31026,
-      "lines": 490
+      "size": 32396,
+      "lines": 504
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Победа, поражение и завершение партии",
-      "size": 29922,
-      "lines": 482
+      "size": 25062,
+      "lines": 424
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
       "title": "Как работает артиллерия",
-      "size": 15459,
-      "lines": 252
+      "size": 16631,
+      "lines": 258
     },
     {
       "path": "recon/world/combat/combat_damage_pipeline.md",
       "title": "Как рассчитывается урон",
-      "size": 27564,
-      "lines": 450
+      "size": 29426,
+      "lines": 469
     },
     {
       "path": "recon/world/combat/formations.md",
       "title": "Построения и их боевые бонусы",
-      "size": 24701,
-      "lines": 421
+      "size": 25969,
+      "lines": 433
     },
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "Как устроен морской бой",
-      "size": 20326,
-      "lines": 311
+      "size": 19592,
+      "lines": 300
     },
     {
       "path": "recon/world/combat/pathfinding.md",
       "title": "Поиск пути и движение юнитов",
-      "size": 57619,
-      "lines": 978
+      "size": 10474,
+      "lines": 139
     },
     {
       "path": "recon/world/combat/ranged_units_behavior.md",
       "title": "Как ведут себя стрелковые юниты",
-      "size": 22329,
-      "lines": 355
+      "size": 23396,
+      "lines": 354
     },
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Выбор цели и атака с движением",
-      "size": 50766,
-      "lines": 803
+      "size": 12068,
+      "lines": 173
     },
     {
       "path": "recon/world/combat/towers.md",
       "title": "Как работают башни",
-      "size": 15575,
-      "lines": 231
+      "size": 16270,
+      "lines": 230
     },
     {
       "path": "recon/world/combat/unit_commands.md",
       "title": "Приказы юнитам",
-      "size": 17253,
-      "lines": 281
+      "size": 15793,
+      "lines": 261
     },
     {
       "path": "recon/world/combat/vision_and_fow.md",
       "title": "Обзор и туман войны",
-      "size": 10658,
-      "lines": 163
+      "size": 9752,
+      "lines": 152
     },
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Стены и ворота",
-      "size": 28068,
-      "lines": 475
+      "size": 29310,
+      "lines": 477
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Строительство, ремонт и разрушение зданий",
-      "size": 14437,
-      "lines": 213
+      "size": 15188,
+      "lines": 214
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "Как захватываются здания и юниты",
-      "size": 15268,
-      "lines": 201
+      "size": 14544,
+      "lines": 191
     },
     {
       "path": "recon/world/economy/hunger_and_rebellion.md",
       "title": "Голод и бунт наёмников",
-      "size": 11341,
+      "size": 11598,
       "lines": 157
     },
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "Как крестьяне добывают ресурсы",
-      "size": 17269,
-      "lines": 241
+      "size": 17703,
+      "lines": 243
     },
     {
       "path": "recon/world/economy/production_queue.md",
       "title": "Как работает очередь производства",
-      "size": 10112,
-      "lines": 135
+      "size": 10686,
+      "lines": 137
     },
     {
       "path": "recon/world/economy/upgrades_application.md",
       "title": "Как применяются улучшения",
-      "size": 12884,
-      "lines": 172
+      "size": 12776,
+      "lines": 167
     },
     {
       "path": "recon/world/map/game_settings.md",
       "title": "Как настройки матча влияют на игру",
-      "size": 24116,
-      "lines": 406
+      "size": 22590,
+      "lines": 375
     },
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "Как создаётся случайная карта",
-      "size": 53651,
-      "lines": 754
+      "size": 13006,
+      "lines": 174
     },
     {
       "path": "reference/01_economy/README.md",
       "title": "Экономика",
-      "size": 11162,
-      "lines": 165
+      "size": 11338,
+      "lines": 168
     },
     {
       "path": "reference/02_combat/README.md",
@@ -239,7 +239,7 @@
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 8231,
+      "size": 8235,
       "lines": 100
     },
     {
@@ -263,7 +263,7 @@
     {
       "path": "reference/03_buildings/tower.md",
       "title": "Башня",
-      "size": 3047,
+      "size": 3197,
       "lines": 35
     },
     {
@@ -797,8 +797,8 @@
     {
       "path": "reference/README.md",
       "title": "Краткий справочник Cossacks 3",
-      "size": 5462,
-      "lines": 76
+      "size": 5570,
+      "lines": 78
     },
     {
       "path": "reports/combat/artillery.md",
@@ -863,7 +863,7 @@
     {
       "path": "reports/map/lobby_settings.md",
       "title": "Настройки матча",
-      "size": 13981,
+      "size": 14161,
       "lines": 273
     },
     {
@@ -887,7 +887,7 @@
     {
       "path": "reports/README.md",
       "title": "Подробные таблицы и расчёты",
-      "size": 4235,
+      "size": 4247,
       "lines": 54
     },
     {

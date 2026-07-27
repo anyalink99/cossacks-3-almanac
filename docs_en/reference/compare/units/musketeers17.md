@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Shooters with bullet weapons. Each nation has its own version: Strelets (rus), Janissary (tur), Serdiuk (ukr).
+Musketeers are ranged infantry armed with firearms. Russia uses the Strelets, Turkey the Janissary, and Ukraine the Serdiuk.
 
-> **Base values** (column mode - what is considered "common" in this class): HP = 70, Time (g-sec) = 6.0, F = 45, G = 6, I = 5, speed = 32, damage = 12, range (tile) = 15.0, reload (s) = 4.69, lance = 2, sword = 2, bullet = 5, buckshot = 165, arrow = 5, cannonball = 35.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 70, training time = 6.0 game seconds, food = 45, gold = 6, iron = 5, speed = 32, damage = 12, range = 15.0 cells, reload time = 4.69 seconds, and protection values of 2/2/5/165/5/35 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkeep F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Hajduk** `gauduk` | Hungary | **60** | **4.5** | **35** | **4** | **4** | — | — | 32 | **9** | **14.06** | **3.12** | — | — | — | — | — | — | unique |
 | **Janissary** `jannisary` | Turkey | **65** | **8.0** | **55** | **13** | 5 | — | — | 32 | 12 | **15.94** | 4.69 | — | — | — | — | — | — | unique |

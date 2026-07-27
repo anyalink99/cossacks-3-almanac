@@ -20,11 +20,13 @@ destruction, ruins continue blocking the site for a while.
   normally imposes a lower practical limit.
 - Repair costs no resources and restores about 49.3 durability per game second
   for each Peasant.
-- Buildings do not decay by themselves.
+- Healthy buildings do not decay, but a critically damaged structure keeps
+  losing durability and collapses unless repaired.
 - Ordinary ruins disappear after about 60 game seconds; Mine ruins take about
   120.
-- Cancelling a foundation, unit order, or research refunds its cost. Capture
-  cancels the queue and refunds the previous owner.
+- Canceling a foundation or research refunds its cost. A unit-order refund
+  uses the current base price and the price-growth tier saved at ordering.
+  Capture cancels the queue and refunds the previous owner.
 
 <a id="сколько-места-занимает-здание"></a>
 ## Building footprint
@@ -169,7 +171,7 @@ On capture:
 
 - current durability is preserved;
 - units inside change owner;
-- the production queue is cancelled and its resources return to the previous
+- the production queue is canceled and its resources return to the previous
   owner;
 - the building counts toward the new owner's total and may increase the price
   of the next building of the same type.
@@ -179,17 +181,20 @@ Walls and Gates do not change owner; capture logic marks them for destruction.
 <a id="разрушение-и-руины"></a>
 ## Destruction and ruins
 
-Buildings do not lose durability over time. It changes only through game
-effects, chiefly attacks and scenario commands.
+A healthy building does not lose durability merely as time passes. Once an
+ordinary structure falls to 1,999 durability or less, however, it begins a
+slow collapse: it keeps burning and losing durability until repaired. Below
+10 durability, final destruction begins.
 
-After durability reaches zero:
+After direct damage reduces durability to zero, or slow collapse reaches its
+final threshold:
 
 1. the building stops working;
 2. after 30 game seconds, the next ruin stage appears;
 3. after another 30 seconds, the object is removed, collision is cleared, and
    the site becomes available.
 
-Both delays are doubled for a Mine. A cancelled unfinished foundation proceeds
+Both delays are doubled for a Mine. A canceled unfinished foundation proceeds
 straight to the final stage after 30 game seconds.
 
 Until ruins are removed, their occupied cells cannot hold another building.
@@ -201,21 +206,16 @@ wait for the site to clear and place a new foundation.
 
 | Event | Refund |
 |---|---|
-| Cancelling an unfinished building | 100% of the foundation cost |
-| Cancelling a unit order | the exact amount charged for that copy |
-| Cancelling research | 100% of the base cost |
-| Destroying a building with a queue | the cost of unfinished units and upgrades |
-| Capturing a building with a queue | the previous owner receives the cost of unfinished orders |
+| Canceling an unfinished building | 100% of the foundation cost |
+| Canceling a unit order | the current base price at the price-growth tier saved when ordered |
+| Canceling research | 100% of the base cost |
+| Destroying a building with a queue | refunds for unfinished units and upgrades under the same rules |
+| Capturing a building with a queue | the previous owner receives the same refunds for unfinished orders |
 
-The destroyed or captured building itself is not refunded. Only cancelled
-orders inside it return resources.
-
-<a id="что-ещё-нужно-проверить"></a>
-## What still needs verification
-
-- Exact real duration of one hammer cycle at every game speed.
-- Why calculated and observed builder positions differ for a few Storehouses
-  and Barracks.
+The destroyed or captured building itself is not refunded. Only canceled
+orders inside it return resources. If a unit-price upgrade completed after
+the order was placed, its refund may differ from the original charge: the
+game uses the new base price but the previously saved price-growth tier.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

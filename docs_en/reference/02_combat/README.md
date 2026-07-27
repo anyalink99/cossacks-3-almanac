@@ -51,7 +51,7 @@ and [Target selection](../../recon/world/combat/target_selection.md).
 ## Movement speed
 
 Speed values in the tables are relative engine units. They are useful for
-in-game comparison but do not equal tiles per second. Light cavalry is usually
+in-game comparison but do not equal cells per second. Light cavalry is usually
 faster than heavy cavalry, peasants are faster than ordinary infantry, and
 artillery and large ships are among the slowest units.
 

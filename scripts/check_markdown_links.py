@@ -32,7 +32,12 @@ ROOT_MARKDOWN = (
 # rules, so the optional leading ``!`` is deliberately outside the capture.
 LINK_RE = re.compile(r"!?\[[^\]]*]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
-EXPLICIT_ID_RE = re.compile(r'<(?:a|span)\s+[^>]*\bid="([^"]+)"', re.IGNORECASE)
+EXPLICIT_ID_LINE_RE = re.compile(
+    r"\s*<(?:a|span)\s+[^>]*\bid=(?P<quote>[\"'])"
+    r"(?P<id>[^\"']+)(?P=quote)[^>]*>\s*"
+    r"</(?:a|span)>\s*",
+    re.IGNORECASE,
+)
 EXTERNAL_PREFIXES = ("http://", "https://", "mailto:", "data:")
 
 
@@ -62,10 +67,28 @@ def link_destination(raw: str) -> tuple[str, str]:
 
 def heading_slug(value: str) -> str:
     """Match ``headingSlug`` in ``assets/js/md-viewer.js``."""
-    value = re.sub(r"<[^>]+>", "", value)
+
+    protected_code: dict[str, str] = {}
+
+    def preserve_code(match: re.Match[str]) -> str:
+        marker = f"\x00CODE{len(protected_code)}\x00"
+        protected_code[marker] = match.group(1)
+        return marker
+
+    value = re.sub(r"`([^`\n]+)`", preserve_code, value)
     value = re.sub(r"!\[([^\]]*)]\([^)]+\)", r"\1", value)
     value = re.sub(r"\[([^\]]+)]\([^)]+\)", r"\1", value)
-    value = re.sub(r"[`*_~]", "", html.unescape(value)).strip().lower()
+    value = re.sub(r"<[^>]+>", "", value)
+    value = re.sub(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", r"\2", value)
+    value = re.sub(
+        r"(?<![\w\\])([*_])(?=\S)(.+?)(?<=\S)\1(?!\w)",
+        r"\2",
+        value,
+    )
+    value = re.sub(r"~~(?=\S)(.+?)(?<=\S)~~", r"\1", value)
+    for marker, code_text in protected_code.items():
+        value = value.replace(marker, code_text)
+    value = html.unescape(value).strip().lower()
     value = re.sub(r"[^\w\s-]", "", value, flags=re.UNICODE)
     return re.sub(r"\s", "-", value)
 
@@ -73,13 +96,17 @@ def heading_slug(value: str) -> str:
 def document_ids(path: Path) -> set[str]:
     """Return IDs available after the Markdown reader renders a document."""
     text = path.read_text(encoding="utf-8")
-    ids = set(EXPLICIT_ID_RE.findall(text))
+    ids: set[str] = set()
     in_fence = False
     for line in text.splitlines():
         if re.match(r"^\s*(```|~~~)", line):
             in_fence = not in_fence
             continue
         if in_fence:
+            continue
+        explicit_match = EXPLICIT_ID_LINE_RE.fullmatch(line)
+        if explicit_match:
+            ids.add(explicit_match.group("id"))
             continue
         match = HEADING_RE.match(line)
         if not match:

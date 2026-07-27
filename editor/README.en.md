@@ -61,7 +61,7 @@ editor/
 ```
 `simulator/simulate_economy.py` has the function `simulate_in_memory(build_order, data, tree, slots) → dict`, the same engine as for the CLI, without file IO.
 
-<a id="что-не-работает-план--projectvisualeditorphase1concretemd"></a>
+<a id="что-не-работает-план--project_visual_editor_phase1_concretemd"></a>
 ## What does NOT work (plan - `project_visual_editor_phase1_concrete.md`)
 
 - ❌ Editing an already added action - for now only deleting + adding again.

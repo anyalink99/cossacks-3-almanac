@@ -6,7 +6,7 @@
 
 Upgrades for 18th-century Officers, Drummers, and Bagpipers.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Bagpiper: protection +10 (level 2)** `engba2.bagpiper.2.1` | England | protection | 10 | — | 555 | 0 | 0 | 90 | 0 | 0 | 15.62 |
 | **Drummer, 18th century: protection +15 (level 2)** `ausba2.drummer18.2.1` | Austria, Piedmont, Russia, Spain, Switzerland, Venice | protection | 15 | — | 706 | 0 | 0 | 50 | 0 | 0 | 15.62 |

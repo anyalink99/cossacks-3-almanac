@@ -5,7 +5,7 @@
 
 Upgrades for Pikemen, Spearmen, Coseletes, and Roundshiers.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Pikeman, 17th century: damage +1 (level 2)** `ausbar.pikeman.1.1` | Austria, England, Piedmont, Spain, Venice | damage | 1 | — | 200 | 0 | 0 | 50 | 0 | 0 | 15.62 |
 | **Pikeman, 17th century: damage +1 (level 2)** `swebar.pikeman.1.1` | Hungary, Saxony, Sweden | damage | 1 | — | 100 | 0 | 0 | 90 | 0 | 0 | 15.62 |

@@ -21,7 +21,7 @@ and are shown only when they help distinguish similar objects.
 | [Navy](07_naval/README.md) | Shipyards, warships, transports, and fishing boats. |
 
 More: [21 nations](nations/README.md),
-[side-by-side unit and building comparisons](compare/README.md),
+[side-by-side comparisons of units, buildings, weapons, and projectiles](compare/README.md),
 [match settings](../reports/map/lobby_settings.md), and the
 [technology tree](../reports/tech/tech_tree.md).
 
@@ -52,7 +52,8 @@ final damage = max(1, base weapon damage
                        + possible critical-hit bonus)
 ```
 
-An attack always removes at least one health point. See
+Once an attack passes the hit and damage checks, it removes at least one point
+of durability. See
 [Combat and movement](02_combat/README.md) for details.
 
 <a id="цены-и-время"></a>

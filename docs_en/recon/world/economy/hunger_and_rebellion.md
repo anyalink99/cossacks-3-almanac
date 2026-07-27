@@ -5,9 +5,11 @@
 [← How the game works](../../README.md)
 
 An empty food stockpile gradually kills ordinary troops and peasants. An empty
-gold stockpile combined with an unsustainable upkeep balance makes mercenaries
-turn against their owner almost at once. These are separate crises with
-different triggers and consequences.
+gold stockpile combined with an unsustainable upkeep balance starts mercenary
+rebellion checks. On Hard and above they can turn against their owner quickly;
+on Easy and Normal this happens much more slowly. Famine and rebellion are
+separate crises: food shortages threaten the regular army, while an
+unsustainable gold balance threatens mercenaries.
 
 <a id="коротко-о-главном"></a>
 ## In brief
@@ -21,8 +23,7 @@ different triggers and consequences.
   Working gold mines may keep an army loyal even with an empty stockpile.
 - Only mercenaries from the Diplomatic Center rebel. They move to a separate
   game-controlled side and then fight everyone.
-- On high difficulty, rebellion unfolds within a few game seconds; famine is
-  much slower.
+- On high difficulty, rebellion unfolds rapidly; famine is much slower.
 
 <a id="когда-начинается-и-заканчивается-кризис"></a>
 ## Starting and ending a crisis
@@ -51,7 +52,6 @@ Famine checks every food-consuming unit separately.
 | Ordinary infantry and cavalry | Yes |
 | Building | No |
 | Mercenary from the Diplomatic Center | No |
-| Unit with no food consumption | No |
 | Certain elite units | Depends on their game data |
 
 Peasants do not receive a special priority. Under equal conditions, they make
@@ -61,19 +61,22 @@ because players usually have more of them.
 <a id="скорость-гибели-от-голода"></a>
 ## Famine death rate
 
-| Difficulty | Probability for one vulnerable unit per check |
+| Mode and difficulty | Probability for one vulnerable unit per check |
 |---|---:|
-| Easy | about 0.0076% |
-| Normal | about 0.018% |
-| Hard, Very Hard, or Impossible | about 0.076% |
+| Single-player, Easy | about 0.0153% |
+| Single-player, Normal | about 0.0366% |
+| Any mode, Hard, Very Hard, or Impossible | about 0.1526% |
+| Network match, Easy | about 0.1678% |
+| Network match, Normal | about 0.1892% |
 
 Every unit receives an independent random result. A player with more
 vulnerable inhabitants and troops is likely to see the first death sooner,
 even though the chance for each unit is unchanged.
 
-Estimates such as “first deaths after 30–60 game seconds” and “roughly half an
-army in 3–5 minutes on high difficulty” are useful only as orientation. Actual
-results vary with army size and check frequency.
+In single-player on Easy and Normal, and on high difficulty, that is one
+death per roughly 6,554, 2,731, or 655 checks on average, respectively.
+Online Easy and Normal average about 596 and 529 checks. In a large army, the
+first loss occurs sooner because every unit receives an independent result.
 
 <a id="как-считается-потребление-еды"></a>
 ## Food consumption
@@ -89,9 +92,8 @@ converted into consumption per game second.
 | Russian Serf | 0.0896 |
 | Infantryman with no additional personal consumption | 0.0480 |
 
-A control measurement confirms the scale: 18 idle Austrian Peasants consume
-about 214 food over two game minutes. The formula, source fields, and
-calculation are retained in the
+As a practical reference, 18 idle Austrian Peasants consume about 214 food
+over two game minutes. The formula, source fields, and calculation are in the
 [technical appendix](../../../../internals_en/scripts/hunger_and_rebellion_evidence.md).
 
 <a id="что-происходит-при-бунте"></a>
@@ -107,17 +109,18 @@ checks independently whether to leave its owner.
 | Hard, Very Hard, or Impossible | about 18.31% |
 
 On high difficulty, one mercenary needs about 5.5 checks on average before
-changing sides. Because checks are frequent, a large group may almost entirely
-leave its owner within 5–10 game seconds. The process is far slower on Easy
-and Normal.
+changing sides, so a large group can rapidly leave its owner. The process is
+far slower on Easy and Normal.
 
 Departing mercenaries do not become harmless neutral units. They move to a
 separate game-controlled side that is hostile to every participant in the
 match.
 
-If an opponent kills a mercenary during rebellion, the score calculation uses
-a **×3** multiplier instead of the ordinary **×2**. The crisis can therefore
-affect the final score statistics.
+When a mercenary defects, three times that unit's base value is immediately
+deducted from the former owner's score. At the same time, the new
+game-controlled owner receives the unit's base value once; the unit's later
+death is processed separately. These points affect final statistics, not
+victory or rating.
 
 Upkeep, income, and the Diplomatic Center are covered in more detail in the
 [mercenary article](../../systems/mercenaries_diplomacy.md).
@@ -149,13 +152,6 @@ food consumption cannot be paid.
 
 Resource and population-related defeat conditions are covered separately in
 [How Victory Is Decided](../../systems/victory_conditions.md).
-
-<a id="что-ещё-нужно-проверить-в-игре"></a>
-## What still needs in-game verification
-
-- The famine and rebellion check frequency in game seconds at every speed.
-- Loss distribution in equal-sized peasant and infantry groups.
-- Observed breakup time for identical mercenary groups at each difficulty.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-8 types of peasants (`peaaus` / `peaeng` / `peapol` / `pearus` / `peaspa` / `peatur` / `peaukr` / `peasco`) — differ in appearance and starting HP.
+The eight national Peasant variants differ in appearance and starting health.
 
-> **Basic values** (column mode - what is considered "normal" in this class): HP = 50, Time (g-sec) = 12.5, F = 100, G = 0, I = 0, upkeep F (raw) = 32, speed = 40, damage = 20, range (tile) = 1.22, cooldown (s) = 0.0.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 50, training time = 12.5 game seconds, food = 100, gold = 0, iron = 0, raw food upkeep = 32, speed = 40, damage = 20, range = 1.22 cells, and reload time = 0.0 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Peasant** `peaaus` | Austria | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |
 | **Peasant** `peaaus` | Bavaria | 50 | 12.5 | 100 | 0 | 0 | 0.0512 (32) | — | 40 | 20 | 1.22 | 0.0 | — | — | — | — | — | — | shared(5n) |

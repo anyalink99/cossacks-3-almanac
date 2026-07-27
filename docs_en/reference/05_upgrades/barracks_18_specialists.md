@@ -3,9 +3,9 @@
 
 [← 18th-century Barracks upgrades](barracks_18.md)
 
-Upgrades for Jaegers, Pandurs, Volunteers, Szekely, and Scottish infantry.
+Upgrades for Chasseurs, Jaegers, Pandurs, Volunteers, the Szekely, and Scottish infantry.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Bow Clansman: damage +2 (level 2)** `scoba2.archersco.1.1` | Scotland | damage | 2 | — | 3000 | 0 | 0 | 360 | 0 | 0 | 15.62 |
 | **Bow Clansman: damage +3 (level 3)** `scoba2.archersco.1.2` | Scotland | damage | 3 | — | 7500 | 0 | 0 | 700 | 0 | 0 | 15.62 |

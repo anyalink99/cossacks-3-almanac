@@ -17,13 +17,13 @@ references and Pascal excerpts are collected under [Sources](#sources).
 Cossacks 3 has no Age of Empires II-style conversion. Capture is
 purely **geometric**:
 
-- Every N ticks the engine measures the Euclidean distance from the center
-  the victim object to surrounding enemy units.
-- If within the radius of `gc_gameplay_captureradius` (≈ 4 tiles) there is
-  enemy unit with flag `bcancapture`, and in radius
-  `gc_gameplay_protectionradius` (≈ 8 tiles) does not have its own defender unit
-  with `bprotector` - the object changes owner (or dies if
-  it is set to `bDie`).
+- At scheduled intervals, the engine measures the Euclidean distance from the
+  target object's reference point to nearby enemy units.
+- If an enemy unit with `bcancapture` is within
+  `gc_gameplay_captureradius` (about four map cells), and the target has no
+  friendly `bprotector` unit within `gc_gameplay_protectionradius` (about
+  eight map cells), the object changes owner—or is destroyed when the capture
+  branch sets `bDie`.
 - Priests are **healers**, not capturers. Their technical roles
   `priest`, `pope`, `mullah`, and `padre` use negative damage for
   healing and are unrelated to `captureradius`.
@@ -35,10 +35,10 @@ purely **geometric**:
 
 Capture radii [^1]:
 ```
-gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile = 3.0 tile
-gc_gameplay_captureradius          = 214 / 53.333          ≈ 4.013 tile
-gc_gameplay_protectionradius       = 426 / 53.333          ≈ 7.987 tile
-gc_gameplay_resourceDropRadius     = 3 tile
+gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile = 3.0 cells
+gc_gameplay_captureradius          = 214 / 53.333          ≈ 4.013 cells
+gc_gameplay_protectionradius       = 426 / 53.333          ≈ 7.987 cells
+gc_gameplay_resourceDropRadius     = 3 cells
 *Sqr — the same values squared (for Euclidean comparisons)
 ```
 Ticks [^2]:
@@ -46,10 +46,12 @@ Ticks [^2]:
 gc_unit_TimeCheckCapture    = 0.1*19  ≈ 1.9 game sec   (peasants + buildings)
 gc_unit_TimeCheckCaptureArt = 0.1*5   ≈ 0.5 game sec   (artillery — checked more often)
 ```
-Metric - **Euclidean²** [^3]: `(px, py)` - position of the victim object,
-`(tx, ty)` is the position of the invader candidate. It's **center-to-center**, neither
-Manhattan, nor Chebyshev. The shape of the building is NOT taken into account, only its
-one-cell anchor.
+The metric is **squared Euclidean distance** [^3]: `(px, py)` is the
+target position returned by the engine, and `(tx, ty)` is the corresponding
+position of the candidate capturer. The comparison is point-to-point, not
+Manhattan or Chebyshev distance, and does not use the building footprint.
+The exact relationship between this engine position and the model center,
+bounding box, or object anchor remains to be measured (§9).
 
 The map setting `gMap.settings.additional.capture` controls the rule [^4]:
 ```
@@ -58,7 +60,12 @@ The map setting `gMap.settings.additional.capture` controls the rule [^4]:
 2 capture_nocenterspeasants  — peasants and Town Halls cannot be captured
 3 capture_onlyartillery      — only artillery can be captured
 ```
-All four values of the `capture` option with canonical labels are listed in the [lobby settings](../../docs_en/reports/map/lobby_settings.md#capture--правила-захвата). Engine behaviour—how `capture` interacts with `peacetime` and territory ownership—is covered in [match settings](../../docs_en/recon/world/map/game_settings.md) §3.4.
+All four values of the `capture` option, with their canonical labels, are
+listed in the
+[lobby settings](../../docs_en/reports/map/lobby_settings.md#capture--правила-захвата).
+The interaction between `capture`, `peacetime`, and territory ownership is
+covered in [match settings](../../docs_en/recon/world/map/game_settings.md)
+§3.4.
 
 ---
 
@@ -134,22 +141,22 @@ cavalryman, but not a Peasant or artillery piece**.
 ---
 
 <a id="3-триггер-misccheckcapture--полный-псевдокод"></a>
-<a id="3-проверка-захвата-misccheckcapture--полный-псевдокод"></a>
+<a id="3-проверка-захвата-_misc_checkcapture--полный-псевдокод"></a>
 ## 3. Capture check (`_misc_CheckCapture`) — full pseudocode
 
-Source: `_misc_CheckCapture` [^9]. Check logic in three steps:
+Source: `_misc_CheckCapture` [^9]. The check has three stages:
 ```mermaid
 flowchart TD
     Tick[Tick every 1.9 game sec<br/>0.5 for artillery] --> Peace{Is peacemode<br/>active?}
     Peace -- yes --> Stop1[exit: check disabled]
     Peace -- no --> Step1[Step 1: find a capturer]
-    Step1 --> Scan[Scan a 54-cell radius<br/>around the target's center]
-    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013t?}
+    Step1 --> Scan[Scan a 54-grid-cell radius<br/>around the target position]
+    Scan --> Found{Enemy bcancapture<br/>unit within<br/>captureradius² &lt; 4.013 cells?}
     Found -- no --> Stop2[exit: bcapture = False]
     Found -- yes --> Step2[Step 2: find protectors]
-    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99t from the target]
+    Step2 --> Scan2[Scan protectionradius<br/>≈ 7.99 cells from the target]
     Scan2 --> Prot{Friendly non-bcapture<br/>unit within radius?}
-    Prot -- yes --> Stop3[exit: bcapture cancelled;<br/>protectors block capture]
+    Prot -- yes --> Stop3[exit: bcapture canceled;<br/>protectors block capture]
     Prot -- no --> Step3[Step 3: apply capture]
     Step3 --> Type{Target type}
     Type -- wall --> Die1[bDie = True<br/>wall is destroyed]
@@ -163,23 +170,26 @@ flowchart TD
 ```
 For the complete pseudocode of the procedure, see [^10]. High-level logic step by step:
 
-**Preparation.** `pobj` is the victim object, `scangrid` is its scan grid cell.
-If `peacemode` is active and the current cell is not enemy, check
-comes out immediately. Scan radius for grid-cells: `rx1 = floor(214/4) + 1 = 54`.
-Candidate mask: if `bneutral` - enemy mask, otherwise - own for the owner of the cell.
+**Preparation.** `pobj` is the target object and `scangrid` is its spatial-grid
+cell. If peacetime is active and the cell is not considered enemy territory,
+the procedure returns immediately. The grid scan radius is
+`rx1 = floor(214/4) + 1 = 54`. A neutral object uses the enemy mask;
+otherwise the mask is derived from the cell owner's diplomacy.
 
-**Step 1 - find the invader.** Loop through grid-cells in radius `rx1`. In each
-cell with a suitable mask is called `_unit_SearchCapturersForWall` (for
-walls) or `_unit_SearchCapturers` (for others). If a candidate is found -
-The Euclidean square of the distance to the victim is checked:
+**Step 1 — find a capturer.** The procedure scans every grid cell within
+`rx1`. In matching cells it calls `_unit_SearchCapturersForWall` for Walls
+or `_unit_SearchCapturers` for other objects. For every candidate it compares
+the squared Euclidean distance to the target:
 
 - a Wall accepts any enemy object except a building (including Peasants
   and artillery) as a candidate;
-- an ordinary building - only a `bcancapture` unit, and not on the water.
+- an ordinary building accepts only a `bcancapture` unit that is not on
+  water.
 
-When `distSqr < captureradiusSqr (≈ 4.013² tile)` rises `bcapture`,
-`capturerHnd` is remembered. If even closer (`< 3² tile`) - cocked
-`bblockshot` (victim shooting plug).
+When `distSqr < captureradiusSqr` (about `4.013²` map cells), `bcapture` is
+set and the candidate handle is stored in `capturerHnd`. If the candidate
+is closer than three map cells, `bblockshot` is also set, delaying the target's
+fire.
 
 `_unit_SearchCapturers` requires `not bbuilding && bcancapture`,
 `(myplmask & plmask) <> 0`, and `pl <> mercenaryInd`. The Wall-specific
@@ -187,104 +197,107 @@ version does not require `bcancapture`, so any enemy object other than a
 building can become the candidate, including Peasants and artillery.
 For a Wall, capture therefore means destruction.
 
-**Step 2 - protectors.** If the victim is a building / art unit, and (for a wall)
-`hp >= maxhp/3`:
+**Step 2 — find protectors.** This stage runs for a building or artillery
+target and, in the Wall branch, only while `hp >= maxhp/3`:
 
-- *2a.* If the victim is NOT a peasant and the invader is VERY close
-  (`bblockshot`), set `attackdelay := max(attackdelay, 100*gc_frames_to_time)`
-  (≈ 3.125 g-sec stub).
-- *2b.* Radius `rx2 = floor(426/4) + 1`, we go around the cells with my units.
-  `_unit_SearchProtectors` is looking for a unit with `pobjprop.bprotector && not bbuilding`
-  and `(myplmask & plmask) = 0`. If found and `not pobjprop2.bcapture`
-  and `distSqr < protectionradiusSqr` - `bcapture := False` (capture
-  is cancelled, the cycle continues for counter `protectorsCount`).
-- *2c.* AI art logic (if the victim is `bartillery`, AI owner):
-  at certain ratios `capCount / protCount` (see [^10])
-  unit commits suicide (`SetTagStates(essential_death)`) - except
-  `bEasy` or passing `random > 0.5`.
+- *2a.* If the target is not a Peasant and the capturer is very close
+  (`bblockshot`), the procedure sets
+  `attackdelay := max(attackdelay, 100*gc_frames_to_time)`, or about
+  3.125 game seconds.
+- *2b.* Within `rx2 = floor(426/4) + 1`, `_unit_SearchProtectors` looks
+  for a non-building unit with `bprotector`. A valid protector within
+  `protectionradiusSqr` resets `bcapture` to `False`.
+- *2c.* If the target is AI-controlled artillery, additional logic may
+  destroy it according to the `capCount / protCount` ratio (see [^10]).
+  Easy difficulty and a `random > 0.5` result bypass parts of this branch.
 
-**Step 3 - Apply.** If `bcapture` remains `True`:
+**Step 3 — apply the result.** If `bcapture` remains `True`:
 
-- Unit not yet born (`essential_birth & statetag`) and visible -
-  just dies.
+- A visible unit still in `essential_birth` simply dies.
 - Otherwise, with `(statetag & visual_hide) = 0`:
   - Walls always die (`pobjprop.bwall ⇒ bDie := True`).
   - Non-building: `_unit_Stop(goHnd)`.
-  - Building: produce/upgrade orders, `ClearOrders`, `SetSTO=0` are cancelled.
-  - If the owner-AI loses the building: with a 75% chance destruction will be triggered
-    (slowdeath/`bDie`). For AI and peasant art units - separate
-    chances of suicide (see [^10] - supermortar ≈ 41.5%, cannon ≈ 60.9%,
-    mortar ≈ 85.9%, peasant in `bEasy` ≈ 45.3%).
-  - If an AI invader picks up a peasant in hard mode, the peasant dies,
-    but does not go to him.
-  - Otherwise - `_misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, ...)`.
+  - For a building, production and research orders are canceled before
+    `ClearOrders` and `SetSTO=0`.
+  - When an AI player loses a building, there is a 75% chance that the
+    building is destroyed instead. AI-controlled artillery and Peasants use
+    separate destruction probabilities (see [^10]: `supermortar` ≈ 41.5%,
+    `cannon` ≈ 60.9%, `mortar` ≈ 85.9%, and a Peasant on Easy ≈ 45.3%).
+  - When a hard-difficulty AI captures a Peasant, the Peasant may die instead
+    of changing owner.
+  - Otherwise, `_misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, ...)`
+    transfers ownership.
 
-**Key Observations:**
-- Capture requires **only** one captor in radius. Capture time = 0
-  (instantly when tick). The player sees the "capture time" as
-  `gc_unit_TimeCheckCapture` ≈ 1.9 g-sec until next check.
-- Ticks with random offset (`random*gc_unit_TimeCheckCapture`) during init/serialize,
-  so that buildings do not check everything at the same time (load-balancing).
-- **Walls are not captured** - they are automatically `bDie := True`. This explains
-  why “capturing a wall equals breaking a wall.” Condition in step 2: `if not (bwall && hp<maxhp/3)` —
-  walls below 1/3 HP do not trigger protector logic and do not block fire, which makes
-  their defense is useless at low HP.
+**Key observations:**
+
+- Capture requires only **one** eligible unit within range. The ownership
+  change itself is immediate; the apparent delay is the time until the next
+  check, at most about 1.9 game seconds for buildings and Peasants.
+- Checks receive a random initial offset
+  (`random*gc_unit_TimeCheckCapture`) so that all objects are not processed
+  simultaneously.
+- **Walls are not captured**: the branch sets `bDie := True`. Walls below
+  one-third durability also skip the protector and fire-blocking checks.
 - **Completed Towers** have `bcapture=False` and therefore do not call
   `_misc_CheckCapture`; they cannot be captured after construction.
   Unfinished Towers use the common branch for buildings under
   construction and can change ownership.
-- **Garrison**: when capturing a building, `_misc_ChangePlayer` recursively changes
-  owner of all units inside (`pObjInside`) [^11]. Production
-  orders are canceled, returning resources.
+- **Internal units:** `_misc_ChangePlayer` recursively changes the owner of
+  every unit in `pObjInside` [^11]. Production orders are canceled and
+  their resources refunded.
 
 <a id="триггеры-где-вызывается-misccheckcapture"></a>
-<a id="где-вызывается-проверка-misccheckcapture"></a>
+<a id="где-вызывается-проверка-_misc_checkcapture"></a>
 ### Where `_misc_CheckCapture` is called
 
 | Source | Condition | Period |
 |---|---|---|
-| unit-side trigger [^12] | `pobjprop.bcapture and bplayable`. Only if `default OR bart OR (only_artillery and bart)`. | TimeCheckCapture (1.9s) or TimeCheckCaptureArt (0.5s) for art. |
-| building under construction [^13] | `not arg_obj.bbuilt` (construction) - regardless of `bcapture`! | TimeCheckCapture |
-| building post-construction [^14] | `pobjprop.bcapture` after construction. Takes into account map-setting, with `only_artillery` - buildings are NOT checked. | TimeCheckCapture |
+| Unit-side trigger [^12] | `pobjprop.bcapture and bplayable`; enabled for Default, or for artillery under the relevant settings | `TimeCheckCapture` (1.9 s), or `TimeCheckCaptureArt` (0.5 s) for artillery |
+| Building under construction [^13] | `not arg_obj.bbuilt`, regardless of `bcapture` | `TimeCheckCapture` |
+| Completed building [^14] | `pobjprop.bcapture`, subject to the map setting; Artillery Only disables building checks | `TimeCheckCapture` |
 
-⚠️ **Building under construction** is ALWAYS checked for capture (even towers during construction!). This explains why an unfinished tower can be captured - but as soon as it is completed, `bcapture=False` disables the check.
+Every **unfinished building** is checked for capture, including a Tower under
+construction. Once the Tower is complete, `bcapture=False` disables the
+check.
 
 ---
 
 <a id="4-захват-юнитов"></a>
-## 4. Capture units
+## 4. Capturing units
 
+<a id="кого-можно-захватить-как-юнита"></a>
 ### Who can be captured as a unit
 
 - Peasant or Serf of any nation (internal pattern `pea*`).
 - Cannon (`cannon`), Howitzer (`howitzer`), Bombard (`mortar`),
   Multi-barrelled Cannon (`multicannon`), and Frame gun (`framegun`).
 
-This is all. Infantry, cavalry, and ships **cannot be captured** (only killed).
+No other units are eligible. Infantry, cavalry, and ships can only be killed.
 
+<a id="кто-захватывает"></a>
 ### Who captures the unit
-Any ordinary infantryman or cavalryman satisfying
-`bcancapture && not bbuilding && not peasant`; neither the Peasant
-nor the captured artillery piece qualifies.
 
-<a id="кого-можно-захватить-как-юнита"></a>
+Any ordinary infantry or cavalry unit satisfying
+`bcancapture && not bbuilding && not peasant` qualifies. Peasants and
+capturable artillery do not.
+
 <a id="что-становится-с-захваченным"></a>
-### What happens to the captured
+### What happens to a captured unit
+
 - A Peasant or Serf changes owner through `_misc_ChangePlayer`.
-  Carried resources are retained, and AI behaviour restarts.
+  Carried resources are retained, and AI behavior restarts.
 - An artillery piece changes owner while its ammunition remains in
-  `weapon.cost`; production delays are reset.
+  `weapon.cost`; its action delays are reset.
 - A captured unit **leaves its formation**
   (`_misc_SquadChangePlayer`), breaking an artillery formation.
 
-<a id="кто-захватывает"></a>
 <a id="по-умолчанию-в-deathmatch-и-historical-battle"></a>
 <a id="стандартные-правила-в-на-смерть-и-историческом-сражении"></a>
-### Default in Deathmatch and Historical Battle
+### Default rule in Deathmatch and Historical Battle
 
-Both modes set `capture_nopeasants` [^15], so **in standard
-In matches, peasants are not captured**, only killed. Capture peasant
-only possible in skirmish with the `capture_default` setting.
+Both modes set `capture_nopeasants` [^15]. Peasants are therefore killed
+rather than captured in standard matches. Capturing Peasants requires a
+Skirmish with the Default capture rule.
 
 ---
 
@@ -294,61 +307,63 @@ only possible in skirmish with the `capture_default` setting.
 
 <a id="нейтральные-игроки-gplayeribneutral"></a>
 ### Neutral players (`gPlayer[i].bneutral`)
-- Field `bneutral : Boolean` in TPlayer [^16].
-- Used in **missions/scenarios** [^17] - scripters can
-  toggle `bneutral=true/false` for diplomacy. In multiplayer /
-  random maps **this flag is not active** for regular players.
+
+- `TPlayer` contains the Boolean field `bneutral` [^16].
+- Mission and scenario scripts may toggle it to alter diplomacy [^17].
+  Ordinary players on random and multiplayer maps do not use this flag.
 
 <a id="mercenary-player-index--maxplayer-1--особый-виртуальный-игрок"></a>
 <a id="наёмники-технический-игрок-maxplayer-1"></a>
-### Mercenary (player index = MaxPlayer-1 = special virtual player)
+### Mercenary side (`MaxPlayer-1`)
+
 - `gc_player_mercenaryind = gc_MaxPlayerCount-1` [^18].
-- Units with `bmercenary=True` (mercenary, recruited to the Diplomatic center)
-  with `brebellion=True` the owner has a chance of **defect to mercenary
-  player** [^19]. That is, mercenaries “go” to neutral in case of bankruptcy
-  (no gold). This is NOT an enemy takeover.
-- Mercenary units **are not considered captors** [^20] - filter in
+- When an owner has `brebellion=True`, units hired from the Diplomatic Center
+  with `bmercenary=True` may **defect to this game-controlled side** [^19].
+  The transfer is a rebellion caused by a Gold shortage, not enemy capture.
+- Mercenary units are excluded from the capturer search [^20] by a filter in
   `_unit_SearchCapturers`.
 
 <a id="treasure--chest--clad"></a>
 <a id="сокровища-и-сундуки"></a>
-### Treasure/chest/clad
-**Not found**. Searches `treasure|chest|clad|gc_obj_usage_treasure|stash`
-do not produce results in scripts. There are no neutral treasures in Cossacks 3
-on the map, like in C1 (Sich Rebellion in C1 had “treasures”, in C3 this mechanic
-removed).
+### Treasures and chests
+
+No corresponding mechanic was found. Searches for
+`treasure|chest|clad|gc_obj_usage_treasure|stash` return no relevant script
+logic. Unlike the first Cossacks game, Cossacks 3 does not place neutral
+treasures on random maps.
 
 <a id="нейтральные-крестьяне-на-карте"></a>
 ### Neutral peasants on the map
-`SetupStartingResources` (see recon/world/map/map_generation_pipeline.md)
-spawns **18 peasants in a 6x3 grid** at the start of the game - **all of them are already
-belong to the player**, are not neutral. Other neutral units on
-no map.
+`SetupStartingResources` (see
+[map generation](../../docs_en/recon/world/map/map_generation_pipeline.md))
+spawns **18 Peasants in a 6×3 grid**. They belong to their player from the
+moment they are created; they are not neutral.
 
 <a id="нейтральные-здания"></a>
 ### Neutral buildings
-No. All buildings on the map are the property of the players or mercenary-player when
-defect.
+
+Random maps do not create neutral buildings. Buildings belong to a player;
+scenario scripts can create other arrangements.
 
 ---
 
 <a id="6-захват-башен-специфика"></a>
-## 6. Capture towers (specifics)
-All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^21].
+## 6. Tower capture
+
+All Towers (`commonsid+'tow'`, `misblg`, `misblg2`) have
+**`bcapture=False`** [^21].
 
 - They DO NOT call `_misc_CheckCapture` after construction.
-- The tower does not have garrison slots (`peasantabsorber=0`, `transport=0`,
-  see [^21] and [Units inside buildings](../../docs_en/recon/world/economy/building_mechanics.md#units-inside-buildings)
-  in the construction guide), so the question is “what happens to the garrison
-  upon destruction" is not applicable to the tower. For other buildings with `peasantabsorber>0`
-  or `transport>0` (center, barracks, transport ships) upon destruction
-  `_unit_DestroyObj` [^22] is triggered, which causes
-  `_unit_DoUnitsGoOutside(list, bDead=True, ...)`. In this mode the procedure
-  sets `essential_death` to each unit in the list [^23] - that is
-  the contents are killed at the same time as the building.
-- **Exception:** during construction (when `arg_obj.bbuilt=False`), any
-  the building is being checked for capture [^13]. Therefore **unfinished tower
-  can be captured** by a regular infantry unit by approaching closer than 4 tiles.
+- A Tower has no internal unit slots (`peasantabsorber=0`, `transport=0`;
+  see [^21] and
+  [Units inside buildings](../../docs_en/recon/world/economy/building_mechanics.md#units-inside-buildings)).
+  Other buildings and transports with internal capacity call
+  `_unit_DestroyObj` [^22] on destruction. It invokes
+  `_unit_DoUnitsGoOutside(list, bDead=True, ...)`, which assigns
+  `essential_death` to every contained unit [^23].
+- During construction (`arg_obj.bbuilt=False`), every building is checked
+  for capture [^13]. An unfinished Tower can therefore be captured by an
+  ordinary infantry unit within four map cells.
 
 ---
 
@@ -356,14 +371,15 @@ All towers (`commonsid+'tow'`, `misblg`, `misblg2`) have **`bcapture=False`** [^
 <a id="7-священники-лечат-а-не-обращают-противника"></a>
 ## 7. Priests heal; they do not convert enemies
 
-**No such mechanics.**
-- `bpriest` - [^24] flag, used only in [^25].
-- Logic: when a priest “attacks” a unit with `bpriest=True` attacker,
-  `damage := indamage` (original, without protection), then
-  `pobj2.hp := pobj2.hp + damage` ⇒ **treatment**, not conversion.
-- There are no `_misc_ChangePlayer` in the priest code.
-- Units with the priest role (`pope`, `mullah`, `padre`, `priest`) - all
-  listed in [^26], all have `bpriest=True` through [^27].
+There is no priest conversion mechanic.
+
+- `bpriest` is the technical flag [^24] used by the healing branch [^25].
+- When a priest acts on a unit, the script uses the unmitigated
+  `indamage` value and adds it to the target's durability:
+  `pobj2.hp := pobj2.hp + damage`.
+- The priest branch never calls `_misc_ChangePlayer`.
+- The roles `pope`, `mullah`, `padre`, and `priest` [^26] all receive
+  `bpriest=True` [^27].
 
 ⇒ A Priest in Cossacks 3 is a **healer** using negative damage. It
 never changes the target's owner.
@@ -375,30 +391,29 @@ never changes the target's owner.
 ## 8. Exact capture radii
 ```
 Metric:            Euclidean²  (Sqr(dx)+Sqr(dy) < radiusSqr)
-Reference points:  center to center (game-object position X/Z)
-Distance:          in tiles (1 tile = 53.333 px)
-captureradius      ≈ 4.0125 tiles ≈ 1.6 m at game scale (1 tile = 0.5 m? see determinism)
+Reference points:  engine-returned game-object positions X/Z, point to point
+Distance:          in map cells (1 cell = 53.333 px)
+captureradius      ≈ 4.0125 cells
                    = 214 px game-source units
-captureblockshot   = 3.0 tiles    (suppresses the target's fire)
-protectionradius   ≈ 7.987 tiles  (protector zone; cancels capture)
+captureblockshot   = 3.0 cells    (suppresses the target's fire)
+protectionradius   ≈ 7.987 cells  (protector zone; cancels capture)
 ```
 ⇒ To capture a building, an eligible infantry or cavalry unit must approach
-the building's **anchor point** to within 4.013 tiles (Euclidean). If the
-building has a large footprint (for example, a 5×4 Town Hall), the capturer can
-stand further than the “edge” - the function uses **center point**
-(game-object position), not bbox. Test: the point is usually close
-to the geometric center of the building, but not identical, especially for
-asymmetrical buildings.
+the building's **engine position** to within 4.013 map cells (Euclidean). If the
+building has a large footprint (for example, a 5×4 Town Hall), its apparent
+edge-to-unit distance can differ because the function does not measure from
+the footprint or nearest edge. Whether the returned engine position is the
+model center, bounding-box center, or another anchor is still unresolved (§9).
 
 ---
 
 <a id="9-что-ещё-требует-проверки"></a>
 ## 9. What still needs verification
 
-1. **Exact position (`px`, `py`) near the building** is the center of the model, the center of bbox,
-   or anchor-point? `GetGameObjectPositionXByHandle/ZByHandle` - needed
-   trace empirically (build an Academy, walk an enemy infantry unit to the
-   edge, and measure the minimum distance at which capture occurs).
+1. **Exact reference position (`px`, `py`).** Determine whether the value
+   returned by `GetGameObjectPositionXByHandle/ZByHandle` corresponds to the
+   model center, bounding-box center, or another anchor. Measure the minimum
+   capture distance around an asymmetric Academy.
 2. `_unit_SearchCapturersForWall` does not require `bcancapture`. Can a
    Peasant or artillery piece therefore destroy a Wall merely by approaching
    it? Test in a skirmish with `peacetime=off` and no attack order.
@@ -416,19 +431,19 @@ asymmetrical buildings.
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
-[^1]: Gripping radius constants - `dmscript.global:207-220`:
+[^1]: Capture-radius constants — `dmscript.global:207-220`:
     ```pascal
     gc_gameplay_captureblockshotradius = 160 / gc_pixels_to_tile;
     gc_gameplay_captureradius          = 214 / gc_pixels_to_tile;
     gc_gameplay_protectionradius       = 426 / gc_pixels_to_tile;
     gc_gameplay_resourceDropRadius     = 3;
     ```
-[^2]: Tick periods - `dmscript.global:1478-1480`:
+[^2]: Check intervals — `dmscript.global:1478-1480`:
     ```pascal
     gc_unit_TimeCheckCapture    = 0.1 * 19;
     gc_unit_TimeCheckCaptureArt = 0.1 * 5;
     ```
-[^3]: Metric `Euclidean²` - `lib/miscext.script:1017-1018`:
+[^3]: Squared Euclidean metric — `lib/miscext.script:1017-1018`:
     ```pascal
     distSqr := Sqr(px-tx) + Sqr(py-ty);
     if distSqr < gc_gameplay_captureradiusSqr then ...
@@ -488,11 +503,11 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
              // normal buildings accept only a bcancapture unit that is not on water.
              if bwall or (not (pobjprop2.bcapture or pobjprop2.media=water)):
                 distSqr := (px-tx)² + (py-ty)²
-                if distSqr < captureradiusSqr (≈4.013² tile):
+                if distSqr < captureradiusSqr (≈4.013² map cells):
                    bcapture := True
                    capturerCount += 1
                    capturerHnd := trgHnd
-                   if distSqr < captureblockshotradiusSqr (3² tile):
+                   if distSqr < captureblockshotradiusSqr (3² map cells):
                       bblockshot := True
 
       // _unit_SearchCapturers finds a unit satisfying:
@@ -502,17 +517,18 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
       //   (any enemy object except a building can break, or "capture," a wall);
       //   capture here effectively means wall death (bDie=True below).
 
-      // -------- Step 2: target is a building/artillery by a wall and hp >= maxhp/3 --------
+      // -------- Step 2: target is a building or artillery piece;
+      //                  a wall must also have hp >= maxhp/3 --------
       if bcapture and (not (bwall and TObj(pobj).hp < maxhp/3)):
 
-         // 2a. If the target is NOT a peasant and the capturer is very close (<3 tiles),
+         // 2a. If the target is NOT a peasant and the capturer is very close (<3 map cells),
          //     suppress building fire for 100 frames (≈3.125 game sec):
          if usage<>peasant and bblockshot:
             attackdelay := max(attackdelay, 100*gc_frames_to_time)
 
-         // 2b. Find protectors within protectionradius (~7.99 tiles)
+         // 2b. Find protectors within protectionradius (~7.99 map cells)
          rx2 := floor(426/4) + 1
-         for grid cells within rx2 (only cells containing my myplmask units):
+         for grid cells within rx2 (only cells containing myplmask units):
             trgHnd := _unit_SearchProtectors(...) — finds a unit with pobjprop.bprotector
                                                     && not bbuilding && (myplmask & plmask)=0
             if trgHnd != 0:
@@ -576,7 +592,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
                if bDie: SetTagStates(essential_death)
                else:    _misc_ChangePlayer(goHnd, newPlHnd, bCapture=True, bCustom=False, bLAN=True)
     ```
-[^11]: Recursive garrison bypass in `_misc_ChangePlayer` - `lib/miscext.script:932-933`.
+[^11]: Recursive transfer of internal units in `_misc_ChangePlayer` —
+       `lib/miscext.script:932-933`.
 
 [^12]: Unit-side capture trigger - `units/unit.inc/nothing.inc:507-535`.
 
@@ -592,7 +609,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^18]: `gc_player_mercenaryind = gc_MaxPlayerCount-1` - `dmscript.global:776`.
 
-[^19]: Defect of mercenaries with `brebellion` — `units/unit.inc/nothing.inc:487-505`:
+[^19]: Defection of mercenaries under `brebellion` —
+       `units/unit.inc/nothing.inc:487-505`:
     ```pascal
     if gPlayer[plInd].brebellion and pobjprop.bmercenary and plInd<>mercenaryInd:
        if random_check_per_difficulty:
@@ -606,11 +624,12 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^22]: `_unit_DestroyObj` for buildings with a garrison - `lib/miscext2.script:4232-4242`.
 
-[^23]: `_unit_DoUnitsGoOutside` puts `essential_death` when `bDead=True` — `lib/unit.script:4559-4564`.
+[^23]: `_unit_DoUnitsGoOutside` assigns `essential_death` when
+       `bDead=True` — `lib/unit.script:4559-4564`.
 
 [^24]: Flag `bpriest` - `lib/classes.script:3645`.
 
-[^25]: Logic priest “heals, does not convert” - `lib/miscext2.script:362-399`.
+[^25]: Priest healing logic — `lib/miscext2.script:362-399`.
 
 [^26]: Units with the priest role (`pope`, `mullah`, `padre`, `priest`) - `lib/country.script:2741-2744`.
 

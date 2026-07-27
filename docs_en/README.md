@@ -34,6 +34,8 @@ upgrade is researched, and what each match setting changes.
   pikemen, musketeers, dragoons, or ships in the same class.
 - [Compare buildings](reference/compare/buildings/README.md) — town halls,
   barracks, academies, markets, mines, and other structures.
+- [Compare weapons and projectiles](reference/compare/weapons/README.md) —
+  arrows, bullets, cannonballs, grenades, and the units that use them.
 - [Browse the technology tree](reports/tech/tech_tree.md) — what must be
   built or researched before the object you need becomes available.
 - Check [construction times](reports/economy/construction_times.md) and
@@ -72,9 +74,9 @@ inside the simulation; at the Fast speed, one game second takes about
 ready-made number. It explains hidden formulas, order queues, ranged-unit
 behavior, map generation, artificial intelligence, and other mechanics.
 
-[Tables and calculations](reports/README.md) contains expanded comparisons:
-combat efficiency, attack rates, construction time, scaling building prices,
-national differences, and other numerical summaries.
+The [Tables and calculations](reports/README.md) section contains expanded
+comparisons of combat efficiency, attack rates, construction time, scaling
+building prices, national differences, and other numerical summaries.
 
 ---
 

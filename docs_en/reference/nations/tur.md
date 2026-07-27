@@ -10,19 +10,19 @@
 ## Shared features
 
 - **Base peasant:** **Peasant** (`peatur`).
-- The Mill, Storehouse, Market, and Tower use one of the game's shared architectural sets (internal group `tur`).
+- The Mill, Storehouse, Market, and Tower use the same shared architectural set.
 
 <a id="уникальные-юниты-6"></a>
 ## Unique units (6)
 
-| Unit | Role | Health | Damage | Reload, game s | Range, tiles |
+| Unit | Role | Health | Damage | Reload, game s | Range, cells |
 |---|---|---:|---:|---:|---:|
 | **Turkish archer** `archertur` | Archer | 65 | 150 | 4.38 | 16.88 |
-| **Janissary** `jannisary` | Shooter | 65 | 12 | 4.69 | 15.94 |
+| **Janissary** `jannisary` | Ranged Infantry | 65 | 12 | 4.69 | 15.94 |
 | **Heavy Sipahi** `sipahi` | Heavy Cavalry | 360 | 15 | 0.0 | 1.22 |
 | **Light Sipahi** `spakh` | Heavy Cavalry | 230 | 15 | 0.0 | 1.88 |
 | **Tatar** `tatar` | Archer | 185 | 140 | 4.69 | 20.63 |
-| **Yacht** `yachttur` | Yacht | 35000 | 0 | 21.88 | 30.94 |
+| **Yacht** `yachttur` | Warship | 35000 | 0 | 21.88 | 30.94 |
 
 <a id="здания"></a>
 ## Buildings
@@ -48,20 +48,20 @@
 <a id="общие-здания-архитектурной-группы-12"></a>
 ### Shared buildings (12)
 
-| Building | HP | Time (g-sec) | cost% | F | W | S | G | I | C | Add. |
+| Building | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Details |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| **Mine** `eurcoa` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"coal": 13}; +5 workers |
-| **Mine** `eurgol` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"gold": 13}; +5 workers |
-| **Mine** `euriro` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | produces {"iron": 13}; +5 workers |
+| **Mine** `eurcoa` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | Produces Coal; 5 initial worker slots |
+| **Mine** `eurgol` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | Produces Gold; 5 initial worker slots |
+| **Mine** `euriro` | 2500 | 93.75 | 0 | 0 | 100 | 100 | 0 | 0 | 0 | Produces Iron; 5 initial worker slots |
 | **Bazaar** `turmar` | 4500 | 234.38 | 1500 | 0 | 450 | 150 | 0 | 0 | 0 | — |
 | **Mill** `turmil` | 20000 | 93.75 | 200 | 0 | 30 | 150 | 0 | 0 | 0 | — |
 | **Shipyard** `turpor` | 40000 | 1562.5 | 150 | 0 | 800 | 800 | 0 | 400 | 0 | — |
-| **Gate** `tursga` | 32000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 150} |
+| **Gate** `tursga` | 32000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | Contains 150 Stone |
 | **Storehouse** `tursto` | 10000 | 31.25 | 200 | 0 | 30 | 10 | 0 | 0 | 0 | — |
-| **Wall** `turswa` | 50000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | content {"stone": 150} |
-| **Tower** `turtow` | 22500 | 984.38 | 125 | 0 | 150 | 90 | 100 | 0 | 0 | damage 1200; content {"gold": 500} |
-| **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
-| **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | content {"wood": 32} |
+| **Wall** `turswa` | 50000 | 120.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | Contains 150 Stone |
+| **Tower** `turtow` | 22500 | 984.38 | 125 | 0 | 150 | 90 | 100 | 0 | 0 | Damage 1,200; upkeep 0.8 Gold/game s |
+| **Gate** `ukrwga` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | Contains 32 Wood |
+| **Palisade** `ukrwwa` | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | Contains 32 Wood |
 
 <a id="юниты-по-классам"></a>
 ## Units by class
@@ -69,21 +69,21 @@
 <a id="крестьяне"></a>
 ### Peasants
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Peasant** `peatur` | 50 | 12.5 | 100 | 0 | 0 | 20 | 1.22 | 0.0 | semi-unique (2n) |
 
 <a id="пикинёры-17-в"></a>
 ### Pikemen (17th century)
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Ottoman Pikeman** `pikemantur` | 95 | 5.5 | 55 | 5 | 0 | 9 | 2.06 | 0.0 | semi-unique (2n) |
 
 <a id="лёгкая-пехота"></a>
 ### Light Infantry
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Light Infantryman** `lightinfantry` | 55 | 1.0 | 25 | 0 | 1 | 5 | 0.94 | 0.0 | semi-unique (2n) |
 | **Light Infantryman (mercenary)** `lightinfantrydip` | 50 | 1.25 | 0 | 4 | 0 | 16 | 0.94 | 0.0 | common |
@@ -92,21 +92,21 @@
 <a id="мушкетёры-17-в"></a>
 ### Musketeers (17th century)
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Janissary** `jannisary` | 65 | 8.0 | 55 | 13 | 5 | 12 | 15.94 | 4.69 | unique |
 
 <a id="гренадёры"></a>
 ### Grenadiers
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Grenadier (mercenary)** `grenadierdip` | 30 | 1.5 | 0 | 25 | 0 | 16 | 15.0 | 4.69 | common |
 
 <a id="лучники"></a>
 ### Archers
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Archer (mercenary)** `archerdip` | 20 | 1.25 | 0 | 15 | 0 | 100 | 14.06 | 0.78 | common |
 | **Turkish archer** `archertur` | 65 | 3.0 | 45 | 4 | 0 | 150 | 16.88 | 4.38 | unique |
@@ -115,21 +115,21 @@
 <a id="лёгкая-кавалерия"></a>
 ### Light Cavalry
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Light cavalry (mercenary)** `lightcavalrydip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
 <a id="драгуны"></a>
 ### Dragoons
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Dragoon, 18th century (mercenary)** `dragoon18dip` | 100 | 2.0 | 0 | 120 | 0 | 18 | 15.0 | 2.25 | common |
 
 <a id="тяжёлая-кавалерия"></a>
 ### Heavy Cavalry
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Sich Cossack (mercenary)** `cossacksichdip` | 150 | 2.5 | 0 | 60 | 0 | 8 | 1.22 | 0.0 | common |
 | **Heavy Sipahi** `sipahi` | 360 | 18.0 | 130 | 20 | 70 | 15 | 1.22 | 0.0 | unique |
@@ -139,14 +139,14 @@
 <a id="пушки"></a>
 ### Cannons
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Cannon** `cannon` | 9000 | 75.0 | 0 | 400 | 400 | 1800 | 40.5 | 10.94 | common |
 
 <a id="мортиры"></a>
-### Mortars
+### Bombards and Howitzers
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Howitzer** `howitzer` | 3000 | 94.0 | 0 | 350 | 300 | 4000 | 26.25 | 18.75 | common |
 | **Bombard** `mortar` | 400 | 25.0 | 0 | 75 | 200 | 200 | 48.75 | 7.81 | common |
@@ -154,14 +154,14 @@
 <a id="рыбацкие-лодки"></a>
 ### Fishing boats
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Boat** `fishboat` | 300 | 40.0 | 0 | 0 | 0 | — | — | — | common |
 
 <a id="военные-корабли"></a>
 ### Warships
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Ship of the Line** `battleship` | 90000 | 390.0 | 0 | 3200 | 700 | 1800 | 36.56 | 0.62 | common |
 | **Ferry** `ferry` | 62000 | 56.0 | 0 | 50 | 100 | — | — | — | common |
@@ -172,49 +172,49 @@
 <a id="офицеры"></a>
 ### Officers
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Officer** `officertur` | 125 | 7.5 | 50 | 100 | 0 | 30 | 1.22 | 0.0 | semi-unique (2n) |
 
 <a id="барабанщики-и-волынщики"></a>
-### Drummers and pipers
+### Drummers and Bagpipers
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Drummer, 17th century** `drummertur` | 50 | 4.0 | 30 | 15 | 0 | — | — | — | semi-unique (2n) |
 
 <a id="священники"></a>
 ### Priests
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Mullah** `mullah` | 75 | 15.0 | 30 | 10 | 0 | 15 | 9.38 | 0.0 | semi-unique (2n) |
 
 <a id="разное-и-миссии"></a>
 ### Miscellaneous and missions
 
-| Unit | HP | Time (g-sec) | F | G | I | damage | far (tile) | recharge | uniqueness |
+| Unit | Health | Training time, game s | Food | Gold | Iron | Damage | Range, cells | Reload, s | Availability |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| `unitbox` | 100 | 3.12 | 100 | 0 | 0 | — | — | — | common |
+| **Mission placeholder** `unitbox` | 100 | 3.12 | 100 | 0 | 0 | — | — | — | common |
 
 <a id="офицеры-11-групп"></a>
 ## Officers (11 groups)
 
-Each officer leads the formation of his units. Standard formations: **LINE / SQUARE / KARE × 15/36/72/120/196/400**.
+Officers command formations of the compatible units listed below. Standard formation sizes are 15, 36, 72, 120, 196, and 400.
 
-| officer | drummer | units |
+| Officer | Drummer or Bagpiper | Compatible units |
 |---|---|---|
-| `roundshierdip` | `roundshierdip` | roundshierdip |
-| `grenadierdip` | `grenadierdip` | grenadierdip |
-| `officer` | `drummer` | pikemanpol, roundshier, musketeer, musketeeraus, musketeerpol, musketeerspa, grenadierdip, roundshierdip (+5) |
-| `officerrus` | `drummerrus` | pikemanrus, strelet, grenadierdip, roundshierdip |
-| `officertur` | `drummertur` | pikemantur, lightinfantry, archer, archertur, jannisary, grenadierdip, roundshierdip |
-| `officer18` | `drummer18` | pikeman18, pikeman18swe, pandur, chasseur, highlander, musketeer18, musketeer18pru, grenadier (+11) |
-| `officer18` | `bagpiper` | pikeman18, pikeman18swe, pandur, chasseur, highlander, musketeer18, musketeer18pru, grenadier (+7) |
-| `officersco` | `bagpiper` | pikemansco, musketeersco, grenadierdip, roundshierdip |
-| `serdiuk` | `serdiuk` | serdiuk |
-| `archersco` | `archersco` | archersco |
-| `swordsmansco` | `swordsmansco` | swordsmansco |
+| **Roundshier (mercenary)** `roundshierdip` | Roundshier (mercenary) (`roundshierdip`) | Roundshier (mercenary) (`roundshierdip`) |
+| **Grenadier (mercenary)** `grenadierdip` | Grenadier (mercenary) (`grenadierdip`) | Grenadier (mercenary) (`grenadierdip`) |
+| **Officer, 17th century** `officer` | Drummer, 17th century (`drummer`) | Pikeman, 17th century (`pikemanpol`), Roundshier (`roundshier`), Musketeer, 17th century (`musketeer`), Musketeer, 17th century (`musketeeraus`), Musketeer, 17th century (`musketeerpol`), Musketeer, 17th century (`musketeerspa`), Grenadier (mercenary) (`grenadierdip`), Roundshier (mercenary) (`roundshierdip`) (+5) |
+| **Commander** `officerrus` | Drummer, 17th century (`drummerrus`) | Spearman (`pikemanrus`), Strelets (`strelet`), Grenadier (mercenary) (`grenadierdip`), Roundshier (mercenary) (`roundshierdip`) |
+| **Officer** `officertur` | Drummer, 17th century (`drummertur`) | Ottoman Pikeman (`pikemantur`), Light Infantryman (`lightinfantry`), Archer (`archer`), Turkish archer (`archertur`), Janissary (`jannisary`), Grenadier (mercenary) (`grenadierdip`), Roundshier (mercenary) (`roundshierdip`) |
+| **Officer, 18th century** `officer18` | Drummer, 18th century (`drummer18`) | Pikeman, 18th century (`pikeman18`), Pikeman, 18th century (`pikeman18swe`), Pandur (`pandur`), Chasseur (`chasseur`), Highlander (`highlander`), Musketeer, 18th century (`musketeer18`), Musketeer, 18th century (`musketeer18pru`), Grenadier (`grenadier`) (+11) |
+| **Officer, 18th century** `officer18` | Bagpiper (`bagpiper`) | Pikeman, 18th century (`pikeman18`), Pikeman, 18th century (`pikeman18swe`), Pandur (`pandur`), Chasseur (`chasseur`), Highlander (`highlander`), Musketeer, 18th century (`musketeer18`), Musketeer, 18th century (`musketeer18pru`), Grenadier (`grenadier`) (+7) |
+| **Officer** `officersco` | Bagpiper (`bagpiper`) | Covenanter pikeman (`pikemansco`), Covenanter musketeer (`musketeersco`), Grenadier (mercenary) (`grenadierdip`), Roundshier (mercenary) (`roundshierdip`) |
+| **Serdiuk** `serdiuk` | Serdiuk (`serdiuk`) | Serdiuk (`serdiuk`) |
+| **Bow Clansman** `archersco` | Bow Clansman (`archersco`) | Bow Clansman (`archersco`) |
+| **Sword Clansman** `swordsmansco` | Sword Clansman (`swordsmansco`) | Sword Clansman (`swordsmansco`) |
 
 <a id="апгрейды-181"></a>
 <a id="улучшения-181"></a>
@@ -222,13 +222,13 @@ Each officer leads the formation of his units. Standard formations: **LINE / SQU
 
 The full list is in the [chapter “Upgrades”](../05_upgrades/README.md).
 
-By buildings:
+Upgrade counts by research building:
 
-- **aca** (aca): 36
-- **mil** (mil): 1
-- **bla** (bla): 6
-- **sta** (sta): 36
-- **bar** (bar): 51
-- **art** (art): 24
-- **cen** (cen): 1
-- **mines** (Mine): 18
+- **Academy** (`aca`): 36
+- **Mill** (`mil`): 1
+- **Blacksmith** (`bla`): 6
+- **Stable** (`sta`): 36
+- **Barracks, 17th century** (`bar`): 51
+- **Artillery Depot** (`art`): 24
+- **Town Hall** (`cen`): 1
+- **Mines**: 18

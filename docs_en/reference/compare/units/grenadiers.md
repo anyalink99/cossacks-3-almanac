@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Grenades plus a musket. Effective against buildings and towers.
+Grenadiers use muskets against units and grenades against buildings and Towers.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 30, Time (g-sec) = 1.5, F = 0, G = 25, I = 0, upkeep F (raw) = 36, upkeep G (raw) = 60, speed = 32, damage = 16, range (tile) = 15.0, cooldown (c) = 4.69.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 30, training time = 1.5 game seconds, food = 0, gold = 25, iron = 0, raw food upkeep = 36, raw gold upkeep = 60, speed = 32, damage = 16, range = 15.0 cells, and reload time = 4.69 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Grenadier** `grenadier` | Austria | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |
 | **Grenadier** `grenadier` | England | **120** | **6.0** | **80** | **60** | **40** | 0.0576 (36) | — | 32 | 16 | **16.88** | **5.31** | — | — | — | — | — | — | shared(13n) |

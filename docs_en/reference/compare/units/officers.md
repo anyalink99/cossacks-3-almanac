@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Officer - squad leader, hired in the barracks. Five national options (`officer` / `officer18` / `officerrus` / `officersco` / `officertur`); stats differ noticeably in cost, recruitment time and damage.
+Officers command formations and are recruited in Barracks. National variants differ considerably in cost, training time, and damage.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 125, Time (g-sec) = 10.0, F = 50, G = 200, I = 10, upkeep G (raw) = 60, speed = 32, damage = 30, range (tile) = 1.22, reload (s) = 0.0, pike = 2, sword = 2, bullet = 5, buckshot = 200, arrow = 10, cannonball = 30.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 125, training time = 10.0 game seconds, food = 50, gold = 200, iron = 10, raw gold upkeep = 60, speed = 32, damage = 30, range = 1.22 cells, reload time = 0.0 seconds, and protection values of 2/2/5/200/10/30 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Officer, 17th century** `officer` | Austria | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |
 | **Officer, 17th century** `officer` | Bavaria | 125 | 10.0 | 50 | **150** | **30** | — | 0.0960 (60) | 32 | 30 | 1.22 | 0.0 | 2 | 2 | 5 | 200 | 10 | 30 | shared(16n) |

@@ -21,10 +21,10 @@ paths there are relative to `data/` in the Cossacks 3 installation.
 - **Construction time** (`buildtime`) for buildings carries an additional
   `gc_buildtime_modifier = 10` multiplier [^1]. Units use a multiplier of 1.
   The actual building time is therefore `frames × 10 / 32`, not
-  `frames / 32`. The `building.buildtime_sec` field in `docs/data.json`
+  `frames / 32`. The `building.buildtime_sec` field in `data.json`
   already includes the ×10 multiplier.
 - **Footprint:** the collision mask in `<sid>.prop`; each mask cell spans
-  0.5 tiles (`gc_collision_size = 0.5`).
+  0.5 map cells (`gc_collision_size = 0.5`).
 - **Repair is free** and restores 20 durability per Peasant hammer strike
   (`gc_gameplay_repairhp`).
 - **Construction progress:** `delta = 0.359 / buildtime` per strike. One
@@ -42,13 +42,13 @@ paths there are relative to `data/` in the Cossacks 3 installation.
 
 **Source:** `collisionmaskproperty.Mask` in `.prop` building file [^2].
 
-**Unit:** 1 mask cell = **0.5 tiles** (`cellSize := 0.5` [^3]).
+**Unit:** 1 mask cell = **0.5 map cells** (`cellSize := 0.5` [^3]).
 
 **The mask is a two-dimensional text grid of zeroes and ones**, where 1
 marks an occupied cell. This is the Bavaria Town Hall (`bavcen`):
 
 ```
-000110000000          12 columns × 11 rows = 6×5.5 tiles
+000110000000          12 columns × 11 rows = 6×5.5 map cells
 001111000000          ↓ filled diamond shape
 011111100000
 111111110000
@@ -61,12 +61,12 @@ marks an occupied cell. This is the Bavaria Town Hall (`bavcen`):
 000000000000
 ```
 
-Approximately 57 cells are occupied: `57 × 0.5² = 14.25` square tiles.
+Approximately 57 cells are occupied: `57 × 0.5² = 14.25` square map cells.
 The resulting footprint is a diamond-shaped square.
 
 **The model bounds** (`CustomBoundingAABB`) used for rendering and
 selection are separate from the collision mask and usually smaller. For the
-Bavaria Town Hall, they are `X = 4.45` and `Z = 2.70` tiles.
+Bavaria Town Hall, they are `X = 4.45` and `Z = 2.70` map cells.
 
 **Mask scale:** `ScaleFactor = 1` [^4], so the mask cells are not scaled.
 The visual `DefaultScale = 0.662` does not affect collision.
@@ -178,7 +178,7 @@ by N.
 ### 3.3 How many Peasants can build at once
 
 **Limit:** `gc_MaxBuilderCount = 30` [^8].
-**Minimum spacing:** `gc_BuilderDist = 1.0` tile [^9].
+**Minimum spacing:** `gc_BuilderDist = 1.0` map cell [^9].
 
 **Builder positions** are the exact places around a building where a
 Peasant can stand and work.
@@ -187,7 +187,7 @@ Peasant can stand and work.
 
 1. For most buildings, `_unit_CalcBuilderPoints` [^10] calculates them
    **dynamically** from the collision mask. It walks the perimeter in
-   0.5-tile steps and places a point every `dist = 1.0` tile.
+   0.5-cell steps and places a point every `dist = 1.0` map cell.
 2. Walls use the explicit `BuilderPoints` for each wall variation in
    `data/game/var/wallcustom.cfg`, with at most 16 positions.
 3. `data/game/var/objcustom.cfg` allows a per-building override, but the
@@ -225,7 +225,7 @@ in-game.
 considerably within one building category. The 18th-century Barracks
 (`*ba2`) is a useful example:
 
-| Nation | Mask | Occupied cells | Perimeter, tiles | Positions |
+| Nation | Mask | Occupied cells | Perimeter, map cells | Positions |
 |---|---|---:|---:|---:|
 | Venice (`ven`) | 12×9 | 58 | 19 | **19** |
 | Saxony (`sax`) | 12×9 | 59 | 20 | **20** |
@@ -288,9 +288,9 @@ Peasant reaches the construction site. No further resources are spent.
 and Stone Wall.
 
 Each **Wall segment** occupies **2×2 collision-map cells**, which equals
-**1×1 game tile** because the collision grid uses half-tile cells.
+**1×1 map cell** because the collision grid uses half-cell mask units.
 Builder-position coordinates in `wallcustom.cfg` range from −1 to +1
-around its centre.
+around its center.
 
 **Builder slots per wall variation:**
 
@@ -369,11 +369,11 @@ version has the following parameters [^14]:
 | Damage (`weapon[0].damage`) | 1,000 |
 | Reload time (`weapon[0].pause`) | 400 frames = 12.5 game seconds |
 | Minimum / maximum range (`radiusmin`, `radiusmax`) | 550 / 1,500 pixels |
-| Maximum range in tiles | ≈ 28.1 |
+| Maximum range in map cells | ≈ 28.1 |
 | Detection radius (`detectradiusmin`, `detectradiusmax`) | 550 / 50,000 pixels |
 | Shot cost (`weapon[0].cost`) | 10 Iron, 30 Coal |
 | Dispersion (`weapon[0].dispertion`) | 100 pixels |
-| Search radius (`searchradius`) | 1,400 pixels ≈ 26.25 tiles |
+| Search radius (`searchradius`) | 1,400 pixels ≈ 26.25 map cells |
 | Gold consumption (`consume.gold`) | **500 per tick = 0.8 Gold per game second** [^16] |
 | Durability | 20,000 |
 | Base construction time | 3,937 frames × 10 / 32 ≈ 1,230.3 game seconds |
@@ -382,7 +382,7 @@ version has the following parameters [^14]:
 
 **Russia version** [^17]: 21,000 durability, `buildtime = 4725`
 (base time ≈ 1,476.6 game seconds),
-`costpercent = 125`, defence 5, and dispersion 125 pixels. Its reload
+`costpercent = 125`, defense 5, and dispersion 125 pixels. Its reload
 time is 300 frames, or 9.375 game seconds.
 
 **Turkey version** [^19]: 22,500 durability, `buildtime = 3150`
@@ -419,29 +419,38 @@ Technical details are listed under
 <a id="61-ветшание"></a>
 ### 6.1 Decay
 
-No decay mechanic was found in the scripts. Buildings **do not lose
-durability over time** on their own. It changes only through:
+Healthy buildings do not age or lose durability merely as time passes.
+However, an ordinary building with `bslowdeath = True` begins a slow collapse
+once durability reaches `gc_BuildingSlowDeathHP = 1999` or less [^26]. Each
+`Nothing` update subtracts
+`floor(deltatime × gc_BuildingSlowDeathSpeed) + 1`, where the speed is 90.
+The client and replay paths predict the loss down to 10 durability; the
+authoritative path continues the same calculation and enters
+`essential_death` below 10. A critically damaged building therefore burns
+down unless it is repaired.
 
-- enemy damage;
-- capture, which still requires a dedicated check.
+Capture preserves the remaining durability and changes only the owner.
 
 <a id="62-destruction-разрушение"></a>
 <a id="62-разрушение"></a>
 ### 6.2 Destruction
 
-At zero durability, a building enters `gc_statetag_essential_death`.
-Models such as `bavcen_death1a` and `bavcen_death2a` depict the ruins,
-but they are not separate game objects.
+Direct damage puts a building into `gc_statetag_essential_death` at
+`hp ≤ 0`; the slow collapse described in §6.1 does so as soon as durability
+falls below 10. Models such as `bavcen_death1a` and `bavcen_death2a` depict
+the ruins, but they are not separate game objects.
 
-**Can it be rebuilt?** This still needs a direct test; the likely answer
-is no, and the player must place a new building.
+**Can it be restored after destruction?** No. Once the building enters
+`essential_death`, `OnDeath` starts object removal; the ruin meshes are not a
+separate restorable building. Once the footprint is released, the player must
+place a new foundation.
 
 <a id="timeline-разрушения"></a>
 <a id="последовательность-разрушения"></a>
 #### Destruction sequence
 
-With `hp ≤ 0` or `bDie := True`, the building enters
-`essential_death`. The state machine [^27] sets the first
+With `hp ≤ 0`, `bDie := True`, or slow collapse below 10 durability, the
+building enters `essential_death`. The state machine [^27] sets the first
 `DelayExecuteState` timer:
 
 - if the building was in `essential_birth`, `DeathStage2` runs after
@@ -453,13 +462,13 @@ With `hp ≤ 0` or `bDie := True`, the building enters
 **The remains** stay on the map during this interval as
 `<sid>_death1.mesh`, in the `essential_death` state, with the `debris`
 material [^29] and the original collision footprint. No new building can
-be placed on those tiles until the remains disappear.
+be placed on those cells until the remains disappear.
 
 **Releasing the footprint.** In `DeathStage2` [^30], a non-wall with
 `gc_collisiontag_terrain` calls
 `_unit_SetTerrainCollision(myHnd, gc_collisiontag_none)` and
 `_misc_UnitTopologyUpdate`, followed by
-`GameObjectRequestToDestroyByHandle`. The occupied tiles then become
+`GameObjectRequestToDestroyByHandle`. The occupied cells then become
 available for construction.
 
 **Units inside** a building with `peasantabsorber > 0` or
@@ -500,12 +509,12 @@ Destruction subtracts `2 × building.score` from the owner's score, or
 | Action | Return | Source |
 |---|---|---|
 | Cancel an unfinished building through the interface | **100%** of the resources spent | `_misc_GUICancelBuilding` [^25] calls `GameObjectDestroyByHandle`. The scripts do not contain a matching `_res_AddResToPlayerByIndex`, so the engine probably handles the refund; the in-game result has been confirmed. |
-| Cancel a queued unit | **100%** of the amount charged when it was ordered | `_unit_CancelUnitProduction` [^24] returns `price[k] × costmodifier`. The saved `restype` value records the number of completed copies at ordering time, so later price changes do not affect the refund. |
+| Cancel a queued unit | Current base price at the saved `costpercent` tier | `_unit_CancelUnitProduction` [^24] reads `price[k]` again, while `restype` records the number of completed copies at ordering time. If a price upgrade completed after the order, the refund differs from the original charge. |
 | Cancel an upgrade | **100%** of its base price | `_unit_CancelUpgradePerform` [^35] returns the base price from `_country_GetUpgradeCostBySID`; upgrades do not use `costpercent` scaling. |
-| Capture | Cancelled orders are interrupted and their resources return to the **previous** owner. | See the `_misc_ChangePlayer` cleanup path in [building capture](../../docs_en/recon/world/economy/capture_mechanics.md). |
+| Capture | Canceled orders are interrupted and their resources return to the **previous** owner. | See the `_misc_ChangePlayer` cleanup path in [building capture](../../docs_en/recon/world/economy/capture_mechanics.md). |
 
-<a id="64-производство-при-низкой-прочности"></a>
 <a id="64-производство-при-низком-hp"></a>
+<a id="64-производство-при-низкой-прочности"></a>
 ### 6.4 Production at low durability
 
 `doprogressorders.inc` contains no durability check. A building continues
@@ -526,12 +535,12 @@ cannot.
 
 **Mechanic** [^21]:
 
-- Capture radius: `gc_gameplay_captureradius = 214/53.33 = 4.0` tiles
+- Capture radius: `gc_gameplay_captureradius = 214/53.33 = 4.0` map cells
   [^22].
-- Fire-blocking radius: `gc_gameplay_captureblockshotradius = 3.0` tiles.
+- Fire-blocking radius: `gc_gameplay_captureblockshotradius = 3.0` map cells.
 - If an eligible enemy infantry or cavalry unit is inside the capture
   radius and no eligible defending unit belonging to the owner is
-  within the roughly eight-tile protection radius, the building changes
+  within the roughly eight-cell protection radius, the building changes
   hands.
 - **Capture is instantaneous.** An in-game test on 29 April 2026
   confirmed that one check satisfying
@@ -544,7 +553,7 @@ lists their internal IDs.
 
 **Walls and Gates use a separate path.** Their segments have
 `bcapture = False`, but `_misc_CheckCapture` forces `bDie := True` for
-every `bwall`: undefended enemy infantry within four tiles **destroys**
+every `bwall`: undefended enemy infantry within four map cells **destroys**
 the segment instead of taking ownership. The branch is skipped below
 one-third durability. See [Walls and Gates §4](../../docs_en/recon/world/combat/walls_and_gates.md).
 
@@ -565,13 +574,22 @@ of the next one, which can therefore cost three times as much.
 
 | Question | Answer |
 |---|---|
-| Size of one Wall segment | 2×2 collision-map cells, or 1×1 game tile, with 4–12 builder positions depending on its variation (§4) |
+| Size of one Wall segment | 2×2 collision-map cells, or 1×1 map cell, with 4–12 builder positions depending on its variation (§4) |
 | Can `objcustom.cfg` override builder positions? | The current file contains only `ExitPoints`, `SmokePoints`, and `Decal`. `_unit_CalcBuilderPoints` calculates positions dynamically for buildings; Walls alone have explicit `BuilderPoints` in `wallcustom.cfg`. |
-| Does durability decay? | **No.** Buildings lose durability only through damage. Neither `gc_decay` nor calls to `_hp_decay` appear in the scripts. |
+| Does durability decay? | Healthy buildings do not age, but an object with `bslowdeath = True` continues losing durability at 1,999 or less and collapses without repairs [^26]. |
 | When do the remains disappear? | **About 60 seconds after destruction.** The state sequence is `OnTagStates.essential_death` → `DeathStage1` → `DeathStage2` → `GameObjectRequestToDestroyByHandle`. Mines take twice as long. |
-| Can a building be restored after reaching zero durability? | **No.** `OnDeath` calls `_unit_DestroyObj`; `<sid>_death1a/2a` is only the ruin model. A new foundation must be placed. |
-| Is the capture radius universal? | Yes. `gc_gameplay_captureradius = 4.0` tiles [^22]; no per-building override was found. |
-| What is refunded when construction is cancelled? | Cancelling a queued unit returns exactly the amount charged through `_unit_CancelUnitProduction` [^24]. Cancelling a foundation through `_misc_GUICancelBuilding` [^25] returns 100% of the cost, probably through engine-side handling. |
+| Can a building be restored after destruction begins? | **No.** After entry into `essential_death`, `OnDeath` calls `_unit_DestroyObj`; `<sid>_death1a/2a` is only the ruin model. A new foundation must be placed. |
+| Is the capture radius universal? | Yes. `gc_gameplay_captureradius = 4.0` map cells [^22]; no per-building override was found. |
+| What is refunded when construction is canceled? | Canceling a queued unit uses the current base price and the saved `costpercent` tier through `_unit_CancelUnitProduction` [^24]. Canceling a foundation through `_misc_GUICancelBuilding` [^25] returns 100% of the cost, probably through engine-side handling. |
+
+<a id="9-открытые-вопросы"></a>
+## 9. Open questions
+
+1. The exact real-time duration of one hammer cycle at each game speed.
+2. The cause of the remaining discrepancy between calculated and observed
+   builder positions for a few Storehouses and Barracks.
+3. The capacity and internal-slot rules of transport ships other than the
+   Ferry.
 
 <a id="источники"></a>
 ## Sources
@@ -652,6 +670,11 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^24]: `_unit_CancelUnitProduction` — `lib/unit.script:5891-5977`.
 
 [^25]: `_misc_GUICancelBuilding` — `lib/miscext2.script:3898-3953`.
+
+[^26]: Slow collapse of critically damaged buildings —
+       `data/scripts/units/building.inc/nothing.inc:121-126,456-469`;
+       threshold and speed —
+       `data/scripts/dmscript.global:129-131`.
 
 [^27]: Building destruction state machine —
        `data/scripts/units/building.inc/settagstates.inc:32-53`.

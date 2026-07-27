@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Cannon (cannonball + buckshot), mortar (for destroying buildings). `speed = 20..24`.
+Cannons fire cannonballs and Grapeshot, while Bombards are intended primarily for destroying buildings.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 3000, Time (g-sec) = 75.0, F = 0, G = 400, I = 400, upkeep G (raw) = 300, speed = 20, damage = 1800, range (tile) = 40.5, reload (s) = 10.94.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 3000, training time = 75.0 game seconds, food = 0, gold = 400, iron = 400, raw gold upkeep = 300, speed = 20, damage = 1800, range = 40.5 cells, and reload time = 10.94 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Cannon** `cannon` | Algeria | **9000** | 75.0 | 0 | 400 | 400 | — | 0.4800 (300) | 20 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — | common |
 | **Cannon** `cannon` | Austria | **9000** | 75.0 | 0 | 400 | 400 | — | 0.4800 (300) | 20 | 1800 | 40.5 | 10.94 | — | — | — | — | — | — | common |

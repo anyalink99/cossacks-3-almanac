@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Naval units. Boat catches fish; warships are engaged in a sea battle.
+Boats gather Food, Ferries transport land units, and warships fight at sea.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 62000, Time (g-sec) = 40.0, F = 0, G = 50, I = 100, upkeep G (raw) = 15000, speed = 16, damage = 1800, range (tile) = 36.56, cooldown (c) = 1.56.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 62000, training time = 40.0 game seconds, food = 0, gold = 50, iron = 100, raw gold upkeep = 15000, speed = 16, damage = 1800, range = 36.56 cells, and reload time = 1.56 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Ship of the Line** `battleship` | Algeria | **90000** | **390.0** | 0 | **3200** | **700** | — | 24.0000 (15000) | 16 | 1800 | 36.56 | **0.62** | — | — | — | — | — | — | common |
 | **Ship of the Line** `battleship` | Austria | **90000** | **390.0** | 0 | **3200** | **700** | — | 24.0000 (15000) | 16 | 1800 | 36.56 | **0.62** | — | — | — | — | — | — | common |
@@ -32,7 +32,7 @@ Naval units. Boat catches fish; warships are engaged in a sea battle.
 | **Ship of the Line** `battleship` | Switzerland | **90000** | **390.0** | 0 | **3200** | **700** | — | 24.0000 (15000) | 16 | 1800 | 36.56 | **0.62** | — | — | — | — | — | — | common |
 | **Ship of the Line** `battleship` | Turkey | **90000** | **390.0** | 0 | **3200** | **700** | — | 24.0000 (15000) | 16 | 1800 | 36.56 | **0.62** | — | — | — | — | — | — | common |
 | **Ship of the Line** `battleship` | Venice | **90000** | **390.0** | 0 | **3200** | **700** | — | 24.0000 (15000) | 16 | 1800 | 36.56 | **0.62** | — | — | — | — | — | — | common |
-| `chaika` | Ukraine | **25000** | 40.0 | 0 | **600** | **200** | — | — | **55** | **1000** | **20.63** | **2.34** | — | — | — | — | — | — | unique |
+| **Chaika** `chaika` | Ukraine | **25000** | 40.0 | 0 | **600** | **200** | — | — | **55** | **1000** | **20.63** | **2.34** | — | — | — | — | — | — | unique |
 | **Ferry** `ferry` | Algeria | 62000 | **56.0** | 0 | 50 | 100 | — | — | **28** | — | — | — | — | — | — | — | — | — | common |
 | **Ferry** `ferry` | Austria | 62000 | **56.0** | 0 | 50 | 100 | — | — | **28** | — | — | — | — | — | — | — | — | — | common |
 | **Ferry** `ferry` | Bavaria | 62000 | **56.0** | 0 | 50 | 100 | — | — | **28** | — | — | — | — | — | — | — | — | — | common |

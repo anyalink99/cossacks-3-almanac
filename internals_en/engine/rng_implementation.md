@@ -1,11 +1,11 @@
 <a id="реализация-rng-в-cossacks-3"></a>
-# Implementation of RNG in Cossacks 3
+# RNG Implementation in Cossacks 3
 
 What `random` and `RandomExt` actually generate, how their state is stored, and
 why `SetRandomKey` behaves the way it does.
 
 > Read this alongside [`determinism_audit.md`](determinism_audit.md), which
-> traces random-number use in mining and combat, and
+> traces random-number use in resource gathering and combat, and
 > [`native_api.md` §2.4](native_api.md), which lists the engine's RNG streams.
 
 > **This document has been cross-checked against the private
@@ -13,35 +13,26 @@ why `SetRandomKey` behaves the way it does.
 > exact addresses, seed layouts, and formulas.** Sections 1–10 below describe
 > the verified behavior without publishing binary offsets.
 
-> **History of edits.** In one of the early iterations (May 18), this document
-> incorrectly claimed that `Random` and `RandomExt` shared one 64-bit seed.
-> Decompilation of `_System_Random` instead showed a separate `RandSeed` cell
-> from Delphi's `System` unit, independent of the 64-bit state installed by
-> `SetRandomKey` and `SetRandomExtKey64`. The original observation therefore
-> stands: `Random` and `RandomExt` are independent streams. Older provisional
-> notes should be read in light of the final model presented here and in
-> `native_api.md` §2.4: four independent seed stores.
-
 <a id="1-общая-картина"></a>
-## 1. The big picture
+## 1. Overview
 
 C3 scripts use (in descending frequency):
 
-| Function | Calls in scripts | What |
+| Function | Calls in scripts | Purpose |
 |---|---:|---|
 | `random` | 100 | Floating-point value in [0, 1), from the global stream |
 | `RandomExt` | 60 | Floating-point value in [0, 1), from the parallel extended stream |
-| `SetRandomKey(seed: Integer)` | 4 | Reseeds the global stream |
-| `SetRandomExtKey64(k0, k1)` | 0 | Reseeding an extended 64-bit stream (in the exe, no scripts) |
+| `SetRandomKey(seed: Integer)` | 4 | Reseeds the extended stream |
+| `SetRandomExtKey64(k0, k1)` | 0 | Reseeds the full 64-bit extended stream (present in the executable, unused by scripts) |
 
 These functions are registered with DWS by the host engine. The standard
 `random` path uses Delphi's `Random` and `RandSeed`; the extended path keeps
 separate 64-bit state, as described below.
 
 <a id="2-алгоритм-delphi-random"></a>
-## 2. Delphi algorithm `Random`
+## 2. Delphi's `Random` Algorithm
 
-`System.Random` in Delphi - linear congruent generator (LCG):
+Delphi's `System.Random` is a linear congruential generator (LCG):
 ```pascal
 RandSeed := RandSeed * $08088405 + 1;
 // $08088405 = 134775813
@@ -57,77 +48,74 @@ end;
 ```
 Properties:
 - **Period:** 2³² ≈ 4.29 × 10⁹ values.
-- **Seed:** 32-bit `Integer` via `SetRandomKey(seed)`.
+- **Seed:** a 32-bit `Integer` stored in `System.RandSeed`.
 - **One global `RandSeed`** for the entire process (not per-thread).
 
-This is a **well known** Delphi constant (same as in Borland
-Pascal since the late 80s). Nothing esoteric.
+This is a **well-known** Delphi constant, used since the Borland Pascal era.
 
 <a id="3-реализация-randomext"></a>
 ## 3. Implementation of `RandomExt`
 
-`RandomExt` is a **64-bit LCG**, not Xorshift. Algorithm:
+`RandomExt` is a **64-bit LCG**, not Xorshift. Its recurrence is
 `seed64 := seed64 * M + I` with specific constants, executed
-like 64-bit arithmetic on a 32-bit ISA via Delphi RTL helpers
+as 64-bit arithmetic on a 32-bit ISA through Delphi RTL helpers
 (`__llmul` / `__lladd`).
 
-**State** is stored in a separate 64-bit cell (hereinafter referred to as “extended
-seed"), which is controlled by:
+Its **state** is stored in a separate 64-bit cell, referred to below as the
+“extended seed.” It is controlled by:
 
-- `SetRandomKey(key: Integer)` - writes the younger half = `key`,
-  major via sign-extend (= 0 for positive, = −1 = `0xFFFFFFFF`
-  for negative ones).
-- `SetRandomExtKey64(const key0, key1: Integer)` - writes the entire 64-bit
-  entire cell (bottom = `key0`, top = `key1`).
+- `SetRandomKey(key: Integer)` — writes `key` to the low half and
+  sign-extends it into the high half (`0` for positive values and
+  `0xFFFFFFFF` for negative values).
+- `SetRandomExtKey64(const key0, key1: Integer)` — writes the full 64-bit
+  state (low half = `key0`, high half = `key1`).
 
-**`Random` uses a different cell** - standard 32-bit Delphi
+**`Random` uses a different state cell**: Delphi's standard 32-bit
 `System.RandSeed`. This is a **different** global variable. So
-`Random` and `RandomExt` are indeed sitting on independent seeds.
+`Random` and `RandomExt` have independent seeds.
 
 An important naming subtlety follows from this: the name `SetRandomKey` sounds
-as if it sets the seed for `Random()`, but actually controls
-extended seed** (the same one that reads `RandomExt`). To sow
-`Random` itself, you need either Delphi's `Randomize`, or direct recording
-in `System.RandSeed` - DWS does not provide this option. That is
-script pattern "`SetRandomKey(N); arg.frnd := random;`" found
-to `lib/unit.script`, synchronizes not `random`, but the next call
-`RandomExt` - but the script author could have expected different behavior.
+as if it seeds `Random()`, but it actually controls the **extended seed** used
+by `RandomExt`. Seeding `Random` itself requires Delphi's `Randomize` or a
+direct write to `System.RandSeed`; DWS exposes neither option. Consequently,
+the pattern `SetRandomKey(N); arg.frnd := random;` found in `lib/unit.script`
+does not synchronize `random`; it prepares the next `RandomExt` call.
 
-Details with addresses and decompilation - in private
+Addresses and decompilation details are recorded in the private
 `cossacks-deep/findings/rng_implementation.md` §§ 1–3.
 
 <a id="4-семантика-глобальный-rng"></a>
 ## 4. Semantics of “global RNG”
 
-From `determinism_audit.md` we knew that `random` is global, rummaging around
-between:
+As established in `determinism_audit.md`, `random` is global and shared by:
 
 - gameplay logic (target selection, headshots, stump placement),
 - UI / GUI effects (`gui.script` calls `random` for random
-  combobox material, for example),
-- AI solutions.
+  combo-box material, for example),
+- AI decisions.
 
-This means: **GUI "steals" entropy from gameplay**, and vice versa. If
-two clients in a multiplayer game lose differently replayable
-GUI, their global `RandSeed` diverge, and gameplay will also diverge.
+This means that **the GUI consumes values from the same sequence as gameplay**,
+and vice versa. If two multiplayer clients execute a different set of
+GUI-side random calls, their global `RandSeed` values diverge, potentially
+affecting gameplay calls as well.
 
-Protection occurs through **local reseeding** before gameplay-critical
-operation (see §5) - `SetRandomKey` puts the extended seed, and
-subsequent series of `RandomExt` calls becomes reproducible
-no matter what the GUI does with `random`. Visual/UI code that
+Gameplay-critical operations avoid this problem through **local reseeding**
+(see §5): `SetRandomKey` sets the extended seed, making the following
+`RandomExt` sequence reproducible regardless of what the GUI does with
+`random`. Visual and UI code that
 uses only `random` (not `RandomExt`), mutates only
-`System.RandSeed`, without touching the extended seed - this is the actual
-a division through which gameplay maintains determinism.
+`System.RandSeed` without touching the extended seed. This separation is what
+allows critical calculations to remain deterministic.
 
-Separate named streams with their own state - `AirWeatherRandom`,
-`MakeRandomClouds`-derivatives, map-generators - live completely outside
-both common seed cells.
+Separate named streams with their own state—`AirWeatherRandom`,
+`MakeRandomClouds` derivatives, and the map generators—remain independent of
+both general-purpose seed cells.
 
 <a id="5-главный-паттерн-детерминизма-пересев-перед-операцией"></a>
-## 5. The main pattern of determinism: reseeding before surgery
+## 5. The Main Determinism Pattern: Reseeding Before an Operation
 
-In scripts `lib/unit.script` 4 calls `SetRandomKey` - all
-made **specifically for synchronization**. Context from code:
+`lib/unit.script` contains four calls to `SetRandomKey`, all made
+**specifically for synchronization**. Their context is:
 ```pascal
 // unit.script — before forming a squad
 SetRandomKey(floor(random * gc_MaxInt));
@@ -139,25 +127,26 @@ arg.frnd := random;
 SetRandomKey(floor(TObj(pobj).uniqrnd * gc_MaxInt));
 // sync multiplayer
 ```
-**Architectural pattern:** before an operation requiring the same
-results on all clients, the script **reseeds the global RNG**
+**Architectural pattern:** before an operation that must produce the same
+result on every client, the script **reseeds the extended RNG**
 from a source that is **guaranteed to be the same on all clients**:
 
-| Source of reseeding | Where is it determined from |
+| Seed source | Why it is deterministic |
 |---|---|
-| `random` (previous value) | If there was already synchronization before, then it is the same. |
-| `TObj(pobj).uniqrnd * gc_MaxInt` | Unit `uniqrnd` - fixed at spawn and **synchronously saved** (see field `uniqrnd` in [`server_sync_packet_format.md` §3.1](server_sync_packet_format.md)). |
+| `random` (previous value) | It is identical if the preceding state was already synchronized. |
+| `TObj(pobj).uniqrnd * gc_MaxInt` | A unit's `uniqrnd` is fixed at spawn and **saved as synchronized state** (see `uniqrnd` in [`server_sync_packet_format.md` §3.1](server_sync_packet_format.md)). |
 
-This is **not a lockstep**, but a **per-decision deterministic seed**. Same
-the decision itself made on the server and on the client (for example, “what
-formation of units in a squad") will give the same result bit-for-bit, not
-requiring synchronized RNG state.
+This is **not lockstep**, but a **deterministic seed for each decision**. The
+same calculation on the server and client—for example, choosing a squad
+formation—can produce an identical bit-for-bit result without maintaining one
+continuously synchronized RNG state.
 
 <a id="6-воспроизводимость-значений"></a>
 ## 6. Reproducibility of values
 
-Taking into account §2 (LCG) - by setting `SetRandomKey(seed)`, you can completely
-reproduce the next N values `random`. Simple Python model:
+Given the LCG in §2, setting a seed allows the next N values in the
+corresponding stream to be reproduced. A simple Python model for Delphi's
+`Random` stream is:
 ```python
 def delphi_random_stream(seed):
     s = seed & 0xFFFFFFFF
@@ -170,29 +159,28 @@ g = delphi_random_stream(42)
 print([next(g) for _ in range(5)])
 # [0.5263867462985266, 0.4017018212098335, 0.7770079020410776, ...]
 ```
-This means - **for each `uniqrnd` unit you can predict in advance
-any RNG-dependent value** (headshot, projectile spread, target selection
-of equal candidates). The simulator can use this to
-repeating battles from saves.
+This means that **a unit's `uniqrnd` can make its seeded RNG-dependent values
+predictable**, including projectile dispersion and choices among equivalent
+candidates. A simulator can use this property to reproduce battles from saves.
 
 <a id="7-что-насчёт-mt-19937"></a>
-## 7. What about MT-19937
+## 7. What About MT-19937?
 
-The standard DWS (on GitHub) provides **both LCG (`Random`) and
+The standard DWS distribution provides **both an LCG (`Random`) and
 Mersenne Twister** (via `dwsRandomFunctions.pas`). But in C3 the name
-`Random` in exe is registered as **regular 32-bit LCG**, which
-confirmed by decompilation: `Random()` wraps `System._Random`
+`Random` is registered by the executable as the **ordinary 32-bit LCG**.
+Decompilation confirms that `Random()` wraps `System._Random`
 with the classic Delphi formula `seed := seed * 0x8088405 + 1`.
 
-Therefore, although MT-19937 is available in DWS, it is not available in C3
-used**. `RandomExt` - also not MT, but a 64-bit LCG over **its own
+Therefore, although DWS supports MT-19937, C3 **does not use it**.
+`RandomExt` is not MT either; it is a 64-bit LCG over **its own
 separate** extended seed (see §3).
 
 <a id="8-связь-с-другими-rng-потоками"></a>
-## 8. Communication with other RNG streams
+## 8. Relationship to Other RNG Streams
 
-The engine has **four independent seed storages**, each with its own
-algorithm from above:
+The engine has **four independent seed stores**, each used by its own
+algorithm:
 ```
 Standard Delphi RandSeed (32-bit)
                         ↑
@@ -215,47 +203,43 @@ GlobalMapGenerator seed (64-bit, separate storage)
 
 (Separate weather and cloud channels use the AirWeatherRandom family; not shown)
 ```
-All four storages are **physically different**: calling any algorithm
-affects only its seed. This explains why the pair `(randkey0,
-randkey1)` to play the map - standard representation in
-save and lobby (see
-[`map_generation_pipeline.md`](../../docs_en/recon/world/map/map_generation_pipeline.md) §12)
-and why gameplay-critical paths in scripts turn into
-`SetRandomKey + RandomExt` - this guarantees determinism
-extended flow regardless of what the UI does with the normal one
+All four stores are **physically separate**: calling one algorithm affects only
+its own seed. The pair `(randkey0, randkey1)` is the standard representation of
+the map-generation seed in saves and the lobby (see
+[`map_generation_pipeline.md`](../../docs_en/recon/world/map/map_generation_pipeline.md) §12).
+Gameplay-critical script paths use `SetRandomKey + RandomExt` so that the
+extended stream remains deterministic regardless of the UI's calls to ordinary
 `random`.
 
 <a id="9-что-это-значит-для-симулятора"></a>
-## 9. What does this mean for the simulator
+## 9. Implications for the Simulator
 
-For the extraction model (see.
-[`docs/recon/world/peasant_extraction.md`](../../docs_en/recon/world/economy/peasant_extraction.md)),
-if we want to **bit-accurately** reproduce the loot from a given save:
+For the resource-gathering model (see
+[`peasant_extraction.md`](../../docs_en/recon/world/economy/peasant_extraction.md)),
+to reproduce resource gathering from a save **bit for bit**:
 
-1. You cannot read `RandSeed` - it is not saved as a separate field.
-2. Instead, we count `uniqrnd` for each peasant (there is
-   sync snapshot).
-3. For each RNG-dependent operation in the hot-loop (for example, selecting
-   points on the tree) the simulator must **know reseeding** in the script and
-   repeat them.
-4. Real implementation - go through `lib/unit.script` `_unit_DoExtract`
-   and for each `random` call, determine whether there was
-   `SetRandomKey` just before.
+1. The simulator cannot read `RandSeed` because it is not saved as a separate
+   field.
+2. Instead, use each peasant's `uniqrnd`, which is present in the
+   synchronization snapshot.
+3. For every RNG-dependent operation in the hot loop—for example, selecting a
+   point on a tree—the simulator must reproduce the script's reseeding logic.
+4. An implementation must inspect `_unit_DoExtract` in `lib/unit.script` and
+   determine whether each `random` call is preceded by `SetRandomKey`.
 
-This is the plan for the Level C simulator
-[`project_level_c_simulator_plan.md`](../project/architecture.md)
-(if the simulator ever aims for bit-perfect
-reproducibility rather than statistical accuracy).
+This is the long-term path for the Level C simulator described in
+[`architecture.md`](../project/architecture.md), if it ever aims for
+bit-perfect rather than statistical reproducibility.
 
 <a id="10-открытое-и-закрытое"></a>
-## 10. Open and closed
+## 10. Open and Resolved Questions
 
 | Item | Status |
 |---|---|
-| **Exact implementation of `RandomExt`** | **Closed.** 64-bit LCG on a separate 64-bit seed cell (not the same one as `Random`). See §3, §8 and private `cossacks-deep/findings/rng_implementation.md`. |
-| **Relationship `SetRandomKey` and `Random`** | **Closed.** `SetRandomKey` controls an extended seed (= seed `RandomExt`), not the standard `RandSeed`. Despite the name, `Random()` does not depend on `SetRandomKey` - see §3. |
-| **Algorithms `MapGenerator` / `GlobalMapGenerator`** | Partially. Seed storages are confirmed to be separate (see §8). The algorithms themselves for generating values have not been analyzed; will be passed when we take on `_DoGenerate`. |
-| **`PlayerCubeRandomValue`** | Partially. No RNG-seed mutates - it is a **pre-computed per-player nonce**, generated in advance (probably when the player connects) and stable throughout the match. The exact moment of initialization has not been confirmed. More details: private `findings/rng_implementation.md`. |
+| **Exact implementation of `RandomExt`** | **Resolved.** A 64-bit LCG with a seed cell separate from `Random`. See §§3 and 8 and the private `cossacks-deep/findings/rng_implementation.md`. |
+| **Relationship between `SetRandomKey` and `Random`** | **Resolved.** `SetRandomKey` controls the extended seed used by `RandomExt`, not the standard `RandSeed`. Despite its name, `Random()` does not depend on `SetRandomKey`; see §3. |
+| **`MapGenerator` / `GlobalMapGenerator` algorithms** | Partially resolved. Their seed stores are confirmed to be separate (see §8), but the value-generation algorithms have not yet been analyzed. That requires studying `_DoGenerate`. |
+| **`PlayerCubeRandomValue`** | Partially resolved. It does not mutate an RNG seed; it is a **precomputed per-player nonce**, probably generated when the player connects and stable throughout the match. Its exact initialization point is still unknown. See the private `findings/rng_implementation.md`. |
 | **Does `_DoGenerate` use the regular `Random()`** (which would silently mutate `System.RandSeed` during map generation) | Open. Next step on the RNG topic. |
 | **Is `System.RandSeed` synchronized over the network** at the start of the match | Open. Candidates are package handlers `EconomyPackage`/sync. |
-| **Race condition between `PathDataThread*` and main `bProcess` on RNG calls** | Open. The main suspect due to unexplained desyncs. |
+| **Race condition between `PathDataThread*` and the main `bProcess` RNG calls** | Open. This is the leading suspect for otherwise unexplained desynchronizations. |

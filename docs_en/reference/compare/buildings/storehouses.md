@@ -3,12 +3,12 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Wood/stone delivery point. One option per cluster.
+Storehouses receive Wood and Stone gathered by Peasants. Each architectural group uses one variant.
 
-> **Base values** (column mode): HP = 10000, Time (g-sec) = 31.25, cost% = 150, W = 50, S = 20, G = 0, farm = 0.
+> **Baseline values** are the most common values in each column: health = 10000, construction time = 31.25 game seconds, price growth = 150%, wood = 50, stone = 20, gold = 0, population = 0.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | **Storehouse** `tursto` | Algeria | 10000 | 31.25 | **200** | **30** | **10** | 0 | 0 | — |
 | **Storehouse** `eursto` | Austria | 10000 | 31.25 | 150 | 50 | 20 | 0 | 0 | — |

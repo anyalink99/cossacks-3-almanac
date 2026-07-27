@@ -10,7 +10,7 @@ This page brings the stone and wooden defensive structures together.
 <a id="каменная-стена"></a>
 ## Stone Wall
 
-| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
+| Building | Nations | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Wall** `eurswa` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 50000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | stone upkeep 250 |
 | **Wall** `russwa` | Russia | 50000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 200 |
@@ -21,7 +21,7 @@ This page brings the stone and wooden defensive structures together.
 <a id="каменные-ворота"></a>
 ## Stone Gate
 
-| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
+| Building | Nations | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Gate** `eursga` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Saxony, Scotland, Spain, Sweden, Switzerland, Venice | 32000 | 90.0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 | stone upkeep 250 |
 | **Gate** `russga` | Russia | 32000 | 200.0 | 0 | 0 | 0 | 60 | 0 | 0 | 0 | stone upkeep 200 |
@@ -32,7 +32,7 @@ This page brings the stone and wooden defensive structures together.
 <a id="деревянные-ворота"></a>
 ## Wooden Gate
 
-| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
+| Building | Nations | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Gate** `ukrwga` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | wood upkeep 32 |
 
@@ -41,6 +41,6 @@ This page brings the stone and wooden defensive structures together.
 <a id="частокол"></a>
 ## Palisade
 
-| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
+| Building | Nations | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Palisade** `ukrwwa` | Algeria, Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Portugal, Prussia, Russia, Saxony, Scotland, Spain, Sweden, Switzerland, Turkey, Ukraine, Venice | 1500 | 5.62 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | wood upkeep 32 |

@@ -5,7 +5,7 @@
 
 Upgrades for Archers, Musketeers, Hajduks, Strelets, Serdiuks, Janissaries, and Light Infantrymen.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Archer: damage +2 (level 2)** `algbar.archer.1.1` | Algeria | damage | 2 | — | 700 | 0 | 0 | 250 | 0 | 0 | 15.62 |
 | **Archer: damage +2 (level 3)** `algbar.archer.1.2` | Algeria | damage | 2 | — | 500 | 0 | 0 | 200 | 0 | 0 | 15.62 |

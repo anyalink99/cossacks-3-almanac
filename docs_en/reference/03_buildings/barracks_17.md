@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Barracks** `algbar` | Algeria | **35000** | 93.75 | 500 | 0 | **400** | **400** | **0** | 0 | 0 | **50** | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |
 | **Barracks, 17th century** `ausbar` | Austria | 40000 | 93.75 | 500 | 0 | 100 | 100 | 500 | 0 | 0 | 150 | Archer (`archer`), Turkish archer (`archertur`), Drummer, 17th century (`drummer`), Drummer, 17th century (`drummerrus`), Drummer, 17th century (`drummertur`), +24 more |

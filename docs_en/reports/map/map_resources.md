@@ -1,193 +1,72 @@
-<a id="оценка-ресурсов-карты--tiny-256256--highlands--шахты-rich"></a>
 <a id="сколько-ресурсов-появляется-на-карте"></a>
-# Map resources
+# How Many Resources Appear on the Map
 
 [← Tables and calculations](../README.md)
 
-An approximate count of forests, stone deposits, and mines for one commonly
-used set of match settings. Natural-object counts are estimates: uneven ground
-and occupied points prevent some objects from being placed.
+This page estimates the number of forests, stone deposits, and mineral
+deposits produced by one commonly used set of match settings. Natural-object
+counts are approximate: uneven terrain and occupied cells prevent some
+objects from being placed.
 
-## Settings used
+<a id="настройки-расчёта"></a>
+## Settings Used
 
 | Setting | Selected value |
-|---|---|
-| Map size | **Tiny**, 256×256 tiles |
+| --- | --- |
+| Map size | **Tiny**, 256×256 cells |
 | Relief | **Highlands** |
 | Resource deposits | **Rich** |
 | Terrain type | Land |
 
-See [Match settings](lobby_settings.md) for the other available values.
+See [Match Settings](lobby_settings.md) for the other available values.
 
-<a id="1-модификаторы-вероятности-паттернов-оценка"></a>
-<a id="настройки-расчёта"></a>
-## 1. Pattern probability modifiers (evaluation)
-
-Simulation of `_misc_GetFreePatternMaskCountModifier` at 256×256 with ~2% water (Land terrain - almost open field):
-
-| testsize | calibration | raw_count(sim) | probe_raw | × modifier (2.5) |
-|---:|---:|---:|---:|---:|
-| 12 | 340 | 252 | 0.741 | **1.853** |
-| 16 | 182 | 142 | 0.780 | **1.951** |
-| 24 | 74 | 61 | 0.824 | **2.061** |
-| 29 | 55 | 40 | 0.727 | **1.818** |
-
-⚠ The simulation assumes that the water is one contiguous block, rather than scattered pixels.
-
-<a id="2-плотности-после-умножения-на-вероятность"></a>
 <a id="оценка-лесов-и-камней"></a>
-## 2. Densities after multiplication by probability
+## Estimated Forests and Stone Deposits
 
-| Var | base | ×prob | final density | needed = floor(area × density) |
-|---|---:|---:|---:|---:|
-| frs_big | 0.000900 | × probsmall = 1.853 | 0.001668 | 109 |
-| frs_mid | 0.000900 | × probmid = 1.951 | 0.001755 | 115 |
-| frs_small | 0.000540 | × problarge = 2.061 | 0.001113 | 72 |
-| stn1 | 0.000160 | × probsmall = 1.853 | 0.000296 | 19 |
-| stn2 | 0.000120 | × probsmall = 1.853 | 0.000222 | 14 |
+| Objects | Approximate number on the entire map |
+| --- | ---: |
+| Large forest areas | **25** |
+| Medium forest areas | **17** |
+| Small forest areas | **13** |
+| Stone deposits | **19** |
+| Individual trees | about **2,620** |
+| Individual stones | about **779** |
 
-<a id="3-запросы-паттернов-на-вызов"></a>
+The estimates for individual trees and stones are less reliable than the
+counts of forest areas and stone deposits because they use the typical
+contents of each map-generation pattern.
+
 <a id="запасы-древесины-и-камня"></a>
-## 3. Pattern requests (per call)
+## Wood and Stone Reserves
 
-Each forest density is distributed into N different forest types (foreststype=0 → 4 big / 3 mid / 2 small types). Column **placement rate** — empirically calibrated per-type (for homogeneous Tiny+Land+Highlands bucket); for unknown types - fallback default `placement_success`.
+Under the current game logic, **wood is effectively unlimited**. When a tree
+runs out of health, it turns into a stump, but Peasants can continue gathering
+wood from it at the same rate. Stone deposits likewise have so much health
+that they are effectively inexhaustible.
 
-| Pattern Type | frequency per call | need to call | placement rate | posted |
-|---|---:|---:|---:|---:|
-| `forests_pinefir_big` | 0.000208 | 13 | 0.07 | ~1 |
-| `forests_spruce_big` | 0.000208 | 13 | 0.20 | ~3 |
-| `forests_pine_big` | 0.000208 | 13 | 0.81 | ~11 |
-| `forests_pine_big_2` | 0.000208 | 13 | 0.74 | ~10 |
-| `forests_spruce_medium` | 0.000293 | 19 | 0.04 | ~1 |
-| `forests_pinefir_medium` | 0.000293 | 19 | 0.09 | ~2 |
-| `forests_pine_medium` | 0.000293 | 19 | 0.76 | ~14 |
-| `forests_pinefir_small` | 0.000278 | 18 | 0.03 | ~1 |
-| `forests_pine_small` | 0.000278 | 18 | 0.64 | ~12 |
-| `stones` (stn1) | 0.000296 | 19 | 0.58 | ~11 |
-| `stones` (stn2) | 0.000222 | 14 | 0.58 | ~8 |
+The practical limits are therefore the number of convenient gathering
+points, the distance to a Storehouse, and how many Peasants can work nearby,
+not the total amount of wood or stone on the map.
 
-**Where are placement rates taken from:** empirically from 10 replay samples (Tiny+Land+Highlands+4pl_nowater bucket). The size of the pattern footprint (mask cells) is the main factor: pine_big mask=148 → ~80% placement; pinefir_big mask=920 → ~7%. Methodology and complete table - `recon/map_generation_pipeline.md` §14. For non-Tiny/non-Highlands settings the numbers should be different - calibration is not extrapolated.
-
-<a id="4-всего-кластеров-оценка"></a>
 <a id="месторождения-у-каждого-игрока"></a>
-## 4. Total clusters (estimate)
+## Mineral Deposits per Player
 
-- Big forest clusters: **~25**
-- Medium forest clusters: **~17**
-- Small forest clusters: **~13**
-- Stone clusters: **~19**
+With the selected Resource Deposits setting, the generator makes **four
+placement rounds**. In each round it tries to place one gold, one iron, and
+one coal deposit for every player.
 
-<a id="5-деревья-и-камни--per-pattern-type"></a>
-## 5. Trees and stones - per pattern type
-Numbers = median of `mask=1` cells for each pattern type from `derived/pattern_type_stats.json` (parser: `parser/parse_pattern_inventory.py`, mapping pattern→type from `data/game/var/generator.cfg`). Hypothesis: 1 mask cell = 1 tree (confirmed on brushes; for mines mask = footprint, not objects - see caveat).
+The maximum per player is therefore **4 gold + 4 iron + 4 coal = 12
+deposits**. The actual number can be lower if the terrain offers no suitable
+free cell.
 
-**Calibration:** mask cells (placement slots) × **0.3** ≈ visible chopable trees. Source: empirical user assessment (small forest = ~10 trees, big = ~50). Cross-validation: forests_pine_big median mask = 148 → 148 × 0.34 = 50 ✓. See caveat at the beginning of the file.
+| Round | Usual distance from the starting point, cells |
+| ---: | ---: |
+| 1 | 14–22 |
+| 2 | 32–42 |
+| 3 | 70–82 |
+| 4 | 22–38 |
 
-| pattern type | clusters placed | mask cells/cluster | trees/cluster | total trees |
-|---|---:|---:|---:|---:|
-| `forests_pinefir_big` (big) | 1 | 920 | 276 | 276 |
-| `forests_spruce_big` (big) | 3 | 571 | 171 | 513 |
-| `forests_pine_big` (big) | 11 | 148 | 44 | 484 |
-| `forests_pine_big_2` (big) | 10 | 185 | 56 | 560 |
-| `forests_spruce_medium` (mid) | 1 | 469 | 141 | 141 |
-| `forests_pinefir_medium` (mid) | 2 | 311 | 93 | 186 |
-| `forests_pine_medium` (mid) | 14 | 59 | 18 | 252 |
-| `forests_pinefir_small` (small) | 1 | 172 | 52 | 52 |
-| `forests_pine_small` (small) | 12 | 44 | 13 | 156 |
-| `stones` | 19 | 138 | 41 | 779 |
-
-⚠ **Caveat about mask=1 interpretation:** brushes confirm (brush_plt_1x1: 8 mask = 8 visible bushes), but mines (`mng/mni/mnc`) - 32 mask cells = **1 deposit** (mask = collision footprint). For forests we assume "1 cell = 1 tree", but without in-game test this is upper bound. The exact number is empirical.
-
-**Total trees on the map:** ~2,620
-**Total stones on the map:** ~779
-
-<a id="6-запасы-древесины-и-камня"></a>
-## 6. Wood and stone reserves
-
-**Wood - actually infinite.** When the tree's HP reaches 0, the [^1] engine:
-- changes mesh to `pinestump<N>` (visually stump)
-- **DOES NOT change** `brised=True` → the stump remains a valid target for searching
-- continues to take hits: `hp -= 1, peasant.resamount += 1` (even with HP < 0)
-
-Therefore, the wood pool on the map is **not limited by the number of trees**. Mediume initial HP (2474/tree from distribution: 20% giants 8-16K HP / 15% medium 125-624 / 45% small 10-60 / 20% stubs 10) only determines how many “free” hits before switching to endless mining mode.
-
-Sum of initial HP of all trees: ~6,481,880 hits ≈ **12,963,760 “free” wood** @ eff=100 after which the same forest continues to give the same speed through stumps.
-
-**Real bottleneck for wood:** number of simultaneous slots (maxattackers_wood = 2 per tree/stump), peasant speed and distance to warehouse, not quantity.
-
-**Stone:** each stone has HP=10,000,000 (effectively infinite). ~779 gems × 10M HP = unlimited supply.
-
-<a id="7-месторождения-resourcesrich-tiny"></a>
-## 7. Deposits (Resources=Rich, Tiny)
-
-**Terminology:** *field* - geological deposit on the ground (placed by `SetupMines`, basenames `minegold`/`mineiron`/`minecoal`). *Mine* - building `eurgol`/`euriro`/`eurcoa`, which the player builds on the mine as a peasant (peasantabsorber=5, upgrades to 95).
-
-Parameters from [^2]:
-- minesdensity=2 → **5 rounds** per starting point.
-- On tiny, round 4 is skipped through `continue` → **4 effective rounds**.
-- In each round, **1 deposit of each type** (gold/iron/coal) is bet.
-- **Total: 4 gold + 4 iron + 4 coal = 12 deposits per player** (if all attempts are successful; up to 256 attempts per placement).
-
-Distances from start (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):
-- **round 0**: 14-22 tiles (Phase 1, when creating a start point - 1 gold + 1 iron + 1 coal)
-- **round 1**: 32-42 tiles (Phase 2)
-- **round 2**: 70-82 tiles (Phase 2)
-- **round 3**: 22-38 tiles (Phase 2)
-- ~~round 4~~: skipped on tiny
-
-<a id="8-допущения-и-предел-точности"></a>
-## 8. Assumptions and limits of accuracy
-
-**What exactly (from the code):**
-- The formula `count = floor(W*H*freq)` is straight from `_misc_SetupPatternsByType`.
-- Densities `frs_big/mid/small/stn1/stn2` - [^3].
-- Modifier ×2.5 for tiny - [^4].
-- Mine rounds - [^5].
-- Per-position mine count formula `P × (1 + n_after) + (spcount - P) × n_after`.
-
-**What is empirically validated (replay-based, 2026-04-29):**
-- Per-type placement rates — calibrated for 10 sample replays (Tiny+Land+Highlands+4pl_nowater bucket). Bucket ratios actual/predicted = 0.96-1.04 for all major types (forests_pine_*, stones, mng/mni/mnc).
-- Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. Output: `internals_en/data/map_predictions_validation.md`.
-- Player count is derived from mng count for Land terrain (the formula is reversible).
-
-**Estimated or not yet validated:**
-
-- `prob*` modifiers use a Monte Carlo approximation of
-  `_misc_GetFreePatternMaskCountModifier`. The Tiny-map model assumes weak
-  blocking by water (`water_blocking_pct=0.02`).
-- Trees and stone deposits per pattern use
-  `TREE_CHOPABLE_RATIO = 0.30`, calibrated against an empirical estimate of
-  roughly 10 trees for a small cluster and 50 for a large one. It has not yet
-  been validated against object counts extracted from a running game.
-- Placement rates may differ outside the Tiny and Highlands settings because
-  no replay sample is available for those combinations.
-
-**Known gaps:**
-
-- `compute_counts` does not yet model the `plain_*`, `mountains`,
-  `swamp_small`, `hills_*`, `stoneforests`, or `plateau*` pattern types. They
-  account for about half of all cluster occurrences in the replay sample; see
-  [Random-map generation](../../recon/world/map/map_generation_pipeline.md).
-- `desert_*` patterns for `season = 3` are not implemented; this combination
-  occurred in one of 20 sampled replays.
-- Non-Land maps use a different mine-placement formula.
-
-**Accuracy for Tiny + Land + Highlands:** predicted cluster counts are within
-±5% for the covered types. Total wood and stone estimates are much less
-certain—roughly ±30–50%—because `TREE_CHOPABLE_RATIO` is not independently
-validated.
-
-<a id="источники"></a>
-## Sources
-
-All links are relative to `data/scripts/` in the Cossacks 3 installation.
-
-[^1]: turning a tree into a stump with `hp = 0` - `units/unit.inc/onaclanimationreachedwork.inc:30-39 + units/env.inc/ontagstates.inc:50-78`.
-
-[^2]: Deposit placement phase: `mines rounds` and skip round 4 on tiny - `common.inc/dogenerate.inc:522-717`.
-
-[^3]: base densities `frs_big/mid/small/stn1/stn2` - `common.inc/dogenerate.inc:1688-1693`.
-
-[^4]: modifier ×2.5 for tiny - `common.inc/dogenerate.inc:1718-1725`.
-
-[^5]: number and geometry of field placement rounds - `common.inc/dogenerate.inc:528-602`.
+For the complete algorithm, see
+[How a Random Map Is Created](../../recon/world/map/map_generation_pipeline.md).
+Replay-based calibration of this estimate is documented in
+[Map Prediction Validation](../../../internals/data/map_predictions_validation.md).

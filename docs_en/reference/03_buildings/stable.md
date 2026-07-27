@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Stable** `algsta` | Algeria | **55000** | **156.25** | **700** | 0 | **1000** | **2200** | **0** | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |
 | **Stable** `aussta` | Austria | 20000 | 625.0 | 200 | 0 | 2500 | 100 | 600 | 0 | 0 | 0 | Don Cossack (`cossackdon`), Register Cossack (`cossackregister`), Sich Cossack (`cossacksich`), Croat (`croat`), Cuirassier (`cuirassier`) (+25) |

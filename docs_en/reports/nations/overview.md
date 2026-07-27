@@ -1,6 +1,6 @@
 <a id="сравнение-наций--общий-обзор"></a>
 <a id="сравнение-наций"></a>
-# Nation comparison
+# Nation Comparison
 
 [← Tables and calculations](../README.md)
 
@@ -43,10 +43,11 @@ combat categories.
 <a id="2-покрытие-стандартных-построек"></a>
 ## §2. Standard buildings
 
-`✅` means the nation has the building; `❌` means it does not. See the
+`✅` means that the nation can construct the building; `❌` means that it
+cannot. See the
 [building reference](../../reference/03_buildings/README.md) for full details.
 
-| Nation | Town Hall | Housing | Mill | Storehouse | Tower | Stone wall/gate | Mine | Shipyard | Diplomatic Center |
+| Nation | Town Hall | House | Mill | Storehouse | Tower | Stone Wall/Gate | Mine | Shipyard | Diplomatic Center |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Algeria** (`alg`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Austria** (`aus`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -70,78 +71,94 @@ combat categories.
 | **Ukraine** (`ukr`) | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Venice** (`ven`) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-**Notable Omissions:**
+**Notable omission:**
 
-- **ukr** Ukraine - no: Tower, Stone wall/gate
+- **Ukraine** cannot construct Towers, Stone Walls, or Gates.
 
 <a id="3-уникальные-юниты-по-нациям"></a>
 ## §3. Unique units by nation
-Units with `sid`, which is found only in one nation (excluding mercenaries from `<nat>dip`). These are “feature” units with which the nation is associated. Mercenary sid (`<unit>dip`) - separately in §5.
 
-| Nation | Unique `sid` (class HP) |
+These are units available to only one nation, excluding mercenaries. Their
+internal identifiers are included in code formatting for reference.
+
+| Nation | Unique units (role and health) |
 | --- | --- |
-| **Algeria** (`alg`) | `mameluke` _Mameluke_ (Heavy cavalry, HP=280)<br>`archer` _Archer_ (Archer, HP=40) |
-| **Austria** (`aus`) | `croat` _Croat_ (Light cavalry, HP=260)<br>`roundshier` _Roundshier_ (Light infantry, HP=100)<br>`pandur` _Pandur_ (Shooter, HP=85)<br>`musketeeraus` _Musketeer, 17th century_ (Shooter, HP=55) |
-| **Bavaria** (`bav`) | `grenadierbav` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18bav` _Musketeer, 18th century_ (Gunner, HP=100) |
-| **Denmark** (`den`) | `grenadierden` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18den` _Musketeer, 18th century_ (Gunner, HP=100) |
-| **England** (`eng`) | `highlander` _Highlander_ (Shooter, HP=130) |
-| **France** (`fra`) | `kingmusketeer` _King's Musketeer_ (Horse Rifleman, HP=280)<br>`dragoon18fra` _Dragoon, 18th century_ (Horse Rifleman, HP=140)<br>`chasseur` _Chasseur_ (Shooter, HP=75) |
-| **Hungary** (`hun`) | `hussarhun` _Hussar_ (Light Cavalry, HP=250)<br>`lightcavalry` _Light cavalry_ (Horse Rifleman, HP=175)<br>`grenadierhun` _Grenadier_ (Grenadier, HP=125)<br>`pandurhun` _Szekely_ (Gunner, HP=75)<br>`gauduk` _Hajduk_ (Shooter, HP=60) |
-| **Netherlands** (`net`) | `dragoon18net` _Dragoon, 18th century_ (Horse Rifleman, HP=320)<br>`musketeernet` _Musketeer, 17th century_ (Rifleman, HP=65) |
-| **Piedmont** (`pie`) | `dragoon18pie` _Dragoon, 18th century_ (Horse Rifleman, HP=200)<br>`padre` _Padre_ (Light Infantry, HP=90) |
-| **Poland** (`pol`) | `wingedhussar` _Winged Hussar_ (Light cavalry, HP=225)<br>`reiterpol` _Light Reiter_ (Heavy cavalry, HP=190)<br>`dragoonpol` _Pospolite ruszenie_ (Horse Rifleman, HP=185)<br>`pikemanpol` _Pikeman, 17th century_ (Light Infantry, HP=90)<br>`musketeerpol` _Musketeer, 17th century_ (Shooter, HP=70) |
-| **Portugal** (`por`) | `pikemanpor` _Pikeman, 17th century_ (Light Infantry, HP=100)<br>`jagerpor` _Volunteer_ (Rifleman, HP=50) |
-| **Prussia** (`pru`) | `hussarpru` _Hussar_ (Light Cavalry, HP=240)<br>`grenadierpru` _Grenadier_ (Grenadier, HP=125)<br>`musketeer18pru` _Musketeer, 18th century_ (Shooter, HP=100) |
-| **Russia** (`rus`) | `vityaz` _Vityaz_ (Heavy cavalry, HP=380)<br>`cossackdon` _Don Cossack_ (Heavy cavalry, HP=220)<br>`officerrus` _Commander_ (Light Infantry, HP=125)<br>`drummerrus` _Drummer, 17th century_ (Light Infantry, HP=100)<br>`pikemanrus` _Spearman_ (Light Infantry, HP=85)<br>`strelet` _Strelets_ (Rifleman, HP=85)<br>`pearus` _Serf_ (Peasant, HP=50) |
-| **Saxony** (`sax`) | `guardcavalrysax` _Cavalry Guard_ (Heavy cavalry, HP=320)<br>`grenadiersax` _Grenadier_ (Grenadier, HP=100)<br>`musketeer18sax` _Musketeer, 18th century_ (Shooter, HP=90) |
-| **Scotland** (`sco`) | `framegun` _Frame gun_ (Cannon, HP=3000)<br>`lancersco` _Lancer_ (Heavy cavalry, HP=320)<br>`raidersco` _Raider_ (Light cavalry, HP=280)<br>`swordsmansco` _Sword Clansman_ (Light infantry, HP=180)<br>`archersco` _Bow Clansman_ (Archer, HP=150)<br>`officersco` _Officer_ (Light infantry, HP=150)<br>`pikemansco` _Covenanter pikeman_ (Light infantry, HP=100)<br>`musketeersco` _Covenanter musketeer_ (Rifleman, HP=90)<br>`peasco` _Peasant_ (Peasant, HP=60) |
-| **Spain** (`spa`) | `pikemanspa` _Coselete_ (Light Infantry, HP=100)<br>`musketeerspa` _Musketeer, 17th century_ (Rifleman, HP=85) |
-| **Sweden** (`swe`) | `reiterswe` _Swedish Reiter_ (Heavy cavalry, HP=300)<br>`hackapell` _Hakkapeliitta_ (Light cavalry, HP=245)<br>`pikeman18swe` _Pikeman, 18th century_ (Light Infantry, HP=110) |
-| **Switzerland** (`swi`) | `hussarswi` _Mounted Jaeger_ (Light cavalry, HP=265)<br>`pikemanswi` _Pikeman, 17th century_ (Light infantry, HP=90)<br>`jagerswi` _Chasseur_ (Shooter, HP=65) |
-| **Turkey** (`tur`) | `yachttur` _Yacht_ (Yacht, HP=35000)<br>`sipahi` _Heavy Sipahi_ (Heavy cavalry, HP=360)<br>`spakh` _Light Sipahi_ (Heavy cavalry, HP=230)<br>`tatar` _Tatar_ (Archer, HP=185)<br>`archertur` _Turkish archer_ (Archer, HP=65)<br>`jannisary` _Janissary_ (Shooter, HP=65) |
-| **Ukraine** (`ukr`) | `chaika` _chaika_ (Yacht, HP=25000)<br>`hetman` _Hetman_ (Heavy cavalry, HP=320)<br>`cossackregister` _Register Cossack_ (Heavy cavalry, HP=250)<br>`cossacksich` _Sich Cossack_ (Light cavalry, HP=250)<br>`serdiuk` _Serdiuk_ (Rifleman, HP=85)<br>`peaukr` _Peasant_ (Peasant, HP=75) |
+| **Algeria** (`alg`) | **Mameluke** (`mameluke`; heavy cavalry, 280 health)<br>**Archer** (`archer`; archer, 40 health) |
+| **Austria** (`aus`) | **Croat** (`croat`; light cavalry, 260 health)<br>**Roundshier** (`roundshier`; light infantry, 100 health)<br>**Pandur** (`pandur`; ranged infantry, 85 health)<br>**Musketeer, 17th century** (`musketeeraus`; ranged infantry, 55 health) |
+| **Bavaria** (`bav`) | **Grenadier** (`grenadierbav`; grenadier, 125 health)<br>**Musketeer, 18th century** (`musketeer18bav`; ranged infantry, 100 health) |
+| **Denmark** (`den`) | **Grenadier** (`grenadierden`; grenadier, 125 health)<br>**Musketeer, 18th century** (`musketeer18den`; ranged infantry, 100 health) |
+| **England** (`eng`) | **Highlander** (`highlander`; ranged infantry, 130 health) |
+| **France** (`fra`) | **King's Musketeer** (`kingmusketeer`; mounted ranged unit, 280 health)<br>**Dragoon, 18th century** (`dragoon18fra`; mounted ranged unit, 140 health)<br>**Chasseur** (`chasseur`; ranged infantry, 75 health) |
+| **Hungary** (`hun`) | **Hussar** (`hussarhun`; light cavalry, 250 health)<br>**Light cavalry** (`lightcavalry`; mounted ranged unit, 175 health)<br>**Grenadier** (`grenadierhun`; grenadier, 125 health)<br>**Szekely** (`pandurhun`; ranged infantry, 75 health)<br>**Hajduk** (`gauduk`; ranged infantry, 60 health) |
+| **Netherlands** (`net`) | **Dragoon, 18th century** (`dragoon18net`; mounted ranged unit, 320 health)<br>**Musketeer, 17th century** (`musketeernet`; ranged infantry, 65 health) |
+| **Piedmont** (`pie`) | **Dragoon, 18th century** (`dragoon18pie`; mounted ranged unit, 200 health)<br>**Padre** (`padre`; light infantry, 90 health) |
+| **Poland** (`pol`) | **Winged Hussar** (`wingedhussar`; light cavalry, 225 health)<br>**Light Reiter** (`reiterpol`; heavy cavalry, 190 health)<br>**Pospolite ruszenie** (`dragoonpol`; mounted ranged unit, 185 health)<br>**Pikeman, 17th century** (`pikemanpol`; light infantry, 90 health)<br>**Musketeer, 17th century** (`musketeerpol`; ranged infantry, 70 health) |
+| **Portugal** (`por`) | **Pikeman, 17th century** (`pikemanpor`; light infantry, 100 health)<br>**Volunteer** (`jagerpor`; ranged infantry, 50 health) |
+| **Prussia** (`pru`) | **Hussar** (`hussarpru`; light cavalry, 240 health)<br>**Grenadier** (`grenadierpru`; grenadier, 125 health)<br>**Musketeer, 18th century** (`musketeer18pru`; ranged infantry, 100 health) |
+| **Russia** (`rus`) | **Vityaz** (`vityaz`; heavy cavalry, 380 health)<br>**Don Cossack** (`cossackdon`; heavy cavalry, 220 health)<br>**Commander** (`officerrus`; light infantry, 125 health)<br>**Drummer, 17th century** (`drummerrus`; light infantry, 100 health)<br>**Spearman** (`pikemanrus`; light infantry, 85 health)<br>**Strelets** (`strelet`; ranged infantry, 85 health)<br>**Serf** (`pearus`; peasant, 50 health) |
+| **Saxony** (`sax`) | **Cavalry Guard** (`guardcavalrysax`; heavy cavalry, 320 health)<br>**Grenadier** (`grenadiersax`; grenadier, 100 health)<br>**Musketeer, 18th century** (`musketeer18sax`; ranged infantry, 90 health) |
+| **Scotland** (`sco`) | **Frame gun** (`framegun`; cannon, 3000 health)<br>**Lancer** (`lancersco`; heavy cavalry, 320 health)<br>**Raider** (`raidersco`; light cavalry, 280 health)<br>**Sword Clansman** (`swordsmansco`; light infantry, 180 health)<br>**Bow Clansman** (`archersco`; archer, 150 health)<br>**Officer** (`officersco`; light infantry, 150 health)<br>**Covenanter pikeman** (`pikemansco`; light infantry, 100 health)<br>**Covenanter musketeer** (`musketeersco`; ranged infantry, 90 health)<br>**Peasant** (`peasco`; peasant, 60 health) |
+| **Spain** (`spa`) | **Coselete** (`pikemanspa`; light infantry, 100 health)<br>**Musketeer, 17th century** (`musketeerspa`; ranged infantry, 85 health) |
+| **Sweden** (`swe`) | **Swedish Reiter** (`reiterswe`; heavy cavalry, 300 health)<br>**Hakkapeliitta** (`hackapell`; light cavalry, 245 health)<br>**Pikeman, 18th century** (`pikeman18swe`; light infantry, 110 health) |
+| **Switzerland** (`swi`) | **Mounted Jaeger** (`hussarswi`; light cavalry, 265 health)<br>**Pikeman, 17th century** (`pikemanswi`; light infantry, 90 health)<br>**Jaeger** (`jagerswi`; ranged infantry, 65 health) |
+| **Turkey** (`tur`) | **Yacht** (`yachttur`; light ship, 35000 health)<br>**Heavy Sipahi** (`sipahi`; heavy cavalry, 360 health)<br>**Light Sipahi** (`spakh`; heavy cavalry, 230 health)<br>**Tatar** (`tatar`; archer, 185 health)<br>**Turkish archer** (`archertur`; archer, 65 health)<br>**Janissary** (`jannisary`; ranged infantry, 65 health) |
+| **Ukraine** (`ukr`) | **Chaika** (`chaika`; light ship, 25000 health)<br>**Hetman** (`hetman`; heavy cavalry, 320 health)<br>**Register Cossack** (`cossackregister`; heavy cavalry, 250 health)<br>**Sich Cossack** (`cossacksich`; light cavalry, 250 health)<br>**Serdiuk** (`serdiuk`; ranged infantry, 85 health)<br>**Peasant** (`peaukr`; peasant, 75 health) |
 
-**No unique non-mercenary units:** **ven** Venice - use only the general roster.
+**Venice** has no unique non-mercenary units and uses the shared roster.
 
 <a id="4-стат-аномалии-на-одинаковых-юнитах"></a>
 <a id="4-отличия-характеристик-похожих-юнитов"></a>
-## §4. Stat anomalies on “identical” units
+## §4. Differences between Similar Units
 
-The same unit class (`usage_short`) may have different HP/damage/armor among different nations - these are hidden balance differences. Here are categories where the spread of HP between nations is ≥ 20%.
+Units that fill the same role may have different health, damage, or armor
+in different nations. The table lists roles whose highest and lowest health
+values differ by at least 20%.
 
-| Class | Min HP (nation · sid) | Max HP (nation · sid) | Scatter |
+| Category | Lowest health | Highest health | Difference |
 | --- | --- | --- | ---: |
-| Archer | **Algeria** (`alg`) | **Turkey** (`tur`) | +362% |
-| Light Infantry | **Algeria** (`alg`) | **Scotland** (`sco`) | +260% |
-| Cannon | **Scotland** (`sco`) | **Venice** (`ven`) | +200% |
-| Shooter | **Portugal** (`por`) | **England** (`eng`) | +160% |
-| Horse Rifleman | **France** (`fra`) | **Netherlands** (`net`) | +129% |
-| Heavy Cavalry | **Poland** (`pol`) | **Russia** (`rus`) · `vityaz` (380) | +100% |
-| Yacht | **Ukraine** (`ukr`) | **Turkey** (`tur`) | +40% |
-| Frigate | **Austria** (`aus`) | **Turkey** (`tur`) | +30% |
-| Grenadier | **Saxony** (`sax`) | **Prussia** (`pru`) | +25% |
-| Light Cavalry | **Poland** (`pol`) | **Scotland** (`sco`) | +24% |
+| Archer | **Archer** (`archer`), Algeria: 40 | **Tatar** (`tatar`), Turkey: 185 | +362% |
+| Light infantry | **Drummer, 17th century** (`drummertur`), Algeria: 50 | **Sword Clansman** (`swordsmansco`), Scotland: 180 | +260% |
+| Cannon | **Frame gun** (`framegun`), Scotland: 3000 | **Cannon** (`cannon`), Venice: 9000 | +200% |
+| Ranged infantry | **Volunteer** (`jagerpor`), Portugal: 50 | **Highlander** (`highlander`), England: 130 | +160% |
+| Mounted ranged unit | **Dragoon, 18th century** (`dragoon18fra`), France: 140 | **Dragoon, 18th century** (`dragoon18net`), Netherlands: 320 | +129% |
+| Heavy cavalry | **Light Reiter** (`reiterpol`), Poland: 190 | **Vityaz** (`vityaz`), Russia: 380 | +100% |
+| Light ship | **Chaika** (`chaika`), Ukraine: 25000 | **Yacht** (`yachttur`), Turkey: 35000 | +40% |
+| Frigate | **Frigate** (`frigate`), Austria: 50000 | **Xebec** (`xebec`), Turkey: 65000 | +30% |
+| Grenadier | **Grenadier** (`grenadiersax`), Saxony: 100 | **Grenadier** (`grenadierpru`), Prussia: 125 | +25% |
+| Light cavalry | **Winged Hussar** (`wingedhussar`), Poland: 225 | **Raider** (`raidersco`), Scotland: 280 | +24% |
 
 <a id="5-доступные-наёмники-через-дипломатический-центр"></a>
-## §5. Available mercenaries (via diplomatic center)
+## §5. Mercenaries
 
-Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `sid`. The cost is only gold (without food/wood/stone), they train without barracks prerequisites. All mercenaries consume gold-upkeep (`consume.gold > 0`); units with the flag `bmercenary=True` (in the current balance only `battleship`) are subject to Rebellion at `gold=0` (see [economy guide](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание)).
+Mercenaries are hired at the Diplomatic Center, cost gold, and do not
+require Barracks. All of them have gold upkeep. In the current balance,
+only the Ship of the Line has the special mercenary flag that makes it
+subject to rebellion when the treasury is empty; see the
+[economy guide](../../reference/01_economy/README.md#famine-голод-и-rebellion-восстание).
+Internal identifiers are retained in the table to distinguish otherwise
+similar units.
 
-| `sid` | Class | HP | Max. damage | Merc? | Nations |
+| Mercenary | Role | Health | Maximum damage | Mercenary flag | Nations |
 | --- | --- | ---: | ---: | :---: | --- |
-| `archerdip` | Archer | 20 | 100 | ✅ | all 21 nations |
-| `archerturdip` | Archer | 20 | 100 | ✅ | all 21 nations |
-| `grenadierdip` | Grenadier | 30 | 200 | ✅ | all 21 nations |
-| `cossacksichdip` | Light Cavalry | 150 | 8 | ✅ | all 21 nations |
-| `lightinfantrydip` | Light Infantry | 50 | 16 | ✅ | all 21 nations |
-| `roundshierdip` | Light Infantry | 75 | 6 | ✅ | all 21 nations |
-| `dragoon18dip` | Shooter | 100 | 18 | ✅ | all 21 nations |
-| `lightcavalrydip` | Shooter | 100 | 18 | ✅ | all 21 nations |
+| **Archer (mercenary)** (`archerdip`) | Archer | 20 | 100 | ✅ | all 21 nations |
+| **Turkish archer (mercenary)** (`archerturdip`) | Archer | 20 | 100 | ✅ | all 21 nations |
+| **Grenadier (mercenary)** (`grenadierdip`) | Grenadier | 30 | 200 | ✅ | all 21 nations |
+| **Sich Cossack (mercenary)** (`cossacksichdip`) | Light cavalry | 150 | 8 | ✅ | all 21 nations |
+| **Light Infantryman (mercenary)** (`lightinfantrydip`) | Light infantry | 50 | 16 | ✅ | all 21 nations |
+| **Roundshier (mercenary)** (`roundshierdip`) | Light infantry | 75 | 6 | ✅ | all 21 nations |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | Ranged infantry | 100 | 18 | ✅ | all 21 nations |
+| **Light cavalry (mercenary)** (`lightcavalrydip`) | Ranged infantry | 100 | 18 | ✅ | all 21 nations |
 
 <a id="6-вариант-рынка"></a>
 <a id="6-архитектурные-варианты-рынка"></a>
-## §6. Market option
-The Market is a shared building (see [Market variants](../../reference/03_buildings/market.md)). Across 21 nations, the game uses four variants (`eurmar`, `rusmar`, `spamar`, and `turmar`) with different health, cost, and construction time. These variants affect only the building itself: market rates are global and identical for every player in the match, regardless of the Market they build (see [Market mechanics](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
+## §6. Market Variants
+
+The 21 nations share four Market variants with different health,
+construction costs, and build times; see
+[Market variants](../../reference/03_buildings/market.md). These differences
+affect the building only. Exchange rates are global and identical for every
+player in a match, regardless of Market architecture; see
+[Market mechanics](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки).
 
 | Cluster | Nations |
 | --- | --- |

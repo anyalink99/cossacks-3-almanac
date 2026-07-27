@@ -5,8 +5,9 @@
 
 This folder is **not a player's guide**. It documents the game's internal
 structure: the engine executable, the DWS scripting environment, the `data/`
-directory, and file formats. If you want to know how much HP a musketeer has,
-look in [`docs_en/`](../docs_en/) instead.
+directory, and file formats. Game statistics, comparisons, and explanations
+of player-visible mechanics are in the
+[encyclopedia](../docs_en/README.md).
 
 This includes everything that:
 
@@ -26,7 +27,7 @@ This includes everything that:
 | [engine/](engine/) | Executable structure, scripting VM, networking model, ticks, and random-number generation. |
 | [scripts/](scripts/) | The layout and load order of `data/scripts/*`, with the entry points exposed by each file. |
 | [data/](data/) | The `data/` directory: subfolders and formats such as `.parser`, `.pattern`, and `.aaf`. |
-| [project/](project/) | Repository architecture, current limitations, and the archive of resolved issues. |
+| [project/](project/) | Repository architecture, documentation rules, research plans, and known limitations. |
 
 ## engine/
 
@@ -36,15 +37,16 @@ or IDA project files.
 
 | File | What's inside |
 |---|---|
-| [engine/native_api.md](engine/native_api.md) | Main document. **4,856 native DWS signatures** (name, argument types, RVA), extracted directly from the exe via the AnsiString pattern `\xFF\xFF\xFF\xFF<len><chars>\x00`. 100% coverage of 884 primitives that the script actually calls. Subsystems (`game_object`, `player`, `save_load`, `path_command`, ...). |
+| [engine/native_api.md](engine/native_api.md) | Main document. **4,856 native DWS signatures** (name, argument types, RVA), extracted directly from the executable through the `AnsiString` pattern `\xFF\xFF\xFF\xFF<len><chars>\x00`. Covers all 884 primitives called by game scripts. Subsystems include `game_object`, `player`, `save_load`, and `path_command`. |
 | [engine/native_primitives.md](engine/native_primitives.md) | Machine-generated quick search: top 50 + 10 examples per subsystem. |
 | [engine/rtti_class_map.md](engine/rtti_class_map.md) | A subsystem map of **1,779 Delphi classes** in the executable: `TXGameObject`, `TXBehaviour*` (22 classes), `TXAIRegion*` (5), `TXPath*` / `TPathData` (6), `TXTrigger*` (8), `TXStateMachine*` (9), `TXLan*` (8 multiplayer classes), `TXMapGenerator`, `TXPattern*` (25), `TAIX*` (4 editor `.aix` classes), and others. |
-| [engine/determinism_audit.md](engine/determinism_audit.md) | RNG audit: which RNG functions are used in the hot path of mining and combat, what persists, mod-loader readiness. |
+| [engine/determinism_audit.md](engine/determinism_audit.md) | RNG audit: which random-number functions appear in resource gathering and combat, what survives save/load, and what a deterministic mod can change. |
 | [engine/rng_implementation.md](engine/rng_implementation.md) | Implementation of `Random` (Delphi LCG `X = X × 134775813 + 1 mod 2³²`, uses `System.RandSeed`) and `RandomExt` (64-bit LCG over a **separate** extended seed, which is set via `SetRandomKey`/`SetRandomExtKey64`). Main pattern: per-decision deterministic seed. RE-validated via private `cossacks-deep`. |
 | [engine/server_sync_architecture.md](engine/server_sync_architecture.md) | The server-authoritative networking model, synchronization periods, network modes, and the `bProcess` pattern. |
-| [engine/server_sync_packet_format.md](engine/server_sync_packet_format.md) | Bit-layout of network packets: `EconomyPackage` (binary 1–18 bytes) + parser-text for unit-state. |
+| [engine/server_sync_packet_format.md](engine/server_sync_packet_format.md) | Network-packet layouts: binary `EconomyPackage` records (1–18 bytes) and parser-text unit-state snapshots. |
 | [engine/ticks_and_subticks.md](engine/ticks_and_subticks.md) | Real time, game time, frames, the main progress loop, and sub-tick state-machine intervals (135 ms for peasants and 100 ms for units). |
 | [engine/animation_system.md](engine/animation_system.md) | Animation system: `.aaf` format (1,382 tracks) and `.acl` (FSM cycle graph), `refspeed.acl` (movement speeds by class), `OnAclAnimationReachedAttack` callback (impact moment), `_unit_ApplyWeaponCost` / `ApplyAttackPause`, RNG filter for gunshot sounds. |
+| [engine/script_modding_constraints.md](engine/script_modding_constraints.md) | Practical limits of script mods: what DWS scripts can change, what belongs in game data, and where engine constraints take over. |
 
 ## scripts/
 
@@ -54,6 +56,15 @@ loaded, and which entry points they expose.
 | File | What's inside |
 |---|---|
 | [scripts/structure.md](scripts/structure.md) | Load order, main `.script` files and their purpose, entry points into the scripting environment. |
+
+<a id="технические-приложения-к-игровым-механикам"></a>
+### Technical appendices for game mechanics
+
+| Topic | Appendices |
+|---|---|
+| Economy and construction | [Resource gathering](scripts/peasant_extraction_evidence.md), [construction and repair](scripts/building_mechanics_evidence.md), [capture](scripts/capture_mechanics_evidence.md), [upgrades](scripts/upgrades_application_evidence.md), [famine and rebellion](scripts/hunger_and_rebellion_evidence.md), [production queues](scripts/production_queue_evidence.md) |
+| Combat and movement | [Target selection](scripts/target_selection_evidence.md), [pathfinding](scripts/pathfinding_evidence.md) |
+| Map | [Random-map generation](scripts/map_generation_evidence.md) |
 
 ## data/
 
@@ -66,6 +77,7 @@ The contents of `data/`: directories, formats, and parsing rules.
 | [data/game_fields_glossary.md](data/game_fields_glossary.md) | Glossary of internal fields found in `data.json` and game scripts. |
 | [data/nation_deviations.md](data/nation_deviations.md) | Technical fingerprints for national building and unit variants. |
 | [data/map_predictions_validation.md](data/map_predictions_validation.md) | Replay-based calibration of the map-resource model. |
+| [data/replay_format.md](data/replay_format.md) | The `OSWMap13` replay and save format: header, entries, command packets, and state synchronization. |
 
 <a id="чем-это-отличается-от-docsrecon"></a>
 ## How this differs from `docs_en/recon/`

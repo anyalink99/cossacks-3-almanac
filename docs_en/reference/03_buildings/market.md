@@ -8,7 +8,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nations | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Notes |
+| Building | Nations | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Market** `eurmar` | Austria, Bavaria, Denmark, England, France, Hungary, Netherlands, Piedmont, Poland, Prussia, Saxony, Scotland, Sweden, Switzerland, Venice | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |
 | **Market** `rusmar` | Russia, Ukraine | 4000 | 234.38 | 2000 | 0 | 450 | 0 | 0 | 0 | 0 | — |

@@ -3,12 +3,12 @@
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Academy - general upgrades building. One option per nation.
+The Academy provides general-purpose research. Each nation has one architectural variant.
 
-> **Base values** (column mode): HP = 63000, Time (g-sec) = 625.0, cost% = 300, W = 1250, S = 1100, G = 0, farm = 0.
+> **Baseline values** are the most common values in each column: health = 63000, construction time = 625.0 game seconds, price growth = 300%, wood = 1250, stone = 1100, gold = 0, population = 0.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | **Minaret** `algaca` | Algeria | **65000** | **156.25** | 300 | **1450** | 1100 | 0 | 0 | — |
 | **Academy** `ausaca` | Austria | **65000** | 625.0 | 300 | 1250 | 1100 | 0 | 0 | — |

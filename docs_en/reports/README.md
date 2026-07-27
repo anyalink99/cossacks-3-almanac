@@ -4,8 +4,8 @@
 [← Encyclopedia home](../README.md)
 
 This section contains expanded comparisons that do not fit in the quick
-reference. Choose the result you need in play; the method and technical source
-names are given at the end of each article.
+reference. Choose the table that answers your question; each article explains
+its method and technical sources near the end.
 
 <a id="бой"></a>
 ## Combat
@@ -32,8 +32,8 @@ names are given at the end of each article.
 <a id="развитие"></a>
 ## Development
 
-- [Technology tree](tech/tech_tree.md) — which buildings, units, and upgrades
-  must be unlocked before a chosen target becomes available.
+- [Technology tree](tech/tech_tree.md) — which buildings must be constructed
+  and which upgrades must be researched to unlock a chosen object.
 
 <a id="карта-и-настройки-матча"></a>
 ## Map and match settings

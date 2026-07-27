@@ -8,18 +8,11 @@ This article explains what the pre-match options actually change: which ones
 rebuild the map, which act only during play, and which restrictions are not
 obvious from their lobby labels.
 
-The numerical values and in-game labels are collected separately:
-
-- **[lobby settings](../../../reports/map/lobby_settings.md)** —
-  a reader-friendly reference for every option (localized names, numerical values,
-  default values).
-- **[`derived/game_settings.json`](../../../../derived/game_settings.json)** —
-  the same data in machine-readable form, for the editor and tools.
-
-This page covers what the table cannot show: the practical effect of each
-choice. Exact fields, functions, and saved-record layout are collected under
-[Technical details](#technical-details); script excerpts are in
-[Sources](#sources).
+Canonical labels, numeric values, and defaults are listed in the
+[match-settings reference](../../../reports/map/lobby_settings.md). This
+article explains the practical effects that are not obvious from the table.
+Internal fields, functions, and the saved-record layout are kept under
+[Technical details](#technical-details).
 
 <a id="1-структура-tmapsettings"></a>
 <a id="1-как-хранятся-настройки-матча"></a>
@@ -28,8 +21,9 @@ choice. Exact fields, functions, and saved-record layout are collected under
 
 - **Map size, terrain type, relief, season, and deposits** affect the
   generated map and do not change after the match begins.
-- **Starting army and resources** define the opening position, but the base
-  eighteen Peasants always appear.
+- **Starting army and resources** define the opening position. The Default
+  starting-army preset creates eighteen Peasants; other presets replace that
+  default group with their own units and buildings.
 - **Peace time, capture, the 18th century, mercenaries, speed, and population
   limit** change rules during play.
 - **Computer-player difficulty** primarily changes construction and
@@ -43,150 +37,136 @@ choice. Exact fields, functions, and saved-record layout are collected under
 | Setting | Effect |
 |---|---|
 | Map size | Sets the width and height of the square map in cells and affects object-placement density [^5] [^6]. |
-| Terrain type | Selects the map foundation. Peninsulas, Islands, and Continents contain sea water accessible to ships and a Port [^7]. |
-| Relief | Controls mountain and hill density. Highlands leaves less flat ground for Farms and Storehouses [^8]. |
+| Terrain type | Selects the map foundation. Peninsulas, Islands, and Continents include navigable water, so ships and Ports are available [^7]. |
+| Relief | Controls mountain and hill density. Highlands leave less flat ground for Farms and Storehouses [^8]. |
 | Starting resources | Gives every player the selected amount of each of the six resources: 1,000, 4,000, 5,000, or 1,000,000 [^9]. |
 | Mineral deposits | Changes how many placement passes are attempted. A Tiny Rich map can use three passes for each of three deposit types [^10]. See [How mineral deposits are placed](map_generation_pipeline.md#8-how-mineral-deposits-are-placed). |
 | Season | Desert replaces normal environment sets with desert sets; other seasons mainly change textures [^11]. |
 | Generation keys | Together with the base mask, uniquely determine terrain and object placement [^12]. |
 
-> **Forest type.** The player selects a forest variant in the match room, but
-> the shared generator immediately overwrites the choice with `0` for every
-> terrain type [^13]. The option therefore does not affect the map: mixed
-> conifer forests are used, with separate environment sets for Desert.
+> **Forest type.** On Land maps, the selected forest type has no effect [^13].
+> The generator uses the mixed conifer set.
 
 <a id="3-что-движок-делает-с-additional-параметрами"></a>
 <a id="3-дополнительные-правила-партии"></a>
 <a id="дополнительные-правила-партии"></a>
 ## Additional match rules
 <a id="31-startingunits--стартовая-армия"></a>
+<a id="31-starting-army"></a>
 <a id="31-стартовая-армия-startingunits"></a>
-### 3.1 Starting army (`startingunits`)
+<a id="31-стартовая-армия"></a>
+<a id="стартовая-армия"></a>
+### Starting army
 
-The specific set of units/buildings for each option is read from
-`data/game/var/startingsettings.cfg`. Fields: `addresources` (additional resources),
-`countries` (arrangement legend: `P` = peasant, `X` = infantryman, `B` =
-drummer, `O` = officer, `Q`/`W` = mission buildings, etc.).
-
-> **The base 18 Peasants always appear.** With the Default option, the engine
-> calls `CreateStartPointPeasants` and places **18 Peasants** in a 6 × 3 grid
-> around the starting position, 0.75 cells apart [^14].
+The Default preset creates **18 Peasants** in a 6 × 3 grid around the starting
+position, 0.75 cells apart [^14]. Other presets replace this group with their
+own units and buildings. The full list is in the
+[match-settings reference](../../../reports/map/lobby_settings.md#starting-army-startingunits).
 
 <a id="32-peacetime--как-устроен-мир"></a>
+<a id="32-peace-time"></a>
 <a id="peacetime--как-устроен-мир"></a>
 <a id="32-время-мира-peacetime"></a>
-### 3.2 Peace time (`peacetime`)
+<a id="32-время-мира"></a>
+<a id="время-мира"></a>
+### Peace time
 
-Function `_misc_GetPeaceTime` decodes the index into game minutes and multiplies by
-60 to obtain game seconds [^15]:
+The lobby offers no peace time or durations of 10, 15, 20, 30, 45, 60, 90,
+120, 180, and 240 game minutes [^15].
 
-| Value (`ind`) | Game minutes |
-|---:|---:|
-| 0 | 0 (No peace time) |
-| 1 | 10 |
-| 2 | 20 |
-| 3 | 30 |
-| 4 | 45 |
-| 5 | 60 |
-| 6 | 90 |
-| 7 | 120 |
-| 8 | 180 |
-| 9 | 240 |
-| 11 | 15 |
-
-These are **game minutes**. At Fast speed (`gamespeed = 2`), one game minute
+These are **game minutes**. At Fast speed, one game minute
 lasts about 42.9 real seconds, so ten minutes of peace last about seven real
 minutes.
 
-When generating the map [^16]:
+While peace time is active:
 
-- `gbool_peacemode := (peacetime <> 0)` - the flag is turned on if any
-  non-zero preset.
-- `gfloat_peacetime := _misc_GetPeaceTime(ind)` stores the duration in game
-  seconds.
-- `SetupBorderObjects` creates visual "boundaries" around each player.
+- **units do not acquire or attack enemies** [^17];
+- **foreign territory is closed**: troops can enter only neutral and owned
+  cells [^18];
+- **Buildings cannot be captured** on foreign territory.
 
-While `gbool_peacemode = True`:
-
-- **Enemy searches are disabled.** `_unit_SearchEnemy*` checks `bpeacetime`;
-  while it is `True`, units cannot acquire or attack enemies [^17].
-- **Territory ownership grid.** `_misc_IsCorrectScanCellOwner` returns
-  `True` only for neutral and owned cells; enemies cannot enter
-  your territory [^18].
-- **Capture buildings are prohibited** on foreign territory.
-
-On every `Nothing` service tick, the server checks whether peace time has
-expired [^19]. If it has, the flag is cleared, the `ptborder` objects are
-removed, and combat begins. Only the authoritative side makes this decision:
-the server in multiplayer or the game itself in single-player. Replays and
-clients receive the change through a synchronization event.
+Territory boundaries remain visible on the map. When the selected duration
+expires, they disappear and normal combat begins [^16] [^19].
 
 <a id="33-century18--переход-в-18-век"></a>
+<a id="33-advance-to-the-18th-century"></a>
 <a id="33-переход-в-xviii-век-century18"></a>
-### 3.3 Advance to the 18th century (`century18`)
+<a id="33-переход-в-xviii-век"></a>
+<a id="переход-в-xviii-век"></a>
+### Advance to the 18th century
 
-| Value | Effect |
+| Lobby option | Effect |
 |---|---|
-| 0 | Standard rules: the “Advance to the 18th Century” upgrade (`<nat>cen.1`) becomes available after an Academy (`aca`), Cathedral (`tem`), and Artillery Depot (`art`). |
-| 1 | Upgrade `cen.1` is disabled; the 18th century is unavailable in this match. |
-| 2 | The player starts in the 18th century - `cen.1` has already been researched. |
+| Default | **Progress to the 18th Century** becomes available after an Academy, Cathedral, and Artillery Depot have been built. |
+| Never | Advancing to the 18th century is disabled. |
+| Immediately | The player begins with the advance already completed. |
 
-For Ukraine (`ukr`), Turkey (`tur`), and Algeria (`alg`), the “Immediately”
-option has no effect: those nations have no `cen.1` upgrade in `country.script`. See
+For Ukraine, Turkey, and Algeria, Immediately has no effect because those
+nations do not advance to the 18th century. See
 [upgrades](../../../reference/05_upgrades/README.md).
 
 <a id="34-capture--правила-захвата"></a>
+<a id="34-capture-rules"></a>
 <a id="34-правила-захвата-capture"></a>
-### 3.4 Capture rules (`capture`)
+<a id="34-правила-захвата"></a>
+<a id="правила-захвата"></a>
+### Capture rules
 
-Capture geometry (radii, who is captured, who is not, towers, walls) - in
+For capture radii, eligible targets, towers, and walls, see
 [building capture](../economy/capture_mechanics.md).
 
-The `capture` option only enables or disables target classes: `1` prevents
-Peasant capture, `2` also protects Town Halls, and `3` permits only artillery
-capture. The underlying range and ownership checks remain unchanged.
+No Capturing Peasants, No Capturing Peasants or Centres, and Artillery Only
+change only the eligible target classes. Capture distances and all other
+checks remain unchanged.
 
 <a id="35-marketdip--рынок-и-дипцентр"></a>
+<a id="35-market-and-diplomatic-center"></a>
 <a id="35-рынок-и-дипломатический-центр-marketdip"></a>
-### 3.5 Market and Diplomatic Centre (`marketdip`)
+<a id="35-рынок-и-дипломатический-центр"></a>
+<a id="рынок-и-дипломатический-центр"></a>
+### Market and Diplomatic Center
 
-`value = 4` (“Expensive Mercenaries”) multiplies the hiring price by
-`gc_gameplay_expensivemercskoef = 3`. Details of Diplomatic Centre economics are in
+Expensive Mercenaries triples recruitment prices. The lobby can also disable
+the Market, the Diplomatic Center, or both. Details are in
 [mercenaries and diplomacy](../../systems/mercenaries_diplomacy.md).
 
 <a id="36-gamespeed--скорость-партии"></a>
+<a id="36-game-speed"></a>
 <a id="36-скорость-партии-gamespeed"></a>
-### 3.6 Game speed (`gamespeed`)
+<a id="36-скорость-партии"></a>
+<a id="скорость-партии"></a>
+### Game speed
 
-Constants `gc_settings_gamespeed_*` set the number of ticks per real second:
-`slow = 7`, `normal = 10`, `fast = 14`. A fourth value of `20`
-(`ultra-fast`) is commented out [^20]. `gc_time_to_frames` always remains 32;
-only the relationship between game time and real time changes.
+Game speed changes the relationship between game time and real time, not the
+internal duration of an action [^20].
 
-| Speed | Ticks / real second | Multiplier | Real time per 1 game second |
-|---:|---:|---:|---:|
-| 0 (slow) | 7 | ×0.7 | 1.43 real seconds |
-| 1 (normal) | 10 | ×1.0 | 1.00 real seconds |
-| 2 (fast) | 14 | ×1.4 | 0.71 real seconds |
+| Speed | Multiplier | Real time per game second |
+|---|---:|---:|
+| Slow | ×0.7 | 1.43 real seconds |
+| Normal | ×1.0 | 1.00 real second |
+| Fast | ×1.4 | 0.71 real seconds |
 
 <a id="37-limit--лимит-населения"></a>
+<a id="37-population-limit"></a>
 <a id="37-лимит-населения-limit"></a>
-### 3.7 Population limit (`limit`)
+<a id="37-лимит-населения"></a>
+<a id="лимит-населения"></a>
+### Population limit
 
 This is a **global ceiling applied after** the population provided by buildings:
-```
-pop_cap = cen × 100 + bar × 150 + ba2 × 250 + hou × 25
-```
-Global ceiling (`limit = 1..8` → 500 / 750 / 1000 / 1500 / 2200 / 3000 /
-5000 / 8000) is never exceeded, even if the farm bonus allows more.
 
-The interface displays it through
-`randommap.settings.limit.custom = "%value% units"`; `_misc_GetLimitText`
-substitutes the number.
+**Town Halls × 100 + Barracks, 17th century × 150 + Barracks, 18th century ×
+250 + Houses × 25.**
+
+The selected lobby ceiling—500, 750, 1,000, 1,500, 2,200, 3,000, 5,000, or
+8,000 units—cannot be exceeded even if the buildings provide more capacity.
 
 <a id="38-adviserassistant--помощник"></a>
+<a id="38-adviser"></a>
 <a id="38-помощник-adviserassistant"></a>
-### 3.8 Adviser (`adviserassistant`)
+<a id="38-помощник"></a>
+<a id="помощник"></a>
+### Adviser
 
 Contextual hints in the corner of the screen. They do not affect gameplay.
 
@@ -194,24 +174,25 @@ Contextual hints in the corner of the screen. They do not affect gameplay.
 <a id="сложность-компьютерного-игрока"></a>
 ## Computer-player difficulty
 
-The constants `gc_player_difficulty_*` from `-1` to `4` [^21] are listed:
+| Difficulty | Construction and recruitment speed multiplier |
+|---|---:|
+| Easy | 0.30 |
+| Normal | 0.50 |
+| Hard | 0.75 |
+| Very Hard | 1.00 |
+| Impossible | 1.25 |
 
-| Value (`difficulty`) | Localization key | Difficulty | Speed multiplier |
-|---:|---|---|---:|
-| -1 | None | No AI | — |
-| 0 | `difficulty.1` | Easy | 0.30 |
-| 1 | `difficulty.1` | Normal | 0.50 |
-| 2 | `difficulty.2` | Hard | 0.75 |
-| 3 | `difficulty.3` | Very Hard | 1.00 |
-| 4 | `difficulty.4` | Impossible | 1.25 |
-
-`_player_GetDifficultyKoef` applies this multiplier to AI construction and
-recruitment speed. **AI receives no extra starting resources** at any
+**The computer player receives no extra starting resources** at any
 difficulty. See [computer-player behavior](../../systems/ai_behavior.md).
 
-See also [mercenaries and diplomacy](../../systems/mercenaries_diplomacy.md) §3 - on
-Hard and above, when `brebellion = True`, mercenaries have an approximately
-18.31% chance per tick to change sides.
+<a id="6-победа-и-поражение"></a>
+<a id="победа-и-поражение"></a>
+## Victory and defeat
+
+See
+[Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md).
+In a standard match, the last surviving team wins. Cossacks 3 has no Wonder
+victory, and score is used for statistics.
 
 <a id="технические-подробности"></a>
 ## Technical details
@@ -219,6 +200,9 @@ Hard and above, when `brebellion = True`, mercenaries have an approximately
 `TMapSettings` is split into map generation (`gen`) and match rules
 (`additional`) [^1]. `_misc_SaveLanRoomData` writes the settings to a saved
 game [^2].
+
+The machine-readable catalog is
+[`derived/game_settings.json`](../../../../derived/game_settings.json).
 
 | Reader-facing name | Internal field |
 |---|---|
@@ -238,12 +222,41 @@ game [^2].
 | Game speed | `gamespeed` |
 | Adviser | `adviserassistant` |
 
+<a id="реализация-отдельных-правил"></a>
+### Implementation notes
+
+- Starting-army presets are read from `data/game/var/startingsettings.cfg`.
+  `CreateStartPointPeasants` creates the default group. In special layouts,
+  `P` means Peasant, `X` infantryman, `B` Drummer, `O` Officer, and `Q` and
+  `W` mission buildings [^14].
+- `_misc_GetPeaceTime` converts the internal value to game minutes and seconds
+  [^15]. `gbool_peacemode` and `gfloat_peacetime` store the state and end time,
+  while `SetupBorderObjects` creates the boundaries [^16]. Enemy search checks
+  `bpeacetime` [^17], and `_misc_IsCorrectScanCellOwner` restricts entry into
+  foreign territory [^18]. The authoritative side confirms the end of peace
+  time and synchronizes it with clients and replays [^19].
+- For the 18th century, `century18 = 0/1/2` means Default, Never, and
+  Immediately. The upgrade uses a nation-specific internal ID of the form
+  `<nat>cen.1`.
+- `capture = 1/2/3` disables Peasant capture, then Town Hall capture, or leaves
+  only capturable artillery.
+- `marketdip = 4` applies
+  `gc_gameplay_expensivemercskoef = 3`.
+- `slow`, `normal`, and `fast` run 7, 10, and 14 ticks per real second.
+  `gc_time_to_frames = 32` remains unchanged [^20].
+- Local population capacity is stored as
+  `cen × 100 + bar × 150 + ba2 × 250 + hou × 25`; `limit = 1..8` applies the
+  global ceilings from 500 to 8,000.
+- `_player_GetDifficultyKoef` applies the
+  `gc_player_difficulty_*` coefficients to computer-player construction and
+  recruitment speed [^21].
+
 <a id="5-глобальные-константы-партии"></a>
 <a id="глобальные-константы-партии"></a>
 ### Global match constants
 
-These are not lobby options, but engine constants that determine the shape of all
-settings [^22].
+These are engine constants rather than lobby options. They define the common
+framework within which the settings operate [^22].
 
 | Constant | Value | Meaning |
 |---|---:|---|
@@ -253,29 +266,18 @@ settings [^22].
 | `gc_buildtime_modifier` | 10 | Additional multiplier **for buildings only**: game seconds = `frames × 10 / 32`. Units do not use it. |
 | `gc_resource_hitsneeded_food` | 22 | Strikes with a hoe before handing over food. |
 | `gc_resource_hitsneeded_wood` | 14 | Strikes with an ax until wood is delivered. |
-| `gc_resource_hitsneeded_stone` | 20 | Strikes with a pickaxe until hitting the stone. |
+| `gc_resource_hitsneeded_stone` | 20 | Pickaxe strikes before delivering stone. |
 | `gc_obj_resource_portion_food` | 45 | Food delivered per trip at `eff = 100`. |
 | `gc_obj_resource_portion_wood` | 28 | Wood delivered per trip at `eff = 100`. |
 | `gc_obj_resource_portion_stone` | 40 | Stone delivered per trip at `eff = 100`. |
-| `gc_obj_speed_peasant` | 40 | The declared speed of the peasant - but in the script the assignment is commented out [^23] (see [peasant resource gathering](../economy/peasant_extraction.md) §9). |
-
-<a id="6-победа-и-поражение"></a>
-<a id="победа-и-поражение"></a>
-## 6. Victory and defeat
-
-See separate document - [Victory, Defeat, and the End of a Match](../../systems/victory_conditions.md).
-In brief, victory means that only one team remains. `farmused = 0` means
-defeat, but it cannot reach zero while the player still has at least one
-Peasant or Town Hall. Cossacks 3 has no Wonder victory; score is used only for
-statistics.
-
----
+| `gc_obj_speed_peasant` | 40 | The declared Peasant speed, although the script assignment is commented out [^23] (see [peasant resource gathering](../economy/peasant_extraction.md) §9). |
 
 <a id="источники"></a>
 ## Sources
 
-All references are relative to `data/scripts/` in the Cossacks 3 installation. Line numbers are
-from the current installation files; After the game patch, recheck.
+All references are relative to `data/scripts/` in the Cossacks 3 installation.
+Line numbers refer to the current installation and should be rechecked after a
+game update.
 
 [^1]: Root structure `TMapSettings` - `lib/classes.script:85-88`:
     ```pascal
@@ -324,8 +326,8 @@ from the current installation files; After the game patch, recheck.
 [^6]: Density modifiers `prob*` depending on map size -
     `lib/misc.script:3929-3941`.
 
-[^7]: Application `terraintype` - `common.inc/dogenerate.inc:1500-1530`;
-    checking for the presence of the sea - `_misc_HasMaritime` to `lib/misc.script:5466`.
+[^7]: Applying `terraintype` — `common.inc/dogenerate.inc:1500-1530`;
+    `_misc_HasMaritime` checks for sea access in `lib/misc.script:5466`.
 
 [^8]: Application of `relieftype` - `common.inc/dogenerate.inc:1640-1660`.
 
@@ -334,8 +336,8 @@ from the current installation files; After the game patch, recheck.
     for j := 0 to gc_ResCount - 1 do
        _res_SetResToPlayerByIndex(i, j, ...);
     ```
-[^10]: Application `resourcemines` - `common.inc/dogenerate.inc:1544`,
-    is substituted in `minesdensity`.
+[^10]: Applying `resourcemines` — `common.inc/dogenerate.inc:1544`, where its
+    value is assigned to `minesdensity`.
 
 [^11]: Application `season` - `common.inc/dogenerate.inc:4`:
     ```pascal
@@ -344,7 +346,7 @@ from the current installation files; After the game patch, recheck.
 [^12]: RNG keys `randkey0` / `randkey1` - `common.inc/generatemap.inc:142` and
     repeatedly in `common.inc/dogenerate.inc`.
 
-[^13]: Overwriting `foreststype` on Land - `common.inc/dogenerate.inc:5-6`.
+[^13]: Overwriting `foreststype` on Land — `common.inc/dogenerate.inc:5-6`.
 
 [^14]: Arrangement of starting peasants - `CreateStartPointPeasants` in
     `common.inc/dogenerate.inc:1231-1281`.
@@ -374,13 +376,13 @@ from the current installation files; After the game patch, recheck.
     (`gbool_peacemode := (peacetime <> 0)`) and
     `common.inc/dogenerate.inc:2065` (`SetupBorderObjects`).
 
-[^17]: Blocking the search for enemies in peacetime - `lib/unit.script:5516`,
-    checking the flag `bpeacetime` in `_unit_SearchEnemy*`.
+[^17]: Blocking enemy searches during peace time — `lib/unit.script:5516`,
+    where `_unit_SearchEnemy*` checks the `bpeacetime` flag.
 
-[^18]: Prohibition of foreign territory in peacetime - `_misc_IsCorrectScanCellOwner` in
-    `lib/misc.script:2424`.
+[^18]: Restricting access to foreign territory during peace time —
+    `_misc_IsCorrectScanCellOwner` in `lib/misc.script:2424`.
 
-[^19]: End of peacetime on Nothing-tick -
+[^19]: Ending peace time during a `Nothing` tick —
     `progress/nothing.inc:658`:
     ```pascal
     if (gbool_peacemode) and (gametime > gfloat_peacetime)
@@ -404,5 +406,5 @@ from the current installation files; After the game patch, recheck.
 [^22]: Global batch constants - `dmscript.global` (constants section
     game time and frame scan, next to `gc_settings_gamespeed_*`).
 
-[^23]: Commented out assignment `speed` to peasant -
+[^23]: Commented-out assignment of `speed` to the Peasant —
     `lib/unit.script:1192`.

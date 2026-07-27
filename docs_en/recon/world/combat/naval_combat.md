@@ -18,7 +18,7 @@ and internal codes are collected under
 - Only a **Shipyard** produces ships. A nation's
   roster may include light vessels, Frigates, Ships of the Line, transports,
   and Boats.
-- A **Transport Ship** carries infantry, cavalry, and artillery, then unloads
+- A **Ferry** carries infantry, cavalry, and artillery, then unloads
   them near another shore.
 - A **Ship of the Line** consumes gold upkeep but is not affected by food
   shortages.
@@ -39,7 +39,7 @@ The game distinguishes four overlapping categories [^1]:
 |---|---|
 | Ships | All vessels that move over water. |
 | Ships of the Line | Heavy warships with powerful weapons. |
-| Transport Ships | Vessels that carry land units. |
+| Ferry | A vessel that carries land units. |
 | Boats | Economic vessels that gather food. |
 
 These categories affect pathfinding, target selection, upkeep, and available
@@ -55,10 +55,10 @@ orders. Their internal flags are listed under
 The map is divided into connected **movement areas** [^2]. Naval units
 occupy water areas and land units occupy land areas. This matters because:
 
-1. The ship **does not shoot** at a land enemy (if they are in different
-   areas). This prevents shots across an unrelated stretch of shoreline.
+1. A ship does not fire at a land enemy in a disconnected movement area.
+   This prevents shots across an unrelated stretch of shoreline.
 2. Ships use a separate water pathfinding grid.
-3. A transport ship is a special case: while infantry is on board, it
+3. A Ferry is a special case: while infantry is on board, it
    is counted inside the ship and occupies no land cell.
 
 <a id="21-связность-через-транспорт"></a>
@@ -78,10 +78,10 @@ boarding and unloading.
 
 The Shipyard produces the fleet. Its main features are:
 
-1. **Must be near water.** During placement, neighboring cells are checked
+1. **Must be near water.** During placement, neighbouring cells are checked
    for water.
 2. **Produces** ships of all nation types (light to heavy).
-3. Has a rally point, normally placed on the water nearby.
+3. **Has a rally point**, normally placed on nearby water.
 4. May have **built-in weapons**: some Shipyards fire on approaching enemy
    ships.
 
@@ -91,34 +91,40 @@ Price and properties are listed in the
 ---
 
 <a id="4-транспортный-корабль"></a>
-## 4. Transport ship
+<a id="4-транспорт"></a>
+## 4. Ferry
 
 Transport takes place in four stages:
 
 1. Infantry, cavalry, or artillery receive an order to board.
 2. Units come within four cells, disappear from the map, and are counted
-   inside the Transport Ship.
+   inside the Ferry.
 3. The ship receives an ordinary movement order toward the landing site.
 4. On the unload command, units appear beside the ship on shore.
 
 <a id="41-емкость-транспорта"></a>
-### 4.1. Transport capacity
+<a id="41-вместимость-транспорта"></a>
+### 4.1. Ferry capacity
 
-Transport capacity is usually 10–20 units; exact values are in the
-[navy guide](../../../reference/07_naval/README.md). If you try to load more,
-the interface blocks the command.
+A Ferry holds **120 population units**. Most infantry occupies one space,
+cavalry two or three, and artillery five or more. That is roughly 100
+Musketeers or 40 Reiters. The [navy guide](../../../reference/07_naval/README.md)
+gives the full rule; the interface blocks boarding once the hold is full.
 
 <a id="42-уязвимость"></a>
 ### 4.2. Vulnerability
 
-The transport is a soft target. If it sinks at sea with infantry on
-board, **all units inside die**. This is critical: one Cannon on
-the coast can sink 15-20 pikemen in a couple of salvos.
+If a Ferry sinks at sea with troops on board, **all units inside die**.
+The vessel itself is nevertheless durable: it has 62,000 health, while
+1,800 raw Cannon damage works out to about 35 direct hits even before
+protection and misses are considered. The real danger is concentrated fire,
+which can destroy both the ship and its entire embarked force at once.
 
-Transport protection:
-- Convoy of warships.
-- Landing in a safe zone (outside the area of enemy towers).
-- Hidden landing in FOW (fog of war on the enemy side).
+Practical protection includes:
+
+- a warship escort;
+- a landing site outside enemy Tower range;
+- an approach concealed by the enemy's fog of war.
 
 ---
 
@@ -130,9 +136,8 @@ Transport protection:
 The Ship of the Line is the heaviest class. Its main features are:
 
 1. **Multiple weapons:** broadsides and the bow gun may have different
-   characteristics. The limitations of the current exported data for such
-   objects are described under
-   [known limitations](../../../../internals_en/project/known_issues.md).
+   characteristics, so the ship's real firepower depends on all installed
+   weapons rather than on a single salvo.
 2. It requires **gold upkeep** but does not suffer from food shortages.
 3. **Area-damage salvos:** cannonballs with a large blast radius
    can destroy an entire concentration of infantry on the shore.
@@ -141,8 +146,10 @@ The Ship of the Line is the heaviest class. Its main features are:
 <a id="51-реальный-урон-в-секунду-при-быстрой-скорости-игры"></a>
 ### 5.1. Actual damage per second at Fast game speed
 
-Formula: `damage / pause × 1.4`. Full attack speed tables -
-to [Attack speed](../../../reports/combat/attack_rates.md).
+The calculation divides damage by the pause between shots and multiplies
+the result by 1.4. See
+[Attack speed](../../../reports/combat/attack_rates.md) for the complete
+tables.
 
 | Class | Damage | Pause | Damage/s at Fast speed | Note |
 |---|---:|---:|---:|---|
@@ -150,15 +157,13 @@ to [Attack speed](../../../reports/combat/attack_rates.md).
 | Frigate | 1800 | 2.34 | ≈ 1077 | main combat ship |
 | Galley, mortar shell | 1000 | 1.56 | ≈ 897 | **58-cell** range, bombards the shore from afar |
 | Chaika (Ukraine) | 1000 | 2.34 | ≈ 599 | **fastest ranged ship** (speed 55) |
-| Yacht (Ottoman version) | 1000 | 2.34 | ≈ 599 | damage per second 4.7× higher than a regular Yacht at the same price |
 | Yacht | 1000 | 10.94 | ≈ 128 | weak but cheap scout |
 
 <a id="52-уязвимости-линкора"></a>
-### 5.2. Battleship vulnerabilities
+### 5.2. Ship of the Line vulnerabilities
 
-- **Artillery from the shore** - large radius, AoE.
-- **Fireship** (if the nation has one) is a self-detonating ship.
-- **Bombards** - naval artillery type (if available in the nation).
+- **Shore artillery** can exploit its range and area damage.
+- **Bombards on shore** can engage it from long range.
 
 <a id="53-особые--dlc"></a>
 <a id="53-особые-корабли-и-дополнительный-контент"></a>
@@ -168,7 +173,7 @@ to [Attack speed](../../../reports/combat/attack_rates.md).
 |---|---|---|
 | Chaika | Ukraine | Fastest ranged ship (speed 55). Health 25,000 versus 31,000 for a regular Yacht. Vision 4. |
 | Xebec | Algeria, Turkey | Eastern counterpart of the Frigate. Health 65,000 (+30%). Speed 28 (−2). |
-| Yacht (Ottoman version) | Turkey | Health 31,000, like a regular Yacht, but a 2.34-second pause instead of 10.94: **4.7× the damage per second**. |
+| Yacht | Turkey | 35,000 health, speed 70, and two weapon slots. It is the fastest ship in a standard national roster. |
 
 ---
 
@@ -179,41 +184,41 @@ to [Attack speed](../../../reports/combat/attack_rates.md).
 
 The Boat is an economic unit. Its work cycle is:
 
-1. Goes to the water in the area with fish (controlled by the native engine).
-2. Stays at the fishing point and gathers
-   **`32 / 12 ≈ 2.67` food per game second**, about 115 per game minute.
+1. Travels to a fishing area selected by the engine.
+2. Remains at the fishing point and gathers
+   **`32 / 12 ≈ 2.67` food per game second**, about 160 per game minute.
    This is slightly slower than an ideal Peasant at about 2.97.
 3. Once its 1,000-unit hold is full, it goes to the Shipyard and unloads food.
-4. Returns to the same point (like a peasant with a resource in a warehouse).
+4. Returns to the fishing point, much as a Peasant returns to a resource
+   after delivering a load.
 
-Fish sources are **not infinite**. Once every available point is depleted,
-fishing stops unless the source regenerates; regeneration remains an open
-question below.
+Each fishing point has a finite stock. Once every available point is
+depleted, fishing stops.
 
 <a id="61-уязвимость"></a>
 ### 6.1. Vulnerability
 
-Health 300: one Frigate salvo (1800 Cannonball Damage) can kill
-several Boats in one wave. Protection requires either no enemies at
-sea or an escort of Galleys.
+With only 300 health, Boats are extremely vulnerable to a Frigate's
+1,800-damage salvo. They need safe waters or a Galley escort.
 
 <a id="62-апгрейды"></a>
+<a id="62-улучшения"></a>
 ### 6.2. Upgrades
 
 Fishing upgrades (see
 [Upgrades](../../../reference/05_upgrades/README.md))
-reduce the number of frames per resource unit, which directly
-increases production. Also `aca.5` (+100% boat efficiency)
-doubles cargo capacity to 2000 food per trip.
+increase Boat capacity rather than speeding up each gathering step.
+**Design new tackle and fishing nets** (+100% Boat efficiency) doubles
+cargo capacity to 2,000 food per trip. This reduces the number of journeys
+to the Shipyard without changing the rate at which food accumulates at the
+fishing point.
 
 <a id="63-где-живёт-рыбная-ловля"></a>
 <a id="63-как-устроен-промысел"></a>
 ### 6.3. How fishing works
 
 The cycle resembles Peasant food gathering: select a source, accumulate a
-load, deliver it to a receiving building, and return. The exact handler name
-has not been confirmed and remains an open question rather than being
-presented as a fact.
+load, deliver it to a receiving building, and return.
 
 ---
 
@@ -237,12 +242,12 @@ a significant bonus in battle.
 ---
 
 <a id="8-атака-с-воды-по-берегу"></a>
-## 8. Attack from the water along the shore
+## 8. Attacking the shore
 
 A ship can fire at land units near the water's edge if the target is treated
 as reachable within the connected area. In practice:
 
-- Ships can shoot infantry directly on the pier/beach.
+- Ships can shoot infantry directly on a pier or beach.
 - Ships **cannot reach** infantry deep inland because it belongs to a land
   area.
 - Artillery on shore can hit ships if its range reaches the water's edge.
@@ -259,36 +264,37 @@ as reachable within the connected area. In practice:
 - **A Galley with a mortar shell** is the main naval siege weapon: its
   58-cell range lets it bombard the shore beyond the 28-cell range of an
   ordinary Tower.
-- **The Ship of the Line is an “aircraft carrier”:** 90,000 health
-  and roughly 4063 damage per second.
-  One ship can hold three frigates or 6–8 galleys. Costs like
-  7 frigates, but the combat value is non-linear.
-- **Transport ships are expendable.** Build 3–4 at a time and keep
-  them behind a Frigate escort.
+- **The Ship of the Line dominates direct naval combat:** 90,000 health and
+  roughly 4,063 damage per second. One can withstand pressure from three
+  Frigates or 6–8 Galleys. It costs about as much as seven Frigates, so it
+  must be protected rather than treated as disposable.
+- **Ferries need redundancy.** Build three or four Ferries and keep them behind a
+  Frigate escort.
 - **Boat-based fishing is a niche economy for maritime nations.** On
   Tiny maps without a water front, a Boat is useless. On
   water-heavy maps it can be a main source of food for Turkey,
   Algeria, and Ukraine, compensating for their weaker
   17th-century economy.
-- **Turkey's Yacht is unexpectedly strong.** It deals 4.7 times as much
-  damage per second as the regular Yacht at the same price, giving Turkey a
-  powerful mass-production option on naval maps.
+- **Turkey's Yacht is the fastest standard ship.** Its speed of 70 lets it
+  choose engagements, scout, and disengage from heavier vessels.
 
 ---
 
 <a id="9-связь-со-скирмиш-картами"></a>
-## 9. Interaction with skirmish maps
+<a id="9-interaction-with-skirmish-maps"></a>
+<a id="9-морской-бой-на-случайных-картах"></a>
+## 9. Naval combat on random maps
 
 Most Land Maps have **no water** (or very little). Therefore
 sea battle is important only for:
 
-- **Naval Skirmish maps** (special water maps).
+- **Random maps with a large water area**.
 - **Smooth and Hills** with a large water area.
 - **Campaign** and Historical Battles (specially designed
   missions).
 
-On a regular 4-player Land map Highlands there is usually no water type,
-ports and ships are inaccessible.
+On a regular four-player Highlands land map there is usually no usable
+water, so Shipyards and ships are unavailable.
 
 ---
 
@@ -308,29 +314,17 @@ ports and ships are inaccessible.
 | fishing speed and upgrades | `fishingspeed`, `fishingperc` |
 | naval formation families | `SHIPS`, `SHIPSN`, `LINEMORB`, `PACK` |
 | internal codes for special ships | `chaika`, `xebec`, `yachttur` |
-| multiple ship weapons | several `weapon_*` fields; the current parser exports only the first |
-
-<a id="10-открытые-эмпирические-вопросы"></a>
-<a id="открытые-эмпирические-вопросы"></a>
-## Open empirical questions
-
-1. **Exact Transport Ship capacity by nation.** Extract every
-   `garrison_capacity` value from `data.json`.
-2. **How far inland a ship can fire.** The boundary depends on the movement
-   area assigned to the shoreline; measure it on several maps.
-3. **Regeneration of fish sources.** Determine whether depleted points
-   return during a match by observing a controlled map and searching the
-   resource scripts for the responsible handler.
-
----
+| multiple ship weapons | several `weapon_*` fields |
+| **Design new tackle and fishing nets** upgrade | `aca.5` |
+| cannonball and mortar shell | `cannonball`, `mortarball` |
 
 <a id="источники"></a>
 ## Sources
 
-[^1]: `data.json` - fields `unit.bship`, `bbattleship`, `btransport`,
-      `bfishboat`. Also `data/scripts/lib/unit.script:82-100` -
+[^1]: `data.json` — fields `unit.bship`, `bbattleship`, `btransport`,
+      `bfishboat`. See also `data/scripts/lib/unit.script:82-100` —
       functions `_unit_IsWaterUnit`, `_unit_IsShip`, `_unit_IsBattleShip`.
 
-[^2]: `data/scripts/lib/unit.script:74` - `_unit_GetRegion(goHnd)`.
-      Also `_unit_SameRegion`, `_unit_SameRegionExt` -
-      checking one region for two units.
+[^2]: `data/scripts/lib/unit.script:74` — `_unit_GetRegion(goHnd)`;
+      `_unit_SameRegion` and `_unit_SameRegionExt` compare the regions of
+      two units.

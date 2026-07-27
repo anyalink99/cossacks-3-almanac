@@ -15,12 +15,14 @@ resource refunds after cancellation.
 - Repeated orders for the same unit are normally merged into one queue entry.
 - Infinite production continues until the player cancels it.
 - If a unit becomes more expensive with every completed copy, the game keeps
-  separate order groups so that cancellation refunds the correct amount.
+  separate order groups. Every copy within one group uses the same saved
+  price tier when refunded; the tier does not rise from one canceled copy to
+  the next.
 - Several buildings of the same type distribute a shared order between them.
 - An enemy capturer near a building may stop production before the building
   itself changes owner.
-- When a building is captured or destroyed, unfinished orders are cancelled
-  and their resources return to the previous owner.
+- When a building is captured or destroyed, unfinished orders are canceled
+  and the previous owner receives the refund calculated under these rules.
 - Upgrade research uses the same general queue, but the same upgrade cannot be
   ordered twice.
 
@@ -30,12 +32,12 @@ resource refunds after cancellation.
 When the player clicks the same unit portrait again, the game first looks for
 an existing entry. If the unit's price is constant, the new quantity is simply
 added to it. Five successive Pikeman orders may therefore appear as one entry
-with a quantity of five.
+containing five units.
 
 For units whose price rises with every completed copy, merging is safe only
 until another unit of that type is produced between orders. The game otherwise
-creates a separate entry. This preserves the price of each group and makes an
-exact refund possible later.
+creates a separate entry. Each group therefore preserves the escalation tier
+that applied when it was ordered.
 
 A building's internal list can hold up to 12 actions of all kinds. Production,
 research, repair, and other orders share that limit. The interface displays
@@ -62,7 +64,7 @@ reached, the unit appears at the rally point and the remaining quantity
 decreases by one. A zero entry disappears; an infinite one remains.
 
 When several buildings of the same type are selected, the game tries to spread
-orders between them. It prefers the less occupied building, so a large order
+orders between them. It prefers the building with the shorter queue, so a large order
 from several Barracks is normally processed in parallel instead of entirely
 by one building.
 
@@ -71,12 +73,21 @@ by one building.
 
 Cancellation refunds every copy that has not yet been completed. For a unit
 with a constant price, this is simply its price multiplied by the quantity.
-For a unit with escalating cost, the game accounts for the position of each
-order in the player's overall unit count.
+For a unit with an escalating cost, each queue entry remembers how many such
+units had already been completed when the order was placed. In other words,
+the entry saves one escalation tier.
 
-This is why the queue remembers how many units had already been completed when
-the order was placed. Cancelling five escalating copies calculates five
-separate prices rather than using one current price for all of them.
+Every copy in that entry is refunded at **the same tier**. The number of the
+canceled copy does not enter the formula: five copies in one entry are not
+recalculated as five successively more expensive purchases. If cancellation
+crosses several entries, the game starts with the newest and then moves to
+older entries, each of which may hold a different tier.
+
+The base price itself is not frozen when the order is placed. Cancellation
+reads the unit's current base price and applies the saved tier to it.
+Consequently, an upgrade that changes the unit's price and completes after
+the order also changes the refund. In that case, the returned amount may
+differ from the amount originally paid.
 
 <a id="захватчик-рядом"></a>
 ## A capturer nearby
@@ -92,7 +103,7 @@ explained in [How Buildings and Units Are Captured](capture_mechanics.md).
 <a id="что-происходит-при-захвате"></a>
 ## Capture
 
-When ownership changes, every production and research order is cancelled.
+When ownership changes, every production and research order is canceled.
 Resources return to the **previous** owner, while the new owner receives an
 empty queue.
 
@@ -126,18 +137,9 @@ The application order is covered in
 <a id="ограничения-интерфейса"></a>
 ## Interface limits
 
-The internal limit is 12 actions, but the visible queue usually contains five
-or six slots. The remainder accommodates service actions such as repair and
-keeps the progress display manageable. The exact number of visible slots at
-different window sizes still needs verification.
-
-<a id="что-ещё-нужно-проверить-в-игре"></a>
-## What still needs in-game verification
-
-- The exact production speed multiplier for every AI difficulty.
-- The number of entries shown at different resolutions and interface scales.
-- Whether progress remains stopped for the entire time a capturer is nearby
-  or only on individual detection ticks.
+The internal limit is 12 actions, but the visible queue is shorter and varies
+with the window size and interface scale. It commonly shows five or six
+entries; the remaining capacity accommodates service actions such as repair.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

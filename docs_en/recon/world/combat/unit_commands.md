@@ -42,12 +42,13 @@ the way.
 <a id="31-конусный-поиск-при-attack-move"></a>
 <a id="31-конусный-поиск-при-атаке-с-движением"></a>
 <a id="11-конусный-поиск-при-атаке-с-движением"></a>
-### 1.1. Forward-Cone Search
+<a id="11-поиск-во-всех-направлениях"></a>
+### 1.1. Search in All Directions
 
-An attack-moving unit searches for enemies **only in a 30° cone ahead**;
-see [Target Selection and Attack-Move §3.3](target_selection.md). It does
-not stop for an enemy beside or behind it. Guarding or remaining idle makes
-a unit react to threats from every direction.
+An attack-moving unit repeatedly searches for enemies **throughout its
+available radius**; see
+[Target Selection and Attack-Move](target_selection.md#normal-movement-and-attack-move).
+The 30° forward cone applies to ordinary movement, not Attack-Move.
 
 <a id="4-stand-mode-fholdmode--стоять-насмерть"></a>
 <a id="4-удержание-позиции-fholdmode"></a>
@@ -75,9 +76,9 @@ separate mode.
 When enabled:
 
 1. A unit does not attack even a nearby enemy.
-2. Whether it returns fire after being hit still requires an empirical test;
-   see §11.
-3. It can conceal an ambush by preventing Musketeers from firing before the
+2. If any member of its squad is hit, the squad can still retaliate as
+   described in §6.
+3. The mode can conceal an ambush by preventing Musketeers from firing before the
    enemy enters the intended volley area.
 
 Hold Fire is commonly combined with Hold Position, but the two modes remain
@@ -87,7 +88,7 @@ independent.
 <a id="4-патрулирование"></a>
 ## 4. Patrol
 
-A unit walks between two points. On reaching one, it plans a route back to
+A unit moves between two points. On reaching one, it plans a route back to
 the other. If it spots an enemy in the forward cone, it attacks.
 
 Patrol has no natural end. Stop it explicitly or issue another order.
@@ -98,7 +99,7 @@ Patrol has no natural end. Stop it explicitly or issue another order.
 
 A guard remains attached to its protected target:
 
-1. it stays roughly 2–3 tiles from the target;
+1. it stays roughly 2–3 cells from the target;
 2. it moves out to attack a nearby enemy and **returns** after the fight;
 3. it follows a moving target while keeping nearby;
 4. if the target dies, the order ends and the guard becomes idle.
@@ -138,16 +139,16 @@ Buildings that produce units—Barracks, Academy, Stable, and others—have a
 ## 8. Entering and Leaving a Transport
 
 1. The unit approaches the transport.
-2. At a distance of four tiles, it goes inside.
+2. At a distance of four cells, it goes inside.
 3. It disappears from the map and is counted among the transport's
    passengers.
 
-In Cossacks 3, the only building that accepts **infantry** this way is the
-**Transport Ship**. Towers, Houses, and Barracks do not accept infantry;
+In Cossacks 3, the only ordinary object that accepts **infantry** this way is
+the **Ferry**. Towers, Houses, and Barracks do not accept infantry;
 see [How Towers Work](towers.md). Mines are a separate case: Peasants enter
 them automatically as part of resource gathering.
 
-On leaving, passengers appear beside the transport, on the entrance side.
+On leaving, passengers appear beside the transport on its entrance side.
 Entering a transport interrupts all other orders, and the old queue is not
 restored after leaving.
 
@@ -199,8 +200,8 @@ makes the unit idle and starts automatic target acquisition.
 Infantry and cavalry implement Attack-Move as `ord = move`,
 `bMoveAttack = True`, and `move_mode_attack`;
 `_unit_SearchEnemyScanCells` performs the scan. Artillery uses
-`ord = attackpoint` and `bartprepare`. The forward search width is set by
-`gc_search_attackmove_cone`.
+`ord = attackpoint` and `bartprepare`. The 30° forward-search restriction
+belongs to ordinary movement.
 
 The rally point is stored in `objbase.rallypoint.x/z`;
 `gint_gui_setrallypointmode` enables its placement mode. At
@@ -228,21 +229,6 @@ target briefly after losing direct vision.
 - `cancel_produce(slot)` cancels it;
 - `set_rally(x, z)` sets the rally point;
 - `repair_self` requests repair by available Peasants.
-
-<a id="13-открытые-эмпирические-вопросы"></a>
-<a id="11-открытые-эмпирические-вопросы"></a>
-## 11. Questions Requiring Further Testing
-
-1. **Hold Fire after taking damage.** Does a squad return fire or remain
-   silent until an explicit order?
-2. The object-order limit is `gc_obj_MaxOrderCount = 12`
-   (`dmscript.global`). This is the shared limit for the 21 object-order
-   types such as `move`, `attack`, `produce`, `performupgrade`, and
-   `repair`; see [Production Queues §1.1](../economy/production_queue.md).
-   Its relationship to the 32-entry unit queue described above needs to be
-   stated more precisely.
-3. **Resetting `STO` and `STP`.** Whether these caches survive a new order
-   affects how long a unit continues to remember an enemy.
 
 <a id="источники"></a>
 ## Sources

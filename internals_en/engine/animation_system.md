@@ -1,10 +1,10 @@
 <a id="animation-system-тайминги-циклы-точка-удара"></a>
-# Animation system: timings, cycles, impact point
+# Animation System: Timing, Cycles, and Impact Frames
 
-What are `.aaf` and `.acl` files, how are frames converted to g-seconds,
-where does the “swing point” and the “shot moment” live?
-(projectile spawn), where the movement speed of each class is set
-units. All links to the code are in [Sources](#sources).
+This document explains the `.aaf` and `.acl` formats, conversion from animation
+frames to game seconds, the exact frame at which a strike or shot occurs, and
+the movement-speed settings for each unit class. Code references are collected
+in [Sources](#sources).
 
 > **Related documents:**
 > [`../../docs/recon/world/combat/combat_damage_pipeline.md`](../../docs_en/recon/world/combat/combat_damage_pipeline.md)
@@ -14,47 +14,46 @@ units. All links to the code are in [Sources](#sources).
 
 ## TL;DR
 
-- **`gc_time_to_frames = 32`** - 32 frames in one game second.
-  Units use this multiplier directly. For **buildings** yes
-  additional `gc_buildtime_modifier = 10`: their `buildtime`
-  stored in frames with a multiplier of 10, real construction time =
+- **`gc_time_to_frames = 32`** — one game second contains 32 frames.
+  Units use this conversion directly. **Buildings** have an additional
+  `gc_buildtime_modifier = 10`: their `buildtime` is stored in frames with a
+  factor of 10, so actual construction time is
   `frames × 10 / 32` g-sec.
-- **`.aaf`-files** (`data/animations/aaf/<sid>.aaf`) - text
-  track table with `(name, start_frame, end_frame)`. 1,382 tracks
+- **`.aaf` files** (`data/animations/aaf/<sid>.aaf`) — text tables of tracks
+  with `(name, start_frame, end_frame)`. The catalog contains 1,382 tracks
   from 194 files (see `derived/animations.json`).
-- **`.acl`-files** (`data/animations/acl/<class>.acl`) — Animation
-  Cycles List: FSM graph of transitions between animations. Inside -
+- **`.acl` files** (`data/animations/acl/<class>.acl`) — animation-cycle lists,
+  represented as FSM graphs of transitions between animations. They contain
   `actAnimation`, `actExecuteState`, `actTrackPoint` steps.
-- **`refspeed.acl`** - global config of movement speeds and
+- **`refspeed.acl`** — global configuration of movement speeds and
   rotation for each class (`peasantwalk`, `infantrywalk`,
   `fasthorsewalk`, `cannonwalk`, …). Options
   `TrackPointMoveStep` / `TrackPointTurnStep`.
-- **Moment of impact/shot** is callback `OnAclAnimationReachedAttack`
-  (`units/unit.inc/onaclanimationreachedattack.inc`). It's built in
-  `.acl` attack animation chain between `actAnimation` and
-  `actExecuteState 'OnAclAnimationReachedAttackEnd'` - that is
-  fires at the **exact frame** specified by the file for each
-  weapon/class.
+- The **moment of impact or shot** is the
+  `OnAclAnimationReachedAttack` callback
+  (`units/unit.inc/onaclanimationreachedattack.inc`). It is embedded in the
+  `.acl` attack-animation chain and fires at the **exact frame** specified for
+  each weapon and class.
 - **`gWeapons[].propagation`** defines: apply damage immediately
   (`immediate` - for melee, buckshot, beam) or spawn
-  a projectile that will fly and hit the target later.
+  a projectile that travels and hits the target later.
 - **Gunshot sounds** in large battles are filtered by RNG through
-  `gWeapons[].volumeclippedfreq`, so as not to clip - details §6.
+  `gWeapons[].volumeclippedfreq` to avoid clipping; see §6.
 
 ---
 
-<a id="1-frame-time-и-gctimetoframes--32"></a>
+<a id="1-frame-time-и-gc_time_to_frames--32"></a>
 ## 1. Frame-time and `gc_time_to_frames = 32`
 
-`gc_time_to_frames = 32` is the fundamental time constant in
-engine. Each game event that is described in frames
-(animations, weapon pauses, timers), converted to g-seconds as
+`gc_time_to_frames = 32` is the engine's fundamental time conversion. Every
+event expressed in frames—animations, weapon pauses, and some timers—is
+converted to game seconds as
 `frames / 32`.
 
-**Exception - buildings.** `gc_buildtime_modifier = 10` - field
-`buildtime` for buildings is stored in **frames × 10**. That is real
-build time = `buildtime_frames × 10 / 32` g-sec. In units
-There is no such multiplier, they have `buildtime / 32` - that’s all.
+**Exception: buildings.** Because `gc_buildtime_modifier = 10`, a building's
+`buildtime` is stored in **frames × 10**. Its actual construction time is
+`buildtime_frames × 10 / 32` game seconds. Units have no such multiplier and
+use `buildtime / 32`.
 
 | Object | `buildtime` is stored as | g-sec formula |
 |---|---|---|
@@ -71,7 +70,7 @@ See also
 
 ### 2.1. `.aaf` – Actor Animation File
 
-Text file (cp1251 format) in `data/animations/aaf/`:
+These are CP1251 text files in `data/animations/aaf/`:
 ```
 AAF
 18
@@ -89,7 +88,7 @@ AAF
 Header `AAF` + number of records, then one line per track:
 `"name", start_frame, end_frame, mode` (mode usually `morph`).
 
-**Inclusion format:** `start` and `end` - both inclusive.
+Both `start` and `end` are inclusive.
 Duration = `end − start + 1` frames = `(end − start + 1) / 32`
 g-sec.
 
@@ -103,30 +102,31 @@ Examples from `peaaus.aaf`:
 | `workfood` | 278–299 | 22 frames = 0.6875 g-sec |
 | `workstone` | 217–234 | 18 frames = 0.5625 g-sec |
 
-**Key Track Names:**
+**Key track names:**
 
-- `idle`, `idle0`, `idle1`, ... - standing without action.
-- `walk` - main movement. `walkfood/wood/stone` - with cargo.
-- `attack0`, `attack1`, `attack2` - three weapon slots (see §5).
-- `workfood/wood/stone` - collective work.
-- `construct` - construction / renovation of a building.
-- `death` - death.
-- `prepare0`, `prepareN` / `unprepareN` - preparation / packaging
+- `idle`, `idle0`, `idle1`, ... — standing without action.
+- `walk` — normal movement; `walkfood/wood/stone` — movement with cargo.
+- `attack0`, `attack1`, `attack2` — three weapon slots (see §5).
+- `workfood/wood/stone` — resource-gathering work.
+- `construct` — building construction or repair.
+- `death` — death.
+- `prepare0`, `prepareN` / `unprepareN` — deployment and packing
   (for `bartprepare` units: artillery, towers).
-- `reaction` - reaction to a close enemy (readiness for battle).
+- `reaction` — response to a nearby enemy (combat readiness).
 - `idlefood/wood/stone` — standing with a load (intermediate state).
 
 **Summary of our parser:** `parser/parse_animations.py` extracts
 all tracks in [`derived/animations.json`](../../derived/animations.json).
-Average `attack0` for all melee units - **15 frames (0.469 g-sec)**.
-This is sewn into `parser/config.py` as `MELEE_SWING_FALLBACK_FRAMES = 15`
+The average `attack0` track among melee units is **15 frames (0.469 game
+seconds)**. This value appears in `parser/config.py` as
+`MELEE_SWING_FALLBACK_FRAMES = 15`
 for cases when a unit does not have its own `.aaf`.
 
 ### 2.2. `.acl` – Animation Cycles List
 
-Text `.parser` format in `data/animations/acl/`. Describes
-**FSM transition graph** between animations. Each entry is
-named loop with a list of actions.
+These `.parser`-format text files in `data/animations/acl/` describe an
+**FSM transition graph** between animations. Each entry is a named cycle with
+a list of actions.
 
 Example from `cannon.acl` (cannon attack):
 ```
@@ -165,42 +165,43 @@ struct.end
 ```
 **Key fields:**
 
-| Field | What |
+| Field | Meaning |
 |---|---|
-| `Name` | Loop name (inside .acl-FSM). |
-| `From` | The state from which we come. |
-| `CyclesList` | Is it possible to play a loop in a list? |
+| `Name` | Cycle name within the `.acl` FSM. |
+| `From` | Source state for the transition. |
+| `CyclesList` | Whether the cycle can be played as part of a list. |
 | `Options.acoSmoothAnimation` | Transition smoothing (blend). |
 | `Options.acoRandomFrame` | Start with a random frame (for variety in a group of units). |
 | `Options.acoRandomCycle` | Randomly select a cycle option. |
-| `Options.acoSkipActions` | Skip `items[]` (only animation without callbacks). |
-| `global` | Global setting via `refurl`-include from `refspeed.acl`. |
+| `Options.acoSkipActions` | Skip `items[]`, playing the animation without callbacks. |
+| `global` | Shared settings included from `refspeed.acl` through `refurl`. |
 | `items[]` | Sequence of actions (see §2.3). |
 
-**`refurl` / `refkey`:** include mechanism. `refurl=.\data\animations\
-ref\refspeed.acl; refkey=.cannonidle` means “insert here
-entry `cannonidle` from `refspeed.acl`." Analogue of `#include` in C.
+**`refurl` / `refkey`:** an inclusion mechanism.
+`refurl=.\data\animations\ref\refspeed.acl; refkey=.cannonidle` means “insert
+the `cannonidle` entry from `refspeed.acl` here.” It is analogous to C's
+`#include`.
 
 <a id="23-action-типы-в-acl"></a>
 ### 2.3. Action types in `.acl`
 
-| Action | What does |
+| Action | Purpose |
 |---|---|
-| `actAnimation` | Play animation (by track name from `.aaf`); parameter `NumberCycle` - how many repetitions. |
-| `actExecuteState` | Go to the FSM state of the unit (by name) - calls the `units/unit.inc/<state>.inc` handler. |
-| `actTrackPoint` | Change the unit's trackpoint (to move along a pre-recorded trajectory). Parameters `TrackPointMode = mmNone / mmRelative / mmAbsolute`. |
+| `actAnimation` | Play an animation by its `.aaf` track name; `NumberCycle` sets the number of repetitions. |
+| `actExecuteState` | Enter a named unit FSM state and invoke its `units/unit.inc/<state>.inc` handler. |
+| `actTrackPoint` | Change the unit's track point for movement along a predefined trajectory. Modes: `mmNone`, `mmRelative`, and `mmAbsolute`. |
 
-Main `ExecuteStateName`:
+Main `ExecuteStateName` values:
 
 - `OnAclAnimationReachedAttack` - **moment of impact / shot** (§5).
 - `OnAclAnimationReachedAttackEnd` - end of attack animation.
 - `OnAclAnimationStarted`, `OnAclAnimationFinished` - start / end.
 
 <a id="24-refspeedacl--таблица-скоростей-движения"></a>
-### 2.4. `refspeed.acl` - table of movement speeds
+### 2.4. `refspeed.acl`: movement-speed table
 
-In `data/animations/ref/refspeed.acl` - general config with steps
-movement and rotation for each class of units. Each class has
+`data/animations/ref/refspeed.acl` contains the common movement and rotation
+steps for each unit class. Each class has
 two modes: `…idle` (in place) and `…walk` (in motion).
 
 | Class | `walk.TrackPointMoveStep` | `walk.TrackPointTurnStep` |
@@ -216,9 +217,9 @@ two modes: `…idle` (in place) and `…walk` (in motion).
 | fishboat | 0.015 | 1.1125 |
 | ferry | (see file) | (see file) |
 
-`TrackPointMoveStep` - how many tiles the unit moves by **one
-walk animation frame** (that is, for `1/32` g-sec). `TrackPointTurnStep`
-— rotation angle per frame (in degrees).
+`TrackPointMoveStep` is the distance, in tiles, that the unit moves during
+**one walk-animation frame** (`1/32` of a game second).
+`TrackPointTurnStep` is the rotation angle per frame, in degrees.
 
 Speed in tiles per second:
 ```
@@ -235,18 +236,16 @@ tiles_per_g_sec = TrackPointMoveStep × 32
 | howitzer | 0.66 |
 | fishboat | 0.48 |
 
-See also `gc_obj_speed_*` constants in `dmscript.global`
-(`peasant = 40`, `fasthorse = 96`, etc.) is an abstract
-scale, **proportional** `TrackPointMoveStep`, but not
-identical. For exact values in tiles take from here
-(`refspeed.acl`).
+The `gc_obj_speed_*` constants in `dmscript.global` (`peasant = 40`,
+`fasthorse = 96`, and so on) use an abstract scale that is **proportional to**
+but not identical with `TrackPointMoveStep`. Use `refspeed.acl` for exact
+tile-based values.
 
 ### 2.5. `refunit.acl`
 
-General config of basic cycles `idle / walk / death` - reused
-via `refurl`-include from specific `<class>.acl`-files.
-Reduces duplication: a typical link is “the gun `idle` has this
-the same as for infantry, but `walk` is special.”
+The common `idle`, `walk`, and `death` cycles are reused through `refurl`
+inclusions from class-specific `.acl` files. This reduces duplication: a class
+can share an infantry idle cycle while defining its own walk cycle.
 
 ---
 
@@ -256,28 +255,28 @@ the same as for infantry, but `walk` is special.”
 `derived/dws_native_signatures.json` contains **600+ functions**
 working with animations. Key groups:
 
-### 3.1. Frame-data
+### 3.1. Frame data
 
-| Function | What |
+| Function | Purpose |
 |---|---|
-| `GetGameObjectFrameAnimationDataByHandle(gohnd, animname, var sf, ef): Boolean` | Get start/end animation frames `animname` for an object. Used in `_unit_ApplyAttackPause` to calculate pauses. |
+| `GetGameObjectFrameAnimationDataByHandle(gohnd, animname, var sf, ef): Boolean` | Get an object's start and end frames for `animname`. `_unit_ApplyAttackPause` uses them to calculate delays. |
 | `GetGameObjectDeferredFramesByHandle(gohnd, var defcurrentframe, defframes)` | The current frame and the total number of frames of the deferred loop. |
 
 <a id="32-switch--blend"></a>
 ### 3.2. Switch/blend
 
-| Function | What |
+| Function | Purpose |
 |---|---|
-| `GameObjectSetFrameAnimationByHandle(gohnd, frameanimationname, randomoffsetframeanimation)` | Direct installation of animation. |
+| `GameObjectSetFrameAnimationByHandle(gohnd, frameanimationname, randomoffsetframeanimation)` | Set an animation directly. |
 | `GameObjectSwitchToAnimationCyclesBlendByHandle(gohnd, name, ...)` | Smooth blend between current and new loop. |
-| `GameObjectMySwitchToFrameAnimationBlend(name, randomframe, smooth, ...)` | The same blend for “your” (current-actor) context. |
+| `GameObjectMySwitchToFrameAnimationBlend(name, randomframe, smooth, ...)` | Perform the same blend for the current actor context. |
 
 ### 3.3. TrackPoint
 
-| Function | What |
+| Function | Purpose |
 |---|---|
 | `GameObjectMyTrackPointAdd(x, y, z)` | Add a point to move along the path. |
-| `GameObjectMyTrackPointInsert(ind, x, y, z)` | Insert into position `ind`. |
+| `GameObjectMyTrackPointInsert(ind, x, y, z)` | Insert a point at index `ind`. |
 | `GameObjectMyTrackPointClear()` | Clear all track points. |
 | `GameObjectGetTrackPointMoveDistanceToEndByHandle(gohnd)` | Distance from the current position to the end of the path. |
 | `GameObjectGetTrackPointMoveDistanceToAlignByHandle(gohnd)` | Distance to alignment point (formation). |
@@ -285,10 +284,10 @@ working with animations. Key groups:
 ---
 
 <a id="4-fsm-юнита-и-её-связь-с-анимациями"></a>
-## 4. Unit FSM and its connection with animations
+## 4. Unit FSM and Animation Integration
 
-Each unit is an FSM, states are stored as a bitmask
-`gc_statetag_*` to `TObj.statestag` (see table in
+Each unit is an FSM whose states are stored in `TObj.statestag` as a
+`gc_statetag_*` bitmask (see the table in
 `dmscript.global`). Main groups:
 
 | Group | Bits |
@@ -304,39 +303,39 @@ Each unit is an FSM, states are stored as a bitmask
 When changing states, `.acl`-FSM selects the appropriate animation
 (for example, `walkfood` if `state = move_walk + resource_food`).
 
-Specific FSM transition handlers - in
-`data/scripts/units/unit.inc/<state>.inc`. For example:
-`onaclanimationreachedattack.inc` triggers on event
-“the attack animation has reached swing-point” (§5).
+Specific FSM transition handlers live in
+`data/scripts/units/unit.inc/<state>.inc`. For example,
+`onaclanimationreachedattack.inc` handles the event in which the attack
+animation reaches its swing point (§5).
 
 ---
 
 <a id="5-onaclanimationreachedattack--момент-удара--выстрела"></a>
-## 5. `OnAclAnimationReachedAttack` - moment of impact / shot
+## 5. `OnAclAnimationReachedAttack`: Moment of Impact or Shot
 
-This is the **main callback** of the animal system: the moment in the frame when
+This is the **main callback** of the animation system: the point in the cycle when
 damage is applied to the target or a projectile is fired. Fully described in
 `data/scripts/units/unit.inc/onaclanimationreachedattack.inc`.
 
 <a id="51-где-задаётся-точный-кадр"></a>
-### 5.1. Where is the exact frame set?
+### 5.1. Where the exact frame is set
 
 In the `.acl` attack file (`attack0` / `attack1` / `attack2`)
-the order `items[]` determines **at what point** the animation
-callback will work. Standard structure:
+the order of `items[]` determines **when** the callback fires. The standard
+structure is:
 ```
 items:
   [0] actExecuteState 'OnAclAnimationReachedAttack'    ← swing point
   [1] actAnimation 'attack0' (NumberCycle = 1)         ← complete animation
   [2] actExecuteState 'OnAclAnimationReachedAttackEnd' ← completion
 ```
-`actExecuteState` is triggered when `actAnimation`
-will reach the corresponding mark. That is, `swing-point` is built in
-**into the animation itself** via `.acl`-config - for different units it
-may be at the beginning, middle or end of the attack cycle.
+`actExecuteState` fires when `actAnimation` reaches the corresponding marker.
+The swing point is therefore embedded **in the animation itself** through the
+`.acl` configuration; depending on the unit, it may occur near the beginning,
+middle, or end of the attack cycle.
 
 <a id="52-что-callback-делает"></a>
-### 5.2. What does callback do?
+### 5.2. What the callback does
 
 Pseudocode (`onaclanimationreachedattack.inc`):
 ```
@@ -362,32 +361,30 @@ Pseudocode (`onaclanimationreachedattack.inc`):
 <a id="53-семантика-для-разных-типов-оружия"></a>
 ### 5.3. Semantics for different types of weapons
 
-| Type `weaponid` | What's at the moment of swing |
+| `weaponid` type | What happens at the swing point |
 |---|---|
-| Melee (`weaponid = 0`) | Damage immediately. Sound - `sabre`/`pike`/`sword` (by `kind`). |
+| Melee (`weaponid = 0`) | Damage is applied immediately. Sound: `sabre`, `pike`, or `sword`, selected by `kind`. |
 | Rifle with `propagation = immediate` (buckshot, lightning) | Immediate damage + sound + fxshot. The AoE radius is applied here too. |
 | Regular projectile (arrow, bullet, cannonball) | A `projectile` object spawns and flies towards the target. Damage is applied at the moment the projectile **arrives** (event `_OnTargetReached`), and not at the moment of swing. This gives "flight time" for arrows and cannonballs. |
 
 <a id="54-rng-фильтр-звуков-выстрела"></a>
 ### 5.4. RNG filter for gunshot sounds
 
-If the object is **not in frustum** of the camera and
-`gWeapons[weaponid].volumeclippedfreq > 0`, RNG check is done:
-`if vcf < random` - sound **skips**. That is, on large
-battles, where 100 musketeers fire in a volley, part of the sounds
-accidentally discarded so that the mixer does not clip.
+If the object is **outside the camera frustum** and
+`gWeapons[weaponid].volumeclippedfreq > 0`, the game performs an RNG check:
+`if vcf < random` causes the sound to be **skipped**. During large battles,
+such as a volley from 100 musketeers, this randomly discards some off-screen
+sounds to prevent audio clipping.
 
-If `volumeclippedfreq <= 0` - the sound is always played (musket in
-frustum, artillery). If `volumeclippedfreq` is high (≈ 0.9) -
-sound is skipped often (background gunfire out of sight).
+If `volumeclippedfreq <= 0`, the sound always plays. If it is high
+(approximately 0.9), unseen background gunfire is skipped frequently.
 
 ---
 
-<a id="6-unitapplyattackpause--следующий-цикл"></a>
-## 6. `_unit_ApplyAttackPause` - next cycle
+<a id="6-_unit_applyattackpause--следующий-цикл"></a>
+## 6. `_unit_ApplyAttackPause`: Delay Before the Next Cycle
 
-After each swing there is a pause until the next one
-attack cycle [^2]:
+After each swing, the game applies a delay before the next attack cycle [^2]:
 ```
 attpause := objbase.weapon[weapind].pause
 if individual.benabled and attpause > 0:
@@ -397,17 +394,17 @@ The specific number `pause` is stored in the unit data. For the musketeer
 17th century — `pause ≈ 150` frames = 4.69 g-sec. With upgrades
 `aca.31`+`aca.33` (60% cumulative reduction) — `≈ 1.88 g-sec`.
 
-The code has a **commented out** branch checking “whether
-pause for animation length": if `attpause - frames/30 < 1/60`,
-no pause is needed (the animation is already long). Currently this
-branch **disabled** - pause is always applied, even if it
-shorter animation (this is not critical: the next swing point is not
-will fire before the next cycle `.acl`).
+The code contains a **commented-out** branch that would compare the pause with
+the animation length: if `attpause - frames/30 < 1/60`, no extra delay would
+be needed because the animation is already long enough. That branch is
+currently **disabled**, so the pause is always applied even when it is shorter
+than the animation. This does not allow the next swing point to fire before the
+next `.acl` cycle.
 
 ---
 
-<a id="7-unitapplyweaponcost--стоимость-выстрела"></a>
-## 7. `_unit_ApplyWeaponCost` - cost of a shot
+<a id="7-_unit_applyweaponcost--стоимость-выстрела"></a>
+## 7. `_unit_ApplyWeaponCost`: Cost per Shot
 
 Each attack consumes the resources listed in
 `weapon[weapind].cost[restype]` [^3]:
@@ -431,7 +428,7 @@ The complete table of per-shot costs is in
 ---
 
 <a id="8-ключевые-тайминги-сводка"></a>
-## 8. Key timings (summary)
+## 8. Timing Summary
 
 From 1,382 tracks in `derived/animations.json`:
 
@@ -444,36 +441,35 @@ From 1,382 tracks in `derived/animations.json`:
 | Cannon | 14-16 | 0.5 | (see §2.4) | by `weapon.pause = 350 frames` |
 | Tower | 14 | 0.438 | (idle) | by `weapon.pause = 400 frames` |
 
-`attack0` - duration of the strike animation. Real attack tempo
-is defined by `weapon.pause` (see §6), which is usually **greater**
-`attack0` (due to built-in rest between swings). For
-melee `weapon.pause = 0` - they hit every animation cycle,
-that is, **`attack0`-duration is the DPS cycle**.
+`attack0` is the strike-animation duration. Actual attack tempo is determined
+by `weapon.pause` (see §6), which is usually **longer than** `attack0` because
+it includes the rest between attacks. Melee units have `weapon.pause = 0` and
+strike once per animation cycle, so **the `attack0` duration is their DPS
+cycle**.
 
-See function `melee_swing_sec(sid)` in
-[`parser/config.py`](../../parser/config.py) - takes real
-`attack0` from `derived/animations.json` or fallback to median 15
-frames (0.469 g-sec).
+The `melee_swing_sec(sid)` function in
+[`parser/config.py`](../../parser/config.py) reads the actual `attack0` value
+from `derived/animations.json` or falls back to the 15-frame median
+(0.469 game seconds).
 
 ---
 
 <a id="9-открытые-вопросы"></a>
-## 9. Open questions
+## 9. Open Questions
 
-1. **Exact refspeed values for all classes.** I have listed
-   main (infantry / peasant / hardhorse / fasthorse / cannon /
-   mortar / howitzer / multicannon / fishboat / ferry), but in
-   `refspeed.acl` There are also more exotic ones (`balloondock`,
-   `ducha`-marine classes, etc.). Full dump - open the file.
+1. **Exact `refspeed` values for every class.** The main classes are listed
+   here (infantry, peasant, hardhorse, fasthorse, cannon, mortar, howitzer,
+   multicannon, fishboat, ferry), but `refspeed.acl` also contains less common
+   entries such as `balloondock` and the `ducha` naval classes.
 2. **How does `gc_obj_speed_*` relate to `TrackPointMoveStep`.**
-   It looks like these are two **different** scales: `gc_obj_speed_*` —
+   These appear to be two **different** scales: `gc_obj_speed_*` is
    abstract for AI calculations, `TrackPointMoveStep` - real
-   for rendering. The connection has not been read.
+   used by rendering. Their exact relationship is still unknown.
 3. **`actTrackPoint` with mode `mmRelative` vs `mmAbsolute`** —
    exactly how it is used when moving in formation.
-4. **`acoRandomFrame` behavior.** If enabled, units in the group
-   walk animation starts from different frames - but how is it chosen?
-   starting frame? Via `random()` or `uniqrnd`?
+4. **`acoRandomFrame` behavior.** When enabled, units in a group begin their
+   walk animations on different frames. It is not yet known whether the
+   starting frame comes from `random()` or `uniqrnd`.
 
 ---
 

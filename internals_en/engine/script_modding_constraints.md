@@ -1,27 +1,27 @@
 <a id="ограничения-скриптинга-при-модинге-dodamage-и-смерть-юнита"></a>
-# Scripting restrictions when modding: DoDamage and unit death
+# Scripting Constraints: `DoDamage` and Unit Death
 
-Practical conclusions obtained during the development of the Deterministic Cossacks mod.
-Describe engine behavior that is not directly documented in the source code.
+These practical findings from the Deterministic Cossacks mod document engine
+behavior that is not explicit in the script sources.
 
 > **Related documents:**
 > [`combat_damage_pipeline` (recon)](../../docs_en/recon/world/combat/combat_damage_pipeline.md)
-> - damage formula; [`animation_system.md`](animation_system.md)
-> - order of calls during an attack.
+> — damage formula; [`animation_system.md`](animation_system.md)
+> — call order during an attack.
 
 ---
 
-<a id="1-структура-miscdodamage-miscext2script-line-250"></a>
-## 1. Structure `_misc_DoDamage` (miscext2.script ~line 250)
+<a id="1-структура-_misc_dodamage-miscext2script-line-250"></a>
+## 1. Structure of `_misc_DoDamage` (`miscext2.script`, around line 250)
 
 The function is divided into two fundamentally different blocks:
 
-**Block A - bookkeeping when killed** (`if TObj(pobj2).hp <= 0`, ~line 443):
-- Awarding points to the attacker (`gPlayer[plInd].counter.scores`)
-- Increment `TObj(pobj).kill`
-- Enumeration `gc_argunit_inside` (kick units out of transport/mine)
+**Block A — death bookkeeping** (`if TObj(pobj2).hp <= 0`, around line 443):
+- awards points to the attacker (`gPlayer[plInd].counter.scores`);
+- increments `TObj(pobj).kill`;
+- enumerates `gc_argunit_inside` to eject units from a transport or mine.
 
-**Block B - death trigger** (`if bProcessLogic`, ~line 510):
+**Block B — death trigger** (`if bProcessLogic`, around line 510):
 ```pascal
 // attacker (pobj / goHnd):
 if (not bSkipOnDeath) and (pobj<>nil) and (TObj(pobj).hp<=0) then begin
@@ -36,45 +36,47 @@ if (TObj(pobj2).hp<=0) then begin
    _unit_SetTagStates(trgHnd, gc_statetag_essential_death);
 end;
 ```
-Block A and block B **not directly connected**: it is possible to enter block A without entering B
-(if `bProcessLogic = false`), and vice versa.
+The blocks are **not directly coupled**: block A can run without block B
+when `bProcessLogic = false`, and block B can run without block A.
 
 `bSkipOnDeath` is set only in the peace-mode branch (~line 308/318).
 In normal combat it is always `false`.
 
 ---
 
-<a id="2-нельзя-убивать-атакующего-изнутри-miscdodamage"></a>
-## 2. You cannot kill an attacker from within `_misc_DoDamage`
+<a id="2-нельзя-убивать-атакующего-изнутри-_misc_dodamage"></a>
+## 2. Do not kill the attacker from within `_misc_DoDamage`
 
 **Symptom:** `TObj(pobj).hp := 0` inside a kill block (block A) → unit freezes:
-does not die, does not act, cannot be isolated.
+it neither dies nor acts and cannot be selected.
 
 **Cause:** C++ calls `_misc_DoDamage` in the middle of an attack sequence. After
-returning from the script, the engine continues to process the attack for `goHnd`. If
-the script managed to set `hp = 0`, block B of the same function calls
-`_unit_SetTagStates(gc_statetag_essential_death)` - the unit receives a death state,
-but the C++ attack sequence is not completed yet. The result is a state conflict.
+the script returns, the engine continues processing the attack for `goHnd`.
+If the script has set `hp = 0`, block B calls
+`_unit_SetTagStates(gc_statetag_essential_death)`. The unit enters the death
+state before the C++ attack sequence has finished, creating a state conflict.
 
-**Output:** Any change in hp/status of ATTACKER (`goHnd/pobj`) from within
-`_misc_DoDamage` is unreliable. Goal (`trgHnd/pobj2`) kill safely - engine
-expects this.
+**Conclusion:** changing the attacker's health or state (`goHnd` / `pobj`)
+inside `_misc_DoDamage` is unreliable. Killing the target
+(`trgHnd` / `pobj2`) is safe and expected by the engine.
 
 ---
 
-<a id="3-рекурсивный-вызов-miscdodamage-вызывает-двойную-смерть"></a>
-## 3. Recursive call `_misc_DoDamage` causes double death
+<a id="3-рекурсивный-вызов-_misc_dodamage-вызывает-двойную-смерть"></a>
+## 3. Recursive `_misc_DoDamage` calls trigger death twice
 
 When trying `_misc_DoDamage(goHnd, goHnd, 9999, weapind, weapkind)` from kill block:
 
 1. Nested call: `TObj(pobj2).hp -= 9999` → block B → `_unit_SetTagStates(essential_death)` **first time**
-2. The nested call is returned
-3. The external call continues to work, reaches block B (~line 512): `TObj(pobj).hp <= 0` → `_unit_SetTagStates(essential_death)` **second time**
+2. The nested call returns.
+3. The outer call continues to block B (around line 512):
+   `TObj(pobj).hp <= 0` → `_unit_SetTagStates(essential_death)` a
+   **second time**.
 
 Double `_unit_SetTagStates(gc_statetag_essential_death)` breaks the animation
-state machine - the unit gets stuck in an eternal attack animation.
+state machine, leaving the unit stuck in an endless attack animation.
 
-`GameObjectExecuteStateByHandle(goHnd, 'OnDeath')` is protected by verification
+`GameObjectExecuteStateByHandle(goHnd, 'OnDeath')` is protected by the check
 `if (not TObj(pobj).bdead)`, but `_unit_SetTagStates(essential_death)` is not.
 
 ---
@@ -82,26 +84,26 @@ state machine - the unit gets stuck in an eternal attack animation.
 <a id="4-attackmaxdelay-нельзя-использовать-как-флагsentinel"></a>
 ## 4. `attackmaxdelay` cannot be used as a flag/sentinel
 
-`attackmaxdelay` is read by the engine as the maximum cooldown attack time.
-Setting `attackmaxdelay := 9999` effectively blocks the unit for 9999 g-sec -
-he stops attacking completely. The field is not suitable for storing arbitrary
-flags.
+The engine reads `attackmaxdelay` as the maximum attack cooldown.
+`attackmaxdelay := 9999` effectively blocks the unit for 9,999 game seconds,
+preventing it from attacking. The field cannot safely store arbitrary flags.
 
-It's similarly dangerous to overuse `attackdelay` values >> for a weapon's normal pause.
+Likewise, `attackdelay` should not be set far above the weapon's normal
+pause.
 
 ---
 
 <a id="5-безопасное-место-для-kill-trigger-извне-dodamage"></a>
-## 5. Safe place for kill-trigger from outside DoDamage
+## 5. A safe kill trigger outside `DoDamage`
 
-Function `SearchEnemy` / retarget gate (unit.script ~line 8400) is called in
-**regular update loop** of the unit, outside the attack sequence and outside `_misc_DoDamage`.
-Install `hp := 0` + `_unit_SetTagStates(gc_statetag_essential_death)` here
-works correctly.
+The `SearchEnemy` retarget gate in `unit.script`, around line 8400, runs
+from the unit's **regular update loop**, outside both the attack sequence
+and `_misc_DoDamage`. Setting `hp := 0` and calling
+`_unit_SetTagStates(gc_statetag_essential_death)` there works correctly.
 
-Pattern: after killing `attackdelay` is set to ≥ 1.5 g-sec. Bye
-`attackdelay > 0` retarget gate is called every tick. This creates a reliable
-window for checking the post-kill state of the attacker without recursion.
+After a kill, `attackdelay` is at least 1.5 game seconds. While
+`attackdelay > 0`, the retarget gate runs every tick, creating a reliable
+window for checking the attacker's post-kill state without recursion.
 ```pascal
 // unit.script retarget gate — safe kill trigger:
 if (pobj<>nil) and (TObj(pobj).hp > 0) and (TObj(pobj).hp < 3)
@@ -114,22 +116,24 @@ end
 
 ## 6. `_unit_DestroyObj` (miscext2.script:4205)
 
-Full cleanup function: removes from the minimap, clears orders, places
-`bdead := True`, removes from player's counters. Never is not called from
-scripts (only defined). Probably called from C++ directly or
-is dead code. Forward link from the beginning of miscext2.script theoretically
-works in DWS (two-pass compilation), but has hardly been tested.
+A full cleanup function that removes the object from the minimap, clears its
+orders, sets `bdead := True`, and updates the player's counters. Scripts
+define but never call it; it is either invoked directly from C++ or unused.
+DWS should support the forward reference near the beginning of
+`miscext2.script` through two-pass compilation, but this has not been
+thoroughly tested.
 
 ---
 
-<a id="7-gcargunitstolist--список-атакующих-юнита"></a>
-## 7. `gc_argunit_stolist` - list of unit attackers
+<a id="7-gc_argunit_stolist--список-атакующих-юнита"></a>
+## 7. `gc_argunit_stolist`: units attacking an object
 ```pascal
 var psto : Pointer = _misc_GetObjectArgData(hnd, gc_argunit_stolist);
 var n : Integer = TIntegerList(psto).GetCount;
 ```
-`n` = number of units **currently attacking** `hnd`. Available for anyone
-handle - both the target and the attacker. Updated by the engine in real time.
+`n` is the number of units **currently attacking** `hnd`. The list is
+available for any handle, whether target or attacker, and the engine updates
+it in real time.
 
 ---
 
@@ -143,6 +147,6 @@ Based on observations (exact C++ order unknown):
 3. The unit enters idle/retarget → `SearchEnemy` / retarget gate
 
 `_unit_ApplyAttackPause` is called **after** `_misc_DoDamage`, not before.
-Therefore, sentinel set in DoDamage is visible in `_unit_ApplyAttackPause` -
+Therefore, a sentinel set in `DoDamage` is visible in `_unit_ApplyAttackPause`,
 but only if the engine manages to call it before the next attack cycle.
-In practice, it is more reliable to use retarget gate (item 5).
+In practice, the retarget gate from §5 is more reliable.

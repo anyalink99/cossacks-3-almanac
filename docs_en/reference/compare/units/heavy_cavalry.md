@@ -3,14 +3,14 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Reiter, Cuirassier, Vityaz, Winged Hussar - ram.
+Heavy cavalry combines high durability with powerful melee attacks. This group includes Reiters, Cuirassiers, the Vityaz, and Winged Hussars.
 
-> **Basic values** (column mode - what is considered "normal" in this class): HP = 300, Time (g-sec) = 2.5, F = 120, G = 60, I = 0, upkeep F (raw) = 75, upkeep G (raw) = 150, speed = 56, damage = 8, range (tile) = 1.22, reload (s) = 0.0, lance = 2, sword = 4, bullet = 10, buckshot = 160, arrow = 5, cannonball = 80.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 300, training time = 2.5 game seconds, food = 120, gold = 60, iron = 0, raw food upkeep = 75, raw gold upkeep = 150, speed = 56, damage = 8, range = 1.22 cells, reload time = 0.0 seconds, and protection values of 2/4/10/160/5/80 against Pike/Sword/Bullet/Grapeshot/Arrow/Cannonball.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Don Cossack** `cossackdon` | Russia | **220** | **13.5** | **100** | **0** | 0 | 0.0960 (60) | — | 56 | **13** | **1.88** | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |
 | **Register Cossack** `cossackregister` | Ukraine | **250** | **10.5** | **70** | **15** | 0 | 0.0960 (60) | — | 56 | **12** | **1.88** | 0.0 | **0** | **0** | **0** | **0** | **0** | **0** | unique |

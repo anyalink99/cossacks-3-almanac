@@ -1,50 +1,52 @@
 <a id="recon-серверная-архитектура-и-сетевая-синхронизация"></a>
-# Recon: server architecture and network synchronization
+# Recon: Server Architecture and Network Synchronization
 
-Network synchronization model in C3 - who simulates what is transmitted and when
-over the network, how it is related to ticks and `random`. The third document in connection with
+This document describes C3's network synchronization model: which host runs the
+simulation, what data travels over the network and when, and how synchronization
+interacts with ticks and `random`. It complements
 [determinism_audit.md](determinism_audit.md) (RNG sites) and
-[ticks_and_subticks.md](ticks_and_subticks.md) (time model). Without this
-layer cannot be explained why even adaptive speed synchronization between
-hosts does not make the behavior reproducible.
+[ticks_and_subticks.md](ticks_and_subticks.md) (time model). This layer explains
+why synchronizing adaptive speed across hosts still does not make separate
+simulations reproducible.
 
 All script paths below are relative to `data/` in the Cossacks 3 installation.
-All links to the code and the Pascal blocks themselves are collected in the section
-[Sources](#sources) at the end of the document.
+Code references and Pascal excerpts are collected in [Sources](#sources).
 
 ## TL;DR
 
-- **C3 — server-authoritative, not lockstep.** One host (server) counts
-  all game logic; the rest (clients, replays) only display.
-- In the code this is the pattern `if not (_net_IsClient or _net_IsReplay) then …` everywhere
-  — game logic is executed only on the server [^1].
-- Sync packages come in two ways: per-event (one deal, one capture) and
-  periodically (once every 53 progress ticks - `_misc_SyncUnitsParams`).
-- Because of this, determinism between hosts **does not** have to hold - in
-  unlike lockstep, the discrepancy in `random()` cannot be corrected by general
-  seed.
+- **C3 is server-authoritative, not lockstep.** One host (the server) runs
+  all game logic; clients and replay playback merely display the result.
+- Throughout the code, the pattern
+  `if not (_net_IsClient or _net_IsReplay) then …` keeps game logic on the
+  server [^1].
+- Synchronization packets are sent either per event (for example, one trade or
+  one capture) or periodically (`_misc_SyncUnitsParams` runs once every 53
+  progress ticks).
+- Hosts therefore do **not** need to run deterministic simulations. Unlike a
+  lockstep model, C3 does not try to keep every host's `random()` sequence in
+  sync with a shared seed.
 
 ---
 
 <a id="1-главное-c3--server-authoritative-не-lockstep"></a>
-## 1. Main thing: C3 - server-authoritative, **not** lockstep
+## 1. Core Model: C3 Is Server-Authoritative, **Not** Lockstep
 
 <a id="11-что-это-значит"></a>
-### 1.1 What does this mean?
+### 1.1 What this means
 
-In classic lockstep RTS (StarCraft, Age of Empires II) **all hosts
-run an identical simulation** from one seed PRNG, synchronizing
-only by player teams. Any rng call is identical on all hosts,
+In a classic lockstep RTS (such as StarCraft or Age of Empires II), **all hosts
+run an identical simulation** from the same PRNG seed and synchronize
+only player commands. Every RNG call produces the same result on every host
 because the input states are identical.
 
-C3 is done **differently**: one host (server) simulates, the rest
-(clients) **only display** what is sent to them. This can be seen from
+C3 works **differently**: one host (the server) runs the simulation, while the
+others (clients) **only display** the state sent to them. This is visible in
 a fundamental pattern that occurs dozens of times in the code:
-the game logic block turns into `if (bProcess) then …`, where `bProcess`
+game-logic blocks use `if (bProcess) then …`, where `bProcess` is
 defined as `not (_net_IsClient or _net_IsReplay)` [^1].
 
-Clients and replays **do not perform game logic**. They listen for packets from
-server and apply the changes locally. This pattern occurs in
+Clients and replay playback **do not run game logic**. They receive packets from
+the server or replay stream and apply the changes locally. This pattern occurs in
 handlers for resource extraction, damage, construction progress and
 in many other hooks [^2].
 
@@ -52,69 +54,69 @@ in many other hooks [^2].
 
 Five network modes [^3]:
 
-| Mode | Condition | Who is pretending |
+| Mode | Condition | Role |
 |---|---|---|
-| `_net_IsOffline` | `GetLanMode = 0` (single player) | Locally (= server for yourself) |
+| `_net_IsOffline` | `GetLanMode = 0` (single player) | Local simulation (effectively its own server) |
 | `_net_IsServer` | `GetLanMode > gc_lanmode_client` | This host |
 | `_net_IsClient` | `GetLanMode = gc_lanmode_client` | Receives from the server |
-| `_net_IsRecord` | `GetRecordManagerGameMode = 2` | Locally, plus it says replay |
-| `_net_IsReplay` | `GetRecordManagerGameMode = 1` | Receives from a record file |
+| `_net_IsRecord` | `GetRecordManagerGameMode = 2` | Runs locally and records a replay |
+| `_net_IsReplay` | `GetRecordManagerGameMode = 1` | Receives events from a replay file |
 
-Single-player = `_net_IsOffline` = client-yourself-server. `bProcess`
-always true.
+In single-player, `_net_IsOffline` makes the local process its own server, so
+`bProcess` is always true.
 
 <a id="13-архитектурные-следствия"></a>
 ### 1.3 Architectural implications
 
-- **Why is `random` seeded via `SetRandomKey(uniqrnd*MaxInt)`** [^4]:
+- **Why `random` is seeded through `SetRandomKey(uniqrnd*MaxInt)`** [^4]:
   so that the client can **reproduce** projectile dispersion from the same seed.
   The server sends `frnd : Float = RandomExt` → the client applies
   `SetRandomKey` with the value restored from this `frnd`, and
   gets identical variance.
 
-- **Why `random` (without `SetRandomKey`) is not critical for inter-host
+- **Why `random` without `SetRandomKey` is not critical for inter-host
   synchronization**: its result is used only on the server (under
-  `bProcess`). Clients do not call this branch. The author's comment is
-  directly confirms: “I’m using general random, synchronize it
-  not necessary, and randomext can change the intended results to
-  different PCs" [^5]. The developers **know** that `random` is not reproducible
-  between hosts, and use it only where it is not needed for
-  synchronization
+  `bProcess`). Clients do not execute this branch. The source comment says that
+  the general RNG does not need synchronization, while `RandomExt` could change
+  the intended result on different PCs [^5]. The developers therefore use the
+  non-reproducible general RNG only where cross-host synchronization is
+  unnecessary.
 
 ---
 
 <a id="2-что-синхронизируется-и-как"></a>
-## 2. What is synchronized and how
+## 2. What Is Synchronized and How
 <a id="21-per-event-пакеты-отправляются-по-факту-события"></a>
 ### 2.1 Per-event packages (sent upon event)
 
-Each game object “player” (player state machine) has pairs
+Each player game object (the player state machine) has paired
 `WriteX` / `ReadX` for each event type. In the global catalog
-there are more than thirty processors of such pairs:
+there are more than thirty such handler pairs:
 
-| Event | Write* | Read* | What does it carry |
+| Event | Write* | Read* | Payload |
 |---|---|---|---|
-| Unit Creation | writenew.inc | readnew.inc | uid, race/base, pos, cid |
+| Unit creation | writenew.inc | readnew.inc | uid, race/base, pos, cid |
 | Destruction | writefree.inc | readfree.inc | uid |
 | Death | writedeath.inc | readdeath.inc | uid |
-| Command move | writemove.inc | readmove.inc | uid, target pos |
+| Move command | writemove.inc | readmove.inc | uid, target pos |
 | Order | writeorder.inc | readorder.inc | uid, order type, target |
-| Search/find a resource | writesearch.inc | readsearch.inc | — |
+| Search for a resource | writesearch.inc | readsearch.inc | — |
 | Projectile | writeproj.inc | readproj.inc | uid, weapon, **frnd** for variance sync |
-| Apply upgrade | writeapply.inc | readapply.inc | uid, upgrade |
-| Construct progress | writeconstruct.inc | readconstruct.inc | uid, hp delta |
+| Apply an upgrade | writeapply.inc | readapply.inc | uid, upgrade |
+| Construction progress | writeconstruct.inc | readconstruct.inc | uid, hp delta |
 | ...~25 more events | | | |
 
-The creation handler template is [^6]: the server creates the object locally
-via `CreatePlayerGameObjectHandleByHandle`, **gets local uid**,
-and sends this uid to clients in a packet. Clients create local
-objects with **same uid** (uid table → handle) and apply parameters.
+The creation-handler template works as follows [^6]: the server creates the
+object locally through `CreatePlayerGameObjectHandleByHandle`, obtains its
+local uid, and sends that uid to clients in a packet. Clients create local
+objects with **the same uid** (using the uid-to-handle table) and apply the
+received parameters.
 This preserves the consistency of links between hosts.
 
 <a id="22-periodic-пакеты-по-таймауту"></a>
 ### 2.2 Periodic packets (by timeout)
 
-The main progress loop checks three timers every tick [^7]:
+The main progress loop checks three timers on every tick [^7]:
 
 | What | Period | Scale |
 |---|---|---|
@@ -122,28 +124,28 @@ The main progress loop checks three timers every tick [^7]:
 | `WriteLanSyncData` (general sync block) | 0.1 sec | **real time** |
 | `WriteStats` (counters) | 20 sec | **real time** |
 
-**Important:** periods in **real time**. This means:
-- At fast (×1.4) game speed, 0.1 real-sec passes between two `WriteRes`
-  ≈ 0.14 game-sec.
-- On slow (×0.7) — 0.07 game-sec.
-- On adaptively-slowed down to 5/10 = 0.5× - 0.05 game-sec.
+**Important:** these periods use **real time**. This means:
+- At fast (×1.4) speed, the 0.1 real seconds between two `WriteRes` calls
+  contain approximately 0.14 game seconds.
+- At slow (×0.7) speed, they contain 0.07 game seconds.
+- At an adaptive slowdown to 5/10 = 0.5× — 0.05 game seconds.
 
-Accordingly, **packet frequency is the same in real-time on different
+Accordingly, **packet frequency remains constant in real time at different
 speeds**, which is good for network throughput, but bad for
 reproducibility of game logic.
 
 <a id="23-sync-unit-params-mod-53"></a>
 ### 2.3 Sync unit parameters (mod 53)
 
-Once every 53 progress ticks the server calls `_misc_SyncUnitsParams` [^8]: that
-takes units from `gLanSyncUnitsParamsUIDList` (units that the server
+Once every 53 progress ticks, the server calls `_misc_SyncUnitsParams` [^8].
+It takes units from `gLanSyncUnitsParamsUIDList` (objects that the server
 marked as "needing sync", usually after non-trivial changes)
 and sends their status via `WriteSyncUnitsParams` [^9].
 
-**Period:** every 53rd tick of progress. Tick depends on FPS (see.
+**Period:** every 53rd progress tick. Tick frequency depends on FPS (see
 [ticks_and_subticks.md](ticks_and_subticks.md) §5). At 50 Hz tick this
-~1.06 sec real-time. That is, unit param sync lags by ~1 on average
-second real-time.
+is approximately 1.06 seconds of real time. Unit-parameter synchronization can
+therefore lag by about one second.
 
 ### 2.4 GameTime/speed sync
 
@@ -152,35 +154,35 @@ second real-time.
 `newspeed`) via `LanSendParser(gc_LAN_GAME_SYNC_GAMETIME, …)` [^10].
 Clients use this to synchronize **game time progression**.
 
-Sending condition: only when `newspeed <> GetTimeSpeedFactor`
-(actual change). Between changes - no messages; clients
-they just keep ticking at the last set speed.
+A packet is sent only when `newspeed <> GetTimeSpeedFactor`, that is, when the
+speed actually changes. No packets are sent between changes; clients continue
+ticking at the last received speed.
 
 ### 2.5 On-demand full sync
 
-If desync is suspected, heavy synchronization of everything is performed
-states:
+When the game suspects a desynchronization, it performs an expensive full-state
+synchronization:
 
 1. The client sends `gc_LAN_GAME_SYNC_REQUEST` with three `(cuid, nuid, envc)`
    (uid counters) [^11].
-2. The server starts `_misc_WriteSyncServer` and sends **full status
-   all units** [^12]: for each uid - `bexists`, and (if the object
+2. The server runs `_misc_WriteSyncServer` and sends the **full state of every
+   unit** [^12]: for each uid, `bexists`, and (if the object
    exists) `racename`, `basename`, `posx/z`, `scale`, orientation,
    `statestag`, `sto`, `stp`, `sta`, `cid`, `id`, `pl`, `hp`, `bbuilt`,
    `bdead`, `buildprogress`, **`uniqrnd`**.
-3. The client in `_misc_ReadSyncClient` recreates the missing objects or
-   restores the state of existing [^13].
+3. In `_misc_ReadSyncClient`, the client recreates missing objects or restores
+   the state of existing ones [^13].
 
-This is a “hard reset” - an expensive operation, not used in a normal tick,
-only when consistency is lost.
+This is a “hard reset”: an expensive operation used only when consistency is
+lost, not during normal ticks.
 
 ---
 
 <a id="3-почему-поведение-расходится-даже-при-синхронизации"></a>
-## 3. Why behavior diverges even when synchronized
+## 3. Why Behavior Diverges Even When Synchronized
 
-The main question: “adaptive speed synchronizes on everyone, why is everything
-diverges equally? Here's a complete list of reasons.
+The central question is: if adaptive speed is synchronized, why can behavior
+still diverge? The following sections cover the known causes.
 
 <a id="31-real-time-driven-sync-конфликтует-с-game-time-driven-логикой"></a>
 ### 3.1 Real-time-driven sync conflicts with game-time-driven logic
@@ -189,15 +191,15 @@ Sync packets are sent in **real time** (see §2.2). Game logic ticks in
 **game time** (see [ticks_and_subticks.md](ticks_and_subticks.md) §1).
 When the server changes `TimeSpeedFactor`:
 
-1. On the server `gametime` it is now faster/slower.
+1. On the server, `gametime` now advances faster or slower.
 2. `WriteRes` continues to send every 0.1 real-sec.
-3. Between two `WriteRes`, `0.1 × speedfactor/10` has accumulated on the server
-   game-time mining.
+3. Between two `WriteRes` calls, the server accumulates
+   `0.1 × speedfactor/10` game seconds of resource gathering.
 4. The client applies the received values after 0.1 real-sec.
 
-**But the client is also ticking its progress-loop at this time**:
-`_res_ProcessEconomy(deltatime)` is launched on the client from the same shared
-progress points. For the client, `deltatime` is calculated as
+**But the client's progress loop also continues ticking during this time**:
+the client runs `_res_ProcessEconomy(deltatime)` at the same shared progress
+points. On the client, `deltatime` is calculated as
 `GetGameTime - lastprogresstime`, and `GetGameTime` goes at a speed
 specified by the last received `gc_LAN_GAME_SYNC_GAMETIME`.
 
@@ -206,64 +208,65 @@ when the client receives the packet, there is a network lag (~5-100 ms). In this
 window:
 - The server has already moved ahead in game-time with a new speed.
 - The client is still ticking at the old speed.
-- After `SYNC_GAMETIME` arrives, the client must **leap** catch up
-  game-time of the server, or - which is likely - simply accept the new speed
-  and continue with your current gametime.
+- After `SYNC_GAMETIME` arrives, the client must either jump to the server's
+  game time or, more likely, accept the new speed and continue from its current
+  game time.
 
-Difference in gametime between server and client → different `deltatime`
-fall on different mini-phases → client display of resources can
-display a "phantom" value.
+A difference in game time between server and client produces different
+`deltatime` values at different sub-phases, so the client may briefly display
+a "phantom" resource value.
 
-In our specific task, this is not the main thing (if mining on the server
-was reproducible, client differences would not matter to
-gameplay). But this explains why “different hosts see different things” - they
-different effective game-time passed for equal real-time due to lags
-sync packages.
+For the question at hand, this is secondary: if the server's resource gathering
+were reproducible, client-side display differences would not affect gameplay.
+It does explain why different hosts may momentarily show different states:
+network latency gives them different effective game-time intervals over the
+same span of real time.
 
 <a id="32-adaptive-speed-основан-на-локальных-perf-метриках-сервера"></a>
 ### 3.2 Adaptive speed is based on **local** server perf metrics
 
-The server averages **its own** `GetPerfRender` (FPS render) and
-`garrfloat_perf_progress` (sim FPS) on windows 16 and
-`gc_perf_progresshistory` frames respectively [^14]. These metrics
-**local** and depend on the state of the process at the moment: background tasks
-Windows, antivirus update, GPU spikes and so on.
+The server averages **its own** `GetPerfRender` (rendering FPS) over 16 frames
+and `garrfloat_perf_progress` (simulation FPS) over
+`gc_perf_progresshistory` frames [^14]. These metrics are
+**local** and depend on the process's current environment: Windows background
+tasks, antivirus updates, GPU spikes, and so on.
 
-That is:
+For example:
 - Server A at moment T₁ has realfps=30 → speed remains maximum.
 - Server B at the same moment T₁ has realfps=18 → speed is reduced to
   8/14 = ~57%.
-- With **the same save** on A and B, different things happened in 5 real-min
-  game-time
+- With **the same save** on A and B, a five-minute real-time test can cover
+  different amounts of game time.
 
-Different game-time → different number of mining cycles → different amounts of resources.
+Different amounts of game time produce different numbers of gathering cycles
+and therefore different resource totals.
 
 <a id="33-init-random-и-randomext-различаются-между-хостами"></a>
 ### 3.3 Init `random` and `RandomExt` vary between hosts
 
-C3 when starting a new game (not Load) causes a lot of `random` and
-`RandomExt` for:
+C3 makes many `random` and `RandomExt` calls when starting a new game (as
+opposed to loading one), including:
 - `gProgress.last*time := random*X` [^15];
 - `obj.uniqrnd := RandomExt` for **each** unit and resource [^16];
 - `obj.progresstick := floor(RandomExt*32)` [^17];
 - `lasttime*` per-unit [^18];
-- Init tree positions on the map via `RandomExt` [^19].
+- Initial tree positions on the map via `RandomExt` [^19].
 
-In multiplayer **only the server** does init and sends the result via
+In multiplayer, **only the server** performs initialization and sends the result through
 `WriteNew`/`WriteSyncServer`. Clients receive `uniqrnd`, `pos` and
-other from the server and apply. Therefore, in multiplayer init is consistent
-between hosts.
+other fields from the server and apply them. Multiplayer initialization is
+therefore consistent between hosts.
 
-In **single-player** on host A, initialization gives single values (random
-seed = system time on startup A), on host B - others. If the player
-copies the same save to both hosts - Load in save format
+In **single-player**, host A and host B receive different initialization values
+(the random seed depends on the system time at startup). If the player
+copies the same save to both hosts, the save format
 **must** contain `uniqrnd` of all objects (see
-[determinism_audit.md](determinism_audit.md) §2.1), and they will
-are the same. But **global state `random` and adaptive speed phase
-vary**.
+[determinism_audit.md](determinism_audit.md) §2.1), so those values will be
+identical. The **global `random` state and adaptive-speed phase**, however, will
+still differ.
 
 <a id="34-saveload-чтобы-гарантировать-консистентность-нужны-вещи-которых-в-save-нет"></a>
-### 3.4 Save/Load: to guarantee consistency you need things that are not in save
+### 3.4 Save/Load: some state required for consistency is not saved
 
 From the save format audit ([determinism_audit.md](determinism_audit.md) §2
 + [ticks_and_subticks.md](ticks_and_subticks.md) §6):
@@ -277,39 +280,39 @@ From the save format audit ([determinism_audit.md](determinism_audit.md) §2
 - State of global `random` PRNG cursor.
 - Current `garrfloat_perf_progress` history (refilled after
   Load).
-- Sub-tick animation phase of the peasant (resets after
-  `SwitchTo('Nothing')` to `OnAfterLoad`).
+- A peasant's sub-tick animation phase (reset by
+  `SwitchTo('Nothing')` in `OnAfterLoad`).
 - In-flight pathfinding state.
 
 When we load a save on the same host, the second time:
 1. PRNG `random` starts from some new state (depending on
    game history since the application was launched).
-2. `garrfloat_perf_progress` empty → adaptive speed reacts with another
-   Lag for the first 5 seconds.
-3. All peasants are reset to `'Nothing'` → their next action = new
+2. `garrfloat_perf_progress` is empty → adaptive speed reacts differently
+   during the first five seconds.
+3. All peasants are reset to `'Nothing'` → their next action is a new
    resource search via `_misc_FindResourceToExtract`
-   ([determinism_audit.md](determinism_audit.md) §3.1) → 2 calls
-   `random` give **different** results because the global PRNG is in
-   different condition.
+   ([determinism_audit.md](determinism_audit.md) §3.1) → two `random` calls
+   give **different** results because the global PRNG is in
+   a different state.
 
-This is the final explanation of “one save, different launches - different
-prey."
+This explains how the same save can produce different resource-gathering
+behavior after separate launches.
 
 <a id="35-между-хостами-в-single-player"></a>
 ### 3.5 Between hosts in single player
 
 In addition to §3.3 and §3.4:
-- Floating-point behavior between x87/SSE/FMA may differ in
-  last bit. Accumulates over minutes of simulation.
-- Adaptive speed on different hosts is out of sync (§3.2).
-- If the player does not transfer the save exactly (for example, selects “new game”
+- Floating-point results from x87, SSE, and FMA may differ in the final bit,
+  with discrepancies accumulating over minutes of simulation.
+- Adaptive speed differs between hosts (§3.2).
+- If the player does not transfer the exact save (for example, starts a “new game”
   with the same settings), the map is generated again with a **different** seed
   → completely different tree positions.
 
 ---
 
 <a id="4-сводная-таблица-что-синхронно-что-нет"></a>
-## 4. Pivot table: what is synchronous and what is not
+## 4. Summary: What Is Synchronized and What Is Not
 
 | State | Single-player Load → Load on one host | Multiplayer between hosts | Single-player on two hosts |
 |---|---|---|---|
@@ -318,31 +321,30 @@ In addition to §3.3 and §3.4:
 | Per-unit `progresstick` | ✓ | ✓ | ✓ |
 | Global `random` cursor | ✗ — divergence after Load | ✓ still not needed (server-only) | ✗ — divergence |
 | `gProgress.last*time` | ✓ | ✓ | ✓ |
-| Animation phase | ✗ — reset `OnAfterLoad` | n/a - clients do not pretend | ✗ |
-| In-flight pathfinding | ✗ — lost | ✗ - but the client catches up via `WriteMove` | ✗ |
-| Adaptive speed phase | ✗ — perf history is empty | ✗ - server-only solution | ✗ |
+| Animation phase | ✗ — reset by `OnAfterLoad` | n/a — clients do not simulate it | ✗ |
+| In-flight pathfinding | ✗ — lost | ✗ — the client catches up via `WriteMove` | ✗ |
+| Adaptive speed phase | ✗ — performance history is empty | ✗ — calculated only by the server | ✗ |
 | Resource-grid order | ✓ persists with the unit list | ✓ | potentially ✓ when only one map is loaded |
-| Position in progress section | ✗ — section starts again | ✗ - but the client doesn’t care | ✗ |
-| Map gen RNG seed | n/a (map in save) | ✓ if you use single seed | ✗ — if new games start independently |
+| Position in progress section | ✗ — the section restarts | ✗ — irrelevant to the client | ✗ |
+| Map-generation RNG seed | n/a (map stored in save) | ✓ with a shared seed | ✗ — if new games start independently |
 
 ---
 
 <a id="5-чем-server-authoritative-помогает-в-добыче"></a>
-## 5. How server-authoritative helps in mining
+## 5. How the Server-Authoritative Model Affects Resource Gathering
 
-In multiplayer with a server-authoritative model **behavior of a peasant
-determined entirely by the server**. The client sees the result:
-- The server called `_misc_FindResourceToExtract` with two `random` -
-  I chose tree No. 142.
+In multiplayer, the server-authoritative model means that **a peasant's
+behavior is determined entirely by the server**. The client sees only the result:
+- The server called `_misc_FindResourceToExtract`, made two `random` calls,
+  and selected tree No. 142.
 - The server sent `WriteOrder` or `WriteSearch` to the client with handle No. 142.
 - The client sees a peasant walking towards tree No. 142.
 
-Therefore **in multiplayer the loot on different hosts is the same** - this is seen
-server, the rest are synchronized results.
+Therefore, **all hosts in a multiplayer game see the same gathering result**:
+the server decides, and the clients receive that decision.
 **Desync starts** when:
-- Network lag causes the player's command (for example, send
-  peasant) arrives on the server later than estimated → delay
-  applications.
+- Network latency causes a player command, such as sending a peasant to work,
+  to reach the server later than expected, delaying its execution.
 - Delayed adaptive-speed changes can appear as jerky movement on clients.
 - A lost UDP packet leaves the client with stale state until the next
   synchronization.
@@ -354,7 +356,7 @@ problem described in §3.4 still applies.
 ---
 
 <a id="6-импликации-для-мод-фикса"></a>
-## 6. Implications for a mod fix
+## 6. Implications for a Mod Fix
 
 For **single-player determinism**:
 
@@ -367,18 +369,17 @@ For **single-player determinism**:
   trigger, if the scripts expose a suitable hook, or to measure behavior in
   game time as described in [ticks_and_subticks.md §9](ticks_and_subticks.md).
 
-In the context of **multiplayer** (if you ever want to make an MP mod):
-- Do not touch the structure of `WriteNew`/`ReadNew` and other paired ones
-  handlers - everything works correctly there.
+For a future **multiplayer** mod:
+- Do not alter the structure of `WriteNew`/`ReadNew` or the other paired
+  handlers; their synchronization mechanism is sound.
 - When patching `_misc_FindResourceToExtract`, be sure to take into account
   `bProcess`. The tree selection logic occurs **only** on the server, so
-  the new deterministic hash must use fields **that**
-  is on the server (`uniqrnd`, `gametime` - both are synchronized).
-- Do not use anything in hash that may differ between servers
-  and by the client (for example, local perf history).
+  the new deterministic hash must use fields available **on the server**
+  (`uniqrnd` and `gametime`, both synchronized).
+- Do not include anything that may differ between server and client in the
+  hash, such as local performance history.
 
-Since the planned single-player mod-fix, these restrictions
-are respected automatically.
+The planned single-player fix satisfies these restrictions automatically.
 
 ---
 
@@ -397,9 +398,9 @@ are respected automatically.
 - [ticks_and_subticks.md](ticks_and_subticks.md) §6 describes save/load
   hooks. This document §3.4 explains why even these hooks are not
   sufficient.
-- [peasant_extraction.md](../../docs_en/recon/world/economy/peasant_extraction.md) – model
-  production **Must be updated** with reference to determinism_audit.md (§3)
-  to account for losses through RNG.
+- [peasant_extraction.md](../../docs_en/recon/world/economy/peasant_extraction.md)
+  describes the resource-gathering model and should be read together with the
+  RNG-loss analysis in `determinism_audit.md` (§3).
 
 ---
 

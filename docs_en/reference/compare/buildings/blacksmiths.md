@@ -1,14 +1,14 @@
 <a id="кузницы"></a>
-# Forges
+# Blacksmiths
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Blacksmith - upgrades for infantry and weapon protection. Costs and times vary markedly across nations.
+Blacksmiths provide infantry attack and protection upgrades. Their cost and construction time vary considerably by nation.
 
-> **Base values** (column mode): HP = 5500, Time (g-sec) = 93.75, cost% = 400, W = 100, S = 30, G = 0, farm = 0.
+> **Baseline values** are the most common values in each column: health = 5500, construction time = 93.75 game seconds, price growth = 400%, wood = 100, stone = 30, gold = 0, population = 0.
 > **Bold** in the table below indicates deviations from these values.
 
-| Building | Nation | HP | Time (g-sec) | cost% | W | S | G | farm | produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Wood | Stone | Gold | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | **Blacksmith** `algbla` | Algeria | **6500** | **109.38** | 400 | 100 | 30 | 0 | 0 | — |
 | **Blacksmith** `ausbla` | Austria | 5500 | 93.75 | 400 | 100 | 30 | 0 | 0 | — |

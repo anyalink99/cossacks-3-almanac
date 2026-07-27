@@ -1,7 +1,7 @@
 <a id="каталог-оружия"></a>
 <a id="оружие-и-снаряды"></a>
-# Weapon catalog
+# Weapon Catalog
 
 [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Not a “comparison by nation,” but a **catalog of types of weapons and shells** (`weaponsid` from `weapon.script`) with characteristics and a list of carriers. There are only projective parameters here; For unit shooting stats, see [units/](../units/README.md).
+This catalog covers projectiles and other weapon types, including their characteristics and the units that use them. For the firing characteristics of individual units, see [unit comparisons](../units/README.md).

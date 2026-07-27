@@ -7,7 +7,7 @@
 
 The table lists the available national variants. Bold values differ from the most common version of the building.
 
-| Building | Nation | Health | Construction time | Price growth | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
+| Building | Nation | Health | Construction time, game s | Price growth, % | Food | Wood | Stone | Gold | Iron | Coal | Population | Produces |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Barracks, 18th century** `ausba2` | Austria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |
 | **Barracks, 18th century** `bavba2` | Bavaria | 55000 | 5625.0 | 200 | 0 | 1700 | 2950 | 4000 | 0 | 0 | 250 | Bow Clansman (`archersco`), Bagpiper (`bagpiper`), Chasseur (`chasseur`), Drummer, 18th century (`drummer18`), Grenadier (`grenadier`) (+19) |

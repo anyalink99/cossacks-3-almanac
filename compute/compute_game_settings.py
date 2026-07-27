@@ -386,11 +386,14 @@ def render_lobby_md(settings: dict) -> list[str]:
         columns=[("Значение", "value"),
                  ("Русское название", "label_ru"), ("Английское название", "label_en")],
     )
-    csp_cite = cites.cite("common.inc/dogenerate.inc:1231-1281",
-                           label="`CreateStartPointPeasants` — расстановка 18 крестьян 6×3")
+    csp_cite = cites.cite(
+        "common.inc/dogenerate.inc:1231-1281",
+        label="`CreateStartPointPeasants` — расстановка 18 крестьян для старта «По умолчанию»",
+    )
     L += [
-        f"> Независимо от выбора игрок получает **18 крестьян** сеткой 6×3 "
-        f"вокруг стартовой точки {csp_cite}.",
+        f"> **18 крестьян** сеткой 6×3 появляются только при выборе "
+        f"«По умолчанию» {csp_cite}. Особые стартовые варианты заменяют эту "
+        f"группу собственными построениями из `startingsettings.cfg`.",
         "",
     ]
 

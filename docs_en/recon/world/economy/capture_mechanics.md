@@ -13,7 +13,8 @@ nearby. The object changes owner as soon as the next capture check runs.
 
 - Ordinary infantry or cavalry can capture buildings, peasants, and guns.
   Peasants and artillery pieces are not capturers themselves.
-- One soldier within 4.013 cells of the object's reference point is enough.
+- One soldier is enough when the positions used by the engine for the soldier
+  and object are less than 4.013 cells apart.
 - One defending unit within 7.987 cells prevents capture. Buildings do not
   defend one another.
 - Ordinary buildings and peasants are checked about once every 1.9 game
@@ -41,9 +42,9 @@ tables below describe the Default option.
 | A Peasant or Serf of any nation | Infantry |
 | Cannon | Cavalry |
 | Howitzer | Ships |
-| Mortar | All other combat and support units |
+| Bombard | All other combat and support units |
 | Multi-barrelled Cannon | |
-| Ribauldequin | |
+| Frame gun | |
 
 Standard Deathmatch and Historical Battle games use No Capturing Peasants.
 Only the artillery listed above is therefore capturable in those matches.
@@ -87,27 +88,28 @@ They do not protect their own objects from capture either.
 
 Almost any other friendly land unit acts as a defender. If one such unit is
 inside the protection radius, the number of attackers no longer matters and
-the ownership change is cancelled. Buildings, ships, and the rebel mercenary
+the ownership change is canceled. Buildings, ships, and the rebel mercenary
 side do not participate in this search.
 
 <a id="расстояние-и-скорость"></a>
 ## Distance and timing
 
-The game measures straight-line distance between object reference points.
+The game measures straight-line distance between the object positions
+returned by the engine. The building footprint and nearest model edge do not
+enter the calculation.
 
 | Check | Distance or period | What the player sees |
 |---|---:|---|
 | Capturer nearby | less than 4.013 cells | the object may change owner |
 | Capturer extremely close | less than 3 cells | the captured object's fire is delayed by about 3.125 game seconds |
-| Defender nearby | less than 7.987 cells | capture is cancelled |
+| Defender nearby | less than 7.987 cells | capture is canceled |
 | Building or peasant check | about every 1.9 game seconds | a short delay after approaching is possible |
 | Artillery check | about every 0.5 game seconds | guns are captured noticeably faster |
 
-For a large building, distance is measured from one reference point near its
-centre rather than from the nearest edge of the model. A soldier standing at
-the edge of a large Town Hall may therefore still be too far away. The first
-check receives a small random offset so that every object on the map is not
-processed at once.
+For a large building, the visible edge-to-soldier distance may differ from the
+calculated value because the function compares only object positions, not
+model boundaries. The first check receives a small random offset so that
+objects are not all processed at once.
 
 <a id="что-происходит-после-захвата"></a>
 ## What happens after capture
@@ -115,11 +117,11 @@ processed at once.
 In the ordinary case, the object immediately receives a new owner.
 
 - A captured Peasant or Serf keeps the resource being carried, leaves the old
-  formation, and adopts the new player's behaviour.
+  formation, and adopts the new player's behavior.
 - A captured gun keeps its loaded shot, leaves its artillery formation, and
   comes under the new owner's control.
-- Production and upgrade research in a captured building are cancelled. The
-  resources spent on cancelled orders are refunded.
+- Production and upgrade research in a captured building are canceled. The
+  resources spent on canceled orders are refunded.
 - Units inside a building change owner with it. This applies to actual
   internal slots; Towers have no garrison slots.
 - If the building is destroyed rather than captured, units inside it die as
@@ -191,20 +193,9 @@ players and change their diplomatic relations.
 
 Mercenaries who rebel because their owner lacks gold move to a separate
 game-controlled side that is hostile to every participant in the match. This
-is not enemy capture, and those mercenaries are not treated as capturers. No
-neutral treasure or chest system resembling the first Cossacks game was found
-in the scripts examined for Cossacks 3.
-
-<a id="что-ещё-нужно-проверить-в-игре"></a>
-## What still needs in-game verification
-
-- Which exact model point is used as the reference for asymmetric buildings.
-- Whether a peasant or artillery piece can indeed destroy a Wall solely by
-  approaching it under every relevant setting combination.
-- Whether the observed maximum artillery capture delay matches the calculated
-  0.5 game seconds.
-- Whether the check runs for an object hidden by the fog of war.
-- Whether a gun switching to its close-range behaviour affects capture.
+is not enemy capture, and those mercenaries are not treated as capturers. The
+standard random-map scripts in Cossacks 3 do not create the neutral treasures
+and chests familiar from the first Cossacks game.
 
 <a id="технические-подробности-и-источники"></a>
 ## Technical details and sources

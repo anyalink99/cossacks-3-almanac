@@ -5,7 +5,7 @@
 
 Upgrades for Cuirassiers, Reiters, Vityaz, Winged Hussars, and Cavalry Guards.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Cuirassier: damage +1 (level 2)** `aussta.cuirassier.1.1` | Austria, Piedmont, Poland, Russia, Spain, Switzerland, Venice | damage | 1 | — | 12000 | 0 | 0 | 600 | 0 | 0 | 15.62 |
 | **Cuirassier: damage +1 (level 2)** `swesta.cuirassier.1.1` | Bavaria, Portugal, Sweden | damage | 1 | — | 11000 | 0 | 0 | 1600 | 0 | 0 | 15.62 |

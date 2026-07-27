@@ -264,7 +264,7 @@ procedure`-deflarations, прямой код). При старте грузит
 | `engine_primitives.json` | 884 native-вызова из скриптов + 46 type-cast'ов + 19 DWS builtin'ов с частотами и списками файлов. |
 | `dws_native_signatures.json` | 4 856 native-сигнатур из exe (имя, типы, RVA). |
 | `tech_tree.json` | Граф `nation × upgrade × prerequisite`, выжатый из `country.script` через `parser/build_tech_graph.py`. |
-| `canonical_terms.json` | Канонические русские названия из `data/locale/`. |
+| `canonical_terms.json` | Канонические русские и английские названия из `data/locale/`. |
 
 ## 10. Как читать скрипт без знания Pascal
 
@@ -310,6 +310,12 @@ procedure`-deflarations, прямой код). При старте грузит
   внутренние типы эффектов, порядок применения и формулы.
 - [Технический разбор зданий](building_mechanics_evidence.md) — маски
   столкновений, рабочие точки, разрушение и возврат ресурсов.
+- [Технический разбор выбора цели](target_selection_evidence.md) —
+  порядок сканирования, фильтры кандидатов, приоритеты и точные формулы.
+- [Технический разбор поиска пути](pathfinding_evidence.md) —
+  маршруты, локальное обходное движение, формации и обработка застреваний.
+- [Технический разбор генерации карты](map_generation_evidence.md) —
+  стадии генератора, стартовые позиции, ресурсы, территории и пространство seed.
 - [`../engine/native_api.md`](../engine/native_api.md) — что движок предоставляет скриптам (4 856 native-функций, разбитых по подсистемам).
 - [`../data/layout.md`](../data/layout.md) — что лежит в `data/`, рядом со скриптами.
 - [DWS на GitHub](https://github.com/EricGrange/DWScript) — open-source реализация языка, можно читать как референс.

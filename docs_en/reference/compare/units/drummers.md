@@ -1,16 +1,16 @@
 <a id="барабанщики-и-волынщик"></a>
-# Drummer, 17th century and the piper
+# Drummers and Bagpipers
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-A Drummer or Bagpiper is the second required member of a formation after the Officer (`drummer` / `drummer18` / `drummerrus` / `drummertur` / `bagpiper`). These units do not attack. The Russian and Turkish variants differ significantly in health and cost from the base version.
+A Drummer or Bagpiper is the second required member of a formation after the Officer. These units do not attack. The Russian and Turkish variants differ considerably from the standard version in health and cost.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 100, Time (g-sec) = 6.0, F = 60, G = 20, I = 0, speed = 32.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common values in each column for this class: health = 100, training time = 6.0 game seconds, food = 60, gold = 20, iron = 0, and speed = 32.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is given in parentheses. **Speed** uses the engine's own scale, where a larger number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkeep F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Bagpiper** `bagpiper` | England | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |
 | **Bagpiper** `bagpiper` | Scotland | **150** | **7.0** | **120** | 20 | 0 | — | — | 32 | — | — | — | — | — | — | — | — | — | semi-unique (2n) |

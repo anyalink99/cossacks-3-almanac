@@ -1,23 +1,28 @@
 <a id="улучшения-добычи-по-нациям"></a>
-# Cossacks 3 — Efficiency upgrades per nation
+# Resource Gathering Upgrades
 
 [← Tables and calculations](../README.md)
 
 <a id="что-это"></a>
 <a id="как-складываются-бонусы"></a>
-## What is this
+## How the Bonuses Stack
 
-Each upgrade `gc_upg_type_effect{food,wood,stone}[perc]` **additively** adds `value` to `resefficiency[res]` [^1]. Base = 100. The formula for loot per hit is: `delivered = floor(portion × eff / 100)`, where `portion` = 45/28/40 for food/wood/stone [^2].
+Food, wood, and stone upgrades add their percentage bonuses together [^1].
+Gathering starts at 100% efficiency. The game multiplies the amount
+collected per action by the resulting efficiency and rounds down [^2].
 
-`gc_upg_type_fieldlifeperc` additively adds fields to `objbase.fieldlife`. Reduces field damage/impact by `100 / (1 + fieldlife/100)` - increases output per cycle and reduces restart frequency.
+Field-durability upgrades also stack additively. More durable fields last
+longer, reducing how often Peasants must sow a replacement.
 
 <a id="сводка-по-нациям-кумулятивные-пики"></a>
 <a id="максимальный-бонус-по-нациям"></a>
-## Summary by nation (cumulative peaks)
+## Maximum Bonus by Nation
 
-The sum of all values in the line = the peak for the nation, if you examine ALL relevant upgrades. In practice, some upgrades are exclusive (one building with .1..6 steps), but the script summarizes everything - this is the **upper limit**.
+Each row adds every relevant upgrade available to the nation and therefore
+shows its theoretical maximum. Actual progress is reached one upgrade at a
+time through the normal research chain.
 
-| Nation | food eff % | wood eff % | stone eff % | fieldlife % | Σ upgrades |
+| Nation | Food bonus, % | Wood bonus, % | Stone bonus, % | Field durability, % | Upgrades |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Algeria | +280 | +100 | +300 | +300 | 9 |
 | Austria | +460 | +100 | +300 | +300 | 10 |
@@ -41,18 +46,20 @@ The sum of all values in the line = the peak for the nation, if you examine ALL 
 | Ukraine | +460 | +100 | +300 | +300 | 10 |
 | Venice | +460 | +100 | +300 | +300 | 10 |
 
-**Top picks for all nations:**
-- Food efficiency: **+460** — aus, bav, den, … (19 nations tied)
-- Tree efficiency: **+100** — alg, aus, bav, … (21 nations tied)
-- Stone effectiveness: **+300** — alg, aus, bav, … (21 nations tied)
-- HP of fields (fieldlife): **+300** — alg, aus, bav, … (21 nations tied)
+**Maximum values:**
 
-**Cheapest food-eff progression (total gold for ALL food-eff upgrades):**
+- Food efficiency: **+460%** for 19 nations
+- Wood efficiency: **+100%** for every nation
+- Stone efficiency: **+300%** for every nation
+- Field durability: **+300%** for every nation
+
+The following table compares the total cost of completing the entire food
+efficiency chain.
 
 <a id="стоимость-всей-цепочки-улучшений-еды"></a>
-## Total cost of the food-upgrade chain
+## Total Cost of the Food Upgrade Chain
 
-| Nation | total gold | total food | total wood |
+| Nation | Gold | Food | Wood |
 | --- | ---: | ---: | ---: |
 | **Algeria** (`alg`) | 1947 | 600 | 1840 |
 | **Turkey** (`tur`) | 1947 | 600 | 3000 |
@@ -88,41 +95,41 @@ Each cost cell is the cost of **this** upgrade (not total).
 <a id="добыча-еды"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `algaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `algaca.2` | 1 | +50 | 15.62 | W400 G522 | — |
-| `algaca.3` | 1 | +50 | 15.62 | W1240 G850 | — |
-| `turmil.1` | 1 | +140 | 15.62 | F600 G250 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `algaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `algaca.2` | 1 | +50% | 15.62 | wood 400 · gold 522 | — |
+| Raise agriculturists' salary (harvesting +50%) | `algaca.3` | 1 | +50% | 15.62 | wood 1240 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `turmil.1` | 1 | +140% | 15.62 | food 600 · gold 250 | — |
 
 _Cumulative peak: +280_
 
 <a id="добыча-дерева"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `algaca.8` | 1 | +100 | 15.62 | F5500 G550 | algbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `algaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`algbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `algaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `algaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `algaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `algaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `algaca.4` | 1 | +200 | 15.62 | W700 G475 | — |
-| `algbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `algaca.4` | 1 | +200% | 15.62 | wood 700 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `algbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -133,42 +140,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-1"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ausaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `ausaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `ausaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `ausaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `ausaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `ausaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-1"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ausaca.8` | 1 | +100 | 15.62 | F5500 G550 | ausbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `ausaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`ausbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-1"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ausaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `ausaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `ausaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `ausaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-1"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ausaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `ausbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `ausaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `ausbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -179,42 +186,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-2"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `bavaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `bavaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `bavaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `bavaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `bavaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `bavaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-2"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `bavaca.8` | 1 | +100 | 15.62 | F5500 G550 | bavbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `bavaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`bavbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-2"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `bavaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `bavaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `bavaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `bavaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-2"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `bavaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `bavbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `bavaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `bavbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -225,43 +232,43 @@ _Cumulative peak: +300_
 <a id="добыча-еды-3"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `denaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `denaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `denaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `denaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `denaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `denaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
 _Cumulative peak: +460_
 
 <a id="эффективность-дерева"></a>
 <a id="добыча-дерева-3"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `denaca.8` | 1 | +100 | 15.62 | F5500 G550 | denbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `denaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`denbla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня"></a>
 <a id="добыча-камня-3"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `denaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `denaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `denaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `denaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-3"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `denaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `denbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `denaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `denbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -273,13 +280,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-4"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `engaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `engaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `engaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `engaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `engaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `engaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
 
 _Cumulative peak: +460_
 
@@ -287,30 +294,30 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-4"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `engaca.8` | 1 | +100 | 15.62 | F5500 G550 | engbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `engaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`engbla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня-1"></a>
 <a id="добыча-камня-4"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `engaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `engaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `engaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `engaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-4"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `engaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `engbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `engaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `engbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -322,13 +329,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-5"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `fraaca.1` | 1 | +40 | 15.62 | W190 G315 | — |
-| `fraaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `fraaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `fraaca.1` | 1 | +40% | 15.62 | wood 190 · gold 315 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `fraaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `fraaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
@@ -336,30 +343,30 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-5"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `fraaca.8` | 1 | +100 | 15.62 | F5500 G550 | frabla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `fraaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`frabla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня-2"></a>
 <a id="добыча-камня-5"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `fraaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `fraaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `fraaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `fraaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-5"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `fraaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `frabla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `fraaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `frabla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -371,13 +378,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-6"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `hunaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `hunaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `hunaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `hunaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `hunaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `hunaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
@@ -385,29 +392,29 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-6"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `hunaca.8` | 1 | +100 | 15.62 | F5500 G550 | hunbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `hunaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`hunbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-6"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `hunaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `hunaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `hunaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `hunaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-6"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `hunaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `hunbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `hunaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `hunbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -418,42 +425,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-7"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `netaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `netaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `netaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `netaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `netaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `netaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-7"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `netaca.8` | 1 | +100 | 15.62 | F5500 G550 | netbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `netaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`netbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-7"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `netaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `netaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `netaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `netaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-7"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `netaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `netbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `netaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `netbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -464,42 +471,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-8"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `pieaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `pieaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `pieaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `pieaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `pieaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `pieaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-8"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pieaca.8` | 1 | +100 | 15.62 | F5500 G550 | piebla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `pieaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`piebla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-8"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pieaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `pieaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `pieaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `pieaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-8"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pieaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `piebla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `pieaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `piebla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -510,41 +517,41 @@ _Cumulative peak: +300_
 <a id="добыча-еды-9"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `polaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `polaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `polaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `polaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `polaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `polaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-9"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `polaca.8` | 1 | +100 | 15.62 | F5500 G550 | polbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `polaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`polbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-9"></a>
-#### Efficiency of the stone
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `polaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `polaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+#### Stone efficiency
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `polaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `polaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-9"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `polaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `polbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `polaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `polbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -556,13 +563,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-10"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `poraca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `poraca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `poraca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `poraca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `poraca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `poraca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
@@ -570,30 +577,30 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-10"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `poraca.8` | 1 | +100 | 15.62 | F5500 G550 | porbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `poraca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`porbla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня-3"></a>
 <a id="добыча-камня-10"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `poraca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `poraca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `poraca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `poraca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-10"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `poraca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `porbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `poraca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `porbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -605,13 +612,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-11"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `pruaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `pruaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `pruaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `pruaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `pruaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `pruaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
@@ -619,30 +626,30 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-11"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pruaca.8` | 1 | +100 | 15.62 | F5500 G550 | prubla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `pruaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`prubla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня-4"></a>
 <a id="добыча-камня-11"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pruaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `pruaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `pruaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `pruaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-11"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `pruaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `prubla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `pruaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `prubla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -654,13 +661,13 @@ _Cumulative peak: +300_
 <a id="добыча-еды-12"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `rusaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `rusaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `rusaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
-| `rusmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `rusmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `rusaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `rusaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `rusaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `rusmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `rusmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
 
 _Cumulative peak: +460_
 
@@ -668,30 +675,30 @@ _Cumulative peak: +460_
 <a id="добыча-дерева-12"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `rusaca.8` | 1 | +100 | 15.62 | F5500 G550 | rusbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `rusaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`rusbla`) |
 
 _Cumulative peak: +100_
 
 <a id="эффективность-камня-5"></a>
 <a id="добыча-камня-12"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `rusaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `rusaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `rusaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `rusaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-12"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `rusaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `rusbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `rusaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `rusbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -702,42 +709,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-13"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `saxaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `saxaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `saxaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `saxaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `saxaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `saxaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-13"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `saxaca.8` | 1 | +100 | 15.62 | F5500 G550 | saxbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `saxaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`saxbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-13"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `saxaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `saxaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `saxaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `saxaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-13"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `saxaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `saxbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `saxaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `saxbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -748,42 +755,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-14"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F5600 G1350 I1900 | req0 |
-| `scoaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `scoaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `scoaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 5600 · gold 1350 · iron 1900 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `scoaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `scoaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `scoaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-14"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `scoaca.8` | 1 | +100 | 15.62 | F5500 G550 | scobla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `scoaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`scobla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-14"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `scoaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `scoaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `scoaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `scoaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-14"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `scoaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `scobla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `scoaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `scobla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -794,41 +801,41 @@ _Cumulative peak: +300_
 <a id="добыча-еды-15"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `spaaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `spaaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `spaaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `spaaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `spaaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `spaaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-15"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `spaaca.8` | 1 | +100 | 15.62 | F5500 G550 | spabla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `spaaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`spabla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-15"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `spaaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `spaaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `spaaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `spaaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-15"></a>
 #### Field durability
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `spaaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `spabla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `spaaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `spabla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -839,42 +846,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-16"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `sweaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `sweaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `sweaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `sweaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `sweaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `sweaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-16"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `sweaca.8` | 1 | +100 | 15.62 | F5500 G550 | swebla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `sweaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`swebla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-16"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `sweaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `sweaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `sweaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `sweaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-16"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `sweaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `swebla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `sweaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `swebla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -885,42 +892,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-17"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `swiaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `swiaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `swiaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `swiaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `swiaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `swiaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-17"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `swiaca.8` | 1 | +100 | 15.62 | F5500 G550 | swibla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `swiaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`swibla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-17"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `swiaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `swiaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `swiaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `swiaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-17"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `swiaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `swibla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `swiaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `swibla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -931,41 +938,41 @@ _Cumulative peak: +300_
 <a id="добыча-еды-18"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `turaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `turaca.2` | 1 | +50 | 15.62 | W400 G522 | — |
-| `turaca.3` | 1 | +50 | 15.62 | W2400 G850 | — |
-| `turmil.1` | 1 | +140 | 15.62 | F600 G250 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Cultivate new cultures of wheat (harvesting +40%) | `turaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `turaca.2` | 1 | +50% | 15.62 | wood 400 · gold 522 | — |
+| Raise agriculturists' salary (harvesting +50%) | `turaca.3` | 1 | +50% | 15.62 | wood 2400 · gold 850 | — |
+| Improve grain crops treatment (harvesting +140%) | `turmil.1` | 1 | +140% | 15.62 | food 600 · gold 250 | — |
 
 _Cumulative peak: +280_
 
 <a id="добыча-дерева-18"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `turaca.8` | 1 | +100 | 15.62 | F5500 G550 | turbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `turaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`turbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-18"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `turaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `turaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `turaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `turaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-18"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `turaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `turbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `turaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `turbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 _Cumulative peak: +300_
 
 
@@ -975,42 +982,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-19"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `rusmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `rusmil.2` | 2 | +180 | 15.62 | F5600 G1350 I1900 | req0 |
-| `ukraca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `ukraca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `ukraca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `rusmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `rusmil.2` | 2 | +180% | 15.62 | food 5600 · gold 1350 · iron 1900 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `ukraca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `ukraca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `ukraca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-19"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ukraca.8` | 1 | +100 | 15.62 | F5500 G550 | ukrbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `ukraca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`ukrbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-19"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ukraca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `ukraca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `ukraca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `ukraca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-19"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `ukraca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `ukrbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `ukraca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `ukrbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -1021,42 +1028,42 @@ _Cumulative peak: +300_
 <a id="добыча-еды-20"></a>
 #### Food efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `eurmil.1` | 1 | +140 | 15.62 | F750 G250 | — |
-| `eurmil.2` | 2 | +180 | 15.62 | F25600 G3350 I2000 | req0 |
-| `venaca.1` | 1 | +40 | 15.62 | W200 G325 | — |
-| `venaca.2` | 1 | +50 | 15.62 | W2400 G625 | — |
-| `venaca.3` | 1 | +50 | 15.62 | W3600 G850 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Improve grain crops treatment (harvesting +140%) | `eurmil.1` | 1 | +140% | 15.62 | food 750 · gold 250 | — |
+| Improve grain crops storage (harvesting +180%) | `eurmil.2` | 2 | +180% | 15.62 | food 25600 · gold 3350 · iron 2000 | Previous upgrade |
+| Cultivate new cultures of wheat (harvesting +40%) | `venaca.1` | 1 | +40% | 15.62 | wood 200 · gold 325 | — |
+| Cultivate new cultures of rye (harvesting +50%) | `venaca.2` | 1 | +50% | 15.62 | wood 2400 · gold 625 | — |
+| Raise agriculturists' salary (harvesting +50%) | `venaca.3` | 1 | +50% | 15.62 | wood 3600 · gold 850 | — |
 
 _Cumulative peak: +460_
 
 <a id="добыча-дерева-20"></a>
 #### Tree efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `venaca.8` | 1 | +100 | 15.62 | F5500 G550 | venbla |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Design new woodworking tools (woodcutting efficiency +100%) | `venaca.8` | 1 | +100% | 15.62 | food 5500 · gold 550 | Blacksmith (`venbla`) |
 
 _Cumulative peak: +100_
 
 <a id="добыча-камня-20"></a>
-#### Efficiency of the stone
+#### Stone efficiency
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `venaca.23` | 1 | +100 | 15.62 | G1550 I3000 | — |
-| `venaca.24` | 1 | +200 | 15.62 | F4200 G1550 C12520 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Develop mining (stone excavation efficiency +100%) | `venaca.23` | 1 | +100% | 15.62 | gold 1550 · iron 3000 | — |
+| Raise miners' salary (stone excavation efficiency +200%) | `venaca.24` | 1 | +200% | 15.62 | food 4200 · gold 1550 · coal 12520 | — |
 
 _Cumulative peak: +300_
 
 <a id="прочность-полей-20"></a>
 #### Field durability
 
-| sid | lvl | +value | time (g-s) | cost | prereqs |
-| --- | ---: | ---: | ---: | --- | --- |
-| `venaca.4` | 1 | +200 | 15.62 | W1000 G475 | — |
-| `venbla.1` | 1 | +100 | 15.62 | W400 G90 | — |
+| Upgrade | Upgrade ID | Stage | Bonus | Research time, game s | Cost | Requirements |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Carry out field melioration (field capacity +200%) | `venaca.4` | 1 | +200% | 15.62 | wood 1000 · gold 475 | — |
+| Manufacture agricultural equipment (field capacity +100%) | `venbla.1` | 1 | +100% | 15.62 | wood 400 · gold 90 | — |
 
 _Cumulative peak: +300_
 
@@ -1067,6 +1074,8 @@ _Cumulative peak: +300_
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
-[^1]: Applying `gc_upg_type_effect*perc` to `resefficiency[res]` - `lib/player.script:1812+`.
+[^1]: Applying `gc_upg_type_effect*perc` to `resefficiency[res]` —
+      `lib/player.script:1812+`.
 
-[^2]: formula `delivered = floor(portion × eff / 100)` - `lib/unit.script:9551-9555`.
+[^2]: Gathering formula `delivered = floor(portion × efficiency / 100)` —
+      `lib/unit.script:9551-9555`.

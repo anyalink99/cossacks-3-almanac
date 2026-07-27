@@ -3,9 +3,9 @@
 
 [← Stable upgrades](stable.md)
 
-Upgrades for Hussars, Croats, Hakkapeliitta, Mounted Jaegers, Lancers, Raiders, and Light cavalry.
+Upgrades for Hussars, Croats, Hakkapeliitta, Mounted Jaegers, Lancers, Raiders, and Light Cavalry.
 
-| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Time |
+| Upgrade | Nations | Effect | Value | Price change | Food | Wood | Stone | Gold | Iron | Coal | Research time, game s |
 |---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | **Croat: damage +1 (level 2)** `aussta.croat.1.1` | Austria | damage | 1 | — | 2000 | 0 | 0 | 500 | 0 | 0 | 15.62 |
 | **Croat: damage +2 (level 3)** `aussta.croat.1.2` | Austria | damage | 2 | — | 5000 | 0 | 0 | 800 | 0 | 0 | 15.62 |

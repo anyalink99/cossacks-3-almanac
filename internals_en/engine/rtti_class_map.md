@@ -1,29 +1,29 @@
 <a id="карта-delphi-классов-движка-rtti"></a>
-# Delphi engine class map (RTTI)
+# Delphi Engine Class Map (RTTI)
 
-Structured overview of `cossacks.exe` subsystems through names
-classes found in RTTI.
+A structured overview of `cossacks.exe` subsystems derived from class names
+found in RTTI.
 
 > **Where the data comes from.** In the Pascal ShortString table `cossacks.exe`
 > we extracted **1,779 Delphi class names** (`T*` / `E*` / `I*` / `F*`).
 > Of these, about 266 are game-engine classes (prefixes `TX` and `TOSW`),
-> the rest are standard Delphi VCL, Indy 10, FastMM4 and
-> JPEG / DDS / OpenGL binding. Full dump - in
+> the rest belong to the standard Delphi VCL, Indy 10, FastMM4, and
+> JPEG/DDS/OpenGL bindings. The full dump is in
 > [`../../derived/exe_strings.json`](../../derived/exe_strings.json),
-> field `delphi_class_names`. Extractor -
+> under `delphi_class_names`. The extractor is
 > [`../../parser/engine_recon/dump_exe_strings.py`](../../parser/engine_recon/dump_exe_strings.py).
 
 <a id="ключевые-префиксы"></a>
 ## Key prefixes
 
-| Prefix | Qty | What is this |
+| Prefix | Count | Meaning |
 |---|---:|---|
-| `TX*` | 576 | Game engine: GameObject, AIRegion, Pattern, StateMachine, Path, Map, Scenario, Trigger, Lan, etc. Classes specific to the Cossacks 3 engine. |
-| `TOSW*` | 263 | OpenSourceWorld engine - render, sound, particles, atmosphere. Inherited from a GLScene-like base. |
-| `EId*` | ~50 | Indy 10 - network stack (Internet Direct). |
+| `TX*` | 576 | Cossacks 3 engine classes: game objects, AI regions, patterns, state machines, paths, maps, scenarios, triggers, LAN, and more. |
+| `TOSW*` | 263 | OpenSourceWorld engine: rendering, sound, particles, and atmosphere, inherited from a GLScene-like base. |
+| `EId*` | ~50 | Indy 10 network stack (Internet Direct). |
 | `T*` standard Delphi | ~700 | VCL: TForm, TButton, TStringList, TBitmap, TPersistent, etc. |
 | `EAb*`, `EAccess*`, `EConvert*`, `EOut*` | ~150 | Standard Delphi exceptions. |
-| `TXAIX*` | 4 | Editor of the `.aix` format (see §10). |
+| `TXAIX*` | 4 | `.aix` format editor (see §10). |
 | `T*OSW*Mod*` | 3 | Mod loader. |
 
 <a id="1-игровые-объекты-txgameobject"></a>
@@ -33,29 +33,29 @@ The root class of all “things on the map” is `TXGameObject`.
 
 | Class | Purpose |
 |---|---|
-| `TXGameObject` | Basic unit - unit, building, resource, effect. |
+| `TXGameObject` | Base object for units, buildings, resources, and effects. |
 | `TXBrushGameObject` | “Brush” objects (scenery, static map elements). |
 | `TXEventGameObject` | Trigger points, spawners. |
 | `TXGameObjectsGrid` | Spatial grid of all objects on the map. |
 | `TXGridGameObjectMap` | Grid type map → handle. |
-| `TXPickedGameObjects` | Current selected group (UI-state). |
+| `TXPickedGameObjects` | Currently selected group (UI state). |
 
-All 715 ECS-API functions (`Get*ByHandle` / `Set*ByHandle` - see.
+All 715 ECS API functions (`Get*ByHandle` / `Set*ByHandle`; see
 [`native_api.md` §2.1](native_api.md)) work with `TXGameObject`.
 
 <a id="2-behaviour-компоненты-txbehaviour-22-класса"></a>
 ## 2. Behavior components (`TXBehaviour*`, ~22 classes)
 
-ECS style: each GameObject can carry several Behavior objects.
+ECS-style design: each game object can contain several behavior components.
 
-| Class | What does |
+| Class | Purpose |
 |---|---|
-| `TXBaseBehaviour`, `TXBehaviour`, `TXBehaviours` | Basic/container. |
+| `TXBaseBehaviour`, `TXBehaviour`, `TXBehaviours` | Base classes and container. |
 | `TOSWBaseBehaviour`, `TOSWBehaviour`, `TOSWBehaviours` | Similar at the OSW (render) level. |
 | `TXConditionMachineBehaviour` | Conditional behavior (FSM-like). |
 | `TXDelayDestroyBehaviour`, `TXDelayDestroyListBehaviour` | Delayed deletion. |
 | `TXMiniMapPrimitiveBehaviour` | Drawing a point on the minimap. |
-| `TXPhysicalFallBehaviour` | Falling due to gravity (corpse after death). |
+| `TXPhysicalFallBehaviour` | Gravity-driven falling, such as a corpse after death. |
 | `TXRollBehaviour`, `TXRotationBehaviour`, `TXTiltBehaviour`, `TXTurnObjectBehaviour` | Rotation/tilt. |
 | `TXThrowBehaviour`, `TXThrowUpBehaviour` | Throwing (grenade, body). |
 | `TXMoveRotateWaveBehaviour` | Pendulum movement. |
@@ -65,7 +65,7 @@ ECS style: each GameObject can carry several Behavior objects.
 | `TXTLFAnimationBehaviour`, `TXTLFAnimationChildrenBehaviour` | Top-Level Frame animation. |
 | `TXDecalChildrenBehaviour`, `TXDecalTransformBehaviour` | Decals (traces, blood, shadow). |
 
-Created via native `BehaviourCreate(gohnd, classname)` - see.
+Components are created through native `BehaviourCreate(gohnd, classname)`; see
 [`native_api.md` §2.5](native_api.md). The name in `BehaviourCreate` is
 string class name (one of the listed ones).
 
@@ -73,7 +73,7 @@ string class name (one of the listed ones).
 ## 3. AI regions (`TXAIRegion*`, 5 classes)
 Spatial AI mechanics. Each area of interest is a separate object.
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXAIRegion` | One region. |
 | `TXAIRegions` | Collection of regions. |
@@ -81,17 +81,17 @@ Spatial AI mechanics. Each area of interest is a separate object.
 | `TXAIRegionScanMode` | Enum scan modes (`scan` / `clear` / `update`). |
 | `TXAIRegionViewer` | Visualizer for the editor (coloring zones in the editor). |
 
-Script wrapper codes - see [`native_api.md` §2.6](native_api.md).
-These 5 classes are enough to build spatial AI: AI
-requests `TXAIRegionManager` to update the zone of interests,
-gets a list of objects in it and decides to attack/retreat.
+For script wrappers, see [`native_api.md` §2.6](native_api.md).
+Together, these five classes implement spatial AI: the AI asks
+`TXAIRegionManager` to update an area of interest, receives the objects within
+it, and decides whether to attack or retreat.
 
 <a id="4-pathfinding-txpath-toswpath-tpathdata-6-классов"></a>
 ## 4. Pathfinding (`TXPath*`, `TOSWPath*`, `TPathData`, 6 classes)
 
-Reveals what was "discovered" in `native_api.md §6.2`:
+These classes clarify the pathfinding model described in `native_api.md §6.2`:
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TPathData` | Path data for one unit (waypoints, current segment). |
 | `TOSWMovementPath` | One path as a sequence of nodes. |
@@ -100,49 +100,48 @@ Reveals what was "discovered" in `native_api.md §6.2`:
 | `TOSWPathNodes` | Node graph. |
 | `TXPathCellChangedArray` | An array of “changed cells” for cache invalidation. |
 
-**Conclusion:** pathfinding in C3 uses **graph-based**
-representation (nodes + connections) on top of the grid, not purely A* on the grid.
+**Conclusion:** C3 pathfinding uses a **graph-based representation** (nodes and
+connections) layered over the grid, rather than plain grid-based A*.
 Nodes (`TOSWPathNode`) live in the `TOSWPathNodes` graph. When the cell
 map changes (construction / demolition of building), `TXPathCellChangedArray`
 marks it for recalculation.
 
-Controlled asynchronously via `PathDataThread*` (14 functions, see
-[`native_api.md` §2.3](native_api.md)) - separate thread pool with
-priorities.
+It runs asynchronously through the 14 `PathDataThread*` functions (see
+[`native_api.md` §2.3](native_api.md)) in a separate prioritized thread pool.
 
 <a id="5-топология-txtopology-1-класс"></a>
-## 5. Topology (`TXTopology`, 1st class)
+## 5. Topology (`TXTopology`, 1 class)
 
 The scripts contain the native primitive `TopologyGetPath` (mentioned in
 [`docs/recon/world/combat/pathfinding.md`](../../docs_en/recon/world/combat/pathfinding.md)).
-Class `TXTopology` is an object that encapsulates the patency of the map
-(collisions, water-region, water-land). It is used
-pathfinding engine for searching from point A to point B by nodes.
+`TXTopology` encapsulates map traversability, including collisions and
+water/land regions. The pathfinding engine uses it to search the node graph
+from one point to another.
 
 <a id="6-сценарии-и-триггеры-txscenario-txtrigger-8-классов"></a>
 ## 6. Scenarios and triggers (`TXScenario*`, `TXTrigger*`, 8 classes)
 
-The engine basis of the script system (see also recon review:
+These are the engine-side foundations of the script system (see also
 [`scenarios_and_triggers.md`](../../docs_en/recon/systems/scenarios_and_triggers.md)).
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXScenario` | One scenario (Historical Battle/campaign mission). |
 | `TXScenarioList` | Collection of scenarios. |
 | `TXTrigger` | One trigger (condition → action). |
-| `TXTriggerEvent`, `TXTriggerEvents` | The event that triggers. |
+| `TXTriggerEvent`, `TXTriggerEvents` | Triggering events. |
 | `TXTriggerEventMode` | Event processing mode (single-shot / repeating). |
 | `TXTriggerEventType` | Event type (UnitDied / ResourceReached / TimeElapsed / ...). |
 | `TXTriggerManager` | Manages all active triggers. |
 
-This is the engine part. Script wrapper - `gScenario` and
+The script-side wrappers are `gScenario` and
 `lib/scenario.script` (see
 [`internals/scripts/structure.md` §5](../scripts/structure.md)).
 
 <a id="7-state-machines-txstatemachine-9-классов"></a>
 ## 7. State Machines (`TXStateMachine*`, 9 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXStateMachine` | One FSM instance. |
 | `TXStateMachineArgs` | Current state arguments. |
@@ -152,18 +151,18 @@ This is the engine part. Script wrapper - `gScenario` and
 | `TXStateMachineProgressOption`, `TXStateMachineProgressChildrenOption` | Tick options (how to continue progress on child FSMs). |
 | `TFormStateMachines` | FSM editor (UI form in editor.exe). |
 
-FSM in Cossacks 3 is also **unit behavior** (idle → walk → work
+In Cossacks 3, state machines drive both **unit behavior** (idle → walk → work
 → return → drop), and **script trigger logic** (see §6).
 All state machines are loaded from `.parser` files via
-`TXStateMachineLibrary`. Native-API `MachineLibrary*`-functions (see.
+`TXStateMachineLibrary`. Native `MachineLibrary*` functions (see
 [`native_api.md` §2.5](native_api.md)) work with this class.
 
 <a id="8-карты-и-генерация-7-классов"></a>
 ## 8. Maps and generation (7 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
-| `TXMap` | Base map - terrain, objects, size. |
+| `TXMap` | Base map containing terrain, objects, and dimensions. |
 | `TXMapGenerator` | Procedural generator for skirmish. |
 | `TXGlobalMapGenerator` | Campaign generator (for the global campaign map). |
 | `TXTileMap`, `TXTileMapSchemesList` | Tile-grid of terrain (cluster by type). |
@@ -171,14 +170,14 @@ All state machines are loaded from `.parser` files via
 | `TXMiniMap` | Minimap (render in the corner of the UI). |
 | `TXGridGameObjectMap` | See §1. |
 
-`TXMapGenerator` works with `(randkey0, randkey1)` pair, which
-explains the 64-bit state of the seed (see.
+`TXMapGenerator` uses the `(randkey0, randkey1)` pair, which represents
+64 bits of seed state (see
 [`rng_implementation.md` §8](rng_implementation.md)).
 
 <a id="9-pattern-25-классов"></a>
 ## 9. Pattern (25 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXPattern`, `TXPatternCollection` | One “stamp” template/collection. |
 | `TXPatternMask` | Object placement mask. |
@@ -196,35 +195,36 @@ explains the 64-bit state of the seed (see.
 | `TXGlobalPatternList` | Global list of all patterns. |
 | `TPatternManager` | Main manager object. |
 
-The binary format of `.pattern` files has been parsed into
+The binary `.pattern` format is parsed by
 [`../../parser/parse_patterns.py`](../../parser/parse_patterns.py).
 These classes are runtime wrappers.
 
 <a id="10-multiplayer--lan-txlan-8-классов"></a>
 ## 10. Multiplayer / LAN (`TXLan*`, 8 classes)
 
-Expands sin-stack under `RecordSynch*` / `RecordCustom*`-API (see.
+These classes expose the networking layer beneath the `RecordSynch*` /
+`RecordCustom*` API (see
 [`server_sync_packet_format.md`](server_sync_packet_format.md)):
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXLan`, `TXLanManager` | Main network object. |
 | `TXLanClientInfo`, `TXLanClientInfoBase` | Client status. |
 | `TXLanPublicServer`, `TXLanServerInfoBase` | Public server lobby. |
 | `TXLanPublicServerClient`, `TXLanPublicServerSession` | Connection to the server. |
 
-Ferry - **Indy 10** (`EId*` exception classes in exe).
-`TXLan*` - game-side wrapper for Indy.
+The transport layer is **Indy 10**, identified by `EId*` exception classes in
+the executable. `TXLan*` provides the game-side wrapper around Indy.
 
-`TXLanPublicServer` hints that Cossacks 3 had its own public
-matchmaking server (separate from Steam). It seems to be working now
-via Steam wrapper (visible by `SteamwrapStartVoiceRecording` and
-other Steamwrap functions in the native API).
+`TXLanPublicServer` suggests that Cossacks 3 had its own public matchmaking
+service separate from Steam. Current integration appears to use the Steam
+wrapper, as indicated by `SteamwrapStartVoiceRecording` and other `Steamwrap`
+functions in the native API.
 
 <a id="11-mod-loader-toswmod-3-класса"></a>
 ## 11. Mod loader (`TOSWMod*`, 3 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TOSWModDat` | One `.dat` mod file. |
 | `TOSWModLib`, `TOSWModLibrary` | Mod library (container). |
@@ -233,9 +233,9 @@ Used by external `modman.exe` (see also
 [`../scripts/structure.md` §1](../scripts/structure.md)).
 
 <a id="12-сериализация-и-сохранение"></a>
-## 12. Serialization and saving
+## 12. Serialization and Save Data
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TPersistent`, `TPersistentClass` | Standard Delphi base. |
 | Names with `Custom*Read*` / `Custom*Write*` (via RTTI methods) | Corresponds to native-API `RecordCustom*` (see [`server_sync_packet_format.md`](server_sync_packet_format.md)). |
@@ -243,12 +243,12 @@ Used by external `modman.exe` (see also
 <a id="13-звук-26-классов"></a>
 ## 13. Sound (26 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TOSWSoundManager` | Main sound-system manager. |
 | `TOSWSoundLibrary` | Sound library. |
 | `TOSWSoundSample`, `TOSWSoundSamples` | Samples. |
-| `TOSWSoundEmitter`, `TOSWBSoundEmitter` | Positional sound emitters on the map. |
+| `TOSWSoundEmitter`, `TOSWBSoundEmitter` | Positional sound emitters in the world. |
 | `TOSWSoundEmittersList` | Active sources. |
 | `TOSWSoundEnvironment` | Ambience (reverb, effects). |
 | `TOSWSoundFile`, `TOSWSoundFileFormat`, `TOSWSoundFileFormatsList` | Format `.ogg` / `.snd`. |
@@ -257,9 +257,9 @@ Used by external `modman.exe` (see also
 | `TXSoundCollection`, `TXSoundInterface`, `TXSoundItem`, `TXSoundLibrary*`, `TXSoundManager`, `TXSoundProperty`, `TXSoundVolume*` | Game-side wrappers. |
 
 <a id="14-render-25-классов-и-шейдеры"></a>
-## 14. Render (~25 classes) and shaders
+## 14. Rendering and Shaders (~25 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TXShader`, `TXShadowMap` | Shader, shadow map. |
 | `TXPHDRToneMapShader` | HDR tonemap shader. |
@@ -267,37 +267,38 @@ Used by external `modman.exe` (see also
 | `TOSWAtmosphere*`, `TOSWAtmosphereException` | Sky, atmosphere, precipitation. |
 | Many `T*` for model rendering, FBO, shadow casting. |
 
-It's not critical for gameplay - it's a 3D stack.
+These classes belong to the 3D rendering stack and are not critical to
+gameplay logic.
 
 <a id="15-партиклы-27-классов"></a>
 ## 15. Particles (27 classes)
 
-`TXParticle*`, `TXSourcePFX*` - particle system (fire, smoke, blood,
+`TXParticle*` and `TXSourcePFX*` form the particle system (fire, smoke, blood,
 explosions). Not critical for gameplay logic, but interesting for
 visual modding.
 
 <a id="16-aix-формат-taix-4-класса"></a>
 ## 16. AIX format (`TAIX*`, 4 classes)
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TAIXEditor` | Editor of `.aix` files. |
 | `TAIXEditorState` | Editor state. |
 | `TAIXArgsEditor`, `TAIXVarsEditor` | Submodules (arguments/variables). |
 
-That is, the `.aix` format editor is built into `editor.exe`. This means:
-- `.aix`-format **binary**, but **editable** through the UI.
-- The structure is stored by “fields” (`TAIXVarsEditor` - this is about
-  variables, `TAIXArgsEditor` - about arguments).
-- If you ever need to parse `.aix`, the entry point is RVA class
-  `TAIXEditorState` in exe (method names in RTTI are visible).
+The `.aix` editor is built into `editor.exe`. This tells us that:
+- the `.aix` format is **binary**, but **editable** through the UI;
+- its structure is organized around variables (`TAIXVarsEditor`) and arguments
+  (`TAIXArgsEditor`);
+- a future parser can begin with the `TAIXEditorState` class in the executable,
+  whose method names are visible through RTTI.
 
 <a id="17-ui-формы-25"></a>
 ## 17. UI forms (25+)
 
 `TForm*` classes are editor windows:
 
-| Class | What |
+| Class | Purpose |
 |---|---|
 | `TFormDWSDebugger` | DWS script debugger. |
 | `TFormScriptEvaluate` | Expression evaluation window. |
@@ -309,22 +310,22 @@ That is, the `.aix` format editor is built into `editor.exe`. This means:
 <a id="ограничения-этого-обзора"></a>
 ## Limitations of this review
 
-1. **Not all 1779 classes are listed** - only subsystems
-   game-engine (`TX*`, `TOSW*`, AIX). Standard Delphi VCL and
-   Indy 10 is not understood - they are open-source.
-2. **Class names only** - not methods. To get full
-   the list of published methods of each class needs to be expanded
-   `dump_exe_strings.py` walker by VMT (see.
+1. **Not all 1,779 classes are listed.** This page covers only engine
+   subsystems (`TX*`, `TOSW*`, and AIX). Standard Delphi VCL and Indy 10
+   classes are omitted because their source is publicly available.
+2. **Only class names are available, not methods.** Recovering every class's
+   published methods would require extending `dump_exe_strings.py` with a VMT
+   walker (see
    [`native_api.md` §9](native_api.md)).
-3. **Statics, not semantics.** The name `TXAIRegion` hints that this is
-   AI zone, but the exact set of class fields is not visible without
+3. **This is structural evidence, not full semantics.** A name such as
+   `TXAIRegion` identifies an AI region, but its exact fields remain unknown without
    decompilation.
 
-Nevertheless, names provide a **structural map**: you understand which
-entities live in the engine and in which subsystem.
+Even so, the names provide a useful **structural map** of the engine's entities
+and subsystems.
 
 <a id="воспроизведение"></a>
-## Play
+## Reproducing the Analysis
 ```powershell
 cd c:\projects\other\cossacks
 python parser\engine_recon\dump_exe_strings.py
