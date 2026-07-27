@@ -1,12 +1,12 @@
 <a id="known-issues--архив-исправленных-проблем"></a>
-# Known issues - archive of fixed issues
+# Known Issues: Resolved
 
-Records from [`known_issues.md`](known_issues.md) move here after
-the problem is fixed in the parser or in the data. Saved for history - sometimes
-It's useful to know what exactly was changed in data.json and why.
+Entries move here from [`known_issues.md`](known_issues.md) after the parser or
+dataset has been corrected. The archive records what changed in `data.json`
+and why.
 
-Format: date of correction → brief description → what happened / what happened → link to
-commit or PR (if any).
+Format: correction date → brief description → previous and corrected behavior
+→ commit or pull request, when available.
 
 ## 2026-04-30
 

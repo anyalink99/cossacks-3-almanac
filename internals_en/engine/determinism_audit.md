@@ -247,19 +247,18 @@ AI games are even less deterministic than PvP.
 <a id="6-почему-шахты-воспроизводимы"></a>
 ## 6. Why mines are reproducible
 
-We check the hypothesis from the player’s empirics. Mine is a unit with
-`produce[gc_resource_type_*]`. Income realized in
+This section checks the observation against the game logic. A mine is a unit
+with `produce[gc_resource_type_*]`; its income is applied in
 `_player_ProcessResourceIncome` (see
 [peasant_extraction.md](../../docs_en/recon/world/economy/peasant_extraction.md)).
 
-There are **no calls in the hot-path of the mine** `random`:
+The mine's hot path makes **no calls to `random`**:
 
 - Peasant enters the shaft → `_unit_AddInside` → state “inside”
 - Income = `produce_rate × N_workers × dt` - pure arithmetic
 - No target search, no pathfinding, no queue (slots are fixed)
 
-This fits perfectly with empirical evidence: mines give the same result
-in every launch.
+This matches the empirical result: mines produce the same amount on every run.
 
 ---
 

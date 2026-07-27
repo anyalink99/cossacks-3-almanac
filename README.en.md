@@ -2,7 +2,11 @@
 
 **English** · [Русский](README.md)
 
-A complete guide to the economy, units, buildings and upgrades of the game **Cossacks 3 - Back to War**, extracted directly from game scripts (`unit.script`, `country.script`, `dmscript.global`, locale files). In the repository: parser of game files, a set of derivative calculations, writers for markdown / xlsx, economics simulator and accumulated research mechanics.
+A data-backed encyclopedia of the economy, units, buildings, upgrades, and
+hidden mechanics of **Cossacks 3: Back to War**. The repository extracts its
+facts directly from the game scripts and localization files, then publishes
+them as a reader-facing reference, detailed mechanics articles, calculated
+reports, machine-readable datasets, and browser tools.
 
 > The source of all numbers is the installed game files. If something
 > disagrees with an external calculator or guide, trust the repository; known
@@ -12,38 +16,45 @@ A complete guide to the economy, units, buildings and upgrades of the game **Cos
 <a id="что-внутри"></a>
 ## What's inside
 
-**Ready directory for players** - open directly on GitHub, you do not need to run anything. Everything is in [`docs/`](docs_en/):
+**For players:** open the [English encyclopedia](docs_en/README.md). Nothing
+needs to be installed or regenerated.
 
-- [`docs/reference/`](docs_en/reference/) - Canonical reference: 7 chapters by topic, 21 nations, 15 side-by-side comparisons
-- [`docs/recon/`](docs_en/recon/) - handwritten reverse-engineering game mechanics, broken down by theme:
-`world/economy/` (mining, building, capture, starvation, queue, upgrades), `world/combat/` (damage, formations, target selection, towers, walls, artillery, fleet, review), `world/map/` (map generation, lobby options), `systems/` (AI, mercenaries, victory conditions, scenarios, UI/ent)
-[`docs/reports/`](docs_en/reports/) are derived calculations grouped by theme:
-`combat/` (DPS, counter-matrix, attack speed, vision, artillery), `economy/` (scaling, builders, construction, production, slot, efficiency), `tech/` (tech tree), `map/` (resources, launch layout, replay validation), `nations/` (overview, deviations)
+- [`docs_en/reference/`](docs_en/reference/) — a concise reference arranged by
+  topic, nation, and side-by-side comparison
+- [`docs_en/recon/`](docs_en/recon/) — handwritten explanations of economy,
+  combat, orders, map generation, artificial intelligence, and other mechanics
+- [`docs_en/reports/`](docs_en/reports/) — calculated tables for combat,
+  economy, technology, maps, and national differences
 
-** Technical documentation (for developers/modders)** - separate from `docs/` in [`internals/`](internals_en/):
+**For developers and modders:** [`internals_en/`](internals_en/) documents the
+Delphi and DWS engine, native API, synchronization, random-number generators,
+script layout, game data, and file formats.
 
-[`internals/engine/`](internals_en/engine/) — engine device (Delphi + DWS): native API (4,856 functions), RTTI, RNG, animation system, network packages, tics
-[`internals/scripts/`](internals_en/scripts/) — the `data/scripts/*` (load order, entry points) structure
-- [`internals/data/`](internals_en/data/) - `data/` game directory: subfolders and file formats (`.parser`, `.pattern`, `.aaf`)
+**For tools and external analysis:**
 
-**Machine-readable JSON datasets** - for build editor, simulator, external analyzers:
+- [`data.json`](data.json) — the master dataset: 21 nations, 456
+  nation-specific building rows, 714 unit rows, and 4,483 upgrade rows
+- [`derived/`](derived/) — specialized datasets such as `tech_tree.json`,
+  `builder_slots.json`, `canonical_terms.json`, map-generation data, replay
+  ground truth, and engine reverse-engineering dumps
 
-- [`data.json`](data.json) - master structure (~5.7 MB): 21 nations, 456 buildings, 714 units, 4,483 upgrades
-- [`derived/`](derived/) - Specialized slices: `tech_tree.json`, `builder_slots.json`, `animations.json`, `game_settings.json`, `canonical_terms.json`, `pattern_*.json`, `replay_ground_truth.json`, plus engine-RE dumps (`dws_native_signatures.json`, `engine_primitives.json`, `exe_strings.json`)
+**For regeneration after a game update:**
 
-**Pipeline for regeneration after game patch:**
+- [`parser/`](parser/) extracts game scripts, localization, animations, and
+  other source data
+- [`compute/`](compute/) derives formulas and comparison tables
+- [`writers/`](writers/) renders the Markdown reference
+- [`simulator/`](simulator/) and [`editor/`](editor/) provide the economy
+  simulator and browser build-order editor
+- [`scripts/regen.py`](scripts/regen.py) and [`Makefile`](Makefile) run the
+  complete or targeted pipeline
 
-- [`parser/`](parser/) - extraction of data from `.script` (Pascal parser with symbolic execution); subfolder [`engine_recon/`](parser/engine_recon/) - extractors from the `cossacks.exe` binary
-- [`compute/`](compute/) - derived calculations (scaling, map gen, tech tree, construction times, etc.)
-- [`writers/`](writers/) - generation of markdown directory + diff between snapshots
-- [`simulator/`](simulator/) - timeline economy simulator (backend for browser editor via Pyodide)
-- [`editor/`](editor/) - browser build editor (HTML + JS + Pyodide), runs the simulator directly in the browser
-- [`scripts/regen.py`](scripts/regen.py) + [`Makefile`](Makefile) - a single runner for the entire pipeline
-**Before starting work with `data.json`:** [`internals/project/known_issues.md`](internals_en/project/known_issues.md) — a list of current parser gaps, discrepancies with external guides and open empirical questions. Closed issues, including a previous error with mercenary stats, are transferred to [`internals/project/known_issues_archive.md`](internals_en/project/known_issues_archive.md).
+Before relying on `data.json` for development, read the
+[known limitations](internals_en/project/known_issues.md). Resolved issues are
+kept in the [archive](internals_en/project/known_issues_archive.md).
 
-**Mods** - changes in game logic via C3 mod-loader:
-
-- [`mods/`](mods/) - each mod as a subfolder with `build.py` (patcher) and the result collected. See [`mods/README.md`](mods/README.md) for the convention.
+[`mods/`](mods/) contains game-logic modifications built for the C3 mod loader;
+its [README](mods/README.md) describes the directory convention.
 
 <a id="структура-репозитория"></a>
 ## Structure of the repository
@@ -78,16 +89,20 @@ A complete guide to the economy, units, buildings and upgrades of the game **Cos
 <a id="просто-почитать"></a>
 ### Just read
 
-GitHub renders markdown – open the file. Entrance points:
+GitHub renders Markdown directly. Start with:
 
-- [`docs/reference/README.md`](docs_en/reference/README.md) - Table of Contents of Reference + Brief Extract
-[`docs/recon/README.md`](docs_en/recon/README.md) - Deep Research Index
-- [`docs/reports/README.md`](docs_en/reports/README.md) - index of derivative reports
+- [Cossacks 3 Encyclopedia](docs_en/README.md)
+- [Quick Reference](docs_en/reference/README.md)
+- [How the Game Works](docs_en/recon/README.md)
+- [Tables and Calculations](docs_en/reports/README.md)
 
 <a id="регенерировать-после-патча-игры"></a>
 ### Regenerate after a game patch
 
-Requirements: Python 3.11+ and installed Cossacks 3 (Steam). Default is searched in `C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3` - for another path, set the env variable:
+Requirements: Python 3.11+ and an installed Steam copy of Cossacks 3. The
+default path is
+`C:\Program Files (x86)\Steam\steamapps\common\Cossacks 3`. Set
+`COSSACKS3_PATH` when the game is installed elsewhere:
 ```bash
 # Linux/macOS
 export COSSACKS3_PATH="/path/to/Cossacks 3"
@@ -95,7 +110,7 @@ export COSSACKS3_PATH="/path/to/Cossacks 3"
 # Windows (PowerShell)
 $env:COSSACKS3_PATH = "D:\Games\Cossacks 3"
 ```
-Then from the root of the repository one of the options:
+From the repository root, use either the Python runner or `make`:
 ```bash
 # Option 1 — cross-platform Python runner:
 python scripts/regen.py                         # full regeneration
@@ -110,7 +125,7 @@ make reports
 make sanity       # parser + 112 sanity checks
 make help
 ```
-What is inside (for a turn-based call without a runner):
+The individual generators can also be run directly:
 ```bash
 python parser/build_data.py                     # → data.json (master data)
 python parser/build_canonical_terms.py          # → derived/canonical_terms.json
@@ -143,7 +158,7 @@ again.
 <a id="diff-снапшотов-после-патча"></a>
 ### Compare snapshots after a patch
 
-One step through make (or manual - three commands below):
+Run the complete snapshot comparison through `make`:
 ```bash
 make diff   # snapshot data.json, regenerate, write diff.md
 ```
@@ -155,7 +170,8 @@ cp data.json /tmp/data_old.json
 python parser/build_data.py
 python writers/diff_snapshots.py /tmp/data_old.json data.json --out diff.md
 ```
-After the regeneration in `diff.md`, you can see all stat changes between versions of the game.
+The resulting `diff.md` lists every detected statistic change between the two
+game versions.
 
 ## Sanity checks
 

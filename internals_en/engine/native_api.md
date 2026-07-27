@@ -110,7 +110,7 @@ covers "how exactly the state is serialized":
 
 **Low level - `RecordCustom*` (~25 functions):**
 
-| Function | Destination |
+| Function | Purpose |
 |---|---|
 | `RecordCustomBegin{,GUI,Map,StateMachine,TagObject}` | Open a package of the appropriate type. |
 | `RecordCustomEnd` | Close the package. |
@@ -129,7 +129,7 @@ The supported types hint at the network/save packet format:
 
 **Mid level - `RecordSynch*` (~30 functions):**
 
-| Function | Destination |
+| Function | Purpose |
 |---|---|
 | `RecordSynchBegin{,GUI,MAP,ByHandle}` | Start synchronizing the specified status area. |
 | `RecordSynchIntRegister` / `FloatRegister` / `StringRegister` | Register a slot in the synchronization stack. |
@@ -206,7 +206,7 @@ In the existing `determinism_audit.md` we fixed `random`,
 > streams" remains in effect. Details - in private
 > `cossacks-deep/findings/rng_implementation.md`.
 
-| Storage | Seed functions | Algorithm on top | Destination |
+| Storage | Seed functions | Algorithm built on it | Purpose |
 |---|---|---|---|
 | **Delphi `System.RandSeed`** (32-bit) | `Randomize` or direct entry `System.RandSeed` (DWS does not issue) | `Random` (`System._Random`: `seed := seed * 0x8088405 + 1`) | Default gameplay-RNG. Not controlled by `SetRandomKey`. |
 | **Extended 64-bit seed** | `SetRandomKey(key: Integer)` (32-bit → sign-extend), `SetRandomExtKey64(k0, k1: Integer)` (full 64-bit) | `RandomExt` (64-bit LCG, own pair of constants) | Controlled flow for randomness where determinism through reseeding is needed. |

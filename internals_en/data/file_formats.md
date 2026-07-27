@@ -206,7 +206,7 @@ fields `name_ru` to `data.json`.
 Standard OGG Vorbis. `.snd` - index. They don't parse.
 
 <a id="map--готовые-карты-historical-battles"></a>
-## `.map` - ready-made cards (Historical Battles)
+## `.map` — prebuilt maps for Historical Battles
 
 GSC binary format. 68 files in `data/maps/`. Not disassembled -
 Skirmish maps are generated procedurally, so the `.map` format is not suitable for us
@@ -241,4 +241,4 @@ place of use.
 | Replay (`.gold`?) | ✓ | parser/parse_replay.py | Sniff replay file for validation. |
 | `.actor` / `.tlf` / `.dds` | ✗ | — | We don't need 3D data. |
 | `.aix` (AI) | ✗ | — | AI is described in scripts, the binary is not critical. |
-| `.map` | ✗ | — | Skirmish cards are procedural. |
+| `.map` | ✗ | — | Skirmish maps are generated procedurally. |

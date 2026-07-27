@@ -5,8 +5,8 @@
     {
       "path": "README.md",
       "title": "Cossacks 3 Encyclopedia",
-      "size": 4604,
-      "lines": 81
+      "size": 4864,
+      "lines": 85
     },
     {
       "path": "recon/README.md",
@@ -17,32 +17,32 @@
     {
       "path": "recon/systems/ai_behavior.md",
       "title": "How the Computer Player Works",
-      "size": 23776,
-      "lines": 518
+      "size": 24447,
+      "lines": 542
     },
     {
       "path": "recon/systems/mercenaries_diplomacy.md",
       "title": "Mercenaries and the Diplomatic Center",
-      "size": 34315,
-      "lines": 685
+      "size": 34112,
+      "lines": 715
     },
     {
       "path": "recon/systems/scenarios_and_triggers.md",
       "title": "Scenarios and Event Rules",
-      "size": 11104,
+      "size": 11120,
       "lines": 253
     },
     {
       "path": "recon/systems/ui_input_and_feedback.md",
       "title": "Controls and Player Feedback",
-      "size": 23887,
-      "lines": 540
+      "size": 24170,
+      "lines": 541
     },
     {
       "path": "recon/systems/victory_conditions.md",
       "title": "Victory, Defeat, and the End of a Match",
-      "size": 22165,
-      "lines": 458
+      "size": 22306,
+      "lines": 463
     },
     {
       "path": "recon/world/combat/artillery_specifics.md",
@@ -65,8 +65,8 @@
     {
       "path": "recon/world/combat/naval_combat.md",
       "title": "How Naval Combat Works",
-      "size": 13702,
-      "lines": 334
+      "size": 13680,
+      "lines": 333
     },
     {
       "path": "recon/world/combat/pathfinding.md",
@@ -83,7 +83,7 @@
     {
       "path": "recon/world/combat/target_selection.md",
       "title": "Target Selection and Attack-Move",
-      "size": 36164,
+      "size": 36154,
       "lines": 757
     },
     {
@@ -107,19 +107,19 @@
     {
       "path": "recon/world/combat/walls_and_gates.md",
       "title": "Walls and Gates",
-      "size": 24757,
-      "lines": 521
+      "size": 24206,
+      "lines": 522
     },
     {
       "path": "recon/world/economy/building_mechanics.md",
       "title": "Building Construction, Repair, and Destruction",
-      "size": 30525,
-      "lines": 536
+      "size": 29406,
+      "lines": 670
     },
     {
       "path": "recon/world/economy/capture_mechanics.md",
       "title": "How Buildings and Units Are Captured",
-      "size": 30737,
+      "size": 30755,
       "lines": 608
     },
     {
@@ -131,8 +131,8 @@
     {
       "path": "recon/world/economy/peasant_extraction.md",
       "title": "How Peasants Gather Resources",
-      "size": 36585,
-      "lines": 766
+      "size": 36698,
+      "lines": 770
     },
     {
       "path": "recon/world/economy/production_queue.md",
@@ -155,7 +155,7 @@
     {
       "path": "recon/world/map/map_generation_pipeline.md",
       "title": "How a Random Map Is Generated",
-      "size": 37873,
+      "size": 37876,
       "lines": 718
     },
     {
@@ -167,14 +167,116 @@
     {
       "path": "reference/02_combat/README.md",
       "title": "Combat and Movement",
-      "size": 3759,
+      "size": 3779,
       "lines": 86
+    },
+    {
+      "path": "reference/03_buildings/academy.md",
+      "title": "Academy",
+      "size": 2645,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/artillery_depot.md",
+      "title": "Artillery Depot",
+      "size": 5391,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/barracks_17.md",
+      "title": "Barracks, 17th Century",
+      "size": 6408,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/barracks_18.md",
+      "title": "Barracks, 18th Century",
+      "size": 5127,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/blacksmith.md",
+      "title": "Blacksmith",
+      "size": 2572,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/cathedral.md",
+      "title": "Cathedral",
+      "size": 4037,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/diplomatic_center.md",
+      "title": "Diplomatic Center",
+      "size": 7467,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/housing.md",
+      "title": "Housing",
+      "size": 2506,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/market.md",
+      "title": "Market",
+      "size": 969,
+      "lines": 17
+    },
+    {
+      "path": "reference/03_buildings/mill.md",
+      "title": "Mill",
+      "size": 869,
+      "lines": 15
+    },
+    {
+      "path": "reference/03_buildings/mines.md",
+      "title": "Mines",
+      "size": 2674,
+      "lines": 50
     },
     {
       "path": "reference/03_buildings/README.md",
       "title": "Buildings",
-      "size": 59946,
-      "lines": 531
+      "size": 4777,
+      "lines": 103
+    },
+    {
+      "path": "reference/03_buildings/shipyard.md",
+      "title": "Shipyard",
+      "size": 1086,
+      "lines": 17
+    },
+    {
+      "path": "reference/03_buildings/stable.md",
+      "title": "Stable",
+      "size": 5606,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/storehouse.md",
+      "title": "Storehouse",
+      "size": 957,
+      "lines": 16
+    },
+    {
+      "path": "reference/03_buildings/tower.md",
+      "title": "Tower",
+      "size": 2143,
+      "lines": 39
+    },
+    {
+      "path": "reference/03_buildings/town_hall.md",
+      "title": "Town Hall",
+      "size": 4812,
+      "lines": 33
+    },
+    {
+      "path": "reference/03_buildings/walls_and_gates.md",
+      "title": "Walls, Gates, and Palisades",
+      "size": 2957,
+      "lines": 47
     },
     {
       "path": "reference/04_units/README.md",
@@ -183,10 +285,148 @@
       "lines": 289
     },
     {
+      "path": "reference/05_upgrades/academy.md",
+      "title": "Academy Upgrades",
+      "size": 13289,
+      "lines": 93
+    },
+    {
+      "path": "reference/05_upgrades/artillery_depot.md",
+      "title": "Artillery Depot Upgrades",
+      "size": 4560,
+      "lines": 48
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17.md",
+      "title": "17th-Century Barracks Upgrades",
+      "size": 677,
+      "lines": 15
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_command.md",
+      "title": "17th-Century Officers, Drummers, and Bagpipers",
+      "size": 5172,
+      "lines": 42
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_melee.md",
+      "title": "17th-Century Melee Infantry",
+      "size": 22908,
+      "lines": 162
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_ranged.md",
+      "title": "17th-Century Ranged Infantry",
+      "size": 24101,
+      "lines": 172
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18.md",
+      "title": "18th-Century Barracks Upgrades",
+      "size": 679,
+      "lines": 15
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_command.md",
+      "title": "18th-Century Officers, Drummers, and Bagpipers",
+      "size": 3847,
+      "lines": 32
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_line.md",
+      "title": "18th-Century Line Infantry",
+      "size": 41112,
+      "lines": 270
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_specialists.md",
+      "title": "18th-Century Skirmishers and National Infantry",
+      "size": 13364,
+      "lines": 106
+    },
+    {
+      "path": "reference/05_upgrades/blacksmith.md",
+      "title": "Blacksmith Upgrades",
+      "size": 2764,
+      "lines": 26
+    },
+    {
+      "path": "reference/05_upgrades/mill.md",
+      "title": "Mill Upgrades",
+      "size": 1221,
+      "lines": 16
+    },
+    {
+      "path": "reference/05_upgrades/mines.md",
+      "title": "Mine Upgrades",
+      "size": 2402,
+      "lines": 31
+    },
+    {
       "path": "reference/05_upgrades/README.md",
       "title": "Upgrades",
-      "size": 221707,
-      "lines": 1618
+      "size": 2880,
+      "lines": 58
+    },
+    {
+      "path": "reference/05_upgrades/shipyard.md",
+      "title": "Shipyard and Ferry Upgrades",
+      "size": 1295,
+      "lines": 26
+    },
+    {
+      "path": "reference/05_upgrades/stable.md",
+      "title": "Stable Upgrades",
+      "size": 924,
+      "lines": 17
+    },
+    {
+      "path": "reference/05_upgrades/stable_cossacks.md",
+      "title": "Cossacks and Eastern Cavalry",
+      "size": 7238,
+      "lines": 60
+    },
+    {
+      "path": "reference/05_upgrades/stable_dragoons.md",
+      "title": "Dragoons and Mounted Musketeers",
+      "size": 23418,
+      "lines": 152
+    },
+    {
+      "path": "reference/05_upgrades/stable_heavy_cavalry.md",
+      "title": "Heavy Cavalry",
+      "size": 27554,
+      "lines": 196
+    },
+    {
+      "path": "reference/05_upgrades/stable_light_cavalry.md",
+      "title": "Hussars and Light Cavalry",
+      "size": 21843,
+      "lines": 165
+    },
+    {
+      "path": "reference/05_upgrades/stable_ottoman_cavalry.md",
+      "title": "Ottoman Cavalry",
+      "size": 5118,
+      "lines": 46
+    },
+    {
+      "path": "reference/05_upgrades/tower.md",
+      "title": "Tower Upgrades",
+      "size": 1150,
+      "lines": 17
+    },
+    {
+      "path": "reference/05_upgrades/town_hall.md",
+      "title": "Advancing to the 18th Century",
+      "size": 1646,
+      "lines": 20
+    },
+    {
+      "path": "reference/05_upgrades/walls_and_gates.md",
+      "title": "Wall and Palisade Upgrades",
+      "size": 1075,
+      "lines": 25
     },
     {
       "path": "reference/06_market/README.md",
@@ -293,20 +533,20 @@
     {
       "path": "reference/compare/buildings/town_halls.md",
       "title": "Town Halls",
-      "size": 3616,
-      "lines": 35
+      "size": 3658,
+      "lines": 36
     },
     {
       "path": "reference/compare/README.md",
       "title": "Comparisons",
-      "size": 3347,
+      "size": 3370,
       "lines": 64
     },
     {
       "path": "reference/compare/units/archers.md",
-      "title": "Archeri",
-      "size": 8860,
-      "lines": 60
+      "title": "Archers",
+      "size": 8881,
+      "lines": 66
     },
     {
       "path": "reference/compare/units/dragoons.md",
@@ -317,7 +557,7 @@
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Drummer, 17th century and the piper",
-      "size": 7594,
+      "size": 7615,
       "lines": 52
     },
     {
@@ -629,8 +869,8 @@
     {
       "path": "reports/map/map_resources.md",
       "title": "Map resources",
-      "size": 10482,
-      "lines": 179
+      "size": 10751,
+      "lines": 194
     },
     {
       "path": "reports/map/starting_layout.md",
@@ -641,7 +881,7 @@
     {
       "path": "reports/nations/overview.md",
       "title": "Nation comparison",
-      "size": 12359,
+      "size": 12380,
       "lines": 152
     },
     {

@@ -52,7 +52,7 @@ It is set in `initmaphistoricalbattle.inc`. The scripts distinguish:
   `TCampaignProgress.finished`, `lose`, `maxfinishdifficulty` [^9].
 - **Editor** (`gc_gamemode_editor`) and **Scenario Editor**
   (`gScenario.bactive`).
-- **Battle / Rated MP** - flags `gMap.brating`,
+- **Rated multiplayer** — flags `gMap.brating`,
   `gInternetShell.bratingroom`, `bautosearch` (see §6).
 - **Replay / Spectator** — modes without army control.
 
@@ -82,7 +82,7 @@ received `lose` after surrendering [^11].
 
 Custom scenarios can issue `win` or `lose` through
 `gc_trigger_action_endgame_win = 47` and
-`gc_trigger_action_endgame_lose = 48` [^12]. Implementation - in
+`gc_trigger_action_endgame_lose = 48` [^12]. Their implementation is in
 `scenario.script` [^13]. They apply only to `myplind`, the current player.
 Consequently, there is no single multiplayer victory action for a custom
 mission; each client raises its own result.
@@ -104,11 +104,11 @@ but they are absent from C3:
 - **Wonder of the World.** Neither `wonder` nor `monument` occurs in the
   scripts. C3 has no built-in countdown building. A mission author can
   imitate one with `timerFinished` and `endgame_win`.
-- **Diplomatic victory.** `team` - static affiliation from
-  lobby and does not change during a normal match. Scenario actions
-  `playerSetAsAlly`/`Enemy`/`Neutral` [^15] switches relationships, but not
-  run a victory check: `_misc_CheckEndGame` examines `team`, not
-  diplomatic relationships.
+- **Diplomatic victory.** `team` is a static lobby assignment and does
+  not change during a normal match. The scenario actions
+  `playerSetAsAlly`, `playerSetAsEnemy`, and `playerSetAsNeutral` [^15]
+  change relationships but do not run a victory check:
+  `_misc_CheckEndGame` examines `team`, not diplomatic relationships.
 - **Score victory.** Points accumulate (see §5) but are used only for
   statistics and ranking; `_misc_CheckEndGame` does not read them.
 - **Win by time limit.** Constant `gc_pause_timelimit = 120` [^16] —
@@ -142,7 +142,7 @@ units with `_misc_KillPlayerUnits`, and sends the result [^18].
 In short, **`farmused == 0` means defeat**: the player has no Peasant and
 no Town Hall or other population-providing building. Two details matter:
 
-- “Partial” case - `0 < farmused < 100` - above.
+- The special `0 < farmused < 100` case is described above.
 - In Historical Battle (`bbattle`), this check is disabled; only a
   scenario rule or surrender can cause defeat.
 
@@ -200,45 +200,46 @@ the population and point histories shown on the final statistics screen.
   amount rather than by the in-game point difference.
 
 <a id="6-капитуляция"></a>
-## 6. Resignation / Surrender
+## 6. Surrender
 
-The hotkey in the UI calls `_misc_Surrender(blanterminate)` [^2]. Function
-puts `gMap.players[plInd].bleave := True`, and then forks along
-network role:
+The interface calls `_misc_Surrender(blanterminate)` [^2]. The function
+sets `gMap.players[plInd].bleave := True`, then follows a different branch
+for each network role:
 
 - **Server** — assigns
-  `gPlayer[plind].victorystate := gc_player_victorystate_lose`,
-  calls `_misc_CheckEndGame`; if
-  the batch has not finished - sends out `gc_LAN_GAME_SERVER_LEAVE`.
+  `gPlayer[plind].victorystate := gc_player_victorystate_lose` and calls
+  `_misc_CheckEndGame`. If the match continues, the server broadcasts
+  `gc_LAN_GAME_SERVER_LEAVE`.
 - **Client** — sends the `gc_LAN_GAME_SURRENDER` (=10) packet to the server.
 - **Offline** — assigns `lose` locally and immediately calls
   `_misc_CheckEndGame`.
 
-There is no chat command `/resign` - grep by `resign` in scripts gives 0 matches.
-The function is called only from ENG (binary engine), apparently this is
-“Surrender” button in the game menu. Protocol constants are
+There is no `/resign` chat command: searching the scripts for `resign`
+returns no matches. `_misc_Surrender` is called only from the native
+executable, probably by the **Surrender** button in the game menu. The
+protocol constants are
 `gc_LAN_GAME_SURRENDER = 10` and `gc_LAN_GAME_SURRENDER_CONFIRM = 11` [^30].
 
-“First leaver” - the first one to surrender in the first 15 minout - loses **−w ELO**
-even if his team wins [^31]. And the liver's partner in the team from
-two on the contrary ELO **are not written off** so as not to punish the “victim”
-desertion.
+The first player to leave during the first 15 minutes loses **`−w` rating**
+even if their team eventually wins [^31]. In a two-player team, the leaver's
+partner is **not penalized**, so that the remaining player is not punished
+for a teammate's desertion.
 
 <a id="7-ограничения-времени"></a>
 ## 7. Time / turn limits
 
-- **Game time-limit: absent.** No `gametimelimit` in scripts
-  no.
-- **Pause-time-limit:** `gc_pause_timelimit = 120` sec,
-  `gc_pause_countlimit = 4` [^16] - you can pause a maximum of 4 times
-  for 120 seconds, then the engine refuses.
-- **Score-history grace:** result counter in rated rooms
-  sent only if `gMap.brating OR gt > 60*10` [^32] - then
-  available in unrated games with a duration of less than 10 min total in
-  There is no public log (anti-farming achievements).
+- **No match time limit.** The scripts contain no `gametimelimit`.
+- **Pause limit:** `gc_pause_timelimit = 120` seconds and
+  `gc_pause_countlimit = 4` [^16]. A player can pause at most four times
+  for 120 seconds each.
+- **Minimum duration for publishing a result:** a result is sent only when
+  `gMap.brating OR gt > 60*10` [^32]. Unrated games shorter than ten
+  minutes therefore do not appear in the public log, which helps prevent
+  achievement farming.
 - **Peacetime:** `gc_mapsettings_peacetime_*` [^33] —
   0 / 10 / 15 / 20 / 30 / 45 / 60 / 90 / 120 / 180 / 240 minutes. This
-  attack ban in the first N minutes, not an end-of-game timer. Full table -
+  is an attack ban during the first `N` minutes, not an end-of-match timer.
+  The full table is in
   [lobby settings](../../reports/map/lobby_settings.md#peacetime--время-мира);
   mechanics - [match settings](../world/map/game_settings.md#peacetime--как-устроен-мир).
 
@@ -246,18 +247,18 @@ desertion.
 <a id="8-отличия-сетевой-игры"></a>
 ## 8. Multiplayer-specific differences
 
-- `_misc_LanServerSendResults` sends win/lose to all clients in a package
+- `_misc_LanServerSendResults` sends each client's victory or defeat in
   `gc_LAN_GAME_SESSION_RESULTS` [^34].
 - `_misc_LanCloseSessionSetScores` updates public rating (only
   at `_net_IsServer`), `LanPublicServerCloseSession` closes the session.
-- In rated rooms (`gMap.brating`) ELO-weight = 1, in casual rooms
-weight = 2 [^35]. At first glance it’s a paradox, but this is about the **fine** for the liver:
-  for casual cheating the punishment is stronger, apparently to encourage
-  ranked-mode.
-- In casual games lasting less than 10 min, `LanSrvSetClientScore` is not
+- In rated rooms (`gMap.brating`) the rating-change weight is 1; in
+  casual rooms it is 2 [^35]. This seemingly paradoxical value applies to
+  the **early-leaver penalty**: leaving a casual match is punished more
+  heavily, apparently to encourage rated play.
+- In casual games shorter than ten minutes, `LanSrvSetClientScore` is not
   called (see §7).
-- For 2v2, pairwise logic “don’t penalize the liver’s partner” is provided
-  [^31] - default commands `{0,1}` vs `{2,3}`.
+- In a two-versus-two match, pairwise logic avoids penalizing the leaver's
+  partner [^31]; the default teams are `{0,1}` versus `{2,3}`.
 
 <a id="9-сводка"></a>
 ## 9. Summary
@@ -265,25 +266,25 @@ weight = 2 [^35]. At first glance it’s a paradox, but this is about the **fine
 | Topic | Meaning |
 |---|---|
 | **Default victory** | last-team-standing (`_misc_CheckEndGame`). |
-| **Default defeat** | `farmused = 0` AND no peasant/Urban center owned. Disabled in Historical Battle. |
-| **Wonder** | **missing** (there is no such mode/building in C3, unlike AoE2). |
-| **Score** | accumulates for statistics and achievements, **does not determine the outcome**. Formula: kill = +2× score, kill garrisoned = +3× score, capture = +5× score, build = +1× score; loss = −2×, captured-from = −5×, rebel-merc = −3×; clamp at zero. |
-| **Time-limit** | absent (there are only peacetime, pause-limit). |
-| **Surrender** | `_misc_Surrender` sets `bleave = True`, `victorystate = lose`, trigger `_misc_CheckEndGame`. The first liver in the first 15 minut receives −w ELO. |
+| **Default defeat** | `farmused = 0` and the player owns neither a Peasant nor a Town Hall. Disabled in Historical Battle. |
+| **Wonder** | **Absent:** Cossacks 3 has no such victory mode or building. |
+| **Score** | Accumulates for statistics and achievements but **does not determine the outcome**. A kill adds twice the victim's value, a killed garrison adds three times its value, a capture adds five times, and production adds the base value. Losses subtract between two and five times the value; the total cannot fall below zero. |
+| **Time limit** | Absent; only peacetime and pause limits exist. |
+| **Surrender** | `_misc_Surrender` sets `bleave = True` and `victorystate = lose`, then calls `_misc_CheckEndGame`. The first player to leave during the first 15 minutes loses rating. |
 | **Scenario triggers** | `endgame_win = 47`, `endgame_lose = 48`, apply only to `myplind` (per-client). |
-| **Game modes** | `mainmenu` / `game` / `editor` / `spectator` / `replay` / `endgamestatistics`. On top - Random map, Historical Battle (`gMap.bbattle`), Campaign, Custom Scenario, Rated MP (`gMap.brating`). |
+| **Game modes** | Internal states: `mainmenu`, `game`, `editor`, `spectator`, `replay`, and `endgamestatistics`. Match types include Random Map, Historical Battle (`gMap.bbattle`), Campaign, Custom Scenario, and rated multiplayer (`gMap.brating`). |
 
 <a id="10-открытые-вопросы"></a>
 ## 10. Open questions
 
 | # | Question | Where to dig |
 |---:|---|---|
-| 1 | Full per-sid score table: you need to parse all approximately 3000 calls `SetObjBuildingExtProperties` / `SetObjBaseSearchBuildVisionScore`. Now we know: peasant = 10, Town Hall = 1000. | Call site parser in `unit.script`. |
-| 2 | Bridge between the binary engine and `_misc_Surrender` - where exactly is the GUI button called? It is assumed that this is the “Surrender” button in the game menu without a separate hotkey. | GUI callbacks in native binary. |
-| 3 | `lastattacktime`-music ↔ defeat: when attacked, the interval `gc_gui_battlemusicinterval - gc_gui_underattackalarminterval` is for the “alert” tool. | Direct calculation using constants. |
-| 4 | Gamestage transition `started → finished` - who triggers it? `_misc_CheckEndGame` does not write gamestage; Apparently this is a binary engine after `gc_gamemode_endgamestatistics`. | End-of-batch network protocol profiling. |
-| 5 | “1 person per team” victory? If the starting setup is 1v1 without allies and the enemy capitulates at the 5th second, `_misc_CheckEndGame` still works (one team of survivors). If initially there was “sandbox” (1 player), the function early `exit` through `not bSecondTeamExist` should be checked empirically. | Empirically in the editor. |
-| 6 | What exactly does "Score" do in the final screen - is it displayed as a formula or as a sampled timeseries from `stat.scores`? | UI extension was not extracted. |
+| 1 | A complete score table by internal ID would require parsing roughly 3,000 calls to `SetObjBuildingExtProperties` and `SetObjBaseSearchBuildVisionScore`. Known values are Peasant = 10 and Town Hall = 1,000. | Parse call sites in `unit.script`. |
+| 2 | Where does the native executable call `_misc_Surrender`, and which interface control invokes it? It is probably the **Surrender** button in the game menu, without a separate hotkey. | Inspect native interface callbacks. |
+| 3 | How are battle music and defeat related? The difference between `gc_gui_battlemusicinterval` and `gc_gui_underattackalarminterval` may help an alert-analysis tool. | Calculate the intervals from the constants. |
+| 4 | Who changes the map stage from `started` to `finished`? `_misc_CheckEndGame` does not write it; the native executable probably does so after entering `gc_gamemode_endgamestatistics`. | Profile the network protocol at the end of a match. |
+| 5 | How does victory behave when only one team was present from the start? After an opponent surrenders in a normal one-versus-one match, `_misc_CheckEndGame` sees one surviving team. In a one-player sandbox, however, `not bSecondTeamExist` causes an early exit. | Test both setups in the editor. |
+| 6 | How does the final screen display the score: as one total or as the sampled `stat.scores` time series? | Inspect the interface extension. |
 
 ---
 
@@ -351,9 +352,10 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
           _misc_LanCloseSessionSetScores;
        end;
     ```
-[^11]: Overlapping the previously placed `lose` with a team victory - `lib/miscext2.script:3822-3827`.
+[^11]: A team victory overwrites a previously assigned `lose` state —
+    `lib/miscext2.script:3822-3827`.
 
-[^12]: Trigger actions of the end of the party - `lib/classes.script:6334-6335`:
+[^12]: End-of-match trigger actions — `lib/classes.script:6334-6335`:
     ```pascal
     gc_trigger_action_endgame_win  = 47;
     gc_trigger_action_endgame_lose = 48;
@@ -400,13 +402,13 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^21]: Helper for buildings - `lib/unit.script:503` (`SetObjBuildingExtProperties(..., score, usage, ...)`).
 
-[^22]: City Center Score - `lib/unit.script:2371`:
+[^22]: Town Hall score — `lib/unit.script:2371`:
     ```pascal
     SetObjBuildingExtProperties(objprop, objbase, 4000, 500, 300, True, 1000, gc_obj_usage_center, 0, 700, 700, 0, 0, 0)
     ```
 [^23]: Helper for units - `lib/unit.script:571` (`SetObjBaseSearchBuildVisionScore(..., score)`).
 
-[^24]: Peasant Score - `lib/unit.script:636`:
+[^24]: Peasant score — `lib/unit.script:636`:
     ```pascal
     SetObjBaseSearchBuildVisionScore(objprop, objbase, 700, 144, 1, 10)
     ```
@@ -417,12 +419,12 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
        // plus all units inside the building (garrison)
        gPlayer[plInd].counter.scores += gObjProp[..].score * 3;
     ```
-[^26]: Accumulation when an object appears - `lib/unit.script:3836-3841`:
+[^26]: Score added when an object appears — `lib/unit.script:3836-3841`:
     ```pascal
     var scoremodifier : Integer = bcaptured ? 5 : 1;
     gPlayer[pl].counter.scores += TObjProp(pobjprop).score * scoremodifier;
     ```
-[^27]: Write-off when an object is lost - `lib/unit.script:3939-3950`:
+[^27]: Score deducted when an object is lost — `lib/unit.script:3939-3950`:
     ```pascal
     scoremodifier := bcaptured ? 5 : (brebellion and bmercenary ? 3 : 2);
     gPlayer[pl].counter.scores -= TObjProp(pobjprop).score * scoremodifier;
@@ -433,11 +435,14 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     gPlayer[i].stat.population.Add(popul);   // farmused
     gPlayer[i].stat.scores.Add(score);       // counter.scores
     ```
-[^29]: Entry on the leaderboard - `lib/miscext2.script:3704-3766` (`_misc_LanCloseSessionSetScores`).
+[^29]: Leaderboard update — `lib/miscext2.script:3704-3766`
+    (`_misc_LanCloseSessionSetScores`).
 
-[^30]: Delivery protocol packages - `lib/classes.script:7569-7570` (`gc_LAN_GAME_SURRENDER = 10`, `gc_LAN_GAME_SURRENDER_CONFIRM = 11`).
+[^30]: Surrender protocol packets — `lib/classes.script:7569-7570`
+    (`gc_LAN_GAME_SURRENDER = 10`, `gc_LAN_GAME_SURRENDER_CONFIRM = 11`).
 
-[^31]: Penalty to the first leaver and 2v2 logic - `lib/miscext2.script:3730-3757`:
+[^31]: First-leaver penalty and two-versus-two logic —
+    `lib/miscext2.script:3730-3757`:
     ```pascal
     if (firstleaverind=i) then LanSrvSetClientScore(... -w)   // leaver penalty
     case i of

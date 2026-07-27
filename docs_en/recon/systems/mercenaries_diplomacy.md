@@ -11,15 +11,15 @@ Source references and Pascal excerpts are collected under
 
 **Related documents:**
 
-- [peasant resource gathering](../world/economy/peasant_extraction.md) - flag semantics
-  `bnohungry`; for mercenaries it is `True` - they do not eat food.
-- [construction and repair](../world/economy/building_mechanics.md) – footprint and model
-  construction of a diplomatic center.
-- [Recon: server architecture and network synchronization](../../../internals_en/engine/server_sync_architecture.md) —
-  Reassignment of mercenaries during a riot occurs through `_misc_ChangePlayer`,
-  this is a server-authoritative event.
-- [Recon: determinism of loot and combat (RNG audit)](../../../internals_en/engine/determinism_audit.md) - transition during a riot
-  uses `_misc_RandomInt` (seeded RNG).
+- [Peasant resource gathering](../world/economy/peasant_extraction.md)
+  explains `bnohungry`; it is `True` for mercenaries, so they consume no food.
+- [Construction and repair](../world/economy/building_mechanics.md)
+  explains the Diplomatic Center's footprint and construction model.
+- [Server architecture and network synchronization](../../../internals_en/engine/server_sync_architecture.md)
+  shows why rebellion transfers through `_misc_ChangePlayer` are
+  server-authoritative.
+- [Determinism audit](../../../internals_en/engine/determinism_audit.md)
+  covers the seeded `_misc_RandomInt` call used for desertion.
 
 <a id="кратко"></a>
 ## TL;DR
@@ -29,38 +29,39 @@ Source references and Pascal excerpts are collected under
   has 4,500 health, and requires an Academy and Town Hall.
 - It recruits **eight mercenaries**: six base units and two from the
   Early Bird DLC. Every nation uses the same roster and unit statistics.
-- Mercenary costs **only gold** when hired, flag `bnohungry = True`
-  (doesn't eat food), but **constantly consumes gold** as upkeep
+- A mercenary costs **only gold** to recruit and has `bnohungry = True`,
+  so it consumes no food, but **continuously drains gold** as upkeep
   (`consume.gold > 0`).
 - When a player runs out of gold **and** `resconsume[gold] > resincome[gold]`,
   `brebellion` is raised. At every background idle update, each mercenary
   can be transferred to the global “mercenary” NPC player
   (`gc_player_mercenaryind = MaxPlayerCount - 1`):
-  - **easy:** 0.305% per tick
-  - **normal:** 0.610% per tick
-  - **hard and higher:** 18.31% per tick
-- This NPC slot is always hostile to all real players.
+  - **Easy:** 0.305% per update;
+  - **Normal:** 0.610% per update;
+  - **Hard and above:** 18.31% per update.
+- This NPC player is hostile to every normal participant.
 
 ---
 
 <a id="1-дипломатические-здания-по-нациям"></a>
 ## 1. Diplomatic buildings (by nation)
 
-All 21 nations have exactly one diplomatic center, registered uniformly
-to `country.script` via `_country_AddMember` with category
+All 21 nations register one Diplomatic Center in `country.script` through
+`_country_AddMember`, using category
 `gc_country_editorplace_category_buildings` and AI role
 `gc_ai_unit_dipcenter` [^1].
 
-Stats are dispatched in `unit.script` by `csid+'dip'`: base values for
-17 "European" nations, and individual overrides for `rus`, `ukr`,
+`unit.script` selects statistics by the internal building ID
+`csid+'dip'`: one common variant for
+17 European nations and separate overrides for `rus`, `ukr`,
 `tur`, `alg` [^2].
 
-Argument order `SetObjBuildingExtProperties`:
+The argument order of `SetObjBuildingExtProperties` is:
 `maxhp, buildtime, costpercent, bcapture, score, usage, food, wood, stone, gold, iron, coal` [^3].
 
-Please note: in individual branches the argument `gold` is set to `0`,
-but next to it is the comment `0{1000}`. This is a marker that in Cossacks 1 the price was
-1000 gold, but in Cossacks 3 it was reset.
+In the nation-specific branches, `gold` is zero but is followed by the
+comment `0{1000}`. This indicates that the building cost 1,000 gold in
+the first Cossacks and that Cossacks 3 removed that cost.
 
 | Building | Nations | Health | Build time | Wood | Stone | Gold | Capturable |
 |---|---|---:|---:|---:|---:|---:|---|
@@ -69,17 +70,19 @@ but next to it is the comment `0{1000}`. This is a marker that in Cossacks 1 the
 | **Ukrainian Diplomatic Center** (`ukrdip`) | Ukraine | 5000 | 1000 frames | 3900 | 2700 | 0 | No |
 | **Turkish / Algerian Diplomatic Center** (`turdip` / `algdip`) | Turkey, Algeria | 5500 | 1000 frames | 4600 | 2020 | 0 | No |
 
-Preconditions (from field `prereqs` to `data.json["buildings"]`, for example
+The `prereqs` field in `data.json["buildings"]` (for example,
 `ausdip → ['ausaca']`): the Diplomatic Center requires an existing
 Academy. The building is **not capturable** (`bcapture=False`).
 
-`costpercent=100`, so each subsequent diplomatic center is no more expensive than the previous one -
-but the localization is unambiguous: `data/locale/en/units.txt @%nat%dip.ext` reads
-**"You can only build one diplomatic center."** Mechanism: probably
-the limitation is implemented through the GUI / switch `bproduceenabled`, not
-via costpercent. An open question (see §8).
+`costpercent = 100`, so price scaling does not prevent a second
+Diplomatic Center.
+However, `data/locale/en/units.txt @%nat%dip.ext` explicitly says,
+**“You can only build one diplomatic center.”** The interface or
+`bproduceenabled`, rather than `costpercent`, probably enforces the limit.
+This remains an open question (see §9).
 
-`gc_obj_usage_dipcenter = 32` [^4] - used by the map setting `marketdip`
+`gc_obj_usage_dipcenter = 32` [^4] is used by the **Market and Diplomatic
+Center** match setting (`marketdip`)
 (see §5).
 
 ---
@@ -94,29 +97,30 @@ Every nation registers the same eight mercenaries: **Light Infantryman**
 the Early Bird units **Turkish Archer** (`archerturdip`) and
 **Light Cavalry** (`lightcavalrydip`) [^5].
 
-All 21 nations also receive FixedProduce posting via
-`_country_AddFixedProduceWithAccessControl` with the same set of names, with
-standard prereqs `csid+'cen'` and `csid+'aca'` [^6]. This means: for
-production of a mercenary requires Town Hall, Academy **and** diplomatic center (the last one is
-the building itself in which `member` lives).
+All 21 nations also receive the same production wiring through
+`_country_AddFixedProduceWithAccessControl`, with `csid+'cen'` and
+`csid+'aca'` as standard prerequisites [^6]. Recruitment therefore
+requires a Town Hall, an Academy, and the Diplomatic Center where the
+mercenary is registered as a `member`.
 
 <a id="21-детектирование-bmercenary"></a>
 <a id="21-как-игра-распознаёт-наёмника"></a>
 ### 2.1 How the game identifies a mercenary
 
-The `bmercenary := True` flag is set by a list of names, not by a field
-data - the dispatcher compares `sid` with eight dip suffixes through
-`StrExists(sid, 'dip')` and an explicit enumeration of [^7].
+`bmercenary := True` is derived from a hard-coded list rather than a
+data field. The dispatcher checks whether the internal unit ID (`sid`)
+contains `dip`, then matches it against eight explicit IDs [^7].
 
-Inside `case` of each unit (for example, `'archer','archerdip','archertur','archerturdip',...`)
-block `if (bmercenary) then begin ... end` overrides hp/weapon/price/`consume`/`bnohungry`/`costpercent`.
-The dispatcher uses the same `case` as for a normal unit and then narrows it down.
+Within each unit's `case` branch—for example,
+`'archer','archerdip','archertur','archerturdip',...`—the
+`if (bmercenary) then begin ... end` block overrides health, weapons,
+price, `consume`, `bnohungry`, and `costpercent`.
 
-> From 2026-04-30 `docs/data.json` correctly takes into account `if (bmercenary)` -
-> `parse_units.py` retrieves the merc block and `_compute_effective_unit` applies
-> it for sids from `BMERCENARY_SIDS` (8 dip suffixes). All 168 lines
-> (8 sid × 21 nations) now have merc stats. The values below are read from
-> `unit.script` and coincide with what is in `data.json`.
+> Since 2026-04-30, `docs/data.json` accounts for `if (bmercenary)`.
+> `parse_units.py` extracts the mercenary branch, and
+> `_compute_effective_unit` applies it to the eight IDs in
+> `BMERCENARY_SIDS`. All 168 unit/nation combinations now use the same
+> effective statistics shown below.
 
 <a id="22-статы-каждого-наёмника"></a>
 <a id="22-характеристики-наёмников"></a>
@@ -133,39 +137,42 @@ The dispatcher uses the same `case` as for a normal unit and then narrows it dow
 | **Dragoon, 18th century** (`dragoon18dip`) | `'dragoon',…,'dragoon18','dragoon18dip','lightcavalry','lightcavalrydip'` | 100 | 64 | 120 | 120 | 102 | cavalry bullet 18, range 800 |
 | **Light Cavalry** (`lightcavalrydip`) | same branch | 100 | 64 | 120 | 120 | 102 | same |
 
-Exact lines in `unit.script` for each unit and location of `bnohungry`
-and resetting food/wood/stone/iron/coal - see [^8].
+See [^8] for the exact `unit.script` branches that set `bnohungry` and
+zero food, wood, stone, iron, and coal.
 
 `bnohungry := True` is set in every mercenary branch, so mercenaries do not
 pay food upkeep (see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
 
-Price components food/wood/stone/iron/coal for mercenaries are all equal to 0 - challenges
-`SetObjBasePrice(objbase, 0, 0, 0, gold, 0, 0)` reset everything except gold.
-That is, **mercenaries only cost gold** when hired.
+`SetObjBasePrice(objbase, 0, 0, 0, gold, 0, 0)` zeros every recruitment
+resource except gold. **Mercenaries therefore cost only gold**.
 
 <a id="23-масштабирование-цены-и-общий-счётчик"></a>
-### 2.3 Price scaling and general counter
+### 2.3 Price scaling and shared counters
 
-`costpercent` for mercenaries = 100, 100.5 or 102 - each subsequent copy costs
+Mercenary `costpercent` is 100, 100.5, or 102. Each subsequent copy costs
 `floor(base × (costpercent/100)^N)` (see [price growth](../../reports/economy/scaling_prices.md)).
 For mercenaries the limit is **lower than for regular units** [^9]:
 
-- Paired `sid` divide the counter: `archerdip ↔ archerturdip` and
-  `dragoon18dip ↔ lightcavalrydip` via branch `case sid of` summarize
+- Paired units share a counter: **Archer** (`archerdip`) with
+  **Turkish Archer** (`archerturdip`), and **Dragoon, 18th century**
+  (`dragoon18dip`) with **Light Cavalry** (`lightcavalrydip`). The
+  `case sid of` branch sums
   `gPlayer[plInd].counter.all[cid][tmpid]`.
-- Multiplier `costmodifier = pow(costpercent/100, count)` is cut off by
-  condition `if bmercenary and (costmodifier > 2) then costmodifier := 2`,
-  whereas for normal units the ceiling is `20000`.
+- `costmodifier = pow(costpercent/100, count)` is capped by
+  `if bmercenary and (costmodifier > 2) then costmodifier := 2`.
+  Regular units instead use a ceiling of `20000`.
 
 Two consequences:
 
-1. **`archerdip` and `archerturdip` share the price counter** (same for
-   `dragoon18dip ↔ lightcavalrydip`). Hiring 100 `archerturdip` increases
-   price `archerdip`.
-2. The price of a mercenary can increase to a maximum of **2×** from the base, and not up to 20000×.
-   That is, unlike ordinary units, mercenaries do not become exorbitantly
-   expensive - with `costpercent=100.5` the 2× ceiling is achieved approximately
-   `ln(2)/ln(1.005) ≈ 139` for mercenaries (hereinafter the price is flat).
+1. **The Archer** (`archerdip`) **and Turkish Archer**
+   (`archerturdip`) share one price counter. The same applies to the
+   **Dragoon, 18th century** (`dragoon18dip`) and **Light Cavalry**
+   (`lightcavalrydip`). Recruiting 100 Turkish Archers therefore raises
+   the price of the ordinary Archer.
+2. A mercenary's price can rise to at most **twice its base price**, not
+   20,000 times. With `costpercent = 100.5`, the cap is reached after
+   roughly `ln(2) / ln(1.005) ≈ 139` shared recruits; the price then
+   remains flat.
 
 ---
 
@@ -178,119 +185,122 @@ Upkeep is consumed every frame in the same general cycle as food
 The handler is `_player_ProcessResourceConsume`
 in `player.script` [^10].
 
-Pseudocode:
+The cycle works as follows:
 
-- For each resource `i`, `resconsume = gPlayer[plInd].counter.resconsume[i]` is taken.
-- `resconsume × gc_time_to_frames × deltatime` is added to the bank once per frame,
-  where `gc_time_to_frames = 32`.
-- `value = floor(bank / 20000)` — integer number of resource units to be written off.
-- If the player has enough stock, `value`, the riot/hunger flag, is written off
-  removed.
-- If there is not enough, everything that is is written off and the corresponding one is raised
-  flag (`bfamine` for food, `brebellion` for gold).
+- For resource `i`, it reads
+  `resconsume = gPlayer[plInd].counter.resconsume[i]`.
+- Every frame it adds
+  `resconsume × gc_time_to_frames × deltatime` to an accumulator, with
+  `gc_time_to_frames = 32`.
+- `value = floor(bank / 20000)` is the whole number of resource units
+  due for payment.
+- If the player can pay, `value` is deducted and the corresponding
+  famine or rebellion flag is cleared.
+- Otherwise, the remaining stock is deducted and the game raises
+  `bfamine` for food or `brebellion` for gold.
 
 <a id="скорость-утечки-золота"></a>
-### Gold Leakage Rate
+### Gold drain rate
 
-Same formula as for food upkeep - *`consume.gold` units per game
-second per player*:
+Gold uses the same formula as food upkeep, in `consume.gold` units per
+game second:
 ```
 drain_per_g_sec = sum_over_units(consume.gold) × 32 / 20000
 ```
-That is, one `dragoon18dip` with `consume.gold=120` pumps out
-`120 × 32 / 20000 = 0.192 gold/g-sec` ≈ **11.5 gold/g-min**. Army mid-game
-out of 50 `dragoon18dip` takes away `50 × 0.192 = 9.6 gold/g-sec` ≈ 576 gold/g-min —
-this is only supported by the market+gold mine combination.
+One **Dragoon, 18th century** (`dragoon18dip`) with
+`consume.gold = 120` drains `120 × 32 / 20000 = 0.192` gold per game
+second, or about **11.5 gold per game minute**. Fifty of them drain 9.6
+gold per game second, or 576 per game minute—a cost that generally
+requires a Market and Gold Mines.
 
 <a id="bfamine-vs-brebellion--асимметрия"></a>
 <a id="различие-голода-bfamine-и-бунта-brebellion"></a>
-### `bfamine` vs `brebellion` - asymmetry
+### `bfamine` versus `brebellion`: an asymmetry
 
-Both flags are reset to `False` when the player has the resources to pay.
-Both are put in `True` when there are no resources. **But for gold** there is
-additional protection: riot only triggers if
-`resconsume[gold] > resincome[gold]` [^11]. This means: if your income is from
-gold covers the leak, then even a momentary zero in the account will not cause
-riot. Only when you are **structurally** in deficit AND the gold buffer is empty -
-The riot flag snaps on.
+Both flags are cleared when the player can pay and set when the relevant
+resource is unavailable. **Gold has an additional safeguard:** rebellion
+requires `resconsume[gold] > resincome[gold]` [^11]. If current gold
+income covers upkeep, a momentary zero balance does not cause a rebellion.
+The player must have both an empty reserve and an ongoing deficit.
 
-Additional insurance: `brebellion` is reset if `res[gold] >= 2`
-or if `resconsume[gold] <= 0` (there is no one else to pay for) [^12]. That is
-the dismissal of all mercenaries immediately ends the rebellion.
+`brebellion` is also cleared when `res[gold] >= 2` or
+`resconsume[gold] <= 0` [^12]. Disbanding all mercenaries therefore ends
+the rebellion immediately.
 
 ---
 
 <a id="4-триггер-бунта"></a>
 <a id="4-как-начинается-бунт"></a>
-## 4. Riot trigger
+## 4. How rebellion begins
 
-The logic of defection lives in the per-unit Nothing handler
-`units/unit.inc/nothing.inc` (in the same place where the cycle of random death from
-hunger) [^13]. Launch conditions:
+Desertion is handled by each unit's `Nothing` state in
+`units/unit.inc/nothing.inc`, alongside random starvation deaths [^13].
+It requires:
 
 - `gPlayer[plInd].brebellion = True`,
 - `objprop.bmercenary = True`,
 - `plInd <> gc_player_mercenaryind` (not the mercenary slot itself),
-- unit - `bplayable`.
+- a playable unit (`bplayable`).
 
-Next - throw RNG `_misc_RandomInt` (`floor(random × 32768)`,
-`gc_c1rand_to_random = 32768`) [^14] with a threshold depending on complexity
-player.
+The game then calls `_misc_RandomInt`
+(`floor(random × 32768)`, with `gc_c1rand_to_random = 32768`) [^14].
+The threshold depends on the player's difficulty.
 
-| difficulty | `_misc_RandomInt < threshold` | probability for one Nothing-tick |
+| Difficulty | Condition | Probability per `Nothing` update |
 |---|---|---:|
-| 0 (easy) | 100 | 100/32768 ≈ **0.305%** |
-| 1 (normal) | 200 | 200/32768 ≈ **0.610%** |
-| >1 (hard / very hard / impossible) | 6000 | 6000/32768 ≈ **18.31%** |
+| Easy (`0`) | 100 | 100/32768 ≈ **0.305%** |
+| Normal (`1`) | 200 | 200/32768 ≈ **0.610%** |
+| Hard, Very Hard, or Impossible (`>1`) | 6000 | 6000/32768 ≈ **18.31%** |
 
-The Nothing handler runs on every progress tick for idle/walking units,
-therefore, on hard levels **a typical mercenary deserts within 5-6 ticks
-after `brebellion = True`** - in fact the entire army of mercenaries goes to
-to the enemy for several game seconds.
+The handler runs during progress updates for idle and walking units.
+On Hard and above, **a typical mercenary deserts within five or six
+updates after `brebellion = True`**. A whole mercenary army can therefore
+switch sides in a few game seconds.
 
-When RNG is triggered, the unit is transferred to the NPC slot via
-`_misc_ChangePlayer(myHnd, plMercHnd, False, False, True)`. Mercenary slot -
-`gc_player_mercenaryind = gc_MaxPlayerCount-1` [^15]. This player is tough
-registered as an enemy for all other slots when initializing the map:
-each real player's mask `enemyplmask` includes the NPC slot bit [^16].
+On a successful random check, the unit is transferred to the NPC player via
+`_misc_ChangePlayer(myHnd, plMercHnd, False, False, True)`. The mercenary
+player occupies
+`gc_player_mercenaryind = gc_MaxPlayerCount - 1` [^15]. Map
+initialization makes this player hostile to every normal participant:
+each real player's `enemyplmask` includes the NPC player's bit [^16].
 
 Therefore, deserted mercenaries become hostile to **everyone**, including
-former owner. They are not destroyed.
+their former owner. They remain alive.
 
-The mercenary player slot starts with a fixed supply of resources: 20k gold
-and 10k of the rest [^17]. This is necessary so that deserted mercenaries can
-pay themselves upkeep before they themselves start a rebellion - but since they are already in
-mercenary slot, it doesn't matter.
+The mercenary NPC starts with 20,000 gold and 10,000 of every other
+resource [^17]. This lets deserted units pay their upkeep, although they
+cannot desert again while already owned by the mercenary player.
 
 <a id="реакция-ai"></a>
 <a id="реакция-ии"></a>
 ### AI reaction
 
-Riot status also affects AI defense scoring [^18]: for already captured
-units `scoremodifier = 5`, for their mercenaries with `brebellion = True` -
-`scoremodifier = 3`, for others - `scoremodifier = 2`. AI reduces
-the priority of protecting one's own mercenaries when they are on the verge of desertion.
+Rebellion also changes the AI's defense weighting [^18]:
+`scoremodifier = 5` for captured units, `3` for its own mercenaries
+during rebellion, and `2` for other owned units. The AI thus lowers the
+priority of protecting mercenaries that are about to desert.
 
 ---
 
 <a id="5-map-настройка-marketdip"></a>
 <a id="5-настройка-лобби-рынок-и-дипломатический-центр-marketdip"></a>
-## 5. Map setting `marketdip`
+## 5. “Market and Diplomatic Center” setting (`marketdip`)
 
-`gMap.settings.additional.marketdip` controls the availability of markets and
-diplomatic centers in the party. All 5 meanings with canonical Russian names -
+`gMap.settings.additional.marketdip` controls the availability of Markets
+and Diplomatic Centers in a match. All five values are listed under
 [lobby settings](../../reports/map/lobby_settings.md#marketdip--рынок-и-дипцентр);
-engine behavior - [match settings](../world/map/game_settings.md) §3.5.
+engine behavior is covered by
+[match settings](../world/map/game_settings.md) §3.5.
 
 Constants [^19]:
 
-- `gc_mapsettings_marketdip_default = 0` - both are enabled,
-- `gc_mapsettings_marketdip_nodip = 1` — deep centers are disabled (`bproduceenabled := False`),
-- `gc_mapsettings_marketdip_nomarket = 2` - markets are disabled,
-- `gc_mapsettings_marketdip_noboth = 3` - both are disabled,
+- `gc_mapsettings_marketdip_default = 0` — both are enabled,
+- `gc_mapsettings_marketdip_nodip = 1` — Diplomatic Centers are disabled (`bproduceenabled := False`),
+- `gc_mapsettings_marketdip_nomarket = 2` — Markets are disabled,
+- `gc_mapsettings_marketdip_noboth = 3` — both are disabled,
 - `gc_mapsettings_marketdip_expensivemercs = 4` — the price of each mercenary × 3.
 
-Branch `expensivemercs` lives in `player.script` [^20]: if
+The `expensivemercs` branch is in `player.script` [^20]. If
 `objprop.bmercenary = True`, then for each resource
 `TObjBase(pobjbase).price[res]` is multiplied by `gc_gameplay_expensivemercskoef = 3` [^21].
 In the lobby with `expensivemercs`, the gold price of mercenaries is tripled
@@ -302,127 +312,131 @@ In the lobby with `expensivemercs`, the gold price of mercenaries is tripled
 
 <a id="6-нейтральные-дипцентры--точки-найма"></a>
 <a id="6-есть-ли-нейтральные-точки-найма"></a>
-## 6. Neutral deep centers / hiring points
+## 6. Neutral recruitment points
 
 **No.** Search in `data/scripts` for substrings `peasantdip`, `townhalldip`,
-`tradehouse`, `gc_player_neutralind`, `bneutral` - none of these patterns
-does not spawn neutral villages or pre-placed deep buildings on
-standard skirmish maps. The only "neutral" concepts are:
+`tradehouse`, `gc_player_neutralind`, and `bneutral` finds no neutral
+villages or pre-placed Diplomatic Centers on standard skirmish maps.
+The only related neutral mechanisms are:
 
-- Field `bneutral` for `gPlayer` [^22] - set/removed only from
-  scripted scenarios. On skirmish all real players have `bneutral = False`.
+- `gPlayer.bneutral` [^22], which is changed only by scenarios. All
+  normal players have `bneutral = False` in a skirmish;
 - Mercenary owner slot `gc_player_mercenaryind` exists from initialization
-  card, but has *no buildings* - he is purely a recipient for
-  deserted units.
+  but owns *no buildings*. It exists only to receive deserters.
 
-Therefore, on standard random maps **the only way to recruit
-mercenaries - build your own `<nat>dip`** (price + prereqs as in §1).
+Therefore, on a standard random map, **the only way to recruit
+mercenaries is to build a Diplomatic Center** (`<nat>dip`) with the
+cost and prerequisites listed in §1.
 
-Custom scenarios can pre-deploy neutral deep centers and use
-`_misc_ChangePlayer`, etc. (for example, some campaign maps), but this
-specificity of the content, not the engine.
+Custom scenarios can place neutral Diplomatic Centers and call
+`_misc_ChangePlayer`, but that is scenario content rather than a
+standard random-map mechanic.
 
 ---
 
 <a id="7-кросс-национальная-доступность"></a>
 <a id="7-доступность-для-разных-наций"></a>
-## 7. Cross-national availability
+## 7. Availability across nations
 
-Since all 8 mercenaries are added via `_country_AddMember` in **each**
-national roster, and the FixedProduce posting is in the same thread
-"for all nations", **any nation can hire any mercenary**. 6 basic
-(`roundshierdip`, `lightinfantrydip`, `archerdip`, `grenadierdip`,
-`cossacksichdip`, `dragoon18dip`) - certainly. 2 EarlyBird mercenaries
-(`lightcavalrydip`, `archerturdip`) require `bEarlyBird` (DLC purchased) [^5].
+Because `_country_AddMember` adds all eight mercenaries to **every**
+nation and the production setup is shared, **any nation can recruit any
+mercenary**. The six base units are **Roundshier** (`roundshierdip`),
+**Light Infantryman** (`lightinfantrydip`), **Archer** (`archerdip`),
+**Grenadier** (`grenadierdip`), **Sich Cossack** (`cossacksichdip`), and
+**Dragoon, 18th century** (`dragoon18dip`). The **Light Cavalry**
+(`lightcavalrydip`) and **Turkish Archer** (`archerturdip`) require the
+Early Bird DLC (`bEarlyBird`) [^5].
 
-No mercenary has a nation suffix in `sid` (unlike `pikemanrus`,
-`pikemansco`, etc.), and unit initialization puts `bmercenary` without
-filtering by nation [^7].
+Mercenary IDs have no nation suffix, unlike the **Spearman**
+(`pikemanrus`) and **Covenanter Pikeman** (`pikemansco`). Unit
+initialization sets `bmercenary` without filtering by nation [^7].
 
-“National” infix in paired `sid` (`archerdip` vs `archerturdip`,
-`dragoon18dip` vs `lightcavalrydip`) is a purely **art/model option**:
-same stats, same general price counter (§2.3), just aesthetic
-“Western”/“Eastern” variation of the same combat functionality.
+The apparent nation distinction in the paired IDs is purely a
+**visual/model variant**. The Archer and Turkish Archer, as well as the
+Dragoon and Light Cavalry, share statistics and a price counter (§2.3);
+only their Western or Eastern appearance differs.
 
-The rules for officer formations differ slightly [^23]: `roundshierdip` and
-`grenadierdip` can be included in standard infantry formations along with
-national pikemen/musketeers. `archerdip`, `archerturdip`,
-`lightinfantrydip` go through a separate registration `…NoOfficersExtDip` -
-form their own formations without a national officer.
+Formation rules differ slightly [^23]. **Roundshiers**
+(`roundshierdip`) and **Grenadiers** (`grenadierdip`) can join standard
+infantry formations with national Pikemen and Musketeers. **Archers**,
+**Turkish Archers**, and **Light Infantrymen** use the
+`…NoOfficersExtDip` registration and form formations without a national
+Officer.
 
 ---
 
 <a id="8-наёмник-vs-обычный-юнит--сравнение"></a>
 <a id="8-сравнение-с-обычными-юнитами"></a>
-## 8. Mercenary vs regular unit - comparison
+## 8. Comparison with regular units
 
 <a id="стоимость"></a>
 ### Cost
 
-Mercenaries cost **gold only + construction time**; regular units – food +
-iron + coal (plus food for upkeep). For example, for a heavy mounted rifleman:
+Mercenaries require **only gold and recruitment time**. Regular units may
+also require food, iron, and coal, then consume food as upkeep. A heavy
+mounted shooter illustrates the trade-off:
 
-| Unit | food | iron | coal | gold | weapons.cost (per shot, iron+coal) | hp | buildtime |
+| Unit | Food | Iron | Coal | Gold | Shot cost | Health | Recruit time |
 |---|---:|---:|---:|---:|---|---:|---:|
-| `dragoon18` (regular, eu) | 70 | 7 | 0 | 60 | iron 4 + coal 5 | 225 | 720 frames |
-| `dragoon18dip` (mercenary) | 0 | 0 | 0 | 120 | iron 5 + coal 8 | **100** | **64 frames** |
+| **Dragoon, 18th century** (`dragoon18`, regular European) | 70 | 7 | 0 | 60 | 4 iron + 5 coal | 225 | 720 frames |
+| **Dragoon, 18th century (mercenary)** (`dragoon18dip`) | 0 | 0 | 0 | 120 | 5 iron + 8 coal | **100** | **64 frames** |
 
-That is, a hired Dragoon costs +60 gold and zero food/iron/coal when hired,
-**builds 11x faster**, but has 44% of normal HP and burns a little
-more iron+coal per shot. And he constantly loses 120 gold.
-The same pattern for Archer (`archer` btf 32 → `archerdip` btf 40 - formally
-a little slower, but a mercenary of this tier costs 0 food versus 20 and has damage
-25 versus 15).
+The mercenary costs 60 more gold and no food, iron, or coal at
+recruitment. It is **recruited eleven times faster**, but has only 44%
+of the regular Dragoon's health, costs slightly more iron and coal per
+shot, and continuously drains gold. The **Archer** follows a similar
+pattern: the regular **Archer** (`archer`) has `btf = 32`, while the
+mercenary Archer (`archerdip`) has `btf = 40`; the mercenary costs no
+food and deals 25 rather than 15 damage.
 
 <a id="содержание"></a>
 ### Upkeep
 
-- Normal units: food upkeep `(consume.food + (bnohungry?0:30)) × 32/20000`
-  per game second (see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
-  Mercenaries with `bnohungry` → no food drain
-  food.
-- Mercenaries: gold upkeep `consume.gold × 32/20000` for g-sec, depends on
+- Regular units consume food at
+  `(consume.food + (bnohungry?0:30)) × 32/20000` per game second
+  (see [hunger and army upkeep](../world/economy/hunger_and_rebellion.md)).
+  Mercenaries have `bnohungry`, so they drain no food.
+- Mercenaries consume gold at `consume.gold × 32/20000` per game second,
+  based on
   `consume.gold` (4–150 per mercenary).
-- Officers/Royal Musketeers also have `consume.gold` (60–150), but they
-  **not** `bmercenary`, so they don’t rebel.
+- Officers and Royal Musketeers also have `consume.gold` values of
+  60–150, but are **not** `bmercenary` and cannot rebel.
 
 <a id="когда-брать-наёмников-стратегический-профиль"></a>
-### When to take mercenaries (strategic profile)
+### Strategic use
 
-The Mercenary Catalog is essentially a **quick deployment army for gold**:
+Mercenaries are essentially a **rapid-deployment army bought with gold**:
 
 - **Early game.** Nations with an abundance of wood and poor access to iron/coal
-  can instantly get infantry by exchanging wood and stone for gold
-  through the market and immediately hiring `roundshierdip` or `lightinfantrydip`.
-- **Mid-game.** Goldth peak (allied trade, captured gold
-  mines) converts well into a fast army `dragoon18dip` - without
-  waiting for coal mines.
-- **Glass cannon.** HP is about half that of regular units
-  the same class - but the advantage is the speed of hiring at the top tier
-  huge: `dragoon18dip` trains 64 frames versus 720 for a regular one
-  `dragoon18` - **11.25 times faster**.
+  can exchange wood and stone for gold at the Market, then quickly recruit
+  Roundshiers or Light Infantrymen.
+- **Mid-game.** A gold surplus from allied trade or captured Gold Mines
+  can become a Dragoon army without waiting for Coal Mines.
+- **Low durability, fast deployment.** Mercenaries often have roughly half
+  the health of comparable regular units, but the high-tier recruitment
+  advantage is enormous: the mercenary Dragoon takes 64 frames versus
+  720 for the regular unit, **11.25 times faster**.
 
-**The main risk is the loss of income from gold during a riot.** It’s worth losing
-`income[gold]`, and the entire army of mercenaries deserts in seconds (on hard and
-above). Standard counter-play - disband the mercenaries **before**
-as `gold` will drop to zero.
+**The main risk is an interruption to gold income.** If
+`income[gold]` falls below upkeep and the reserve reaches zero, an entire
+mercenary army can desert within seconds on Hard and above. Disbanding
+mercenaries **before** the reserve is exhausted avoids this.
 
 ---
 
 <a id="9-открытые-вопросы"></a>
 ## 9. Open questions
 
-| # | Question | Where to dig |
+| # | Question | How to verify |
 |---:|---|---|
-| 1 | Limit “one diplomatic center per player” - the localization states “you can only build one diplomatic center”, but there is no explicit check in the scripts of the form `if count(dip) >= 1 then bproduceenabled := False`. `<nat>dip` `costpercent = 100` also does not block. | `gui.script`, or quota `_ai_TryUnit`. The AI logic checks for `_ai_GetUnitCount(plind, cid, gc_ai_unit_dipcenter) > 0`, but this is not enforcement for the human player. |
-| 2 | `bnoreputation` - does not appear in any installation script. It's possible that this field referred to Cossacks 1/2, or that we have the wrong name. | grep over all .script + .global. |
-| 3 | Riot tick frequency in real time - Nothing-handler fires once every progress-tick. | Reconciliation with [ticks and subticks](../../../internals_en/engine/ticks_and_subticks.md) §3. Reference point: with Nothing-tick ≈ 135 ms, mercenaries switch to hard in less than 1 second; at ≈ 100 ms - in ~0.5 seconds. |
-| 4 | `bmercenary = True` for a battleship in `data.json` - 20 battleship lines are marked `bmercenary = True`, but in `case 'battleship'` this flag is not explicitly set inside `unit.script`. | Perhaps this is a separate branch (ports?) or a parser artifact. 5 minutes check. |
+| 1 | Localization says that each player can build only one Diplomatic Center, but no explicit `if count(dip) >= 1 then bproduceenabled := False` check was found. `costpercent = 100` does not enforce the limit either. | Inspect `gui.script` and production quotas. The AI's `_ai_GetUnitCount(..., gc_ai_unit_dipcenter) > 0` check does not constrain human players. |
+| 2 | `bnoreputation` is never assigned in the inspected scripts. It may be a leftover from an earlier Cossacks game or an incorrectly identified field. | Search every `.script` and `.global` file. |
+| 3 | The real-time frequency of rebellion checks remains uncertain. | Compare the `Nothing` update with [ticks and subticks](../../../internals_en/engine/ticks_and_subticks.md) §3. At 135 ms, a Hard mercenary typically defects in under a second; at 100 ms, in roughly half a second. |
+| 4 | Twenty **Ship of the Line** (`battleship`) rows in `data.json` have `bmercenary = True`, although the `case 'battleship'` branch in `unit.script` does not set it. | Check for a separate Shipyard branch and rule out a parser artifact. |
 
 ---
 
-See also **TL;DR** at the beginning of the file - there is a short overview of the same
-facts in the form of a bulleted list.
+The **TL;DR** at the beginning summarizes the same mechanics.
 
 ---
 
@@ -431,13 +445,15 @@ facts in the form of a bulleted list.
 
 All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
-[^1]: Registration of the diplomatic center in the national roster - `lib/country.script:2829`:
+[^1]: Registration of the Diplomatic Center in each nation's roster —
+    `lib/country.script:2829`:
     ```pascal
     _country_AddMember(country, csid+'dip', ind, True,
                        gc_country_editorplace_category_buildings, 20,
                        gc_ai_unit_dipcenter);
     ```
-[^2]: Stat dispatching by `csid+'dip'` with national overrides —
+[^2]: Selection of Diplomatic Center statistics by `csid+'dip'`, including
+    national overrides —
     `lib/unit.script:2451-2459`:
     ```pascal
     csid+'dip' : begin
@@ -461,12 +477,13 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
        end;
     end;
     ```
-[^3]: Signature `SetObjBuildingExtProperties` - `lib/unit.script:503`. Order
-    arguments: `maxhp, buildtime, costpercent, bcapture, score, usage, food, wood, stone, gold, iron, coal`.
+[^3]: Signature of `SetObjBuildingExtProperties` — `lib/unit.script:503`.
+    Argument order:
+    `maxhp, buildtime, costpercent, bcapture, score, usage, food, wood, stone, gold, iron, coal`.
 
 [^4]: `gc_obj_usage_dipcenter = 32` - `dmscript.global:339`.
 
-[^5]: Registration of 8 mercenaries via `_country_AddMember` —
+[^5]: Registration of eight mercenaries through `_country_AddMember` —
     `lib/country.script:2786-2793, 2900-2901`:
     ```pascal
     _country_AddMember(country, 'lightinfantrydip', ind, True, ...gc_ai_unit_light_dip);
@@ -479,7 +496,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     _country_AddMember(country, 'archerturdip',     ind, True, ..., gc_ai_unit_none);
     _country_AddMember(country, 'lightcavalrydip',  ind, True, ..., gc_ai_unit_none);
     ```
-[^6]: FixedProduce wiring for 8 mercenaries - `lib/country.script:3010-3022`:
+[^6]: Production setup for eight mercenaries —
+    `lib/country.script:3010-3022`:
     ```pascal
     member := csid+'dip';
     fixedproduceind := _country_GetFixedProduceIndexBySID(cid, member, bAddIfNotExist);
@@ -496,7 +514,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
        _country_AddFixedProduceWithAccessControl(country, ..., 'archerturdip',    2, 1, ind, csid+'cen', csid+'aca', '');
     end;
     ```
-[^7]: Detection of `bmercenary` by `sid` - `lib/unit.script:611-614`:
+[^7]: Detection of `bmercenary` from the internal unit ID (`sid`) —
+    `lib/unit.script:611-614`:
     ```pascal
     var bmercenary : Boolean;
     if StrExists(sid, 'dip') and ((sid='roundshierdip') or (sid='lightinfantrydip')
@@ -507,18 +526,21 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^8]: `if (bmercenary) then begin ... end` blocks for each mercenary
     in `lib/unit.script`:
 
-    - `lightinfantrydip` - lines 712-734.
-    - `roundshierdip` - lines 735-770.
-    - `archerdip` / `archerturdip` (same `case`) - lines 997-1061.
-    - `grenadierdip` - lines 1226-1318.
-    - `cossacksichdip` - lines 1320-1391.
-    - `dragoon18dip` / `lightcavalrydip` (same `case`) - lines 1544-1662.
+    - **Light Infantryman** (`lightinfantrydip`) — lines 712–734.
+    - **Roundshier** (`roundshierdip`) — lines 735–770.
+    - **Archer** (`archerdip`) and **Turkish Archer** (`archerturdip`)
+      share the same `case` — lines 997–1061.
+    - **Grenadier** (`grenadierdip`) — lines 1226–1318.
+    - **Sich Cossack** (`cossacksichdip`) — lines 1320–1391.
+    - **Dragoon, 18th century** (`dragoon18dip`) and **Light Cavalry**
+      (`lightcavalrydip`) share the same `case` — lines 1544–1662.
 
     Resetting food/wood/stone/iron/coal — `SetObjBasePrice(objbase, 0, 0, 0, gold, 0, 0)`,
-    for example: line 725 for `lightinfantry`, 1048 for `archer`, 1382 for
-    `cossacksich`, 1651 for `dragoon18`.
+    for example: line 725 for **Light Infantryman** (`lightinfantry`),
+    1048 for **Archer** (`archer`), 1382 for **Sich Cossack**
+    (`cossacksich`), and 1651 for **Dragoon, 18th century** (`dragoon18`).
 
-[^9]: 2× limit for mercenaries in `_unit_GetCostModifier` —
+[^9]: Twofold price cap for mercenaries in `_unit_GetCostModifier` —
     `lib/unit.script:5660-5678`:
     ```pascal
     if (bmercenary) then
@@ -590,20 +612,21 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
        ...
     end;
     ```
-[^11]: Condition for structural deficit - `lib/player.script:306`:
+[^11]: Condition for an ongoing gold deficit — `lib/player.script:306`:
     ```pascal
     if (gPlayer[plInd].counter.resconsume[i]>gPlayer[plInd].counter.resincome[i]) then
        gPlayer[plInd].brebellion := True
     else
        gPlayer[plInd].brebellion := False;
     ```
-[^12]: Final reset `brebellion` - `lib/player.script:318-320`:
+[^12]: Final reset of `brebellion` — `lib/player.script:318-320`:
     ```pascal
     if (gPlayer[plInd].brebellion) and ((not gPlayer[plInd].res[gc_resource_type_gold]>=2)
        or (gPlayer[plInd].counter.resconsume[gc_resource_type_gold]<=0)) then
     gPlayer[plInd].brebellion := False;
     ```
-[^13]: Riot trigger in Nothing handler - `units/unit.inc/nothing.inc:487-506`:
+[^13]: Rebellion check in the unit's `Nothing` handler —
+    `units/unit.inc/nothing.inc:487-506`:
     ```pascal
     if (gPlayer[plInd].brebellion) and (TObjProp(pobjprop).bmercenary)
        and (plInd<>gc_player_mercenaryind) and (bplayable) then
@@ -629,14 +652,17 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 [^14]: `_misc_RandomInt` returns `floor(random × 32768)` —
     `lib/misc.script:494-498`. Constant `gc_c1rand_to_random = 32768`.
 
-[^15]: `gc_player_mercenaryind = gc_MaxPlayerCount-1` - `dmscript.global:776`.
+[^15]: `gc_player_mercenaryind = gc_MaxPlayerCount-1` —
+    `dmscript.global:776`.
 
-[^16]: NPC slot hostility towards all real players - `common.inc/initmap.inc:48-49`:
+[^16]: Hostility of the mercenary NPC slot toward every normal player —
+    `common.inc/initmap.inc:48-49`:
     ```pascal
     if i<>gc_MaxPlayerCount-1 then
     gPlayer[i].enemyplmask:=1 shl (gc_MaxPlayerCount-1);
     ```
-[^17]: Starting resources for the mercenary NPC slot - `lib/player.script:89-99`:
+[^17]: Starting resources of the mercenary NPC player —
+    `lib/player.script:89-99`:
     ```pascal
     if (id=gc_player_mercenaryind) then
     begin
@@ -650,7 +676,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
        end;
     end
     ```
-[^18]: AI scoring of unit defense - `lib/unit.script:3941-3946`:
+[^18]: AI weighting for defending units — `lib/unit.script:3941-3946`:
     ```pascal
     if (bcaptured) then
        scoremodifier := 5
@@ -662,7 +688,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```
 [^19]: Constants `gc_mapsettings_marketdip_*` - `dmscript.global:1077-1081`.
 
-[^20]: Applying `expensivemercs` to mercenary prices - `lib/player.script:2741-2774`:
+[^20]: Applying the Expensive Mercenaries setting (`expensivemercs`) —
+    `lib/player.script:2741-2774`:
     ```pascal
     gc_mapsettings_marketdip_expensivemercs : begin
        if (TObjProp(pobjprop).bmercenary) then
@@ -675,10 +702,13 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```
 [^21]: `gc_gameplay_expensivemercskoef = 3` - `dmscript.global:214`.
 
-[^22]: Field `bneutral` for `gPlayer` is `lib/classes.script:3698`. Installation/removal
-    flag in script scripts - `lib/scenario.script:2182-2238`.
+[^22]: The `gPlayer.bneutral` field is declared in
+    `lib/classes.script:3698`. Scenario scripts set and clear it in
+    `lib/scenario.script:2182-2238`.
 
-[^23]: Registration of formations for mercenaries - `lib/country.script:2515-2535`.
-    `roundshierdip` and `grenadierdip` go through standard infantry
-    formations; `archerdip`, `archerturdip`, `lightinfantrydip` —
-    via `…NoOfficersExtDip`.
+[^23]: Formation registration for mercenaries —
+    `lib/country.script:2515-2535`.
+    **Roundshier** (`roundshierdip`) and **Grenadier** (`grenadierdip`)
+    use standard infantry formations. **Archer** (`archerdip`),
+    **Turkish Archer** (`archerturdip`), and **Light Infantryman**
+    (`lightinfantrydip`) use `…NoOfficersExtDip`.

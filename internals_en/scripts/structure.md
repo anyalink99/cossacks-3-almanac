@@ -124,7 +124,7 @@ C3 uses Pascal-style namespace via underscores:
 | `_weapon_*` | `weapon.script` | Weapons/projectiles: `_weapon_GetTProj`. |
 | `_res_*` | `res.script` | Resources: `_res_GetTRes`. |
 | `_init_*` | `init.script` | Initialization at game start. |
-| `_map_*` | `map.script`, `miscext2.script` | Card logic: `_map_Init`, `_map_RestoreSettings`. |
+| `_map_*` | `map.script`, `miscext2.script` | Map logic: `_map_Init`, `_map_RestoreSettings`. |
 | `_control_*` | `control.script` | Unit commands: `_control_DeselectAllUnits`. |
 | `_movie_*` | `movie.script` | Cut scenes: `_movie_SaveCamera`, `_movie_DoPlay`. |
 | `_pfx_*` | `pfx.script` | Particles. |

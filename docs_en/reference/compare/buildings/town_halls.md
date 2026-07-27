@@ -1,5 +1,6 @@
 <a id="ратуши-town-halls"></a>
 <a id="ратуши"></a>
+<a id="городские-центры"></a>
 # Town Halls
 
 [← Building comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)

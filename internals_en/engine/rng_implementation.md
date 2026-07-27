@@ -1,30 +1,26 @@
 <a id="реализация-rng-в-cossacks-3"></a>
 # Implementation of RNG in Cossacks 3
 
-What exactly does `random`, `RandomExt` generate and why `SetRandomKey`
-works the way it works.
+What `random` and `RandomExt` actually generate, how their state is stored, and
+why `SetRandomKey` behaves the way it does.
 
-> Accompanies [`determinism_audit.md`](determinism_audit.md) (where
-> RNG is used in the hot path of mining and combat) and
-> [`native_api.md` §2.4](native_api.md) (full list
-> RNG engine streams).
+> Read this alongside [`determinism_audit.md`](determinism_audit.md), which
+> traces random-number use in mining and combat, and
+> [`native_api.md` §2.4](native_api.md), which lists the engine's RNG streams.
 
-> **This document is synchronized with RE-check in private
-> repositories `cossacks-deep` (`findings/rng_implementation.md`),
-> where specific addresses, layout seed structures and exact
-> algorithm formulas.** The version of §1–§10 below is behavioral, without
-> publishing bytes.
+> **This document has been cross-checked against the private
+> `cossacks-deep` analysis (`findings/rng_implementation.md`), which records
+> exact addresses, seed layouts, and formulas.** Sections 1–10 below describe
+> the verified behavior without publishing binary offsets.
 
 > **History of edits.** In one of the early iterations (May 18), this document
-> erroneously “corrected” the original model with the statement that `Random` and
-> `RandomExt` share a common 64-bit seed. This was wrong: decompilation
-> `_System_Random` showed a separate cell `RandSeed` (the one in Delphi
-> System unit), independent of the 64-bit storage that is installed
-> via `SetRandomKey` / `SetRandomExtKey64`. Therefore original
-> observation (Random and RandomExt are independent streams) remains valid.
-> All "Pope aligned by RE" blocks that appear uncertain reflect
-> intermediate iterations; the final picture is here and in `native_api.md` §2.4
-> (4 independent seed storages).
+> incorrectly claimed that `Random` and `RandomExt` shared one 64-bit seed.
+> Decompilation of `_System_Random` instead showed a separate `RandSeed` cell
+> from Delphi's `System` unit, independent of the 64-bit state installed by
+> `SetRandomKey` and `SetRandomExtKey64`. The original observation therefore
+> stands: `Random` and `RandomExt` are independent streams. Older provisional
+> notes should be read in light of the final model presented here and in
+> `native_api.md` §2.4: four independent seed stores.
 
 <a id="1-общая-картина"></a>
 ## 1. The big picture
@@ -33,15 +29,14 @@ C3 scripts use (in descending frequency):
 
 | Function | Calls in scripts | What |
 |---|---:|---|
-| `random` | 100 | Float ∈ [0, 1), global flow |
-| `RandomExt` | 60 | Float ∈ [0, 1), parallel “extended” stream |
-| `SetRandomKey(seed: Integer)` | 4 | Reseeding Global Flow |
+| `random` | 100 | Floating-point value in [0, 1), from the global stream |
+| `RandomExt` | 60 | Floating-point value in [0, 1), from the parallel extended stream |
+| `SetRandomKey(seed: Integer)` | 4 | Reseeds the global stream |
 | `SetRandomExtKey64(k0, k1)` | 0 | Reseeding an extended 64-bit stream (in the exe, no scripts) |
 
-Each of them is **a wrapper over standard Delphi `Random`/`RandSeed`**,
-registered by DWS engine. This is evidenced by the very fact that DWS is
-Delphi library, not a standalone VM, and it inherits RNG
-from the host.
+These functions are registered with DWS by the host engine. The standard
+`random` path uses Delphi's `Random` and `RandSeed`; the extended path keeps
+separate 64-bit state, as described below.
 
 <a id="2-алгоритм-delphi-random"></a>
 ## 2. Delphi algorithm `Random`

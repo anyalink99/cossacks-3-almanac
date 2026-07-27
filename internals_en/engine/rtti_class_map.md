@@ -31,7 +31,7 @@ classes found in RTTI.
 
 The root class of all “things on the map” is `TXGameObject`.
 
-| Class | Destination |
+| Class | Purpose |
 |---|---|
 | `TXGameObject` | Basic unit - unit, building, resource, effect. |
 | `TXBrushGameObject` | “Brush” objects (scenery, static map elements). |
@@ -245,10 +245,10 @@ Used by external `modman.exe` (see also
 
 | Class | What |
 |---|---|
-| `TOSWSoundManager` | The main sound is an object. |
+| `TOSWSoundManager` | Main sound-system manager. |
 | `TOSWSoundLibrary` | Sound library. |
 | `TOSWSoundSample`, `TOSWSoundSamples` | Samples. |
-| `TOSWSoundEmitter`, `TOSWBSoundEmitter` | Sound source on the card. |
+| `TOSWSoundEmitter`, `TOSWBSoundEmitter` | Positional sound emitters on the map. |
 | `TOSWSoundEmittersList` | Active sources. |
 | `TOSWSoundEnvironment` | Ambience (reverb, effects). |
 | `TOSWSoundFile`, `TOSWSoundFileFormat`, `TOSWSoundFileFormatsList` | Format `.ogg` / `.snd`. |

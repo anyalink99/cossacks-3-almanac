@@ -48,7 +48,7 @@ Metric - **Euclidean²** [^3]: `(px, py)` - position of the victim object,
 Manhattan, nor Chebyshev. The shape of the building is NOT taken into account, only its
 one-cell anchor.
 
-Card settings `gMap.settings.additional.capture` [^4]:
+The map setting `gMap.settings.additional.capture` controls the rule [^4]:
 ```
 0 capture_default            — all eligible objects can be captured (peasants, infantry, artillery)
 1 capture_nopeasants         — peasants cannot be captured (default deathmatch + battles)
@@ -428,7 +428,7 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     distSqr := Sqr(px-tx) + Sqr(py-ty);
     if distSqr < gc_gameplay_captureradiusSqr then ...
     ```
-[^4]: Card settings `gMap.settings.additional.capture` - `dmscript.global:1072-1075`:
+[^4]: Map setting `gMap.settings.additional.capture` — `dmscript.global:1072-1075`:
     ```pascal
     gc_capture_default            = 0;
     gc_capture_nopeasants         = 1;

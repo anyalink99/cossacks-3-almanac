@@ -189,7 +189,7 @@
     "40b15cef6a9dd352ad183c6269ecfec9fe947a7f24eaa49c4b9d3fd69bab2d07": {
       "literal": false,
       "literal_cyrillic": false,
-      "text": "# 1. Edit the source: parser, compute script, template, or handwritten Markdown.\n# 2. Regenerate its dependants:\npython scripts/regen.py all       # full rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change, without co-authoring.\ngit add <files>\ngit commit -m \"<concise message>\"",
+      "text": "# 1. Edit the source: parser, computation script, template, or handwritten Markdown.\n# 2. Rebuild its dependants:\npython scripts/regen.py all       # complete rebuild (about four minutes)\n# Or run a targeted build:\npython scripts/regen.py reference\npython scripts/regen.py reports-economy\n\n# 3. Verify:\npython -m unittest discover -s tests\npython scripts/regen.py sanity    # 112/112 PASS\n\n# 4. Commit one logical change without co-authorship trailers.\ngit add <files>\ngit commit -m \"<concise message>\"",
       "sources": [
         "CONTRIBUTING.md:84"
       ]
@@ -413,7 +413,7 @@
     "6ec986c0a3ea6d6809037a966f9e691429351d944cba81fb34e00f8e5cb86e89": {
       "literal": false,
       "literal_cyrillic": false,
-      "text": "# Environment: Python 3.11+; the project itself uses only the standard library.\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Verify that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks",
+      "text": "# Requirements: Python 3.11+; the project itself uses only the standard library.\n# Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.\n\n# Check that the pipeline works:\npython -m unittest discover -s tests -v\npython scripts/regen.py sanity   # parser + 112 automatic checks",
       "sources": [
         "CONTRIBUTING.md:15"
       ]
@@ -789,7 +789,7 @@
     "eee6e96ab6d8eefbd1f8fdf436923f8e10e3ea61e952575bbeccae41d0efb8ca": {
       "literal": false,
       "literal_cyrillic": false,
-      "text": "000110000000          12 cols × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
+      "text": "000110000000          12 columns × 11 rows = 6×5.5 tiles\n001111000000          ↓ filled diamond shape\n011111100000\n111111110000\n011111111000\n001111111110\n000111111110\n000011111100\n000001111000\n000000110000\n000000000000",
       "sources": [
         "docs/recon/world/economy/building_mechanics.md:43"
       ]

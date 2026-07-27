@@ -1,16 +1,22 @@
 <a id="лучники"></a>
-# Archeri
+# Archers
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-Bow and arrows. Best against heavy infantry with low arrow protection.
+Bow-armed infantry. Most effective against heavily armored troops whose arrow
+protection is low.
 
-> **Base values** (column mode - what is considered "normal" in this class): HP = 20, Time (g-sec) = 1.25, F = 0, G = 15, I = 0, upkeep F (raw) = 39, upkeep G (raw) = 16, speed = 32, damage = 100, range (tile) = 14.06, recharge (s) = 0.78.
-> **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.
+> **Baseline values** are the most common value in each column for this class:
+> health = 20, training time = 1.25 game seconds, food = 0, gold = 15,
+> iron = 0, raw food upkeep = 39, raw gold upkeep = 16, speed = 32,
+> damage = 100, range = 14.06 cells, and reload time = 0.78 seconds.
+> **Bold** values in the table differ from that column's baseline.
 
-> **Upkeep**: `consume × 32 / 20000` per game-second (raw consume - in parentheses). **Speed**: engine units `t/game sec × 50/1.5` (peasant=32, infantry=24, fasthorse=96, cannon≈22).
+> **Upkeep** is shown as resources per game second; the raw `consume` value is
+> given in parentheses. **Speed** uses the engine's own scale, where a larger
+> number means faster movement.
 
-| Unit | Nation | HP | Time (g-sec) | F | G | I | upkip F | upkip G | speed | damage | far (tile) | recharge (s) | peak | sword | bullet | buckshot | arrow | core | uniqueness |
+| Unit | Nation | Health | Training time, game s | Food | Gold | Iron | Food/game s | Gold/game s | Speed | Damage | Range, cells | Reload, s | Pike | Sword | Bullet | Grapeshot | Arrow | Cannonball | Availability |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | **Archer** `archer` | Algeria | **40** | **1.5** | **20** | **1** | 0 | — | — | 32 | **15** | **15.0** | **2.34** | — | — | — | — | — | — | unique |
 | **Archer (mercenary)** `archerdip` | Algeria | 20 | 1.25 | 0 | 15 | 0 | — | 0.0256 (16) | 32 | 100 | 14.06 | 0.78 | — | — | — | — | — | — | common |

@@ -24,6 +24,10 @@ upgrade is researched, and what each match setting changes.
 <a id="найти-нужный-объект"></a>
 ## Find an object
 
+- On the website, search for a unit, building, or upgrade, or click a
+  recognized name in a reference table to open its object card. Each card
+  brings the in-game icon, cost, statistics, production or research location,
+  and related links together on one page.
 - [Choose a nation](reference/nations/README.md) — unique units and buildings,
   access to the 18th century, and national differences.
 - [Compare units](reference/compare/units/README.md) — for example, all

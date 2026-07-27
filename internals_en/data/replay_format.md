@@ -607,7 +607,7 @@ player - **this is the position in the bexists-filtered list, NOT the value
 fields `id`**. See §11.1.
 
 <a id="73-bmp-превью-и-стартовый-снимок"></a>
-### 7.3 BMP preview and start shot
+### 7.3 BMP preview and starting snapshot
 
 - BMP map preview (~145 KB) between `GameMapSnapShotBegin/End`.
 - The first entry body (`ts == 0`) contains the initial snapshot of the world:
@@ -617,7 +617,7 @@ fields `id`**. See §11.1.
 - Duplicate record hypothesis published by a third party tool
   `[f32 x][f32 y][u16 id][20 00 1a][u32 flag]` (actually 17, not
   16 bytes) was not reproduced in a sample of 25 replays. Canonical
-  it is not considered a starting shot scheme.
+  it is not considered part of the starting-snapshot schema.
 
 <a id="74-patternlist-имена-и-координаты-размещённых-паттернов"></a>
 ### 7.4 PatternList: names and coordinates of placed patterns
@@ -633,8 +633,8 @@ coordinates on the map, serialized as ASCII numbers (usually integers, in
 including negative ones). The triple must be adjacent: separate
 the keys `n`, `x` or `y` outside `PatternList` are not a placement record.
 
-The scheme was confirmed on 25 replays: from 62 entries on a 256x256 card to
-1291 on a 640x640 card. `parser/parse_replay.py` returns them via
+The schema was confirmed on 25 replays: from 62 entries on a 256×256 map to
+1,291 on a 640×640 map. `parser/parse_replay.py` returns them through
 `extract_pattern_placements()` and JSON field `pattern_placements`.
 
 <a id="75-футер-после-gamemaprecordend"></a>

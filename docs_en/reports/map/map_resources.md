@@ -150,17 +150,32 @@ Distances from start (mapsize>2 = tiny, gRecordGeneratorVersion ≥ 80):
 - Pipeline: `parser/parse_replay_aggregates.py` → `compute/validate_map_predictions.py`. Output: `internals_en/data/map_predictions_validation.md`.
 - Player count is derived from mng count for Land terrain (the formula is reversible).
 
-**What is assessed/not validated:**
-- `prob*` modifiers - Monte Carlo simulation `_misc_GetFreePatternMaskCountModifier`. For tiny with the assumption of weak water blocking (`water_blocking_pct=0.02`).
-- Trees/stones per pattern - `TREE_CHOPABLE_RATIO=0.30` calibrated based on the user's empirical assessment (small=10 trees, big=50 trees). Not verified against real in-game tree count.
-- On non-Tiny / non-Highlands settings placement rates **may vary** - no data.
+**Estimated or not yet validated:**
 
-**Open spaces:**
-- Pattern types `plain_*`, `mountains`, `swamp_small`, `hills_*`, `stoneforests`, `plateau*` **not predicted** `compute_counts` (~50% of all cluster occurrences in replay-data). It is necessary to expand the model - see [map generation](../../recon/world/map/map_generation_pipeline.md) §13 Q7.
-- `desert_*` (season=3) not implemented - 1/20 replays.
-- Non-Land mine formula is different - open question §13 Q6.
+- `prob*` modifiers use a Monte Carlo approximation of
+  `_misc_GetFreePatternMaskCountModifier`. The Tiny-map model assumes weak
+  blocking by water (`water_blocking_pct=0.02`).
+- Trees and stone deposits per pattern use
+  `TREE_CHOPABLE_RATIO = 0.30`, calibrated against an empirical estimate of
+  roughly 10 trees for a small cluster and 50 for a large one. It has not yet
+  been validated against object counts extracted from a running game.
+- Placement rates may differ outside the Tiny and Highlands settings because
+  no replay sample is available for those combinations.
 
-**Accuracy limit (Tiny+Land+Highlands):** ±5% predicted cluster counts for covered types. For total wood pool / stones - ±30-50% (TREE_CHOPABLE_RATIO is not validated).
+**Known gaps:**
+
+- `compute_counts` does not yet model the `plain_*`, `mountains`,
+  `swamp_small`, `hills_*`, `stoneforests`, or `plateau*` pattern types. They
+  account for about half of all cluster occurrences in the replay sample; see
+  [Random-map generation](../../recon/world/map/map_generation_pipeline.md).
+- `desert_*` patterns for `season = 3` are not implemented; this combination
+  occurred in one of 20 sampled replays.
+- Non-Land maps use a different mine-placement formula.
+
+**Accuracy for Tiny + Land + Highlands:** predicted cluster counts are within
+±5% for the covered types. Total wood and stone estimates are much less
+certain—roughly ±30–50%—because `TREE_CHOPABLE_RATIO` is not independently
+validated.
 
 <a id="источники"></a>
 ## Sources

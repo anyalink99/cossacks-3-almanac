@@ -5,12 +5,12 @@
     "CONTRIBUTING.md": {
       "source_sha256": "b0082c48bbfc35cc199246931a93e53ecb9d403e662be0772804219ea492c2bc",
       "target": "CONTRIBUTING.en.md",
-      "target_sha256": "240d452caaf59b4689051ab4b91ae993f2e0ca6b22ed29c65af8145d78c58fbe"
+      "target_sha256": "1e706ba225d2e018e39ea17f9a290b8ea82a30f4afbe0a01b20c74df6381f8eb"
     },
     "README.md": {
       "source_sha256": "eb22825bf8ea51fdb964fbb7ab7bd0864461c511a15853c10460dfd39fe58f3d",
       "target": "README.en.md",
-      "target_sha256": "ad2e98363e5700b7d0f4ede872c28b5eed3d6aa967d53fbfebb2466272a99cac"
+      "target_sha256": "d3d31c29d49fa9d31adc09b6e30c048d9910af8ceb72779d6f7a07fc910b8471"
     },
     "derived/README.md": {
       "source_sha256": "92eb588f7b035b68347911e8ccf832a8ef6f9b0235f8a0fda4e93174b290248b",
@@ -20,7 +20,7 @@
     "docs/README.md": {
       "source_sha256": "4017ac26cf2cd979fe96f20c433dc590ffe739d89d1c74eef1b4d577327af238",
       "target": "docs_en/README.md",
-      "target_sha256": "b84adee8c6650b809025b3afd96b671939076b23d17c9258d1c7c183e250df40"
+      "target_sha256": "644b1c03608d84098cbf2a71f5daad1460aa5134f8e2cc0382913b3f6dcb8181"
     },
     "docs/recon/README.md": {
       "source_sha256": "8f8962f094476192f0e417b2e0324c10cc443999e42309a44e0738bbb3704519",
@@ -30,27 +30,27 @@
     "docs/recon/systems/ai_behavior.md": {
       "source_sha256": "58ad0d3cd1ffcbab553a1697e72c381bfb4eee87a39df585ac61baf93c0db64d",
       "target": "docs_en/recon/systems/ai_behavior.md",
-      "target_sha256": "34732aa2130ff725b790ef95cde2c99d78d7580f4405926dbef4b87bcf2e8242"
+      "target_sha256": "02566edec0cfdf88331b19b1c94ed80df13b0a85671393310e23d5760eff9106"
     },
     "docs/recon/systems/mercenaries_diplomacy.md": {
       "source_sha256": "989b9c9cd425aa37921e8978584d602475b7df53ba51368c86d4ab7e6fdc57f7",
       "target": "docs_en/recon/systems/mercenaries_diplomacy.md",
-      "target_sha256": "226b7d145bccf9d6afbd93ce89983da8a101c61e50f582caabcde842cf1d19f8"
+      "target_sha256": "7dae503797368999ad992de3ba8c1852a2bf6c1f1c205b091c1fdc5ac44f912b"
     },
     "docs/recon/systems/scenarios_and_triggers.md": {
       "source_sha256": "94546ec9b3d851bcbd326a3c92c82fe0be86e34a1de24de4d7f241c89645f048",
       "target": "docs_en/recon/systems/scenarios_and_triggers.md",
-      "target_sha256": "c18781ddf6d0dbf2ec0e7a974ef1ac7e0d8f3058f2ba88dbfeed20435a64b30a"
+      "target_sha256": "72d66e3ab148c692173b54900903625f04ef531273b7ed752fb370138c10afc8"
     },
     "docs/recon/systems/ui_input_and_feedback.md": {
       "source_sha256": "65432d6b079c3ba0e5a2dea0ab5dbf65cb75663251d7dbbdcb310d22f197c50a",
       "target": "docs_en/recon/systems/ui_input_and_feedback.md",
-      "target_sha256": "68cf497a4f101bd7b7b7307d0adcda20b096656dadaec1bf41a220807c2fe5ec"
+      "target_sha256": "36486f9eeb58a8f98f00262d6ddc9e33c690bfd9b4ff071c29884dedb649c487"
     },
     "docs/recon/systems/victory_conditions.md": {
       "source_sha256": "7545424d46a122308828a81afc02470e18e40cee07f3c37456e4d99ae0d81ace",
       "target": "docs_en/recon/systems/victory_conditions.md",
-      "target_sha256": "67b9edf3d5e6ced12276c1adee263df6bdfbb10161e616914f1c5b825e36b14b"
+      "target_sha256": "dd59477abb2023fd72618fc9160a58a7e622a474c7f9c44a2e477e9cb78a093c"
     },
     "docs/recon/world/combat/artillery_specifics.md": {
       "source_sha256": "1050eea641b4c83dcde27267f040a1855960c4aea4f2e6c899f10db8cfa027ad",
@@ -70,7 +70,7 @@
     "docs/recon/world/combat/naval_combat.md": {
       "source_sha256": "46088becb9f2d133e7779cbca4e790b2160e6e45127f0b88b5f54ab9f8c9e6ab",
       "target": "docs_en/recon/world/combat/naval_combat.md",
-      "target_sha256": "b5b8a9eafa073a0bc0958df2fca1750a45893586c1647e8562e40690c1f081aa"
+      "target_sha256": "4e0986dd34faf8c2ad36ebc969387d13a9ac6549ea891a34dda4144c08cb0717"
     },
     "docs/recon/world/combat/pathfinding.md": {
       "source_sha256": "9f0687d8a96234e7e18b705309bfbd44347824454878cc674cfb7d9cd1d037b6",
@@ -85,7 +85,7 @@
     "docs/recon/world/combat/target_selection.md": {
       "source_sha256": "f6e2b692707c88d4c99b66675ee527dc6c595e341626b50cc6d0886d65a3b475",
       "target": "docs_en/recon/world/combat/target_selection.md",
-      "target_sha256": "b55238b6521a14ab5b5748cdbd97b032f43e883e84e2ce288b2a0594bdc10871"
+      "target_sha256": "0fd33494495cb6fde904c8f09d4135dada952730377a6cf2211ef6a5297336e0"
     },
     "docs/recon/world/combat/towers.md": {
       "source_sha256": "ae32b2b07da64c7470507203d2de41ae1e9743abc5b0e40d95d1c8ced6f711fb",
@@ -105,17 +105,17 @@
     "docs/recon/world/combat/walls_and_gates.md": {
       "source_sha256": "76ab931c4b7537980fbdf1aa818d0981f27ce0b933bfd768a4902b9f2b74c142",
       "target": "docs_en/recon/world/combat/walls_and_gates.md",
-      "target_sha256": "86673baa87edf7c67b4fe7e7df9972f30be5f7a08ae98d9f0129d762fb782d67"
+      "target_sha256": "aac9222f671ba91391bf967f3988642c658fe6591ad1113a37547066d9a89c34"
     },
     "docs/recon/world/economy/building_mechanics.md": {
       "source_sha256": "7192a41931072d4fdfabb5659429d0f61f27d51a2ea3c1cdad579cc97eb656b2",
       "target": "docs_en/recon/world/economy/building_mechanics.md",
-      "target_sha256": "b169666ffe4e356bbf169ff9d249e9ba2d4b666588dc9c1a68f0292bd5a4f95b"
+      "target_sha256": "916398700b90117f8bd4d0c451d03c114ccaa58cd70ab2782ac7d137c20d0ba9"
     },
     "docs/recon/world/economy/capture_mechanics.md": {
       "source_sha256": "a313152dc9faf33e587896cd680400061216d3c21928c197d69e4662a9e1ff16",
       "target": "docs_en/recon/world/economy/capture_mechanics.md",
-      "target_sha256": "e5067502752dba56a1db65c531b196a4711140b5e2d3cef70f9aa98bd14f5d2e"
+      "target_sha256": "cfd663f646d2d6ecb25616fc1c9eaa38c931b575c0836c3c175e932df231d0c9"
     },
     "docs/recon/world/economy/hunger_and_rebellion.md": {
       "source_sha256": "60e192186e7291ca0859a74eda9205e5ec594d55d0d1562634521e26aad4c2e3",
@@ -125,7 +125,7 @@
     "docs/recon/world/economy/peasant_extraction.md": {
       "source_sha256": "3a0acf7b476b291c1d9554bc90e0e22d8f2fa9e89f43a345f6a6f7a7fce8ca2c",
       "target": "docs_en/recon/world/economy/peasant_extraction.md",
-      "target_sha256": "fc4b3ed81d6ea3cc384d1e8dfb9e7715c10cbd895c86269059af5e249bea9c75"
+      "target_sha256": "e6b51e3b7a8929face392e607ca01c82975f978ddeb047af2fd0f436fdeea99b"
     },
     "docs/recon/world/economy/production_queue.md": {
       "source_sha256": "53f1fbdc3d9441db1dc18ecb82e7fa9c3bb09df5d6ae26dc5c77d49b790b64b0",
@@ -145,7 +145,7 @@
     "docs/recon/world/map/map_generation_pipeline.md": {
       "source_sha256": "5bb2cd103e2c0b1d935558b09a7ac3ff4715d4d5b139413ed1e1659a6398582c",
       "target": "docs_en/recon/world/map/map_generation_pipeline.md",
-      "target_sha256": "4f169d090a6e4f4cd494ff91e060f39f6c6bb22a44c1b62ed7bcd2b4eaac2bc8"
+      "target_sha256": "d732af560f1c965a2dac590eb8a4e54f1e0b6acdd5058d5379b17c1296d7584d"
     },
     "docs/reference/01_economy/README.md": {
       "source_sha256": "19d94952a9b543038436f9326c124fda5bfbaf1583c377ee4e1918b5c8480a89",
@@ -153,14 +153,99 @@
       "target_sha256": "bf6166757c86d4d2ab42a8465c8f98be89102a5876d9b4ed568b134504cabdb2"
     },
     "docs/reference/02_combat/README.md": {
-      "source_sha256": "50e1aa623651ef39a984548fbb59e6eef19e7ce3420624bea1ffdfb18caf4686",
+      "source_sha256": "02deef897fba3964d870393823c1fabbc4ab27a1e977233582b42cf1d9522ed8",
       "target": "docs_en/reference/02_combat/README.md",
-      "target_sha256": "63be5ef1b63cf4eb27bed9cd95b0a927013584413bba96e31bc5e72a79ce7e52"
+      "target_sha256": "0781ccb0a83130487b3afb3db0db42e3d6ba205384d417ed3b6e6162da0d8513"
     },
     "docs/reference/03_buildings/README.md": {
-      "source_sha256": "3b9d2c89d3adae7190bdc24321508005f87b34915f3c503976451e0d72fbf368",
+      "source_sha256": "a686b0582be942cbc47360b33a154e062e78fe25ec56362d4be3d3063c8136c9",
       "target": "docs_en/reference/03_buildings/README.md",
-      "target_sha256": "db20827452aabb6d0197394a30f247bc643d2aab7f5ffef0263342424ec9250c"
+      "target_sha256": "39c5a0589b572de2f2b1e19fcba8af2c240414ea991f54704051fd4647a7aeab"
+    },
+    "docs/reference/03_buildings/academy.md": {
+      "source_sha256": "c9afe7de76307b231975cdceaf25cb863e334aa4bac640985c5bef2b8d9dc0e9",
+      "target": "docs_en/reference/03_buildings/academy.md",
+      "target_sha256": "ae5c997c33f73f54724717c725913ff0030c29497a2961909aed973b8e4d8783"
+    },
+    "docs/reference/03_buildings/artillery_depot.md": {
+      "source_sha256": "0418a9ded4bb3961e0c0e28738a11c045dd55be32f4427e8734ceb87f887513c",
+      "target": "docs_en/reference/03_buildings/artillery_depot.md",
+      "target_sha256": "921be6f097e0997075b3fd2a2077c40c6cfff927f45aa9a5b2151cb96dab5782"
+    },
+    "docs/reference/03_buildings/barracks_17.md": {
+      "source_sha256": "1f578cf61f7ebe559f335b0c5167a81e570d9e3242263a4f6d31dc43ca232df8",
+      "target": "docs_en/reference/03_buildings/barracks_17.md",
+      "target_sha256": "0c6737c493a5344e8d78d1e942674d780457197b4e1273b1d7e07a495a5826f1"
+    },
+    "docs/reference/03_buildings/barracks_18.md": {
+      "source_sha256": "e2998c3300ff6144a887b8d2aeb1207c2a968c815ce745d783ac550d03e57427",
+      "target": "docs_en/reference/03_buildings/barracks_18.md",
+      "target_sha256": "bebc3aa000668aed2e2082cfc16f5239b228e9972edda8494a23dfcc6dec071a"
+    },
+    "docs/reference/03_buildings/blacksmith.md": {
+      "source_sha256": "92ca3ec698268aa401c15669d9795bd79539694d8ba69e4f8b6b5e940cdae685",
+      "target": "docs_en/reference/03_buildings/blacksmith.md",
+      "target_sha256": "6419c63f3eab64a8d1b42439d62f5a2277a362dec1d115ae6518ecbe0629e9ad"
+    },
+    "docs/reference/03_buildings/cathedral.md": {
+      "source_sha256": "5229476e0811b2209cbf2b8a862a7220884b8f239d9c999488baac5eea15fe38",
+      "target": "docs_en/reference/03_buildings/cathedral.md",
+      "target_sha256": "13093d24ed32adae6ea7167396b549f0b528038934b02d7913f6d9f5268aae06"
+    },
+    "docs/reference/03_buildings/diplomatic_center.md": {
+      "source_sha256": "c2e9e62a1a413777771248c422b2ba7dbe07b44dc6d4a0697ddc271fb052094c",
+      "target": "docs_en/reference/03_buildings/diplomatic_center.md",
+      "target_sha256": "4ecef28df647ac6c96352413a4cfd8377926031bc3fa3ce34f16cad76deaa4eb"
+    },
+    "docs/reference/03_buildings/housing.md": {
+      "source_sha256": "b642f84f42f1c8fe648a9a3fde1d06333d760f4497df219bd79b3d61f0bcd7c6",
+      "target": "docs_en/reference/03_buildings/housing.md",
+      "target_sha256": "e4c94f9cb02c28aa67e41f7fcf90ba9ea30146a9c3b3a2879ff06023dd6e296c"
+    },
+    "docs/reference/03_buildings/market.md": {
+      "source_sha256": "6ae26616813bdd458f50cb3c03fb7ea00a612b05f9a1200f9b5b355d84fb3945",
+      "target": "docs_en/reference/03_buildings/market.md",
+      "target_sha256": "94adc5cbd0e187129f265dbf6e883a4a79395646664f707a7bf44ecee7884ce3"
+    },
+    "docs/reference/03_buildings/mill.md": {
+      "source_sha256": "5382c87d0fed826bfaa2ef19e382e3e2142264b04d972987a4ae3d813a7b7aff",
+      "target": "docs_en/reference/03_buildings/mill.md",
+      "target_sha256": "38837a8dce191c3a557e42e60017ab1b98153bf7e03a23a04e980563580d35c4"
+    },
+    "docs/reference/03_buildings/mines.md": {
+      "source_sha256": "967c973bf192398909cade22aa232c3f0b6e4e86fafad36cdbf31b5869e5cf3f",
+      "target": "docs_en/reference/03_buildings/mines.md",
+      "target_sha256": "a64cfbf44c643353b4bbbd66a9857683ac92765aea91979bf2ab2bce72682af7"
+    },
+    "docs/reference/03_buildings/shipyard.md": {
+      "source_sha256": "ea9f6188398491ca51dd3c87becc9e3e59f67d7a18da1c7ead151076806cb772",
+      "target": "docs_en/reference/03_buildings/shipyard.md",
+      "target_sha256": "37d61685fc5b2ad21dc453095fb0341efd86153ce16bc0e5f43176ad3141eebe"
+    },
+    "docs/reference/03_buildings/stable.md": {
+      "source_sha256": "ca5fa6b810188a406afffdc38c44c85c1c2143e928db575eded479ee761042dc",
+      "target": "docs_en/reference/03_buildings/stable.md",
+      "target_sha256": "53f09cbfaea77f64fd0e051e47310180645af0be8daf37c4b507966b93fdaff5"
+    },
+    "docs/reference/03_buildings/storehouse.md": {
+      "source_sha256": "68a88fb2a8a21e992cc292dc8d3e592c23c88609031a6f004d922455626a450c",
+      "target": "docs_en/reference/03_buildings/storehouse.md",
+      "target_sha256": "0093efe62d61ee50e2914068024243a890d45ba8c34fda693413d11af04a8d7e"
+    },
+    "docs/reference/03_buildings/tower.md": {
+      "source_sha256": "7e2c7730d2e4cdff4d07a1e9ff904e7b9c0e6c829a3d4084199627fccc21074f",
+      "target": "docs_en/reference/03_buildings/tower.md",
+      "target_sha256": "ce089c5c0fe5ed3f36f991308e864c0783c80a4227579d02cbff95c8325b3605"
+    },
+    "docs/reference/03_buildings/town_hall.md": {
+      "source_sha256": "afc6c23d74581806e1309a1d43dca78feda46fa2f85a606b3999208421f6153a",
+      "target": "docs_en/reference/03_buildings/town_hall.md",
+      "target_sha256": "44a1baa3e4a28c2ccdfffac8fe62fa3000925d65635be2d15fb0b95330d683b4"
+    },
+    "docs/reference/03_buildings/walls_and_gates.md": {
+      "source_sha256": "9b206a0f81bf7414bbbb156c3c24189e2f7a27c758c5125ac51f23a076bb28d0",
+      "target": "docs_en/reference/03_buildings/walls_and_gates.md",
+      "target_sha256": "457a7642a71d25f179e7d15f29b59f5718a9927e14dbba98e2327134598ce6c5"
     },
     "docs/reference/04_units/README.md": {
       "source_sha256": "e52ad4e9126af36967fc5cb4967ec258dd2007b71db3f0ae39e00b59cad36ef3",
@@ -168,9 +253,124 @@
       "target_sha256": "5204fa3cbf0a876099722e8c013a6a32f995f651d62e251a5b5ebbf6dae6669c"
     },
     "docs/reference/05_upgrades/README.md": {
-      "source_sha256": "59d17a54e7a8ec3342b4696ce81bc59d5639d9bb96a26909ea1dcd71c985e41c",
+      "source_sha256": "9ed99792fb87b665be7d55591e1aff51f4aef8f4daa7c63f2842132ab24754e4",
       "target": "docs_en/reference/05_upgrades/README.md",
-      "target_sha256": "eb112b6d93f2644e14827dbdd84f593ebe1c2c4ccaafe9315af0c94ee7efdae1"
+      "target_sha256": "2844373691c015d62b338afe558cd84ed0784d01be5380e1553e106d1cfafc09"
+    },
+    "docs/reference/05_upgrades/academy.md": {
+      "source_sha256": "917d8102546191dffa1738cb49219f280082347516cae66556b94d02dbec930b",
+      "target": "docs_en/reference/05_upgrades/academy.md",
+      "target_sha256": "a37fc629b5c9d2750ea5f360013f96c95d39bd018fa804fd6966c58fd75014c2"
+    },
+    "docs/reference/05_upgrades/artillery_depot.md": {
+      "source_sha256": "d310d8c3d13771be264f628214e5e60f297e879a1b5c2c8c21ffe0b292d5a1d2",
+      "target": "docs_en/reference/05_upgrades/artillery_depot.md",
+      "target_sha256": "b0fcf6bec80a53b627acdb49e125f39a79c169f71f2009d14270a455b7a1c101"
+    },
+    "docs/reference/05_upgrades/barracks_17.md": {
+      "source_sha256": "1b84b403bcec57acdea023cda4c6f1e7b345a2e7b193d60c107aef15ee88576e",
+      "target": "docs_en/reference/05_upgrades/barracks_17.md",
+      "target_sha256": "bf866ae4186b144cd989cd71b4e16d6ad524e47fe7cdf308d65ae3603f09f6ae"
+    },
+    "docs/reference/05_upgrades/barracks_17_command.md": {
+      "source_sha256": "2437a1dec4f9a8717c0ead86ca2cc7794654bfaadbfb27476fb3ef95f8ff2f67",
+      "target": "docs_en/reference/05_upgrades/barracks_17_command.md",
+      "target_sha256": "3792d5c015a12e3e3f3f53ffe3ef7f2c30d46014ae921c171d6e9571d31409c2"
+    },
+    "docs/reference/05_upgrades/barracks_17_melee.md": {
+      "source_sha256": "16b4d9cb78ca9aaadff2b9f4e65756ce003ab473e85e00b35b79e71970dcf61b",
+      "target": "docs_en/reference/05_upgrades/barracks_17_melee.md",
+      "target_sha256": "15bd6f551b17e7ab06fec8c5663c8ebc78af6326eeac3a559712cfb7748b40c8"
+    },
+    "docs/reference/05_upgrades/barracks_17_ranged.md": {
+      "source_sha256": "84987bf6495748b758e04cb5423d0f41cab275035e5f585e718863ff5168f5de",
+      "target": "docs_en/reference/05_upgrades/barracks_17_ranged.md",
+      "target_sha256": "35821d10db84a894a6651d503bab465d263800580965da4898922b2f5f0af093"
+    },
+    "docs/reference/05_upgrades/barracks_18.md": {
+      "source_sha256": "3331749de9216a6976990fd3047ce8f7a0a7f5820fdd9ad0adb782cff8734691",
+      "target": "docs_en/reference/05_upgrades/barracks_18.md",
+      "target_sha256": "f078c7cb08e62921a50a4e77d9e051163ce5d2b944b9db560175a9919581eb4c"
+    },
+    "docs/reference/05_upgrades/barracks_18_command.md": {
+      "source_sha256": "12ebb3210a0eea30f5b13ac9405b5a49b71828efcdcf4740315f849082e816fb",
+      "target": "docs_en/reference/05_upgrades/barracks_18_command.md",
+      "target_sha256": "c404bd0a2c9ced92e3f39e082254b086471ef8a64e788bfcea1b5f0ae72155f2"
+    },
+    "docs/reference/05_upgrades/barracks_18_line.md": {
+      "source_sha256": "fed0aa4e4f37e36e9ba9ed3a831a923bd6ac469f9ad20f2973b1db06706e4c2d",
+      "target": "docs_en/reference/05_upgrades/barracks_18_line.md",
+      "target_sha256": "a7f442bf4de78e9741a87685a1e9a9f30a2154b09d4ea048ffa11d52173b874c"
+    },
+    "docs/reference/05_upgrades/barracks_18_specialists.md": {
+      "source_sha256": "4da652e524ce8da8e52419e6fc85ef3fb229280fa222df1a68aed4da0c6d431c",
+      "target": "docs_en/reference/05_upgrades/barracks_18_specialists.md",
+      "target_sha256": "1ff5aa900bf608fb145b9bf1ab30eb36afef83fb167eb6261c302406864cebb2"
+    },
+    "docs/reference/05_upgrades/blacksmith.md": {
+      "source_sha256": "91bb477f20108940884f441eff65b071a0343de9fba762756b0511a58f0c91df",
+      "target": "docs_en/reference/05_upgrades/blacksmith.md",
+      "target_sha256": "8c12a6beef293226d2d28e5f4516e6d25716c48717f35c9c07791061645ff422"
+    },
+    "docs/reference/05_upgrades/mill.md": {
+      "source_sha256": "b63f0d51a42b31b4475d79f1f06580517e11c0e7b4df01a7421dd6e55eb22b51",
+      "target": "docs_en/reference/05_upgrades/mill.md",
+      "target_sha256": "cc680145d2115ab976c77857fda5249cd99e79b0bb109f8b3e4b1468901b7d66"
+    },
+    "docs/reference/05_upgrades/mines.md": {
+      "source_sha256": "346d8869729caa0d17f735bd38e04a1c0e92ffee41f2befc63845a9d98fd493e",
+      "target": "docs_en/reference/05_upgrades/mines.md",
+      "target_sha256": "ba8e4b470b9c1436b1556d5825c2e535884dbb3b33211e045b7799ce3e9fdf74"
+    },
+    "docs/reference/05_upgrades/shipyard.md": {
+      "source_sha256": "7fea9b2d85afee406804f3526126cd9894679371ead210e35364c24e5df2e2b2",
+      "target": "docs_en/reference/05_upgrades/shipyard.md",
+      "target_sha256": "5dac926ce50bf19f234cf14c33b9578077c6a8817fcfc9b2d4d8958d5e5c99ff"
+    },
+    "docs/reference/05_upgrades/stable.md": {
+      "source_sha256": "0275368b638fa7f241e0a2c9d14236e28e75ac07c5a0d8916542b90a2d77d607",
+      "target": "docs_en/reference/05_upgrades/stable.md",
+      "target_sha256": "9497bb80404a2314332132692a26b8104d36b212cfd00463ad6632381d56f0ca"
+    },
+    "docs/reference/05_upgrades/stable_cossacks.md": {
+      "source_sha256": "2e90f2520662a554f8bb463d5c0d1ea446cace01f6045093c23f54397111ebb2",
+      "target": "docs_en/reference/05_upgrades/stable_cossacks.md",
+      "target_sha256": "ac507e652899d815d0a9eee8619eca116ee74db5a03cc4fc73d645d3b87920e3"
+    },
+    "docs/reference/05_upgrades/stable_dragoons.md": {
+      "source_sha256": "a1bd88221e8297012c370dfa6cb7c19d4c45e0973b89ccd33573e86731061767",
+      "target": "docs_en/reference/05_upgrades/stable_dragoons.md",
+      "target_sha256": "290908d95b4946abdb94432fc124a4911750d918bbf18120d3ecd0879df6ed73"
+    },
+    "docs/reference/05_upgrades/stable_heavy_cavalry.md": {
+      "source_sha256": "72c117976406f418bedd853578daedb514b7b2b34263e59fa258b7d51586ae0d",
+      "target": "docs_en/reference/05_upgrades/stable_heavy_cavalry.md",
+      "target_sha256": "bfb2af681b075f19b96083ebc9cc3bd14a0d8373329b4051987e85fe19b11e3c"
+    },
+    "docs/reference/05_upgrades/stable_light_cavalry.md": {
+      "source_sha256": "3d48499f12896532dce95381158ba927c1a18d25c77414d572ea8c8a8d3ee498",
+      "target": "docs_en/reference/05_upgrades/stable_light_cavalry.md",
+      "target_sha256": "3038a23747700b0495f34a11ce2768e17961ebd75584fdc400a722f4b1e5004f"
+    },
+    "docs/reference/05_upgrades/stable_ottoman_cavalry.md": {
+      "source_sha256": "a387492ddba3f8f63aded0bb785115a932dbf6d16ebcabb2a187fcb9415504f9",
+      "target": "docs_en/reference/05_upgrades/stable_ottoman_cavalry.md",
+      "target_sha256": "a40079bd6d6d22092575251be953ca636aab448c458b2eb6ef439e7d58657bcf"
+    },
+    "docs/reference/05_upgrades/tower.md": {
+      "source_sha256": "a85466dc9b81a6c96c8f6c4f889f70d188e07271788ce2e6b7d32865b5f182fe",
+      "target": "docs_en/reference/05_upgrades/tower.md",
+      "target_sha256": "0949cf5f0c4b042c17de12426ed31daebeb63003d33fef85369c9012560b8b72"
+    },
+    "docs/reference/05_upgrades/town_hall.md": {
+      "source_sha256": "18efb40e99b6513fccce3389557c9062dba7379fbd47a821795c48754baf7d50",
+      "target": "docs_en/reference/05_upgrades/town_hall.md",
+      "target_sha256": "2f64a8010e19f63ef5710dc4c2ece6e4e408c3546ba05ec0f222cf42fb22ed18"
+    },
+    "docs/reference/05_upgrades/walls_and_gates.md": {
+      "source_sha256": "eb747de2fefb1be63befb0c4d298a0c7356c2f6dc1c6b952af4d76323cf4241c",
+      "target": "docs_en/reference/05_upgrades/walls_and_gates.md",
+      "target_sha256": "812c7a78edeac9d9d919aae3538db0e3f07a04375b731ae97c8dc82904583fdd"
     },
     "docs/reference/06_market/README.md": {
       "source_sha256": "77309720ca221bd1ae032773f88b4912bc01908242a7591e0ecbafd08ec3cd0d",
@@ -188,9 +388,9 @@
       "target_sha256": "77e9ba2cc04271a88cd03ed5ad82056c96f22cb520c63521db4b2522338a90e7"
     },
     "docs/reference/compare/README.md": {
-      "source_sha256": "e8678230d4f1d889f129d2269e89b5f64ebead52654db774a2983b05ea5dddd4",
+      "source_sha256": "60dc5bc77702b5ca3d6b6bdfc38504903e0d8f1d387352118cf5fb62d392dcff",
       "target": "docs_en/reference/compare/README.md",
-      "target_sha256": "2421a199e0bb4ed96024a854b3740007e37bbca07d1757bb49c296edcff96a5c"
+      "target_sha256": "c83a53f8632cb66254771c15b0628d7ee08a0740fc8021d6406b18ad40708e56"
     },
     "docs/reference/compare/buildings/README.md": {
       "source_sha256": "fec073bc01f0de3cbf7b96c1fa3487589dea928d39483c4015e256a110eacdcc",
@@ -268,9 +468,9 @@
       "target_sha256": "af82313e242906affeaf04666453b738602995ce0acf0d3f45f97cbf36bae93f"
     },
     "docs/reference/compare/buildings/town_halls.md": {
-      "source_sha256": "19abb9723e3c65d38a9136b89f5e6c6f8a37b212d21992f16828f511337a266a",
+      "source_sha256": "ced5bfe0aedaaf7c69616ed097d77f60325ee93839e4a2b12db788a43a0bfb71",
       "target": "docs_en/reference/compare/buildings/town_halls.md",
-      "target_sha256": "572ee481d4d319446d05bb71f25f3259d32ab0ab215321c557d51be96db247b2"
+      "target_sha256": "2fec8329d265c6c1c671e9a5e3f19b427d604c4f6a678da2e780cc496dd2ace7"
     },
     "docs/reference/compare/units/README.md": {
       "source_sha256": "90d4fa9c5d559ceefeefc51eb72995b3ba601e397fb9695a3a6cb9c8f853bf26",
@@ -280,7 +480,7 @@
     "docs/reference/compare/units/archers.md": {
       "source_sha256": "d70d30f591a8e2984dabed1ba035bc8db6a54c4a1f5450f87cedcedcd5766d85",
       "target": "docs_en/reference/compare/units/archers.md",
-      "target_sha256": "689fdd916c0e245f1bdeab1c4334dfb2d85b1c7c6a35f46ac8d810b968252ee7"
+      "target_sha256": "01b8b1aaee7fc87256ff00aa1105b37fb77f8b99da27c0e502a56fb44105243b"
     },
     "docs/reference/compare/units/dragoons.md": {
       "source_sha256": "ab7971bf7831ee1976a24d966b1cf95745972facb68e700749ffe465bd58017e",
@@ -288,9 +488,9 @@
       "target_sha256": "bde118c5b6b106f3a6fa66615dc7d6d10efd37f8d0949eb030fb1cc56a1fb573"
     },
     "docs/reference/compare/units/drummers.md": {
-      "source_sha256": "5becfaf739af9e1f02699317cc4e48268b7fb1011f9ae98f6dce18e020284c77",
+      "source_sha256": "c9ae9f81eefd0a6697f804504e337fdc5ff8c3629a7d9f09bfbc8108f6e7715b",
       "target": "docs_en/reference/compare/units/drummers.md",
-      "target_sha256": "dbd4408c18456d7825b7f56089aeba261751f74af9848ea356a58d219936bda6"
+      "target_sha256": "bb3aff22757df733a9803d3fb8ac0fdfec811ae9e95c3a6f4aa2abc140a202ef"
     },
     "docs/reference/compare/units/grenadiers.md": {
       "source_sha256": "83c5c68c6056604fb100a462c4dbb55befe52bafd1dc6248ef030074c2574e6d",
@@ -545,7 +745,7 @@
     "docs/reports/map/map_resources.md": {
       "source_sha256": "1a9320ba27cbbf496c188604018a28be97c3b7fc46b62569465db040ab2ea749",
       "target": "docs_en/reports/map/map_resources.md",
-      "target_sha256": "6cba40d4a238a86ceee6dc83a0584825e7c85358e57cd4958dc70b017615f841"
+      "target_sha256": "3b2522c1658a9bee5d871ad9f3f7d56497c3bfdc7f063f4380091d40f44b3c78"
     },
     "docs/reports/map/starting_layout.md": {
       "source_sha256": "30a279f60220aba3d4c990deb50321c942af3c557bc9619d5b763e51a8dc1dc0",
@@ -555,7 +755,7 @@
     "docs/reports/nations/overview.md": {
       "source_sha256": "9e027120a49f91daae81e0c9a618463e12c311e7a2e883c2f42876abfc89fd50",
       "target": "docs_en/reports/nations/overview.md",
-      "target_sha256": "6de28bef0de51dfd04c0d514debaec6d8316d5772aa991a6882ea642d6f09eba"
+      "target_sha256": "d7373126e67124237f54e64d2c50ad341176f91bc3f2545190afffea8ee828aa"
     },
     "docs/reports/tech/tech_tree.md": {
       "source_sha256": "21915a2a1cd9d0cec81ca5499ad9d7090f342505ca552a923a220706ae48d032",
@@ -570,12 +770,12 @@
     "internals/README.md": {
       "source_sha256": "74ebd4dc759b40b30b8b94fef2c845cd9e5b7dd2020ad52a4f5fc82ac5655385",
       "target": "internals_en/README.md",
-      "target_sha256": "1db073113f93e6dd0cd724a4b57ecb10013fa1e00fecaf025febf1bd4d769514"
+      "target_sha256": "53836650408d7e4588b61acb912b9426f2ec48495e2e20c3c2e3b1ea4c9122d6"
     },
     "internals/data/file_formats.md": {
       "source_sha256": "1090fb1155af5e666a2fc6ad29c2a095d9ec6e61e7522c17f04c57c9568c9ae1",
       "target": "internals_en/data/file_formats.md",
-      "target_sha256": "3e33055554be5ae7bae1c39aa4055a0b80a6dd798915552447292ceebeae6ac2"
+      "target_sha256": "716e1376567a8484dc0071838b94ffa768a7cbd2f05f5f9a4fa83fcc996922d4"
     },
     "internals/data/game_fields_glossary.md": {
       "source_sha256": "86820bee817eeb2c05463058a2e7e936beeed495234c4e492d536afc099cf190",
@@ -585,7 +785,7 @@
     "internals/data/layout.md": {
       "source_sha256": "8371495fe1187cb45b89542f79447907b4c795c2f4dcb92004e822db43b99585",
       "target": "internals_en/data/layout.md",
-      "target_sha256": "31b2c0134fc8c38949dad1690a8886fa3c9df40a988ab7e6333847d13ef5fd19"
+      "target_sha256": "cd518aa8b0da91f85b9713c2f6cd11736b16675822acdf5d74a7c42631e9d3b6"
     },
     "internals/data/map_predictions_validation.md": {
       "source_sha256": "eb6850559318243ce5aba4f39d37a9ec39cfddb69d9ba3de3b774b0fd8775b81",
@@ -600,22 +800,22 @@
     "internals/data/replay_format.md": {
       "source_sha256": "1cb4970b1b329a9d68f53b2853551fc96bca28f537cde9a64d1be2cff8bf39bf",
       "target": "internals_en/data/replay_format.md",
-      "target_sha256": "7c9db2f77efef62e52c7843020b68b25daa36d4eae0a7b37836eb52efb7ce117"
+      "target_sha256": "e5fa114add063620ffa23a49a336a73ef50318c4d46311781a8db935f4500dfb"
     },
     "internals/engine/animation_system.md": {
       "source_sha256": "c4e18c060331f7282b377d88799df7587c3b8cd7c81fb909d81b27429f5f0888",
       "target": "internals_en/engine/animation_system.md",
-      "target_sha256": "04df20f15cb5cb57eebd3ce26f031173d6ad6b6075c5b06b874c9cc4c01b444d"
+      "target_sha256": "6b8304b8adb32aaea60e0059485c59541bb4dc16fc7a69dcfb68548396ae2789"
     },
     "internals/engine/determinism_audit.md": {
       "source_sha256": "ad393afc92e94d27db5badb4de147808f6ec96c4790ead0e84b04eb824750a1a",
       "target": "internals_en/engine/determinism_audit.md",
-      "target_sha256": "81d31ccf5cdc5028be9ab9477dd150c03d1f049ee09cd18025aa41d38f14ac11"
+      "target_sha256": "8579a3133152f2a86cc587562cfbedc06a2d9d03240e86287393f9e6f212c2e8"
     },
     "internals/engine/native_api.md": {
       "source_sha256": "62ac2ad41259d6012727a23b793ed5c1d10551f5a4b90f53eda35d0f74b2d4bf",
       "target": "internals_en/engine/native_api.md",
-      "target_sha256": "8a910f38cdcd778f50a6e4bf8870fa4f8b8f9d558d0bdf537072197eb15d44ba"
+      "target_sha256": "7a485e38c71a214234544777911fe45cdcbc9f16bfd165f88d8a92706de858e9"
     },
     "internals/engine/native_primitives.md": {
       "source_sha256": "679777826c0f4e5a9e63e12a8b71a7eecee87d235801cf51552fa8f3ab32e613",
@@ -625,12 +825,12 @@
     "internals/engine/rng_implementation.md": {
       "source_sha256": "d8dce6e9d9798f232bd0a5e9262bf6e75419b7f1c90824f5f89cb0991e5c440f",
       "target": "internals_en/engine/rng_implementation.md",
-      "target_sha256": "400e3d00bd9a4fe57790b562fdf17294f24988a65664e071459e9d47bd249681"
+      "target_sha256": "a690ebcb7454d5553ef9bf4f1ca8d55839ef279e0fe979145dd2faf35f7710b8"
     },
     "internals/engine/rtti_class_map.md": {
       "source_sha256": "f818e9afc5cc41b1df4dad35a6277c061be51d07806f2cd1f0783be0bd70d6bd",
       "target": "internals_en/engine/rtti_class_map.md",
-      "target_sha256": "5c844132828d312e802d920ff0b5a03df989e7cbb94bfff31efed763730d47b7"
+      "target_sha256": "f3275f4ad8b65f1c683d43364d6ddec1abdf27e7ee7199cc64e3289e6022a11e"
     },
     "internals/engine/script_modding_constraints.md": {
       "source_sha256": "7d15ebb45bdb64a8b31de49010c0cbd563623c5dab7d5be251c6b868220df3b1",
@@ -640,17 +840,17 @@
     "internals/engine/server_sync_architecture.md": {
       "source_sha256": "39d806f6a5b7c87b7ece5674574f56b7e471c96baa7149fdf9303dd5bf09dcc8",
       "target": "internals_en/engine/server_sync_architecture.md",
-      "target_sha256": "c32573d7ce5c92544dd5b68322e2abafdfde862d49d70408539690c6db4cfef0"
+      "target_sha256": "ab779a273e84d7089eda45dea9aaa9bfe2972a562018fbf71269dc5661b2657d"
     },
     "internals/engine/server_sync_packet_format.md": {
       "source_sha256": "38197f2b59dfd201ecda7b60b258e09879937a0e03768da0ca198d7227ee9da3",
       "target": "internals_en/engine/server_sync_packet_format.md",
-      "target_sha256": "a5f810bba031d9ff3977a5444b775095b7031e1840ce5079209c561ce0ca00d4"
+      "target_sha256": "fbe59f42cdbe986e6cd72994103205571c6e2b2ce02e15bd354d886810715933"
     },
     "internals/engine/ticks_and_subticks.md": {
       "source_sha256": "746bb074e6f1578e12c06ed8af9f8b4261f8557b651af384343569d3b857b659",
       "target": "internals_en/engine/ticks_and_subticks.md",
-      "target_sha256": "2fdf2024bbce38d3bc5df90c4ed84933432781a9b0b95a27b7fddf114d8a9b6c"
+      "target_sha256": "db89d9512b8f3c04e5feb10f1a8acb0c70aa38a4b85659813ce80b707ce3f482"
     },
     "internals/project/README.md": {
       "source_sha256": "5a65a8658df8bca5a9006688cc1ff5fcad250cd294c6f0da737ebc176c459cfa",
@@ -660,7 +860,7 @@
     "internals/project/architecture.md": {
       "source_sha256": "acc0100c44f154590c61c3ae0a52396934e25f9bfe464928df7e806ec907d19f",
       "target": "internals_en/project/architecture.md",
-      "target_sha256": "a3a83750031e0286492bb40716938de5016038cd9c24d3f0ffc09e8dbf293b6e"
+      "target_sha256": "93f4cb7888b46322a84fa901c734daeda775528e42c63bc0aa5a1b379617afb8"
     },
     "internals/project/documentation_style.md": {
       "source_sha256": "da3e6dffb358ba5279540dd0be0a0f53ccf644e99007b361b7e26924d02434a5",
@@ -670,17 +870,17 @@
     "internals/project/known_issues.md": {
       "source_sha256": "4d4b4dd070f262c093e9ff6cc45633530138f34984421ab4e66530ac9278fda5",
       "target": "internals_en/project/known_issues.md",
-      "target_sha256": "e4c1ddfce7c4125f321e1a36a16776ca4972e58f42d02f3aab5846a0df9536ce"
+      "target_sha256": "ec27ec5c700c81ad69ce458165d525d20e2092268d8be5f9af7d9e8057adbf7d"
     },
     "internals/project/known_issues_archive.md": {
       "source_sha256": "5a251309e52dbc45450c8c10c43370e5949e5729cdc006108e4ba599b9180799",
       "target": "internals_en/project/known_issues_archive.md",
-      "target_sha256": "e5106706dda63cae0341f9eef0598233c1269d1776071c7cac27a0811fd2e6b6"
+      "target_sha256": "6dc72632c692ee4d026d1f8c1d1ecf091bb843ee233829bd6515d1d387d01775"
     },
     "internals/scripts/structure.md": {
       "source_sha256": "42d3d20d7db87fbf867bfb0bc8a52627330a8ba223288eee1b80c12570b44567",
       "target": "internals_en/scripts/structure.md",
-      "target_sha256": "65d3eefa8dda1e16c0a292673af5e6d23571309f706a215e42eda38166b27007"
+      "target_sha256": "726b670921bedb1da696ec39e793b63490064ee35a2cb9e0a875929f6700f5c2"
     },
     "mods/Deterministic Cossacks/README.md": {
       "source_sha256": "8718b0cc535fcf4dca8a1aa26ac57d0a6a0fbe2f5d151382b974d7693d9297a4",

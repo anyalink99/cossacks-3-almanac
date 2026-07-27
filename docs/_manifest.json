@@ -167,14 +167,116 @@
     {
       "path": "reference/02_combat/README.md",
       "title": "Бой и движение",
-      "size": 5440,
-      "lines": 77
+      "size": 5495,
+      "lines": 78
+    },
+    {
+      "path": "reference/03_buildings/academy.md",
+      "title": "Академия",
+      "size": 3160,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/artillery_depot.md",
+      "title": "Артиллерийское депо",
+      "size": 5734,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/barracks_17.md",
+      "title": "Казарма XVII века",
+      "size": 5871,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/barracks_18.md",
+      "title": "Казарма XVIII века",
+      "size": 4789,
+      "lines": 27
+    },
+    {
+      "path": "reference/03_buildings/blacksmith.md",
+      "title": "Кузница",
+      "size": 2987,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/cathedral.md",
+      "title": "Собор",
+      "size": 4028,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/diplomatic_center.md",
+      "title": "Дипломатический центр",
+      "size": 7716,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/housing.md",
+      "title": "Дом",
+      "size": 2850,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/market.md",
+      "title": "Рынок",
+      "size": 1287,
+      "lines": 13
+    },
+    {
+      "path": "reference/03_buildings/mill.md",
+      "title": "Мельница",
+      "size": 1223,
+      "lines": 12
+    },
+    {
+      "path": "reference/03_buildings/mines.md",
+      "title": "Шахты",
+      "size": 2264,
+      "lines": 37
     },
     {
       "path": "reference/03_buildings/README.md",
       "title": "Здания",
-      "size": 65379,
-      "lines": 480
+      "size": 8327,
+      "lines": 100
+    },
+    {
+      "path": "reference/03_buildings/shipyard.md",
+      "title": "Порт",
+      "size": 1447,
+      "lines": 14
+    },
+    {
+      "path": "reference/03_buildings/stable.md",
+      "title": "Конюшня",
+      "size": 5584,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/storehouse.md",
+      "title": "Склад",
+      "size": 1281,
+      "lines": 13
+    },
+    {
+      "path": "reference/03_buildings/tower.md",
+      "title": "Башня",
+      "size": 3047,
+      "lines": 35
+    },
+    {
+      "path": "reference/03_buildings/town_hall.md",
+      "title": "Городской центр",
+      "size": 5723,
+      "lines": 30
+    },
+    {
+      "path": "reference/03_buildings/walls_and_gates.md",
+      "title": "Стены, ворота и частокол",
+      "size": 3188,
+      "lines": 34
     },
     {
       "path": "reference/04_units/README.md",
@@ -183,10 +285,148 @@
       "lines": 266
     },
     {
+      "path": "reference/05_upgrades/academy.md",
+      "title": "Улучшения Академии",
+      "size": 20177,
+      "lines": 90
+    },
+    {
+      "path": "reference/05_upgrades/artillery_depot.md",
+      "title": "Улучшения Артиллерийского депо",
+      "size": 7445,
+      "lines": 45
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17.md",
+      "title": "Улучшения Казармы XVII века",
+      "size": 785,
+      "lines": 13
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_command.md",
+      "title": "Офицеры, барабанщики и волынщики XVII века",
+      "size": 6114,
+      "lines": 40
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_melee.md",
+      "title": "Рукопашная пехота XVII века",
+      "size": 27575,
+      "lines": 161
+    },
+    {
+      "path": "reference/05_upgrades/barracks_17_ranged.md",
+      "title": "Стрелки XVII века",
+      "size": 28818,
+      "lines": 171
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18.md",
+      "title": "Улучшения Казармы XVIII века",
+      "size": 792,
+      "lines": 13
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_command.md",
+      "title": "Офицеры, барабанщики и волынщики XVIII века",
+      "size": 4544,
+      "lines": 30
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_line.md",
+      "title": "Линейная пехота XVIII века",
+      "size": 49981,
+      "lines": 269
+    },
+    {
+      "path": "reference/05_upgrades/barracks_18_specialists.md",
+      "title": "Стрелки и национальная пехота XVIII века",
+      "size": 16539,
+      "lines": 105
+    },
+    {
+      "path": "reference/05_upgrades/blacksmith.md",
+      "title": "Улучшения Кузницы",
+      "size": 3695,
+      "lines": 23
+    },
+    {
+      "path": "reference/05_upgrades/mill.md",
+      "title": "Улучшения Мельницы",
+      "size": 1655,
+      "lines": 13
+    },
+    {
+      "path": "reference/05_upgrades/mines.md",
+      "title": "Улучшения шахт",
+      "size": 3706,
+      "lines": 29
+    },
+    {
       "path": "reference/05_upgrades/README.md",
       "title": "Улучшения",
-      "size": 281042,
-      "lines": 1594
+      "size": 5147,
+      "lines": 62
+    },
+    {
+      "path": "reference/05_upgrades/shipyard.md",
+      "title": "Улучшения Порта и транспорта",
+      "size": 1515,
+      "lines": 19
+    },
+    {
+      "path": "reference/05_upgrades/stable.md",
+      "title": "Улучшения Конюшни",
+      "size": 1169,
+      "lines": 15
+    },
+    {
+      "path": "reference/05_upgrades/stable_cossacks.md",
+      "title": "Казаки и восточная конница",
+      "size": 9024,
+      "lines": 59
+    },
+    {
+      "path": "reference/05_upgrades/stable_dragoons.md",
+      "title": "Драгуны и конные стрелки",
+      "size": 28381,
+      "lines": 151
+    },
+    {
+      "path": "reference/05_upgrades/stable_heavy_cavalry.md",
+      "title": "Тяжёлая кавалерия",
+      "size": 34891,
+      "lines": 195
+    },
+    {
+      "path": "reference/05_upgrades/stable_light_cavalry.md",
+      "title": "Гусары и лёгкая кавалерия",
+      "size": 27090,
+      "lines": 164
+    },
+    {
+      "path": "reference/05_upgrades/stable_ottoman_cavalry.md",
+      "title": "Османская конница",
+      "size": 6276,
+      "lines": 45
+    },
+    {
+      "path": "reference/05_upgrades/tower.md",
+      "title": "Улучшения Башни",
+      "size": 1509,
+      "lines": 14
+    },
+    {
+      "path": "reference/05_upgrades/town_hall.md",
+      "title": "Переход в XVIII век",
+      "size": 1891,
+      "lines": 17
+    },
+    {
+      "path": "reference/05_upgrades/walls_and_gates.md",
+      "title": "Улучшения стен и частокола",
+      "size": 1052,
+      "lines": 18
     },
     {
       "path": "reference/06_market/README.md",
@@ -292,15 +532,15 @@
     },
     {
       "path": "reference/compare/buildings/town_halls.md",
-      "title": "Ратуши",
-      "size": 6347,
-      "lines": 32
+      "title": "Городские центры",
+      "size": 6366,
+      "lines": 33
     },
     {
       "path": "reference/compare/README.md",
       "title": "Сравнения",
-      "size": 4573,
-      "lines": 59
+      "size": 4626,
+      "lines": 60
     },
     {
       "path": "reference/compare/units/archers.md",
@@ -317,8 +557,8 @@
     {
       "path": "reference/compare/units/drummers.md",
       "title": "Барабанщики и волынщик",
-      "size": 8767,
-      "lines": 50
+      "size": 8795,
+      "lines": 51
     },
     {
       "path": "reference/compare/units/grenadiers.md",

@@ -420,7 +420,7 @@ simulations.
 - (a) use game-time for measurements (but the game shows real-time in
   UI; perhaps through replay with a known duration);
 - (b) measure FPS through a game profiler and calculate the effective speed factor;
-- (c) run short tests (a minute) on a light card with a small number
+- (c) run short tests (about a minute) on a lightweight map with few
   units so that adaptive speed does not work.
 
 ---

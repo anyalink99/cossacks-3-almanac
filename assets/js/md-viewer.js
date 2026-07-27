@@ -105,8 +105,10 @@ const ENTITY_UI = ENGLISH ? {
   technicalId: "Technical ID",
   available: "Available to",
   allNations: "all nations",
+  allExcept: (nations) => `all nations except ${nations}`,
   variant: "Game values",
-  variants: "National variants",
+  baseValues: "Base values",
+  differences: "Differences",
   cost: "Cost",
   health: "Health",
   trainingTime: "Training time",
@@ -148,8 +150,10 @@ const ENTITY_UI = ENGLISH ? {
   technicalId: "Технический код",
   available: "Доступно",
   allNations: "всем нациям",
+  allExcept: (nations) => `всем нациям, кроме: ${nations}`,
   variant: "Игровые значения",
-  variants: "Национальные варианты",
+  baseValues: "Основные значения",
+  differences: "Отличия",
   cost: "Стоимость",
   health: "Здоровье",
   trainingTime: "Время найма",
@@ -375,6 +379,115 @@ let searchElements = null;
 let entityCatalogPromise = null;
 let entityIndexPromise = null;
 let closeMobileDrawer = () => {};
+
+const LEGACY_REFERENCE_ROUTES = [
+  {
+    from: "reference/03_buildings/README.md",
+    routes: {
+      "town_hall.md": ["городской-центр-cen", "cen--городской-центр", "town-hall-cen"],
+      "housing.md": ["дом-hou", "hou--дом", "housing-hou"],
+      "barracks_17.md": ["казарма-17-в-bar", "bar--казарма-17-в", "barracks-17th-century-bar"],
+      "barracks_18.md": ["казарма-18-в-ba2", "ba2--казарма-18-в", "barracks-18th-century-ba2"],
+      "blacksmith.md": ["кузница-bla", "bla--кузница", "blacksmith-bla"],
+      "stable.md": ["конюшня-sta", "sta--конюшня", "stable-sta"],
+      "cathedral.md": ["собор-tem", "tem--собор", "cathedral-tem"],
+      "academy.md": ["академия-aca", "aca--академия", "academy-aca"],
+      "artillery_depot.md": ["артиллерийское-депо-art", "art--артиллерийское-депо", "artillery-depot-art"],
+      "diplomatic_center.md": ["дипломатический-центр-dip", "dip--дипломатический-центр", "diplomatic-center-dip"],
+      "mill.md": ["мельница-mil", "mil--мельница", "mill-mil"],
+      "storehouse.md": ["склад-sto", "sto--склад", "storehouse-sto"],
+      "market.md": ["рынок-mar", "mar--рынок", "mar--market", "market-mar"],
+      "shipyard.md": ["порт-por", "por--порт", "shipyard-por"],
+      "tower.md": ["башня-tow", "tow--башня", "tower-tow", "башня--кратко", "tower-summary"],
+      "mines.md": [
+        "золотая-шахта-gol", "gol--золотая-шахта", "gold-mine-gol",
+        "железная-шахта-iro", "iro--железная-шахта", "iron-mine-iro",
+        "угольная-шахта-coa", "coa--угольная-шахта", "coal-mine-coa",
+        "улучшения-шахт", "шахты--апгрейды-golirocoa", "mines---upgrades-golirocoa",
+      ],
+      "walls_and_gates.md": [
+        "каменная-стена-swa", "swa--каменная-стена", "stone-wall-swa",
+        "каменные-ворота-sga", "sga--каменные-ворота", "stone-gate-sga",
+        "деревянные-ворота-wga", "wga--деревянные-ворота", "wooden-gate-wga",
+        "палисад-wwa", "wwa--палисад", "palisade-wwa",
+      ],
+    },
+  },
+  {
+    from: "reference/05_upgrades/README.md",
+    routes: {
+      "mines.md": ["улучшения-шахт", "апгрейды-шахт-eurgoleurcoaeuriro", "mine-upgrades"],
+      "academy.md": ["академия-исследования-aca", "aca--академия-исследования", "academy-aca"],
+      "mill.md": ["мельница-эффективность-еды-mil", "mil--мельница-эффективность-еды", "mill-mil"],
+      "blacksmith.md": [
+        "кузница-по-юнитам--урон-и-защита-bla",
+        "bla--кузница-по-юнитам--урон-и-защита",
+        "blacksmith-bla--unit-damage-and-protection",
+      ],
+      "stable.md": [
+        "конюшня-по-юнитам--кавалерия-sta",
+        "sta--конюшня-по-юнитам--кавалерия",
+        "stable-sta--cavalry",
+      ],
+      "barracks_17.md": [
+        "казарма-17-в-по-юнитам-bar",
+        "bar--казарма-17-в-по-юнитам",
+        "barracks-17th-century-bar",
+      ],
+      "barracks_18.md": [
+        "казарма-18-в-по-юнитам-ba2",
+        "ba2--казарма-18-в-по-юнитам",
+        "barracks-18th-century-ba2",
+      ],
+      "artillery_depot.md": [
+        "артиллерийское-депо-апгрейды-пушек-art",
+        "art--артиллерийское-депо-апгрейды-пушек",
+        "artillery-depot-art--cannon-upgrades",
+      ],
+      "town_hall.md": [
+        "городской-центр-переход-эпохи-cen",
+        "cen--городской-центр-переход-эпохи",
+        "town-hall-cen--advancing-to-the-18th-century",
+      ],
+      "tower.md": [
+        "башня-скорость-перезарядки-tow",
+        "tow--башня-скорость-перезарядки",
+        "tower-tow--reload-speed",
+      ],
+      "walls_and_gates.md": [
+        "каменная-стена-постройка-ворот-swa",
+        "swa--каменная-стена-постройка-ворот",
+        "stone-wall-swa--building-a-gate",
+        "палисад-постройка-ворот-wwa",
+        "wwa--палисад-постройка-ворот",
+        "palisade-wwa--building-a-gate",
+      ],
+      "shipyard.md": [
+        "порт-лечение-por", "por--порт-лечение", "shipyard-por--healing",
+        "транспорт-вместимость-ferry", "ferry--транспорт-вместимость", "ferry-ferry--capacity",
+      ],
+    },
+  },
+];
+
+function applyLegacyReferenceRoute() {
+  if (!currentPath || !location.hash) return;
+  let fragment;
+  try {
+    fragment = decodeURIComponent(location.hash.slice(1));
+  } catch {
+    fragment = location.hash.slice(1);
+  }
+  const reference = LEGACY_REFERENCE_ROUTES.find(({ from }) => from === currentPath);
+  if (!reference) return;
+  for (const [filename, fragments] of Object.entries(reference.routes)) {
+    if (!fragments.includes(fragment)) continue;
+    currentPath = `${currentPath.slice(0, currentPath.lastIndexOf("/") + 1)}${filename}`;
+    const query = `?p=${encodeURIComponent(currentPath)}`;
+    history.replaceState({}, "", query);
+    return;
+  }
+}
 
 function directoryLabel(segment) {
   return DIRECTORY_LABELS[segment] || segment.replaceAll("_", " ");
@@ -1006,16 +1119,41 @@ async function enrichEntityTables(container, path) {
     const rows = [...table.tBodies].flatMap((body) => [...body.rows]);
     const showIcons = rows.length <= 160;
     for (const row of rows) {
-      const cell = row.cells[0];
-      if (!cell || cell.querySelector("a")) continue;
-      const sidCode = [...cell.querySelectorAll("code")].find((code) => {
-        const sid = code.textContent.trim();
-        return sid && index.entities?.[sid];
-      });
-      if (!sidCode) continue;
+      const matches = [...row.querySelectorAll("code")]
+        .filter((code) => !code.closest("a"))
+        .map((code) => {
+          const sid = code.textContent.trim();
+          const entry = sid && index.entities?.[sid];
+          return entry ? { code, sid, entry } : null;
+        })
+        .filter(Boolean);
+      const uniqueMatches = new Map(
+        matches.map((match) => [`${match.entry[0]}:${match.sid}`, match]),
+      );
+      if (uniqueMatches.size !== 1) continue;
 
-      const sid = sidCode.textContent.trim();
-      const [kind, name, icon] = index.entities[sid];
+      const [{ code: sidCode, sid, entry }] = uniqueMatches.values();
+      const [kind, name, icon] = entry;
+      const sidCell = sidCode.closest("td, th");
+      if (!sidCell) continue;
+
+      let cell = sidCell;
+      const readerLabel = sidCell.textContent.replace(sid, "").trim();
+      if (!readerLabel) {
+        const normalizedName = normalizeSearch(name.trim());
+        cell = [...row.cells].find((candidate) => {
+          if (candidate === sidCell || candidate.querySelector("a, code")) return false;
+          return normalizeSearch(candidate.textContent.trim()) === normalizedName;
+        });
+      }
+      if (!cell || cell.querySelector("a")) continue;
+
+      // Do not turn an unrelated label into a card link merely because the row
+      // contains an entity SID in a statistics or relationship column.
+      if (cell !== sidCell && normalizeSearch(cell.textContent.trim()) !== normalizeSearch(name)) {
+        continue;
+      }
+
       const key = `${kind}:${sid}`;
       const link = makeElement("a", "entity-table-link");
       link.href = `?entity=${encodeURIComponent(key)}`;
@@ -1039,8 +1177,8 @@ async function enrichEntityTables(container, path) {
 
       const label = makeElement("span", "entity-table-label");
       const existing = [...cell.childNodes];
-      const readerLabel = cell.textContent.replace(sid, "").trim();
-      if (readerLabel) {
+      const cellHasReaderLabel = cell.textContent.replace(sid, "").trim();
+      if (cellHasReaderLabel) {
         label.append(...existing);
       } else {
         label.append(
@@ -1113,19 +1251,143 @@ function resourceList(cost) {
 
 function relatedList(values, catalog) {
   const container = makeElement("span", "entity-related-list");
-  for (const sid of values || []) {
+  const groups = new Map();
+  for (const sid of [...new Set(values || [])]) {
     const entity = entityBySid(catalog, sid);
-    if (entity) container.append(entityLink(entity));
-    else container.append(makeElement("code", "entity-related-plain", sid));
+    if (!entity) {
+      groups.set(`raw:${sid}`, { label: sid, entities: [] });
+      continue;
+    }
+    const label = localized(entity.name);
+    const key = `${entity.kind}:${normalizeSearch(label)}`;
+    const group = groups.get(key) || { label, entities: [] };
+    group.entities.push(entity);
+    groups.set(key, group);
+  }
+  for (const group of groups.values()) {
+    if (group.entities.length === 1) {
+      container.append(entityLink(group.entities[0], group.label));
+    } else if (group.entities.length > 1) {
+      // Nation-specific buildings and units often share one canonical name.
+      // A single neutral label is more honest than linking to an arbitrary
+      // national implementation.
+      container.append(makeElement("span", "entity-related-label", group.label));
+    } else {
+      container.append(makeElement("code", "entity-related-plain", group.label));
+    }
   }
   return container;
 }
 
 function nationsLabel(values, catalog) {
-  if ((values || []).length >= 18) return ENTITY_UI.allNations;
-  return (values || [])
+  const selected = new Set(values || []);
+  const allNations = Object.keys(catalog.nations || {});
+  if (selected.size === allNations.length) return ENTITY_UI.allNations;
+
+  const labels = (sids) => sids
     .map((sid) => localized(catalog.nations?.[sid]) || sid.toUpperCase())
+    .sort((a, b) => a.localeCompare(b, ENGLISH ? "en" : "ru"))
     .join(", ");
+  const missing = allNations.filter((sid) => !selected.has(sid));
+  if (missing.length && missing.length < selected.size) {
+    return ENTITY_UI.allExcept(labels(missing));
+  }
+  return labels([...selected]);
+}
+
+const ENTITY_VARIANT_KEYS = {
+  unit: [
+    "hp", "buildtime_sec", "speed", "vision", "cost",
+    "trained_in", "protection", "weapons",
+  ],
+  building: [
+    "hp", "buildtime_sec", "vision", "farm", "peasantabsorber",
+    "capturable", "cost", "produces",
+  ],
+  upgrade: [
+    "effect", "value", "level", "time_sec", "cost",
+    "place", "targets", "prereqs",
+  ],
+};
+
+const ENTITY_RELATION_FIELDS = new Set([
+  "trained_in", "produces", "place", "targets", "prereqs",
+]);
+
+function stableValue(value) {
+  if (Array.isArray(value)) return value.map(stableValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value).sort().map((key) => [key, stableValue(value[key])]),
+    );
+  }
+  return value ?? null;
+}
+
+function relationValues(value) {
+  if (value === undefined || value === null || value === "") return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function variantFieldSignature(field, value, catalog) {
+  if (!ENTITY_RELATION_FIELDS.has(field)) {
+    return JSON.stringify(stableValue(value));
+  }
+  const semanticNames = relationValues(value).map((sid) => {
+    const related = entityBySid(catalog, sid);
+    return related
+      ? `${related.kind}:${normalizeSearch(localized(related.name))}`
+      : `raw:${sid}`;
+  });
+  return JSON.stringify([...new Set(semanticNames)].sort());
+}
+
+function displayVariantSignature(entity, variant, catalog) {
+  return JSON.stringify(
+    ENTITY_VARIANT_KEYS[entity.kind].map((field) => [
+      field,
+      variantFieldSignature(field, variant[field], catalog),
+    ]),
+  );
+}
+
+function mergeRelatedFields(target, source) {
+  for (const field of ENTITY_RELATION_FIELDS) {
+    const merged = [
+      ...relationValues(target[field]),
+      ...relationValues(source[field]),
+    ];
+    if (merged.length) target[field] = [...new Set(merged)].sort();
+  }
+}
+
+function groupDisplayVariants(entity, catalog) {
+  const groups = new Map();
+  for (const source of entity.variants || []) {
+    const signature = displayVariantSignature(entity, source, catalog);
+    let group = groups.get(signature);
+    if (!group) {
+      group = JSON.parse(JSON.stringify(source));
+      group.nations = [];
+      groups.set(signature, group);
+    }
+    group.nations = [...new Set([
+      ...(group.nations || []),
+      ...(source.nations || []),
+    ])].sort();
+    mergeRelatedFields(group, source);
+  }
+  return [...groups.entries()]
+    .sort((a, b) => b[1].nations.length - a[1].nations.length
+      || a[0].localeCompare(b[0]))
+    .map(([, variant]) => variant);
+}
+
+function variantDifferenceKeys(entity, variant, baseline, catalog) {
+  return new Set(ENTITY_VARIANT_KEYS[entity.kind].filter(
+    (field) => variantFieldSignature(field, variant[field], catalog)
+      !== variantFieldSignature(field, baseline[field], catalog),
+  ));
 }
 
 function protectionList(protection) {
@@ -1174,75 +1436,91 @@ function renderWeapons(weapons) {
   return section;
 }
 
-function renderVariant(entity, variant, catalog, index) {
+function renderVariant(entity, variant, catalog, title, visibleKeys = null) {
   const section = makeElement("section", "entity-variant");
   const heading = makeElement("div", "entity-variant-heading");
-  const title = entity.variants.length > 1
-    ? `${ENTITY_UI.variant} ${index + 1}`
-    : ENTITY_UI.variant;
   heading.append(
     makeElement("h2", "", title),
     makeElement("span", "entity-nations", nationsLabel(variant.nations, catalog)),
   );
   section.append(heading);
 
+  const shows = (field) => !visibleKeys || visibleKeys.has(field);
   const facts = makeElement("dl", "entity-facts");
   if (entity.kind === "unit") {
-    appendFact(facts, ENTITY_UI.health, variant.hp);
-    appendFact(
-      facts,
-      ENTITY_UI.trainingTime,
-      variant.buildtime_sec != null
-        ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
-        : null,
-    );
-    appendFact(facts, ENTITY_UI.speed, variant.speed);
-    appendFact(facts, ENTITY_UI.vision, variant.vision);
-    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
-    if (variant.trained_in) {
+    if (shows("hp")) appendFact(facts, ENTITY_UI.health, variant.hp);
+    if (shows("buildtime_sec")) {
+      appendFact(
+        facts,
+        ENTITY_UI.trainingTime,
+        variant.buildtime_sec != null
+          ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
+          : null,
+      );
+    }
+    if (shows("speed")) appendFact(facts, ENTITY_UI.speed, variant.speed);
+    if (shows("vision")) appendFact(facts, ENTITY_UI.vision, variant.vision);
+    if (shows("cost") && variant.cost) {
+      appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    }
+    if (shows("trained_in") && variant.trained_in) {
       appendFact(facts, ENTITY_UI.trainedAt, relatedList(variant.trained_in, catalog));
     }
-    if (variant.protection) {
+    if (shows("protection") && variant.protection) {
       appendFact(facts, ENTITY_UI.protection, protectionList(variant.protection));
     }
   } else if (entity.kind === "building") {
-    appendFact(facts, ENTITY_UI.health, variant.hp);
-    appendFact(
-      facts,
-      ENTITY_UI.buildTime,
-      variant.buildtime_sec != null
-        ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
-        : null,
-    );
-    appendFact(facts, ENTITY_UI.vision, variant.vision);
-    appendFact(facts, ENTITY_UI.housing, variant.farm);
-    appendFact(facts, ENTITY_UI.capacity, variant.peasantabsorber);
-    if (variant.capturable) appendFact(facts, ENTITY_UI.canBeCaptured, ENTITY_UI.yes);
-    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
-    if (variant.produces) {
+    if (shows("hp")) appendFact(facts, ENTITY_UI.health, variant.hp);
+    if (shows("buildtime_sec")) {
+      appendFact(
+        facts,
+        ENTITY_UI.buildTime,
+        variant.buildtime_sec != null
+          ? `${variant.buildtime_sec} ${ENTITY_UI.gameSeconds}`
+          : null,
+      );
+    }
+    if (shows("vision")) appendFact(facts, ENTITY_UI.vision, variant.vision);
+    if (shows("farm")) appendFact(facts, ENTITY_UI.housing, variant.farm);
+    if (shows("peasantabsorber")) {
+      appendFact(facts, ENTITY_UI.capacity, variant.peasantabsorber);
+    }
+    if (shows("capturable") && variant.capturable) {
+      appendFact(facts, ENTITY_UI.canBeCaptured, ENTITY_UI.yes);
+    }
+    if (shows("cost") && variant.cost) {
+      appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    }
+    if (shows("produces") && variant.produces) {
       appendFact(facts, ENTITY_UI.produces, relatedList(variant.produces, catalog));
     }
   } else {
-    appendFact(facts, ENTITY_UI.effect, localized(variant.effect));
-    appendFact(facts, ENTITY_UI.value, variant.value);
-    appendFact(facts, ENTITY_UI.level, variant.level);
-    appendFact(
-      facts,
-      ENTITY_UI.researchTime,
-      variant.time_sec != null ? `${variant.time_sec} ${ENTITY_UI.gameSeconds}` : null,
-    );
-    if (variant.cost) appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
-    const place = variant.place ? [variant.place] : [];
-    if (place.length) appendFact(facts, ENTITY_UI.researchedAt, relatedList(place, catalog));
-    if (variant.targets?.length) {
+    if (shows("effect")) appendFact(facts, ENTITY_UI.effect, localized(variant.effect));
+    if (shows("value")) appendFact(facts, ENTITY_UI.value, variant.value);
+    if (shows("level")) appendFact(facts, ENTITY_UI.level, variant.level);
+    if (shows("time_sec")) {
+      appendFact(
+        facts,
+        ENTITY_UI.researchTime,
+        variant.time_sec != null ? `${variant.time_sec} ${ENTITY_UI.gameSeconds}` : null,
+      );
+    }
+    if (shows("cost") && variant.cost) {
+      appendFact(facts, ENTITY_UI.cost, resourceList(variant.cost));
+    }
+    const place = relationValues(variant.place);
+    if (shows("place") && place.length) {
+      appendFact(facts, ENTITY_UI.researchedAt, relatedList(place, catalog));
+    }
+    if (shows("targets") && variant.targets?.length) {
       appendFact(facts, ENTITY_UI.affects, relatedList(variant.targets, catalog));
     }
-    if (variant.prereqs?.length) {
+    if (shows("prereqs") && variant.prereqs?.length) {
       appendFact(facts, ENTITY_UI.prerequisites, relatedList(variant.prereqs, catalog));
     }
   }
-  section.append(facts);
-  if (entity.kind === "unit" && variant.weapons?.length) {
+  if (facts.childElementCount) section.append(facts);
+  if (entity.kind === "unit" && shows("weapons") && variant.weapons?.length) {
     section.append(renderWeapons(variant.weapons));
   }
   return section;
@@ -1287,12 +1565,35 @@ async function openEntity(entityKey) {
     hero.append(identity);
     card.append(hero);
 
-    if (entity.variants.length > 1) {
-      card.append(makeElement("p", "entity-variant-note", `${ENTITY_UI.variants}: ${entity.variants.length}`));
+    const displayVariants = groupDisplayVariants(entity, catalog);
+    if (displayVariants.length === 1) {
+      card.append(renderVariant(
+        entity,
+        displayVariants[0],
+        catalog,
+        ENTITY_UI.variant,
+      ));
+    } else {
+      const baseline = displayVariants[0];
+      card.append(renderVariant(
+        entity,
+        baseline,
+        catalog,
+        ENTITY_UI.baseValues,
+      ));
+      displayVariants.slice(1).forEach((variant, index) => {
+        const title = displayVariants.length > 2
+          ? `${ENTITY_UI.differences} ${index + 1}`
+          : ENTITY_UI.differences;
+        card.append(renderVariant(
+          entity,
+          variant,
+          catalog,
+          title,
+          variantDifferenceKeys(entity, variant, baseline, catalog),
+        ));
+      });
     }
-    entity.variants.forEach((variant, index) => {
-      card.append(renderVariant(entity, variant, catalog, index));
-    });
     main.replaceChildren(card);
     crumb.textContent = `${ENTITY_UI.catalog} › ${ENTITY_UI.kinds[entity.kind]} › ${localized(entity.name)}`;
     document.title = `${localized(entity.name)} — ${currentRoot.title}`;
@@ -1394,6 +1695,7 @@ function setupMobileDrawer() {
 async function init() {
   try {
     const section = currentSection();
+    applyLegacyReferenceRoute();
     document.documentElement.lang = ENGLISH ? "en" : "ru";
     const home = document.querySelector(".topbar-actions .btn-secondary");
     const contents = document.querySelector(".md-sidebar h2");
@@ -1428,6 +1730,9 @@ async function init() {
       const p = next.get("p");
       if (entity && entity !== currentEntity && section.startsWith("docs")) openEntity(entity);
       else if (p && p !== currentPath) openFile(p);
+      else if (!entity && !p && initial && (currentEntity || currentPath !== initial)) {
+        openFile(initial);
+      }
       else scrollToCurrentHash();
     });
     window.addEventListener("hashchange", scrollToCurrentHash);

@@ -58,10 +58,10 @@ artillery and large ships are among the slowest units.
 <a id="построения"></a>
 ## Formations
 
-An Officer and a Drummer allow units to form a detachment. Line, column, and
-square formations change unit placement and provide combat bonuses. Large
-formations must retain their Officer, Drummer, and minimum troop count; if
-too few members remain, the formation breaks.
+An Officer and a Drummer or Bagpiper allow units to form a detachment. Line,
+column, and square formations change unit placement and provide combat
+bonuses. Large formations must retain their Officer, Drummer or Bagpiper,
+and minimum troop count; if too few members remain, the formation breaks.
 
 See [Formations and their combat bonuses](../../recon/world/combat/formations.md)
 for valid sizes and exact bonuses.

@@ -321,7 +321,7 @@ In addition to §3.3 and §3.4:
 | Animation phase | ✗ — reset `OnAfterLoad` | n/a - clients do not pretend | ✗ |
 | In-flight pathfinding | ✗ — lost | ✗ - but the client catches up via `WriteMove` | ✗ |
 | Adaptive speed phase | ✗ — perf history is empty | ✗ - server-only solution | ✗ |
-| Resource grid order | ✓ persists with unit list | ✓ | potentially ✓ if there is only one card |
+| Resource-grid order | ✓ persists with the unit list | ✓ | potentially ✓ when only one map is loaded |
 | Position in progress section | ✗ — section starts again | ✗ - but the client doesn’t care | ✗ |
 | Map gen RNG seed | n/a (map in save) | ✓ if you use single seed | ✗ — if new games start independently |
 
@@ -343,29 +343,29 @@ server, the rest are synchronized results.
 - Network lag causes the player's command (for example, send
   peasant) arrives on the server later than estimated → delay
   applications.
-- Adaptive speed changed with a lag → clients see jerky movements.
-- Network packet lost (UDP) → state on the client is stale before
-  next sync.
+- Delayed adaptive-speed changes can appear as jerky movement on clients.
+- A lost UDP packet leaves the client with stale state until the next
+  synchronization.
 
-Single-player has none of this - **your own `bProcess`
-always true, no sync lags**. But problems appear 3.4 (save/load).
+These network effects do not apply in single-player: the local `bProcess` is
+always true and there is no synchronization delay. The separate save/load
+problem described in §3.4 still applies.
 
 ---
 
 <a id="6-импликации-для-мод-фикса"></a>
-## 6. Implications for mod fix
+## 6. Implications for a mod fix
 
-In the context of **single-player determinism** (our task):
-- Network sync can be ignored - `bProcess` is always true.
-- **It is necessary to solve the problem `random` after Save/Load** (see.
-  [determinism_audit.md](determinism_audit.md) §3.1) - remove `random`
-  from hot-path mining, replace with deterministic hash from
-  saved fields (`uniqrnd`, `progresstick`, `goHnd`).
-- Adaptive speed is a separate problem, requires:
-  - or disabling via mod (if there is a script hook on it
-    trigger),
-  - or measurements in game-time (see.
-    [ticks_and_subticks.md](ticks_and_subticks.md) §9).
+For **single-player determinism**:
+
+- Network synchronization can be ignored because `bProcess` is always true.
+- Random state after save/load must be handled separately; see
+  [determinism_audit.md §3.1](determinism_audit.md). One possible mod strategy
+  is to remove `random` from the affected hot path and derive a deterministic
+  value from saved fields such as `uniqrnd`, `progresstick`, and `goHnd`.
+- Adaptive speed is a separate issue. A mod would need either to disable its
+  trigger, if the scripts expose a suitable hook, or to measure behavior in
+  game time as described in [ticks_and_subticks.md §9](ticks_and_subticks.md).
 
 In the context of **multiplayer** (if you ever want to make an MP mod):
 - Do not touch the structure of `WriteNew`/`ReadNew` and other paired ones

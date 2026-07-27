@@ -28,7 +28,7 @@ in **bold**.
 | [Ships](units/ships.md) | Fishing boats, warships, and transports |
 | [Peasants](units/peasants.md) | Eight national types |
 | [Officers](units/officers.md) | Five national variants |
-| [Drummers and piper](units/drummers.md) | Musicians used in formations |
+| [Drummers and Bagpipers](units/drummers.md) | Required formation members alongside the Officer |
 | [Priests](units/priests.md) | Healing range and power, price, and upkeep |
 
 <a id="зданияbuildingsreadmemd"></a>

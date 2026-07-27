@@ -114,51 +114,53 @@ read before adding a new report or editing the generator.
 <a id="принципы"></a>
 ## Principles
 
-1. **One source of truth per level:**
-   - Game files are read-only.
-   - `data.json` (top-level) - the only “general” dataset, everyone reads it
-     generators (writers + compute + simulator + editor).
-   - `derived/*.json` (top-level) - highly specialized sections for specific
-     consumers. Some are gaming (canonical_terms, tech_tree, builder_slots,
-     animations, ...), part - engine-RE dumps (dws_native_signatures,
-     engine_primitives, exe_strings).
-2. **Idempotency.** `python scripts/regen.py all` regenerates everything with
-   zero, no side effects. After the game patch - one launch.
-3. **No manual edits in auto-generated md.** Everything that is generated is
-   is overwritten. If you need to change the wording, edit the template in
-   `writers/templates/` or text in `compute/<script>.py`. Lists of exceptions:
-   - `docs/recon/**/*.md` - handwritten reverse-engineering, corrected by hand.
-   - `internals/**/*.md` - handwritten technical documentation (except
-     `internals/engine/native_primitives.md` - auto-gen).
-   - `docs/known_issues*.md` - handwritten lists.
-   - `docs/architecture.md` (this file) - handwritten.
-   - `derived/README.md` - handwritten.
-   - `docs/README.md` - handwritten header + block copy from the template.
-4. **Canonical Russian terms are from the game locale.** Never don’t make this up
-   translation If the game says "Highlands" - write "Highlands". Canon
-   lives in `derived/canonical_terms.json` (generated from
-   `data/locale/{ru,en}/`); writers and compute import it via
+1. **One source of truth at each level:**
+   - Game files are read-only inputs.
+   - The top-level `data.json` is the single general-purpose dataset consumed
+     by writers, computation scripts, the simulator, and the editor.
+   - Top-level `derived/*.json` files are specialized datasets for individual
+     consumers. Some describe gameplay (`canonical_terms`, `tech_tree`,
+     `builder_slots`, `animations`); others are engine reverse-engineering
+     dumps (`dws_native_signatures`, `engine_primitives`, `exe_strings`).
+2. **Idempotency.** `python scripts/regen.py all` rebuilds every generated
+   artifact from scratch without accumulating side effects. One run should be
+   enough after a game update.
+3. **Do not edit generated Markdown directly.** Regeneration overwrites it. To
+   change wording, edit a template under `writers/templates/` or the source
+   text in the relevant `compute/<script>.py`. The handwritten exceptions are:
+   - `docs/recon/**/*.md` — handwritten explanations of game mechanics.
+   - `internals/**/*.md` — handwritten technical documentation, except for the
+     generated `internals/engine/native_primitives.md`.
+   - `internals/project/known_issues*.md` — handwritten issue lists.
+   - `internals/project/architecture.md` (this file) — handwritten.
+   - `derived/README.md` — handwritten.
+   - `docs/README.md` — generated from a maintained prose template.
+4. **Canonical localized terms come from the game.** Do not invent a
+   translation when the game already supplies one. The terminology dataset
+   lives in `derived/canonical_terms.json` and is generated from
+   `data/locale/{ru,en}/`; writers and computation scripts import it through
    `parser/config.py` (`NATION_NAMES_RU`, `USAGE_RU`, `BUILDING_NAMES_RU`,
    `WEAPON_KIND_RU`, `decode_usage(s, lang='ru')`, `nation_label(sid)`).
-5. **Sanity checks.** `parser/build_data.py` runs 112 auto-checks for
-   every launch. Any regression after the patch is immediately visible.
+5. **Sanity checks.** `parser/build_data.py` runs 112 automatic checks on every
+   build so that a changed invariant is visible immediately after a game
+   update.
 
 <a id="где-что-лежит"></a>
-## Where is it?
+## Repository map
 
 <a id="код"></a>
 ### Code
 
-| Folder | Destination |
+| Folder | Purpose |
 |---|---|
 | `parser/` | Reading game files → JSON (`data.json`, `derived/*.json`). |
 | `parser/engine_recon/` | Extractors from `cossacks.exe` (DWS API, primitives, exe-strings). |
-| `compute/` | Derived calculations based on JSON → markdown reports in `docs/reports/`. |
-| `writers/` | Render canonical help `docs/reference/` + diff between snapshots. |
+| `compute/` | Derived calculations based on JSON → Markdown reports under `docs/reports/`. |
+| `writers/` | Rendering the canonical reference under `docs/reference/` and comparing snapshots. |
 | `simulator/` | Runtime economic simulator (build orders → timelines). |
 | `editor/` | Browser build editor (HTML + JS + Pyodide). |
-| `mods/` | Game mods (each - `build.py` patcher + assembly). |
-| `scripts/` | Pipeline-runner (`regen.py`). |
+| `mods/` | Game mods, each with a `build.py` patcher and its source files. |
+| `scripts/` | Pipeline runner (`regen.py`) and supporting maintenance tools. |
 
 <a id="документация"></a>
 ### Documentation
@@ -166,14 +168,14 @@ read before adding a new report or editing the generator.
 | Folder | What's inside | Source |
 |---|---|---|
 | `docs/reference/` | Canonical reference: 7 chapters, 21 nations, 16 comparisons. | Auto-gen (`writers/write_md_tree.py` + `templates/`). |
-| `docs/reports/` | Derivative calculations on the topics: combat / economy / tech / map / nations. | Auto-gen (`compute/*.py`). |
-| `docs/recon/world/{economy,combat,map}/` + `docs/recon/systems/` | Deep RE of game mechanics, divided by topic. | **Handwritten.** |
-| `internals/engine/` | Engine design (Delphi/DWS, RNG, sync, ticks, animation). | **Handwritten** (plus `native_primitives.md` - auto-gen). |
-| `internals/scripts/` | Structure `data/scripts/*` (load order, entry points). | **Handwritten.** |
-| `internals/data/` | `data/`-game directory: subfolders and file formats. | **Handwritten.** |
-| `derived/` | Machine-readable JSON for editor / tools / documentation. | Auto-gen (`parser/*.py`, `parser/engine_recon/*.py`, `compute/compute_game_settings.py`). |
-| `docs/known_issues*.md` | Parser gaps, discrepancies, open questions. | **Handwritten.** Archive - `known_issues_archive.md`. |
-| `docs/architecture.md` | This file. | **Handwritten.** |
+| `docs/reports/` | Derived calculations for combat, economy, technology, maps, and nations. | Auto-generated (`compute/*.py`). |
+| `docs/recon/world/{economy,combat,map}/` and `docs/recon/systems/` | Detailed explanations of game mechanics, arranged by topic. | **Handwritten.** |
+| `internals/engine/` | Engine design: Delphi, DWS, random-number generation, synchronization, ticks, and animation. | **Handwritten**, except for generated `native_primitives.md`. |
+| `internals/scripts/` | The structure, load order, and entry points of `data/scripts/*`. | **Handwritten.** |
+| `internals/data/` | The game `data/` directory, its subfolders, and file formats. | **Handwritten.** |
+| `derived/` | Machine-readable JSON for the editor, tools, and documentation. | Auto-generated by `parser/*.py`, `parser/engine_recon/*.py`, and selected computation scripts. |
+| `internals/project/known_issues*.md` | Parser gaps, discrepancies, and open questions. | **Handwritten.** Resolved issues move to `known_issues_archive.md`. |
+| `internals/project/architecture.md` | This file. | **Handwritten.** |
 
 <a id="расширение-pipeline"></a>
 ## Extending the pipeline
@@ -181,35 +183,38 @@ read before adding a new report or editing the generator.
 <a id="добавить-новый-отчёт"></a>
 ### Add a new report
 
-1. Create `compute/compute_<topic>.py` based on its neighbors (`compute_*.py`).
-2. Add it to `scripts/regen.py` in the appropriate target (`reports-*`).
-3. If the report is associated with one of the 5 ready-made sections
-   (`combat / economy / tech / map / nations`) - write to
-   `docs/reports/<section>/<name>.md`. If it’s a new section, create a folder and
-   add to `docs/reports/README.md`.
-4. If the report needs to be shown in [`docs/README.md`](../../docs_en/README.md), enter it in
-   list (this file is not auto-gen).
+1. Create `compute/compute_<topic>.py`, following a neighboring
+   `compute_*.py` script.
+2. Register it under the appropriate `reports-*` target in
+   `scripts/regen.py`.
+3. Write the report to one of the existing sections—`combat`, `economy`,
+   `tech`, `map`, or `nations`—under
+   `docs/reports/<section>/<name>.md`. For a new section, create its directory
+   and add it to `docs/reports/README.md`.
+4. If the report belongs on the encyclopedia home page, add it to the source
+   template that generates [`docs/README.md`](../../docs_en/README.md).
 
 <a id="добавить-новый-json-датасет"></a>
 ### Add a new JSON dataset
 
-1. Create a parser in `parser/parse_<X>.py` or extractor in
-   `compute/compute_<X>.py` (if it depends only on `../data.json`).
-2. Issue in `derived/<name>.json`.
+1. Create `parser/parse_<name>.py` when the dataset reads game files, or
+   `compute/compute_<name>.py` when it depends only on `data.json`.
+2. Write the result to `derived/<name>.json`.
 3. Describe the dataset in `derived/README.md`.
-4. Add to `scripts/regen.py` (target `derived` or corresponding
-   `reports-*`).
+4. Register the generator under the `derived` target or the corresponding
+   `reports-*` target in `scripts/regen.py`.
 
 <a id="добавить-нацию-теоретически"></a>
 ### Add a nation (theoretically)
 
-Not provided: the list of nations is embedded in the game locale (`data/locale/*/units.txt`)
-and in `country.script`. After the patch with the new nation we need to expand
-`PLAYABLE_NATIONS` to `parser/config.py`, rerun
-`parser/build_canonical_terms.py` and `parser/build_data.py`.
+There is no plug-in registration path for a new nation. The list is embedded
+in the game localization (`data/locale/*/units.txt`) and in `country.script`.
+After a game update introduces a nation, extend `PLAYABLE_NATIONS` in
+`parser/config.py`, then rerun `parser/build_canonical_terms.py` and
+`parser/build_data.py`.
 
 <a id="регенерация--порядок-зависимостей"></a>
-## Regeneration - dependency order
+## Regeneration dependency order
 ```
 parser/build_data.py            ← reads the game; emits data.json
 parser/build_canonical_terms.py ← reads locales; emits canonical_terms.json
@@ -226,8 +231,8 @@ compute/compute_tech_tree.py    ← after tech_tree.json (emits Markdown)
 compute/validate_map_predictions← after replay_ground_truth + compute_map_resources
 simulator/simulate_economy.py   ← after tech_tree.json
 ```
-All dependencies are resolved by `scripts/regen.py` via a declarative list
-targets and aliases. Launch:
+`scripts/regen.py` resolves these dependencies through a declarative list of
+targets and aliases:
 ```bash
 python scripts/regen.py all              # complete rebuild
 python scripts/regen.py reference        # writers only

@@ -45,7 +45,7 @@ campaign. The inspected implementation revolves around these objects:
 | `TScenarioCondition` | Condition that activates a rule. |
 | `TScenarioAction` | Action performed by a rule. |
 | `TScenarioResult` | Scenario result (win/loss/special). |
-| `TScenarioQuery` | Query the game state (for difficult conditions). |
+| `TScenarioQuery` | Parameterized game-state query for complex conditions. |
 
 The main object is `gScenario`, with one instance per match.
 
@@ -73,7 +73,7 @@ An event rule is a record with two key fields: a condition
 
 `TScenarioCondition` supports many templates:
 
-| Type | What checks |
+| Type | What it checks |
 |---|---|
 | Unit count (`unit_count_le`, `unit_count_ge`) | The player has at most or at least the specified number of a unit type. |
 | Destroyed building (`building_destroyed`) | A specified building has been destroyed. |
@@ -84,11 +84,11 @@ An event rule is a record with two key fields: a condition
 | Composite (`AND`, `OR`, `NOT`) | Several tests combined with Boolean operators. |
 
 <a id="23-типичные-действия"></a>
-### 2.3. Typical Actions
+### 2.3. Typical actions
 
 `TScenarioAction` supports:
 
-| Type | What does |
+| Type | What it does |
 |---|---|
 | Create unit (`spawn_unit`) | Create a specified unit at a position. |
 | Grant resources (`gc_trigger_action_player_giveResources`) | Add resources to a player. |
@@ -115,7 +115,7 @@ fire twice unless another action re-enables it with
 ## 3. Stages of the scenario
 
 The scenario has no confirmed separate state machine for stage transitions.
-stages are implemented by a combination of flags (`gScenario.flags[]`) and
+Stages are implemented by a combination of flags (`gScenario.flags[]`) and
 rule-control actions. A typical pattern is:
 
 | Stage | Implementation |
@@ -125,9 +125,9 @@ rule-control actions. A typical pattern is:
 | Battle phase 2 | A “squad destroyed” condition enables the second wave and disables the first. |
 | Victory | A condition on defeated enemies performs the victory action (`victory`). |
 
-That is, the “transition between states” is a series
-`disableTrigger`/`enableTrigger`/`flagSetActive` actions inside
-triggers, rather than a separate FSM mechanism.
+In practice, a stage transition is a series of `disableTrigger`,
+`enableTrigger`, and `flagSetActive` actions inside event rules, not a
+separate scenario state machine.
 
 ---
 
@@ -155,12 +155,11 @@ special behaviors:
 1. **Scenario invulnerability**: units with `hp >= gc_gameplay_infinitehp`
    or `not GetGameObjectPlayableObjectByHandle(handle)` do not receive
    damage (see [How Damage Is Calculated §7](../world/combat/combat_damage_pipeline.md)).
-2. **Peace-mode** (`gbool_peacemode`) is processed with special
-   way - the hero player can only attack certain
-   opponents.
+2. **Peacetime** (`gbool_peacemode`) has special handling: the hero
+   player can attack only specified opponents.
 3. **Allied vision** (`AddFOWPlayers`): the main player (`plInd = 0`)
    does not share vision with **neutral** campaign characters
-   (See [Vision and Fog of War §4.2](../world/combat/vision_and_fow.md)).
+   (see [Vision and Fog of War §4.2](../world/combat/vision_and_fow.md)).
 4. **AI**: AI opponents in the scenario use separate rules
    (often manual scripted aggression, not standard
    `_ai_DoTickAggressive`).
@@ -188,11 +187,11 @@ The scenario result is represented by `TScenarioResult`:
 
 | Result | What |
 |---|---|
-| `victory` | The player wins, the ending is positive. |
-| `defeat` | Defeat. |
-| `draw` | Draw (rare). |
-| `next_mission(id)` | In the campaign - transition to the next mission. |
-| `replay_mission` | Repeat the same mission (player's choice). |
+| `victory` | The player wins. |
+| `defeat` | The player loses. |
+| `draw` | The mission ends in a draw (rare). |
+| `next_mission(id)` | Advance to another campaign mission. |
+| `replay_mission` | Offer or start a replay of the same mission. |
 
 When a scenario completes, it writes the result to `gCampaignProgress`,
 the campaign-wide progress structure.
@@ -237,16 +236,17 @@ load rules and conditions.
       script (about 200 KB and more than 30 functions). It declares
       `gScenario` and processes rules, conditions, and actions.
 
-[^2]: Class `TFormStateMachines` found in RTTI `cossacks.exe` (see.
+[^2]: The `TFormStateMachines` class found in the RTTI of `cossacks.exe`
+      (see
       [Native API of the Cossacks 3 engine (Delphi + DWS)](../../../internals_en/engine/native_api.md))
       is an editor interface for state machines. `MachineLibrary*` also
       serializes engine state machines to `.parser`. This is infrastructure
       for **per-object engine behavior** (`nothing`, `OnDeath`, and other
       states), not evidence of a mission-stage state machine.
 
-[^3]: `data/scripts/progress/progress.inc/scenario.inc:71-77`:
-      comes before `_scenario_EvaluateTriggerActions(ptrigger)`
-      `gScenario.triggers[i].bactive := False`. Also
+[^3]: In `data/scripts/progress/progress.inc/scenario.inc:71-77`,
+      `gScenario.triggers[i].bactive := False` appears immediately before
+      `_scenario_EvaluateTriggerActions(ptrigger)`. In addition,
       `_scenario_EvaluateTriggerActions` — `lib/scenario.script:1739`
       handles `gc_trigger_action_advanced_disableTrigger`
       /`enableTrigger` (see lines 3076-3081 of the same file).

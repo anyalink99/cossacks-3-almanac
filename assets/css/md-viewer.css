@@ -634,12 +634,6 @@ html:lang(ru) #md-content .footnotes::before { content: "Примечания"; 
   color: var(--text-dim);
 }
 
-.entity-variant-note {
-  margin: -10px 0 18px !important;
-  color: var(--text-mute);
-  font-size: 12px;
-}
-
 .entity-variant {
   margin: 0 0 20px;
   padding: 0 20px 20px;
@@ -740,7 +734,8 @@ html:lang(ru) #md-content .footnotes::before { content: "Примечания"; 
   font-variant-numeric: tabular-nums;
 }
 
-.entity-related-link {
+.entity-related-link,
+.entity-related-label {
   display: inline-block;
   padding: 3px 7px;
   border: 1px solid var(--border);
@@ -749,6 +744,10 @@ html:lang(ru) #md-content .footnotes::before { content: "Примечания"; 
   color: var(--gold);
   font-size: 11px;
   text-decoration: none;
+}
+
+.entity-related-label {
+  color: var(--text-dim);
 }
 
 .entity-related-link:hover,

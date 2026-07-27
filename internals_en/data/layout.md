@@ -21,7 +21,7 @@ common/Cossacks 3/data/`), what format is there and who parses it.
 | `hud/` | 180 | 153 MiB | HUD textures (icons, buttons) |
 | `images/` | 22 | 6.3 MiB | Loading screens, etc. |
 | `locale/` | 2,187 | 20 MiB | Localization into 7+ languages |
-| `maps/` | 68 | 1.7 GiB | Ready cards (`.map`, `.aix`) |
+| `maps/` | 68 | 1.7 GiB | Prebuilt maps (`.map`, `.aix`) |
 | `materials/` | 866 | 2.9 GiB | Materials and textures (`.mat`, `.dds`) |
 | `objects/` | 1,290 | 3.4 MiB | Per-unit/building `.parser`-configs (see below) |
 | `pattern/` | 711 | 60 MiB | **Pattern files** for placing objects on the map (binary .pattern) |
@@ -168,7 +168,7 @@ dlcs/
 └── winter/        Winter map
 ```
 DLC **do not contain** override rules - only additional ones
-cards. All units/nations/upgrades - mostly `data/`.
+maps. Units, nations, and upgrades are defined primarily under `data/`.
 
 <a id="что-не-парсится-и-не-планируется"></a>
 ## What is not parsed (and is not planned)
@@ -185,7 +185,7 @@ cards. All units/nations/upgrades - mostly `data/`.
 
 | Parser | What does |
 |---|---|
-| [`../../parser/parse_units.py`](../../parser/parse_units.py) | `lib/unit.script` → unit/building card. |
+| [`../../parser/parse_units.py`](../../parser/parse_units.py) | `lib/unit.script` → unit and building records. |
 | [`../../parser/parse_country.py`](../../parser/parse_country.py) | `lib/country.script` → nations and roster. |
 | [`../../parser/simulate_upgrades.py`](../../parser/simulate_upgrades.py) | `lib/country.script` inline `SetUpgStruct`/`AddUpgradePack` → 4,000 lines of upgrades. |
 | [`../../parser/parse_animations.py`](../../parser/parse_animations.py) | `animations/*.aaf` → frame-accurate timing. |

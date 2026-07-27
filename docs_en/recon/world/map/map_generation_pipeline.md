@@ -28,7 +28,7 @@ are collected in [Sources](#sources) at the end.
   inner (5 × 7 tiles) - only peasants, middle (12 × 15) -
   a guaranteed mixed stone-and-forest area (`stoneforest`), stones, and
   forests; the outer ellipse (22 × 18) holds another forest.
-- `foreststype` always = 0 for **any** card type: at the very beginning
+- `foreststype` always equals 0 for **every** map type: at the very beginning
   `DoGenerate` goes `var foreststype : Integer = floor(RandomExt*3); foreststype := 0;`
   [^2]. The random choice is overwritten by a constant, and `DoGenerate` is
   the only generation procedure common to all terrain modes.
@@ -57,7 +57,7 @@ Also:
 
 - `foreststype` is initialized as `floor(RandomExt*3)`, but immediately
   is overwritten by `0` [^2]. Corollary: Land **never** happens
-  leaf-only (`foreststype=1`) or mixed-only (`foreststype=2`) cards. Only
+  leaf-only (`foreststype=1`) or mixed-only (`foreststype=2`) maps. Only
   `foreststype=0` mix: `pinefir/spruce/pine/pine_big_2` (big),
   `pinefir/spruce/pine` (mid), `pinefir/pine` (small).
 - `bDesert := (gMap.settings.gen.season=3)` — `season=3` switches everything

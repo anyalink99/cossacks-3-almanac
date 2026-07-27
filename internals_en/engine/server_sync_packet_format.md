@@ -15,7 +15,7 @@ exe** - only through analysis of native API calls in scripts
 C3 is home to **two different state recording systems** using
 various native APIs:
 
-| System | API | Format | Where is it used |
+| System | API | Format | Where it is used |
 |---|---|---|---|
 | **Binary** | `RecordCustomWrite{Bit, Byte, Word, Int24, Integer, Float, PackedFloat, ShortString, String}` | bit-packed binary stream | Real-time sync economy, small delta packages in multiplayer. |
 | **Parser-text** | `ParserSet{Int, Float, Bool, String}ValueByKeyByHandle` | flat key=value text in `.parser` format | Unit/squad state snapshots, save files, debug sync. |
@@ -183,7 +183,8 @@ fields can be added without breaking compatibility).
 ### 3.3. Size
 
 One unit ≈ **400–600 bytes** in text form (plus/minus, depends
-on name lengths). For 200 units on a 4-player card - ~100 KB
+depending on name lengths). For 200 units on a four-player map, the result is
+about 100 KB.
 state-snapshot.
 
 This is **more** than a packaged binary would give (in the same place ~ 80 bytes per unit

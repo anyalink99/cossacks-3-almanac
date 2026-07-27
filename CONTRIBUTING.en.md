@@ -2,91 +2,104 @@
 
 **English** · [Русский](CONTRIBUTING.md)
 
-This document is a short cheat sheet on how the repository is arranged and where
-What to touch. If you just came, start with [`internals/project/architecture.md`](internals/project/architecture.md).
-There is a data flow chart and principles. This file responds to specific
-"like me..." questions.
+This is a concise guide to the repository: where each kind of source lives,
+which files may be edited directly, and how to verify a change. If this is your
+first contribution, start with
+[`internals_en/project/architecture.md`](internals_en/project/architecture.md)
+for the data-flow diagram and the project's guiding principles.
 
 All new and edited articles must also follow the
 [reader-facing documentation rules](internals_en/project/documentation_style.md).
 
 <a id="перед-началом-работы"></a>
-## Before starting work
+## Before you begin
+
 ```bash
-# Environment: Python 3.11+; the project itself uses only the standard library.
+# Requirements: Python 3.11+; the project itself uses only the standard library.
 # Game: Cossacks 3 in the default Steam location, or set COSSACKS3_PATH.
 
-# Verify that the pipeline works:
+# Check that the pipeline works:
 python -m unittest discover -s tests -v
 python scripts/regen.py sanity   # parser + 112 automatic checks
 ```
-CI for each PR runs smoke tests, checks that `canonical_terms.json`
-`data.json` is not broken and that `parser/config.py` is imported.
+
+Continuous integration runs smoke tests for every pull request. It also checks
+that `canonical_terms.json` and `data.json` are valid and that
+`parser/config.py` can be imported.
 
 <a id="где-трогать-что"></a>
-## What to edit where
+## Where to make a change
 
-| I want to... | Going to... |
+| I want to… | Edit… |
 |---|---|
-| **Pope Love Russian label nation/buildings/options** | NO. It's from the locale of the game. Pope either locale (if you have your own mod) or run `python parser/build_canonical_terms.py` after the game patch. |
-| **Pope Compare formula/number in reference** | Find source: parser (if from `data.json`), compute script (if calculated), template (if manual prose in reference/). Do not edit the generated md in `docs/reference/` or `docs/reports/` - it will be rewritten. |
-| **Add a new section to reference** | Template to [`writers/templates/reference/<chapter>/`](writers/templates/reference/). The render logic is in [`writers/write_md_tree.py`](writers/write_md_tree.py). |
-| **Add a new report** | Create a `compute/compute_<тема>.py` modeled after the neighbors. Issue in `docs/reports/<section>/<name>.md`. Register with `scripts/regen.py` (`reports-*` target). If a new partition is added to `docs/reports/` and mentioned in `docs/reports/README.md`. |
-| **Add a new JSON dataset** | Parser to `parser/parse_<X>.py` (if reading game files) or `compute/compute_<X>.py` (if counting from `data.json`). Issued in `derived/<name>.json`. Describe in [`derived/README.md`](derived/README.md). |
-| **Pope Like prose in recon** | Right in the `docs/recon/*.md` files - they're handwritten. |
-| **Pope Explore the prose in reference** | Templates in `writers/templates/reference/<chapter>/*.md`. Regenerate: `python writers/write_md_tree.py`. |
-| **Add test** | New file in `tests/test_<тема>.py`. Standard `unittest`, no dependencies. |
+| **Correct a nation, building, or option name** | Do not patch the generated documentation. Names come from the game localization. Correct the localization in your own mod, or run `python parser/build_canonical_terms.py` after a game update. |
+| **Correct a formula or value in the reference** | Find its source: a parser for values stored in `data.json`, a computation script for derived values, or a template for explanatory prose. Do not edit generated Markdown under `docs/reference/` or `docs/reports/`; regeneration will overwrite it. |
+| **Add a reference section** | Add a template under [`writers/templates/reference/<chapter>/`](writers/templates/reference/) and update the rendering logic in [`writers/write_md_tree.py`](writers/write_md_tree.py) if necessary. |
+| **Add a report** | Create `compute/compute_<topic>.py`, following a neighboring script. Write its output to `docs/reports/<section>/<name>.md`, register it in `scripts/regen.py` under the appropriate `reports-*` target, and add new report sections to `docs/reports/README.md`. |
+| **Add a JSON dataset** | Use `parser/parse_<name>.py` when reading game files, or `compute/compute_<name>.py` when deriving data from `data.json`. Write the result to `derived/<name>.json` and document it in [`derived/README.md`](derived/README.md). |
+| **Edit an article about game mechanics** | Edit the handwritten files under `docs/recon/` directly. |
+| **Edit explanatory prose in the reference** | Edit the corresponding template under `writers/templates/reference/<chapter>/`, then run `python writers/write_md_tree.py`. |
+| **Add a test** | Add `tests/test_<topic>.py`, using the standard-library `unittest` framework. |
 
 <a id="правила"></a>
 ## Rules
 
-1. **The source of truth is the game files. ** No manual translations
-or numbers. If it differs from the external guide, trust the game code.
-2. **Idempotence.** `python scripts/regen.py all` must regenerate
-Everything from scratch. If your edit breaks idempotence, it's a bug.
-3. **Canonical Russian names - via `parser/config.py`.** Never not
-`NATION_NAMES = {...}` or `USAGE_RU = {...}` in the new script.
-Import: `from config import nation_label, USAGE_RU, decode_usage`.
-If there is no mapping, add to config + canonical terms.json.
-Not your script.
-4. **Do not edit auto-generated md.** List of auto-gen files:
-- `data.json`
-- `derived/*.json`
-- `docs/reference/**/*.md`
-- `docs/reports/**/*.md`
-`docs/README.md` (generated from `writers/templates/output_readme.md`)
-`internals/engine/native_primitives.md` (generated from `parser/engine_recon/extract_dws_signatures.py`)
+1. **Game files are the source of truth.** Do not invent translations or
+   values. If an external guide disagrees with the game code, use the game code
+   and document the discrepancy when it matters.
+2. **Regeneration must be idempotent.** `python scripts/regen.py all` must be
+   able to rebuild every generated artifact from scratch. A change that breaks
+   idempotency is a bug.
+3. **Canonical names belong in the shared terminology layer.** Do not hardcode
+   tables such as `NATION_NAMES = {...}` or `USAGE_RU = {...}` in a new script.
+   Import `nation_label`, `USAGE_RU`, and `decode_usage` from
+   `parser/config.py`. If a mapping is missing, add it to the shared
+   configuration and `canonical_terms.json`, not to an individual generator.
+4. **Do not edit generated Markdown directly.** Generated files include:
 
-Handwritten means manually editing:
-- `README.md`, `CONTRIBUTING.md` (top-level).
-- `internals/project/architecture.md`, `internals/project/known_issues*.md`,
-`docs/reports/README.md`, `docs/reference/README.md`
-Short cap, the rest with your hands.
-`docs/recon/**/*.md` (including README) - handwritten reverse-engineering.
-`internals/**/*.md` (except `native_primitives.md`) - handwritten technical
-Documentation of the engine / scripts / `data/` directory.
-- `derived/README.md` - handwritten.
-- `mods/**/README.md` - handwritten.
-5. **Sanity checks.** `parser/build_data.py` is running 112 checks. If it fell
-- figure it out first, then rule. You can't just turn it off.
-6. **No emoji in code/documents unless requested. C   for behavior
-The engine can be emoji (ах/ах in tables) - but not everywhere.
-7. **The reader-facing name comes before the internal code.** Put the
-   canonical name first, keep SIDs and fields secondary in `code`, and do not
-   mix ordinary prose with unexplained engine jargon. See the full rules and
-   examples in
-   [`internals_en/project/documentation_style.md`](internals_en/project/documentation_style.md).
-8. **Translate English documentation manually.** Update the matching file
-   under `docs_en/` or `internals_en/`, review both versions, and only then run
-   `python scripts/build_english_docs.py --adopt-existing`. Do not use machine
-   translation for published prose.
+   - `data.json`
+   - `derived/*.json`
+   - `docs/reference/**/*.md`
+   - `docs/reports/**/*.md`
+   - `docs/README.md`, generated from `writers/templates/output_readme.md`
+   - `internals/engine/native_primitives.md`, generated by
+     `parser/engine_recon/extract_dws_signatures.py`
+
+   Handwritten files include:
+
+   - `README.md` and `CONTRIBUTING.md`
+   - `internals/project/architecture.md` and
+     `internals/project/known_issues*.md`
+   - the handwritten introductions in `docs/reports/README.md` and
+     `docs/reference/README.md`
+   - `docs/recon/**/*.md`, including its section index
+   - `internals/**/*.md`, except `internals/engine/native_primitives.md`
+   - `derived/README.md`
+   - `mods/**/README.md`
+5. **Keep the sanity checks intact.** `parser/build_data.py` runs 112 checks.
+   If one fails, investigate the changed invariant before modifying the check.
+   Do not disable a failing check merely to make the build pass.
+6. **Avoid emoji in code and documentation unless the context calls for
+   them.** Symbols such as check marks and crosses may be useful in compact
+   behavior tables, but they should not become general decoration.
+7. **Use reader-facing names before internal identifiers.** Put the canonical
+   localized name first. Keep SIDs and field names secondary and formatted as
+   code; do not mix explanatory prose with unexplained engine jargon. See
+   [`internals_en/project/documentation_style.md`](internals_en/project/documentation_style.md)
+   for examples.
+8. **Translate English documentation manually.** Update the corresponding file
+   under `docs_en/` or `internals_en/`, review the Russian and English versions
+   together, and only then run
+   `python scripts/build_english_docs.py --adopt-existing`. Published prose
+   must not be machine-translated.
 
 <a id="как-делается-изменение"></a>
-## How to make a change
+## Making a change
+
 ```bash
-# 1. Edit the source: parser, compute script, template, or handwritten Markdown.
-# 2. Regenerate its dependants:
-python scripts/regen.py all       # full rebuild (about four minutes)
+# 1. Edit the source: parser, computation script, template, or handwritten Markdown.
+# 2. Rebuild its dependants:
+python scripts/regen.py all       # complete rebuild (about four minutes)
 # Or run a targeted build:
 python scripts/regen.py reference
 python scripts/regen.py reports-economy
@@ -95,31 +108,38 @@ python scripts/regen.py reports-economy
 python -m unittest discover -s tests
 python scripts/regen.py sanity    # 112/112 PASS
 
-# 4. Commit one logical change, without co-authoring.
+# 4. Commit one logical change without co-authorship trailers.
 git add <files>
 git commit -m "<concise message>"
 ```
+
 <a id="стиль-коммитов"></a>
 ## Commit style
 
-`<type>(<scope>): <message>` (soft convention, no hard linter):
+The project loosely follows `<type>(<scope>): <message>`; this is a convention,
+not a hard lint rule. Examples:
 
 - `feat(config): centralize Russian glossary`
 - `refactor(generators): use canonical names`
-- `chore(prose): clean kalki and unify time units`
+- `chore(prose): clean calques and unify time units`
 - `chore(legacy): remove old monolithic reference`
 - `docs: add architecture and derived/README`
-- `fix(parser): bmercenary block extraction`
+- `fix(parser): correct mercenary block extraction`
 
-Body Commit – What and Why Has Changed If you change several files in one
-In addition, list the main ones.
+Use the commit body to explain what changed and why. If one logical change
+touches several important files, name them there.
 
 <a id="когда-сомневаешься"></a>
 ## When in doubt
 
-Architecture and data flows — [`internals/project/architecture.md`](internals/project/architecture.md).
-Canonical terms - [`derived/canonical_terms.json`](derived/canonical_terms.json)
-[`parser/config.py`](parser/config.py).
-Known gaps are [`internals/project/known_issues.md`](internals_en/project/known_issues.md).
-What is generated – [`derived/README.md`](derived/README.en.md)
-[`docs/reports/README.md`](docs_en/reports/README.md) + [`scripts/regen.py`](scripts/regen.py).
+- Architecture and data flow:
+  [`internals_en/project/architecture.md`](internals_en/project/architecture.md)
+- Canonical terminology:
+  [`derived/canonical_terms.json`](derived/canonical_terms.json) and
+  [`parser/config.py`](parser/config.py)
+- Known limitations:
+  [`internals_en/project/known_issues.md`](internals_en/project/known_issues.md)
+- Generated outputs:
+  [`derived/README.en.md`](derived/README.en.md),
+  [`docs_en/reports/README.md`](docs_en/reports/README.md), and
+  [`scripts/regen.py`](scripts/regen.py)

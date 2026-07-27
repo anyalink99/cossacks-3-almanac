@@ -125,13 +125,13 @@ That object is the unit or building the player clicked.
 
 `GetGUIEventMouseWheelDelta()` - returns the delta of the last
 scroll (positive = up, negative = down). By
-default used for camera zoom:
+default, it controls camera zoom:
 - `SetCameraControlMouseWheelDistance(True)` — wheel changes
   distance.
 - `SetCameraControlMouseWheelRotate(True)` - the wheel turns.
 
-Only one of the modes is active. Profile settings via
-`gProfile.*` - the player can change.
+Only one mode is active at a time. The player can change it through profile
+settings stored in `gProfile.*`.
 
 <a id="24-клавиатура"></a>
 ### 2.4. Keyboard
@@ -156,10 +156,10 @@ changed in engine code or the `editor.exe` settings.
 | `SetClipCursor(val)` | Lock the cursor inside the window (for the selection frame). |
 | `SetGUICursorByName('cursor_name')` | Change cursor visual. |
 
-Cursor images - in `data/cursors/` (see.
-[Structure data/ in Cossacks 3](../../../internals_en/data/layout.md)).
-For example, when you hover over an enemy, the cursor changes to “sword” - this
-change via `SetGUICursorByName('attack')`.
+Cursor images are stored in `data/cursors/`; see
+[Cossacks 3 `data/` layout](../../../internals_en/data/layout.md).
+For example, hovering over an enemy changes the cursor to a sword through
+`SetGUICursorByName('attack')`.
 
 ---
 
@@ -167,7 +167,7 @@ change via `SetGUICursorByName('attack')`.
 ## 4. Camera
 
 <a id="41-управление"></a>
-### 4.1. Management
+### 4.1. Controls
 
 | Function | What |
 |---|---|
@@ -175,83 +175,82 @@ change via `SetGUICursorByName('attack')`.
 | `SetCameraMouseDistanceSpeed(val)` | Zoom speed. |
 | `SetCameraControlMouseWheelDistance(b)` | Wheel = zoom (default `True`). |
 | `SetCameraControlMouseWheelRotate(b)` | Wheel = turn (default `False`). |
-| `MoveCameraToPosition(x, z, time)` | Smooth movement to the point (`time` in g-sec). |
-| `MoveCameraToUnitsListCenter(list)` | To the center of the list of units. |
-| `MoveCameraToSelectedUnits()` | To selected ones (double-click-on-portrait in C&C). |
+| `MoveCameraToPosition(x, z, time)` | Move smoothly to a point (`time` is in game seconds). |
+| `MoveCameraToUnitsListCenter(list)` | Move to the center of a unit list. |
+| `MoveCameraToSelectedUnits()` | Move to the selected units. |
 
-The player jumps to the group number (1–9) via `_control_MoveCameraTo*`
-+ selection.
+Jumping to a numbered control group (1–9) combines selection with one of
+the `_control_MoveCameraTo*` functions.
 
 <a id="42-listener-точка-прослушки-звука"></a>
 <a id="42-точка-прослушивания-звука"></a>
-### 4.2. Listener (sound listening point)
+### 4.2. Listener (the point from which sound is heard)
 
-The sound in C3 is emitted relative to the **listener** - invisible
-the point to which the source of the player’s “ear” is attached:
+Cossacks 3 positions sound relative to an invisible **listener**, which
+acts as the player's point of hearing:
 
-- `GetSoundManagerListenerHandle()` — handle listener.
-- `GetUseSoundManagerListenerAsCamera()` — `True` = listener
-  tied to the camera (you hear what you're looking at).
-- `GetUseSoundManagerListenerAsObject()` — listener is bound to
-  object (for example, to the selected unit).
-- `SetPosSoundManagerListenerAsObject(x, y, z)` - programmatically
-  put listener to the point.
+- `GetSoundManagerListenerHandle()` — returns the listener handle.
+- `GetUseSoundManagerListenerAsCamera()` — when `True`, the listener is
+  attached to the camera, so the player hears the area currently on screen.
+- `GetUseSoundManagerListenerAsObject()` — reports whether the listener is
+  attached to an object, such as the selected unit.
+- `SetPosSoundManagerListenerAsObject(x, y, z)` — moves the listener to
+  specified world coordinates.
 
-In a regular skirmish listener = camera. Therefore, the player hears what
-next to the **camera**, and not to the selected unit or base.
+In a normal skirmish, the listener follows the camera. The player therefore
+hears activity near the **camera**, not activity near the selected unit or
+the player's base.
 
 ---
 
 <a id="5-звуки-и-fow--две-независимые-системы"></a>
 <a id="5-звуки-и-туман-войны--две-независимые-системы"></a>
-## 5. Sounds and FOW are two independent systems
+## 5. Sound and fog of war are independent systems
 
 This is a critical detail that is **often misunderstood**.
 
 <a id="51-как-эмитируется-звук-юнита"></a>
 <a id="51-как-создаётся-звук-юнита"></a>
-### 5.1. How a unit's sound is emitted
+### 5.1. How unit sounds are emitted
 
-When a unit performs an action (shot, step, fight, death), the script
-calling `SndGetOrCreateSound(emittertag, 'units', owner)` - native
-The function creates a sound emitter at the coordinates of the **owner** object.
-Emitter parameters:
+When a unit fires, moves, fights, or dies, the script calls
+`SndGetOrCreateSound(emittertag, 'units', owner)`. This native function
+creates a sound emitter at the coordinates of the **owner** object.
+The following functions configure that emitter:
 
-| Parameter | What |
+| Function | What it controls |
 |---|---|
-| `SetSndSoundMaxRadius(maxradius, sound)` | Hearing radius in the world. |
-| `SetSndSoundMinDist(value, sound)` / `MaxDist` | Full volume/zero volume distance (linear falloff). |
-| `SetSndSoundMaxRadiuses(rmaxvolume, radius, sound)` | Radius 100% volume + total radius. |
-| `SetSndSoundLoop(value, sound)` | Looped sound (background). |
-| `SetSndSoundKillSndOutRad(value, sound)` | "Kill sound if listener is out of range." |
+| `SetSndSoundMaxRadius(maxradius, sound)` | Maximum audible radius in the game world. |
+| `SetSndSoundMinDist(value, sound)` / `MaxDist` | Full-volume and zero-volume distances for linear falloff. |
+| `SetSndSoundMaxRadiuses(rmaxvolume, radius, sound)` | Full-volume radius and total audible radius. |
+| `SetSndSoundLoop(value, sound)` | Whether the sound loops. |
+| `SetSndSoundKillSndOutRad(value, sound)` | Whether playback stops when the listener leaves the audible radius. |
 | `SetSndSoundConeOutsideVolume`, `InsideConeAngle`, `OutsideConeAngle` | Directional sound. |
 
-The decision whether to play or not is based on **distance from the listener**.
+Playback depends on the **distance from the listener**.
 **There are no FOW checks in these functions.**
 
 <a id="52-что-это-значит"></a>
-### 5.2. What does this mean
+### 5.2. What this means in play
 
-- **Unit in enemy FOW** (you can't see it) **audible** if
-  it falls within the hearing radius (`SetSndSoundMaxRadius`).
-- For example: an enemy musketeer shoots in a hidden forest - you
-  **hear a shot**, but **do not see** either the unit or the flash.
-- This gives the player **acoustic reconnaissance**: you can use sounds
-  determine that the enemy unit has entered the flank, even before
-  your scout will see it.
+- A unit hidden by the enemy's fog of war can still be **heard** when it
+  lies within the audible radius set by `SetSndSoundMaxRadius`.
+- For example, if an enemy Musketeer fires in an unexplored forest, the
+  player can **hear the shot** without seeing the unit or its muzzle flash.
+- Sound can therefore reveal nearby enemy activity before a Scout provides
+  vision.
 
 <a id="53-почему-так-сделано"></a>
-### 5.3. Why is this done
+### 5.3. Why the systems are separate
 
-Two technical solutions:
+There are two practical reasons:
 
-1. **One listener (camera)** in standard mode. FOW is considered
-   per-player, but the sound is per-listener. If I checked the engine
-   FOW for sound, you would have to filter each emitter by
-   for the current player - expensive in terms of CPU.
-2. **Realism trade-off.** Sound travels in reality
-   regardless of whether you can see the source. Cossacks 3 is
-   emulates.
+1. **A single listener follows the camera** in the standard mode. Fog of
+   war is calculated per player, whereas sound is calculated for a listener.
+   Filtering every sound emitter through the current player's visibility
+   would add work to the audio path.
+2. **Sound does not require line of sight.** The design lets players hear
+   nearby activity even when they cannot see its source.
 
 See also [Vision and Fog of War](../world/combat/vision_and_fow.md)
 about the structure of FOW.
@@ -262,8 +261,8 @@ about the structure of FOW.
 <a id="6-предупреждения"></a>
 ## 6. Alarm notifications
 
-`_misc_DoAlarm(goHnd, trgHnd, event)` [^1] - main function for
-"pay attention" signal. Fires when:
+`_misc_DoAlarm(goHnd, trgHnd, event)` [^1] is the main function for
+events that require the player's attention. It is called when:
 
 - The player's unit received an attack (`gc_gui_alarmevent_attack`).
 - The player's building is captured (`gc_gui_alarmevent_capture`).
@@ -277,44 +276,42 @@ if (gPlayer[plIO].lastattacktime = 0) then  // no recent alarm
       if (not gSoundManager.IsObjInFrustum(handle)) then  // object is NOT in the camera frustum
          alarm fire
 ```
-Key: **alarm is triggered only if the object is NOT in frustum**
-cameras. That is, if a player physically looks at his base and
-at this moment she is being attacked - there will be no notification because
-the player sees it that way.
+The key condition is that the warning appears only when the object is
+**outside the camera frustum**. If the player is already looking at a base
+when it comes under attack, no warning is shown because the event is visible.
 
 <a id="62-лимит-частоты"></a>
 ### 6.2. Frequency limit
 
-After triggering, alarm is set
+After a warning, the game sets
 `gPlayer[plIO].lastattacktime = currenttime + gc_gui_underattackalarminterval`.
-The following events are blocked until the interval expires. Typically
-interval ~5 g-sec, so as not to receive “you are under attack” every tick
-long battle.
+Further warnings are suppressed until that interval expires. The interval
+is roughly five game seconds, preventing a long battle from producing an
+alert every tick.
 
 <a id="63-что-игрок-видит-и-слышит"></a>
 ### 6.3. What the player sees and hears
 
 | Effect | Source |
 |---|---|
-| The sound of a trumpet / barbarian shout | The script puts `gbool_gui_doalarm := True`, the GUI plays the sound. |
+| A trumpet or battle cry | The script sets `gbool_gui_doalarm := True`; the GUI then plays the sound. |
 | Flashing frame around the edge of the screen | UI element, responds to `gbool_gui_doalarm`. |
 | Arrow pointer to the event location | At coordinates `gfloat_gui_alarmx`, `gfloat_gui_alarmz`. |
 
-The player can jump the camera to a location through a hotkey (double space
-or Ctrl+W depending on the profile) - this causes
+The player can jump the camera to the event with a hotkey (double Space or
+Ctrl+W, depending on the profile), which calls
 `MoveCameraToPosition(alarmx, alarmz, ...)`.
 
 <a id="64-не-алармирует"></a>
 <a id="64-когда-предупреждения-нет"></a>
-### 6.4. Does not alarm
+### 6.4. When no warning is shown
 
-- **Attacks on non-owner.** `_misc_DoAlarm` checks
-  `plIOHnd = trgPlHnd or plIOHnd = plHnd`. Teammate
-  by default **will not receive an alarm** about an ally’s attack - for everyone
-  your `plIO`.
-- **Attacks of the priest** (he is in `bpriest` - heals, does not attack).
-  The script skips the alarm call at `_misc_DoDamage` if the attacker
-  - priest.
+- **An ally is attacked.** `_misc_DoAlarm` checks
+  `plIOHnd = trgPlHnd or plIOHnd = plHnd`. Each client has its own `plIO`,
+  so a teammate does **not** receive the local player's warning.
+- **A Priest performs an action.** Priests have the `bpriest` flag and heal
+  rather than attack. `_misc_DoDamage` skips the warning call when the
+  acting unit is a Priest.
 
 ---
 
@@ -346,9 +343,9 @@ struct.end
 <a id="72-шесть-видов-действий-action"></a>
 ### 7.2. Six types `Action`
 
-| Type | What does | Examples |
+| Type | What it does | Examples |
 |---|---|---|
-| `build` | Place a building from the build menu | `build\|%nat%cen` (Town Hall), `build\|%com%mil` (mill). `%nat%` is substituted for the current sid of the nation, `%com%` is a cluster (`eur` / `rus` / `tur` ...). |
+| `build` | Places a building from the construction menu | `build\|%nat%cen` (Town Hall), `build\|%com%mil` (Mill). `%nat%` is replaced with the current nation ID; `%com%` is replaced with a nation group such as `eur`, `rus`, or `tur`. |
 | `unit` | Command to selected units | `unit\|attack`, `unit\|standground`, `unit\|nostandground`, `unit\|guard`, `unit\|cancelguard`, `unit\|attackpoint`, `unit\|enableattack`, `unit\|disableattack`, `unit\|stop`, `unit\|unloadall` |
 | `squad` | Squad commands | `squad\|fill`, `squad\|disband`, `squad\|rank` (LINE), `squad\|column`, `squad\|square` |
 | `select` | Selection by filter | `select\|allunits`, `select\|allships`, `select\|allbuildings`, `select\|allpeasants`, `select\|idlepeasants`, `select\|idlemines`, `select\|militaryunits`, `select\|unitsofsametype`, `select\|addunitsofsametype`, `select\|allunitsofsametype`, `select\|addallunitsofsametype` |
@@ -382,11 +379,17 @@ struct.end
 | `Q` | `interface\|viewcollision` |
 | `Alt+M` | `interface\|minimap` |
 
-And a large set of `build|...` (one letter for each building) - `C` = Cen, `H` = House, `B` = Bar, `L` = Bla, `E` = Aca, `S` = Sta, `D` = Dip, `M` = Mar, `T` = Tow, `P` = Por, etc.
+There is also a large set of `build|...` actions, usually with one letter
+per building: `C` = Town Hall (`cen`), `H` = Housing (`hou`),
+`B` = Barracks, 17th century (`bar`), `L` = Blacksmith (`bla`),
+`E` = Academy (`aca`),
+`S` = Stable (`sta`), `D` = Diplomatic Center (`dip`), `M` = Market
+(`mar`), `T` = Tower (`tow`), and `P` = Shipyard (`por`).
 
-> **Duplicates** allowed: `S` found in `build|sta`, `unit|standground`
-> and `event|eventmainmenu|bsettings`. Permission context - what
-> GUI state is active (in-game / unit-selected / menu-open).
+> **Duplicate bindings are allowed.** For example, `S` appears in
+> `build|sta`, `unit|standground`, and `event|eventmainmenu|bsettings`.
+> The active GUI context—construction menu, selected unit, or main
+> menu—determines which action runs.
 
 <a id="8-reserved-keys--нельзя-переназначить"></a>
 <a id="8-клавиши-которые-нельзя-переназначить"></a>
@@ -394,9 +397,9 @@ And a large set of `build|...` (one letter for each building) - `C` = Cen, `H` =
 
 The file `data/gui/menu.inc/hotkeysettings.inc` contains two lists
 `forbiddenkeys` (cannot be set as a single key) and
-`forbiddencombokeys` (prohibited combinations). These are the “engine engines”
-hotkeys - which are not configured through the UI, because they are built into
-game behavior.
+`forbiddencombokeys` (prohibited combinations). These are engine-level
+hotkeys that cannot be configured through the UI because their behavior is
+built into the game.
 
 <a id="81-одиночные-зарезервированные-клавиши"></a>
 ### 8.1. Single reserved keys
@@ -404,17 +407,17 @@ game behavior.
 | Key | Reserved for |
 |---|---|
 | `LButton`, `RButton`, `MButton` | Mouse buttons - selection / order / drag camera. |
-| `Left`, `Right`, `Up`, `Down` | Scroll the camera to the cardinal points. |
+| `Left`, `Right`, `Up`, `Down` | Move the camera in the four cardinal directions. |
 | `Space` | Jump to the last alarm (center the camera). |
 | `Return` (Enter) | Open chat in multiplayer. |
 | `Escape` | Close UI / cancel mode (build mode, attack-move). |
-| `Shift`, `Ctrl`, `Alt` (+ their up-variants) | Modifiers - cannot be reassigned as single modifiers. |
+| `Shift`, `Ctrl`, `Alt` (and their key-up variants) | Modifier keys; they cannot be assigned as standalone actions. |
 | **`0`, `1`, …, `9`** | **Control groups — select a group.** |
 | **`NUM0`–`NUM9`** | Double numbers on the numpad for control groups. |
 | `F5`, `F7`, `F10` | Quick-save / quick-load / debug. |
-| `PrintScreen0/1/2` | Screenshot (standard Windows behavior). |
+| `PrintScreen0/1/2` | Take a screenshot. |
 | `Sub`, `Add`, `-`, `=` | Game speed (slow / fast). |
-| `PGUP`, `PGDN`, `Home`, `Del`, `Back` | Log navigation / deletion. |
+| `PGUP`, `PGDN`, `Home`, `Del`, `Back` | Navigate or clear interface logs. |
 | `P` | Pause. |
 | `[`, `]` | Scrolling alarms/notifications. |
 
@@ -422,7 +425,7 @@ game behavior.
 <a id="82-зарезервированные-комбинации-для-групп-и-системы"></a>
 ### 8.2. Reserved combinations (control groups + system)
 
-**Control groups (10 pieces, numbers 0–9):**
+**Control groups (ten groups, numbered 0–9):**
 
 | Combination | What |
 |---|---|
@@ -431,18 +434,18 @@ game behavior.
 | **`Alt+0` … `Alt+9`** | **Select** control group N. |
 | **`Shift+Alt+0` … `Shift+Alt+9`** | Additional mode (probably: add group N to current selection). |
 
-That is, in Cossacks 3 there are **10 control groups** (0–9), a standard set of controls.
+Cossacks 3 therefore provides **ten control groups**, numbered 0–9.
 
 **Camera and system:**
 
-| Combination | Destination |
+| Combination | Action |
 |---|---|
 | `Alt+F4` | Close the application. |
 | `Ctrl+S` | Quick save. |
 | `Ctrl+Tab` | Switching player (spectator / replay). |
 | `Ctrl+Home` | Center the camera on the player's starting point. |
-| `Ctrl+PGUP` / `Ctrl+PGDN` | UI tab scrolling / player switching. |
-| `Ctrl+W`, `Ctrl+F` | Camera quick-jump (probably to the City Center / to the selected one). |
+| `Ctrl+PGUP` / `Ctrl+PGDN` | Cycle interface tabs or switch players. |
+| `Ctrl+W`, `Ctrl+F` | Quick camera jump, probably to the Town Hall or the selected object. |
 | `Ctrl+Add` / `Ctrl+Sub` | Zoom in/out. |
 | `Ctrl+Shift+P` | Debug mode. |
 | `Ctrl+T` | Team chat (separate from regular chat by `Return`). |
@@ -453,13 +456,12 @@ That is, in Cossacks 3 there are **10 control groups** (0–9), a standard set o
 <a id="83-классы-групп-найденные-в-rtti"></a>
 ### 8.3. RTTI classes for a group
 
-Classes `TXGroup4` (one of ten?) and
-`TXGroupSelectionViewer` - the last one draws **green highlights**
-around units that are part of the active control group. Implementation
-there is no control-group binding at the script level
-(`SetGUIEventStateOnKeyDown` in `lib/*.script` is called only for
-`'EventMultiplayerChat'`). This means processing numeric keys for
-control groups is done **in native exe**, without calling scripts.
+The RTTI contains `TXGroup4`—apparently one of the ten groups—and
+`TXGroupSelectionViewer`, which draws **green highlights** around units
+in the active control group. No control-group key binding exists at the
+script level: `SetGUIEventStateOnKeyDown` in `lib/*.script` is called only
+for `'EventMultiplayerChat'`. Numeric control-group keys are therefore
+handled **by the native executable**, without a script callback.
 
 <a id="9-игровой-темп-и-пауза"></a>
 ## 9. Game tempo and pause
@@ -475,15 +477,14 @@ control groups is done **in native exe**, without calling scripts.
 | `normal` (1) | 10 ticks/sec |
 | `fast` (2) | **14 ticks/sec** (default in skirmish) |
 
-Hotkey: `Ctrl+Add` (numpad +) / `Ctrl+Sub` (numpad −) - both
-reserved (see §8.2).
+The reserved hotkeys are `Ctrl+Add` (numpad +) and `Ctrl+Sub`
+(numpad −); see §8.2.
 
 <a id="92-пауза"></a>
 ### 9.2. Pause
 
-Hotkey `P` - reserved (see §8.1). Limit: **4 pauses of 120
-seconds** per game (mentioned in the old ref: “pause-limit
-(4 × 120 seconds)").
+The reserved hotkey is `P` (see §8.1). Each player may pause at most
+**four times for 120 seconds** per match.
 
 <a id="10-доступ-скрипта-к-клавиатуре"></a>
 ## 10. Script access to keyboard
@@ -494,29 +495,28 @@ Native API for checking keys [^2]:
 |---|---|
 | `IsKeyDown(vk: Integer): Boolean` | Whether the key is pressed according to the virtual-key code. |
 | `IsKeyDownByName(sname: String): Boolean` | By name (`'Ctrl'`, `'Shift'`, `'A'`). |
-| `KeyPressed(minvkcode: Integer): Integer` | The code of the last key pressed is `vkcode >= minvkcode`. |
+| `KeyPressed(minvkcode: Integer): Integer` | Code of the last pressed key whose `vkcode >= minvkcode`. |
 
-In scripts **not called** at all - input processing is ongoing
-entirely through GUI-FSM-callbacks (`SetGUIEventStateOn*`). Scripts
-checking “whether Shift is pressed” is usually not necessary, because GUI-state
-already takes modifiers into account.
+These functions are **not called by the inspected scripts**. Input is
+instead processed through GUI state-machine callbacks
+(`SetGUIEventStateOn*`). Scripts normally do not need to ask whether
+Shift is held because the active GUI state already includes modifiers.
 
 ---
 
 <a id="11-открытые-вопросы"></a>
 ## 11. Open questions
 
-1. **Exact semantics of `Shift+Alt+0..9`.** Forbidden list
-   confirms that the combination is reserved, but what does it do -
-   not read from the code.
+1. **Exact semantics of `Shift+Alt+0..9`.** The forbidden-key list
+   confirms that the combinations are reserved, but their behavior is
+   not visible in the scripts.
 2. **Sound + FOW for friendly objects.** If the unit is an ally
    outside of your FOW (but in his FOW), can you hear him? Hypothesis: yes,
    listener sees the whole world by distance.
-3. ~~`gc_gui_underattackalarminterval` - exact value~~ ✅
-   **Closed:** `= 135` (`dmscript.global`). Unit - internal
-   counter `GetCurrentTime`, most likely **frames** →
-   `135 / 32 ≈ 4.22 g-sec`. That is, alarm does not go off more than once per
-   ~4 g-seconds.
+3. ~~Exact value of `gc_gui_underattackalarminterval`.~~ ✅
+   **Resolved:** it is `135` in `dmscript.global`. `GetCurrentTime` most
+   likely counts **frames**, giving `135 / 32 ≈ 4.22` game seconds. A warning
+   therefore appears no more than once every four game seconds.
 4. **Double-click on a unit portrait** - does the camera jump? In code
    `MoveCameraToSelectedUnits` exists, but the trigger is not specified in
    scripts.
@@ -529,7 +529,8 @@ already takes modifiers into account.
 [^1]: `data/scripts/lib/misc.script` —
       `_misc_DoAlarm(goHnd, trgHnd, event)`. Uses
       `gSoundManager.IsObjInFrustum(handle)`
-      for testing "out of camera view". Gate through
+      to test whether the object is outside the camera view. Frequency is
+      limited through
       `gPlayer[plIO].lastattacktime` and
       `gc_gui_underattackalarminterval`.
 

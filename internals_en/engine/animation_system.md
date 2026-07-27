@@ -409,8 +409,8 @@ will fire before the next cycle `.acl`).
 <a id="7-unitapplyweaponcost--стоимость-выстрела"></a>
 ## 7. `_unit_ApplyWeaponCost` - cost of a shot
 
-With each swing, `weapon[weapind].cost[restype]` is debited for
-shot [^3]:
+Each attack consumes the resources listed in
+`weapon[weapind].cost[restype]` [^3]:
 ```
 for i := 0 to gc_ResCount-1:
    if weapon[weapind].cost[i] > 0:
@@ -419,13 +419,13 @@ for i := 0 to gc_ResCount-1:
       else:
          res[i] := 0  ← if the player has less, deduct the remainder
 ```
-That is, if the player runs out of `iron` or `coal`, tower/cannon
-**still shoots** (writes off the remainder to zero), but then without
-resource ceases. If a shot is not blocked by a resource, it is written off
-upon the impact. This is the key mechanism: **check at the time of swing
-there is no resource**, the check occurs earlier - at the stage of target selection.
+A tower or cannon can therefore **complete the current shot** even when the
+player has less iron or coal than its full cost: the remaining amount is
+reduced to zero. Further attacks stop once the missing resource is checked
+during target selection. Resource payment itself occurs at the attack impact,
+not during that earlier availability check.
 
-Full table of shot prices for each unit - in
+The complete table of per-shot costs is in
 [`../../docs/reference/02_combat/README.md` → “Cost of one shot”](../../docs_en/reference/02_combat/README.md).
 
 ---

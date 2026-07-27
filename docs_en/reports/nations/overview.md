@@ -141,7 +141,7 @@ Units trained in `<nat>dip` (Diplomatic Center). Most have the suffix `dip` to `
 <a id="6-вариант-рынка"></a>
 <a id="6-архитектурные-варианты-рынка"></a>
 ## §6. Market option
-Market - common building (see [building guide](../../reference/03_buildings/README.md#mar--market)). For 21 nations there are 4 building options (`eurmar` / `rusmar` / `spamar` / `turmar`), differing in HP, price and construction time. These are **building options only** - market rates are global and the same for all players in the match, regardless of which `mar` is built (see [market guide](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
+The Market is a shared building (see [Market variants](../../reference/03_buildings/market.md)). Across 21 nations, the game uses four variants (`eurmar`, `rusmar`, `spamar`, and `turmar`) with different health, cost, and construction time. These variants affect only the building itself: market rates are global and identical for every player in the match, regardless of the Market they build (see [Market mechanics](../../reference/06_market/README.md#курсы--глобальные-их-видят-все-игроки)).
 
 | Cluster | Nations |
 | --- | --- |

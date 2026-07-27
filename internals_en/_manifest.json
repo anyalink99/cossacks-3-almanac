@@ -5,7 +5,7 @@
     {
       "path": "data/file_formats.md",
       "title": "File formats in `data/`",
-      "size": 9017,
+      "size": 9027,
       "lines": 245
     },
     {
@@ -17,7 +17,7 @@
     {
       "path": "data/layout.md",
       "title": "Structure `data/` in Cossacks 3",
-      "size": 8048,
+      "size": 8074,
       "lines": 197
     },
     {
@@ -35,25 +35,25 @@
     {
       "path": "data/replay_format.md",
       "title": "Replay / Save (`.rep`, `.map`) - format `OSWMap13`",
-      "size": 39925,
+      "size": 39947,
       "lines": 847
     },
     {
       "path": "engine/animation_system.md",
       "title": "Animation system: timings, cycles, impact point",
-      "size": 21101,
+      "size": 21076,
       "lines": 500
     },
     {
       "path": "engine/determinism_audit.md",
       "title": "Recon: determinism of loot and combat (RNG audit)",
-      "size": 26207,
-      "lines": 522
+      "size": 26197,
+      "lines": 521
     },
     {
       "path": "engine/native_api.md",
       "title": "Native API of the Cossacks 3 engine (Delphi + DWS)",
-      "size": 23021,
+      "size": 23011,
       "lines": 412
     },
     {
@@ -65,13 +65,13 @@
     {
       "path": "engine/rng_implementation.md",
       "title": "Implementation of RNG in Cossacks 3",
-      "size": 12530,
-      "lines": 267
+      "size": 12451,
+      "lines": 262
     },
     {
       "path": "engine/rtti_class_map.md",
       "title": "Delphi engine class map (RTTI)",
-      "size": 15293,
+      "size": 15296,
       "lines": 333
     },
     {
@@ -83,26 +83,26 @@
     {
       "path": "engine/server_sync_architecture.md",
       "title": "Recon: server architecture and network synchronization",
-      "size": 23845,
+      "size": 23963,
       "lines": 534
     },
     {
       "path": "engine/server_sync_packet_format.md",
       "title": "C3 network packet format (via script call analysis)",
-      "size": 10625,
-      "lines": 253
+      "size": 10654,
+      "lines": 254
     },
     {
       "path": "engine/ticks_and_subticks.md",
       "title": "Recon: ticks, subtics, time",
-      "size": 25142,
+      "size": 25141,
       "lines": 542
     },
     {
       "path": "project/architecture.md",
       "title": "Project architecture",
-      "size": 16447,
-      "lines": 238
+      "size": 16868,
+      "lines": 243
     },
     {
       "path": "project/documentation_style.md",
@@ -112,14 +112,14 @@
     },
     {
       "path": "project/known_issues.md",
-      "title": "Known issues and disclaimers",
-      "size": 10835,
-      "lines": 194
+      "title": "Known Issues and Caveats",
+      "size": 10477,
+      "lines": 198
     },
     {
       "path": "project/known_issues_archive.md",
-      "title": "Known issues - archive of fixed issues",
-      "size": 4393,
+      "title": "Known Issues: Resolved",
+      "size": 4331,
       "lines": 74
     },
     {
@@ -130,14 +130,14 @@
     },
     {
       "path": "README.md",
-      "title": "Cossacks 3 internals",
-      "size": 6748,
-      "lines": 104
+      "title": "Cossacks 3 Internals",
+      "size": 7046,
+      "lines": 106
     },
     {
       "path": "scripts/structure.md",
       "title": "Structure of the Cossacks 3 scripting environment",
-      "size": 15213,
+      "size": 15211,
       "lines": 319
     }
   ]

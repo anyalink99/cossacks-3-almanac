@@ -15,8 +15,9 @@ Cossacks 3. Source references and Pascal excerpts are collected under
   economic phase (`progresseconomicai`: build order, gathering, upgrades)
   and a military phase (`progresswarai`: armies, attacks, and raids).
 - **Difficulty mainly multiplies construction and recruitment speed:**
-  `easy` 30%, `normal` 50%, `hard` 75%, `veryhard` 100%, and
-  `impossible` 125%. The AI receives **no extra starting resources**.
+  Easy (`easy`) 30%, Normal (`normal`) 50%, Hard (`hard`) 75%, Very Hard
+  (`veryhard`) 100%, and Impossible (`impossible`) 125%. The AI receives
+  **no extra starting resources**.
 - **The build order is rule-based and nation-specific.** It uses neither
   machine learning nor a random plan; a sequence of conditions examines
   the current game state.
@@ -37,9 +38,10 @@ The dispatcher runs the economic and military phases in sequence [^3].
 <a id="уровни-сложности"></a>
 ## Difficulty levels
 
-The code defines five levels from `easy` to `impossible`, plus the sentinel
-`none = -1` [^4]. `gc_MaxAIDifficultyCount = 4` [^5]. The interface shows
-four levels (`easy`, `normal`, `hard`, and `veryhard`); `impossible` is
+The code defines five levels from Easy (`easy`) to Impossible
+(`impossible`), plus the sentinel `none = -1` [^4].
+`gc_MaxAIDifficultyCount = 4` [^5]. The interface shows four levels:
+Easy, Normal, Hard, and Very Hard. Impossible is
 reserved for scenarios—for example,
 `initmaphistoricalbattle.inc` puts historical battles on this
 level [^6].
@@ -60,33 +62,35 @@ and engine behavior is covered by
 `deltabuildtime` is the construction or recruitment progress added each
 tick. For the AI, it is multiplied by the difficulty factor [^10]:
 
-- **easy** — AI builds at **30%** player speed (3.33 times slower);
-- **normal** — 50% (2 times slower);
-- **hard** — 75%;
-- **veryhard** — parity with the player;
-- **impossible** — 125% (25% faster), the only level with an actual advantage.
+- **Easy** (`easy`) — AI builds at **30%** player speed (3.33 times slower);
+- **Normal** (`normal`) — 50% (2 times slower);
+- **Hard** (`hard`) — 75%;
+- **Very Hard** (`veryhard`) — parity with the player;
+- **Impossible** (`impossible`) — 125% (25% faster), the only level with
+  an actual advantage.
 
 The `aiData.bhumanai` flag (default `False` [^11]) disables
-multiplier, making the AI play at full speed regardless of level.
+the multiplier, making the AI play at full speed regardless of level.
 
 <a id="2-лимит-апгрейдов-башни"></a>
 #### 2. Tower upgrade limit
 
-Maximum tower upgrade level: easy = 2, normal = 3, hard = 4,
-veryhard = 5, impossible = 5 [^12].
+Maximum tower upgrade level: Easy = 2, Normal = 3, Hard = 4,
+Very Hard = 5, Impossible = 5 [^12].
 
 <a id="3-размер-диверсионных-групп"></a>
 #### 3. Size of sabotage groups
 
-`numdiver` depends on the level: normal = 0, hard = 2, veryhard = 4,
-impossible = 4 [^13]. Easy does not send sabotages at all. Veryhard and
-impossible hold up to four parallel sabotage armies
+`numdiver` depends on the level: Normal = 0, Hard = 2, Very Hard = 4,
+Impossible = 4 [^13]. Easy does not send sabotage groups at all. Very Hard
+and Impossible can maintain up to four parallel sabotage armies
 (`cap = gc_ai_MaxDiverArmies = 2` plus existing ones).
 
 <a id="4-лимит-апгрейдов-шахты"></a>
 #### 4. Mine upgrade limit
 
-Easy is limited to level 0, normal - 2/3, higher - up to 7 [^14].
+Easy is limited to level 0, Normal to level 2 or 3, and higher
+difficulties to level 7 [^14].
 
 <a id="5-базовые-ворота-через-if-difficulty--easy"></a>
 <a id="5-ограничения-лёгкого-уровня"></a>
@@ -104,7 +108,7 @@ Dragoons when gold is scarce [^16].
 
 <a id="7-bricks1--только-veryhard-и-impossible"></a>
 <a id="7-bricks1--только-на-очень-сложном-и-невозможном-уровнях"></a>
-#### 7. `bricks1` - only veryhard and impossible
+#### 7. `bricks1` — only on Very Hard and Impossible
 
 See [^17].
 
@@ -121,12 +125,12 @@ the **player**, not the AI.
 - **Starting resources.** All players receive the same values for
   `resourcestart`: 0 → 1000 each, 1 → 4000, 2 → 5000, 3 → 1,000,000 [^19].
   AI does not receive bonus resources at any level.
-- **Permanent “drip” income and income cheats.** Not in scripts
-  found. AI extracts resources using standard mines, and challenges
-  `_ai_SetResouceBalance` only manage production priorities
-  and trade, but do not provide free resources.
-- **Game speed.** `gc_settings_gamespeed_*` - global,
-  not personal.
+- **Permanent “drip” income and income cheats.** None were found in the
+  scripts. The AI gathers resources through normal mines. Calls to
+  `_ai_SetResouceBalance` only adjust production and trade priorities;
+  they do not grant free resources.
+- **Game speed.** The `gc_settings_gamespeed_*` value is global rather
+  than player-specific.
 
 <a id="порядок-строительства"></a>
 ## Build order
@@ -137,44 +141,52 @@ fixed array; it is a long sequence of calls such as
 conditions usually inspect the current counts of other buildings—for
 example, `_ai_GetUnitCount(plind, cid, gc_ai_unit_ba17) >= 2`.
 
-Macro phases [^20]:
+The main phases are [^20]:
 
 1. Always attempts a **Town Hall** (from one to two early), **Market**, and **Mill**.
-2. Algeria and Turkey may add a **House** when they already have a Blacksmith, Storehouse, Market, and 17th-century Barracks.
-3. **Mines** (`gc_ai_unit_minegold`, `_mineiron`, `_minecoal`) - via `_ai_BuildMines` (uses `gc_ai_dist_mines_lvl1 = 30`, `lvl2 = 60`, `expansion = 85` [^21]).
+2. Algeria and Turkey may add **Housing** when they already have a
+   Blacksmith, Storehouse, Market, and **Barracks, 17th century**.
+3. **Mines** (`gc_ai_unit_minegold`, `_mineiron`, `_minecoal`) through
+   `_ai_BuildMines`, using the distance thresholds
+   `gc_ai_dist_mines_lvl1 = 30`, `lvl2 = 60`, and `expansion = 85` [^21].
 4. One **Blacksmith**.
-5. **17th-century Barracks** (`ba17`): target counts of 1 → 2 → 3 →
+5. **Barracks, 17th century** (`ba17`): target counts of 1 → 2 → 3 →
    6 or 8 depending on Town Hall count and whether the map is naval.
    Most nations aim for eight; Russia aims for six [^22].
 6. Expansion to **five Town Halls** once `centercount >= 2`.
-7. An **Academy** after at least two 17th-century Barracks and two Town Halls.
+7. An **Academy** after at least two **Barracks, 17th century** and two
+   Town Halls.
 8. A **Stable**, **Artillery Depot**, **Diplomatic Center**, and **Cathedral** after the Academy.
-9. **18th-century Barracks** (`ba18`) after the Academy's century upgrade (`gc_ai_upg_century`).
+9. **Barracks, 18th century** (`ba18`) after the Academy's century
+   upgrade (`gc_ai_upg_century`).
 10. Up to three **Towers** after an Academy, once military AI is active
     above Easy: `numTowers = Min(3, peasants div 75)` [^23].
 
 Build order varies substantially by nation. Each of the 24 nation codes
 (`cid_<nat>`, from `aus` through `lit`) has its own branches. Ukraine
-(`cid_ukr`) often skips the 17th-century Barracks (`ba17`) and Officer
-chain in favor of mass 17th-century Musketeers (`musk17`). Algeria and
+(`cid_ukr`) often skips the **Barracks, 17th century** (`ba17`) and
+**Officer, 17th century** chain in favor of mass **Musketeers,
+17th century** (`musk17`). Algeria and
 Turkey (`cid_alg`, `cid_tur`) recruit Archers through the Academy. Russia
 (`cid_rus`) limits itself to six Barracks with “millions” of starting
 resources.
 
 Build order checkpoints (representative):
 
-- two 17th-century Barracks (`ba17`) and two Town Halls → Academy [^24];
-- two 17th-century Barracks and four Town Halls → resource balance shifts toward gold [^25];
-- at least five 18th-century Barracks (`ba18`) → three more
-  17th-century Barracks and a sixth Town Hall [^26];
-- `pikemanCount >= 36 × 4` → recruit both Pikemen and Musketeers [^27];
+- two **Barracks, 17th century** (`ba17`) and two Town Halls → Academy [^24];
+- two **Barracks, 17th century** and four Town Halls → resource balance
+  shifts toward gold [^25];
+- at least five **Barracks, 18th century** (`ba18`) → three more
+  Barracks, 17th century and a sixth Town Hall [^26];
+- `pikemanCount >= 36 × 4` → recruit both **Pikemen, 17th century** and
+  **Musketeers, 17th century** [^27];
 - `pikemanCount >= 36 × 7 + gc_ai_max_guards (120)` → recruit only
-  17th-century Musketeers (`musk17`) [^28].
+  **Musketeers, 17th century** (`musk17`) [^28].
 
-The balance of resources adapts to the number of peasants: the share of food increases 12 →
-21 → 27 → 36 → 45 (× 1.3 if pikemen are not yet upgraded) per
-at thresholds of 30 / 45 / 85 / 120 Peasants [^29]. Russia and Poland
-use 16 → 24 → 31 → 40 → 49.
+Resource priorities adapt to the Peasant count. The food weight rises
+through 12 → 21 → 27 → 36 → 45 at thresholds of 30, 45, 85, and
+120 Peasants, with a ×1.3 multiplier while Pikemen remain unupgraded [^29].
+Russia and Poland instead use 16 → 24 → 31 → 40 → 49.
 
 <a id="цели-по-производству"></a>
 ## Production goals
@@ -210,8 +222,9 @@ These are **production-queue targets** passed to `_ai_TryUnit`, not hard
 limits. Barracks train until a target is reached and resume on later AI
 updates when the count falls.
 
-`gc_ai_max_guards = 120` [^34] - buffer above the pike threshold, after
-which switches production to 17th-century Musketeers only.
+`gc_ai_max_guards = 120` [^34] is a buffer above the **Pikeman,
+17th century** count threshold. Once that threshold is exceeded,
+production switches to **Musketeers, 17th century** only.
 
 <a id="триггеры-агрессии-и-атаки"></a>
 ## When the AI attacks
@@ -222,7 +235,7 @@ Constants [^35]:
 |---|---:|---|
 | `gc_ai_AgressorsCount` | 5 | squads in the first offensive wave |
 | `gc_ai_MaxDiverArmies` | 2 | maximum sabotage armies at the same time |
-| `gc_ai_OfficerWaitTime` | 20 | sec at normal speed waiting for a drummer or officer |
+| `gc_ai_OfficerWaitTime` | 20 | seconds to wait for a Drummer or Officer at Normal speed |
 | `gc_ai_GreArmyBattleDist` | 2 | Grenadier search distance in grid cells |
 | `gc_ai_ArmyBattleDist` | 4 | normal search distance in grid cells |
 | `gc_ai_BitvaInterval` | 8 | recheck interval in battle |
@@ -237,112 +250,110 @@ Attack sequence:
   `gc_ai_armyorder_*` enumeration [^36] contains `none`, `makebattle`,
   `bitva`, `buildmine`, `sabotage`, `aggressor`, `makewaterbattle`,
   `transport`, and `attackwall`.
-- **First aggressor wave** (`_ai_SendAgressors` [^37]): AI
-  sends one starting wave of 5 units as soon as in the pool
-  `aiData.agressors` will have enough mobile units.
+- **First offensive wave** (`_ai_SendAgressors` [^37]): the AI sends
+  five squads as soon as `aiData.agressors` contains enough mobile units.
   Subsequent waves go through `_ai_ArmyMakeBattleLink`.
-- **Digression** [^38]: `myForce = _ai_GetArmyForce(pArmy)`. If
+- **Retreat** [^38]: `myForce = _ai_GetArmyForce(pArmy)`. If
   `uCount > 200` or `myForce > 3800`, `myForce := 100000` (interpreted
-  as absolute superiority, retreat is not triggered). Otherwise
-  multiplied by 8 (heavy bonus) or 2 (light). When `enForce > myForce`
-  the army is retreating.
-- **Sabotage** (`_ai_ArmyDiversia*`): if the enemy is weaker than my army
-  within a radius of 30 - attack; within a radius of 400, we also go on the attack.
-- **Wall Attack** (`_ai_ArmyCheckWallAttack`): if the target is a wall, all
-  units in `searchRadius` armies switch to attack-wall
+  as overwhelming superiority, so retreat is suppressed). Otherwise,
+  the value is multiplied by eight for the heavy bonus or two for the
+  light bonus. The army retreats when `enForce > myForce`.
+- **Raid** (`_ai_ArmyDiversia*`): the army attacks when the enemy force
+  within radius 30 is weaker; it also advances on a target within radius 400.
+- **Wall attack** (`_ai_ArmyCheckWallAttack`): if the target is a wall,
+  every non-artillery squad within the army's `searchRadius` switches to
+  the wall-attack order
   (artillery excluded).
 - **Peacetime** (`gbool_peacemode`): set when
   `gMap.settings.additional.peacetime <> default` [^39]. While active
-all aggressor and sabotage branches do early-exit [^40].
-- **Diplomacy and commands:** `gPlayer[i].team`. AI counts the player
-  enemy if `team` is different from or equal to 0 [^41]. `_ai_IsTeamAI`
-  determines whether the AI is on the team [^42]. Alliances do not run-time
-  formed - commands are set in the lobby and do not change. Scenario
-  trigger `gc_trigger_action_player_playerSetAsAlly = 19` exists,
-  but the AI from random maps does not use it.
+  all offensive and raid branches exit immediately [^40].
+- **Diplomacy and teams:** the AI considers another player an enemy when
+  `gPlayer[i].team` differs or either value is zero [^41].
+  `_ai_IsTeamAI` checks whether a team contains an AI player [^42].
+  Alliances are not formed during a normal match: teams are set in the
+  lobby and remain fixed. The scenario action
+  `gc_trigger_action_player_playerSetAsAlly = 19` exists, but random-map
+  AI does not use it.
 
 <a id="читы"></a>
 ## Cheats
 
 | Level | Is the cheat applied? | Magnitude |
 |---|---|---|
-| Easy | Yes - handicap (slows down AI) | Build and hire at 30% speed |
-| Normal | Yes - handicap | By 50% |
-| Hard | Yes - low handicap | 75% |
+| Easy | Yes — handicap (slows the AI) | Construction and recruitment at 30% speed |
+| Normal | Yes — handicap | 50% speed |
+| Hard | Yes — mild handicap | 75% speed |
 | Very hard | No | Parity (100%) |
-| Impossible | Yes - the only “honest” cheat | 125% (faster than the player) |
+| Impossible | Yes — the only actual advantage | 125% (faster than the player) |
 
-Source - multiplier `deltabuildtime` [^10]. Trigger condition:
-`gPlayer[plind].bai and not aiData.bhumanai`. Flag `bhumanai` [^43]
-default `False`; if you set it, the AI plays at parity
-regardless of level.
+The source is the `deltabuildtime` multiplier [^10], applied when
+`gPlayer[plind].bai and not aiData.bhumanai`. `bhumanai` defaults to
+`False` [^43]; setting it makes construction and recruitment run at full
+speed regardless of difficulty.
 
-**AI does not receive starting resources** - humans and AI have the same
-issuing from `resourcestart` (1000 / 4000 / 5000 / 1,000,000),
+**AI receives no extra starting resources.** Humans and AI receive the
+same `resourcestart` amount (1,000 / 4,000 / 5,000 / 1,000,000),
 confirmed in `initmapgen.inc` [^19].
 
-**Income, overview, movement speed** - no cheats found. AI doesn't see
-resources under the fog beyond what his own units discovered:
+**Income, vision, and movement speed:** no advantages were found. The AI
+cannot see resources under fog of war until its own units discover them:
 `_ai_FillOreList` uses `GetGameObjectVisibleByHandle` [^44].
 
 <a id="дипломатия"></a>
 ## Diplomacy
 
-- Commands are set in the lobby (`gMap.players[i].team`). Initialization
-  makes players enemies if their `team` is different or one of
-  commands is 0 [^45]. The command `0` means "no command" - all enemies.
-- AI vs AI: `_ai_IsEnemiesExists` [^46] goes through all players
-  and considers anyone with a different team an enemy. AI players in one
-  the team are friends and do not attack each other.
-- **There is no dynamic diplomacy.** Neither the logic of forming alliances,
-  neither their gap was found in `lib/ai.script`, `progresseconomicai.inc`,
+- Teams are set in the lobby (`gMap.players[i].team`). Initialization
+  makes players enemies when their team values differ or either value is
+  zero [^45]. Team `0` means “no team,” so everyone is an enemy.
+- AI versus AI: `_ai_IsEnemiesExists` [^46] scans all players
+  and treats anyone on a different team as an enemy. AI players on the
+  same team do not attack one another.
+- **There is no dynamic diplomacy.** No alliance-formation or
+  alliance-breaking logic was found in `lib/ai.script`, `progresseconomicai.inc`,
   `progresswarai.inc`. Scenarios can change relationships
   (`scenario.script` + `gc_trigger_action_player_playerSetAsAlly`),
-  but in a random map such a mechanism does not exist.
+  but random maps have no equivalent mechanism.
 - AI treats all enemies **symmetrically** - `_ai_GetRandomEnemy`
-  [^47] Selects a random enemy to hit next. No
-  prioritization of the weak, there is no constant “vendetta”.
+  [^47] selects a random enemy for the next strike. It does not prioritize
+  weaker opponents or maintain a persistent “vendetta.”
 
 <a id="открытые-вопросы"></a>
 ## Open questions
 
-1. **Replenishment speed of `aggressor`-pool.** List
-   `gPlayer[plInd].aiData.agressors` is filling somewhere. To
-   predict the timing of the first attack on a fresh map, you need to track
-   calls `aiData.agressors.Add`.
-2. **Activation `bhumanai`.** The flag is in the code, but in scripts it is a setter
-   not found. Possibly set from the C++ engine side - for example,
-   through the “Fair AI” UI checkbox in the options or through the tournament mode.
-   It's worth checking out `gui/options/`.
-3. **`fAttackCount` per squad.** TSquad has fields `fAttackCount`,
-   `fMoveCount`, `fDelayCount` (TArmy requests them). Where are they
-   are they exhibiting? Most likely, in the `unit.inc/onattack*.inc` handlers.
+1. **How quickly the `aggressor` pool fills.**
+   `gPlayer[plInd].aiData.agressors` is populated somewhere else in the
+   code. Predicting the first attack requires tracing
+   `aiData.agressors.Add`.
+2. **How `bhumanai` is activated.** No script setter was found. The C++
+   engine may set it through an option or tournament mode; `gui/options/`
+   is the next place to inspect.
+3. **Per-squad action counters.** `TSquad` contains `fAttackCount`,
+   `fMoveCount`, and `fDelayCount`, which `TArmy` reads. Their writers are
+   probably in `unit.inc/onattack*.inc`, but have not been traced.
 4. **What exactly does `gc_ai_max_guards = 120` mean.** Used as
-   buffer above the pike threshold, but the semantic role (number
-   defenders at the base?) is unclear.
-5. **Logic `centerfound`.** AI does not launch full bootstrap,
-   bye `aidata.centerfound = True` [^48]. When does the flag switch?
-   Most likely, during the first construction of the City Center.
-6. **Speed of decision making in war-AI.** `progresswarai` ticks once
-   at 2.4 g-sec per player, but each army has its own
-   `fStateTime`-cooldowns. To know the delay of a specific action,
-   you need to pass `progresswarai.inc:4100-4220`.
-7. **The influence of difficulty on the frequency of attacks.** Triggers `aggressor` and
-   sabotage use `gc_ai_AgressorsCount = 5` regardless
-   from the level (only the number of parallel sabotages is scaled).
-   That is, easy and impossible AI should send the first attack
-   at the same time - only the speed of construction differs.
-   It's worth testing empirically.
+   a buffer above the Pikeman threshold, but its intended meaning—perhaps
+   the number of base defenders—is unclear.
+5. **The `centerfound` gate.** Full development does not begin until
+   `aidata.centerfound = True` [^48]. The flag is probably set when the
+   first Town Hall is built, but this has not been traced.
+6. **Military decision latency.** `progresswarai` runs once every 2.4
+   game seconds per player, but each army also has `fStateTime` cooldowns.
+   Exact action delays require reviewing `progresswarai.inc:4100-4220`.
+7. **Whether difficulty affects attack frequency.** `aggressor` and
+   `sabotage` both use `gc_ai_AgressorsCount = 5` at every difficulty;
+   only the number of parallel raids scales. Easy and Impossible should
+   therefore launch their first attack at the same army threshold, with
+   construction speed accounting for the timing difference.
 8. **`gc_ai_AgressorsCount = 5` vs `gc_ai_max_guards = 120`.**
-   A very small first wave for an army of 100 pikemen - only 5
-   detachments, the rest are at home. Need to check if they scale
-   subsequent waves.
+   Five squads is a very small first wave for an army of 100 **Pikemen,
+   17th century**.
+   Whether later waves scale up remains to be checked.
 9. **Ranges `gc_ai_dist_mines_lvl1 = 30` / `lvl2 = 60` /
-   `expansion = 85`.** It's in the tiles. It is worth verifying which
-   AI level is used on Tiny versus Normal map.
-10. **`bprogressWar` and `bprogressUpgrades`** in `aidata` - when
-    switch to `True`? Most likely by timer, but traces
-    not yet.
+   `expansion = 85`.** These appear to be tile distances. Which tier is
+   used on Tiny and Normal maps still needs verification.
+10. **When `bprogressWar` and `bprogressUpgrades` become `True`.**
+    These `aidata` fields are probably timer-controlled, but their writers
+    have not been traced.
 
 ---
 
@@ -387,7 +398,8 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
 
 [^6]: Impossible for historical battles - `initmaphistoricalbattle.inc:121`.
 
-[^7]: The `aidifficulty` field in the card record is `classes.script:105`.
+[^7]: The `aidifficulty` field in the map-player record —
+    `classes.script:105`.
 
 [^8]: Copying to `gPlayer[i].difficulty` at startup - `initmapgen.inc:132`.
 
@@ -419,21 +431,25 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```
 [^14]: The mine upgrade limit is `progresseconomicai.inc:2202-2212` and `~2396-2410`.
 
-[^15]: Banning howitzers and mortars on easy - `progresseconomicai.inc:2349-2353`.
+[^15]: The Easy difficulty disables Howitzers and Mortars —
+    `progresseconomicai.inc:2349-2353`.
 
 [^16]: Emergency hiring of mercenaries at `difficulty >= hard` - `progresseconomicai.inc:2306`.
 
-[^17]: `bricks1` - only veryhard and impossible - `progresseconomicai.inc:2452`.
+[^17]: `bricks1` is restricted to Very Hard and Impossible —
+    `progresseconomicai.inc:2452`.
 
-[^18]: Indulgence for the player's shooters at `<= normal` - `unit.script:7367`.
+[^18]: Relaxed ranged-unit control for the player at `<= normal` —
+    `unit.script:7367`.
 
 [^19]: The distribution of starting resources is the same for all players - `initmapgen.inc:166-189`.
 
-[^20]: Macro phases build order - `progresseconomicai.inc:2700-2830`.
+[^20]: Main build-order phases — `progresseconomicai.inc:2700-2830`.
 
 [^21]: Mine ranges - `dmscript.global:503-506` (`gc_ai_dist_mines_lvl1 = 30`, `lvl2 = 60`, `expansion = 85`).
 
-[^22]: Target ba17 - `progresseconomicai.inc:2771`:
+[^22]: Target number of **Barracks, 17th century** (`ba17`) —
+    `progresseconomicai.inc:2771`:
     ```pascal
     _ai_TryUnit(plind, cid, gc_ai_unit_ba17, 8, False)
     // 6 for Russia
@@ -443,21 +459,29 @@ All links are relative to `data/scripts/` in the Cossacks 3 installation.
     ```pascal
     numTowers := Min(3, peasants div 75);
     ```
-[^24]: 2 ba17 + 2 City centers → academy - `progresseconomicai.inc:2796`.
+[^24]: Two **Barracks, 17th century** (`ba17`) and two Town Halls unlock the
+    Academy — `progresseconomicai.inc:2796`.
 
-[^25]: 2 ba17 + 4 City centers → balance towards gold - `progresseconomicai.inc:2036-2039`.
+[^25]: Two **Barracks, 17th century** and four Town Halls shift resource
+    priorities toward gold — `progresseconomicai.inc:2036-2039`.
 
-[^26]: ba18 ≥ 5 → 3 more ba17 and the sixth Town Hall - `progresseconomicai.inc:2789-2793`.
+[^26]: At least five **Barracks, 18th century** (`ba18`) lead to three more
+    **Barracks, 17th century** and a sixth Town Hall —
+    `progresseconomicai.inc:2789-2793`.
 
-[^27]: pikemanCount ≥ 36 × 4 → pikeman + musk - `progresseconomicai.inc:2134`.
+[^27]: `pikemanCount ≥ 36 × 4` enables both **Pikemen, 17th century** and
+    **Musketeers, 17th century** —
+    `progresseconomicai.inc:2134`.
 
-[^28]: pikemanCount ≥ 36 × 7 + `gc_ai_max_guards` → musk17 only - `progresseconomicai.inc:2152-2158`.
+[^28]: `pikemanCount ≥ 36 × 7 + gc_ai_max_guards` switches production
+    to **Musketeers, 17th century** (`musk17`) only —
+    `progresseconomicai.inc:2152-2158`.
 
 [^29]: Food balance by number of peasants - `progresseconomicai.inc:1999-2031`.
 
 [^30]: `_ai_RequestUnitsProduction` - `progresseconomicai.inc:2085+`.
 
-[^31]: Cap of peasants - `progresseconomicai.inc:2088`:
+[^31]: Peasant cap — `progresseconomicai.inc:2088`:
     ```pascal
     var numpeasants : Integer = _ai_GetUnitCount(plind, cid, gc_ai_unit_center) * 2;
     if (peasants_total < 400) or (peasants_this_nation < 30) then

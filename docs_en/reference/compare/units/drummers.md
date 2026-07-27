@@ -3,7 +3,7 @@
 
 [← Unit comparisons](README.md) · [← All comparisons](../README.md) · [← Quick reference](../../README.md)
 
-The musician is the second mandatory “anchor” of the detachment after the officer (`drummer` / `drummer18` / `drummerrus` / `drummertur` / `bagpiper`). No attack. For `rus` and `tur`, the options differ significantly in HP/cost from the base template.
+A Drummer or Bagpiper is the second required member of a formation after the Officer (`drummer` / `drummer18` / `drummerrus` / `drummertur` / `bagpiper`). These units do not attack. The Russian and Turkish variants differ significantly in health and cost from the base version.
 
 > **Base values** (column mode - what is considered "normal" in this class): HP = 100, Time (g-sec) = 6.0, F = 60, G = 20, I = 0, speed = 32.
 > **Bold** in the table below indicates deviations from these basic values. This way you can immediately see which unit is “special” in each column.

@@ -65,6 +65,85 @@ class ReaderFacingDocumentation(unittest.TestCase):
                     icon_path = ROOT / icon.removeprefix("../")
                     self.assertTrue(icon_path.is_file(), icon_path)
 
+    def test_entity_table_links_resolve_sid_from_a_separate_column(self):
+        viewer = (ROOT / "assets" / "js" / "md-viewer.js").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('row.querySelectorAll("code")', viewer)
+        self.assertIn('sidCode.closest("td, th")', viewer)
+        self.assertIn("cell = [...row.cells].find", viewer)
+        self.assertIn("if (uniqueMatches.size !== 1) continue", viewer)
+
+        fixtures = {
+            "ru": ROOT / "docs" / "reference" / "compare" / "units" / "priests.md",
+            "en": (
+                ROOT
+                / "docs_en"
+                / "reference"
+                / "compare"
+                / "units"
+                / "priests.md"
+            ),
+        }
+        for language, path in fixtures.items():
+            entity_index = json.loads(
+                (
+                    ROOT
+                    / "assets"
+                    / "data"
+                    / f"entity-index.{language}.json"
+                ).read_text(encoding="utf-8")
+            )["entities"]
+            rows = [
+                line
+                for line in path.read_text(encoding="utf-8").splitlines()
+                if re.match(r"^\|\s*\*\*.+\*\*\s*\|\s*`[^`]+`\s*\|", line)
+            ]
+            self.assertEqual(len(rows), 4, path)
+            for row in rows:
+                name, sid = re.match(
+                    r"^\|\s*\*\*(.+?)\*\*\s*\|\s*`([^`]+)`\s*\|", row
+                ).groups()
+                with self.subTest(language=language, sid=sid):
+                    self.assertEqual(entity_index[sid][1], name)
+
+    def test_entity_cards_group_nations_and_show_only_deviations(self):
+        viewer = (ROOT / "assets" / "js" / "md-viewer.js").read_text(
+            encoding="utf-8"
+        )
+        styles = (ROOT / "assets" / "css" / "md-viewer.css").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("function groupDisplayVariants(entity, catalog)", viewer)
+        self.assertIn("function variantDifferenceKeys(", viewer)
+        self.assertIn("b[1].nations.length - a[1].nations.length", viewer)
+        self.assertIn('baseValues: "Основные значения"', viewer)
+        self.assertIn('differences: "Отличия"', viewer)
+        self.assertIn('baseValues: "Base values"', viewer)
+        self.assertIn('differences: "Differences"', viewer)
+        self.assertIn(".entity-related-label", styles)
+        self.assertNotIn("entity.variants.forEach", viewer)
+
+        catalog = json.loads(
+            (ROOT / "assets" / "data" / "entity-catalog.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        # These are the regression fixtures that previously stretched one card
+        # into 21 nearly identical national sections.
+        self.assertEqual(
+            len(catalog["entities"]["unit"]["cannon"]["variants"]),
+            21,
+        )
+        self.assertEqual(
+            len(catalog["entities"]["unit"]["howitzer"]["variants"]),
+            21,
+        )
+        self.assertEqual(
+            len(catalog["entities"]["building"]["ukrwwa"]["variants"]),
+            2,
+        )
+
     def test_search_index_contains_exact_sections_and_entities(self):
         ru_entries = json.loads(
             (DOCS / "_search.json").read_text(encoding="utf-8")
@@ -87,18 +166,72 @@ class ReaderFacingDocumentation(unittest.TestCase):
         self.assertEqual(upgrades_section["fragment"], "how-upgrades-combine")
 
     def test_generated_upgrade_names_are_reader_facing(self):
-        ru = (DOCS / "reference" / "05_upgrades" / "README.md").read_text(
-            encoding="utf-8"
+        ru = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(
+                (DOCS / "reference" / "05_upgrades").glob("*.md")
+            )
         )
-        en = (
-            ROOT / "docs_en" / "reference" / "05_upgrades" / "README.md"
-        ).read_text(encoding="utf-8")
+        en = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(
+                (ROOT / "docs_en" / "reference" / "05_upgrades").glob("*.md")
+            )
+        )
         self.assertNotIn("| damage |", ru)
         self.assertNotIn("| protection |", ru)
         self.assertNotIn("%value%", ru)
         self.assertNotIn("Stable cossackdon", en)
         self.assertIn("Донской козак: урон", ru)
         self.assertIn("Don Cossack: damage", en)
+
+    def test_large_building_and_upgrade_chapters_are_split(self):
+        expected_counts = {
+            "03_buildings": 18,
+            "05_upgrades": 24,
+        }
+        for language_root in (ROOT / "docs", ROOT / "docs_en"):
+            for chapter, expected_count in expected_counts.items():
+                directory = language_root / "reference" / chapter
+                pages = sorted(directory.glob("*.md"))
+                with self.subTest(
+                    language=language_root.name,
+                    chapter=chapter,
+                ):
+                    self.assertEqual(len(pages), expected_count)
+                    self.assertLess(
+                        (directory / "README.md").stat().st_size,
+                        15_000,
+                    )
+
+        viewer = (ROOT / "assets" / "js" / "md-viewer.js").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("LEGACY_REFERENCE_ROUTES", viewer)
+        self.assertIn('"tower.md": [', viewer)
+        self.assertIn('"stable.md": [', viewer)
+        self.assertIn("applyLegacyReferenceRoute();", viewer)
+
+        self.assertIn(
+            "ausbar.roundshier.2.6",
+            (
+                ROOT
+                / "docs_en"
+                / "reference"
+                / "05_upgrades"
+                / "barracks_17_melee.md"
+            ).read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "engba2.highlander.2.6",
+            (
+                ROOT
+                / "docs_en"
+                / "reference"
+                / "05_upgrades"
+                / "barracks_18_specialists.md"
+            ).read_text(encoding="utf-8"),
+        )
 
     def test_raw_upgrade_effect_aliases_are_localized(self):
         self.assertEqual(decode_upg_type("damage", "ru")[0], "+урон")
@@ -161,6 +294,28 @@ class ReaderFacingDocumentation(unittest.TestCase):
                     f"{path.relative_to(ROOT).as_posix()}: {', '.join(found)}"
                 )
         self.assertEqual(offenders, [])
+
+    def test_formation_support_and_town_hall_use_canonical_names(self):
+        for language_root, forbidden in (
+            (ROOT / "docs", "музыкант"),
+            (ROOT / "docs_en", "musician"),
+        ):
+            offenders = []
+            for path in language_root.rglob("*.md"):
+                visible = reader_visible_text(path.read_text(encoding="utf-8"))
+                if forbidden in visible.casefold():
+                    offenders.append(path.relative_to(ROOT).as_posix())
+            self.assertEqual(offenders, [])
+
+        town_halls = (
+            DOCS
+            / "reference"
+            / "compare"
+            / "buildings"
+            / "town_halls.md"
+        ).read_text(encoding="utf-8")
+        self.assertTrue(town_halls.startswith("# Городские центры"))
+        self.assertNotIn("Ратуш", reader_visible_text(town_halls))
 
     def test_documentation_translation_workflow_is_manual(self):
         script = (ROOT / "scripts" / "build_english_docs.py").read_text(
@@ -231,8 +386,11 @@ class ReaderFacingDocumentation(unittest.TestCase):
         units = (DOCS / "reference" / "04_units" / "README.md").read_text(
             encoding="utf-8"
         )
-        buildings = (DOCS / "reference" / "03_buildings" / "README.md").read_text(
-            encoding="utf-8"
+        buildings = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(
+                (DOCS / "reference" / "03_buildings").glob("*.md")
+            )
         )
         self.assertIn("**Крестьянин** `peaaus`", units)
         self.assertIn("**Чайка** `chaika`", units)

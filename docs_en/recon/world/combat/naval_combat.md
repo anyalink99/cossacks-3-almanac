@@ -4,35 +4,34 @@
 
 [← How the game works](../../README.md)
 
-In-depth analysis: how do naval units differ from land units, how
-boarding works, how transport ships behave, what it means
-port All links to the code are in [Sources](#sources).
+This article explains how naval units differ from land units, how boarding and
+transport work, how shipyards produce vessels, and how ships choose targets.
+Code references are collected under [Sources](#sources).
 
 <a id="кратко"></a>
 ## TL;DR
 
 - Naval units have the flag `bship = True`, and `_unit_IsShip` /
   `_unit_IsBattleShip` / `_unit_IsWaterUnit` distinguish between vessels [^1].
-- Only **port** (`port`-building) produces ships. Every nation
-  has its own set of ships: light boat, frigate, line
-  ship, merchant ship, fisherman.
+- Only a **Shipyard** (internal usage `port`) produces ships. A nation's
+  roster may include light vessels, Frigates, Ships of the Line, transports,
+  and fishing boats.
 - **Transport ships** (`btransport = True`) carry units:
   infantry/cavalry/artillery board through
   `garrison`, the ship takes them to shore.
-- **Battleships** (`battleship`) are often marked
-  `bmercenary = True` - they are “mercenary” relatively
-  ordinary units: they require gold upkeep but do not suffer from
-  food shortages.
+- The **Ship of the Line** (`battleship`) is marked
+  `bmercenary = True`. In practical terms, it consumes gold upkeep but is not
+  affected by food shortages.
 - **Naval formations** use separate families (`SHIPS`, `SHIPSN`,
   `LINEMORB`); see [Formations and Their Combat Bonuses §7](formations.md).
-- The target `_unit_SearchEnemy*` for a naval unit takes into account `same_region`
-  - the ship does not shoot at ground units (they are in a different
-  pathfinding-region).
+- Naval target searches through `_unit_SearchEnemy*` require
+  `same_region`, so a ship does not fire at land units in a different
+  pathfinding region.
 
 ---
 
 <a id="1-что-делает-юнит-морским"></a>
-## 1. What makes a unit “sea”
+## 1. What makes a unit naval
 
 Several related flags in `data.json` [^1]:
 
@@ -292,7 +291,7 @@ edges of the water, but **only if they are in the same `region`** through
 ---
 
 <a id="9-связь-со-скирмиш-картами"></a>
-## 9. Connection with skirmish cards
+## 9. Interaction with skirmish maps
 
 Most Land Maps have **no water** (or very little). Therefore
 sea battle is important only for:

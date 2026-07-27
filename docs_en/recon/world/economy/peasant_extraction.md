@@ -41,9 +41,9 @@ All links to the code and the Pascal blocks themselves are collected in the sect
 <a id="1-игровая-скорость-и-время"></a>
 ## 1. Game speed and time
 
-**Basic tick:** `gc_time_to_frames = 32` - 32 frames in one game
-second [^1]. All durations in scripts in "frames" must be divided by 32 for
-translation to **game seconds (game-time)**.
+**Basic tick:** `gc_time_to_frames = 32`, so one game second contains 32
+frames [^1]. Divide script durations expressed in frames by 32 to convert them
+to **game seconds**.
 
 **Game speeds** (`gc_settings_gamespeed_*`) [^2]:
 
@@ -53,7 +53,7 @@ translation to **game seconds (game-time)**.
 | 1 (normal) | 10 | 1.0× |
 | **2 (fast)** | **14** | **1.4×** |
 
-**Conclusion for calculations:** all formulas below are given in **game secondsakh**.
+All formulas below use **game seconds**.
 
 <a id="2-цикл-добычи-поведение"></a>
 ## 2. Mining cycle (behavior)
@@ -102,7 +102,8 @@ One peasant's pipeline:
 <a id="анимация--кадры-одного-рабочего-цикла"></a>
 ### Animation frames in one work cycle
 
-From `data/animations/aaf/peaaus.aaf` (same for all nations except `pearus`):
+From `data/animations/aaf/peaaus.aaf` (shared by every nation except the
+Russian Peasant, `pearus`):
 
 | cycle | Frames | g-sec |
 |---|---:|---:|
@@ -543,14 +544,14 @@ report in [map resource estimates](../../../reports/map/map_resources.md)):
 
 | Parameter | Meaning |
 |---|---:|
-| Card size | 65536 tiles (256x256) |
+| Map size | 65,536 cells (256×256) |
 | `prob*` (after ×2.5 modifier) | ≈1.85-2.06 (depending on the pattern size) |
 | Big forest clusters (placed, 65% success) | ~34 |
 | Mid forest clusters | ~37 |
 | Small forest clusters | ~23 |
 | Stone clusters | ~21 |
-| **Mask cell sum** (placement slots all types) | ~**27,000** per card |
-| **Calibrated chopable trees** (mask × 0.30) | ~**8 200** per card |
+| **Total mask cells** (placement slots of all types) | about **27,000** per map |
+| **Estimated harvestable trees** (mask × 0.30) | about **8,200** per map |
 | Total stones on the map (calibrated) | ~**861** (mask × 0.30) |
 | **Initial wood pool** (sum of HP of all trees) | ~**40M wood units** |
 | **Efficient wood pool** | **∞** — the stumps are infinite (see §8.5) |
@@ -623,21 +624,24 @@ as `TREE_CHOPABLE_RATIO`. Refine when more empirical data is available.
 <a id="соответствие-типа-шаблона-файлу"></a>
 ### Pattern type to file mapping
 
-When calling `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` [^33]
-the engine searches in `gPatternList`, selects one file by `Freq` weight and tries
-post via `_misc_CheckStandPatternExt`. After success is called
-C++ `StandPatternWithAngle` - it will spawn env objects (the body is not available).
+When `_misc_PlacePatternByType('forests_pine_big', envHnd, x, y)` is called
+[^33], the engine searches `gPatternList`, chooses a file according to its
+`Freq` weight, and validates the placement with
+`_misc_CheckStandPatternExt`. A successful check calls the native
+`StandPatternWithAngle` function, which spawns the environment objects; its
+implementation is not available to the scripts.
 
-For `foreststype=0` (default mix) the card calls 4 different big types
-(pinefir/spruce/pine/pine_big_2), 3 mid-types, 2 small-types. Everyone has
-your median tree count → the final sample is weighted by freq and mask-density.
+With `foreststype = 0` (the default mix), the map draws from four large forest
+types (`pinefir`, `spruce`, `pine`, and `pine_big_2`), three medium types, and
+two small types. Each type has its own median tree count, so the final estimate
+is weighted by file frequency and mask density.
 
 <a id="85-пеньки--бесконечный-wood-pool-критично-для-симуляции"></a>
 <a id="85-пеньки-как-неисчерпаемый-источник-дерева"></a>
-### 8.5 Stumps as an inexhaustible source of Wood
+### 8.5 Stumps as an inexhaustible source of wood
 
-Behavior source - `OnAclAnimationReachedWork` plus ontagstates
-wood-death-handler [^3] [^15].
+The behavior comes from `OnAclAnimationReachedWork` and the wood-death handler
+in `ontagstates` [^3] [^15].
 
 Life cycle of a tree:
 

@@ -178,22 +178,22 @@ Notable points:
   by `Sqr(maxsearchdist - 3 × uniqrnd)`. Standing shooter and any
   melee - according to `maxsearchdist²` [^4].
 - **Two parallel metrics.** `minTrgHnd` - simply absolutely
-  nearest target. `minRelativeTrgHnd` - closest adjusted for
-  “load” (see §3.3).
-- **Returns `minRelativeTrgHnd`** - that is, it’s always an option
-  with balancing; absolute `minTrgHnd` is calculated, but in
-  as a result is not used. The author's comment is straight
-  stipulates: *no help from relative dist cause we choose 1 unit
-  from each cell* [^18].
+  nearest target. `minRelativeTrgHnd` is the nearest candidate after
+  adjustment for target load (see §3.3).
+- The function returns `minRelativeTrgHnd`, so load balancing always affects
+  the result. The unadjusted `minTrgHnd` is calculated but not returned. A
+  source comment explains why the absolute-distance shortcut is not useful
+  when only one unit is sampled from each cell [^18].
 
 <a id="33-балансировка-нагрузки-для-рукопашников"></a>
 ### 3.3 Load Balancing for Melee
 
-`stolist` is a list of units whose state-target points to this goal.
-That is, these are not “current within the attack radius”, but **how long are they going in principle?
-or they are going to beat** this particular opponent. For melee combat
-the relative distance is calculated as `distSqr × (1 + stolist.GetCount × 0.125)`,
-that is, the "loaded" target is effectively pushed back [^3].
+`stolist` contains units whose current state already targets this opponent.
+It therefore measures how many units are moving toward or attacking that
+target, not merely how many happen to stand within attack range. For melee
+selection, the adjusted distance is
+`distSqr × (1 + stolist.GetCount × 0.125)`, which makes a heavily contested
+target appear farther away [^3].
 
 Melee effect when selected:
 
